@@ -2,8 +2,19 @@ import { useLocale } from "@/components/site/locale";
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Plus, RefreshCw, Download, Upload, Monitor, ArrowUpRight, X } from "lucide-react";
+import {
+  Plus,
+  RefreshCw,
+  Download,
+  Upload,
+  Monitor,
+  ArrowUpRight,
+  X,
+  LogIn,
+  LogOut,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
 import { STATUS_META, BUCKET_LABEL } from "@/lib/device-status";
@@ -42,7 +53,9 @@ function Total({
 }
 export function Dashboard() {
   const { t, en } = useLocale();
-  const watch = useWatchlist();
+  const auth = useAuth();
+  const watch = useWatchlist(auth.userId, auth.ready);
+  const atLimit = watch.devices.length >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -85,7 +98,24 @@ export function Dashboard() {
                 ? `${Math.ceil(dash.manual.cooldownRemaining / 1000)} s`
                 : t("立即刷新")}
           </button>
-          <button className="solid" onClick={() => setAdding(true)}>
+          {auth.userId ? (
+            <button onClick={() => void auth.signOut()}>
+              <LogOut size={16} />
+              {t("退出登录")}
+            </button>
+          ) : (
+            <button onClick={() => void auth.signInWithGoogle()} disabled={auth.signingIn}>
+              <LogIn size={16} />
+              {auth.signingIn ? t("正在登录") : t("用 Google 登录")}
+            </button>
+          )}
+          <button
+            className="solid"
+            onClick={() => {
+              if (atLimit) setMessage(watch.limitMessage);
+              else setAdding(true);
+            }}
+          >
             <Plus size={17} />
             {t("添加设备")}
           </button>
@@ -95,8 +125,10 @@ export function Dashboard() {
         <div>
           <h1>{t("收益和运行情况，一眼看清。")}</h1>
           <p>
-            {watch.devices.length}
-            {t("台设备 · ID 保存在当前浏览器")}
+            {watch.devices.length}/{watch.limit}{" "}
+            {auth.userId
+              ? `${t("台设备 · 已绑定")}${auth.email ? ` ${auth.email}` : ""}`
+              : t("台设备 · ID 保存在当前浏览器，登录后最多 10 台并绑定账号")}
           </p>
         </div>
         <span className="refresh-label">
@@ -108,10 +140,16 @@ export function Dashboard() {
             : formatAgo(dash.fetchedAt, dash.now)}
         </span>
       </div>
-      {(watch.storageError || message) && (
+      {(watch.storageError || watch.syncMessage || auth.error || message) && (
         <div role="status" className="notice">
-          {t(watch.storageError || message)}
-          <button aria-label={t("关闭提示")} onClick={() => setMessage("")}>
+          {t(watch.storageError || watch.syncMessage || auth.error || message)}
+          <button
+            aria-label={t("关闭提示")}
+            onClick={() => {
+              setMessage("");
+              watch.clearSyncMessage();
+            }}
+          >
             <X size={16} />
           </button>
         </div>
@@ -160,7 +198,7 @@ export function Dashboard() {
             const f = e.target.files?.[0];
             if (!f) return;
             try {
-              const result = watch.importJson(await f.text());
+              const result = await watch.importJson(await f.text());
               setMessage(
                 result.ok
                   ? en
@@ -235,14 +273,16 @@ export function Dashboard() {
           <DialogDescription>{t("填写公开的 Miner ID，不需要私钥或助记词。")}</DialogDescription>
           <form
             className="device-form"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              const result = watch.add({ label, hotkey });
+              const result = await watch.add({ label, hotkey });
               if (result.ok) {
                 setAdding(false);
                 setLabel("");
                 setHotkey("");
-                setMessage(t("设备已保存到此浏览器。"));
+                setMessage(
+                  watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"),
+                );
               } else setMessage(result.error || t("保存失败"));
             }}
           >
@@ -298,10 +338,10 @@ export function Dashboard() {
                   {t("复制 ID")}
                 </button>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const name = window.prompt(t("设备名称"), active.entry.label);
                     if (name !== null) {
-                      const r = watch.rename(active.entry.hotkey, name);
+                      const r = await watch.rename(active.entry.hotkey, name);
                       setMessage(r.ok ? t("名称已保存") : r.error || t("保存失败"));
                     }
                   }}
@@ -318,7 +358,7 @@ export function Dashboard() {
                           : `从本浏览器移除「${active.entry.label}」？不会停止设备训练。`,
                       )
                     ) {
-                      watch.remove(active.entry.hotkey);
+                      void watch.remove(active.entry.hotkey);
                       setSelected(null);
                     }
                   }}
