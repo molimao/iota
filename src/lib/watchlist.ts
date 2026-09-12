@@ -58,7 +58,8 @@ export function parseWatchlist(raw: string | null): StorageOutcome<WatchEntry[]>
       const kept: WatchEntry[] = [];
       for (const item of loose.data.devices) {
         const entry = entrySchema.safeParse(item);
-        if (entry.success && !kept.some((k) => k.hotkey === entry.data.hotkey)) kept.push(entry.data);
+        if (entry.success && !kept.some((k) => k.hotkey === entry.data.hotkey))
+          kept.push(entry.data);
       }
       if (kept.length > 0) return { ok: true, value: kept };
     }
@@ -85,7 +86,10 @@ export function saveWatchlist(devices: WatchEntry[]): StorageOutcome<true> {
   const store = storage();
   if (!store) return { ok: false, error: "此浏览器不允许本地存储，改动无法保存。" };
   try {
-    store.setItem(WATCHLIST_KEY, JSON.stringify({ version: 1, devices } satisfies z.infer<typeof storedSchema>));
+    store.setItem(
+      WATCHLIST_KEY,
+      JSON.stringify({ version: 1, devices } satisfies z.infer<typeof storedSchema>),
+    );
     return { ok: true, value: true };
   } catch (error) {
     const name = error instanceof Error ? error.name : "";
@@ -127,7 +131,9 @@ export function renameEntry(
   }
   return {
     ok: true,
-    value: devices.map((device) => (device.hotkey === hotkey ? { ...device, label: next } : device)),
+    value: devices.map((device) =>
+      device.hotkey === hotkey ? { ...device, label: next } : device,
+    ),
   };
 }
 
@@ -137,7 +143,11 @@ export function removeEntry(devices: WatchEntry[], hotkey: string): WatchEntry[]
 
 export function serializeExport(devices: WatchEntry[]): string {
   return JSON.stringify(
-    { version: 1, exportedAt: Date.now(), devices: devices.map(({ hotkey, label, addedAt }) => ({ hotkey, label, addedAt })) },
+    {
+      version: 1,
+      exportedAt: Date.now(),
+      devices: devices.map(({ hotkey, label, addedAt }) => ({ hotkey, label, addedAt })),
+    },
     null,
     2,
   );
@@ -198,7 +208,14 @@ export function readTelemetryCache<T>(): TelemetryCache<T> | null {
     const raw = store.getItem(TELEMETRY_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as TelemetryCache<T>;
-    if (typeof parsed?.savedAt !== "number") return null;
+    if (
+      typeof parsed?.savedAt !== "number" ||
+      !Number.isFinite(parsed.savedAt) ||
+      parsed.savedAt > Date.now() ||
+      !parsed.payload ||
+      raw.length > TELEMETRY_MAX_BYTES
+    )
+      return null;
     if (Date.now() - parsed.savedAt > TELEMETRY_MAX_AGE_MS) {
       store.removeItem(TELEMETRY_KEY);
       return null;

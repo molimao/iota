@@ -90,6 +90,7 @@ export type DeviceEarnings = {
 };
 
 export type DiscoveredDevice = {
+  fetchedAt: number | null;
   hotkey: string;
   miner: MinerRecord | null;
   /** run ids in which this hotkey appeared in the current sample */

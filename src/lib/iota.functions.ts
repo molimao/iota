@@ -31,7 +31,7 @@ function validHotkeys(input: unknown): string[] {
     const value = item.trim();
     if (!isValidMinerId(value)) continue;
     seen.add(value);
-    if (seen.size >= MAX_HOTKEYS_PER_CALL) break;
+    if (seen.size > MAX_HOTKEYS_PER_CALL) throw new Error("单次最多查询 200 台设备，请分批查询");
   }
   return [...seen];
 }
@@ -105,10 +105,15 @@ export const discoverDevices = createServerFn({ method: "POST" })
     const runsResult = await fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force);
     if (runsResult.error) errors.push(`训练任务列表：${runsResult.error}`);
     const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
-    const activeRuns = allRuns.filter((run) => run.state === "active" && RUN_ID_RE.test(run.run_id));
+    const activeRuns = allRuns.filter(
+      (run) => run.state === "active" && RUN_ID_RE.test(run.run_id),
+    );
 
     const wanted = new Set(data.hotkeys);
-    const best = new Map<string, { miner: MinerRecord; runIds: Set<string> }>();
+    const best = new Map<
+      string,
+      { miner: MinerRecord; fetchedAt: number | null; runIds: Set<string> }
+    >();
     let runsFetched = 0;
     let lastFetchedAt: number | null = null;
 
@@ -127,20 +132,30 @@ export const discoverDevices = createServerFn({ method: "POST" })
       if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
       const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
       if (miners === null) continue;
-      runsFetched += 1;
-      if (result.fetchedAt !== null && (lastFetchedAt === null || result.fetchedAt > lastFetchedAt)) {
+      if (!result.error) runsFetched += 1;
+      if (
+        result.fetchedAt !== null &&
+        (lastFetchedAt === null || result.fetchedAt < lastFetchedAt)
+      ) {
         lastFetchedAt = result.fetchedAt;
       }
       for (const miner of miners) {
         if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
         const entry = best.get(miner.hotkey);
         if (!entry) {
-          best.set(miner.hotkey, { miner, runIds: new Set([miner.run_id ?? run.run_id]) });
+          best.set(miner.hotkey, {
+            miner,
+            fetchedAt: result.fetchedAt,
+            runIds: new Set([miner.run_id ?? run.run_id]),
+          });
         } else {
           entry.runIds.add(miner.run_id ?? run.run_id);
           const currentTs = numberOrNull(miner.timestamp) ?? 0;
           const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
-          if (currentTs > bestTs) entry.miner = miner;
+          if (currentTs > bestTs) {
+            entry.miner = miner;
+            entry.fetchedAt = result.fetchedAt;
+          }
         }
       }
     }
@@ -150,6 +165,7 @@ export const discoverDevices = createServerFn({ method: "POST" })
       return {
         hotkey,
         miner: entry?.miner ?? null,
+        fetchedAt: entry?.fetchedAt ?? null,
         runIds: entry ? [...entry.runIds] : [],
       };
     });
@@ -262,7 +278,11 @@ export const getDeviceSeries = createServerFn({ method: "POST" })
     const [metrics, throughput, cumulative] = await Promise.all([
       fetchUpstream<EpochMetrics>(`${prefix}/metrics${query}`, TTL.metrics, data.force),
       fetchUpstream<ThroughputSeries>(`${prefix}/throughput${query}`, TTL.metrics, data.force),
-      fetchUpstream<CumulativeTokens>(`${prefix}/cumulative_tokens${query}`, TTL.metrics, data.force),
+      fetchUpstream<CumulativeTokens>(
+        `${prefix}/cumulative_tokens${query}`,
+        TTL.metrics,
+        data.force,
+      ),
     ]);
 
     const errors = [metrics.error, throughput.error, cumulative.error].filter(

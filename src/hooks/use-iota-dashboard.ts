@@ -3,7 +3,12 @@ import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { aggregateUnits, type Aggregate } from "@/lib/earnings";
-import { computeStatus, statusBucket, type DeviceStatus, type StatusBucket } from "@/lib/device-status";
+import {
+  computeStatus,
+  statusBucket,
+  type DeviceStatus,
+  type StatusBucket,
+} from "@/lib/device-status";
 import { discoverDevices, getEarnings, getOccupancy } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
@@ -45,7 +50,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const [cached, setCached] = useState<{ savedAt: number; payload: Snapshot } | null>(null);
 
   useEffect(() => {
-    setCached(readTelemetryCache<Snapshot>());
+    const candidate = readTelemetryCache<Snapshot>();
+    if (
+      candidate &&
+      Array.isArray(candidate.payload?.discovery?.devices) &&
+      Array.isArray(candidate.payload?.earnings)
+    )
+      setCached(candidate);
   }, []);
 
   useEffect(() => {
@@ -57,7 +68,22 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
 
   const discoveryQuery = useQuery({
     queryKey: ["iota", "discovery", hotkeyKey],
-    queryFn: () => discoverFn({ data: { hotkeys, force: forceRef.current } }),
+    queryFn: async () => {
+      const results: DiscoveryResult[] = [];
+      for (let i = 0; i < hotkeys.length; i += 200)
+        results.push(
+          await discoverFn({
+            data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current && i === 0 },
+          }),
+        );
+      const first = results[0]!;
+      return {
+        ...first,
+        devices: results.flatMap((r) => r.devices),
+        fullCoverage: results.every((r) => r.fullCoverage),
+        errors: [...new Set(results.flatMap((r) => r.errors))],
+      };
+    },
     enabled,
     refetchInterval: POLL_MS,
     placeholderData: keepPreviousData,
@@ -65,7 +91,18 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
 
   const earningsQuery = useQuery({
     queryKey: ["iota", "earnings", hotkeyKey],
-    queryFn: () => earningsFn({ data: { hotkeys, force: forceRef.current } }),
+    queryFn: async () => {
+      const devices: DeviceEarnings[] = [];
+      for (let i = 0; i < hotkeys.length; i += 200)
+        devices.push(
+          ...(
+            await earningsFn({
+              data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current },
+            })
+          ).devices,
+        );
+      return { devices };
+    },
     enabled,
     refetchInterval: POLL_MS,
     placeholderData: keepPreviousData,
@@ -80,7 +117,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   });
 
   const discovery = discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
-  const earnings = earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
+  const earnings =
+    earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
   const usingCachedOnly = !discoveryQuery.data && Boolean(cached) && hotkeys.length > 0;
 
   useEffect(() => {
@@ -104,6 +142,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
         earningsQuery.refetch(),
       ]);
       const messages = [
+        ...(discoveryResult.error ? [discoveryResult.error.message] : []),
+        ...(earningsResult.error ? [earningsResult.error.message] : []),
         ...(discoveryResult.data?.errors ?? []),
         ...(earningsResult.data?.devices ?? [])
           .filter((device) => device.error)
@@ -131,7 +171,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     : 0;
 
   const views: DeviceView[] = useMemo(() => {
-    const minerByHotkey = new Map(discovery?.devices.map((device) => [device.hotkey, device]) ?? []);
+    const minerByHotkey = new Map(
+      discovery?.devices.map((device) => [device.hotkey, device]) ?? [],
+    );
     const earningsByHotkey = new Map(earnings?.map((device) => [device.hotkey, device]) ?? []);
 
     return entries.map((entry) => {
@@ -140,7 +182,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const status = computeStatus({
         miner: found?.miner ?? null,
         fullCoverage: discovery?.fullCoverage ?? false,
-        lastSuccessfulFetchAt: discovery?.fetchedAt ?? null,
+        lastSuccessfulFetchAt: found?.miner
+          ? (found.fetchedAt ?? null)
+          : (discovery?.fetchedAt ?? null),
         now,
       });
       const earningsUsable =
@@ -172,12 +216,15 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   }, [views]);
 
   const todayTotal: Aggregate = useMemo(
-    () => aggregateUnits(views.map((view) => (view.earningsUsable ? view.earnings!.todayUnits : null))),
+    () =>
+      aggregateUnits(views.map((view) => (view.earningsUsable ? view.earnings!.todayUnits : null))),
     [views],
   );
   const lifetimeTotal: Aggregate = useMemo(
     () =>
-      aggregateUnits(views.map((view) => (view.earningsUsable ? view.earnings!.totalEarnedUnits : null))),
+      aggregateUnits(
+        views.map((view) => (view.earningsUsable ? view.earnings!.totalEarnedUnits : null)),
+      ),
     [views],
   );
 
@@ -192,17 +239,26 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     occupancy,
     occupancyError: occupancyQuery.data?.error ?? null,
     fetchedAt: discovery?.fetchedAt ?? null,
-    earningsFetchedAt: earnings?.reduce<number | null>(
-      (min, device) =>
-        device.fetchedAt === null ? min : min === null ? device.fetchedAt : Math.min(min, device.fetchedAt),
-      null,
-    ) ?? null,
+    earningsFetchedAt:
+      earnings?.reduce<number | null>(
+        (min, device) =>
+          device.fetchedAt === null
+            ? min
+            : min === null
+              ? device.fetchedAt
+              : Math.min(min, device.fetchedAt),
+        null,
+      ) ?? null,
     coverage: {
       runsFetched: discovery?.runsFetched ?? 0,
       runsTotal: discovery?.runsTotal ?? 0,
       full: discovery?.fullCoverage ?? false,
     },
-    errors: discovery?.errors ?? [],
+    errors: [
+      ...(discovery?.errors ?? []),
+      ...(discoveryQuery.error ? ["状态连接失败：" + discoveryQuery.error.message] : []),
+      ...(earningsQuery.error ? ["收益连接失败：" + earningsQuery.error.message] : []),
+    ],
     usingCachedOnly,
     cachedSavedAt: cached?.savedAt ?? null,
     loading: (discoveryQuery.isLoading || earningsQuery.isLoading) && enabled,

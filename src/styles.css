@@ -68,7 +68,6 @@
   --font-sans: var(--font-sans);
 }
 
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -148,5 +147,487 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+}
+
+/* IOTA device workspace */
+body {
+  margin: 0;
+  background: #f3f5f9;
+  color: #172338;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang SC",
+    sans-serif;
+  font-size: 16px;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #dfe5ef;
+  border-radius: 9px;
+  background: white;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #243550;
+}
+button:hover {
+  background: #edf2fc;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.solid {
+  background: #245bdb;
+  color: white;
+  border-color: #245bdb;
+}
+.solid:hover {
+  background: #194bbc;
+}
+.dashboard {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 32px;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 92px;
+  border-bottom: 1px solid #dee4ed;
+}
+.brand,
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand {
+  gap: 12px;
+}
+.brand-icon {
+  display: grid;
+  place-items: center;
+  background: #245bdb;
+  color: white;
+  border-radius: 12px;
+  width: 43px;
+  height: 43px;
+}
+.brand b {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+.brand div > span {
+  border-left: 1px solid #ced6e4;
+  margin-left: 16px;
+  padding-left: 16px;
+}
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin: 34px 0 26px;
+  gap: 20px;
+}
+.page-title h1 {
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  font-weight: 650;
+  margin: 0 0 9px;
+}
+.page-title p,
+.refresh-label {
+  font-size: 14px;
+  color: #64738a;
+}
+.totals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.total {
+  padding: 28px 30px;
+  background: white;
+  border: 1px solid #e0e6ef;
+  border-radius: 16px;
+}
+.total > span {
+  font-weight: 600;
+}
+.total.primary {
+  background: #245bdb;
+  color: white;
+  border-color: #245bdb;
+  box-shadow: 0 8px 20px #245bdb17;
+}
+.amount {
+  font-size: clamp(24px, 3.3vw, 39px);
+  font-weight: 650;
+  letter-spacing: -1px;
+  margin: 17px 0;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.amount small {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+.total p {
+  font-size: 13px;
+  margin: 0;
+  opacity: 0.7;
+}
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 22px 0 34px;
+  background: #fff;
+  border: 1px solid #e0e6ef;
+  border-radius: 12px;
+  padding: 20px 0;
+}
+.status-strip > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-right: 1px solid #e6eaf1;
+}
+.status-strip > div:last-child {
+  border: 0;
+}
+.status-strip span {
+  color: #64738a;
+  font-size: 14px;
+}
+.status-strip b {
+  font-size: 23px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.section-heading h2 {
+  font-size: 20px;
+  font-weight: 650;
+}
+.section-heading h2 > span {
+  font-size: 14px;
+  color: #718098;
+  margin-left: 8px;
+}
+.devices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.device {
+  background: white;
+  border: 1px solid #e0e6ef;
+  border-radius: 14px;
+  padding: 23px;
+  min-width: 0;
+}
+.device-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.device-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  background: #f0f4fc;
+  color: #426693;
+  border-radius: 10px;
+}
+.badge {
+  font-size: 13px;
+  padding: 6px 9px;
+  border-radius: 6px;
+}
+.good {
+  background: #e8f7ef;
+  color: #17734d;
+}
+.info {
+  background: #edf3ff;
+  color: #245bdb;
+}
+.warn {
+  background: #fff4df;
+  color: #8c5915;
+}
+.muted {
+  background: #edf0f5;
+  color: #65748b;
+}
+.device h3 {
+  font-size: 20px;
+  font-weight: 650;
+  margin: 20px 0 8px;
+  overflow-wrap: anywhere;
+}
+.explain {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #67768b;
+  min-height: 72px;
+}
+.device-earnings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  border-top: 1px solid #edf0f6;
+  padding: 20px 0;
+}
+.device-earnings span,
+.detail-grid span {
+  display: block;
+  font-size: 13px;
+  color: #78869a;
+  margin-bottom: 8px;
+}
+.device-earnings strong {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.device-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.device-foot > span {
+  font-size: 12px;
+  color: #78869a;
+}
+.device-foot button {
+  border: 0;
+  color: #245bdb;
+  padding: 6px 0;
+}
+.empty {
+  padding: 60px 20px;
+  text-align: center;
+  border: 1px dashed #cdd7e6;
+  border-radius: 14px;
+  color: #697991;
+}
+.empty svg {
+  margin: auto;
+}
+.empty h2 {
+  font-size: 22px;
+  color: #172338;
+  margin-top: 18px;
+}
+.empty p {
+  margin: 12px 0 22px;
+}
+.empty button svg {
+  margin: 0;
+}
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #7b879a;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 28px 0 36px;
+}
+.notice {
+  background: #edf3ff;
+  border: 1px solid #cbdaf7;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.warning {
+  background: #fff7e8;
+  border-color: #ead7b0;
+}
+.notice span {
+  opacity: 0.7;
+}
+.device-form {
+  display: grid;
+  gap: 18px;
+}
+.device-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+.device-form input {
+  width: 100%;
+  border: 1px solid #ced8e6;
+  border-radius: 8px;
+  padding: 12px;
+}
+.device-form p {
+  color: #b04431;
+}
+.detail-dialog {
+  max-width: 650px !important;
+  max-height: 90vh;
+  overflow: auto;
+  background: white;
+}
+.detail-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #e2e8f1;
+  padding-bottom: 12px;
+}
+.detail-tabs button {
+  border: 0;
+}
+.detail-tabs button[aria-pressed="true"] {
+  background: #edf3ff;
+  color: #245bdb;
+}
+.detail-body {
+  min-height: 240px;
+  font-size: 14px;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 12px 0 24px;
+}
+.detail-grid b {
+  font-size: 21px;
+}
+.detail-body p {
+  color: #748198;
+  line-height: 1.7;
+}
+.detail-body details {
+  margin-top: 18px;
+}
+.detail-body dd {
+  overflow-wrap: anywhere;
+  margin: 4px 0 14px;
+  color: #6f7f95;
+}
+.detail-actions {
+  justify-content: flex-end;
+}
+.danger {
+  color: #b64636;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th,
+td {
+  text-align: left;
+  padding: 12px 7px;
+  border-bottom: 1px solid #e9edf4;
+}
+th {
+  color: #718098;
+  font-weight: 500;
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+:focus-visible {
+  outline: 3px solid #8aaefd;
+  outline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .devices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .page-title {
+    display: block;
+  }
+  .refresh-label {
+    display: block;
+    margin-top: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 0 16px;
+  }
+  .topbar {
+    min-height: 80px;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px 0;
+  }
+  .brand div > span {
+    display: none;
+  }
+  .page-title h1 {
+    font-size: 22px;
+  }
+  .totals,
+  .devices {
+    grid-template-columns: 1fr;
+  }
+  .total {
+    padding: 23px;
+  }
+  .status-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .status-strip > div {
+    border: 0;
+  }
+  .section-heading {
+    gap: 10px;
+  }
+  .section-heading .actions {
+    gap: 5px;
+  }
+  button {
+    padding: 9px 11px;
+  }
+  .explain {
+    min-height: 0;
+  }
+  .detail-tabs button {
+    padding: 9px;
+  }
+  .device-earnings strong {
+    font-size: 20px;
   }
 }

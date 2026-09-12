@@ -7,7 +7,8 @@ export const COUNTED_STATUSES = ["pending", "settled"] as const;
 
 export function toUnits(amount: number): number | null {
   if (typeof amount !== "number" || !Number.isFinite(amount)) return null;
-  return Math.round(amount * UNIT_SCALE);
+  const units = Math.round(amount * UNIT_SCALE);
+  return Number.isSafeInteger(units) ? units : null;
 }
 
 export function unitsToNumber(units: number): number {
@@ -21,7 +22,8 @@ export function formatIota(units: number | null, decimals = 4): string {
   const whole = Math.floor(abs / UNIT_SCALE);
   const frac = String(abs % UNIT_SCALE).padStart(8, "0");
   const shown = decimals >= 8 ? frac.replace(/0+$/, "") : frac.slice(0, decimals);
-  const body = shown.length > 0 ? `${whole.toLocaleString("zh-CN")}.${shown}` : whole.toLocaleString("zh-CN");
+  const body =
+    shown.length > 0 ? `${whole.toLocaleString("zh-CN")}.${shown}` : whole.toLocaleString("zh-CN");
   return `${negative ? "-" : ""}${body}`;
 }
 
@@ -62,7 +64,12 @@ export function sumTodayUnits(
     const ts = timestamps[i];
     const status = statuses[i];
     const units = toUnits(amounts[i]!);
-    if (typeof ts !== "number" || !Number.isFinite(ts) || typeof status !== "string" || units === null) {
+    if (
+      typeof ts !== "number" ||
+      !Number.isFinite(ts) ||
+      typeof status !== "string" ||
+      units === null
+    ) {
       return { units: null, counted: 0 };
     }
     if (ts < dayStart || ts > nowSec) continue;

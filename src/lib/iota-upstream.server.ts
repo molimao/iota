@@ -74,7 +74,9 @@ async function rawFetch(path: string): Promise<unknown> {
       if (!response.ok) {
         const snippet = text.slice(0, 160).replace(/\s+/g, " ");
         if (response.status === 403 || response.status === 503) {
-          throw new Error(`上游拒绝访问（HTTP ${response.status}，可能是 Cloudflare 拦截）：${snippet}`);
+          throw new Error(
+            `上游拒绝访问（HTTP ${response.status}，可能是 Cloudflare 拦截）：${snippet}`,
+          );
         }
         throw new Error(`上游返回 HTTP ${response.status}：${snippet}`);
       }
@@ -113,7 +115,8 @@ export async function fetchUpstream<T>(
   const key = path;
   const entry = cache.get(key);
 
-  const fresh = entry && now - entry.fetchedAt < ttlMs;
+  const fresh =
+    entry && !entry.lastError && entry.data !== undefined && now - entry.fetchedAt < ttlMs;
   if (fresh && !force) {
     return { data: entry.data as T, fetchedAt: entry.fetchedAt, error: null, stale: false };
   }

@@ -25,9 +25,9 @@ export function useWatchlist() {
   }, []);
 
   const commit = useCallback((next: WatchEntry[]) => {
-    setDevices(next);
     const saved = saveWatchlist(next);
     setStorageError(saved.ok ? null : saved.error);
+    if (saved.ok) setDevices(next);
     return saved.ok;
   }, []);
 
@@ -35,8 +35,9 @@ export function useWatchlist() {
     (input: { hotkey: string; label: string }): { ok: boolean; error?: string } => {
       const result = addEntry(devices, input);
       if (!result.ok) return { ok: false, error: result.error };
-      commit(result.value);
-      return { ok: true };
+      return commit(result.value)
+        ? { ok: true }
+        : { ok: false, error: "浏览器未能保存，请检查存储权限。" };
     },
     [devices, commit],
   );
@@ -45,8 +46,9 @@ export function useWatchlist() {
     (hotkey: string, label: string): { ok: boolean; error?: string } => {
       const result = renameEntry(devices, hotkey, label);
       if (!result.ok) return { ok: false, error: result.error };
-      commit(result.value);
-      return { ok: true };
+      return commit(result.value)
+        ? { ok: true }
+        : { ok: false, error: "浏览器未能保存，请检查存储权限。" };
     },
     [devices, commit],
   );
@@ -62,8 +64,9 @@ export function useWatchlist() {
     (raw: string): { ok: boolean; error?: string; report?: ImportReport } => {
       const result = importDevices(devices, raw);
       if (!result.ok) return { ok: false, error: result.error };
-      commit(result.value.devices);
-      return { ok: true, report: result.value };
+      return commit(result.value.devices)
+        ? { ok: true, report: result.value }
+        : { ok: false, error: "浏览器未能保存导入清单。" };
     },
     [devices, commit],
   );

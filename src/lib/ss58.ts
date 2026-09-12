@@ -1,4 +1,4 @@
-import { blake2b } from "@noble/hashes/blake2";
+import { blake2b } from "@noble/hashes/blake2.js";
 import { base58 } from "@scure/base";
 
 const SS58_PREFIX = new TextEncoder().encode("SS58PRE");
