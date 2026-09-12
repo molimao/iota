@@ -17,6 +17,26 @@ export function validFetchedAt(value: number | null | undefined): number | null 
     : null;
 }
 
+/**
+ * 刷新中断 is about our dashboard round-trip, not the miner-list cache stamp.
+ * A successful query counts even if some upstream lists were stale or skipped.
+ */
+export function resolveLastSuccessfulFetchAt(input: {
+  querySuccess: boolean;
+  queryUpdatedAt: number | null | undefined;
+  deviceFetchedAt: number | null | undefined;
+  discoveryFetchedAt: number | null | undefined;
+}): number | null {
+  if (input.querySuccess) {
+    return (
+      validFetchedAt(input.queryUpdatedAt) ??
+      validFetchedAt(input.discoveryFetchedAt) ??
+      validFetchedAt(input.deviceFetchedAt)
+    );
+  }
+  return validFetchedAt(input.deviceFetchedAt) ?? validFetchedAt(input.discoveryFetchedAt);
+}
+
 export type StatusInput = {
   miner: MinerRecord | null;
   /** true only if every active run's miner list was fetched successfully */

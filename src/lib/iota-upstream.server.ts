@@ -65,11 +65,11 @@ function releaseSlot(): void {
   if (next) next();
 }
 
-async function rawFetch(path: string): Promise<unknown> {
+async function rawFetch(path: string, timeoutMs = TIMEOUT_MS): Promise<unknown> {
   await acquireSlot();
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
       const response = await fetch(`${IOTA_BASE}${path}`, {
         method: "GET",
@@ -101,7 +101,7 @@ async function rawFetch(path: string): Promise<unknown> {
 
 function describeError(error: unknown): string {
   if (error instanceof Error) {
-    if (error.name === "AbortError") return "请求超时（12 秒）";
+    if (error.name === "AbortError") return "请求超时";
     return error.message;
   }
   return "未知错误";
@@ -116,6 +116,7 @@ export async function fetchUpstream<T>(
   path: string,
   ttlMs: number,
   force = false,
+  timeoutMs = TIMEOUT_MS,
 ): Promise<UpstreamResult<T>> {
   const now = Date.now();
   const key = path;
@@ -140,7 +141,7 @@ export async function fetchUpstream<T>(
   const existing = inflight.get(key);
   const promise =
     existing ??
-    rawFetch(path)
+    rawFetch(path, timeoutMs)
       .then((data) => {
         cache.set(key, {
           data,

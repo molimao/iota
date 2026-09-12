@@ -17,7 +17,12 @@ import {
   iotaUnitsToUsd,
   UNIT_SCALE,
 } from "./earnings";
-import { computeStatus, REFRESH_INTERRUPTED_MS, validFetchedAt } from "./device-status";
+import {
+  computeStatus,
+  REFRESH_INTERRUPTED_MS,
+  resolveLastSuccessfulFetchAt,
+  validFetchedAt,
+} from "./device-status";
 import { hintRunIdsFromDevices, orderActiveRuns } from "./iota-discover";
 import { addEntry, parseWatchlist, serializeExport, importDevices } from "./watchlist";
 import { base58 } from "@scure/base";
@@ -91,6 +96,25 @@ it("marks refresh interrupted after five minutes without a real fetch clock", ()
   ).toBe("refresh_interrupted");
   expect(validFetchedAt(0)).toBeNull();
   expect(validFetchedAt(1_726_000_000)).toBeNull();
+});
+it("counts a successful dashboard query as a fresh fetch even if miner stamps are old", () => {
+  const now = Date.parse("2026-09-12T10:00:00Z");
+  expect(
+    resolveLastSuccessfulFetchAt({
+      querySuccess: true,
+      queryUpdatedAt: now,
+      deviceFetchedAt: now - REFRESH_INTERRUPTED_MS - 1,
+      discoveryFetchedAt: now - REFRESH_INTERRUPTED_MS - 1,
+    }),
+  ).toBe(now);
+  expect(
+    resolveLastSuccessfulFetchAt({
+      querySuccess: false,
+      queryUpdatedAt: now,
+      deviceFetchedAt: now - REFRESH_INTERRUPTED_MS - 1,
+      discoveryFetchedAt: null,
+    }),
+  ).toBe(now - REFRESH_INTERRUPTED_MS - 1);
 });
 it("scans previously seen runs first so known devices do not wait on every task list", () => {
   const runs = [{ run_id: "a" }, { run_id: "b" }, { run_id: "c" }];

@@ -117,9 +117,16 @@ export const discoverDevices = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<DiscoveryResult> => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const errors: string[] = [];
-    const deadline = Date.now() + 12_000;
+    const started = Date.now();
+    const BUDGET_MS = 7_000;
+    const remain = () => Math.max(0, BUDGET_MS - (Date.now() - started));
 
-    const runsResult = await fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force);
+    const runsResult = await fetchUpstream<{ runs?: RunInfo[] }>(
+      "/runs",
+      TTL.runs,
+      data.force,
+      Math.min(4_000, Math.max(remain(), 1_200)),
+    );
     if (runsResult.error) errors.push(`训练任务列表：${runsResult.error}`);
     const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
     const activeRuns = orderActiveRuns(
@@ -133,58 +140,70 @@ export const discoverDevices = createServerFn({ method: "POST" })
       { miner: MinerRecord; fetchedAt: number | null; runIds: Set<string> }
     >();
     let runsFetched = 0;
-    let lastFetchedAt: number | null = null;
+    let lastFetchedAt: number | null = validFetchedAt(runsResult.fetchedAt);
     let timedOut = false;
-    const BATCH = 3;
 
-    for (let i = 0; i < activeRuns.length; ) {
-      if (data.hotkeys.every((hotkey) => best.has(hotkey))) break;
-      if (Date.now() > deadline) {
+    const ingest = (
+      miners: MinerRecord[],
+      fetchedAt: number | null,
+      fallbackRunId?: string,
+    ) => {
+      if (fetchedAt !== null && (lastFetchedAt === null || fetchedAt > lastFetchedAt)) {
+        lastFetchedAt = fetchedAt;
+      }
+      for (const miner of miners) {
+        if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
+        const runId = miner.run_id || fallbackRunId;
+        const entry = best.get(miner.hotkey);
+        if (!entry) {
+          best.set(miner.hotkey, {
+            miner,
+            fetchedAt,
+            runIds: new Set(runId ? [runId] : []),
+          });
+          continue;
+        }
+        if (runId) entry.runIds.add(runId);
+        const currentTs = numberOrNull(miner.timestamp) ?? 0;
+        const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
+        if (currentTs > bestTs) {
+          entry.miner = miner;
+          entry.fetchedAt = fetchedAt;
+        }
+      }
+    };
+
+    const allFound = () => data.hotkeys.every((hotkey) => best.has(hotkey));
+
+    if (!allFound() && remain() > 600) {
+      const untitled = await fetchUpstream<{ miners?: MinerRecord[] }>(
+        "/miners",
+        TTL.miners,
+        data.force,
+        Math.min(4_000, remain()),
+      );
+      if (untitled.error) errors.push(`默认矿工名单：${untitled.error}`);
+      const miners = Array.isArray(untitled.data?.miners) ? untitled.data!.miners : null;
+      if (miners) ingest(miners, validFetchedAt(untitled.fetchedAt));
+    }
+
+    for (const run of activeRuns) {
+      if (allFound()) break;
+      if (remain() < 600) {
         timedOut = true;
         break;
       }
-      const batch = activeRuns.slice(i, i + BATCH);
-      i += BATCH;
-      const lists = await Promise.all(
-        batch.map(async (run) => {
-          const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
-            `/miners?run_id=${encodeURIComponent(run.run_id)}`,
-            TTL.miners,
-            data.force,
-          );
-          return { run, result };
-        }),
+      const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
+        `/miners?run_id=${encodeURIComponent(run.run_id)}`,
+        TTL.miners,
+        data.force,
+        Math.min(4_000, remain()),
       );
-
-      for (const { run, result } of lists) {
-        if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
-        const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
-        if (miners === null) continue;
-        if (!result.error) runsFetched += 1;
-        const fetchedAt = validFetchedAt(result.fetchedAt);
-        if (fetchedAt !== null && (lastFetchedAt === null || fetchedAt > lastFetchedAt)) {
-          lastFetchedAt = fetchedAt;
-        }
-        for (const miner of miners) {
-          if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
-          const entry = best.get(miner.hotkey);
-          if (!entry) {
-            best.set(miner.hotkey, {
-              miner,
-              fetchedAt,
-              runIds: new Set([miner.run_id ?? run.run_id]),
-            });
-          } else {
-            entry.runIds.add(miner.run_id ?? run.run_id);
-            const currentTs = numberOrNull(miner.timestamp) ?? 0;
-            const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
-            if (currentTs > bestTs) {
-              entry.miner = miner;
-              entry.fetchedAt = fetchedAt;
-            }
-          }
-        }
-      }
+      if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
+      const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
+      if (miners === null) continue;
+      if (!result.error) runsFetched += 1;
+      ingest(miners, validFetchedAt(result.fetchedAt), run.run_id);
     }
 
     if (timedOut && best.size < data.hotkeys.length) {
@@ -202,12 +221,12 @@ export const discoverDevices = createServerFn({ method: "POST" })
     });
 
     const runsTotal = activeRuns.length;
-    const scannedAll = !timedOut && runsFetched === runsTotal;
+    const scannedAll = !timedOut && runsFetched >= runsTotal && runsTotal > 0;
     return {
       devices,
       runs: activeRuns,
       runsTotal,
-      runsFetched,
+      runsFetched: Math.min(runsFetched, runsTotal),
       fullCoverage: runsTotal > 0 && scannedAll && !runsResult.error,
       fetchedAt: lastFetchedAt,
       errors,

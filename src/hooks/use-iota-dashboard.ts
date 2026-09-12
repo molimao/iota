@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { aggregateUnits, type Aggregate } from "@/lib/earnings";
 import {
   computeStatus,
+  resolveLastSuccessfulFetchAt,
   statusBucket,
   validFetchedAt,
   type DeviceStatus,
@@ -230,8 +231,12 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const status = computeStatus({
         miner: found?.miner ?? null,
         fullCoverage: discovery?.fullCoverage ?? false,
-        lastSuccessfulFetchAt:
-          validFetchedAt(found?.fetchedAt) ?? validFetchedAt(discovery?.fetchedAt),
+        lastSuccessfulFetchAt: resolveLastSuccessfulFetchAt({
+          querySuccess: discoveryQuery.isSuccess,
+          queryUpdatedAt: discoveryQuery.dataUpdatedAt,
+          deviceFetchedAt: found?.fetchedAt,
+          discoveryFetchedAt: discovery?.fetchedAt,
+        }),
         now,
       });
       const earningsUsable =
@@ -249,7 +254,14 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
         earningsUsable,
       };
     });
-  }, [entries, discovery, earnings, now]);
+  }, [
+    entries,
+    discovery,
+    earnings,
+    now,
+    discoveryQuery.isSuccess,
+    discoveryQuery.dataUpdatedAt,
+  ]);
 
   const counts = useMemo(() => {
     const base: Record<StatusBucket, number> = {
@@ -286,9 +298,12 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     occupancy,
     occupancyError: occupancyQuery.data?.error ?? null,
     fetchedAt:
-      validFetchedAt(discovery?.fetchedAt) ??
-      validFetchedAt(cached?.savedAt) ??
-      null,
+      resolveLastSuccessfulFetchAt({
+        querySuccess: discoveryQuery.isSuccess,
+        queryUpdatedAt: discoveryQuery.dataUpdatedAt,
+        deviceFetchedAt: null,
+        discoveryFetchedAt: discovery?.fetchedAt ?? cached?.savedAt,
+      }),
     earningsFetchedAt:
       earnings?.reduce<number | null>(
         (min, device) =>
