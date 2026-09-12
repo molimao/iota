@@ -1,69 +1,50 @@
 /**
- * Allowlisted market price for the Train at Home subnet token (SN9 / CoinGecko iota-2).
+ * Allowlisted market price for the Train at Home subnet token (SN9).
  * This is not IOTA Layer 1 and not an official settlement rate.
  */
-const PRICE_URL =
-  "https://api.coingecko.com/api/v3/simple/price?ids=iota-2&vs_currencies=usd";
-const TTL_MS = 5 * 60 * 1000;
-const TIMEOUT_MS = 12_000;
+import { fetchSn9UsdFromMarkets } from "./iota-price-sources";
+
+const TTL_MS = 2 * 60 * 1000;
+const KEEP_MS = 6 * 60 * 60 * 1000;
 
 export type IotaUsdQuote = {
   usdPerIota: number | null;
   fetchedAt: number | null;
   error: string | null;
   stale: boolean;
+  source?: string;
 };
 
 type Cache = {
   usdPerIota: number | null;
   fetchedAt: number;
   error: string | null;
+  source?: string;
 };
 
 let cache: Cache | null = null;
 let inflight: Promise<Cache> | null = null;
 
-function readUsd(payload: unknown): number | null {
-  if (!payload || typeof payload !== "object") return null;
-  const coin = (payload as { "iota-2"?: { usd?: unknown } })["iota-2"];
-  const usd = coin?.usd;
-  return typeof usd === "number" && Number.isFinite(usd) && usd > 0 ? usd : null;
-}
-
-async function loadQuote(): Promise<Cache> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  try {
-    const response = await fetch(PRICE_URL, {
-      method: "GET",
-      headers: { accept: "application/json" },
-      signal: controller.signal,
-    });
-    const text = await response.text();
-    if (!response.ok) throw new Error(`价格接口 HTTP ${response.status}`);
-    const usdPerIota = readUsd(JSON.parse(text) as unknown);
-    if (usdPerIota === null) throw new Error("价格接口没有返回有效的 IOTA/USD");
-    return { usdPerIota, fetchedAt: Date.now(), error: null };
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
   const now = Date.now();
-  if (cache && !force && now - cache.fetchedAt < TTL_MS && cache.usdPerIota !== null) {
+  if (cache?.usdPerIota && !force && now - cache.fetchedAt < TTL_MS) {
     return { ...cache, stale: false };
   }
 
   if (!inflight) {
-    inflight = loadQuote()
+    inflight = fetchSn9UsdFromMarkets()
       .then((next) => {
-        cache = next;
-        return next;
+        cache = {
+          usdPerIota: next.usdPerIota,
+          fetchedAt: Date.now(),
+          error: null,
+          source: next.source,
+        };
+        return cache;
       })
       .catch((error: unknown) => {
         const message = error instanceof Error ? error.message : "市场价格暂不可用";
-        if (cache?.usdPerIota) {
+        if (cache?.usdPerIota && now - cache.fetchedAt < KEEP_MS) {
           cache = { ...cache, error: message };
           return cache;
         }
@@ -81,5 +62,6 @@ export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
     fetchedAt: next.fetchedAt || null,
     error: next.error,
     stale: next.error !== null && next.usdPerIota !== null,
+    source: next.source,
   };
 }

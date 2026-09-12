@@ -10,8 +10,6 @@ import {
   Monitor,
   ArrowUpRight,
   X,
-  LogIn,
-  LogOut,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/use-auth";
@@ -74,7 +72,7 @@ function Total({
   );
 }
 export function Dashboard() {
-  const { t, en } = useLocale();
+  const { t, en, locale } = useLocale();
   const auth = useAuth();
   const watch = useWatchlist(auth.userId, auth.ready);
   const atLimit = watch.devices.length >= watch.limit;
@@ -120,17 +118,6 @@ export function Dashboard() {
                 ? `${Math.ceil(dash.manual.cooldownRemaining / 1000)} s`
                 : t("立即刷新")}
           </button>
-          {auth.userId ? (
-            <button onClick={() => void auth.signOut()}>
-              <LogOut size={16} />
-              {t("退出登录")}
-            </button>
-          ) : (
-            <button onClick={() => void auth.signInWithGoogle()} disabled={auth.signingIn}>
-              <LogIn size={16} />
-              {auth.signingIn ? t("正在登录") : t("用 Google 登录")}
-            </button>
-          )}
           <button
             className="solid"
             onClick={() => {
@@ -147,12 +134,17 @@ export function Dashboard() {
         <div>
           <h1>{t("收益和运行情况，一眼看清。")}</h1>
           <p>
-            {watch.devices.length}/{watch.limit}{" "}
-            {auth.userId
-              ? t("台设备 · 已绑定到 Google 账号")
-              : t("台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看")}
+            {auth.userId ? (
+              <>
+                <a className="account-name-link" href={`/${locale}/account`}>
+                  {auth.name || auth.email || (en ? "Signed in" : "已登录")}
+                </a>
+                {` · ${watch.devices.length}/${watch.limit} ${t("台设备 · 已绑定到 Google 账号")}`}
+              </>
+            ) : (
+              `${watch.devices.length}/${watch.limit} ${t("台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看")}`
+            )}
           </p>
-          {auth.email ? <span className="account-email">{auth.email}</span> : null}
         </div>
         <span className="refresh-label">
           {t("最近获取")}
@@ -195,7 +187,9 @@ export function Dashboard() {
       <p className="fx-note">
         {dash.usdPerIota
           ? `${t("美元按公开市场价格估算")} · 1 IOTA ≈ ${formatUsd(dash.usdPerIota)}`
-          : t("美元价格暂未获取，IOTA 数量仍按官方记账显示")}
+          : dash.usdError
+            ? `${t("美元价格暂未获取，IOTA 数量仍按官方记账显示")} · ${dash.usdError}`
+            : t("美元价格暂未获取，IOTA 数量仍按官方记账显示")}
       </p>
       <div className="status-strip">
         {Object.entries(dash.counts).map(([key, count]) => (

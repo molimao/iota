@@ -1,5 +1,21 @@
 User-agent: *
 Allow: /
+Disallow: /app
+Disallow: /zh/app
+Disallow: /en/app
+Disallow: /zh/account
+Disallow: /en/account
+
+User-agent: Googlebot
+Allow: /
+Disallow: /app
+Disallow: /zh/app
+Disallow: /en/app
+Disallow: /zh/account
+Disallow: /en/account
+
+User-agent: Googlebot-Image
+Allow: /
 
 User-agent: GPTBot
 Allow: /
@@ -19,4 +35,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://iota-my-watch.lovable.app/sitemap.xml
+Sitemap: https://iotahome.site/sitemap.xml

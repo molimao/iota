@@ -1,9 +1,14 @@
+import { LASTMOD } from "@/lib/crawl";
 import { ORIGIN, sitePath } from "@/lib/site";
 import { articles, getArticle } from "./articles";
 import { content } from "./content";
 import type { Locale } from "./locale";
 
-export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn";
+export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account";
+
+const OG_IMAGE = `${ORIGIN}/og.svg`;
+const ORG_ID = `${ORIGIN}/#organization`;
+const WEBSITE_ID = `${ORIGIN}/#website`;
 
 function jsonLd(data: unknown) {
   return { type: "application/ld+json" as const, children: JSON.stringify(data) };
@@ -37,12 +42,49 @@ function breadcrumbs(locale: Locale, items: { name: string; path: string }[]) {
   });
 }
 
+function organizationGraph() {
+  return {
+    "@type": "Organization",
+    "@id": ORG_ID,
+    name: "IOTA Watch",
+    url: ORIGIN,
+    logo: `${ORIGIN}/favicon.svg`,
+    sameAs: ["https://github.com/molimao/iota"],
+    description:
+      "Independent read-only monitor for IOTA Train at Home devices. Not the IOTA Foundation Layer 1 cryptocurrency.",
+  };
+}
+
+function websiteGraph() {
+  return {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    name: "IOTA Watch",
+    url: ORIGIN,
+    inLanguage: ["zh-CN", "en"],
+    publisher: { "@id": ORG_ID },
+    about: "IOTA Train at Home / Macrocosmos device and reward monitoring.",
+  };
+}
+
+function googleVerification() {
+  const token =
+    (typeof import.meta !== "undefined" &&
+      (import.meta.env as { VITE_GOOGLE_SITE_VERIFICATION?: string }).VITE_GOOGLE_SITE_VERIFICATION) ||
+    (typeof process !== "undefined"
+      ? process.env["GOOGLE_SITE_VERIFICATION"] || process.env["VITE_GOOGLE_SITE_VERIFICATION"]
+      : "") ||
+    "";
+  return token ? [{ name: "google-site-verification", content: token }] : [];
+}
+
 export function seo(locale: Locale, page: Page, slug?: string) {
   const copy = content[locale];
   const en = locale === "en";
   const article = slug ? getArticle(slug) : undefined;
   const path = page === "learn" && slug ? `learn/${slug}` : page === "home" ? "" : page;
-  const home = en ? "IOTA Watch" : "IOTA Watch";
+  const url = ORIGIN + sitePath(locale, path);
+  const home = "IOTA Watch";
 
   const title = article
     ? `${article.title[locale]} | IOTA Watch`
@@ -60,16 +102,20 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               ? en
                 ? "Learn IOTA Train at Home monitoring | IOTA Watch"
                 : "看懂 IOTA Train at Home 监控｜IOTA Watch"
-              : en
-                ? "My devices | IOTA Watch"
-                : "我的设备｜IOTA Watch";
+              : page === "account"
+                ? en
+                  ? "Account | IOTA Watch"
+                  : "账号｜IOTA Watch"
+                : en
+                  ? "My devices | IOTA Watch"
+                  : "我的设备｜IOTA Watch";
 
   const description = article
     ? article.description[locale]
     : page === "home"
       ? en
-        ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards. Not the IOTA Layer 1 wallet."
-        : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日收益和累计收益。独立工具，不是 IOTA 公链钱包。"
+        ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
+        : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
       : page === "guide"
         ? copy.guideIntro
         : page === "faq"
@@ -78,13 +124,28 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? copy.privacyIntro
             : page === "learn"
               ? en
-                ? "Clear answers for IOTA Train at Home: what IOTA Watch is, how to find a Miner ID, how rewards are counted, and what device statuses mean."
-                : "把 IOTA Train at Home 的常见问题写清楚：IOTA Watch 是什么、Miner ID 怎么找、收益怎么算、设备状态是什么意思。"
-              : en
-                ? "Track reported training activity and rewards for your saved devices."
-                : "查看已保存设备的训练状态与收益。";
+                ? "Clear answers for IOTA Train at Home: what IOTA Watch is, how it differs from the IOTA coin, how to find a Miner ID, how rewards and USD estimates work, and what device statuses mean."
+                : "把 IOTA Train at Home 的常见问题写清楚：IOTA Watch 是什么、和 IOTA 公链有何区别、Miner ID 怎么找、收益与美元估价怎么算、设备状态是什么意思。"
+              : page === "account"
+                ? en
+                  ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
+                  : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
+                : en
+                  ? "Track reported training activity and rewards for your saved devices."
+                  : "查看已保存设备的训练状态与收益。";
+
+  const keywords = article
+    ? en
+      ? `${article.title.en}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
+      : `${article.title.zh}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`
+    : en
+      ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
+      : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 设备监控, 不是IOTA公链, Firefly";
 
   const scripts = [];
+  if (page !== "app" && page !== "account") {
+    scripts.push(jsonLd({ "@context": "https://schema.org", "@graph": [organizationGraph(), websiteGraph()] }));
+  }
   scripts.push(
     breadcrumbs(
       locale,
@@ -110,9 +171,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                           ? en
                             ? "Learn"
                             : "说明"
-                          : en
-                            ? "Dashboard"
-                            : "监控",
+                          : page === "account"
+                            ? en
+                              ? "Account"
+                              : "账号"
+                            : en
+                              ? "Dashboard"
+                              : "监控",
                 path,
               },
             ],
@@ -125,13 +190,15 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@context": "https://schema.org",
         "@type": "WebApplication",
         name: "IOTA Watch",
-        url: ORIGIN + sitePath(locale),
+        url,
         description,
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Web browser",
         inLanguage: language(locale),
         isAccessibleForFree: true,
+        image: OG_IMAGE,
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
         about: "IOTA Train at Home device and reward monitoring. Not the IOTA Layer 1 cryptocurrency.",
       }),
@@ -178,8 +245,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@type": "CollectionPage",
         name: title,
         description,
-        url: ORIGIN + sitePath(locale, "learn"),
+        url,
         inLanguage: language(locale),
+        isPartOf: { "@id": WEBSITE_ID },
         hasPart: articles.map((item) => ({
           "@type": "Article",
           name: item.title[locale],
@@ -196,42 +264,64 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@type": "Article",
         headline: article.title[locale],
         description: article.description[locale],
-        dateModified: "2026-09-12",
+        datePublished: LASTMOD,
+        dateModified: LASTMOD,
+        image: OG_IMAGE,
         inLanguage: language(locale),
-        mainEntityOfPage: ORIGIN + sitePath(locale, `learn/${article.slug}`),
-        author: { "@type": "Organization", name: "IOTA Watch" },
-        publisher: { "@type": "Organization", name: "IOTA Watch", url: ORIGIN },
+        mainEntityOfPage: url,
+        author: { "@id": ORG_ID },
+        publisher: { "@id": ORG_ID },
+        isPartOf: { "@id": WEBSITE_ID },
         about: "IOTA Train at Home / Macrocosmos. Not IOTA Layer 1.",
       }),
     );
   }
+
+  if (article?.slug === "find-miner-id") {
+    scripts.push(
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        name: "Miner ID",
+        alternateName: ["SS58 hotkey", "Train at Home miner address"],
+        description: en
+          ? "Public SS58 hotkey that identifies an IOTA Train at Home device. Not a private key, seed phrase, or coldkey."
+          : "标识 IOTA Train at Home 设备的公开 SS58 hotkey。不是私钥、助记词或 coldkey。",
+        inDefinedTermSet: "IOTA Train at Home",
+        url,
+      }),
+    );
+  }
+
+  const robots =
+    page === "app" || page === "account"
+      ? "noindex,follow"
+      : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
   return {
     scripts,
     meta: [
       { title },
       { name: "description", content: description },
-      {
-        name: "robots",
-        content: page === "app" ? "noindex,follow" : "index,follow",
-      },
-      {
-        name: "keywords",
-        content: en
-          ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, device monitor, not IOTA cryptocurrency"
-          : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, 设备监控, 不是IOTA公链",
-      },
+      { name: "robots", content: robots },
+      { name: "googlebot", content: robots },
+      { name: "keywords", content: keywords },
+      { name: "theme-color", content: "#111111" },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: article ? "article" : "website" },
-      { property: "og:url", content: ORIGIN + sitePath(locale, path) },
+      { property: "og:url", content: url },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:alt", content: "IOTA Watch — IOTA Train at Home device monitor" },
       { property: "og:locale", content: en ? "en_US" : "zh_CN" },
       { property: "og:locale:alternate", content: en ? "zh_CN" : "en_US" },
       { property: "og:site_name", content: "IOTA Watch" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
+      { name: "twitter:image", content: OG_IMAGE },
+      ...googleVerification(),
     ],
-    links: [{ rel: "canonical", href: ORIGIN + sitePath(locale, path) }, ...alternates(path)],
+    links: [{ rel: "canonical", href: url }, ...alternates(path)],
   };
 }

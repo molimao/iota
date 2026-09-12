@@ -21,7 +21,7 @@ export const content = {
       ],
       [
         "What has it earned?",
-        "Today’s accounted rewards use Hong Kong midnight. Lifetime uses total earned. Missing records stay unknown, not zero.",
+        "Today’s accounted rewards use Hong Kong midnight. Lifetime uses total earned. Each IOTA amount is shown with a SN9 USD estimate. Missing records stay unknown, not zero.",
       ],
       [
         "What do I do next?",
@@ -30,7 +30,7 @@ export const content = {
     ],
     learnTitle: "Clear answers people actually search for",
     learnIntro:
-      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin.",
+      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin, find a Miner ID, and read how rewards and USD estimates work.",
     ecosystemTitle: "Official IOTA Train at Home links",
     ecosystem: [
       ["Download Train at Home", "https://iota.macrocosmos.ai/", "Official Mac app"],
@@ -90,6 +90,10 @@ export const content = {
     faqIntro:
       "What the numbers mean, how often they refresh, and what this tool can and cannot tell you.",
     faq: [
+      [
+        "Is this the IOTA cryptocurrency or Firefly wallet?",
+        "No. IOTA Watch only monitors IOTA Train at Home (Macrocosmos / Bittensor subnet 9). The IOTA Foundation Layer 1 coin and Firefly are a different product.",
+      ],
       [
         "What is IOTA Watch?",
         "An independent browser-based dashboard for IOTA Train at Home devices. It uses public Miner IDs to retrieve official reported status and reward records. It is not the unrelated IOTA Layer 1 network wallet.",
@@ -179,7 +183,7 @@ export const content = {
       ],
       [
         "收益记上了吗？",
-        "香港时间当天 0 点起的记账收益，加上累计 total earned。缺失就标未知，不会偷偷当成零。",
+        "香港时间当天 0 点起的记账收益，加上累计 total earned。每个 IOTA 数字旁边会给出 SN9 美元估价。缺失就标未知，不会偷偷当成零。",
       ],
       [
         "接下来要不要回去检查？",
@@ -188,7 +192,7 @@ export const content = {
     ],
     learnTitle: "把关键信息写成可搜索的说明",
     learnIntro:
-      "产品是什么、Miner ID 怎么找、收益怎么算、状态是什么意思。写给用户看，也方便搜索引擎和 AI 引用。",
+      "产品是什么、和 IOTA 公链有何区别、Miner ID 怎么找、收益与美元估价怎么算、状态是什么意思。写给用户看，也方便搜索引擎和 AI 引用。",
     ecosystemTitle: "官方 IOTA Train at Home 入口",
     ecosystem: [
       ["下载 Train at Home", "https://iota.macrocosmos.ai/", "官方 Mac 应用"],
@@ -244,6 +248,10 @@ export const content = {
     faqTitle: "看懂设备和收益数据",
     faqIntro: "数字代表什么、多久刷新一次，以及这个工具能确认和不能确认的事情。",
     faq: [
+      [
+        "这是 IOTA 公链或 Firefly 钱包吗？",
+        "不是。IOTA Watch 只监控 IOTA Train at Home（Macrocosmos / Bittensor 子网 9）。IOTA Foundation 公链和 Firefly 是另一套产品。",
+      ],
       [
         "IOTA Watch 是什么？",
         "面向 IOTA Train at Home 的独立网页监控工具，通过公开 Miner ID 查询官方上报状态和收益记录。它不是同名 IOTA Layer 1 网络的钱包。",

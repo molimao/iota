@@ -1,6 +1,8 @@
-import { ArrowUpRight, Monitor, Layers, ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath } from "@/lib/site";
+import { useAuth } from "@/hooks/use-auth";
+import { AccountAvatar, AccountMenu } from "./account-menu";
 import { articles, getArticle } from "./articles";
 import { content } from "./content";
 import { useLocale } from "./locale";
@@ -31,26 +33,35 @@ export function LanguageSwitch() {
   );
 }
 
+function navCurrent(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined;
+}
+
 export function SiteNav() {
   const { locale, en } = useLocale();
   const copy = content[locale];
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const links = [
+    [`/${locale}/guide`, copy.nav[0]],
+    [`/${locale}/faq`, copy.nav[1]],
+    [`/${locale}/learn`, copy.nav[2]],
+  ] as const;
   return (
     <nav className="site-nav" aria-label={en ? "Main navigation" : "主导航"}>
-      <a className="site-brand" href={`/${locale}`}>
+      <a className="site-brand" href={`/${locale}`} aria-current={pathname === `/${locale}` ? "page" : undefined}>
         <span>
           <Layers size={20} />
         </span>
         IOTA <b>Watch</b>
       </a>
       <div className="site-links">
-        <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
-        <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
-        <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
+        {links.map(([href, label]) => (
+          <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
+            {label}
+          </a>
+        ))}
         <LanguageSwitch />
-        <a className="site-button small" href={`/${locale}/app`}>
-          {copy.nav[4]}
-          <ArrowUpRight size={16} />
-        </a>
+        <AccountMenu />
       </div>
     </nav>
   );
@@ -72,6 +83,9 @@ export function SiteFooter() {
         <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
+        </a>
+        <a href="/llms.txt" rel="noreferrer" target="_blank">
+          llms.txt
         </a>
       </div>
       <small>{en ? "Made for people training at home." : "为在家参与训练的人而做。"}</small>
@@ -376,6 +390,75 @@ export function LearnArticle({ slug }: { slug: string }) {
         {content[locale].cta}
         <ArrowUpRight size={18} />
       </a>
+    </article>
+  );
+}
+
+export function AccountPage() {
+  const { locale, en } = useLocale();
+  const auth = useAuth();
+  const label = auth.name || auth.email || (en ? "Account" : "账号");
+  return (
+    <article className="article-page account-page">
+      <a className="back-link" href={auth.userId ? `/${locale}/app` : `/${locale}`}>
+        ← {auth.userId ? (en ? "My devices" : "我的设备") : en ? "Home" : "首页"}
+      </a>
+      <span className="eyebrow">IOTA WATCH / ACCOUNT</span>
+      <h1>{en ? "Account" : "账号"}</h1>
+      {auth.userId ? (
+        <>
+          <div className="account-card">
+            <AccountAvatar name={label} avatarUrl={auth.avatarUrl} size={56} />
+            <div>
+              <b>{auth.name || (en ? "Signed in" : "已登录")}</b>
+              {auth.email ? <p>{auth.email}</p> : null}
+              <span>{en ? "Signed in with Google" : "已用 Google 登录"}</span>
+            </div>
+          </div>
+          <div className="account-facts">
+            <section>
+              <h2>{en ? "Device list" : "设备清单"}</h2>
+              <p>
+                {en
+                  ? "This account can keep up to 10 devices. Open the dashboard to add, rename, or remove them."
+                  : "这个账号最多绑定 10 台设备。添加、改名和移除都在监控页完成。"}
+              </p>
+              <a className="site-button small" href={`/${locale}/app`}>
+                {en ? "Open my devices" : "打开我的设备"}
+              </a>
+            </section>
+            <section>
+              <h2>{en ? "What this account is for" : "这个账号用来做什么"}</h2>
+              <p>
+                {en
+                  ? "Google sign-in only binds your public Miner ID list so you can open it on another device. IOTA Watch never asks for a password, private key, or seed phrase."
+                  : "Google 登录只是把公开 Miner ID 清单绑到账号上，换设备也能看。IOTA Watch 不要密码、私钥或助记词。"}
+              </p>
+              <a href={`/${locale}/privacy`}>{en ? "Privacy notes" : "隐私说明"} →</a>
+            </section>
+          </div>
+          <button type="button" className="account-signout" onClick={() => void auth.signOut()}>
+            {en ? "Sign out" : "退出登录"}
+          </button>
+        </>
+      ) : (
+        <>
+          <p className="article-lead">
+            {en
+              ? "Sign in with Google to bind up to 10 devices to your account. Without signing in, this browser can keep 3 devices locally."
+              : "用 Google 登录后，最多把 10 台设备绑到账号上。未登录时，当前浏览器最多保存 3 台。"}
+          </p>
+          <button
+            type="button"
+            className="site-button"
+            onClick={() => void auth.signInWithGoogle()}
+            disabled={auth.signingIn}
+          >
+            <LogIn size={16} />
+            {auth.signingIn ? (en ? "Signing in" : "正在登录") : en ? "Sign in with Google" : "用 Google 登录"}
+          </button>
+        </>
+      )}
     </article>
   );
 }

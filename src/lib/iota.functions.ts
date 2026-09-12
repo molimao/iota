@@ -135,7 +135,7 @@ export const discoverDevices = createServerFn({ method: "POST" })
       if (!result.error) runsFetched += 1;
       if (
         result.fetchedAt !== null &&
-        (lastFetchedAt === null || result.fetchedAt < lastFetchedAt)
+        (lastFetchedAt === null || result.fetchedAt > lastFetchedAt)
       ) {
         lastFetchedAt = result.fetchedAt;
       }

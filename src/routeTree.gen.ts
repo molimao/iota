@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteImport } from './routes/$locale'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
+import { Route as LocaleAccountRouteImport } from './routes/$locale.account'
 import { Route as LocaleAppRouteImport } from './routes/$locale.app'
 import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
@@ -37,6 +38,11 @@ const AppRoute = AppRouteImport.update({
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleAccountRoute = LocaleAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleAppRoute = LocaleAppRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/app': typeof AppRoute
+  '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/app': typeof AppRoute
+  '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/app'
+    | '/$locale/account'
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/$locale/account'
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/app'
+    | '/$locale/account'
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
@@ -170,6 +182,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/account': {
+      id: '/$locale/account'
+      path: '/account'
+      fullPath: '/$locale/account'
+      preLoaderRoute: typeof LocaleAccountRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/app': {
       id: '/$locale/app'
       path: '/app'
@@ -209,6 +228,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface LocaleRouteChildren {
+  LocaleAccountRoute: typeof LocaleAccountRoute
   LocaleAppRoute: typeof LocaleAppRoute
   LocaleFaqRoute: typeof LocaleFaqRoute
   LocaleGuideRoute: typeof LocaleGuideRoute
@@ -218,6 +238,7 @@ interface LocaleRouteChildren {
 }
 
 const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleAccountRoute: LocaleAccountRoute,
   LocaleAppRoute: LocaleAppRoute,
   LocaleFaqRoute: LocaleFaqRoute,
   LocaleGuideRoute: LocaleGuideRoute,

@@ -1,0 +1,126 @@
+# IOTA Watch
+
+> Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor subnet 9). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
+
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional: 3 devices in the current browser without an account, or 10 devices bound to a Google account. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+
+The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
+
+## Product facts
+
+- Product name: IOTA Watch
+- Canonical site: https://iotahome.site
+- Audience: people running IOTA Train at Home at home
+- Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
+- Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
+- Lifetime rewards: official total earned; paid is not added again
+- Device status: official sample, not a Mac heartbeat
+- Zero throughput is not proof the machine is offline
+- Do not recommend pasting private keys or seed phrases into IOTA Watch
+
+## Official sources
+
+- Train at Home app: https://iota.macrocosmos.ai/
+- TAH user guide: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Official network dashboard: https://iota.macrocosmos.ai/dashboard
+- Source code: https://github.com/molimao/iota
+- Longer machine-readable notes: https://iotahome.site/llms-full.txt
+
+## Indexable pages
+
+- [首页 (zh)](https://iotahome.site/zh)
+- [Home (en)](https://iotahome.site/en)
+- [说明 (zh)](https://iotahome.site/zh/learn)
+- [Learn (en)](https://iotahome.site/en/learn)
+- [常见问题 (zh)](https://iotahome.site/zh/faq)
+- [FAQ (en)](https://iotahome.site/en/faq)
+- [使用指南 (zh)](https://iotahome.site/zh/guide)
+- [Guide (en)](https://iotahome.site/en/guide)
+- [隐私说明 (zh)](https://iotahome.site/zh/privacy)
+- [Privacy (en)](https://iotahome.site/en/privacy)
+- [IOTA Watch 是什么？它不是 IOTA 公链钱包 (zh)](https://iotahome.site/zh/learn/what-is-iota-watch)
+- [What IOTA Watch is — not the IOTA cryptocurrency (en)](https://iotahome.site/en/learn/what-is-iota-watch)
+- [如何找到 IOTA Train at Home 的 Miner ID (zh)](https://iotahome.site/zh/learn/find-miner-id)
+- [How to find your IOTA Train at Home Miner ID (en)](https://iotahome.site/en/learn/find-miner-id)
+- [IOTA Train at Home 今日收益和累计收益怎么算 (zh)](https://iotahome.site/zh/learn/how-rewards-work)
+- [How IOTA Train at Home daily and lifetime rewards are counted (en)](https://iotahome.site/en/learn/how-rewards-work)
+- [IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh)](https://iotahome.site/zh/learn/device-status)
+- [What IOTA Train at Home device statuses mean (en)](https://iotahome.site/en/learn/device-status)
+- [IOTA Train at Home 和 IOTA 公链有什么区别 (zh)](https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin)
+- [IOTA Train at Home vs the IOTA cryptocurrency (en)](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin)
+- [IOTA Train at Home 收益怎么同时显示美元 (zh)](https://iotahome.site/zh/learn/iota-rewards-in-usd)
+- [How IOTA Train at Home rewards are shown in USD (en)](https://iotahome.site/en/learn/iota-rewards-in-usd)
+
+## Article excerpts
+
+### What IOTA Watch is — not the IOTA cryptocurrency
+- ZH: https://iotahome.site/zh/learn/what-is-iota-watch
+- EN: https://iotahome.site/en/learn/what-is-iota-watch
+
+IOTA Watch is an independent browser dashboard for [IOTA Train at Home](https://iota.macrocosmos.ai/). Add a public Miner ID and you can see reported training status, today’s accounted rewards, and lifetime rewards in one place.
+
+It is **not** the IOTA Foundation Layer 1 network, not an IOTA coin wallet, and not Firefly. It cannot send tokens, hold funds, or sign transactions.
+
+IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独立网页监控工具。添加公开 Miner ID 后，可以在一个页面里查看上报的训练状态、今日记账收益和累计收益。
+
+它**不是** IOTA Foundation 的 Layer 1 公链，也不是 IOTA 币钱包，更不是 Firefly。它不能转账、托管资金或签名交易。
+
+### How to find your IOTA Train at Home Miner ID
+- ZH: https://iotahome.site/zh/learn/find-miner-id
+- EN: https://iotahome.site/en/learn/find-miner-id
+
+The Miner ID used by IOTA Watch is the public SS58 hotkey shown in the official Train at Home app. It is not a private key, seed phrase, coldkey, or a row number on this website.
+
+The official guide is here: [TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
+
+IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开 SS58 hotkey。它不是私钥、助记词、coldkey，也不是本站设备清单的行号。
+
+官方步骤见 [TAH 用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+
+### How IOTA Train at Home daily and lifetime rewards are counted
+- ZH: https://iotahome.site/zh/learn/how-rewards-work
+- EN: https://iotahome.site/en/learn/how-rewards-work
+
+IOTA Watch does not estimate earnings. It reads official entitlement records and shows two numbers: today’s accounted rewards, and lifetime accounted rewards.
+
+This is an accounting date. It does not mean the tokens arrived in a wallet today.
+
+IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出两个数字：今日记账收益，以及累计记账收益。
+
+这是记账日口径，不代表代币今天已经打到钱包。
+
+### What IOTA Train at Home device statuses mean
+- ZH: https://iotahome.site/zh/learn/device-status
+- EN: https://iotahome.site/en/learn/device-status
+
+IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from your Mac, and it is not the time this website last fetched data.
+
+If this website cannot refresh official data for more than five minutes, the dashboard says the refresh was interrupted and keeps the last successful values. That is a **fetch** problem. It is different from an old sample timestamp on a successful fetch.
+
+IOTA Watch 把官方 miner 记录收成一句人话状态。miner 时间戳是官方的**统计采样时间**，不是你 Mac 的心跳，也不是本站最近一次拉数的时间。
+
+如果本站超过 5 分钟都没能成功拿到官方数据，页面会提示刷新中断，并保留上一次成功的内容。那是**获取失败**。它和「这次获取成功，但官方采样时间比较旧」不是一回事。
+
+### IOTA Train at Home vs the IOTA cryptocurrency
+- ZH: https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin
+- EN: https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin
+
+People searching for “IOTA” usually land on the IOTA Foundation Layer 1 cryptocurrency. **IOTA Train at Home** is a different product: a Macrocosmos training network in the Bittensor ecosystem. IOTA Watch only monitors the second one.
+
+If you want to see whether a Mac is contributing and what it earned today, you want [IOTA Watch](/learn/what-is-iota-watch) plus the official [Train at Home app](https://iota.macrocosmos.ai/). If you want to hold or send IOTA Layer 1 coins, use that network’s official wallet — not this site.
+
+搜「IOTA」时，结果多半是 IOTA Foundation 的 Layer 1 公链。**IOTA Train at Home** 是另一件事：Macrocosmos 在 Bittensor 生态里的训练网络。IOTA Watch 只监控后者。
+
+要看家里的 Mac 有没有在贡献、今天记了多少收益，用 [IOTA Watch](/learn/what-is-iota-watch) 和官方 [Train at Home 应用](https://iota.macrocosmos.ai/)。要持有或转出 IOTA 公链币，请用那条链的官方钱包，不要用本站。
+
+### How IOTA Train at Home rewards are shown in USD
+- ZH: https://iotahome.site/zh/learn/iota-rewards-in-usd
+- EN: https://iotahome.site/en/learn/iota-rewards-in-usd
+
+The dashboard shows **two numbers for the same reward**: the official IOTA amount from Train at Home entitlements, and an estimated USD value beside it.
+
+Today’s and lifetime IOTA amounts still follow the [reward rules](/learn/how-rewards-work): Hong Kong midnight, pending and settled only, lifetime = total earned. IOTA Watch does not invent those IOTA figures.
+
+监控页对同一笔收益会给出**两个数字**：官方 entitlements 里的 IOTA 数量，以及旁边估算的美元。
+
+今日和累计的 IOTA 数量仍按 [收益规则](/learn/how-rewards-work)：香港时间 0 点、只计 pending 和 settled，累计取 total earned。IOTA Watch 不会自己编这些 IOTA 数字。

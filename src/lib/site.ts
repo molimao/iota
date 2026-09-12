@@ -1,4 +1,5 @@
-export const ORIGIN = "https://iota-my-watch.lovable.app";
+export const CANONICAL_HOST = "iotahome.site";
+export const ORIGIN = `https://${CANONICAL_HOST}`;
 export const LOCALES = ["zh", "en"] as const;
 export type SiteLocale = (typeof LOCALES)[number];
 
@@ -57,6 +58,44 @@ export function persistLocale(locale: SiteLocale) {
 export function sitePath(locale: string, page = "") {
   const suffix = !page || page === "home" ? "" : `/${page}`;
   return `/${locale}${suffix}`;
+}
+
+function envOrigin() {
+  const raw =
+    (typeof import.meta !== "undefined" &&
+      (import.meta.env as { VITE_SITE_ORIGIN?: string }).VITE_SITE_ORIGIN) ||
+    (typeof process !== "undefined"
+      ? process.env["VITE_SITE_ORIGIN"] || process.env["SITE_ORIGIN"]
+      : "") ||
+    "";
+  return raw.replace(/\/$/, "");
+}
+
+function isLocalHost(host: string) {
+  return host === "localhost" || host === "127.0.0.1" || host.endsWith(".localhost");
+}
+
+/** Canonical public origin. Localhost follows the current request; everything else is iotahome.site. */
+export function originFromRequest(request?: Request) {
+  const forced = envOrigin();
+  if (forced) return forced;
+  if (!request) return ORIGIN;
+  try {
+    const url = new URL(request.url);
+    const forwarded = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
+    const host = (forwarded || url.host).toLowerCase();
+    const hostname = host.split(":")[0] ?? host;
+    if (isLocalHost(hostname)) {
+      const proto = (request.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "")).replace(
+        /:$/,
+        "",
+      );
+      return `${proto}://${host}`;
+    }
+  } catch {
+    /* keep canonical */
+  }
+  return ORIGIN;
 }
 
 export function swapLocalePath(pathname: string, next: SiteLocale) {

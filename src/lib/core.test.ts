@@ -1,4 +1,14 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import {
+  plausibleSn9Usd,
+  readCoinGeckoSimple,
+  readDexScreener,
+} from "./iota-price-sources";
+import { articles } from "../components/site/articles";
+import { profileFromUser } from "./auth-profile";
+import { buildLlmsFullTxt, buildLlmsTxt, buildRobotsTxt, buildSitemapXml, crawlPages } from "./crawl";
+import { ORIGIN, originFromRequest } from "./site";
 import {
   sumTodayUnits,
   aggregateUnits,
@@ -80,4 +90,80 @@ it("roundtrips more than three public IDs and prevents duplicates", () => {
   const result = importDevices([], serializeExport(entries));
   expect(result.ok && result.value.added).toBe(5);
   expect(parseWatchlist("bad").ok).toBe(false);
+});
+
+describe("crawl assets for GSC", () => {
+  it("lists every indexable locale URL and never includes the dashboard", () => {
+    const xml = buildSitemapXml();
+    expect(crawlPages).toHaveLength(5 + articles.length);
+    expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 2);
+    expect(ORIGIN).toBe("https://iotahome.site");
+    expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);
+    expect(xml).toContain(`${ORIGIN}/en/learn/iota-rewards-in-usd`);
+    expect(xml).not.toContain("lovable.app");
+    expect(xml).not.toContain("/app");
+    expect(xml).not.toContain(`${ORIGIN}</loc>`);
+  });
+
+  it("keeps production crawl URLs on iotahome.site and only follows localhost", () => {
+    expect(originFromRequest()).toBe(ORIGIN);
+    expect(originFromRequest(new Request("https://iota-my-watch.lovable.app/sitemap.xml"))).toBe(ORIGIN);
+    expect(originFromRequest(new Request("https://www.iotahome.site/sitemap.xml"))).toBe(ORIGIN);
+    expect(originFromRequest(new Request("http://127.0.0.1:5179/sitemap.xml"))).toBe("http://127.0.0.1:5179");
+    expect(buildSitemapXml("http://127.0.0.1:5179")).toContain("http://127.0.0.1:5179/zh");
+  });
+
+  it("tells Googlebot to skip the dashboard", () => {
+    const robots = buildRobotsTxt();
+    expect(robots).toContain("User-agent: Googlebot");
+    expect(robots).toContain("Disallow: /zh/app");
+    expect(robots).toContain("Disallow: /zh/account");
+    expect(robots).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
+  });
+
+it("accepts SN9 market quotes and rejects the Layer 1 IOTA price", () => {
+  expect(readCoinGeckoSimple({ "iota-2": { usd: 5.8 } })).toBe(5.8);
+  expect(readCoinGeckoSimple({ iota: { usd: 0.12 } })).toBeNull();
+  expect(plausibleSn9Usd(0.05)).toBe(false);
+  expect(
+    readDexScreener({
+      pairs: [
+        {
+          chainId: "bittensor",
+          baseToken: { symbol: "SN9", name: "iota" },
+          priceUsd: "5.8",
+          liquidity: { usd: 400000 },
+        },
+        {
+          chainId: "ethereum",
+          baseToken: { symbol: "IOTA", name: "IOTA" },
+          priceUsd: "0.12",
+          liquidity: { usd: 9_000_000 },
+        },
+      ],
+    }),
+  ).toBe(5.8);
+});
+
+it("reads the Google display name instead of only the user id", () => {
+  expect(
+    profileFromUser({
+      id: "user-1",
+      email: "ada@example.com",
+      user_metadata: { full_name: "Ada Lovelace", avatar_url: "https://example.com/a.png" },
+    } as never),
+  ).toEqual({
+    userId: "user-1",
+    email: "ada@example.com",
+    name: "Ada Lovelace",
+    avatarUrl: "https://example.com/a.png",
+  });
+});
+
+  it("keeps public crawl files aligned with the generator", () => {
+    expect(readFileSync("public/sitemap.xml", "utf8")).toBe(buildSitemapXml());
+    expect(readFileSync("public/robots.txt", "utf8")).toBe(buildRobotsTxt());
+    expect(readFileSync("public/llms.txt", "utf8")).toBe(buildLlmsTxt());
+    expect(readFileSync("public/llms-full.txt", "utf8")).toBe(buildLlmsFullTxt());
+  });
 });

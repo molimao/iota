@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { profileFromUser, type AuthProfile } from "@/lib/auth-profile";
 
-export type AuthState = {
-  userId: string | null;
-  email: string | null;
+export type { AuthProfile } from "@/lib/auth-profile";
+export { profileFromUser } from "@/lib/auth-profile";
+
+export type AuthState = AuthProfile & {
   ready: boolean;
   signingIn: boolean;
   error: string | null;
@@ -13,23 +16,24 @@ export type AuthState = {
   signOut: () => Promise<void>;
 };
 
+const emptyProfile: AuthProfile = { userId: null, email: null, name: null, avatarUrl: null };
+
 export function useAuth(): AuthState {
-  const [userId, setUserId] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [profile, setProfile] = useState<AuthProfile>(emptyProfile);
   const [ready, setReady] = useState(false);
   const [signingIn, setSigningIn] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserId(session?.user?.id ?? null);
-      setEmail(session?.user?.email ?? null);
+    const apply = (user: User | null) => {
+      setProfile(profileFromUser(user));
       setReady(true);
+    };
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      apply(session?.user ?? null);
     });
     void supabase.auth.getSession().then(({ data: current }) => {
-      setUserId(current.session?.user?.id ?? null);
-      setEmail(current.session?.user?.email ?? null);
-      setReady(true);
+      apply(current.session?.user ?? null);
     });
     return () => data.subscription.unsubscribe();
   }, []);
@@ -55,9 +59,8 @@ export function useAuth(): AuthState {
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
-    setUserId(null);
-    setEmail(null);
+    setProfile(emptyProfile);
   }, []);
 
-  return { userId, email, ready, signingIn, error, signInWithGoogle, signOut };
+  return { ...profile, ready, signingIn, error, signInWithGoogle, signOut };
 }

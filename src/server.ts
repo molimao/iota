@@ -2,7 +2,8 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { detectLocaleFromRequest } from "./lib/site";
+import { buildLlmsFullTxt, buildLlmsTxt, buildRobotsTxt, buildSitemapXml } from "./lib/crawl";
+import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -45,6 +46,61 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+function wwwRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (url.hostname.toLowerCase() !== `www.${CANONICAL_HOST}`) return null;
+  url.hostname = CANONICAL_HOST;
+  url.protocol = "https:";
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: url.toString(),
+      "Cache-Control": "public, max-age=86400",
+    },
+  });
+}
+
+function crawlAssetResponse(request: Request): Response | null {
+  const path = new URL(request.url).pathname;
+  const origin = originFromRequest(request);
+  const cache = "public, max-age=3600";
+  if (path === "/sitemap.xml") {
+    return new Response(buildSitemapXml(origin), {
+      headers: { "content-type": "application/xml; charset=utf-8", "cache-control": cache },
+    });
+  }
+  if (path === "/robots.txt") {
+    return new Response(buildRobotsTxt(origin), {
+      headers: { "content-type": "text/plain; charset=utf-8", "cache-control": cache },
+    });
+  }
+  if (path === "/llms.txt") {
+    return new Response(buildLlmsTxt(origin), {
+      headers: { "content-type": "text/plain; charset=utf-8", "cache-control": cache },
+    });
+  }
+  if (path === "/llms-full.txt") {
+    return new Response(buildLlmsFullTxt(origin), {
+      headers: { "content-type": "text/plain; charset=utf-8", "cache-control": cache },
+    });
+  }
+  return null;
+}
+
+function trailingSlashRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: `${url.pathname.slice(0, -1)}${url.search}`,
+        "Cache-Control": "public, max-age=86400",
+      },
+    });
+  }
+  return null;
+}
+
 function localeHomeRedirect(request: Request): Response | null {
   const url = new URL(request.url);
   if (url.pathname !== "/" && url.pathname !== "/app" && url.pathname !== "/app/") {
@@ -61,13 +117,44 @@ function localeHomeRedirect(request: Request): Response | null {
   });
 }
 
+function decorateCrawlHeaders(request: Request, response: Response): Response {
+  const path = new URL(request.url).pathname;
+  const headers = new Headers(response.headers);
+  let changed = false;
+
+  if (response.status === 404) {
+    headers.set("X-Robots-Tag", "noindex");
+    changed = true;
+  }
+
+  if (
+    path === "/app" ||
+    path === "/app/" ||
+    /^\/(en|zh)\/app\/?$/.test(path) ||
+    /^\/(en|zh)\/account\/?$/.test(path)
+  ) {
+    headers.set("X-Robots-Tag", "noindex, follow");
+    changed = true;
+  }
+
+  return changed
+    ? new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+    : response;
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const www = wwwRedirect(request);
+      if (www) return www;
+      const asset = crawlAssetResponse(request);
+      if (asset) return asset;
+      const slash = trailingSlashRedirect(request);
+      if (slash) return slash;
       const redirected = localeHomeRedirect(request);
       if (redirected) return redirected;
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
+      const response = await decorateCrawlHeaders(request, await handler.fetch(request, env, ctx));
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);

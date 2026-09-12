@@ -9,6 +9,7 @@ import {
   type DeviceStatus,
   type StatusBucket,
 } from "@/lib/device-status";
+import { fetchSn9UsdFromMarkets } from "@/lib/iota-price-sources";
 import { discoverDevices, getEarnings, getIotaUsdPrice, getOccupancy } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
@@ -69,10 +70,28 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
 
   const priceQuery = useQuery({
     queryKey: ["iota", "usd-price"],
-    queryFn: () => priceFn({ data: { force: forceRef.current } }),
+    queryFn: async () => {
+      try {
+        const fromServer = await priceFn({ data: { force: forceRef.current } });
+        if (fromServer.usdPerIota) return fromServer;
+      } catch {
+        /* browser sources below */
+      }
+      const fromBrowser = await fetchSn9UsdFromMarkets();
+      return {
+        usdPerIota: fromBrowser.usdPerIota,
+        fetchedAt: Date.now(),
+        error: null,
+        stale: false,
+        source: fromBrowser.source,
+      };
+    },
     enabled: ready,
-    staleTime: 60_000,
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    retry: 2,
   });
 
   const discoveryQuery = useQuery({
@@ -95,6 +114,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     },
     enabled,
     refetchInterval: POLL_MS,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
 
@@ -114,6 +135,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     },
     enabled,
     refetchInterval: POLL_MS,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
 
@@ -122,6 +145,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     queryFn: () => occupancyFn({ data: {} }),
     enabled: ready,
     refetchInterval: 120_000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
 
@@ -248,7 +273,11 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     discovery,
     occupancy,
     occupancyError: occupancyQuery.data?.error ?? null,
-    fetchedAt: discovery?.fetchedAt ?? null,
+    fetchedAt: (() => {
+      const live = Math.max(discoveryQuery.dataUpdatedAt ?? 0, earningsQuery.dataUpdatedAt ?? 0);
+      if (live > 0) return live;
+      return discovery?.fetchedAt ?? cached?.savedAt ?? null;
+    })(),
     earningsFetchedAt:
       earnings?.reduce<number | null>(
         (min, device) =>
@@ -276,6 +305,6 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     refresh,
     now,
     usdPerIota: priceQuery.data?.usdPerIota ?? null,
-    usdError: priceQuery.data?.error ?? null,
+    usdError: priceQuery.data?.error ?? priceQuery.error?.message ?? null,
   };
 }

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="IOTA Watch">
+  <rect width="1200" height="630" fill="#111111"/>
+  <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1"/>
+  <text x="88" y="210" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28" letter-spacing="4">IOTA TRAIN AT HOME</text>
+  <text x="88" y="310" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="72" font-weight="600">IOTA Watch</text>
+  <text x="88" y="390" fill="#ffffff" fill-opacity="0.78" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28">Device status, todays rewards, lifetime rewards.</text>
+  <text x="88" y="520" fill="#ffffff" fill-opacity="0.5" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20">Not the IOTA Layer 1 wallet · Public Miner ID only</text>
+</svg>
