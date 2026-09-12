@@ -14,7 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      user_devices: {
+        Row: {
+          added_at: string
+          hotkey: string
+          id: string
+          label: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          hotkey: string
+          id?: string
+          label: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          hotkey?: string
+          id?: string
+          label?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
