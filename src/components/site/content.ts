@@ -2,12 +2,12 @@ export const content = {
   en: {
     nav: ["Guide", "FAQ", "Privacy", "Open dashboard"],
     eyebrow: "FOR IOTA TRAIN AT HOME",
-    title: "More devices.\nOne clear picture.",
+    title: "See your training.\nUnderstand your rewards.",
     intro:
       "Track your training devices, compare reported activity, and see daily and lifetime rewards in one place. An independent monitor for IOTA Train at Home.",
     cta: "Watch my devices",
     secondary: "How it works",
-    notes: ["No account required", "No three-device limit", "Public Miner IDs only"],
+    notes: ["No account required", "Device status & rewards", "Public Miner IDs only"],
     preview: "ILLUSTRATIVE VIEW · NOT LIVE DATA",
     previewTitle: "Your training, at a glance",
     statuses: ["Contributing", "Waiting for tasks", "Not participating"],
@@ -85,8 +85,8 @@ export const content = {
         "No. It can be waiting or not participating in the sampled run. A website refresh failure is also different from a device failure. Check the IOTA app when you need local diagnostics.",
       ],
       [
-        "Is there a device limit or login?",
-        "There is no three-device product limit and no account is required. Large lists take longer to refresh and remain subject to browser storage and upstream service limits.",
+        "Do I need an account?",
+        "No account is required. Add your public Miner IDs to a watchlist stored in your browser. Export a backup to move the list to another device.",
       ],
       [
         "Can I use the same list on my phone?",
@@ -126,12 +126,12 @@ export const content = {
   zh: {
     nav: ["使用指南", "常见问题", "隐私说明", "打开监控"],
     eyebrow: "为 IOTA TRAIN AT HOME 而做",
-    title: "设备再多，\n也能一眼看清。",
+    title: "训练有没有在跑，\n收益有没有记上。",
     intro:
       "把多台训练设备放到一起，查看运行状态、当日收益和累计收益。一个面向 IOTA Train at Home 的独立监控工具。",
     cta: "开始监控我的设备",
     secondary: "看看怎么用",
-    notes: ["无需注册账号", "没有 3 台数量限制", "只需公开 Miner ID"],
+    notes: ["无需注册账号", "设备状态与收益", "只需公开 Miner ID"],
     preview: "界面示意 · 非实时数据",
     previewTitle: "你的训练设备，一目了然",
     statuses: ["有训练贡献", "在线待任务", "暂未参与"],
@@ -205,8 +205,8 @@ export const content = {
         "不一定。设备可能正在等待任务，或没有参与当前采样的训练。网站刷新失败也不等于设备故障；本机诊断仍需查看 IOTA 应用。",
       ],
       [
-        "设备有数量限制吗，需要登录吗？",
-        "无需登录，没有 3 台的产品数量限制。大量设备会增加刷新时间，并受到浏览器存储和上游接口能力限制。",
+        "需要注册账号吗？",
+        "无需登录。添加公开 Miner ID 后，设备清单会保存在当前浏览器。可以导出备份，在其他设备导入。",
       ],
       [
         "手机和电脑可以看同一个清单吗？",

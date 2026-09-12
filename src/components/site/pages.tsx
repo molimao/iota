@@ -124,111 +124,233 @@ export function SiteFooter() {
   );
 }
 export function Landing() {
-  const { locale } = useLocale(),
+  const { locale, en } = useLocale(),
     c = content[locale];
   return (
-    <>
-      <section className="site-hero">
-        <div className="hero-copy">
-          <span className="eyebrow">{c.eyebrow}</span>
-          <h1>{c.title}</h1>
-          <p>{c.intro}</p>
-          <div className="hero-actions">
-            <a className="site-button" href={`/${locale}/app`}>
-              {c.cta}
-              <ArrowUpRight size={20} />
-            </a>
-            <a className="text-link" href={`/${locale}/guide`}>
-              {c.secondary}
-              <ArrowRight size={17} />
-            </a>
-          </div>
-          <ul className="trust-notes">
-            {c.notes.map((n) => (
-              <li key={n}>
-                <Check size={15} />
-                {n}
-              </li>
-            ))}
-          </ul>
+    <div className="landing-v2">
+      <section className="opening">
+        <div className="opening-label">
+          <span />
+          IOTA TRAIN AT HOME <span className="label-divider">/</span>{" "}
+          {en ? "DEVICE MONITOR" : "设备监控"}
         </div>
-        <div className="hero-preview">
-          <div className="preview-label">{c.preview}</div>
-          <div className="preview-paper">
-            <div className="preview-heading">
-              <span className="mini-icon">
-                <Layers size={19} />
-              </span>
-              <b>{c.previewTitle}</b>
+        <h1>
+          {en ? (
+            <>
+              Your training,
+              <br />
+              <em>in plain sight.</em>
+            </>
+          ) : (
+            <>
+              训练状态与收益，
+              <br />
+              <em>打开就看清。</em>
+            </>
+          )}
+        </h1>
+        <p>
+          {en
+            ? "See which devices are contributing and what they have earned. A single dashboard for your IOTA Train at Home setup."
+            : "哪些设备在参与训练，今天记了多少收益。把你的 IOTA Train at Home 设备放在一个面板里查看。"}
+        </p>
+        <div className="opening-actions">
+          <a className="site-button" href={`/${locale}/app`}>
+            {en ? "Open my dashboard" : "打开我的监控"}
+            <ArrowUpRight size={19} />
+          </a>
+          <a className="text-link" href={`/${locale}/guide`}>
+            {en ? "Find your Miner ID" : "如何找到 Miner ID"}
+            <ArrowRight size={16} />
+          </a>
+        </div>
+        <span className="opening-note">
+          {en
+            ? "Connect with a public Miner ID. No wallet connection needed."
+            : "添加公开 Miner ID 即可，无需连接钱包。"}
+        </span>
+      </section>
+      <section
+        className="product-stage"
+        aria-label={en ? "Dashboard illustration" : "监控面板示意"}
+      >
+        <div className="stage-top">
+          <span className="stage-wordmark">
+            <Layers size={18} /> IOTA Watch
+          </span>
+          <span className="stage-demo">
+            {en ? "PRODUCT PREVIEW · ILLUSTRATIVE DATA" : "产品预览 · 数据仅作示意"}
+          </span>
+        </div>
+        <div className="stage-body">
+          <aside className="stage-sidebar">
+            <span className="sidebar-label">{en ? "WORKSPACE" : "工作区"}</span>
+            <b>
+              <Monitor size={17} />
+              {en ? "My devices" : "我的设备"}
+            </b>
+            <span>{en ? "Training activity" : "训练活动"}</span>
+            <span>{en ? "Reward records" : "收益记录"}</span>
+            <div className="sidebar-bottom">
+              {en ? "Public telemetry. Your personal overview." : "公开数据，你的设备全貌。"}
             </div>
-            <div className="preview-totals">
+          </aside>
+          <div className="stage-main">
+            <div className="stage-title">
               <div>
-                <span>{locale === "en" ? "Today’s rewards" : "今日总收益"}</span>
-                <b>
+                <span className="eyebrow">{en ? "YOUR OVERVIEW" : "设备总览"}</span>
+                <h2>{en ? "A little more clarity." : "运行情况，一目了然。"}</h2>
+              </div>
+              <span className="stage-readonly">{en ? "Read-only" : "只读监控"}</span>
+            </div>
+            <div className="stage-metrics">
+              <div>
+                <span>{en ? "Today’s accounted rewards" : "今日记账收益"}</span>
+                <strong>
                   — <small>IOTA</small>
-                </b>
+                </strong>
+                <p>{en ? "Across your saved devices" : "汇总已添加设备"}</p>
               </div>
               <div>
-                <span>{locale === "en" ? "Lifetime rewards" : "累计总收益"}</span>
-                <b>
+                <span>{en ? "Lifetime rewards" : "累计记账收益"}</span>
+                <strong>
                   — <small>IOTA</small>
-                </b>
+                </strong>
+                <p>{en ? "Per-device records included" : "可以查看单台设备记录"}</p>
               </div>
             </div>
-            {c.previewNames.map((name, i) => (
-              <div className="preview-row" key={name}>
-                <Monitor size={20} />
-                <b>{name}</b>
-                <span className={"preview-state state-" + i}>{c.statuses[i]}</span>
+            <div className="stage-table">
+              <div className="stage-table-head">
+                <span>{en ? "DEVICE" : "设备"}</span>
+                <span>{en ? "REPORTED STATUS" : "上报状态"}</span>
+                <span>{en ? "REWARDS" : "收益"}</span>
               </div>
-            ))}
+              {c.previewNames.map((name, i) => (
+                <div className="stage-device" key={name}>
+                  <span>
+                    <i>
+                      <Monitor size={18} />
+                    </i>
+                    <b>{name}</b>
+                  </span>
+                  <span className={"stage-status s" + i}>{c.statuses[i]}</span>
+                  <span>
+                    — <small>IOTA</small>
+                  </span>
+                </div>
+              ))}
+            </div>
+            <p className="stage-footnote">
+              {en
+                ? "Your actual data appears after adding a Miner ID."
+                : "添加 Miner ID 后，这里会显示你的真实设备数据。"}
+            </p>
           </div>
-          <div className="preview-caption">
-            <span>01 — 02 — 03</span>
-            <span>
-              {locale === "en" ? "ONE WATCHLIST. ALL YOUR DEVICES." : "一个清单，看见所有设备。"}
-            </span>
-          </div>
         </div>
       </section>
-      <section className="feature-section">
-        <div className="section-intro">
-          <span className="eyebrow">{locale === "en" ? "CLARITY, BUILT IN" : "让信息更清楚"}</span>
-          <h2>{c.section}</h2>
-        </div>
-        <div className="feature-grid">
-          {c.features.map(([n, title, body]) => (
-            <article key={n}>
-              <span className="feature-num">{n}</span>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="steps-section">
-        <h2>{c.stepsTitle}</h2>
-        <div className="steps-grid">
-          {c.steps.map(([title, body], i) => (
-            <article key={title}>
-              <span>{i + 1}</span>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="site-cta">
+      <section className="purpose-section">
         <div>
-          <h2>{c.bottomTitle}</h2>
-          <p>{c.bottom}</p>
+          <span className="eyebrow">
+            {en ? "LESS CHECKING. MORE UNDERSTANDING." : "把数据，变成看得懂的信息。"}
+          </span>
+          <h2>
+            {en ? (
+              <>
+                Keep an eye on
+                <br />
+                what matters.
+              </>
+            ) : (
+              <>关注真正重要的事。</>
+            )}
+          </h2>
+          <p>
+            {en
+              ? "Built for checking your own training setup, without jumping between devices."
+              : "不用来回切换每台机器，先在这里看清设备全貌。"}
+          </p>
         </div>
-        <a className="site-button" href={`/${locale}/app`}>
-          {c.cta}
-          <ArrowUpRight size={20} />
+        <div className="purpose-list">
+          {[
+            [
+              en ? "Is it contributing?" : "设备在参与训练吗？",
+              en
+                ? "Reported activity, throughput and activations help you see what each device is doing."
+                : "结合上报状态、吞吐量和激活处理量，了解每台设备在做什么。",
+            ],
+            [
+              en ? "What has it earned?" : "收益记上了吗？",
+              en
+                ? "Daily and lifetime rewards, together and per device. Missing records stay clearly marked."
+                : "查看当日与累计记账收益，既能看总数，也能看单台。缺失记录会明确标出。",
+            ],
+            [
+              en ? "Does it need attention?" : "需要回去检查吗？",
+              en
+                ? "Waiting for tasks and a failed data refresh are different things. The dashboard explains both."
+                : "等待任务和数据刷新失败是两回事。每个状态都有解释，方便判断下一步。",
+            ],
+          ].map(([title, body], i) => (
+            <article key={title}>
+              <span>0{i + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="start-section">
+        <div>
+          <span className="eyebrow">{en ? "GET STARTED" : "开始使用"}</span>
+          <h2>{en ? "One ID to get started." : "从一个 Miner ID 开始。"}</h2>
+          <p>
+            {en
+              ? "Keep IOTA Train at Home running on your device. This website is your window into its reported activity."
+              : "让设备上的 IOTA Train at Home 保持运行，本站帮你查看它上报的状态和收益。"}
+          </p>
+          <a className="site-button" href={`/${locale}/app`}>
+            {c.cta}
+            <ArrowUpRight size={18} />
+          </a>
+        </div>
+        <ol>
+          {c.steps.map(([title, body], i) => (
+            <li key={title}>
+              <span>{i + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="learn-links">
+        <a href={`/${locale}/guide`}>
+          <span>{en ? "SETUP" : "使用方法"}</span>
+          <h3>
+            {c.nav[0]}
+            <ArrowUpRight size={22} />
+          </h3>
+        </a>
+        <a href={`/${locale}/faq`}>
+          <span>{en ? "DATA EXPLAINED" : "数据口径"}</span>
+          <h3>
+            {c.nav[1]}
+            <ArrowUpRight size={22} />
+          </h3>
+        </a>
+        <a href={`/${locale}/privacy`}>
+          <span>{en ? "YOUR INFORMATION" : "你的信息"}</span>
+          <h3>
+            {c.nav[2]}
+            <ArrowUpRight size={22} />
+          </h3>
         </a>
       </section>
-    </>
+    </div>
   );
 }
 export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {

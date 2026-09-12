@@ -96,7 +96,7 @@ export function Dashboard() {
           <h1>{t("收益和运行情况，一眼看清。")}</h1>
           <p>
             {watch.devices.length}
-            {t("台设备 · ID 保存在当前浏览器 · 不限设备数量")}
+            {t("台设备 · ID 保存在当前浏览器")}
           </p>
         </div>
         <span className="refresh-label">

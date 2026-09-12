@@ -9,8 +9,7 @@ const EN: Record<string, string> = {
   立即刷新: "Refresh now",
   添加设备: "Add device",
   "收益和运行情况，一眼看清。": "Your devices. One clear view.",
-  "台设备 · ID 保存在当前浏览器 · 不限设备数量":
-    "devices · IDs saved in this browser · No device limit",
+  "台设备 · ID 保存在当前浏览器": "devices · IDs saved in this browser",
   最近获取: "Last fetched",
   关闭提示: "Dismiss",
   "正在连接，先显示浏览器保存的旧数据。": "Connecting. Showing the last browser-cached data.",
