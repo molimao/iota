@@ -60,7 +60,7 @@ export function AccountMenu() {
   const label = auth.name || auth.email || (en ? "Account" : "账号");
 
   if (!mounted) {
-    return <span className="account-slot" aria-hidden="true" />;
+    return null;
   }
 
   if (!auth.userId) {
@@ -76,18 +76,17 @@ export function AccountMenu() {
         </button>
       );
     }
-    return (
-      <a className="site-button small" href={`/${locale}/app`}>
-        {en ? "Open dashboard" : "打开监控"}
-        <Monitor size={14} />
-      </a>
-    );
+    return null;
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button type="button" className="account-trigger" aria-label={en ? "Account menu" : "账号菜单"}>
+        <button
+          type="button"
+          className="account-trigger"
+          aria-label={en ? "Account menu" : "账号菜单"}
+        >
           <AccountAvatar name={label} avatarUrl={auth.avatarUrl} />
           <span className="account-trigger-name">{auth.name || auth.email}</span>
           <ChevronDown size={14} />

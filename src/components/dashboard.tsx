@@ -32,16 +32,16 @@ function signalText(signal: OfficialSignal, t: (key: string) => string) {
 }
 
 function PresenceSignals({ miner }: { miner: DeviceView["miner"] }) {
-  const { t } = useLocale();
+  const { t, en } = useLocale();
   const signals = officialSignals(miner);
   return (
     <div className="presence">
       <div>
-        <span>{t("官方在线")}</span>
+        <span>{en ? "On roster" : "在名单里"}</span>
         <b data-signal={signals.online}>{signalText(signals.online, t)}</b>
       </div>
       <div>
-        <span>{t("已开始训练")}</span>
+        <span>{en ? "Training" : "有训练量"}</span>
         <b data-signal={signals.training}>{signalText(signals.training, t)}</b>
       </div>
     </div>
@@ -113,7 +113,7 @@ function DiagnosisBlock({ diagnosis }: { diagnosis: Diagnosis }) {
           ) : null}
           {note.slug ? (
             <a href={`/${locale}/learn/${note.slug}`}>
-              {en ? "Read more" : "详细说明"}
+              {en ? "What to do" : "查看处理方法"}
               <ArrowUpRight size={14} />
             </a>
           ) : null}
@@ -216,19 +216,19 @@ export function Dashboard() {
           </div>
         </div>
         <div className="actions">
-          <button
-            onClick={() => void dash.refresh()}
-            disabled={
-              !watch.devices.length || dash.manual.running || dash.manual.cooldownRemaining > 0
-            }
-          >
-            <RefreshCw size={16} className={dash.manual.running ? "spin" : ""} />
-            {dash.manual.running
-              ? t("刷新中")
-              : dash.manual.cooldownRemaining > 0
-                ? `${Math.ceil(dash.manual.cooldownRemaining / 1000)} s`
-                : t("立即刷新")}
-          </button>
+          {watch.devices.length ? (
+            <button
+              onClick={() => void dash.refresh()}
+              disabled={dash.manual.running || dash.manual.cooldownRemaining > 0}
+            >
+              <RefreshCw size={16} className={dash.manual.running ? "spin" : ""} />
+              {dash.manual.running
+                ? t("刷新中")
+                : dash.manual.cooldownRemaining > 0
+                  ? `${Math.ceil(dash.manual.cooldownRemaining / 1000)} s`
+                  : t("立即刷新")}
+            </button>
+          ) : null}
           <button
             className="solid"
             onClick={() => {
@@ -241,23 +241,27 @@ export function Dashboard() {
           </button>
         </div>
       </header>
-      <div className="page-title">
-        <p>
-          {auth.userId ? (
-            <>
-              <a className="account-name-link" href={`/${locale}/account`}>
-                {auth.name || auth.email || (en ? "Signed in" : "已登录")}
-              </a>
-              {` · ${watch.devices.length}/${watch.limit}`}
-            </>
-          ) : (
-            `${watch.devices.length}/${watch.limit}`
-          )}
-        </p>
-        <span className="refresh-label">
-          {t("最近获取")} {formatAgo(dash.fetchedAt, dash.now, locale)}
-        </span>
-      </div>
+      {watch.devices.length ? (
+        <div className="page-title">
+          <p>
+            {auth.userId ? (
+              <>
+                <a className="account-name-link" href={`/${locale}/account`}>
+                  {auth.name || auth.email || (en ? "Signed in" : "已登录")}
+                </a>
+                {` · ${watch.devices.length}/${watch.limit}`}
+              </>
+            ) : en ? (
+              `${watch.devices.length} ${watch.devices.length === 1 ? "device" : "devices"}`
+            ) : (
+              `${watch.devices.length} 台设备`
+            )}
+          </p>
+          <span className="refresh-label">
+            {t("最近获取")} {formatAgo(dash.fetchedAt, dash.now, locale)}
+          </span>
+        </div>
+      ) : null}
       {(watch.storageError || watch.syncMessage || auth.error || message) && (
         <div role="status" className="notice">
           {t(watch.storageError || watch.syncMessage || auth.error || message)}
@@ -281,20 +285,30 @@ export function Dashboard() {
               : t("正在连接，先显示浏览器保存的旧数据。")}
         </div>
       )}
-      <div className="totals">
-        <Total
-          primary
-          title={t("今日总收益")}
-          value={dash.todayTotal}
-          usdPerIota={dash.usdPerIota}
-        />
-        <Total title={t("累计总收益")} value={dash.lifetimeTotal} usdPerIota={dash.usdPerIota} />
-      </div>
-      {dash.usdPerIota ? <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p> : null}
-      <AttentionBanner
-        views={dash.needsAttention}
-        onOpen={(hotkey) => openDevice(hotkey, "diagnose")}
-      />
+      {watch.devices.length ? (
+        <>
+          <div className="totals">
+            <Total
+              primary
+              title={t("今日总收益")}
+              value={dash.todayTotal}
+              usdPerIota={dash.usdPerIota}
+            />
+            <Total
+              title={t("累计总收益")}
+              value={dash.lifetimeTotal}
+              usdPerIota={dash.usdPerIota}
+            />
+          </div>
+          {dash.usdPerIota ? (
+            <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p>
+          ) : null}
+          <AttentionBanner
+            views={dash.needsAttention}
+            onOpen={(hotkey) => openDevice(hotkey, "diagnose")}
+          />
+        </>
+      ) : null}
       <section>
         <div className="section-heading">
           <h2>
@@ -306,10 +320,12 @@ export function Dashboard() {
               <Upload size={15} />
               {t("导入")}
             </button>
-            <button disabled={!watch.devices.length} onClick={exportList}>
-              <Download size={15} />
-              {t("导出备份")}
-            </button>
+            {watch.devices.length ? (
+              <button onClick={exportList}>
+                <Download size={15} />
+                {t("导出备份")}
+              </button>
+            ) : null}
           </div>
         </div>
         <input
@@ -357,7 +373,7 @@ export function Dashboard() {
                     </span>
                     <button
                       className={`badge ${meta.tone}`}
-                      title={en ? "What this means" : "这是什么意思"}
+                      title={en ? "Why this status?" : "为什么是这个状态？"}
                       onClick={() => openDevice(view.entry.hotkey, "diagnose")}
                     >
                       {t(meta.label)}
@@ -395,7 +411,9 @@ export function Dashboard() {
       <Dialog open={adding} onOpenChange={setAdding}>
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
-          <DialogDescription>{t("填写公开的 Miner ID，不需要私钥或助记词。")}</DialogDescription>
+          <DialogDescription>
+            {en ? "Paste the public ID shown on the Miner screen." : "粘贴 Miner 页面里的公开 ID。"}
+          </DialogDescription>
           <form
             className="device-form"
             onSubmit={async (e) => {

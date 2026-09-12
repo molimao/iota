@@ -42,15 +42,11 @@ export function NetworkPage() {
   const state = useFarm();
   return (
     <article className="article-page network-page">
-      <a className="back-link" href={`/${locale}`}>
-        ← {en ? "Home" : "首页"}
-      </a>
-      <span className="eyebrow">IOTA WATCH / {en ? "NETWORK" : "全网"}</span>
-      <h1>{en ? "The whole Train at Home network" : "全网训练现况"}</h1>
+      <h1>{en ? "Network status" : "全网状态"}</h1>
       <p className="article-lead">
         {en
-          ? "Every active IOTA Train at Home run: how many places are left, how many machines are actually computing, and how far each run has gone. Public data, refreshed about once a minute."
-          : "IOTA Train at Home 所有进行中的训练任务：还剩多少名额、有多少机器真的在算、每个任务跑到哪了。公开数据，大约每分钟更新一次。"}
+          ? "Active runs, available slots, and training progress. Updated about once a minute."
+          : "进行中的任务、剩余名额和训练进度。大约每分钟更新。"}
       </p>
 
       {state.farm ? (
@@ -61,8 +57,8 @@ export function NetworkPage() {
         </p>
       )}
 
-      <div className="network-glossary">
-        <h2>{en ? "What these numbers mean" : "这些数字是什么意思"}</h2>
+      <details className="network-glossary">
+        <summary>{en ? "Metric definitions" : "指标说明"}</summary>
         <dl>
           {GLOSSARY.map((item) => (
             <div key={item.term.en}>
@@ -71,17 +67,7 @@ export function NetworkPage() {
             </div>
           ))}
         </dl>
-      </div>
-
-      <aside className="article-tip">
-        <h2>{en ? "This is the network, not your machine" : "这是全网，不是你的机器"}</h2>
-        <p>
-          {en
-            ? "Nothing on this page tells you whether your own device is healthy. Add your Miner ID on the dashboard to see your devices and rewards, plus a check on anything that looks wrong."
-            : "这一页看不出你自己的机器好不好。在监控页添加 Miner ID，才能看到你的设备、收益，以及哪里不对该怎么查。"}
-        </p>
-        <a href={`/${locale}/app`}>{en ? "Open the dashboard" : "打开监控页"} →</a>
-      </aside>
+      </details>
 
       <a className="site-button" href={`/${locale}/app`}>
         {copy.cta}
