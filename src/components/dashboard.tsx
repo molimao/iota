@@ -53,7 +53,9 @@ function Total({
 }
 export function Dashboard() {
   const { t, en } = useLocale();
-  const watch = useWatchlist();
+  const auth = useAuth();
+  const watch = useWatchlist(auth.userId, auth.ready);
+  const atLimit = watch.devices.length >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -96,7 +98,24 @@ export function Dashboard() {
                 ? `${Math.ceil(dash.manual.cooldownRemaining / 1000)} s`
                 : t("立即刷新")}
           </button>
-          <button className="solid" onClick={() => setAdding(true)}>
+          {auth.userId ? (
+            <button onClick={() => void auth.signOut()}>
+              <LogOut size={16} />
+              {t("退出登录")}
+            </button>
+          ) : (
+            <button onClick={() => void auth.signInWithGoogle()} disabled={auth.signingIn}>
+              <LogIn size={16} />
+              {auth.signingIn ? t("正在登录") : t("用 Google 登录")}
+            </button>
+          )}
+          <button
+            className="solid"
+            onClick={() => {
+              if (atLimit) setMessage(watch.limitMessage);
+              else setAdding(true);
+            }}
+          >
             <Plus size={17} />
             {t("添加设备")}
           </button>
@@ -106,8 +125,10 @@ export function Dashboard() {
         <div>
           <h1>{t("收益和运行情况，一眼看清。")}</h1>
           <p>
-            {watch.devices.length}
-            {t("台设备 · ID 保存在当前浏览器")}
+            {watch.devices.length}/{watch.limit}{" "}
+            {auth.userId
+              ? `${t("台设备 · 已绑定")}${auth.email ? ` ${auth.email}` : ""}`
+              : t("台设备 · ID 保存在当前浏览器，登录后最多 10 台并绑定账号")}
           </p>
         </div>
         <span className="refresh-label">
