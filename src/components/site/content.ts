@@ -1,13 +1,47 @@
 export const content = {
   en: {
-    nav: ["Guide", "FAQ", "Privacy", "Open dashboard"],
-    eyebrow: "FOR IOTA TRAIN AT HOME",
+    nav: ["Guide", "FAQ", "Learn", "Privacy", "Open dashboard"],
+    eyebrow: "IOTA TRAIN AT HOME DEVICE MONITOR",
     title: "See your training.\nUnderstand your rewards.",
     intro:
-      "Track your training devices, compare reported activity, and see daily and lifetime rewards in one place. An independent monitor for IOTA Train at Home.",
+      "Add a public Miner ID and see which devices are contributing, what they earned today, and lifetime accounted rewards. An independent monitor for IOTA Train at Home — not the IOTA Layer 1 wallet.",
     cta: "Watch my devices",
-    secondary: "How it works",
-    notes: ["No account required", "Device status & rewards", "Public Miner IDs only"],
+    secondary: "Find my Miner ID",
+    notes: ["No account required", "Public Miner ID only", "Not the IOTA Layer 1 wallet"],
+    disambiguationTitle: "Not the IOTA cryptocurrency",
+    disambiguation:
+      "IOTA Watch monitors IOTA Train at Home (Macrocosmos). It is not the IOTA Foundation chain, not an IOTA coin wallet, and it will never ask for a private key.",
+    jobsEyebrow: "What you came here to check",
+    jobsTitle: "Three questions. Straight answers.",
+    jobsIntro: "Open the dashboard when you want to know if a machine is working and what it has earned.",
+    jobs: [
+      [
+        "Is it contributing?",
+        "Reported activity, throughput and activations show what each device last did. An old sample is not treated as proof that the Mac went offline.",
+      ],
+      [
+        "What has it earned?",
+        "Today’s accounted rewards use Hong Kong midnight. Lifetime uses total earned. Missing records stay unknown, not zero.",
+      ],
+      [
+        "What do I do next?",
+        "Waiting for tasks and a failed website refresh are different. The dashboard explains both so you know whether to open the IOTA app.",
+      ],
+    ],
+    learnTitle: "Clear answers people actually search for",
+    learnIntro:
+      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin.",
+    ecosystemTitle: "Official IOTA Train at Home links",
+    ecosystem: [
+      ["Download Train at Home", "https://iota.macrocosmos.ai/", "Official Mac app"],
+      [
+        "TAH user guide",
+        "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+        "How to install, train and open Miner",
+      ],
+      ["Official network dashboard", "https://iota.macrocosmos.ai/dashboard", "Network-wide miner view"],
+      ["IOTA Watch source", "https://github.com/molimao/iota", "Open source on GitHub"],
+    ],
     preview: "ILLUSTRATIVE VIEW · NOT LIVE DATA",
     previewTitle: "Your training, at a glance",
     statuses: ["Contributing", "Waiting for tasks", "Not participating"],
@@ -48,7 +82,7 @@ export const content = {
     bottomTitle: "Your next device belongs here, too.",
     bottom: "Start with one Miner ID. Add the rest whenever you are ready.",
     independent:
-      "Independent community tool. Not affiliated with or endorsed by Macrocosmos. This site monitors public data; it does not start training or hold funds.",
+      "Independent community tool. Not affiliated with or endorsed by Macrocosmos. This site monitors public IOTA Train at Home data; it does not start training or hold funds. It is not the IOTA Layer 1 wallet.",
     guideTitle: "Start watching your IOTA devices",
     guideIntro:
       "The monitor works alongside the IOTA Train at Home application. Your machines continue running the training client separately.",
@@ -124,14 +158,48 @@ export const content = {
     updated: "Updated September 12, 2026",
   },
   zh: {
-    nav: ["使用指南", "常见问题", "隐私说明", "打开监控"],
-    eyebrow: "为 IOTA TRAIN AT HOME 而做",
+    nav: ["使用指南", "常见问题", "说明", "隐私说明", "打开监控"],
+    eyebrow: "IOTA TRAIN AT HOME 设备监控",
     title: "训练有没有在跑，\n收益有没有记上。",
     intro:
-      "把多台训练设备放到一起，查看运行状态、当日收益和累计收益。一个面向 IOTA Train at Home 的独立监控工具。",
+      "添加公开 Miner ID，查看哪些设备在参与训练、今天记了多少收益、累计记了多少。面向 IOTA Train at Home 的独立监控工具，不是 IOTA 公链钱包。",
     cta: "开始监控我的设备",
-    secondary: "看看怎么用",
-    notes: ["无需注册账号", "设备状态与收益", "只需公开 Miner ID"],
+    secondary: "如何找到 Miner ID",
+    notes: ["无需注册", "只需公开 Miner ID", "不是 IOTA 币钱包"],
+    disambiguationTitle: "先说清楚：这不是 IOTA 公链",
+    disambiguation:
+      "IOTA Watch 监控的是 Macrocosmos 的 IOTA Train at Home 设备。它不是 IOTA Foundation 公链，不是 Firefly，也不能持有或转出代币。",
+    jobsEyebrow: "你真正要确认的三件事",
+    jobsTitle: "三个问题，直接回答。",
+    jobsIntro: "给看自己设备的人用，不是拿来刷全网矿工榜的。",
+    jobs: [
+      [
+        "设备在参与训练吗？",
+        "结合上报状态、吞吐量和激活处理量，看每台设备最近在做什么。不会把统计采样较旧直接当成 Mac 掉线。",
+      ],
+      [
+        "收益记上了吗？",
+        "香港时间当天 0 点起的记账收益，加上累计 total earned。缺失就标未知，不会偷偷当成零。",
+      ],
+      [
+        "接下来要不要回去检查？",
+        "等待任务和网站刷新失败是两回事。每个状态都会说明它能确认什么、不能确认什么。",
+      ],
+    ],
+    learnTitle: "把关键信息写成可搜索的说明",
+    learnIntro:
+      "产品是什么、Miner ID 怎么找、收益怎么算、状态是什么意思。写给用户看，也方便搜索引擎和 AI 引用。",
+    ecosystemTitle: "官方 IOTA Train at Home 入口",
+    ecosystem: [
+      ["下载 Train at Home", "https://iota.macrocosmos.ai/", "官方 Mac 应用"],
+      [
+        "TAH 用户指南",
+        "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+        "安装、开始训练、打开 Miner",
+      ],
+      ["官方全网面板", "https://iota.macrocosmos.ai/dashboard", "全网矿工视图"],
+      ["IOTA Watch 源码", "https://github.com/molimao/iota", "GitHub 开源"],
+    ],
     preview: "界面示意 · 非实时数据",
     previewTitle: "你的训练设备，一目了然",
     statuses: ["有训练贡献", "在线待任务", "暂未参与"],
@@ -169,7 +237,7 @@ export const content = {
     bottomTitle: "下一台设备，也一起加进来。",
     bottom: "从一个 Miner ID 开始，随时补齐你的设备清单。",
     independent:
-      "独立社区工具，与 Macrocosmos 无隶属或背书关系。本站只监控公开数据，不启动训练，也不托管资金。",
+      "独立社区工具，与 Macrocosmos 无隶属或背书关系。本站只监控 IOTA Train at Home 的公开数据，不启动训练，也不托管资金。它不是 IOTA 公链钱包。",
     guideTitle: "开始监控你的 IOTA 设备",
     guideIntro:
       "监控工具配合 IOTA Train at Home 应用使用。每台机器上的训练客户端仍需单独保持运行。",

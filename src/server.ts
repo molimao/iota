@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { detectLocaleFromRequest } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -44,9 +45,27 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+function localeHomeRedirect(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (url.pathname !== "/" && url.pathname !== "/app" && url.pathname !== "/app/") {
+    return null;
+  }
+  const locale = detectLocaleFromRequest(request);
+  const location = url.pathname.startsWith("/app") ? `/${locale}/app` : `/${locale}`;
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: location,
+      "Cache-Control": "private, no-store",
+    },
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const redirected = localeHomeRedirect(request);
+      if (redirected) return redirected;
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

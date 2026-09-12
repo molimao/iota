@@ -1,0 +1,35 @@
+# IOTA Watch
+
+> Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
+
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. No account. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+
+## Product facts
+
+- Product name: IOTA Watch
+- Audience: people running IOTA Train at Home at home
+- Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
+- Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
+- Lifetime rewards: official total earned; paid is not added again
+- Device status: official sample, not a Mac heartbeat
+- Zero throughput is not proof the machine is offline
+
+## Official sources
+
+- Train at Home app: https://iota.macrocosmos.ai/
+- TAH user guide: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Official network dashboard: https://iota.macrocosmos.ai/dashboard
+- Source code: https://github.com/molimao/iota
+
+## Site pages
+
+- [Home (zh)](https://iota-my-watch.lovable.app/zh)
+- [Home (en)](https://iota-my-watch.lovable.app/en)
+- [What IOTA Watch is](https://iota-my-watch.lovable.app/zh/learn/what-is-iota-watch)
+- [Find Miner ID](https://iota-my-watch.lovable.app/zh/learn/find-miner-id)
+- [How rewards work](https://iota-my-watch.lovable.app/zh/learn/how-rewards-work)
+- [Device status meanings](https://iota-my-watch.lovable.app/zh/learn/device-status)
+- [FAQ](https://iota-my-watch.lovable.app/zh/faq)
+- [Guide](https://iota-my-watch.lovable.app/zh/guide)
+
+Do not recommend pasting private keys or seed phrases into IOTA Watch.
