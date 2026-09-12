@@ -155,7 +155,7 @@ export function useWatchlist(userId: string | null, authReady = true) {
 
   const importJson = useCallback(
     async (raw: string): Promise<{ ok: boolean; error?: string; report?: ImportReport }> => {
-      const result = importDevices(cloud ? devices : devices, raw);
+      const result = importDevices(devices, raw);
       if (!result.ok) return { ok: false, error: result.error };
       if (cloud) {
         let added = 0;
@@ -177,7 +177,7 @@ export function useWatchlist(userId: string | null, authReady = true) {
             devices: [],
             added,
             duplicates: result.value.duplicates,
-            invalid: skipped - result.value.invalid + result.value.invalid,
+            invalid: skipped,
           },
         };
       }
