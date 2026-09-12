@@ -22,7 +22,8 @@ import {
   type OfficialSignal,
 } from "@/lib/device-status";
 import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
-import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
+import type { FarmSummary } from "@/lib/farm";
+import { formatAgo, formatCount, formatLoss, formatPct, formatSecondsTimestamp } from "@/lib/format";
 import { getDeviceSeries } from "@/lib/iota.functions";
 
 function signalText(signal: OfficialSignal, t: (key: string) => string) {
@@ -57,7 +58,8 @@ function MoneyPair({
   usdPerIota: number | null;
   large?: boolean;
 }) {
-  const iota = formatIota(units ?? null, 8);
+  const { locale } = useLocale();
+  const iota = formatIota(units ?? null, 8, locale);
   const usd = formatUsd(iotaUnitsToUsd(units ?? null, usdPerIota));
   return (
     <span className={`money-pair${large ? " large" : ""}`}>
@@ -90,6 +92,89 @@ function Total({
         <p>
           {value.known}/{value.total}
         </p>
+      ) : null}
+    </section>
+  );
+}
+
+function farmMeta(farm: FarmSummary, t: (key: string) => string) {
+  return [farm.modelLabel, farm.modelSize, farm.splits ? `${farm.splits} ${t("段")}` : null]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function FarmPanel({ farm }: { farm: FarmSummary }) {
+  const { t, locale } = useLocale();
+  const fill =
+    farm.maxMiners && farm.maxMiners > 0 && farm.activeMiners !== null
+      ? Math.min(100, (farm.activeMiners / farm.maxMiners) * 100)
+      : 0;
+  const meta = farmMeta(farm, t);
+  const loss =
+    farm.lossMin === null
+      ? "—"
+      : farm.lossMax === null || farm.lossMax === farm.lossMin
+        ? formatLoss(farm.lossMin)
+        : `${formatLoss(farm.lossMin)} – ${formatLoss(farm.lossMax)}`;
+  return (
+    <section className="farm" aria-label={t("整个矿场")}>
+      <div className="farm-head">
+        <h2>{t("整个矿场")}</h2>
+        {meta ? <span>{meta}</span> : null}
+      </div>
+      <div className="farm-bar" aria-hidden="true">
+        <i style={{ width: `${fill}%` }} />
+      </div>
+      <div className="farm-stats">
+        <div>
+          <span>{t("进行中任务")}</span>
+          <b>{formatCount(farm.activeRuns, locale)}</b>
+        </div>
+        <div>
+          <span>{t("在线矿工")}</span>
+          <b>
+            {formatCount(farm.activeMiners, locale)}
+            <small> / {formatCount(farm.maxMiners, locale)}</small>
+          </b>
+        </div>
+        <div>
+          <span>{t("剩余名额")}</span>
+          <b>{formatCount(farm.slotsRemaining, locale)}</b>
+        </div>
+        <div>
+          <span>{t("训练进度")}</span>
+          <b>{formatPct(farm.tokens, farm.totalTokens, locale)}</b>
+        </div>
+        <div>
+          <span>{t("损失")}</span>
+          <b>{loss}</b>
+        </div>
+      </div>
+      {farm.runs.length ? (
+        <details className="farm-runs">
+          <summary>{t("各任务")}</summary>
+          <ul>
+            {farm.runs.map((run) => (
+              <li key={run.runId}>
+                <div>
+                  <span>{run.name}</span>
+                  {run.tier ? <small>{run.tier}</small> : null}
+                  {run.mineCount > 0 ? (
+                    <small>
+                      {t("你的设备")} {formatCount(run.mineCount, locale)}
+                    </small>
+                  ) : null}
+                </div>
+                <b>
+                  {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
+                  <em>{formatPct(run.tokens, run.totalTokens, locale)}</em>
+                  <em>{formatLoss(run.loss)}</em>
+                  {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
+                </b>
+              </li>
+            ))}
+          </ul>
+        </details>
       ) : null}
     </section>
   );
@@ -167,12 +252,7 @@ export function Dashboard() {
           )}
         </p>
         <span className="refresh-label">
-          {t("最近获取")}
-          {en
-            ? dash.fetchedAt
-              ? new Date(dash.fetchedAt).toLocaleTimeString("en-GB", { timeZone: "Asia/Hong_Kong" })
-              : "—"
-            : formatAgo(dash.fetchedAt, dash.now)}
+          {t("最近获取")} {formatAgo(dash.fetchedAt, dash.now, locale)}
         </span>
       </div>
       {(watch.storageError || watch.syncMessage || auth.error || message) && (
@@ -191,7 +271,11 @@ export function Dashboard() {
       )}
       {(dash.errors.length > 0 || dash.manual.error || dash.usingCachedOnly) && (
         <div className="notice warning" role="status">
-          {dash.manual.error || dash.errors[0] || t("正在连接，先显示浏览器保存的旧数据。")}
+          {dash.manual.error
+            ? t(dash.manual.error)
+            : dash.errors[0]
+              ? t(dash.errors[0])
+              : t("正在连接，先显示浏览器保存的旧数据。")}
         </div>
       )}
       <div className="totals">
@@ -206,6 +290,7 @@ export function Dashboard() {
       {dash.usdPerIota ? (
         <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p>
       ) : null}
+      {dash.farm ? <FarmPanel farm={dash.farm} /> : null}
       <div className="status-strip">
         {Object.entries(dash.counts).map(([key, count]) => (
           <div key={key}>
@@ -419,7 +504,7 @@ export function Dashboard() {
   );
 }
 function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: number | null }) {
-  const { t, en } = useLocale();
+  const { t, en, locale } = useLocale();
   const [tab, setTab] = useState(t("运行情况"));
   const seriesFn = useServerFn(getDeviceSeries);
   const series = useQuery({
@@ -445,11 +530,11 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
             <div className="detail-grid">
               <div>
                 <span>{t("激活处理量")}</span>
-                <b>{formatCount(view.miner?.activation_count)}</b>
+                <b>{formatCount(view.miner?.activation_count, locale)}</b>
               </div>
               <div>
                 <span>{t("吞吐量")}</span>
-                <b>{formatCount(view.miner?.throughput)}</b>
+                <b>{formatCount(view.miner?.throughput, locale)}</b>
               </div>
               <div>
                 <span>{t("今日收益")}</span>
@@ -462,7 +547,7 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
             </div>
             <p>
               {t("统计采样：")}
-              {formatSecondsTimestamp(view.miner?.timestamp)}
+              {formatSecondsTimestamp(view.miner?.timestamp, locale)}
             </p>
             <details>
               <summary>{t("技术信息")}</summary>
@@ -489,7 +574,7 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
             {series.isLoading ? (
               <p>{t("正在获取最近一周训练记录…")}</p>
             ) : series.error || series.data?.error ? (
-              <p role="alert">{series.data?.error || t("训练记录获取失败，请稍后重试。")}</p>
+              <p role="alert">{t(series.data?.error || "训练记录获取失败，请稍后重试。")}</p>
             ) : null}
             {series.data?.metrics?.epochs?.length ? (
               <table>
@@ -504,8 +589,8 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
                   {series.data.metrics.epochs.map((epoch, i) => (
                     <tr key={`${epoch}-${i}`}>
                       <td>{epoch}</td>
-                      <td>{formatCount(series.data?.metrics?.token_counts[i])}</td>
-                      <td>{formatCount(series.data?.metrics?.activation_ranks[i])}</td>
+                      <td>{formatCount(series.data?.metrics?.token_counts[i], locale)}</td>
+                      <td>{formatCount(series.data?.metrics?.activation_ranks[i], locale)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -529,7 +614,7 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
                 <tbody>
                   {view.earnings.recent.map((r, i) => (
                     <tr key={i}>
-                      <td>{formatSecondsTimestamp(r.timestamp)}</td>
+                      <td>{formatSecondsTimestamp(r.timestamp, locale)}</td>
                       <td>
                         <MoneyPair units={r.units} usdPerIota={usdPerIota} />
                       </td>

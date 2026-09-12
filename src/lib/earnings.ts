@@ -33,15 +33,20 @@ export function formatUsd(usd: number | null): string {
   })}`;
 }
 
-export function formatIota(units: number | null, decimals = 4): string {
+export function formatIota(
+  units: number | null,
+  decimals = 4,
+  locale: "en" | "zh" = "zh",
+): string {
   if (units === null) return "—";
   const negative = units < 0;
   const abs = Math.abs(units);
   const whole = Math.floor(abs / UNIT_SCALE);
   const frac = String(abs % UNIT_SCALE).padStart(8, "0");
   const shown = decimals >= 8 ? frac.replace(/0+$/, "") : frac.slice(0, decimals);
+  const group = locale === "en" ? "en-US" : "zh-CN";
   const body =
-    shown.length > 0 ? `${whole.toLocaleString("zh-CN")}.${shown}` : whole.toLocaleString("zh-CN");
+    shown.length > 0 ? `${whole.toLocaleString(group)}.${shown}` : whole.toLocaleString(group);
   return `${negative ? "-" : ""}${body}`;
 }
 

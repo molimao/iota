@@ -100,8 +100,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? `${copy.privacyTitle} | IOTA Watch`
             : page === "learn"
               ? en
-                ? "Learn IOTA Train at Home monitoring | IOTA Watch"
-                : "看懂 IOTA Train at Home 监控｜IOTA Watch"
+                ? "How to use IOTA Watch"
+                : "使用说明｜IOTA Watch"
               : page === "account"
                 ? en
                   ? "Account | IOTA Watch"
@@ -124,8 +124,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? copy.privacyIntro
             : page === "learn"
               ? en
-                ? "Clear answers for IOTA Train at Home: what IOTA Watch is, SN9 vs the IOTA coin, Miner ID, Google device lists, refresh interrupted, rewards, and USD estimates."
-                : "把 IOTA Train at Home 的常见问题写清楚：IOTA Watch 是什么、SN9 和 IOTA 公链、Miner ID、Google 清单、刷新中断、收益与美元估价。"
+                ? "Find your Miner ID, read device status and rewards, and keep the same list after you sign in."
+                : "Miner ID 怎么找、状态和收益怎么看、登录后设备清单怎么跟着走。"
               : page === "account"
                 ? en
                   ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
@@ -154,7 +154,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         : page === "learn" && article
           ? [
               { name: home, path: "" },
-              { name: en ? "Learn" : "说明", path: "learn" },
+              { name: en ? "Help" : "使用说明", path: "learn" },
               { name: article.title[locale], path: `learn/${article.slug}` },
             ]
           : [
@@ -169,8 +169,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                         ? copy.privacyTitle
                         : page === "learn"
                           ? en
-                            ? "Learn"
-                            : "说明"
+                            ? "Help"
+                            : "使用说明"
                           : page === "account"
                             ? en
                               ? "Account"

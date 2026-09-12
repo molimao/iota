@@ -42,9 +42,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 
 function pageLabel(locale: SiteLocale, path: string) {
   if (!path) return locale === "en" ? "Home" : "首页";
-  if (path === "learn") return locale === "en" ? "Learn" : "说明";
+  if (path === "learn") return locale === "en" ? "Help" : "使用说明";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
-  if (path === "guide") return locale === "en" ? "Guide" : "使用指南";
+  if (path === "guide") return locale === "en" ? "Get started" : "使用指南";
   if (path === "privacy") return locale === "en" ? "Privacy" : "隐私说明";
   const slug = path.startsWith("learn/") ? path.slice("learn/".length) : "";
   return articles.find((article) => article.slug === slug)?.title[locale] ?? path;

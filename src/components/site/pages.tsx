@@ -84,9 +84,6 @@ export function SiteFooter() {
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
         </a>
-        <a href="/llms.txt" rel="noreferrer" target="_blank">
-          llms.txt
-        </a>
       </div>
       <small>{en ? "Made for people training at home." : "为在家参与训练的人而做。"}</small>
     </footer>
@@ -130,7 +127,7 @@ export function Landing() {
         <strong>{copy.disambiguationTitle}</strong>
         <p>{copy.disambiguation}</p>
         <a href={`/${locale}/learn/what-is-iota-watch`}>
-          {en ? "Read the short definition" : "看完整说明"} <ArrowRight size={15} />
+          {en ? "What this site is" : "这是什么"} <ArrowRight size={15} />
         </a>
       </aside>
       <section className="product-stage" aria-label={en ? "Dashboard illustration" : "监控面板示意"}>
@@ -254,7 +251,7 @@ export function Landing() {
       </section>
       <section className="learn-index landing-learn">
         <div className="learn-index-head">
-          <span className="eyebrow">{en ? "LEARN" : "说明"}</span>
+          <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
           <h2>{copy.learnTitle}</h2>
           <p>{copy.learnIntro}</p>
         </div>
@@ -364,7 +361,7 @@ export function LearnIndex() {
       <a className="back-link" href={`/${locale}`}>
         ← {en ? "Home" : "首页"}
       </a>
-      <span className="eyebrow">IOTA WATCH / LEARN</span>
+      <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
       <h1>{copy.learnTitle}</h1>
       <p className="article-lead">{copy.learnIntro}</p>
       <LearnGrid locale={locale} />
@@ -380,7 +377,7 @@ export function LearnArticle({ slug }: { slug: string }) {
   return (
     <article className="article-page learn-article">
       <a className="back-link" href={`/${locale}/learn`}>
-        ← {en ? "All notes" : "全部说明"}
+        ← {en ? "All guides" : "全部说明"}
       </a>
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
@@ -389,7 +386,7 @@ export function LearnArticle({ slug }: { slug: string }) {
         <ArticleBlocks blocks={article.body[locale]} locale={locale} />
       </div>
       <aside className="related-notes">
-        <h2>{en ? "Related notes" : "相关说明"}</h2>
+        <h2>{en ? "Related" : "相关说明"}</h2>
         <div>
           {related.map((item) => (
             <a key={item.slug} href={`/${locale}/learn/${item.slug}`}>

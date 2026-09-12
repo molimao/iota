@@ -17,6 +17,9 @@ import {
   iotaUnitsToUsd,
   UNIT_SCALE,
 } from "./earnings";
+import { localizeMessage } from "../components/site/locale";
+import { summarizeFarm } from "./farm";
+import { formatAgo } from "./format";
 import { withDeadline } from "./deadline";
 import {
   computeStatus,
@@ -143,6 +146,89 @@ it("counts a successful dashboard query as a fresh fetch even if miner stamps ar
       fetching: true,
     }),
   ).toBe("contributing");
+});
+it("translates composed dashboard errors and relative time for English", () => {
+  expect(localizeMessage("请求超时", "en")).toBe("Request timed out");
+  expect(localizeMessage("训练任务列表：请求超时", "en")).toBe("Runs list: Request timed out");
+  expect(localizeMessage("任务 abc：请求排队超时", "en")).toBe("Run abc: Request queued too long");
+  expect(localizeMessage("状态连接失败：请求超时", "en")).toBe("Could not load status: Request timed out");
+  expect(localizeMessage("收益 5Fxxx…：请求超时", "en")).toBe("Rewards 5Fxxx…: Request timed out");
+  expect(localizeMessage("格式不对：含有无效字符", "en")).toBe("Invalid characters in that Miner ID");
+  expect(localizeMessage("请求超时", "zh")).toBe("请求超时");
+  const now = Date.parse("2026-09-12T10:12:00Z");
+  expect(formatAgo(now - 12 * 60_000, now, "en")).toBe("12 min ago");
+  expect(formatAgo(now - 12 * 60_000, now, "zh")).toBe("12 分钟前");
+  expect(formatAgo(null, now, "en")).toBe("No data yet");
+});
+it("summarizes official occupancy into farm totals", () => {
+  const farm = summarizeFarm(
+    {
+      run_ids: ["4.12.16.2-tah", "4.12.16.1-tah"],
+      max_miners: [120, 100],
+      active_miners: [115, 45],
+      slots_remaining: [5, 55],
+    },
+    [
+      {
+        run_id: "4.12.16.1-tah",
+        name: "4.12.16.1-tah",
+        state: "active",
+        metadata: {
+          model_name: "Llama-3.2-1B",
+          model_size: "1B",
+          n_splits: 3,
+          description: "1B - Tier 0 (Bronze)",
+        },
+      },
+      {
+        run_id: "4.12.16.2-tah",
+        name: "4.12.16.2-tah",
+        state: "active",
+        metadata: {
+          model_name: "Llama-3.2-1B",
+          model_size: "1B",
+          n_splits: 3,
+          description: "1B - Tier 1 (Silver)",
+        },
+      },
+    ],
+    {
+      "4.12.16.1-tah": {
+        activation_count: 100,
+        total_activations: 1000,
+        token_count: 80,
+        total_tokens: 1000,
+        loss: 6.2,
+      },
+      "4.12.16.2-tah": {
+        activation_count: 200,
+        total_activations: 1000,
+        token_count: 120,
+        total_tokens: 1000,
+        loss: 6.8,
+      },
+    },
+    { "4.12.16.1-tah": 2 },
+  );
+  expect(farm).toMatchObject({
+    activeRuns: 2,
+    fullRuns: 0,
+    activeMiners: 160,
+    maxMiners: 220,
+    slotsRemaining: 60,
+    tokens: 200,
+    totalTokens: 2000,
+    lossMin: 6.2,
+    lossMax: 6.8,
+    modelLabel: "Llama-3.2-1B",
+    modelSize: "1B",
+    splits: 3,
+  });
+  expect(farm?.runs.map((run) => [run.runId, run.tier, run.mineCount])).toEqual([
+    ["4.12.16.1-tah", "Bronze", 2],
+    ["4.12.16.2-tah", "Silver", 0],
+  ]);
+  expect(summarizeFarm(null, [])).toBeNull();
 });
 it("rejects work that misses the deadline and keeps a finished result", async () => {
   await expect(withDeadline(Promise.resolve(7), 50, "超时")).resolves.toBe(7);

@@ -41,6 +41,16 @@ const EN: Record<string, string> = {
     "Previous data is kept and updates when the connection recovers.",
   今日总收益: "Today’s rewards",
   累计总收益: "Lifetime rewards",
+  整个矿场: "Farm",
+  进行中任务: "Active runs",
+  在线矿工: "Miners",
+  剩余名额: "Open slots",
+  各任务: "Runs",
+  已满: "Full",
+  训练进度: "Training",
+  损失: "Loss",
+  段: "splits",
+  "你的设备": "Yours",
   金额: "Amount",
   美元按公开市场价格估算: "USD is a public market estimate",
   "美元价格暂未获取，IOTA 数量仍按官方记账显示":
@@ -132,18 +142,84 @@ const EN: Record<string, string> = {
     "Some run lists could not be fetched. Incomplete coverage does not mean your device has a problem.",
   "超过 5 分钟没有成功获取官方数据，下面显示的是上一次成功读取的内容。":
     "No successful fetch for more than five minutes. Showing previously fetched data.",
+  请求超时: "Request timed out",
+  请求排队超时: "Request queued too long",
+  读取响应超时: "Timed out reading the response",
+  状态刷新超时: "Status refresh timed out",
+  收益刷新超时: "Rewards refresh timed out",
+  "刷新超时，已停止等待。请稍后再试。": "Refresh timed out. Try again in a moment.",
+  刷新失败: "Refresh failed",
+  "本次未在时限内读完官方名单": "Could not finish reading official lists in time",
+  "本次未在时限内读完全部训练任务名单，已返回当前已找到的设备":
+    "Could not finish every run list in time. Showing devices already found.",
+  "上游返回的不是有效 JSON（可能被中间层拦截）":
+    "Official API did not return valid JSON",
+  未知错误: "Unknown error",
+  市场价格暂不可用: "Market price is unavailable",
+  "找不到这台设备": "That device is not on the list",
+  "文件不是有效的 JSON": "That file is not valid JSON",
+  "文件格式不符合导入要求": "That file is not in the import format",
+  "本地保存的设备清单格式损坏，已忽略。可以重新添加或导入备份。":
+    "The saved device list was damaged and was ignored. Add the devices again or import a backup.",
+  "本地保存的设备清单不符合格式要求，已忽略。":
+    "The saved device list was not valid and was ignored.",
+  "此浏览器不允许本地存储，设备清单无法保存。":
+    "This browser blocked local storage, so the list could not be saved.",
+  "读取本地设备清单失败。": "Could not read the local device list.",
+  "此浏览器不允许本地存储，改动无法保存。":
+    "This browser blocked local storage, so the change could not be saved.",
+  "浏览器存储空间已满，改动没能保存。": "Browser storage is full, so the change could not be saved.",
+  "写入本地存储失败，改动没能保存（可能处于隐私模式）。":
+    "Could not write to browser storage. You may be in private mode.",
+  "浏览器未能保存，请检查存储权限。": "Could not save. Check this browser’s storage permission.",
+  "浏览器未能保存导入清单。": "Could not save the imported list.",
+  "单次最多查询 200 台设备，请分批查询": "You can look up 200 devices at a time. Split the list.",
+  "非法的训练任务编号": "That training run id is not valid",
+  "非法的 Miner ID": "That Miner ID is not valid",
+  "格式不对：含有无效字符": "Invalid characters in that Miner ID",
+  "长度不对：应为 48 位左右的 SS58 地址": "Length looks wrong. A Miner ID is about 48 characters.",
+  "校验失败：请检查是否有漏字或错字": "Checksum failed. Check for a missing or mistyped character.",
+  "网络前缀不对：需要通用网络 42 的地址": "Wrong network prefix. Use a generic network 42 address.",
 };
+
+const PREFIXES: Array<[string, string]> = [
+  ["训练任务列表：", "Runs list: "],
+  ["默认矿工名单：", "Default miner list: "],
+  ["状态连接失败：", "Could not load status: "],
+  ["收益连接失败：", "Could not load rewards: "],
+];
+
+function translatePiece(text: string): string {
+  if (EN[text]) return EN[text];
+  const task = text.match(/^任务 (.+)：(.+)$/);
+  if (task) return `Run ${task[1]}: ${translatePiece(task[2])}`;
+  const reward = text.match(/^收益 (.+)：(.+)$/);
+  if (reward) return `Rewards ${reward[1]}: ${translatePiece(reward[2])}`;
+  const blocked = text.match(/^上游拒绝访问（HTTP (\d+)，可能是 Cloudflare 拦截）：(.*)$/);
+  if (blocked) return `Official API blocked (HTTP ${blocked[1]}): ${blocked[2]}`;
+  const http = text.match(/^上游返回 HTTP (\d+)：(.*)$/);
+  if (http) return `Official API returned HTTP ${http[1]}: ${http[2]}`;
+  const quote = text.match(/^(.+): 无有效 SN9 报价$/);
+  if (quote) return `${quote[1]}: no usable SN9 price`;
+  for (const [zh, en] of PREFIXES) {
+    if (text.startsWith(zh)) return `${en}${translatePiece(text.slice(zh.length))}`;
+  }
+  return /[\u4e00-\u9fff]/.test(text) ? "Something went wrong. Try again." : text;
+}
+
+export function localizeMessage(text: string, locale: Locale): string {
+  if (!text || locale !== "en") return text;
+  return text
+    .split("；")
+    .map((part) => translatePiece(part.trim()))
+    .join("; ");
+}
+
 export function useLocale() {
   const locale = useContext(LocaleContext);
   return {
     locale,
     en: locale === "en",
-    t: (s: string) =>
-      locale === "en"
-        ? (EN[s] ??
-          (/[^\x00-\x7F]/.test(s) && /[\u4e00-\u9fff]/.test(s)
-            ? "The request could not be completed. Check the ID, browser storage, or connection and try again."
-            : s))
-        : s,
+    t: (s: string) => localizeMessage(s, locale),
   };
 }

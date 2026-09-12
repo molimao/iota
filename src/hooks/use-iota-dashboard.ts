@@ -14,7 +14,15 @@ import {
 } from "@/lib/device-status";
 import { hintRunIdsFromDevices, mergeDiscovery } from "@/lib/iota-discover";
 import { fetchSn9UsdFromMarkets } from "@/lib/iota-price-sources";
-import { discoverDevices, getEarnings, getIotaUsdPrice, getOccupancy } from "@/lib/iota.functions";
+import { summarizeFarm } from "@/lib/farm";
+import {
+  discoverDevices,
+  getEarnings,
+  getIotaUsdPrice,
+  getOccupancy,
+  getRunProgressBatch,
+  getRuns,
+} from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
 
@@ -48,6 +56,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const discoverFn = useServerFn(discoverDevices);
   const earningsFn = useServerFn(getEarnings);
   const occupancyFn = useServerFn(getOccupancy);
+  const runsFn = useServerFn(getRuns);
+  const progressFn = useServerFn(getRunProgressBatch);
   const priceFn = useServerFn(getIotaUsdPrice);
 
   const forceRef = useRef(false);
@@ -175,6 +185,36 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     placeholderData: keepPreviousData,
   });
 
+  const runsQuery = useQuery({
+    queryKey: ["iota", "runs"],
+    queryFn: () => runsFn({ data: {} }),
+    enabled: ready,
+    staleTime: 120_000,
+    refetchInterval: 300_000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    placeholderData: keepPreviousData,
+  });
+
+  const farmRunIds = useMemo(() => {
+    const ids = [
+      ...(occupancyQuery.data?.occupancy?.run_ids ?? []),
+      ...(runsQuery.data?.runs ?? []).map((run) => run.run_id),
+    ];
+    return [...new Set(ids)].sort();
+  }, [occupancyQuery.data?.occupancy?.run_ids, runsQuery.data?.runs]);
+
+  const progressQuery = useQuery({
+    queryKey: ["iota", "progress", farmRunIds.join(",")],
+    queryFn: () => progressFn({ data: { runIds: farmRunIds } }),
+    enabled: ready && farmRunIds.length > 0,
+    staleTime: 45_000,
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    placeholderData: keepPreviousData,
+  });
+
   const lastDiscoveryRef = useRef<DiscoveryResult | undefined>(undefined);
   const discovery = useMemo(() => {
     const incoming = discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
@@ -232,8 +272,19 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     } finally {
       forceRef.current = false;
       void occupancyQuery.refetch();
+      void runsQuery.refetch();
+      void progressQuery.refetch();
     }
-  }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, occupancyQuery, priceQuery]);
+  }, [
+    enabled,
+    manualState.lastAt,
+    discoveryQuery,
+    earningsQuery,
+    occupancyQuery,
+    priceQuery,
+    runsQuery,
+    progressQuery,
+  ]);
 
   const cooldownRemaining = manualState.lastAt
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))
@@ -317,6 +368,25 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   );
 
   const occupancy: Occupancy | null = occupancyQuery.data?.occupancy ?? null;
+  const mineCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const view of views) {
+      const runId = view.miner?.run_id;
+      if (!runId) continue;
+      counts[runId] = (counts[runId] ?? 0) + 1;
+    }
+    return counts;
+  }, [views]);
+  const farm = useMemo(
+    () =>
+      summarizeFarm(
+        occupancy,
+        runsQuery.data?.runs ?? discovery?.runs ?? null,
+        progressQuery.data?.progress,
+        mineCounts,
+      ),
+    [discovery?.runs, mineCounts, occupancy, progressQuery.data?.progress, runsQuery.data?.runs],
+  );
 
   return {
     views,
@@ -324,8 +394,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     todayTotal,
     lifetimeTotal,
     discovery,
+    farm,
     occupancy,
-    occupancyError: occupancyQuery.data?.error ?? null,
+    occupancyError: occupancyQuery.data?.error ?? occupancyQuery.error?.message ?? null,
     fetchedAt:
       resolveLastSuccessfulFetchAt({
         querySuccess,

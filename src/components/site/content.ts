@@ -1,6 +1,6 @@
 export const content = {
   en: {
-    nav: ["Guide", "FAQ", "Learn", "Privacy", "Open dashboard"],
+    nav: ["Get started", "FAQ", "Help", "Privacy", "Open dashboard"],
     eyebrow: "IOTA TRAIN AT HOME DEVICE MONITOR",
     title: "See your training.\nUnderstand your rewards.",
     intro:
@@ -12,20 +12,20 @@ export const content = {
     disambiguation:
       "IOTA Watch monitors IOTA Train at Home (Macrocosmos). It is not the IOTA Foundation chain, not an IOTA coin wallet, and it will never ask for a private key.",
     jobsEyebrow: "What you came here to check",
-    jobsTitle: "Three questions. Straight answers.",
-    jobsIntro: "Open the dashboard when you want to know if a machine is working and what it has earned.",
+    jobsTitle: "Three things to look at.",
+    jobsIntro: "Is the machine working, what has it earned, and when should you check the computer itself.",
     jobs: [
       [
-        "Is it contributing?",
-        "Reported activity, throughput and activations show what each device last did. An old sample is not treated as proof that the Mac went offline.",
+        "Is it running?",
+        "See whether official data still lists the device, and whether the last sample had training work. An older sample does not mean the Mac is off.",
       ],
       [
         "What has it earned?",
-        "Today’s accounted rewards use Hong Kong midnight. Lifetime uses total earned. Each IOTA amount is shown with a SN9 USD estimate. Missing records stay unknown, not zero.",
+        "Today starts at midnight in Hong Kong. Lifetime is everything already recorded. The dollar figure is a market estimate, not a payout.",
       ],
       [
-        "What do I do next?",
-        "Waiting for tasks and a failed website refresh are different. The dashboard explains both so you know whether to open the IOTA app.",
+        "Should I check the computer?",
+        "Waiting for a task is normal. If this website failed to refresh, that is our problem first — not proof the device is broken.",
       ],
     ],
     jobsLinks: [
@@ -34,9 +34,9 @@ export const content = {
       "/learn/what-refresh-interrupted-means",
     ],
     jobsCta: ["Read device statuses", "How rewards are counted", "What refresh interrupted means"],
-    learnTitle: "Clear answers people actually search for",
+    learnTitle: "How to use IOTA Watch",
     learnIntro:
-      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin, find a Miner ID, bind a Google list, and read statuses, refresh interrupted, SN9, and USD estimates.",
+      "Find your Miner ID, read device status and rewards, and keep the same list after you sign in.",
     ecosystemTitle: "Official IOTA Train at Home links",
     ecosystem: [
       ["Download Train at Home", "https://iota.macrocosmos.ai/", "Official Mac app"],
@@ -92,9 +92,8 @@ export const content = {
     guideTitle: "Start watching your IOTA devices",
     guideIntro:
       "The monitor works alongside the IOTA Train at Home application. Your machines continue running the training client separately.",
-    faqTitle: "Understand your data",
-    faqIntro:
-      "What the numbers mean, how often they refresh, and what this tool can and cannot tell you.",
+    faqTitle: "Common questions",
+    faqIntro: "How rewards are counted, how often numbers update, and what this site cannot see.",
     faq: [
       [
         "Is this the IOTA cryptocurrency or Firefly wallet?",
@@ -154,7 +153,7 @@ export const content = {
     privacy: [
       [
         "What is stored locally",
-        "Without signing in, the browser stores your public Miner IDs, labels, and the time they were added under iota-watchlist-v1, up to 3 devices. A separate bounded cache retains recently fetched telemetry for up to 24 hours.",
+        "Without signing in, this browser keeps your public Miner IDs and names, up to 3 devices. A small cache of recently fetched numbers is kept for up to 24 hours.",
       ],
       [
         "What is sent to the server",
@@ -176,7 +175,7 @@ export const content = {
     updated: "Updated September 12, 2026",
   },
   zh: {
-    nav: ["使用指南", "常见问题", "说明", "隐私说明", "打开监控"],
+    nav: ["使用指南", "常见问题", "使用说明", "隐私说明", "打开监控"],
     eyebrow: "IOTA TRAIN AT HOME 设备监控",
     title: "训练有没有在跑，\n收益有没有记上。",
     intro:
@@ -187,21 +186,21 @@ export const content = {
     disambiguationTitle: "先说清楚：这不是 IOTA 公链",
     disambiguation:
       "IOTA Watch 监控的是 Macrocosmos 的 IOTA Train at Home 设备。它不是 IOTA Foundation 公链，不是 Firefly，也不能持有或转出代币。",
-    jobsEyebrow: "你真正要确认的三件事",
-    jobsTitle: "三个问题，直接回答。",
-    jobsIntro: "给看自己设备的人用，不是拿来刷全网矿工榜的。",
+    jobsEyebrow: "打开监控页时看这些",
+    jobsTitle: "主要看三件事。",
+    jobsIntro: "设备有没有在跑，今天赚了多少，要不要回到电脑上检查。",
     jobs: [
       [
-        "设备在参与训练吗？",
-        "结合上报状态、吞吐量和激活处理量，看每台设备最近在做什么。不会把统计采样较旧直接当成 Mac 掉线。",
+        "设备在跑吗？",
+        "看官方有没有还把它算在线，以及最近一次有没有训练量。采样时间比较旧，不等于电脑已经关机。",
       ],
       [
-        "收益记上了吗？",
-        "香港时间当天 0 点起的记账收益，加上累计 total earned。每个 IOTA 数字旁边会给出 SN9 美元估价。缺失就标未知，不会偷偷当成零。",
+        "今天赚了多少？",
+        "今日收益从香港时间凌晨算起。累计是官方已经记下的全部。旁边的美元是市场估价，不是到账金额。",
       ],
       [
-        "接下来要不要回去检查？",
-        "等待任务和网站刷新失败是两回事。每个状态都会说明它能确认什么、不能确认什么。",
+        "要不要回去看电脑？",
+        "在线等任务是正常的。如果是这个网站自己刷新失败，先别急着当成设备坏了。",
       ],
     ],
     jobsLinks: [
@@ -210,9 +209,8 @@ export const content = {
       "/learn/what-refresh-interrupted-means",
     ],
     jobsCta: ["看设备状态含义", "收益怎么算", "刷新中断是什么意思"],
-    learnTitle: "把关键信息写成可搜索的说明",
-    learnIntro:
-      "产品是什么、和 IOTA 公链有何区别、Miner ID 怎么找、Google 清单怎么同步、刷新中断和 SN9 是什么、收益与美元估价怎么算。写给用户看，也方便搜索引擎和 AI 引用。",
+    learnTitle: "使用说明",
+    learnIntro: "Miner ID 怎么找、状态和收益怎么看、登录后设备清单怎么跟着走。",
     ecosystemTitle: "官方 IOTA Train at Home 入口",
     ecosystem: [
       ["下载 Train at Home", "https://iota.macrocosmos.ai/", "官方 Mac 应用"],
@@ -265,8 +263,8 @@ export const content = {
     guideTitle: "开始监控你的 IOTA 设备",
     guideIntro:
       "监控工具配合 IOTA Train at Home 应用使用。每台机器上的训练客户端仍需单独保持运行。",
-    faqTitle: "看懂设备和收益数据",
-    faqIntro: "数字代表什么、多久刷新一次，以及这个工具能确认和不能确认的事情。",
+    faqTitle: "常见问题",
+    faqIntro: "收益怎么算、多久更新一次、哪些事这个网站看不出来。",
     faq: [
       [
         "这是 IOTA 公链或 Firefly 钱包吗？",
@@ -326,7 +324,7 @@ export const content = {
     privacy: [
       [
         "本地存储什么",
-        "未登录时，浏览器在 iota-watchlist-v1 中保存公开 Miner ID、名称和添加时间，最多 3 台。另有独立、限制大小的遥测缓存，最多保留 24 小时。",
+        "未登录时，这个浏览器会保存你添加的公开 Miner ID 和名称，最多 3 台。最近查到的数字会暂存最多 24 小时。",
       ],
       [
         "什么数据会发送到服务端",

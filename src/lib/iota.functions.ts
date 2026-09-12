@@ -104,6 +104,26 @@ export const getRunProgress = createServerFn({ method: "POST" })
     return { progress: result.data, fetchedAt: result.fetchedAt, error: result.error };
   });
 
+export const getRunProgressBatch = createServerFn({ method: "POST" })
+  .inputValidator((input: { runIds?: string[]; force?: boolean }) => ({
+    runIds: validHintRunIds(input?.runIds),
+    force: input?.force === true,
+  }))
+  .handler(async ({ data }) => {
+    const { fetchUpstream, TTL } = await import("./iota-upstream.server");
+    const entries = await Promise.all(
+      data.runIds.map(async (runId) => {
+        const result = await fetchUpstream<RunProgress>(
+          `/progress?run_id=${encodeURIComponent(runId)}`,
+          TTL.progress,
+          data.force,
+        );
+        return [runId, result.data] as const;
+      }),
+    );
+    return { progress: Object.fromEntries(entries) as Record<string, RunProgress | null> };
+  });
+
 /**
  * Discovers saved devices by matching the exact hotkey across the miner lists of
  * ALL currently active runs. Duplicate hotkeys across runs are deduped by the
