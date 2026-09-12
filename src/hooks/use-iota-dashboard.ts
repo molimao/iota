@@ -14,16 +14,10 @@ import {
 } from "@/lib/device-status";
 import { hintRunIdsFromDevices, mergeDiscovery } from "@/lib/iota-discover";
 import { fetchSn9UsdFromMarkets } from "@/lib/iota-price-sources";
-import { summarizeFarm } from "@/lib/farm";
-import {
-  discoverDevices,
-  getEarnings,
-  getIotaUsdPrice,
-  getOccupancy,
-  getRunProgressBatch,
-  getRuns,
-} from "@/lib/iota.functions";
-import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
+import { diagnoseDevice, type Diagnosis } from "@/lib/diagnose";
+import { useFarm } from "@/hooks/use-farm";
+import { discoverDevices, getEarnings, getIotaUsdPrice } from "@/lib/iota.functions";
+import type { DeviceEarnings, DiscoveryResult, MinerRecord } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
 
 export const DISCOVERY_POLL_MS = 30_000;
@@ -47,6 +41,7 @@ export type DeviceView = {
   bucket: StatusBucket;
   earnings: DeviceEarnings | null;
   earningsUsable: boolean;
+  diagnosis: Diagnosis;
 };
 
 export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
@@ -55,9 +50,6 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
 
   const discoverFn = useServerFn(discoverDevices);
   const earningsFn = useServerFn(getEarnings);
-  const occupancyFn = useServerFn(getOccupancy);
-  const runsFn = useServerFn(getRuns);
-  const progressFn = useServerFn(getRunProgressBatch);
   const priceFn = useServerFn(getIotaUsdPrice);
 
   const forceRef = useRef(false);
@@ -175,49 +167,10 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     placeholderData: keepPreviousData,
   });
 
-  const occupancyQuery = useQuery({
-    queryKey: ["iota", "occupancy"],
-    queryFn: () => occupancyFn({ data: {} }),
-    enabled: ready,
-    refetchInterval: 120_000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    placeholderData: keepPreviousData,
-  });
-
-  const runsQuery = useQuery({
-    queryKey: ["iota", "runs"],
-    queryFn: () => runsFn({ data: {} }),
-    enabled: ready,
-    staleTime: 120_000,
-    refetchInterval: 300_000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    placeholderData: keepPreviousData,
-  });
-
-  const farmRunIds = useMemo(() => {
-    const ids = [
-      ...(occupancyQuery.data?.occupancy?.run_ids ?? []),
-      ...(runsQuery.data?.runs ?? []).map((run) => run.run_id),
-    ];
-    return [...new Set(ids)].sort();
-  }, [occupancyQuery.data?.occupancy?.run_ids, runsQuery.data?.runs]);
-
-  const progressQuery = useQuery({
-    queryKey: ["iota", "progress", farmRunIds.join(",")],
-    queryFn: () => progressFn({ data: { runIds: farmRunIds } }),
-    enabled: ready && farmRunIds.length > 0,
-    staleTime: 45_000,
-    refetchInterval: 60_000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
-    placeholderData: keepPreviousData,
-  });
-
   const lastDiscoveryRef = useRef<DiscoveryResult | undefined>(undefined);
   const discovery = useMemo(() => {
-    const incoming = discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
+    const incoming =
+      discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
     if (!incoming) return undefined;
     return mergeDiscovery(incoming, lastDiscoveryRef.current ?? cached?.payload.discovery);
   }, [cached, discoveryQuery.data, hotkeys.length]);
@@ -228,6 +181,23 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
   const usingCachedOnly = !discoveryQuery.data && Boolean(cached) && hotkeys.length > 0;
   hintRunIdsRef.current = hintRunIdsFromDevices(discovery?.devices);
+
+  const watched = useMemo(() => new Set(hotkeys), [hotkeys]);
+  const mineCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const device of discovery?.devices ?? []) {
+      const runId = device.miner?.run_id;
+      if (!runId || !watched.has(device.hotkey)) continue;
+      counts[runId] = (counts[runId] ?? 0) + 1;
+    }
+    return counts;
+  }, [discovery?.devices, watched]);
+
+  const farmState = useFarm({
+    enabled: ready,
+    mineCounts,
+    fallbackRuns: discovery?.runs ?? null,
+  });
 
   useEffect(() => {
     if (discovery && earningsQuery.data) {
@@ -271,20 +241,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       }));
     } finally {
       forceRef.current = false;
-      void occupancyQuery.refetch();
-      void runsQuery.refetch();
-      void progressQuery.refetch();
+      farmState.refresh();
     }
-  }, [
-    enabled,
-    manualState.lastAt,
-    discoveryQuery,
-    earningsQuery,
-    occupancyQuery,
-    priceQuery,
-    runsQuery,
-    progressQuery,
-  ]);
+  }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, priceQuery, farmState]);
 
   const cooldownRemaining = manualState.lastAt
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))
@@ -323,25 +282,19 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
         reward.error === null &&
         reward.fetchedAt !== null &&
         now - reward.fetchedAt <= EARNINGS_FRESH_MS;
+      const miner = found?.miner ?? null;
       return {
         entry,
-        miner: found?.miner ?? null,
+        miner,
         runIds: found?.runIds ?? [],
         status,
         bucket: statusBucket(status),
         earnings: reward,
         earningsUsable,
+        diagnosis: diagnoseDevice({ status, miner, earnings: reward, earningsUsable }),
       };
     });
-  }, [
-    entries,
-    discovery,
-    earnings,
-    now,
-    querySuccess,
-    queryUpdatedAt,
-    fetching,
-  ]);
+  }, [entries, discovery, earnings, now, querySuccess, queryUpdatedAt, fetching]);
 
   const counts = useMemo(() => {
     const base: Record<StatusBucket, number> = {
@@ -367,43 +320,28 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     [views],
   );
 
-  const occupancy: Occupancy | null = occupancyQuery.data?.occupancy ?? null;
-  const mineCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const view of views) {
-      const runId = view.miner?.run_id;
-      if (!runId) continue;
-      counts[runId] = (counts[runId] ?? 0) + 1;
-    }
-    return counts;
-  }, [views]);
-  const farm = useMemo(
-    () =>
-      summarizeFarm(
-        occupancy,
-        runsQuery.data?.runs ?? discovery?.runs ?? null,
-        progressQuery.data?.progress,
-        mineCounts,
-      ),
-    [discovery?.runs, mineCounts, occupancy, progressQuery.data?.progress, runsQuery.data?.runs],
+  /** devices whose diagnosis is worth acting on, worst first */
+  const needsAttention = useMemo(
+    () => views.filter((view) => view.diagnosis.tone === "warn"),
+    [views],
   );
 
   return {
     views,
     counts,
+    needsAttention,
     todayTotal,
     lifetimeTotal,
     discovery,
-    farm,
-    occupancy,
-    occupancyError: occupancyQuery.data?.error ?? occupancyQuery.error?.message ?? null,
-    fetchedAt:
-      resolveLastSuccessfulFetchAt({
-        querySuccess,
-        queryUpdatedAt,
-        deviceFetchedAt: null,
-        discoveryFetchedAt: discovery?.fetchedAt ?? cached?.savedAt,
-      }),
+    farm: farmState.farm,
+    occupancy: farmState.occupancy,
+    occupancyError: farmState.error,
+    fetchedAt: resolveLastSuccessfulFetchAt({
+      querySuccess,
+      queryUpdatedAt,
+      deviceFetchedAt: null,
+      discoveryFetchedAt: discovery?.fetchedAt ?? cached?.savedAt,
+    }),
     earningsFetchedAt:
       earnings?.reduce<number | null>(
         (min, device) =>

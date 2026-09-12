@@ -1,5 +1,5 @@
 import { useLocale } from "@/components/site/locale";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -9,22 +9,21 @@ import {
   Upload,
   Monitor,
   ArrowUpRight,
+  Stethoscope,
   X,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { FarmLine } from "@/components/farm-view";
 import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
-import {
-  STATUS_META,
-  BUCKET_LABEL,
-  officialSignals,
-  type OfficialSignal,
-} from "@/lib/device-status";
+import { STATUS_META, officialSignals, type OfficialSignal } from "@/lib/device-status";
+import { RECONCILE_NOTES, type Diagnosis } from "@/lib/diagnose";
 import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
-import type { FarmSummary } from "@/lib/farm";
-import { formatAgo, formatCount, formatLoss, formatPct, formatSecondsTimestamp } from "@/lib/format";
+import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
 import { getDeviceSeries } from "@/lib/iota.functions";
+
+type DetailTab = "diagnose" | "overview" | "history" | "rewards";
 
 function signalText(signal: OfficialSignal, t: (key: string) => string) {
   if (signal === "yes") return t("是");
@@ -97,88 +96,73 @@ function Total({
   );
 }
 
-function farmMeta(farm: FarmSummary, t: (key: string) => string) {
-  return [farm.modelLabel, farm.modelSize, farm.splits ? `${farm.splits} ${t("段")}` : null]
-    .filter(Boolean)
-    .join(" · ");
-}
-
-function FarmPanel({ farm }: { farm: FarmSummary }) {
-  const { t, locale } = useLocale();
-  const fill =
-    farm.maxMiners && farm.maxMiners > 0 && farm.activeMiners !== null
-      ? Math.min(100, (farm.activeMiners / farm.maxMiners) * 100)
-      : 0;
-  const meta = farmMeta(farm, t);
-  const loss =
-    farm.lossMin === null
-      ? "—"
-      : farm.lossMax === null || farm.lossMax === farm.lossMin
-        ? formatLoss(farm.lossMin)
-        : `${formatLoss(farm.lossMin)} – ${formatLoss(farm.lossMax)}`;
+function DiagnosisBlock({ diagnosis }: { diagnosis: Diagnosis }) {
+  const { locale, en } = useLocale();
   return (
-    <section className="farm" aria-label={t("整个矿场")}>
-      <div className="farm-head">
-        <h2>{t("整个矿场")}</h2>
-        {meta ? <span>{meta}</span> : null}
-      </div>
-      <div className="farm-bar" aria-hidden="true">
-        <i style={{ width: `${fill}%` }} />
-      </div>
-      <div className="farm-stats">
-        <div>
-          <span>{t("进行中任务")}</span>
-          <b>{formatCount(farm.activeRuns, locale)}</b>
-        </div>
-        <div>
-          <span>{t("在线矿工")}</span>
-          <b>
-            {formatCount(farm.activeMiners, locale)}
-            <small> / {formatCount(farm.maxMiners, locale)}</small>
-          </b>
-        </div>
-        <div>
-          <span>{t("剩余名额")}</span>
-          <b>{formatCount(farm.slotsRemaining, locale)}</b>
-        </div>
-        <div>
-          <span>{t("训练进度")}</span>
-          <b>{formatPct(farm.tokens, farm.totalTokens, locale)}</b>
-        </div>
-        <div>
-          <span>{t("损失")}</span>
-          <b>{loss}</b>
-        </div>
-      </div>
-      {farm.runs.length ? (
-        <details className="farm-runs">
-          <summary>{t("各任务")}</summary>
-          <ul>
-            {farm.runs.map((run) => (
-              <li key={run.runId}>
-                <div>
-                  <span>{run.name}</span>
-                  {run.tier ? <small>{run.tier}</small> : null}
-                  {run.mineCount > 0 ? (
-                    <small>
-                      {t("你的设备")} {formatCount(run.mineCount, locale)}
-                    </small>
-                  ) : null}
-                </div>
-                <b>
-                  {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
-                  <em>{formatPct(run.tokens, run.totalTokens, locale)}</em>
-                  <em>{formatLoss(run.loss)}</em>
-                  {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
-                </b>
-              </li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
-    </section>
+    <div className="diagnosis">
+      {diagnosis.notes.map((note) => (
+        <section key={note.code} data-tone={note.tone}>
+          <h4>{note.title[locale]}</h4>
+          <p>{note.cause[locale]}</p>
+          {note.steps.length ? (
+            <ol>
+              {note.steps.map((step) => (
+                <li key={step.en}>{step[locale]}</li>
+              ))}
+            </ol>
+          ) : null}
+          {note.slug ? (
+            <a href={`/${locale}/learn/${note.slug}`}>
+              {en ? "Read more" : "详细说明"}
+              <ArrowUpRight size={14} />
+            </a>
+          ) : null}
+        </section>
+      ))}
+      <details className="diagnosis-reconcile">
+        <summary>{en ? "Comparing numbers elsewhere?" : "数字和别处对不上？"}</summary>
+        <dl>
+          {RECONCILE_NOTES.map((item) => (
+            <div key={item.q.en}>
+              <dt>{item.q[locale]}</dt>
+              <dd>{item.a[locale]}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
+    </div>
   );
 }
+
+/** Only appears when something is actually wrong. Silent on a healthy list. */
+function AttentionBanner({
+  views,
+  onOpen,
+}: {
+  views: DeviceView[];
+  onOpen: (hotkey: string) => void;
+}) {
+  const { locale, en } = useLocale();
+  if (!views.length) return null;
+  return (
+    <div className="attention" role="status">
+      <Stethoscope size={17} />
+      <div>
+        {views.slice(0, 3).map((view) => (
+          <button key={view.entry.hotkey} onClick={() => onOpen(view.entry.hotkey)}>
+            <b>{view.entry.label}</b>
+            <span>{view.diagnosis.primary.title[locale]}</span>
+            <ArrowUpRight size={14} />
+          </button>
+        ))}
+        {views.length > 3 ? (
+          <p>{en ? `And ${views.length - 3} more.` : `还有 ${views.length - 3} 台。`}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function Dashboard() {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
@@ -187,11 +171,30 @@ export function Dashboard() {
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [detailTab, setDetailTab] = useState<DetailTab>("overview");
   const [label, setLabel] = useState("");
   const [hotkey, setHotkey] = useState("");
   const [message, setMessage] = useState("");
   const file = useRef<HTMLInputElement>(null);
   const active = dash.views.find((v) => v.entry.hotkey === selected);
+
+  // Arriving from the home page input: prefill and open the add form once.
+  const prefilled = useRef(false);
+  useEffect(() => {
+    if (prefilled.current || !watch.loaded) return;
+    const id = new URLSearchParams(window.location.search).get("add");
+    prefilled.current = true;
+    if (!id) return;
+    window.history.replaceState(null, "", window.location.pathname);
+    if (watch.devices.some((device) => device.hotkey === id)) return;
+    setHotkey(id);
+    setAdding(true);
+  }, [watch.loaded, watch.devices]);
+
+  function openDevice(hotkey: string, tab: DetailTab = "overview") {
+    setDetailTab(tab);
+    setSelected(hotkey);
+  }
   function exportList() {
     const url = URL.createObjectURL(new Blob([watch.exportJson()], { type: "application/json" }));
     const link = document.createElement("a");
@@ -287,18 +290,11 @@ export function Dashboard() {
         />
         <Total title={t("累计总收益")} value={dash.lifetimeTotal} usdPerIota={dash.usdPerIota} />
       </div>
-      {dash.usdPerIota ? (
-        <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p>
-      ) : null}
-      {dash.farm ? <FarmPanel farm={dash.farm} /> : null}
-      <div className="status-strip">
-        {Object.entries(dash.counts).map(([key, count]) => (
-          <div key={key}>
-            <span>{t(BUCKET_LABEL[key as keyof typeof BUCKET_LABEL])}</span>
-            <b>{count}</b>
-          </div>
-        ))}
-      </div>
+      {dash.usdPerIota ? <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p> : null}
+      <AttentionBanner
+        views={dash.needsAttention}
+        onOpen={(hotkey) => openDevice(hotkey, "diagnose")}
+      />
       <section>
         <div className="section-heading">
           <h2>
@@ -359,7 +355,13 @@ export function Dashboard() {
                     <span className="device-icon">
                       <Monitor size={22} />
                     </span>
-                    <span className={`badge ${meta.tone}`}>{t(meta.label)}</span>
+                    <button
+                      className={`badge ${meta.tone}`}
+                      title={en ? "What this means" : "这是什么意思"}
+                      onClick={() => openDevice(view.entry.hotkey, "diagnose")}
+                    >
+                      {t(meta.label)}
+                    </button>
                   </div>
                   <h3>{view.entry.label}</h3>
                   <PresenceSignals miner={view.miner} />
@@ -378,7 +380,7 @@ export function Dashboard() {
                   </div>
                   <div className="device-foot">
                     <span>{view.earnings && !view.earningsUsable ? t("旧数据") : ""}</span>
-                    <button onClick={() => setSelected(view.entry.hotkey)}>
+                    <button onClick={() => openDevice(view.entry.hotkey)}>
                       {t("查看详情")}
                       <ArrowUpRight size={16} />
                     </button>
@@ -389,6 +391,7 @@ export function Dashboard() {
           </div>
         )}
       </section>
+      {dash.farm ? <FarmLine farm={dash.farm} deviceCount={watch.devices.length} /> : null}
       <Dialog open={adding} onOpenChange={setAdding}>
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
@@ -402,9 +405,7 @@ export function Dashboard() {
                 setAdding(false);
                 setLabel("");
                 setHotkey("");
-                setMessage(
-                  watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"),
-                );
+                setMessage(watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"));
               } else setMessage(result.error || t("保存失败"));
             }}
           >
@@ -449,6 +450,8 @@ export function Dashboard() {
                 key={active.entry.hotkey}
                 view={active}
                 usdPerIota={dash.usdPerIota}
+                tab={detailTab}
+                onTab={setDetailTab}
               />
               <div className="actions detail-actions">
                 <button
@@ -503,28 +506,50 @@ export function Dashboard() {
     </main>
   );
 }
-function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: number | null }) {
+function DeviceDetail({
+  view,
+  usdPerIota,
+  tab,
+  onTab,
+}: {
+  view: DeviceView;
+  usdPerIota: number | null;
+  tab: DetailTab;
+  onTab: (tab: DetailTab) => void;
+}) {
   const { t, en, locale } = useLocale();
-  const [tab, setTab] = useState(t("运行情况"));
   const seriesFn = useServerFn(getDeviceSeries);
   const series = useQuery({
     queryKey: ["series", view.entry.hotkey, view.miner?.run_id],
     queryFn: () =>
       seriesFn({ data: { hotkey: view.entry.hotkey, runId: view.miner!.run_id, period: "week" } }),
-    enabled: tab === t("训练记录") && !!view.miner?.run_id,
+    enabled: tab === "history" && !!view.miner?.run_id,
     staleTime: 300000,
   });
+  const tabs: Array<[DetailTab, string]> = [
+    ["diagnose", t("排查")],
+    ["overview", t("运行情况")],
+    ["history", t("训练记录")],
+    ["rewards", t("收益记录")],
+  ];
   return (
     <>
       <div className="detail-tabs">
-        {[t("运行情况"), t("训练记录"), t("收益记录")].map((tabName) => (
-          <button key={tabName} aria-pressed={tab === tabName} onClick={() => setTab(tabName)}>
-            {tabName}
+        {tabs.map(([key, label]) => (
+          <button
+            key={key}
+            aria-pressed={tab === key}
+            data-alert={key === "diagnose" && view.diagnosis.tone === "warn" ? "yes" : undefined}
+            onClick={() => onTab(key)}
+          >
+            {label}
           </button>
         ))}
       </div>
       <div className="detail-body">
-        {tab === t("运行情况") ? (
+        {tab === "diagnose" ? (
+          <DiagnosisBlock diagnosis={view.diagnosis} />
+        ) : tab === "overview" ? (
           <>
             <PresenceSignals miner={view.miner} />
             <div className="detail-grid">
@@ -569,7 +594,7 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
               </dl>
             </details>
           </>
-        ) : tab === t("训练记录") ? (
+        ) : tab === "history" ? (
           <>
             {series.isLoading ? (
               <p>{t("正在获取最近一周训练记录…")}</p>

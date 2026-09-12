@@ -380,6 +380,58 @@ button:disabled {
   font-weight: 500;
   color: #64738a;
 }
+.farm-head a {
+  color: inherit;
+}
+.farm-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  font-size: 13px;
+  color: #64738a;
+}
+.farm-tiers b {
+  color: inherit;
+  margin-right: 6px;
+}
+.farm-table {
+  width: 100%;
+  margin-top: 16px;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  overflow-x: auto;
+}
+.farm-table th,
+.farm-table td {
+  padding: 8px 6px;
+  text-align: left;
+  border-top: 1px solid #edf0f6;
+  vertical-align: top;
+}
+.farm-table th {
+  font-weight: 500;
+  color: #64738a;
+}
+.farm-table small {
+  display: block;
+  margin-top: 2px;
+  color: #64738a;
+}
+.farm-table em {
+  font-style: normal;
+  margin-left: 6px;
+  color: #64738a;
+}
+.farm-countries {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #64738a;
+}
 .farm-runs {
   margin-top: 14px;
 }
@@ -2040,11 +2092,14 @@ body:has(.site-shell) {
 .site-shell .dashboard .status-strip span,
 .site-shell .dashboard .fx-note,
 .site-shell .dashboard .farm-head span,
+.site-shell .dashboard .farm-head a,
 .site-shell .dashboard .farm-stats span,
 .site-shell .dashboard .farm-stats small,
-.site-shell .dashboard .farm-runs summary,
-.site-shell .dashboard .farm-runs small,
-.site-shell .dashboard .farm-runs em,
+.site-shell .dashboard .farm-tiers,
+.site-shell .dashboard .farm-table th,
+.site-shell .dashboard .farm-table small,
+.site-shell .dashboard .farm-table em,
+.site-shell .dashboard .farm-countries,
 .site-shell .dashboard .money-pair em {
   color: rgba(255, 255, 255, 0.55);
 }
@@ -2139,6 +2194,8 @@ body:has(.site-shell) {
 .site-shell .dashboard .farm-bar i {
   background: #fff;
 }
+.site-shell .dashboard .farm-table th,
+.site-shell .dashboard .farm-table td,
 .site-shell .dashboard .farm-runs li,
 .site-shell .dashboard .device-earnings,
 .site-shell .dashboard .presence,
@@ -2459,4 +2516,338 @@ body:has(.site-shell) {
 }
 .site-shell .dashboard .account-name-link:hover {
   border-bottom-color: #fff;
+}
+
+/* --- status badge is now a button that opens the check tab --- */
+.device-top .badge {
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.site-shell .dashboard .device-top .badge {
+  border: 0;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.site-shell .dashboard .device-top .badge.good {
+  background: rgba(45, 200, 130, 0.16);
+  color: #6fe0ab;
+}
+.site-shell .dashboard .device-top .badge.info {
+  background: rgba(90, 150, 255, 0.16);
+  color: #8fb6ff;
+}
+.site-shell .dashboard .device-top .badge.warn {
+  background: rgba(255, 180, 60, 0.16);
+  color: #f2c076;
+}
+.site-shell .dashboard .device-top .badge.muted {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.6);
+}
+.site-shell .dashboard .device-top .badge:hover {
+  filter: brightness(1.18);
+}
+
+/* --- "something needs looking at" banner, hidden when all is well --- */
+.attention {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 180, 60, 0.4);
+  border-radius: 12px;
+  background: rgba(255, 180, 60, 0.07);
+  color: #f2c076;
+}
+.attention > svg {
+  flex: none;
+  margin-top: 2px;
+}
+.attention > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.site-shell .dashboard .attention button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: flex-start;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.site-shell .dashboard .attention button:hover {
+  background: none;
+  text-decoration: underline;
+}
+.attention button b {
+  font-weight: 600;
+}
+.attention button span {
+  color: rgba(255, 255, 255, 0.62);
+}
+.attention p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- per-device diagnosis --- */
+.diagnosis {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.diagnosis section {
+  padding-left: 12px;
+  border-left: 2px solid rgba(255, 255, 255, 0.14);
+}
+.diagnosis section[data-tone="warn"] {
+  border-left-color: #f2c076;
+}
+.diagnosis section[data-tone="ok"] {
+  border-left-color: #6fe0ab;
+}
+.diagnosis h4 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.diagnosis p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.68);
+}
+.diagnosis ol {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.diagnosis section > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: inherit;
+}
+.diagnosis-reconcile summary {
+  cursor: pointer;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.diagnosis-reconcile dl {
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.diagnosis-reconcile dt {
+  font-size: 14px;
+  font-weight: 600;
+}
+.diagnosis-reconcile dd {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+}
+.site-shell .dashboard .detail-tabs button[data-alert="yes"]::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 5px;
+  vertical-align: 3px;
+  border-radius: 50%;
+  background: #f2c076;
+}
+
+/* --- one-line network summary on the dashboard --- */
+.farm-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+}
+.farm-line:hover {
+  color: #fff;
+}
+
+/* --- the network page --- */
+.network-page .farm {
+  margin: 28px 0 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.network-page .farm-head {
+  justify-content: flex-end;
+}
+.network-page .farm-head span,
+.network-page .farm-head a,
+.network-page .farm-stats span,
+.network-page .farm-stats small,
+.network-page .farm-tiers,
+.network-page .farm-table th,
+.network-page .farm-table small,
+.network-page .farm-table em,
+.network-page .farm-countries,
+.network-page .farm-empty {
+  color: rgba(255, 255, 255, 0.55);
+}
+.network-page .farm-table td,
+.network-page .farm-table th {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.network-page .farm-table tr[data-mine="yes"] td {
+  background: rgba(255, 255, 255, 0.05);
+}
+.network-page .farm-countries b {
+  color: rgba(255, 255, 255, 0.85);
+  margin-right: 6px;
+  font-weight: 600;
+}
+.network-page .farm-bar {
+  background: rgba(255, 255, 255, 0.12);
+}
+.network-page .farm-bar i {
+  background: #fff;
+}
+.network-glossary {
+  margin: 40px 0 0;
+}
+.network-glossary h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.network-glossary dl {
+  display: grid;
+  gap: 18px;
+}
+.network-glossary dt {
+  font-size: 15px;
+  font-weight: 600;
+}
+.network-glossary dd {
+  margin: 5px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- home page: the Miner ID box is the first thing you can act on --- */
+.start-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 0;
+  max-width: 620px;
+}
+.start-form label {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.start-form input {
+  width: 100%;
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 15px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+.start-form input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.start-form input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+.start-form input[aria-invalid="true"] {
+  border-color: #f2c076;
+}
+.start-form .site-button {
+  flex: none;
+  border: 0;
+  cursor: pointer;
+}
+.start-error {
+  flex: 1 0 100%;
+  margin: 0;
+  font-size: 13px;
+  color: #f2c076;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- long IOTA amounts were colliding with the USD line in device cards --- */
+.device-earnings .money-pair strong {
+  font-size: 15px;
+}
+.device-earnings .money-pair em {
+  font-size: 13px;
+}
+
+/* --- diagnosis list markers and tone rail --- */
+.detail-body .diagnosis section {
+  padding-left: 12px;
+  border-left: 2px solid rgba(255, 255, 255, 0.16);
+}
+.detail-body .diagnosis section[data-tone="warn"] {
+  border-left-color: #f2c076;
+}
+.detail-body .diagnosis section[data-tone="ok"] {
+  border-left-color: #6fe0ab;
+}
+.detail-body .diagnosis ol {
+  list-style: decimal;
+  padding-left: 20px;
+}
+.detail-body .diagnosis ol li::marker {
+  color: rgba(255, 255, 255, 0.4);
+}
+.dashboard .money-pair,
+.money-pair.large {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }

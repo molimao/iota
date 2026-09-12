@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath } from "@/lib/site";
+import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
 import { AccountAvatar, AccountMenu } from "./account-menu";
 import { articleClusterMeta, getArticle, relatedArticles } from "./articles";
 import { content } from "./content";
-import { useLocale, type Locale } from "./locale";
+import { localizeMessage, useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
 
 export type { Page } from "./seo";
@@ -42,6 +44,7 @@ export function SiteNav() {
   const copy = content[locale];
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const links = [
+    [`/${locale}/network`, copy.nav[5]],
     [`/${locale}/guide`, copy.nav[0]],
     [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/learn`, copy.nav[2]],
@@ -77,6 +80,7 @@ export function SiteFooter() {
         <p>{copy.independent}</p>
       </div>
       <div>
+        <a href={`/${locale}/network`}>{copy.nav[5]}</a>
         <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
         <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
@@ -87,6 +91,59 @@ export function SiteFooter() {
       </div>
       <small>{en ? "Made for people training at home." : "为在家参与训练的人而做。"}</small>
     </footer>
+  );
+}
+
+/**
+ * The whole product is "paste one ID", so the first screen is that box.
+ * A valid ID goes straight to the dashboard with the add form prefilled.
+ */
+function StartForm() {
+  const { locale, en } = useLocale();
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  return (
+    <form
+      className="start-form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        const id = value.trim();
+        if (!id) {
+          window.location.href = `/${locale}/app`;
+          return;
+        }
+        const reason = minerIdError(id);
+        if (reason) {
+          setError(localizeMessage(reason, locale));
+          return;
+        }
+        window.location.href = `/${locale}/app?add=${encodeURIComponent(id)}`;
+      }}
+    >
+      <label>
+        <span className="sr-only">Miner ID</span>
+        <input
+          value={value}
+          spellCheck={false}
+          autoComplete="off"
+          onChange={(event) => {
+            setValue(event.target.value);
+            if (error) setError(null);
+          }}
+          placeholder={en ? "Paste your public Miner ID" : "粘贴你的公开 Miner ID"}
+          aria-invalid={error ? true : undefined}
+        />
+      </label>
+      <button className="site-button" type="submit">
+        {value.trim() ? (en ? "Watch this device" : "看这台设备") : content[locale].cta}
+        <ArrowUpRight size={19} />
+      </button>
+      {error ? (
+        <p className="start-error" role="alert">
+          {error}
+        </p>
+      ) : null}
+    </form>
   );
 }
 
@@ -107,11 +164,8 @@ export function Landing() {
           <em>{accent}</em>
         </h1>
         <p>{copy.intro}</p>
+        <StartForm />
         <div className="opening-actions">
-          <a className="site-button" href={`/${locale}/app`}>
-            {copy.cta}
-            <ArrowUpRight size={19} />
-          </a>
           <a className="text-link" href={`/${locale}/learn/find-miner-id`}>
             {copy.secondary}
             <ArrowRight size={16} />
@@ -130,82 +184,6 @@ export function Landing() {
           {en ? "What this site is" : "这是什么"} <ArrowRight size={15} />
         </a>
       </aside>
-      <section className="product-stage" aria-label={en ? "Dashboard illustration" : "监控面板示意"}>
-        <div className="stage-top">
-          <span className="stage-wordmark">
-            <Layers size={18} /> IOTA Watch
-          </span>
-          <span className="stage-demo">{copy.preview}</span>
-        </div>
-        <div className="stage-body">
-          <aside className="stage-sidebar">
-            <span className="sidebar-label">{en ? "WORKSPACE" : "工作区"}</span>
-            <b>
-              <Monitor size={17} />
-              {en ? "My devices" : "我的设备"}
-            </b>
-            <span>{en ? "Training activity" : "训练活动"}</span>
-            <span>{en ? "Reward records" : "收益记录"}</span>
-            <div className="sidebar-bottom">
-              {en ? "Public telemetry. Your personal overview." : "公开数据，你的设备全貌。"}
-            </div>
-          </aside>
-          <div className="stage-main">
-            <div className="stage-title">
-              <div>
-                <span className="eyebrow">{en ? "YOUR OVERVIEW" : "设备总览"}</span>
-                <h2>{copy.previewTitle}</h2>
-              </div>
-              <span className="stage-readonly">{en ? "Read-only" : "只读监控"}</span>
-            </div>
-            <div className="stage-metrics">
-              <div>
-                <span>{en ? "Today’s accounted rewards" : "今日记账收益"}</span>
-                <strong>
-                  — <small>IOTA</small>
-                </strong>
-                <em>— USD</em>
-                <p>{en ? "Across your saved devices" : "汇总已添加设备"}</p>
-              </div>
-              <div>
-                <span>{en ? "Lifetime rewards" : "累计记账收益"}</span>
-                <strong>
-                  — <small>IOTA</small>
-                </strong>
-                <em>— USD</em>
-                <p>{en ? "Per-device records included" : "可以查看单台设备记录"}</p>
-              </div>
-            </div>
-            <div className="stage-table">
-              <div className="stage-table-head">
-                <span>{en ? "DEVICE" : "设备"}</span>
-                <span>{en ? "REPORTED STATUS" : "上报状态"}</span>
-                <span>{en ? "REWARDS" : "收益"}</span>
-              </div>
-              {copy.previewNames.map((name, i) => (
-                <div className="stage-device" key={name}>
-                  <span>
-                    <i>
-                      <Monitor size={18} />
-                    </i>
-                    <b>{name}</b>
-                  </span>
-                  <span className={"stage-status s" + i}>{copy.statuses[i]}</span>
-                  <span>
-                    — <small>IOTA</small>
-                    <em>— USD</em>
-                  </span>
-                </div>
-              ))}
-            </div>
-            <p className="stage-footnote">
-              {en
-                ? "Your actual data appears after adding a Miner ID."
-                : "添加 Miner ID 后，这里会显示你的真实设备数据。"}
-            </p>
-          </div>
-        </div>
-      </section>
       <section className="purpose-section">
         <div>
           <span className="eyebrow">{copy.jobsEyebrow}</span>

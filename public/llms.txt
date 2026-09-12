@@ -32,6 +32,8 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [Home (en)](https://iotahome.site/en)
 - [使用说明 (zh)](https://iotahome.site/zh/learn)
 - [Help (en)](https://iotahome.site/en/learn)
+- [全网训练现况 (zh)](https://iotahome.site/zh/network)
+- [Network status (en)](https://iotahome.site/en/network)
 - [常见问题 (zh)](https://iotahome.site/zh/faq)
 - [FAQ (en)](https://iotahome.site/en/faq)
 - [使用指南 (zh)](https://iotahome.site/zh/guide)

@@ -18,7 +18,8 @@ import {
   UNIT_SCALE,
 } from "./earnings";
 import { localizeMessage } from "../components/site/locale";
-import { summarizeFarm } from "./farm";
+import { diagnoseDevice } from "./diagnose";
+import { aggregateFarmMiners, summarizeFarm } from "./farm";
 import { formatAgo } from "./format";
 import { withDeadline } from "./deadline";
 import {
@@ -209,6 +210,16 @@ it("summarizes official occupancy into farm totals", () => {
       },
     },
     { "4.12.16.1-tah": 2 },
+    aggregateFarmMiners([
+      {
+        runId: "4.12.16.1-tah",
+        miners: [
+          { is_active: true, throughput: 2, location_country: "China" } as never,
+          { is_active: true, throughput: 0, location_country: "Japan" } as never,
+          { is_active: false, throughput: 0, location_country: "China" } as never,
+        ],
+      },
+    ]),
   );
   expect(farm).toMatchObject({
     activeRuns: 2,
@@ -223,11 +234,14 @@ it("summarizes official occupancy into farm totals", () => {
     modelLabel: "Llama-3.2-1B",
     modelSize: "1B",
     splits: 3,
+    online: 2,
+    training: 1,
   });
-  expect(farm?.runs.map((run) => [run.runId, run.tier, run.mineCount])).toEqual([
-    ["4.12.16.1-tah", "Bronze", 2],
-    ["4.12.16.2-tah", "Silver", 0],
+  expect(farm?.runs.map((run) => [run.runId, run.tier, run.mineCount, run.online, run.training])).toEqual([
+    ["4.12.16.1-tah", "Bronze", 2, 2, 1],
+    ["4.12.16.2-tah", "Silver", 0, null, null],
   ]);
+  expect(farm?.countries[0]).toEqual({ country: "China", count: 2 });
   expect(summarizeFarm(null, [])).toBeNull();
 });
 it("rejects work that misses the deadline and keeps a finished result", async () => {
@@ -289,7 +303,7 @@ it("roundtrips more than three public IDs and prevents duplicates", () => {
 describe("crawl assets for GSC", () => {
   it("lists every indexable locale URL and never includes the dashboard", () => {
     const xml = buildSitemapXml();
-    expect(crawlPages).toHaveLength(5 + articles.length);
+    expect(crawlPages).toHaveLength(6 + articles.length);
     expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 2);
     expect(ORIGIN).toBe("https://iotahome.site");
     expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);
@@ -350,6 +364,90 @@ it("accepts SN9 market quotes and rejects the Layer 1 IOTA price", () => {
       ],
     }),
   ).toBe(5.8);
+});
+
+describe("reward troubleshooting", () => {
+  const earnings = (over: Partial<Parameters<typeof diagnoseDevice>[0]["earnings"] & object> = {}) => ({
+    hotkey: "5abc",
+    totalEarnedUnits: 100,
+    todayUnits: 10,
+    pendingUnits: 0,
+    frozenUnits: 0,
+    minimumPayoutUnits: 0,
+    historyCount: 1,
+    recent: [],
+    fetchedAt: 1,
+    error: null,
+    ...over,
+  });
+
+  it("blames the site, not the machine, when our own refresh stalled", () => {
+    const result = diagnoseDevice({
+      status: "refresh_interrupted",
+      miner: null,
+      earnings: earnings(),
+      earningsUsable: true,
+    });
+    expect(result.primary.code).toBe("refresh_interrupted");
+    expect(result.tone).toBe("info");
+  });
+
+  it("treats a device missing from every roster as worth acting on", () => {
+    const result = diagnoseDevice({
+      status: "not_found",
+      miner: null,
+      earnings: null,
+      earningsUsable: false,
+    });
+    expect(result.primary.code).toBe("not_found");
+    expect(result.tone).toBe("warn");
+    expect(result.primary.slug).toBe("device-not-found");
+  });
+
+  it("explains a training device that has not been credited today", () => {
+    const result = diagnoseDevice({
+      status: "contributing",
+      miner: null,
+      earnings: earnings({ todayUnits: 0 }),
+      earningsUsable: true,
+    });
+    expect(result.notes.map((note) => note.code)).toEqual(["no_today_rewards"]);
+    expect(result.tone).toBe("info");
+  });
+
+  it("points at the payout threshold when pending has not cleared it", () => {
+    const result = diagnoseDevice({
+      status: "contributing",
+      miner: null,
+      earnings: earnings({ pendingUnits: 50_000_000, minimumPayoutUnits: 100_000_000 }),
+      earningsUsable: true,
+    });
+    const note = result.notes.find((item) => item.code === "below_minimum_payout");
+    expect(note?.cause.zh).toContain("0.5");
+    expect(note?.cause.en).toContain("1");
+  });
+
+  it("stays quiet when the device is training and today is credited", () => {
+    const result = diagnoseDevice({
+      status: "contributing",
+      miner: null,
+      earnings: earnings(),
+      earningsUsable: true,
+    });
+    expect(result.tone).toBe("ok");
+    expect(result.notes).toHaveLength(1);
+    expect(result.primary.code).toBe("ok");
+  });
+
+  it("flags stale rewards without inventing a device fault", () => {
+    const result = diagnoseDevice({
+      status: "contributing",
+      miner: null,
+      earnings: earnings({ error: "收益刷新超时" }),
+      earningsUsable: false,
+    });
+    expect(result.notes.map((note) => note.code)).toEqual(["earnings_stale"]);
+  });
 });
 
 it("reads the Google display name instead of only the user id", () => {

@@ -1,4 +1,4 @@
-import type { Occupancy, RunInfo, RunProgress } from "./iota-types";
+import type { MinerRecord, Occupancy, RunInfo, RunProgress } from "./iota-types";
 
 export type FarmRun = {
   runId: string;
@@ -17,6 +17,9 @@ export type FarmRun = {
   totalActivations: number | null;
   loss: number | null;
   mineCount: number;
+  listed: number | null;
+  online: number | null;
+  training: number | null;
 };
 
 export type FarmSummary = {
@@ -33,7 +36,65 @@ export type FarmSummary = {
   modelLabel: string | null;
   modelSize: string | null;
   splits: number | null;
+  listed: number | null;
+  online: number | null;
+  training: number | null;
+  countries: Array<{ country: string; count: number }>;
+  tiers: Array<{
+    tier: string;
+    runs: number;
+    maxMiners: number | null;
+    slotsRemaining: number | null;
+    online: number | null;
+    training: number | null;
+  }>;
 };
+
+export type FarmMinerRun = {
+  runId: string;
+  listed: number;
+  online: number;
+  training: number;
+};
+
+export type FarmMinerStats = {
+  runs: FarmMinerRun[];
+  listed: number;
+  online: number;
+  training: number;
+  countries: Array<{ country: string; count: number }>;
+};
+
+export function aggregateFarmMiners(
+  lists: Array<{ runId: string; miners: MinerRecord[] | null }>,
+): FarmMinerStats {
+  const countries = new Map<string, number>();
+  const runs: FarmMinerRun[] = [];
+  for (const list of lists) {
+    const miners = list.miners ?? [];
+    let online = 0;
+    let training = 0;
+    for (const miner of miners) {
+      if (miner.is_active) {
+        online += 1;
+        if ((miner.throughput ?? 0) > 0) training += 1;
+      }
+      const country = miner.location_country?.trim();
+      if (country) countries.set(country, (countries.get(country) ?? 0) + 1);
+    }
+    runs.push({ runId: list.runId, listed: miners.length, online, training });
+  }
+  return {
+    runs,
+    listed: runs.reduce((sum, item) => sum + item.listed, 0),
+    online: runs.reduce((sum, item) => sum + item.online, 0),
+    training: runs.reduce((sum, item) => sum + item.training, 0),
+    countries: [...countries.entries()]
+      .map(([country, count]) => ({ country, count }))
+      .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country))
+      .slice(0, 8),
+  };
+}
 
 function finite(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
@@ -87,17 +148,20 @@ function fromInfo(
     ...slots,
     ...attachProgress(runId, progress),
     mineCount: mineCounts?.[runId] ?? 0,
+    listed: null,
+    online: null,
+    training: null,
   };
 }
 
 function uniqueLabel(values: Array<string | null>): string | null {
   const labels = [...new Set(values.filter((item): item is string => !!item))];
-  return labels.length === 1 ? labels[0] : null;
+  return labels.length === 1 ? (labels[0] as string) : null;
 }
 
 function uniqueNumber(values: Array<number | null>): number | null {
   const nums = [...new Set(values.filter(finite))];
-  return nums.length === 1 ? nums[0] : null;
+  return nums.length === 1 ? (nums[0] as number) : null;
 }
 
 function sumKnown(values: Array<number | null>): number | null {
@@ -110,6 +174,7 @@ export function summarizeFarm(
   runs: RunInfo[] | null | undefined,
   progress?: Record<string, RunProgress | null> | null,
   mineCounts?: Record<string, number> | null,
+  minerStats?: FarmMinerStats | null,
 ): FarmSummary | null {
   const byId = new Map((runs ?? []).map((run) => [run.run_id, run]));
   const items: FarmRun[] = [];
@@ -143,9 +208,35 @@ export function summarizeFarm(
     );
   }
   if (!items.length) return null;
+  const minersByRun = new Map((minerStats?.runs ?? []).map((item) => [item.runId, item]));
+  for (const item of items) {
+    const miners = minersByRun.get(item.runId);
+    if (!miners) continue;
+    item.listed = miners.listed;
+    item.online = miners.online;
+    item.training = miners.training;
+  }
   items.sort((a, b) => a.runId.localeCompare(b.runId, undefined, { numeric: true }));
   const losses = items.map((item) => item.loss).filter(finite);
   const namedActive = items.filter((item) => item.state === "active").length;
+  const tierMap = new Map<string, FarmSummary["tiers"][number]>();
+  for (const item of items) {
+    const key = item.tier || "—";
+    const current = tierMap.get(key) ?? {
+      tier: key,
+      runs: 0,
+      maxMiners: null,
+      slotsRemaining: null,
+      online: null,
+      training: null,
+    };
+    current.runs += 1;
+    current.maxMiners = sumKnown([current.maxMiners, item.maxMiners]);
+    current.slotsRemaining = sumKnown([current.slotsRemaining, item.slotsRemaining]);
+    current.online = sumKnown([current.online, item.online]);
+    current.training = sumKnown([current.training, item.training]);
+    tierMap.set(key, current);
+  }
   return {
     runs: items,
     activeRuns: namedActive || items.length,
@@ -160,5 +251,15 @@ export function summarizeFarm(
     modelLabel: uniqueLabel(items.map((item) => item.model)),
     modelSize: uniqueLabel(items.map((item) => item.modelSize)),
     splits: uniqueNumber(items.map((item) => item.splits)),
+    listed: minerStats?.listed ?? null,
+    online: minerStats?.online ?? null,
+    training: minerStats?.training ?? null,
+    countries: minerStats?.countries ?? [],
+    tiers: [...tierMap.values()].sort((a, b) => {
+      const order = ["Bronze", "Silver", "Gold"];
+      const left = order.indexOf(a.tier);
+      const right = order.indexOf(b.tier);
+      return (left < 0 ? 99 : left) - (right < 0 ? 99 : right);
+    }),
   };
 }

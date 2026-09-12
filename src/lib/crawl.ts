@@ -26,6 +26,7 @@ function articlePriority(slug: string) {
 export const crawlPages: CrawlPage[] = [
   { path: "", changefreq: "weekly", priority: "1.0" },
   { path: "learn", changefreq: "weekly", priority: "0.9" },
+  { path: "network", changefreq: "weekly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
   { path: "privacy", changefreq: "yearly", priority: "0.3" },
@@ -43,6 +44,7 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 function pageLabel(locale: SiteLocale, path: string) {
   if (!path) return locale === "en" ? "Home" : "首页";
   if (path === "learn") return locale === "en" ? "Help" : "使用说明";
+  if (path === "network") return locale === "en" ? "Network status" : "全网训练现况";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
   if (path === "guide") return locale === "en" ? "Get started" : "使用指南";
   if (path === "privacy") return locale === "en" ? "Privacy" : "隐私说明";
@@ -120,7 +122,10 @@ Sitemap: ${origin}/sitemap.xml
 export function buildLlmsTxt(origin = ORIGIN) {
   const links = crawlPages
     .flatMap((page) =>
-      LOCALES.map((locale) => `- [${pageLabel(locale, page.path)} (${locale})](${pageUrl(locale, page.path, origin)})`),
+      LOCALES.map(
+        (locale) =>
+          `- [${pageLabel(locale, page.path)} (${locale})](${pageUrl(locale, page.path, origin)})`,
+      ),
     )
     .join("\n");
 
@@ -161,8 +166,16 @@ ${links}
 export function buildLlmsFullTxt(origin = ORIGIN) {
   const articleBlocks = articles
     .map((article) => {
-      const zh = article.body.zh.filter((line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> ")).slice(0, 2);
-      const en = article.body.en.filter((line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> ")).slice(0, 2);
+      const zh = article.body.zh
+        .filter(
+          (line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> "),
+        )
+        .slice(0, 2);
+      const en = article.body.en
+        .filter(
+          (line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> "),
+        )
+        .slice(0, 2);
       return `### ${article.title.en}
 - ZH: ${pageUrl("zh", `learn/${article.slug}`, origin)}
 - EN: ${pageUrl("en", `learn/${article.slug}`, origin)}

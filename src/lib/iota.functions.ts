@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { withDeadline } from "./deadline";
+import { aggregateFarmMiners } from "./farm";
 import { validFetchedAt } from "./device-status";
 import { sumTodayUnits, toUnits } from "./earnings";
 import { orderActiveRuns } from "./iota-discover";
@@ -124,6 +125,29 @@ export const getRunProgressBatch = createServerFn({ method: "POST" })
     return { progress: Object.fromEntries(entries) as Record<string, RunProgress | null> };
   });
 
+export const getFarmMiners = createServerFn({ method: "POST" })
+  .inputValidator((input: { runIds?: string[]; force?: boolean }) => ({
+    runIds: validHintRunIds(input?.runIds),
+    force: input?.force === true,
+  }))
+  .handler(async ({ data }) => {
+    const { fetchUpstream, TTL } = await import("./iota-upstream.server");
+    const lists = await Promise.all(
+      data.runIds.map(async (runId) => {
+        const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
+          `/miners?run_id=${encodeURIComponent(runId)}`,
+          TTL.miners,
+          data.force,
+        );
+        return {
+          runId,
+          miners: Array.isArray(result.data?.miners) ? result.data!.miners : null,
+        };
+      }),
+    );
+    return aggregateFarmMiners(lists);
+  });
+
 /**
  * Discovers saved devices by matching the exact hotkey across the miner lists of
  * ALL currently active runs. Duplicate hotkeys across runs are deduped by the
@@ -140,7 +164,13 @@ export const discoverDevices = createServerFn({ method: "POST" })
     const errors: string[] = [];
     const started = Date.now();
     const BUDGET_MS = 6_000;
-    const EXTRA_RUN_LISTS = 2;
+    /**
+     * Bounded by the time budget below, not by a small fixed count: a device in
+     * the 6th run was otherwise never found and sat on 待确认 forever. The
+     * network view keeps every run list warm in the shared cache, so most of
+     * these iterations are cache hits.
+     */
+    const EXTRA_RUN_LISTS = 24;
     const remain = () => Math.max(0, BUDGET_MS - (Date.now() - started));
 
     const wanted = new Set(data.hotkeys);

@@ -4,7 +4,7 @@ import { articles, getArticle } from "./articles";
 import { content } from "./content";
 import type { Locale } from "./locale";
 
-export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account";
+export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account" | "network";
 
 const OG_IMAGE = `${ORIGIN}/og.svg`;
 const ORG_ID = `${ORIGIN}/#organization`;
@@ -106,9 +106,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                 ? en
                   ? "Account | IOTA Watch"
                   : "账号｜IOTA Watch"
-                : en
-                  ? "My devices | IOTA Watch"
-                  : "我的设备｜IOTA Watch";
+                : page === "network"
+                  ? en
+                    ? "IOTA Train at Home network status | IOTA Watch"
+                    : "全网训练现况｜IOTA Watch"
+                  : en
+                    ? "My devices | IOTA Watch"
+                    : "我的设备｜IOTA Watch";
 
   const description = article
     ? article.description[locale]
@@ -130,9 +134,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                 ? en
                   ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
                   : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
-                : en
-                  ? "Track reported training activity and rewards for your saved devices."
-                  : "查看已保存设备的训练状态与收益。";
+                : page === "network"
+                  ? en
+                    ? "Live view of every IOTA Train at Home run: open slots, miners online, miners actually training, progress and loss per run, by tier."
+                    : "IOTA Train at Home 全网训练任务实况：剩余名额、在线矿工、实际在训练的机器、各任务进度与损失，按档位分列。"
+                  : en
+                    ? "Track reported training activity and rewards for your saved devices."
+                    : "查看已保存设备的训练状态与收益。";
 
   const keywords = article
     ? en
@@ -175,9 +183,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                             ? en
                               ? "Account"
                               : "账号"
-                            : en
-                              ? "Dashboard"
-                              : "监控",
+                            : page === "network"
+                              ? en
+                                ? "Network"
+                                : "全网"
+                              : en
+                                ? "Dashboard"
+                                : "监控",
                 path,
               },
             ],

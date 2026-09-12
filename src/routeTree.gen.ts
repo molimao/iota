@@ -17,6 +17,7 @@ import { Route as LocaleAccountRouteImport } from './routes/$locale.account'
 import { Route as LocaleAppRouteImport } from './routes/$locale.app'
 import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
+import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
 
@@ -60,6 +61,11 @@ const LocaleGuideRoute = LocaleGuideRouteImport.update({
   path: '/guide',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleNetworkRoute = LocaleNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/$locale/app': typeof LocaleAppRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/'
     | '/$locale/learn/{-$slug}'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale'
     | '/$locale/learn/{-$slug}'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/$locale/app'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/'
     | '/$locale/learn/{-$slug}'
@@ -210,6 +222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleGuideRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/network': {
+      id: '/$locale/network'
+      path: '/network'
+      fullPath: '/$locale/network'
+      preLoaderRoute: typeof LocaleNetworkRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/privacy': {
       id: '/$locale/privacy'
       path: '/privacy'
@@ -232,6 +251,7 @@ interface LocaleRouteChildren {
   LocaleAppRoute: typeof LocaleAppRoute
   LocaleFaqRoute: typeof LocaleFaqRoute
   LocaleGuideRoute: typeof LocaleGuideRoute
+  LocaleNetworkRoute: typeof LocaleNetworkRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
@@ -242,6 +262,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAppRoute: LocaleAppRoute,
   LocaleFaqRoute: LocaleFaqRoute,
   LocaleGuideRoute: LocaleGuideRoute,
+  LocaleNetworkRoute: LocaleNetworkRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,

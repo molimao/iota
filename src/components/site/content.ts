@@ -1,6 +1,6 @@
 export const content = {
   en: {
-    nav: ["Get started", "FAQ", "Help", "Privacy", "Open dashboard"],
+    nav: ["Get started", "FAQ", "Help", "Privacy", "Open dashboard", "Network"],
     eyebrow: "IOTA TRAIN AT HOME DEVICE MONITOR",
     title: "See your training.\nUnderstand your rewards.",
     intro:
@@ -175,7 +175,7 @@ export const content = {
     updated: "Updated September 12, 2026",
   },
   zh: {
-    nav: ["使用指南", "常见问题", "使用说明", "隐私说明", "打开监控"],
+    nav: ["使用指南", "常见问题", "使用说明", "隐私说明", "打开监控", "全网"],
     eyebrow: "IOTA TRAIN AT HOME 设备监控",
     title: "训练有没有在跑，\n收益有没有记上。",
     intro:
