@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.enforce_user_device_limit() FROM PUBLIC, anon, authenticated;
