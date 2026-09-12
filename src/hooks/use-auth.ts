@@ -39,7 +39,7 @@ export function useAuth(): AuthState {
     setSigningIn(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: window.location.href,
       });
       if (result.error) {
         setError("登录未完成，请重试。");

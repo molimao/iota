@@ -7,7 +7,7 @@ export const content = {
       "Add a public Miner ID and see which devices are contributing, what they earned today, and lifetime accounted rewards. An independent monitor for IOTA Train at Home — not the IOTA Layer 1 wallet.",
     cta: "Watch my devices",
     secondary: "Find my Miner ID",
-    notes: ["No account required", "Public Miner ID only", "Not the IOTA Layer 1 wallet"],
+    notes: ["Optional Google sign-in", "Public Miner ID only", "Not the IOTA Layer 1 wallet"],
     disambiguationTitle: "Not the IOTA cryptocurrency",
     disambiguation:
       "IOTA Watch monitors IOTA Train at Home (Macrocosmos). It is not the IOTA Foundation chain, not an IOTA coin wallet, and it will never ask for a private key.",
@@ -76,7 +76,7 @@ export const content = {
       ],
       [
         "Keep your list with you",
-        "Export a JSON backup to import on another browser. IDs are saved locally in this browser.",
+        "Sign in with Google to bind up to 10 devices to your account, or export a JSON backup for another browser.",
       ],
     ],
     bottomTitle: "Your next device belongs here, too.",
@@ -108,7 +108,7 @@ export const content = {
       ],
       [
         "What does the IOTA unit mean?",
-        "Here IOTA refers to the Train at Home subnet alpha token used by the upstream reward API. It is not a TAO amount or a fiat valuation. Lifetime rewards use the total earned amount; paid amounts are not added again.",
+        "Here IOTA refers to the Train at Home subnet alpha token used by the upstream reward API. It is not a TAO amount and not IOTA Layer 1. The dashboard also shows a USD estimate from the public SN9 market price; that is not an official settlement rate. Lifetime rewards use the total earned amount; paid amounts are not added again.",
       ],
       [
         "How current are the numbers?",
@@ -120,23 +120,23 @@ export const content = {
       ],
       [
         "Do I need an account?",
-        "No account is required. Add your public Miner IDs to a watchlist stored in your browser. Export a backup to move the list to another device.",
+        "No. Without signing in you can keep up to 3 devices in this browser. Sign in with Google to bind up to 10 devices to your account and open the same list on another device.",
       ],
       [
         "Can I use the same list on my phone?",
-        "Export the device list and import it in the other browser. Local storage is not automatically synced between browsers or devices.",
+        "Sign in with the same Google account, or export the list and import it in the other browser. The unsigned local list does not sync by itself.",
       ],
       [
         "Why is a reward value missing?",
         "Unavailable or malformed data is shown as unknown, not zero. Overall totals show partial coverage when not all devices have usable reward data.",
       ],
     ],
-    privacyTitle: "Your device list stays in your browser",
+    privacyTitle: "Your device list, in the browser or on your account",
     privacyIntro: "No wallet connection, private key, or seed phrase is required.",
     privacy: [
       [
         "What is stored locally",
-        "The browser stores your public Miner IDs, labels, and the time they were added under iota-watchlist-v1. A separate bounded cache retains recently fetched telemetry for up to 24 hours.",
+        "Without signing in, the browser stores your public Miner IDs, labels, and the time they were added under iota-watchlist-v1, up to 3 devices. A separate bounded cache retains recently fetched telemetry for up to 24 hours.",
       ],
       [
         "What is sent to the server",
@@ -147,8 +147,8 @@ export const content = {
         "Lovable hosts this site. The hosting provider may process IP addresses, request metadata and technical error reports. Do not put passwords or other secrets in device labels.",
       ],
       [
-        "Exporting and removing your list",
-        "Export creates a JSON file containing public IDs and device labels. Remove devices in the dashboard, or clear this site’s browser storage to erase the local list and cached data. Export a backup first if you want to keep it.",
+        "Accounts and removing your list",
+        "Google sign-in is optional. After you sign in, the list is stored on your account (up to 10 devices) so you can open it elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices in the dashboard, or clear this site’s browser storage to erase the local copy.",
       ],
       [
         "Independent, read-only access",
@@ -165,7 +165,7 @@ export const content = {
       "添加公开 Miner ID，查看哪些设备在参与训练、今天记了多少收益、累计记了多少。面向 IOTA Train at Home 的独立监控工具，不是 IOTA 公链钱包。",
     cta: "开始监控我的设备",
     secondary: "如何找到 Miner ID",
-    notes: ["无需注册", "只需公开 Miner ID", "不是 IOTA 币钱包"],
+    notes: ["可选 Google 登录", "只需公开 Miner ID", "不是 IOTA 币钱包"],
     disambiguationTitle: "先说清楚：这不是 IOTA 公链",
     disambiguation:
       "IOTA Watch 监控的是 Macrocosmos 的 IOTA Train at Home 设备。它不是 IOTA Foundation 公链，不是 Firefly，也不能持有或转出代币。",
@@ -231,7 +231,7 @@ export const content = {
       ["起一个熟悉的名字", "打开监控页，添加 ID 和设备名称。其他机器也按同样的方式添加。"],
       [
         "备份清单，换个设备也能看",
-        "导出 JSON 备份，在其他浏览器导入。设备 ID 会保存在当前浏览器中。",
+        "用 Google 登录后最多绑定 10 台，换设备也能看；也可以继续导出 JSON 备份。",
       ],
     ],
     bottomTitle: "下一台设备，也一起加进来。",
@@ -262,7 +262,7 @@ export const content = {
       ],
       [
         "收益单位 IOTA 是什么？",
-        "这里指 Train at Home 上游收益接口使用的子网 alpha 代币，不是 TAO 数量，也不是法币估值。累计收益取 total earned，不会再叠加已支付金额。",
+        "这里指 Train at Home 上游收益接口使用的子网 alpha 代币，不是 TAO，也不是 IOTA 公链币。监控页会同时给出按公开市场价格估算的美元，那不是官方结算价。累计收益取 total earned，不会再叠加已支付金额。",
       ],
       [
         "数据多久刷新？",
@@ -274,23 +274,23 @@ export const content = {
       ],
       [
         "需要注册账号吗？",
-        "无需登录。添加公开 Miner ID 后，设备清单会保存在当前浏览器。可以导出备份，在其他设备导入。",
+        "不必须。未登录时当前浏览器最多保存 3 台。用 Google 登录后，清单绑定账号，最多 10 台，换设备也能看。",
       ],
       [
         "手机和电脑可以看同一个清单吗？",
-        "可以导出设备清单，再在另一个浏览器中导入。本地存储不会自动跨浏览器、跨设备同步。",
+        "登录同一个 Google 账号即可同步；也可以继续导出后再导入。未登录的本地清单不会自己同步。",
       ],
       [
         "为什么收益有时是横线？",
         "无法获取或格式异常的数据会显示未知，不当作零。只有部分设备收益可用时，总计会注明覆盖数量。",
       ],
     ],
-    privacyTitle: "设备清单，保存在你的浏览器",
+    privacyTitle: "设备清单：浏览器或账号",
     privacyIntro: "无需连接钱包，不需要私钥或助记词。",
     privacy: [
       [
         "本地存储什么",
-        "浏览器在 iota-watchlist-v1 中保存公开 Miner ID、名称和添加时间。另有独立、限制大小的遥测缓存，最多保留 24 小时。",
+        "未登录时，浏览器在 iota-watchlist-v1 中保存公开 Miner ID、名称和添加时间，最多 3 台。另有独立、限制大小的遥测缓存，最多保留 24 小时。",
       ],
       [
         "什么数据会发送到服务端",
@@ -301,8 +301,8 @@ export const content = {
         "本站由 Lovable 托管。托管方可能处理 IP 地址、请求信息和技术错误报告。请勿在设备名称中填写密码或其他秘密。",
       ],
       [
-        "如何导出或删除",
-        "导出会生成包含公开 ID 和设备名称的 JSON 文件。在监控页移除设备，或清理本站浏览器存储，即可删除本地清单和缓存；需要保留时请先导出备份。",
+        "账号、导出或删除",
+        "Google 登录是可选的。登录后清单存在账号里（最多 10 台），换设备也能打开。导出会生成包含公开 ID 和设备名称的 JSON。在监控页移除设备，或清理本站浏览器存储，可删除本地副本。",
       ],
       [
         "独立、只读",

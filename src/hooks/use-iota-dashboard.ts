@@ -9,7 +9,7 @@ import {
   type DeviceStatus,
   type StatusBucket,
 } from "@/lib/device-status";
-import { discoverDevices, getEarnings, getOccupancy } from "@/lib/iota.functions";
+import { discoverDevices, getEarnings, getIotaUsdPrice, getOccupancy } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
 
@@ -39,6 +39,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const discoverFn = useServerFn(discoverDevices);
   const earningsFn = useServerFn(getEarnings);
   const occupancyFn = useServerFn(getOccupancy);
+  const priceFn = useServerFn(getIotaUsdPrice);
 
   const forceRef = useRef(false);
   const [manualState, setManualState] = useState<{
@@ -65,6 +66,14 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   }, []);
 
   const enabled = ready && hotkeys.length > 0;
+
+  const priceQuery = useQuery({
+    queryKey: ["iota", "usd-price"],
+    queryFn: () => priceFn({ data: { force: forceRef.current } }),
+    enabled: ready,
+    staleTime: 60_000,
+    refetchInterval: 5 * 60 * 1000,
+  });
 
   const discoveryQuery = useQuery({
     queryKey: ["iota", "discovery", hotkeyKey],
@@ -140,6 +149,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const [discoveryResult, earningsResult] = await Promise.all([
         discoveryQuery.refetch(),
         earningsQuery.refetch(),
+        priceQuery.refetch(),
       ]);
       const messages = [
         ...(discoveryResult.error ? [discoveryResult.error.message] : []),
@@ -164,7 +174,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       forceRef.current = false;
       void occupancyQuery.refetch();
     }
-  }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, occupancyQuery]);
+  }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, occupancyQuery, priceQuery]);
 
   const cooldownRemaining = manualState.lastAt
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))
@@ -265,5 +275,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     manual: { ...manualState, cooldownRemaining },
     refresh,
     now,
+    usdPerIota: priceQuery.data?.usdPerIota ?? null,
+    usdError: priceQuery.data?.error ?? null,
   };
 }

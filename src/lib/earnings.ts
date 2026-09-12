@@ -15,6 +15,24 @@ export function unitsToNumber(units: number): number {
   return units / UNIT_SCALE;
 }
 
+export function iotaUnitsToUsd(units: number | null, usdPerIota: number | null): number | null {
+  if (units === null || usdPerIota === null || !Number.isFinite(usdPerIota) || usdPerIota <= 0) {
+    return null;
+  }
+  return unitsToNumber(units) * usdPerIota;
+}
+
+export function formatUsd(usd: number | null): string {
+  if (usd === null) return "—";
+  const negative = usd < 0;
+  const abs = Math.abs(usd);
+  const digits = abs >= 0.01 || abs === 0 ? 2 : 4;
+  return `${negative ? "-" : ""}$${abs.toLocaleString("en-US", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  })}`;
+}
+
 export function formatIota(units: number | null, decimals = 4): string {
   if (units === null) return "—";
   const negative = units < 0;

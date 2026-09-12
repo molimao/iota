@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { useLocale } from "@/components/site/locale";
 import {
   ACCOUNT_LIMIT,
   ACCOUNT_LIMIT_MESSAGE,
@@ -25,6 +26,7 @@ import {
 export type WatchlistResult = { ok: boolean; error?: string };
 
 export function useWatchlist(userId: string | null, authReady = true) {
+  const { en } = useLocale();
   const [devices, setDevices] = useState<WatchEntry[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [storageError, setStorageError] = useState<string | null>(null);
@@ -90,8 +92,12 @@ export function useWatchlist(userId: string | null, authReady = true) {
         if (!cancelled && (moved > 0 || skipped > 0)) {
           setSyncMessage(
             skipped > 0
-              ? `已把 ${moved} 台本地设备绑定到账号，${skipped} 台未能加入（超过 ${ACCOUNT_LIMIT} 台或重复）。`
-              : `已把 ${moved} 台本地设备绑定到账号。`,
+              ? en
+                ? `Bound ${moved} local device(s) to your account. ${skipped} could not be added (limit ${ACCOUNT_LIMIT} or already saved).`
+                : `已把 ${moved} 台本地设备绑定到账号，${skipped} 台未能加入（超过 ${ACCOUNT_LIMIT} 台或重复）。`
+              : en
+                ? `Bound ${moved} local device(s) to your account.`
+                : `已把 ${moved} 台本地设备绑定到账号。`,
           );
         }
       }
@@ -103,7 +109,7 @@ export function useWatchlist(userId: string | null, authReady = true) {
     return () => {
       cancelled = true;
     };
-  }, [userId, authReady]);
+  }, [userId, authReady, en]);
 
   const add = useCallback(
     async (input: { hotkey: string; label: string }): Promise<WatchlistResult> => {

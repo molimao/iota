@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { sumTodayUnits, aggregateUnits, hongKongDayStartSeconds } from "./earnings";
+import {
+  sumTodayUnits,
+  aggregateUnits,
+  hongKongDayStartSeconds,
+  formatUsd,
+  iotaUnitsToUsd,
+  UNIT_SCALE,
+} from "./earnings";
 import { computeStatus } from "./device-status";
 import { addEntry, parseWatchlist, serializeExport, importDevices } from "./watchlist";
 import { base58 } from "@scure/base";
@@ -42,6 +49,13 @@ describe("earnings accounting", () => {
       total: 3,
       partial: true,
     });
+  });
+  it("converts IOTA units to USD without inventing a price", () => {
+    expect(iotaUnitsToUsd(2 * UNIT_SCALE, 5.5)).toBe(11);
+    expect(iotaUnitsToUsd(null, 5.5)).toBeNull();
+    expect(iotaUnitsToUsd(UNIT_SCALE, null)).toBeNull();
+    expect(formatUsd(11)).toBe("$11.00");
+    expect(formatUsd(null)).toBe("—");
   });
 });
 it("old statistical sample does not imply offline", () => {

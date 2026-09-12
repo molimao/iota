@@ -259,6 +259,13 @@ export const getEarnings = createServerFn({ method: "POST" })
     return { devices, now };
   });
 
+export const getIotaUsdPrice = createServerFn({ method: "POST" })
+  .inputValidator((input: { force?: boolean }) => ({ force: input?.force === true }))
+  .handler(async ({ data }) => {
+    const { fetchIotaUsdPrice } = await import("./iota-price.server");
+    return fetchIotaUsdPrice(data.force);
+  });
+
 export const getDeviceSeries = createServerFn({ method: "POST" })
   .inputValidator((input: { runId: string; hotkey: string; period?: string; force?: boolean }) => {
     const hotkey = typeof input?.hotkey === "string" ? input.hotkey.trim() : "";

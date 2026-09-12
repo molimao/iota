@@ -153,6 +153,7 @@ export function Landing() {
                 <strong>
                   — <small>IOTA</small>
                 </strong>
+                <em>— USD</em>
                 <p>{en ? "Across your saved devices" : "汇总已添加设备"}</p>
               </div>
               <div>
@@ -160,6 +161,7 @@ export function Landing() {
                 <strong>
                   — <small>IOTA</small>
                 </strong>
+                <em>— USD</em>
                 <p>{en ? "Per-device records included" : "可以查看单台设备记录"}</p>
               </div>
             </div>
@@ -180,6 +182,7 @@ export function Landing() {
                   <span className={"stage-status s" + i}>{copy.statuses[i]}</span>
                   <span>
                     — <small>IOTA</small>
+                    <em>— USD</em>
                   </span>
                 </div>
               ))}

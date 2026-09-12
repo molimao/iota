@@ -18,26 +18,48 @@ import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
 import { STATUS_META, BUCKET_LABEL } from "@/lib/device-status";
-import { formatIota, type Aggregate } from "@/lib/earnings";
+import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
 import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
 import { getDeviceSeries } from "@/lib/iota.functions";
 
-const money = (v: number | null | undefined) => formatIota(v ?? null, 8);
+function MoneyPair({
+  units,
+  usdPerIota,
+  large = false,
+}: {
+  units: number | null | undefined;
+  usdPerIota: number | null;
+  large?: boolean;
+}) {
+  const iota = formatIota(units ?? null, 8);
+  const usd = formatUsd(iotaUnitsToUsd(units ?? null, usdPerIota));
+  return (
+    <span className={`money-pair${large ? " large" : ""}`}>
+      <strong>
+        {iota} <small>IOTA</small>
+      </strong>
+      <em>{usd} USD</em>
+    </span>
+  );
+}
 function Total({
   title,
   value,
+  usdPerIota,
   primary = false,
 }: {
   title: string;
   value: Aggregate;
+  usdPerIota: number | null;
   primary?: boolean;
 }) {
   const { t, en } = useLocale();
+  const units = value.known || !value.total ? value.units : null;
   return (
     <section className={`total ${primary ? "primary" : ""}`}>
       <span>{title}</span>
       <div className="amount">
-        {money(value.known || !value.total ? value.units : null)} <small>IOTA</small>
+        <MoneyPair large units={units} usdPerIota={usdPerIota} />
       </div>
       <p>
         {value.partial
@@ -127,9 +149,10 @@ export function Dashboard() {
           <p>
             {watch.devices.length}/{watch.limit}{" "}
             {auth.userId
-              ? `${t("台设备 · 已绑定")}${auth.email ? ` ${auth.email}` : ""}`
-              : t("台设备 · ID 保存在当前浏览器，登录后最多 10 台并绑定账号")}
+              ? t("台设备 · 已绑定到 Google 账号")
+              : t("台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看")}
           </p>
+          {auth.email ? <span className="account-email">{auth.email}</span> : null}
         </div>
         <span className="refresh-label">
           {t("最近获取")}
@@ -161,9 +184,19 @@ export function Dashboard() {
         </div>
       )}
       <div className="totals">
-        <Total primary title={t("今日总收益")} value={dash.todayTotal} />
-        <Total title={t("累计总收益")} value={dash.lifetimeTotal} />
+        <Total
+          primary
+          title={t("今日总收益")}
+          value={dash.todayTotal}
+          usdPerIota={dash.usdPerIota}
+        />
+        <Total title={t("累计总收益")} value={dash.lifetimeTotal} usdPerIota={dash.usdPerIota} />
       </div>
+      <p className="fx-note">
+        {dash.usdPerIota
+          ? `${t("美元按公开市场价格估算")} · 1 IOTA ≈ ${formatUsd(dash.usdPerIota)}`
+          : t("美元价格暂未获取，IOTA 数量仍按官方记账显示")}
+      </p>
       <div className="status-strip">
         {Object.entries(dash.counts).map(([key, count]) => (
           <div key={key}>
@@ -239,11 +272,14 @@ export function Dashboard() {
                   <div className="device-earnings">
                     <div>
                       <span>{t("今日收益")}</span>
-                      <strong>{money(view.earnings?.todayUnits)}</strong>
+                      <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
                     </div>
                     <div>
                       <span>{t("累计收益")}</span>
-                      <strong>{money(view.earnings?.totalEarnedUnits)}</strong>
+                      <MoneyPair
+                        units={view.earnings?.totalEarnedUnits}
+                        usdPerIota={dash.usdPerIota}
+                      />
                     </div>
                   </div>
                   <div className="device-foot">
@@ -265,10 +301,14 @@ export function Dashboard() {
       </section>
       <footer>
         <span>{t("每 5 秒检查更新；官方状态缓存 60 秒，收益缓存 5 分钟。支持手动刷新。")}</span>
-        <span>{t("仅查询公开数据；清理浏览器数据会移除设备清单，请先导出备份。")}</span>
+        <span>
+          {auth.userId
+            ? t("仅查询公开数据。登录后清单绑定账号；退出后此浏览器仍保留未登录时的本地副本。")
+            : t("仅查询公开数据；未登录时清理浏览器数据会移除本地清单，请先导出备份。")}
+        </span>
       </footer>
       <Dialog open={adding} onOpenChange={setAdding}>
-        <DialogContent>
+        <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>{t("填写公开的 Miner ID，不需要私钥或助记词。")}</DialogDescription>
           <form
@@ -318,12 +358,16 @@ export function Dashboard() {
           if (!open) setSelected(null);
         }}
       >
-        <DialogContent className="detail-dialog">
+        <DialogContent className="detail-dialog dash-dialog">
           {active && (
             <>
               <DialogTitle>{active.entry.label}</DialogTitle>
               <DialogDescription>{t(STATUS_META[active.status].explain)}</DialogDescription>
-              <DeviceDetail key={active.entry.hotkey} view={active} />
+              <DeviceDetail
+                key={active.entry.hotkey}
+                view={active}
+                usdPerIota={dash.usdPerIota}
+              />
               <div className="actions detail-actions">
                 <button
                   onClick={async () => {
@@ -353,9 +397,13 @@ export function Dashboard() {
                   onClick={() => {
                     if (
                       window.confirm(
-                        en
-                          ? `Remove ${active.entry.label} from this browser? Training will keep running.`
-                          : `从本浏览器移除「${active.entry.label}」？不会停止设备训练。`,
+                        watch.cloud
+                          ? en
+                            ? `Remove ${active.entry.label} from your account? Training will keep running.`
+                            : `从账号移除「${active.entry.label}」？不会停止设备训练。`
+                          : en
+                            ? `Remove ${active.entry.label} from this browser? Training will keep running.`
+                            : `从本浏览器移除「${active.entry.label}」？不会停止设备训练。`,
                       )
                     ) {
                       void watch.remove(active.entry.hotkey);
@@ -373,7 +421,7 @@ export function Dashboard() {
     </main>
   );
 }
-function DeviceDetail({ view }: { view: DeviceView }) {
+function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: number | null }) {
   const { t, en } = useLocale();
   const [tab, setTab] = useState(t("运行情况"));
   const seriesFn = useServerFn(getDeviceSeries);
@@ -406,12 +454,12 @@ function DeviceDetail({ view }: { view: DeviceView }) {
                 <b>{formatCount(view.miner?.throughput)}</b>
               </div>
               <div>
-                <span>{t("今日收益 · IOTA")}</span>
-                <b>{money(view.earnings?.todayUnits)}</b>
+                <span>{t("今日收益")}</span>
+                <MoneyPair units={view.earnings?.todayUnits} usdPerIota={usdPerIota} />
               </div>
               <div>
-                <span>{t("累计收益 · IOTA")}</span>
-                <b>{money(view.earnings?.totalEarnedUnits)}</b>
+                <span>{t("累计收益")}</span>
+                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={usdPerIota} />
               </div>
             </div>
             <p>
@@ -477,7 +525,7 @@ function DeviceDetail({ view }: { view: DeviceView }) {
                 <thead>
                   <tr>
                     <th>{t("记账时间")}</th>
-                    <th>IOTA</th>
+                    <th>{t("金额")}</th>
                     <th>{t("状态")}</th>
                   </tr>
                 </thead>
@@ -485,7 +533,9 @@ function DeviceDetail({ view }: { view: DeviceView }) {
                   {view.earnings.recent.map((r, i) => (
                     <tr key={i}>
                       <td>{formatSecondsTimestamp(r.timestamp)}</td>
-                      <td>{money(r.units)}</td>
+                      <td>
+                        <MoneyPair units={r.units} usdPerIota={usdPerIota} />
+                      </td>
                       <td>
                         {{ pending: t("待结算"), settled: t("已结算"), frozen: t("冻结") }[
                           r.status
