@@ -10,33 +10,121 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LocaleRouteImport } from './routes/$locale'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
+import { Route as LocaleAppRouteImport } from './routes/$locale.app'
+import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
+import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
+import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleRoute = LocaleRouteImport.update({
+  id: '/$locale',
+  path: '/$locale',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleAppRoute = LocaleAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleFaqRoute = LocaleFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleGuideRoute = LocaleGuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => LocaleRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteWithChildren
+  '/app': typeof AppRoute
+  '/$locale/app': typeof LocaleAppRoute
+  '/$locale/faq': typeof LocaleFaqRoute
+  '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/': typeof LocaleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
+  '/$locale/app': typeof LocaleAppRoute
+  '/$locale/faq': typeof LocaleFaqRoute
+  '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale': typeof LocaleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteWithChildren
+  '/app': typeof AppRoute
+  '/$locale/app': typeof LocaleAppRoute
+  '/$locale/faq': typeof LocaleFaqRoute
+  '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/': typeof LocaleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$locale'
+    | '/app'
+    | '/$locale/app'
+    | '/$locale/faq'
+    | '/$locale/guide'
+    | '/$locale/privacy'
+    | '/$locale/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/app'
+    | '/$locale/app'
+    | '/$locale/faq'
+    | '/$locale/guide'
+    | '/$locale/privacy'
+    | '/$locale'
+  id:
+    | '__root__'
+    | '/'
+    | '/$locale'
+    | '/app'
+    | '/$locale/app'
+    | '/$locale/faq'
+    | '/$locale/guide'
+    | '/$locale/privacy'
+    | '/$locale/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LocaleRoute: typeof LocaleRouteWithChildren
+  AppRoute: typeof AppRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +136,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale': {
+      id: '/$locale'
+      path: '/$locale'
+      fullPath: '/$locale'
+      preLoaderRoute: typeof LocaleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/app': {
+      id: '/$locale/app'
+      path: '/app'
+      fullPath: '/$locale/app'
+      preLoaderRoute: typeof LocaleAppRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/faq': {
+      id: '/$locale/faq'
+      path: '/faq'
+      fullPath: '/$locale/faq'
+      preLoaderRoute: typeof LocaleFaqRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/guide': {
+      id: '/$locale/guide'
+      path: '/guide'
+      fullPath: '/$locale/guide'
+      preLoaderRoute: typeof LocaleGuideRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/privacy': {
+      id: '/$locale/privacy'
+      path: '/privacy'
+      fullPath: '/$locale/privacy'
+      preLoaderRoute: typeof LocalePrivacyRouteImport
+      parentRoute: typeof LocaleRoute
+    }
   }
 }
 
+interface LocaleRouteChildren {
+  LocaleAppRoute: typeof LocaleAppRoute
+  LocaleFaqRoute: typeof LocaleFaqRoute
+  LocaleGuideRoute: typeof LocaleGuideRoute
+  LocalePrivacyRoute: typeof LocalePrivacyRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
+}
+
+const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleAppRoute: LocaleAppRoute,
+  LocaleFaqRoute: LocaleFaqRoute,
+  LocaleGuideRoute: LocaleGuideRoute,
+  LocalePrivacyRoute: LocalePrivacyRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
+}
+
+const LocaleRouteWithChildren =
+  LocaleRoute._addFileChildren(LocaleRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LocaleRoute: LocaleRouteWithChildren,
+  AppRoute: AppRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

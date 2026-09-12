@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -77,14 +78,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "IOTA · 我的设备" },
-      { name: "description", content: "IOTA 多设备状态与收益监控" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "IOTA · 我的设备" },
-      { property: "og:description", content: "IOTA 多设备状态与收益监控" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -101,8 +94,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <html lang="zh-CN">
+    <html lang={pathname.startsWith("/en") ? "en" : "zh-CN"}>
       <head>
         <HeadContent />
       </head>
