@@ -2,8 +2,19 @@ import { useLocale } from "@/components/site/locale";
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Plus, RefreshCw, Download, Upload, Monitor, ArrowUpRight, X } from "lucide-react";
+import {
+  Plus,
+  RefreshCw,
+  Download,
+  Upload,
+  Monitor,
+  ArrowUpRight,
+  X,
+  LogIn,
+  LogOut,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
 import { STATUS_META, BUCKET_LABEL } from "@/lib/device-status";
