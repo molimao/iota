@@ -15,10 +15,38 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
-import { STATUS_META, BUCKET_LABEL } from "@/lib/device-status";
+import {
+  STATUS_META,
+  BUCKET_LABEL,
+  officialSignals,
+  type OfficialSignal,
+} from "@/lib/device-status";
 import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
 import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
 import { getDeviceSeries } from "@/lib/iota.functions";
+
+function signalText(signal: OfficialSignal, t: (key: string) => string) {
+  if (signal === "yes") return t("是");
+  if (signal === "no") return t("否");
+  return t("还看不到");
+}
+
+function PresenceSignals({ miner }: { miner: DeviceView["miner"] }) {
+  const { t } = useLocale();
+  const signals = officialSignals(miner);
+  return (
+    <div className="presence">
+      <div>
+        <span>{t("官方在线")}</span>
+        <b data-signal={signals.online}>{signalText(signals.online, t)}</b>
+      </div>
+      <div>
+        <span>{t("已开始训练")}</span>
+        <b data-signal={signals.training}>{signalText(signals.training, t)}</b>
+      </div>
+    </div>
+  );
+}
 
 function MoneyPair({
   units,
@@ -263,6 +291,7 @@ export function Dashboard() {
                   </div>
                   <h3>{view.entry.label}</h3>
                   <p className="explain">{t(meta.explain)}</p>
+                  <PresenceSignals miner={view.miner} />
                   <div className="device-earnings">
                     <div>
                       <span>{t("今日收益")}</span>
@@ -438,6 +467,8 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
       <div className="detail-body">
         {tab === t("运行情况") ? (
           <>
+            <PresenceSignals miner={view.miner} />
+            <p className="presence-note">{t("依据官方最近一次采样，不是这台电脑的心跳。")}</p>
             <div className="detail-grid">
               <div>
                 <span>{t("激活处理量")}</span>

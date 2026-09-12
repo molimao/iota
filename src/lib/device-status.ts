@@ -113,6 +113,24 @@ export const STATUS_META: Record<
   },
 };
 
+export type OfficialSignal = "yes" | "no" | "unknown";
+
+/**
+ * Official miner-list sample only. This is not a Mac heartbeat:
+ * `is_active` = reported in the current training set,
+ * `throughput > 0` = that sample recorded training work.
+ */
+export function officialSignals(miner: MinerRecord | null): {
+  online: OfficialSignal;
+  training: OfficialSignal;
+} {
+  if (!miner) return { online: "unknown", training: "unknown" };
+  return {
+    online: miner.is_active ? "yes" : "no",
+    training: miner.is_active && miner.throughput > 0 ? "yes" : "no",
+  };
+}
+
 export type StatusBucket = "contributing" | "waiting" | "attention" | "pending";
 
 export function statusBucket(status: DeviceStatus): StatusBucket {

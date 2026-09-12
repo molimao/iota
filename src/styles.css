@@ -425,6 +425,39 @@ button:disabled {
   color: #67768b;
   min-height: 72px;
 }
+.presence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #edf0f6;
+}
+.presence span {
+  display: block;
+  font-size: 13px;
+  color: #78869a;
+  margin-bottom: 6px;
+}
+.presence b {
+  font-size: 18px;
+  font-weight: 650;
+}
+.presence b[data-signal="yes"] {
+  color: #17734d;
+}
+.presence b[data-signal="no"] {
+  color: #8c5915;
+}
+.presence b[data-signal="unknown"] {
+  color: #65748b;
+}
+.presence-note {
+  margin: 10px 0 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #78869a;
+}
 .device-earnings {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1886,6 +1919,8 @@ body:has(.site-shell) {
 .site-shell .dashboard .explain,
 .site-shell .dashboard .device-foot > span,
 .site-shell .dashboard .device-earnings span,
+.site-shell .dashboard .presence span,
+.site-shell .dashboard .presence-note,
 .site-shell .dashboard .detail-grid span,
 .site-shell .dashboard > footer,
 .site-shell .dashboard .status-strip span,
@@ -1978,9 +2013,19 @@ body:has(.site-shell) {
   color: rgba(255, 255, 255, 0.62);
 }
 .site-shell .dashboard .device-earnings,
+.site-shell .dashboard .presence,
 .site-shell .dashboard th,
 .site-shell .dashboard td {
   border-color: rgba(255, 255, 255, 0.1);
+}
+.site-shell .dashboard .presence b,
+.site-shell .dashboard .presence b[data-signal="yes"],
+.site-shell .dashboard .presence b[data-signal="no"],
+.site-shell .dashboard .presence b[data-signal="unknown"] {
+  color: #fff;
+}
+.site-shell .dashboard .presence b[data-signal="unknown"] {
+  color: rgba(255, 255, 255, 0.45);
 }
 .site-shell .dashboard th,
 .site-shell .dashboard .detail-body p,

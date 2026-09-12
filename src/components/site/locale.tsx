@@ -107,6 +107,13 @@ const EN: Record<string, string> = {
   等待任务: "Waiting",
   需检查: "Check device",
   待确认: "Unknown",
+  官方在线: "Officially online",
+  已开始训练: "Training started",
+  是: "Yes",
+  否: "No",
+  还看不到: "Not yet",
+  "依据官方最近一次采样，不是这台电脑的心跳。":
+    "From the latest official sample, not a heartbeat from this computer.",
   有训练贡献: "Contributing",
   在线待任务: "Waiting for tasks",
   暂未参与: "Not participating",

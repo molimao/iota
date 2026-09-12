@@ -21,6 +21,7 @@ import { withDeadline } from "./deadline";
 import {
   computeStatus,
   latestValidClock,
+  officialSignals,
   REFRESH_INTERRUPTED_MS,
   resolveLastSuccessfulFetchAt,
   validFetchedAt,
@@ -74,6 +75,21 @@ describe("earnings accounting", () => {
     expect(iotaUnitsToUsd(UNIT_SCALE, null)).toBeNull();
     expect(formatUsd(11)).toBe("$11.00");
     expect(formatUsd(null)).toBe("—");
+  });
+});
+it("splits official online from whether the last sample had training work", () => {
+  expect(officialSignals(null)).toEqual({ online: "unknown", training: "unknown" });
+  expect(officialSignals({ is_active: true, throughput: 4 } as never)).toEqual({
+    online: "yes",
+    training: "yes",
+  });
+  expect(officialSignals({ is_active: true, throughput: 0 } as never)).toEqual({
+    online: "yes",
+    training: "no",
+  });
+  expect(officialSignals({ is_active: false, throughput: 80 } as never)).toEqual({
+    online: "no",
+    training: "no",
   });
 });
 it("old statistical sample does not imply offline", () => {
