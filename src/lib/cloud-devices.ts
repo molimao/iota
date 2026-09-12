@@ -6,11 +6,8 @@ import type { StorageOutcome, WatchEntry } from "./watchlist";
 export const ACCOUNT_LIMIT = 10;
 export const LOCAL_LIMIT = 3;
 
-const LIMIT_MESSAGE = `每个账号最多绑定 ${ACCOUNT_LIMIT} 台设备，更多暂不支持。`;
-
-function isLimitError(message: string): boolean {
-  return message.includes("device_limit_reached");
-}
+export const ACCOUNT_LIMIT_MESSAGE = `每个账号最多绑定 ${ACCOUNT_LIMIT} 台设备，更多暂不支持。`;
+export const LOCAL_LIMIT_MESSAGE = `未登录最多保存 ${LOCAL_LIMIT} 台设备，登录后可绑定 ${ACCOUNT_LIMIT} 台。`;
 
 export async function listCloudDevices(): Promise<StorageOutcome<WatchEntry[]>> {
   const { data, error } = await supabase
@@ -44,10 +41,9 @@ export async function addCloudDevice(
     ...(input.addedAt ? { added_at: new Date(input.addedAt).toISOString() } : {}),
   });
   if (error) {
-    if (isLimitError(error.message)) return { ok: false, error: LIMIT_MESSAGE };
-    if (error.code === "23505" || error.code === "23305" || error.code === "23000")
-      return { ok: false, error: "这个 Miner ID 已经添加过了" };
-    if (error.code === "23305" || error.message.includes("duplicate"))
+    if (error.message.includes("device_limit_reached"))
+      return { ok: false, error: ACCOUNT_LIMIT_MESSAGE };
+    if (error.code === "23505" || error.message.toLowerCase().includes("duplicate"))
       return { ok: false, error: "这个 Miner ID 已经添加过了" };
     return { ok: false, error: "保存到账号失败，请稍后重试。" };
   }
@@ -71,5 +67,3 @@ export async function removeCloudDevice(hotkey: string): Promise<StorageOutcome<
   if (error) return { ok: false, error: "移除失败，请稍后重试。" };
   return { ok: true, value: true };
 }
-
-export { LIMIT_MESSAGE as ACCOUNT_LIMIT_MESSAGE };
