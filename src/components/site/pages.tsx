@@ -45,6 +45,8 @@ export function SiteNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const links = [
     [`/${locale}/network`, copy.nav[5]],
+    [`/${locale}/guide`, copy.nav[0]],
+    [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/learn`, copy.nav[2]],
   ] as const;
   return (
@@ -89,15 +91,16 @@ export function SiteFooter() {
         <p>{copy.independent}</p>
       </div>
       <div>
-        <a href={`/${locale}/app`}>{en ? "My devices" : "我的设备"}</a>
         <a href={`/${locale}/network`}>{copy.nav[5]}</a>
-        <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
+        <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
+        <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
         <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
         </a>
       </div>
+      <small>{en ? "Made for people training at home." : "为在家参与训练的人而做。"}</small>
     </footer>
   );
 }
@@ -178,10 +181,83 @@ export function Landing() {
             {copy.secondary}
             <ArrowRight size={16} />
           </a>
-          <a className="text-link" href={`/${locale}/network`}>
-            {en ? "Network status" : "全网状态"}
-            <ArrowRight size={16} />
+        </div>
+        <ul className="hero-chips">
+          {copy.notes.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      </section>
+      <aside className="disambiguation">
+        <strong>{copy.disambiguationTitle}</strong>
+        <p>{copy.disambiguation}</p>
+        <a href={`/${locale}/learn/what-is-iota-watch`}>
+          {en ? "What this site is" : "这是什么"} <ArrowRight size={15} />
+        </a>
+      </aside>
+      <section className="purpose-section">
+        <div>
+          <span className="eyebrow">{copy.jobsEyebrow}</span>
+          <h2>{copy.jobsTitle}</h2>
+          <p>{copy.jobsIntro}</p>
+        </div>
+        <div className="purpose-list">
+          {copy.jobs.map(([title, body], i) => (
+            <article key={title}>
+              <span>0{i + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+                <a href={`/${locale}${copy.jobsLinks[i]}`}>
+                  {copy.jobsCta[i]} <ArrowRight size={14} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="start-section">
+        <div>
+          <span className="eyebrow">{en ? "GET STARTED" : "开始使用"}</span>
+          <h2>{copy.stepsTitle}</h2>
+          <p>{copy.bottom}</p>
+          <a className="site-button" href={`/${locale}/app`}>
+            {copy.cta}
+            <ArrowUpRight size={18} />
           </a>
+        </div>
+        <ol>
+          {copy.steps.map(([title, body], i) => (
+            <li key={title}>
+              <span>{i + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="learn-index landing-learn">
+        <div className="learn-index-head">
+          <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
+          <h2>{copy.learnTitle}</h2>
+          <p>{copy.learnIntro}</p>
+        </div>
+        <LearnGrid locale={locale} />
+      </section>
+      <section className="ecosystem">
+        <span className="eyebrow">{copy.ecosystemTitle}</span>
+        <div className="ecosystem-grid">
+          {copy.ecosystem.map(([label, href, note]) => (
+            <a key={href} href={href} rel="noreferrer" target="_blank">
+              <h3>
+                {label}
+                <ArrowUpRight size={16} />
+              </h3>
+              <p>{note}</p>
+            </a>
+          ))}
         </div>
       </section>
     </div>
@@ -189,7 +265,7 @@ export function Landing() {
 }
 
 export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
-  const { locale } = useLocale();
+  const { locale, en } = useLocale();
   const copy = content[locale];
   const title =
     page === "guide" ? copy.guideTitle : page === "faq" ? copy.faqTitle : copy.privacyTitle;
@@ -197,15 +273,17 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
     page === "guide" ? copy.guideIntro : page === "faq" ? copy.faqIntro : copy.privacyIntro;
   const rows = page === "guide" ? copy.steps : page === "faq" ? copy.faq : copy.privacy;
   return (
-    <article className={`article-page ${page}-page`}>
+    <article className="article-page">
+      <a className="back-link" href={`/${locale}`}>
+        ← {en ? "Home" : "首页"}
+      </a>
+      <span className="eyebrow">IOTA WATCH / {page.toUpperCase()}</span>
       <h1>{title}</h1>
       <p className="article-lead">{intro}</p>
       <div className="article-sections">
         {rows.map(([heading, body], i) => (
           <section key={heading}>
-            {page === "guide" ? (
-              <span className="article-number">{String(i + 1).padStart(2, "0")}</span>
-            ) : null}
+            <span className="article-number">{String(i + 1).padStart(2, "0")}</span>
             <div>
               <h2>{heading}</h2>
               <p>{body}</p>
@@ -213,6 +291,19 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           </section>
         ))}
       </div>
+      {page === "guide" && (
+        <aside className="article-tip">
+          <h2>{en ? "What you should know before starting" : "开始之前，了解这几点"}</h2>
+          <p>
+            {en
+              ? "You need an existing Train at Home device and its public Miner ID. This dashboard cannot run training for you, promise rewards, or read your local logs."
+              : "你需要已经运行 Train at Home 的设备及其公开 Miner ID。监控页不会替你启动训练，不承诺收益，也不能读取本机日志。"}
+          </p>
+          <a href={`/${locale}/learn/find-miner-id`}>
+            {en ? "Illustrated Miner ID steps" : "看 Miner ID 详细步骤"} →
+          </a>
+        </aside>
+      )}
       <p className="article-updated">{copy.updated}</p>
       <a className="site-button" href={`/${locale}/app`}>
         {copy.cta}
@@ -225,39 +316,45 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
 function LearnGrid({ locale }: { locale: Locale }) {
   return (
     <div className="learn-clusters">
-      {(["start", "read"] as const).map((cluster) => {
-        const meta = articleClusterMeta[cluster];
-        return (
-          <section key={cluster} className="learn-cluster">
-            <h2 className="learn-cluster-title">{meta.title[locale]}</h2>
-            <div className="learn-grid">
-              {meta.slugs.map((slug) => {
-                const article = getArticle(slug);
-                if (!article) return null;
-                return (
-                  <a key={article.slug} href={`/${locale}/learn/${article.slug}`}>
-                    <span>{article.topic[locale]}</span>
-                    <h3>
-                      {article.title[locale]}
-                      <ArrowUpRight size={18} />
-                    </h3>
-                    <p>{article.description[locale]}</p>
-                  </a>
-                );
-              })}
-            </div>
-          </section>
-        );
-      })}
+      {(Object.keys(articleClusterMeta) as Array<keyof typeof articleClusterMeta>).map(
+        (cluster) => {
+          const meta = articleClusterMeta[cluster];
+          return (
+            <section key={cluster} className="learn-cluster">
+              <h2 className="learn-cluster-title">{meta.title[locale]}</h2>
+              <div className="learn-grid">
+                {meta.slugs.map((slug) => {
+                  const article = getArticle(slug);
+                  if (!article) return null;
+                  return (
+                    <a key={article.slug} href={`/${locale}/learn/${article.slug}`}>
+                      <span>{article.topic[locale]}</span>
+                      <h3>
+                        {article.title[locale]}
+                        <ArrowUpRight size={18} />
+                      </h3>
+                      <p>{article.description[locale]}</p>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        },
+      )}
     </div>
   );
 }
 
 export function LearnIndex() {
-  const { locale } = useLocale();
+  const { locale, en } = useLocale();
   const copy = content[locale];
   return (
     <article className="article-page learn-page">
+      <a className="back-link" href={`/${locale}`}>
+        ← {en ? "Home" : "首页"}
+      </a>
+      <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
       <h1>{copy.learnTitle}</h1>
       <p className="article-lead">{copy.learnIntro}</p>
       <LearnGrid locale={locale} />
@@ -305,6 +402,10 @@ export function AccountPage() {
   const label = auth.name || auth.email || (en ? "Account" : "账号");
   return (
     <article className="article-page account-page">
+      <a className="back-link" href={auth.userId ? `/${locale}/app` : `/${locale}`}>
+        ← {auth.userId ? (en ? "My devices" : "我的设备") : en ? "Home" : "首页"}
+      </a>
+      <span className="eyebrow">IOTA WATCH / ACCOUNT</span>
       <h1>{en ? "Account" : "账号"}</h1>
       {auth.userId ? (
         <>
@@ -316,9 +417,30 @@ export function AccountPage() {
               <span>{en ? "Signed in with Google" : "已用 Google 登录"}</span>
             </div>
           </div>
-          <a className="site-button small" href={`/${locale}/app`}>
-            {en ? "Open my devices" : "打开我的设备"}
-          </a>
+          <div className="account-facts">
+            <section>
+              <h2>{en ? "Device list" : "设备清单"}</h2>
+              <p>
+                {en
+                  ? "This account can keep up to 10 devices. Open the dashboard to add, rename, or remove them."
+                  : "这个账号最多绑定 10 台设备。添加、改名和移除都在监控页完成。"}
+              </p>
+              <a className="site-button small" href={`/${locale}/app`}>
+                {en ? "Open my devices" : "打开我的设备"}
+              </a>
+            </section>
+            <section>
+              <h2>{en ? "What this account is for" : "这个账号用来做什么"}</h2>
+              <p>
+                {en
+                  ? "Google sign-in only binds your public Miner ID list so you can open it on another device. IOTA Watch never asks for a password, private key, or seed phrase."
+                  : "Google 登录只是把公开 Miner ID 清单绑到账号上，换设备也能看。IOTA Watch 不要密码、私钥或助记词。"}
+              </p>
+              <a href={`/${locale}/learn/google-account-device-list`}>
+                {en ? "How the device list syncs" : "设备清单怎么同步"} →
+              </a>
+            </section>
+          </div>
           <button type="button" className="account-signout" onClick={() => void auth.signOut()}>
             {en ? "Sign out" : "退出登录"}
           </button>

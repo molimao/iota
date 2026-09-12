@@ -32,16 +32,16 @@ function signalText(signal: OfficialSignal, t: (key: string) => string) {
 }
 
 function PresenceSignals({ miner }: { miner: DeviceView["miner"] }) {
-  const { t, en } = useLocale();
+  const { t } = useLocale();
   const signals = officialSignals(miner);
   return (
     <div className="presence">
       <div>
-        <span>{en ? "On roster" : "在名单里"}</span>
+        <span>{t("官方在线")}</span>
         <b data-signal={signals.online}>{signalText(signals.online, t)}</b>
       </div>
       <div>
-        <span>{en ? "Training" : "有训练量"}</span>
+        <span>{t("已开始训练")}</span>
         <b data-signal={signals.training}>{signalText(signals.training, t)}</b>
       </div>
     </div>
@@ -251,10 +251,8 @@ export function Dashboard() {
                 </a>
                 {` · ${watch.devices.length}/${watch.limit}`}
               </>
-            ) : en ? (
-              `${watch.devices.length} ${watch.devices.length === 1 ? "device" : "devices"}`
             ) : (
-              `${watch.devices.length} 台设备`
+              `${watch.devices.length}/${watch.limit}`
             )}
           </p>
           <span className="refresh-label">
@@ -412,7 +410,7 @@ export function Dashboard() {
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>
-            {en ? "Paste the public ID shown on the Miner screen." : "粘贴 Miner 页面里的公开 ID。"}
+            {en ? "Paste the public ID from the Miner screen." : "粘贴 Miner 页面里的公开 ID。"}
           </DialogDescription>
           <form
             className="device-form"

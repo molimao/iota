@@ -13,12 +13,12 @@ export const articles: Article[] = [
     slug: "what-is-iota-watch",
     topic: { en: "Definition", zh: "它是什么" },
     title: {
-      en: "About IOTA Watch",
-      zh: "关于 IOTA Watch",
+      en: "What IOTA Watch is — not the IOTA cryptocurrency",
+      zh: "IOTA Watch 是什么？它不是 IOTA 公链钱包",
     },
     description: {
-      en: "A read-only view of your Train at Home devices and rewards.",
-      zh: "查看 Train at Home 设备状态和收益的只读工具。",
+      en: "IOTA Watch monitors IOTA Train at Home devices from Macrocosmos. It is not the IOTA Layer 1 coin, wallet, or Firefly.",
+      zh: "IOTA Watch 监控 Macrocosmos 的 IOTA Train at Home 设备状态和收益。它不是 IOTA 公链、IOTA 币或 Firefly 钱包。",
     },
     body: {
       en: [
@@ -61,12 +61,12 @@ export const articles: Article[] = [
     slug: "find-miner-id",
     topic: { en: "Setup", zh: "开始使用" },
     title: {
-      en: "Where is my Miner ID?",
-      zh: "Miner ID 在哪里？",
+      en: "How to find your IOTA Train at Home Miner ID",
+      zh: "如何找到 IOTA Train at Home 的 Miner ID",
     },
     description: {
-      en: "Copy it from the Miner screen in Train at Home.",
-      zh: "从 Train at Home 的 Miner 页面复制。",
+      en: "Copy the public Miner ID from the Miner screen in the official IOTA Train at Home app. Use the SS58 hotkey, never a private key.",
+      zh: "在官方 IOTA Train at Home 应用的 Miner 页面复制公开 Miner ID。使用 SS58 hotkey，不要用私钥或助记词。",
     },
     body: {
       en: [
@@ -107,12 +107,12 @@ export const articles: Article[] = [
     slug: "how-rewards-work",
     topic: { en: "Rewards", zh: "收益口径" },
     title: {
-      en: "How are rewards counted?",
-      zh: "收益怎么算？",
+      en: "How IOTA Train at Home daily and lifetime rewards are counted",
+      zh: "IOTA Train at Home 今日收益和累计收益怎么算",
     },
     description: {
-      en: "What today, lifetime, and missing values mean.",
-      zh: "今日、累计和缺失数据分别代表什么。",
+      en: "Today’s rewards sum pending and settled records from midnight Hong Kong time. Lifetime uses total earned. The unit is subnet IOTA, not TAO.",
+      zh: "今日收益按香港时间当天 0 点起的 pending、settled 记录求和。累计收益取 total earned。单位是子网 IOTA，不是 TAO。",
     },
     body: {
       en: [
@@ -155,12 +155,12 @@ export const articles: Article[] = [
     slug: "device-status",
     topic: { en: "Status", zh: "设备状态" },
     title: {
-      en: "What does each status mean?",
-      zh: "设备状态是什么意思？",
+      en: "What IOTA Train at Home device statuses mean",
+      zh: "IOTA 设备状态含义：有贡献、等待任务、暂未参与",
     },
     description: {
-      en: "Contributing, waiting, not participating, and unknown.",
-      zh: "有贡献、等待任务、暂未参与和待确认。",
+      en: "Contributing, waiting, and not participating come from the last official sample. An old sample time is not proof that your Mac went offline.",
+      zh: "有贡献、等待任务、暂未参与来自官方最近一次统计采样。采样时间较旧，不等于你的 Mac 已经掉线。",
     },
     body: {
       en: [
@@ -195,12 +195,12 @@ export const articles: Article[] = [
     slug: "iota-train-at-home-vs-iota-coin",
     topic: { en: "Disambiguation", zh: "别搜错" },
     title: {
-      en: "Train at Home and the IOTA network",
-      zh: "Train at Home 和 IOTA 公链",
+      en: "IOTA Train at Home vs the IOTA cryptocurrency",
+      zh: "IOTA Train at Home 和 IOTA 公链有什么区别",
     },
     description: {
-      en: "They share a name, but they are separate products.",
-      zh: "名字相同，但不是同一个产品。",
+      en: "IOTA Train at Home is a Macrocosmos / Bittensor subnet. The IOTA Foundation chain, Firefly, and IOTA Layer 1 wallets are a different product.",
+      zh: "IOTA Train at Home 是 Macrocosmos / Bittensor 子网。IOTA Foundation 公链、Firefly 和 IOTA Layer 1 钱包是另一套产品。",
     },
     body: {
       en: [
@@ -231,12 +231,12 @@ export const articles: Article[] = [
     slug: "iota-rewards-in-usd",
     topic: { en: "USD estimate", zh: "美元估价" },
     title: {
-      en: "About the USD estimate",
-      zh: "关于美元估价",
+      en: "How IOTA Train at Home rewards are shown in USD",
+      zh: "IOTA Train at Home 收益怎么同时显示美元",
     },
     description: {
-      en: "A rough market estimate beside the official IOTA amount.",
-      zh: "官方 IOTA 数量旁的市场估价。",
+      en: "IOTA Watch shows official subnet IOTA amounts and a public SN9 market estimate in USD. The dollar figure is not a payout.",
+      zh: "IOTA Watch 同时显示官方子网 IOTA 数量，以及按 SN9 公开市场价格估算的美元。美元不是结算价。",
     },
     body: {
       en: [
@@ -267,12 +267,12 @@ export const articles: Article[] = [
     slug: "what-refresh-interrupted-means",
     topic: { en: "Refresh", zh: "刷新中断" },
     title: {
-      en: "Refresh interrupted",
-      zh: "刷新中断",
+      en: "What “refresh interrupted” means on IOTA Watch",
+      zh: "IOTA Watch「刷新中断」是什么意思",
     },
     description: {
-      en: "The dashboard could not update; your Mac may still be fine.",
-      zh: "监控页暂时没能更新，不代表 Mac 已经离线。",
+      en: "Refresh interrupted means IOTA Watch could not finish a successful read of official data for more than five minutes. It is not proof that your Mac went offline.",
+      zh: "刷新中断表示 IOTA Watch 超过 5 分钟没能成功读完官方数据。这不证明你的 Mac 已经掉线。",
     },
     body: {
       en: [
@@ -311,12 +311,12 @@ export const articles: Article[] = [
     slug: "google-account-device-list",
     topic: { en: "Account", zh: "账号同步" },
     title: {
-      en: "Use the same list elsewhere",
-      zh: "在其他设备查看同一清单",
+      en: "How Google sign-in stores your IOTA Watch device list",
+      zh: "IOTA Watch 用 Google 登录后，设备清单怎么同步",
     },
     description: {
-      en: "Sign in with Google, or export and import a backup.",
-      zh: "登录 Google，或导出后再导入。",
+      en: "Without an account, this browser keeps 3 Miner IDs. Google sign-in binds up to 10 public IDs to your account so you can open the same list elsewhere.",
+      zh: "未登录时当前浏览器最多保存 3 个 Miner ID。Google 登录后最多绑定 10 个公开 ID，换设备也能打开同一份清单。",
     },
     body: {
       en: [
@@ -357,12 +357,12 @@ export const articles: Article[] = [
     slug: "what-is-sn9-iota",
     topic: { en: "Token", zh: "子网代币" },
     title: {
-      en: "What is SN9 / IOTA?",
-      zh: "SN9 / IOTA 是什么？",
+      en: "What SN9 / IOTA means on Train at Home",
+      zh: "Train at Home 的 SN9 / IOTA 是什么代币",
     },
     description: {
-      en: "The Train at Home subnet token shown in rewards.",
-      zh: "收益中显示的 Train at Home 子网代币。",
+      en: "On IOTA Watch, IOTA is the Bittensor subnet 9 (SN9) alpha token used by Train at Home. It is not TAO and not the IOTA Foundation Layer 1 coin.",
+      zh: "在 IOTA Watch 里，IOTA 指 Bittensor 子网 9（SN9）的 Train at Home alpha 代币。它不是 TAO，也不是 IOTA 公链币。",
     },
     body: {
       en: [
@@ -397,12 +397,12 @@ export const articles: Article[] = [
     slug: "device-not-found",
     topic: { en: "Troubleshooting", zh: "尚未找到" },
     title: {
-      en: "Miner ID not found",
-      zh: "找不到 Miner ID",
+      en: "IOTA Watch says the Miner ID was not found",
+      zh: "IOTA Watch 显示「尚未找到」怎么办",
     },
     description: {
-      en: "Check the complete public ID first.",
-      zh: "先核对完整的公开 ID。",
+      en: "Not found means every active run list loaded, and this public Miner ID was not in them. Check the full SS58 hotkey before assuming the Mac is broken.",
+      zh: "尚未找到表示进行中的训练名单都读成功了，里面没有这个公开 Miner ID。先核对完整 SS58 hotkey，不要直接当成电脑坏了。",
     },
     body: {
       en: [
@@ -450,11 +450,11 @@ export const articleClusterMeta: Record<
     slugs: ["what-is-iota-watch", "iota-train-at-home-vs-iota-coin", "what-is-sn9-iota"],
   },
   start: {
-    title: { en: "Get started", zh: "开始使用" },
+    title: { en: "Add your devices", zh: "把设备加进来" },
     slugs: ["find-miner-id", "google-account-device-list", "device-not-found"],
   },
   read: {
-    title: { en: "Status and rewards", zh: "状态与收益" },
+    title: { en: "Read status and rewards", zh: "看懂状态和收益" },
     slugs: [
       "how-rewards-work",
       "iota-rewards-in-usd",
@@ -465,20 +465,24 @@ export const articleClusterMeta: Record<
 };
 
 const relatedBySlug: Record<string, string[]> = {
-  "what-is-iota-watch": ["iota-train-at-home-vs-iota-coin", "what-is-sn9-iota", "find-miner-id"],
+  "what-is-iota-watch": [
+    "iota-train-at-home-vs-iota-coin",
+    "what-is-sn9-iota",
+    "find-miner-id",
+  ],
   "find-miner-id": ["google-account-device-list", "device-not-found", "device-status"],
   "how-rewards-work": ["iota-rewards-in-usd", "what-is-sn9-iota", "device-status"],
-  "device-status": ["what-refresh-interrupted-means", "device-not-found", "how-rewards-work"],
+  "device-status": [
+    "what-refresh-interrupted-means",
+    "device-not-found",
+    "how-rewards-work",
+  ],
   "iota-train-at-home-vs-iota-coin": [
     "what-is-iota-watch",
     "what-is-sn9-iota",
     "iota-rewards-in-usd",
   ],
-  "iota-rewards-in-usd": [
-    "how-rewards-work",
-    "what-is-sn9-iota",
-    "iota-train-at-home-vs-iota-coin",
-  ],
+  "iota-rewards-in-usd": ["how-rewards-work", "what-is-sn9-iota", "iota-train-at-home-vs-iota-coin"],
   "what-refresh-interrupted-means": ["device-status", "device-not-found", "how-rewards-work"],
   "google-account-device-list": ["find-miner-id", "what-is-iota-watch", "device-not-found"],
   "what-is-sn9-iota": [

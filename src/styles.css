@@ -2742,15 +2742,10 @@ body:has(.site-shell) {
 .network-glossary {
   margin: 40px 0 0;
 }
-.network-glossary summary {
-  width: fit-content;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-}
-.network-glossary[open] summary {
-  margin-bottom: 18px;
-  color: #fff;
+.network-glossary h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
 }
 .network-glossary dl {
   display: grid;
@@ -2858,10 +2853,9 @@ body:has(.site-shell) {
 }
 
 /*
- * Canonical page grid:
- * - 1120px for navigation, indexes and data-heavy pages
- * - a narrower centered column for reading and account pages
- * - one shared outer gutter at every viewport size
+ * One page grid for every route:
+ * 1120px for nav, footer, dashboard, home sections and index pages;
+ * a narrower reading column for articles; the same outer gutter everywhere.
  */
 .site-shell {
   display: flex;
@@ -2881,30 +2875,15 @@ body:has(.site-shell) {
 .landing-v2 > .ecosystem,
 .article-page {
   width: calc(100% - 48px);
+  max-width: 1120px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 0;
   padding-right: 0;
 }
-
-.site-nav,
-.site-footer,
-.site-shell .dashboard,
-.landing-v2 > .opening,
-.landing-v2 > .disambiguation,
-.landing-v2 > .purpose-section,
-.landing-v2 > .start-section,
-.landing-v2 > .landing-learn,
-.landing-v2 > .ecosystem,
-.article-page.network-page,
-.article-page.learn-page {
-  max-width: 1120px;
-}
-
-.article-page {
+.article-page:not(.network-page):not(.learn-page) {
   max-width: 786px;
 }
-
 @media (max-width: 720px) {
   .site-nav,
   .site-footer,
