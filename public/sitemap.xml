@@ -199,4 +199,76 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/what-refresh-interrupted-means</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/what-refresh-interrupted-means</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/google-account-device-list</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/google-account-device-list</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/what-is-sn9-iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/what-is-sn9-iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/device-not-found</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/device-not-found</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

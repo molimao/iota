@@ -5,7 +5,7 @@ import {
   readCoinGeckoSimple,
   readDexScreener,
 } from "./iota-price-sources";
-import { articles } from "../components/site/articles";
+import { articleClusterMeta, articles, relatedArticles } from "../components/site/articles";
 import { profileFromUser } from "./auth-profile";
 import { buildLlmsFullTxt, buildLlmsTxt, buildRobotsTxt, buildSitemapXml, crawlPages } from "./crawl";
 import { ORIGIN, originFromRequest } from "./site";
@@ -17,13 +17,15 @@ import {
   iotaUnitsToUsd,
   UNIT_SCALE,
 } from "./earnings";
+import { withDeadline } from "./deadline";
 import {
   computeStatus,
+  latestValidClock,
   REFRESH_INTERRUPTED_MS,
   resolveLastSuccessfulFetchAt,
   validFetchedAt,
 } from "./device-status";
-import { hintRunIdsFromDevices, orderActiveRuns } from "./iota-discover";
+import { hintRunIdsFromDevices, mergeDiscovery, orderActiveRuns } from "./iota-discover";
 import { addEntry, parseWatchlist, serializeExport, importDevices } from "./watchlist";
 import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
@@ -115,6 +117,48 @@ it("counts a successful dashboard query as a fresh fetch even if miner stamps ar
       discoveryFetchedAt: null,
     }),
   ).toBe(now - REFRESH_INTERRUPTED_MS - 1);
+  expect(latestValidClock(now - 1000, null, now)).toBe(now);
+  expect(
+    computeStatus({
+      miner: { timestamp: 1, is_active: true, throughput: 4 } as never,
+      fullCoverage: true,
+      lastSuccessfulFetchAt: now - REFRESH_INTERRUPTED_MS - 1,
+      now,
+      fetching: true,
+    }),
+  ).toBe("contributing");
+});
+it("rejects work that misses the deadline and keeps a finished result", async () => {
+  await expect(withDeadline(Promise.resolve(7), 50, "超时")).resolves.toBe(7);
+  await expect(withDeadline(new Promise(() => {}), 20, "超时")).rejects.toThrow("超时");
+});
+it("keeps the last miner when a later discovery poll comes back empty", () => {
+  const previous = {
+    devices: [
+      {
+        hotkey: "a",
+        miner: { hotkey: "a", is_active: true, throughput: 1 } as never,
+        fetchedAt: 1_800_000_000_000,
+        runIds: ["r1"],
+      },
+    ],
+    runs: [],
+    runsTotal: 1,
+    runsFetched: 0,
+    fullCoverage: false,
+    fetchedAt: 1_800_000_000_000,
+    errors: [],
+  };
+  const next = {
+    ...previous,
+    devices: [{ hotkey: "a", miner: null, fetchedAt: null, runIds: [] }],
+    fetchedAt: 1_800_000_100_000,
+    errors: ["本次未在时限内读完官方名单"],
+  };
+  const merged = mergeDiscovery(next, previous);
+  expect(merged.devices[0]?.miner).toEqual(previous.devices[0]?.miner);
+  expect(merged.devices[0]?.runIds).toEqual(["r1"]);
+  expect(merged.fetchedAt).toBe(1_800_000_100_000);
 });
 it("scans previously seen runs first so known devices do not wait on every task list", () => {
   const runs = [{ run_id: "a" }, { run_id: "b" }, { run_id: "c" }];
@@ -148,6 +192,10 @@ describe("crawl assets for GSC", () => {
     expect(ORIGIN).toBe("https://iotahome.site");
     expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);
     expect(xml).toContain(`${ORIGIN}/en/learn/iota-rewards-in-usd`);
+    expect(xml).toContain(`${ORIGIN}/zh/learn/what-refresh-interrupted-means`);
+    expect(xml).toContain(`${ORIGIN}/en/learn/what-is-sn9-iota`);
+    expect(xml).toContain(`${ORIGIN}/zh/learn/google-account-device-list`);
+    expect(xml).toContain(`${ORIGIN}/en/learn/device-not-found`);
     expect(xml).not.toContain("lovable.app");
     expect(xml).not.toContain("/app");
     expect(xml).not.toContain(`${ORIGIN}</loc>`);
@@ -159,6 +207,15 @@ describe("crawl assets for GSC", () => {
     expect(originFromRequest(new Request("https://www.iotahome.site/sitemap.xml"))).toBe(ORIGIN);
     expect(originFromRequest(new Request("http://127.0.0.1:5179/sitemap.xml"))).toBe("http://127.0.0.1:5179");
     expect(buildSitemapXml("http://127.0.0.1:5179")).toContain("http://127.0.0.1:5179/zh");
+  });
+
+  it("groups every learn article into a crawlable cluster with related links", () => {
+    const clustered = Object.values(articleClusterMeta).flatMap((item) => item.slugs);
+    expect(new Set(clustered).size).toBe(articles.length);
+    expect(clustered).toHaveLength(articles.length);
+    expect(relatedArticles("what-refresh-interrupted-means").map((item) => item.slug)).toContain(
+      "device-status",
+    );
   });
 
   it("tells Googlebot to skip the dashboard", () => {

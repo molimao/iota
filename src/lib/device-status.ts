@@ -17,6 +17,16 @@ export function validFetchedAt(value: number | null | undefined): number | null 
     : null;
 }
 
+/** Newest valid millisecond clock, or null if none are usable. */
+export function latestValidClock(...values: Array<number | null | undefined>): number | null {
+  let best: number | null = null;
+  for (const value of values) {
+    const next = validFetchedAt(value);
+    if (next !== null && (best === null || next > best)) best = next;
+  }
+  return best;
+}
+
 /**
  * 刷新中断 is about our dashboard round-trip, not the miner-list cache stamp.
  * A successful query counts even if some upstream lists were stale or skipped.
@@ -44,6 +54,8 @@ export type StatusInput = {
   /** last successful upstream fetch of miner lists (NOT the sample timestamp) */
   lastSuccessfulFetchAt: number | null;
   now: number;
+  /** A refresh is in flight: keep the last readable status instead of flipping to interrupt. */
+  fetching?: boolean;
 };
 
 /**
@@ -52,9 +64,9 @@ export type StatusInput = {
  * device offline. Only a missing successful fetch of our own produces 刷新中断.
  */
 export function computeStatus(input: StatusInput): DeviceStatus {
-  const { miner, fullCoverage, lastSuccessfulFetchAt, now } = input;
+  const { miner, fullCoverage, lastSuccessfulFetchAt, now, fetching } = input;
   const fetchedAt = validFetchedAt(lastSuccessfulFetchAt);
-  if (fetchedAt === null || now - fetchedAt > REFRESH_INTERRUPTED_MS) {
+  if ((fetchedAt === null || now - fetchedAt > REFRESH_INTERRUPTED_MS) && !fetching) {
     return "refresh_interrupted";
   }
   if (miner) {

@@ -1,3 +1,5 @@
+import type { DiscoveryResult } from "./iota-types";
+
 export function hintRunIdsFromDevices(
   devices:
     | Array<{ runIds?: string[]; miner?: { run_id?: string } | null }>
@@ -27,4 +29,28 @@ export function orderActiveRuns<T extends { run_id: string }>(runs: T[], hintRun
   const rest: T[] = [];
   for (const run of runs) (hinted.has(run.run_id) ? first : rest).push(run);
   return [...first, ...rest];
+}
+
+/** Keep the last known miner when a later poll times out or skips that list. */
+export function mergeDiscovery(
+  next: DiscoveryResult,
+  previous: DiscoveryResult | undefined,
+): DiscoveryResult {
+  if (!previous?.devices.length) return next;
+  const oldByHotkey = new Map(previous.devices.map((device) => [device.hotkey, device]));
+  return {
+    ...next,
+    devices: next.devices.map((device) => {
+      if (device.miner) return device;
+      const old = oldByHotkey.get(device.hotkey);
+      if (!old?.miner) return device;
+      return {
+        ...device,
+        miner: old.miner,
+        runIds: device.runIds.length ? device.runIds : old.runIds,
+        fetchedAt: device.fetchedAt ?? old.fetchedAt,
+      };
+    }),
+    fetchedAt: next.fetchedAt ?? previous.fetchedAt,
+  };
 }

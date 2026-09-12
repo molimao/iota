@@ -1726,6 +1726,31 @@ th {
   max-width: 640px;
   margin-bottom: 28px;
 }
+.purpose-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 14px;
+}
+.purpose-list a:hover {
+  color: #fff;
+}
+.learn-clusters {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+.learn-cluster-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
 .learn-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

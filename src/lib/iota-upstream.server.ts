@@ -3,11 +3,13 @@
  *
  * Guarantees:
  *  - only fixed allowlisted path shapes are ever requested (no arbitrary URL / SSRF)
- *  - shared TTL cache + singleflight + max 6 concurrent upstream requests
- *  - 12s timeout, exponential backoff after failures (stale data is kept and flagged)
+ *  - shared TTL cache + singleflight + max 8 concurrent upstream requests
+ *  - hard timeout (AbortController + Promise.race) so one hung /miners cannot pin the isolate
+ *  - exponential backoff after failures (stale data is kept and flagged)
  */
 
 import { validFetchedAt } from "./device-status";
+import { withDeadline } from "./deadline";
 
 export const IOTA_BASE = "https://iota-web.api.macrocosmos.ai/mainnet";
 
@@ -20,8 +22,9 @@ export const TTL = {
   rewards: 300_000,
 } as const;
 
-const TIMEOUT_MS = 12_000;
-const MAX_CONCURRENCY = 6;
+const TIMEOUT_MS = 4_000;
+const QUEUE_WAIT_MS = 2_000;
+const MAX_CONCURRENCY = 8;
 const UPSTREAM_HEADERS = {
   accept: "application/json",
   "user-agent": "IOTA-Watch/1.0 (+https://iotahome.site)",
@@ -44,19 +47,41 @@ type CacheEntry = {
   lastError: string | null;
 };
 
+type Inflight = {
+  promise: Promise<unknown>;
+  startedAt: number;
+};
+
 const cache = new Map<string, CacheEntry>();
-const inflight = new Map<string, Promise<unknown>>();
+const inflight = new Map<string, Inflight>();
 
 let activeCount = 0;
 const waiters: Array<() => void> = [];
 
-async function acquireSlot(): Promise<void> {
+async function acquireSlot(waitMs: number): Promise<boolean> {
   if (activeCount < MAX_CONCURRENCY) {
     activeCount += 1;
-    return;
+    return true;
   }
-  await new Promise<void>((resolve) => waiters.push(resolve));
-  activeCount += 1;
+  return new Promise<boolean>((resolve) => {
+    let settled = false;
+    const finish = (ok: boolean) => {
+      if (settled) return;
+      settled = true;
+      resolve(ok);
+    };
+    const wake = () => {
+      clearTimeout(timer);
+      activeCount += 1;
+      finish(true);
+    };
+    const timer = setTimeout(() => {
+      const index = waiters.indexOf(wake);
+      if (index >= 0) waiters.splice(index, 1);
+      finish(false);
+    }, waitMs);
+    waiters.push(wake);
+  });
 }
 
 function releaseSlot(): void {
@@ -65,35 +90,44 @@ function releaseSlot(): void {
   if (next) next();
 }
 
-async function rawFetch(path: string, timeoutMs = TIMEOUT_MS): Promise<unknown> {
-  await acquireSlot();
+async function fetchJson(path: string, timeoutMs: number): Promise<unknown> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
-    try {
-      const response = await fetch(`${IOTA_BASE}${path}`, {
+    const response = await withDeadline(
+      fetch(`${IOTA_BASE}${path}`, {
         method: "GET",
         headers: UPSTREAM_HEADERS,
         signal: controller.signal,
-      });
-      const text = await response.text();
-      if (!response.ok) {
-        const snippet = text.slice(0, 160).replace(/\s+/g, " ");
-        if (response.status === 403 || response.status === 503) {
-          throw new Error(
-            `上游拒绝访问（HTTP ${response.status}，可能是 Cloudflare 拦截）：${snippet}`,
-          );
-        }
-        throw new Error(`上游返回 HTTP ${response.status}：${snippet}`);
+      }),
+      timeoutMs + 250,
+      "请求超时",
+    );
+    const text = await withDeadline(response.text(), 2_000, "读取响应超时");
+    if (!response.ok) {
+      const snippet = text.slice(0, 160).replace(/\s+/g, " ");
+      if (response.status === 403 || response.status === 503) {
+        throw new Error(
+          `上游拒绝访问（HTTP ${response.status}，可能是 Cloudflare 拦截）：${snippet}`,
+        );
       }
-      try {
-        return JSON.parse(text) as unknown;
-      } catch {
-        throw new Error("上游返回的不是有效 JSON（可能被中间层拦截）");
-      }
-    } finally {
-      clearTimeout(timer);
+      throw new Error(`上游返回 HTTP ${response.status}：${snippet}`);
     }
+    try {
+      return JSON.parse(text) as unknown;
+    } catch {
+      throw new Error("上游返回的不是有效 JSON（可能被中间层拦截）");
+    }
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function rawFetch(path: string, timeoutMs = TIMEOUT_MS): Promise<unknown> {
+  const got = await acquireSlot(Math.min(QUEUE_WAIT_MS, Math.max(400, timeoutMs)));
+  if (!got) throw new Error("请求排队超时");
+  try {
+    return await fetchJson(path, timeoutMs);
   } finally {
     releaseSlot();
   }
@@ -101,7 +135,7 @@ async function rawFetch(path: string, timeoutMs = TIMEOUT_MS): Promise<unknown> 
 
 function describeError(error: unknown): string {
   if (error instanceof Error) {
-    if (error.name === "AbortError") return "请求超时";
+    if (error.name === "AbortError" || error.message === "请求超时") return "请求超时";
     return error.message;
   }
   return "未知错误";
@@ -125,7 +159,12 @@ export async function fetchUpstream<T>(
   const fresh =
     entry && !entry.lastError && entry.data !== undefined && now - entry.fetchedAt < ttlMs;
   if (fresh && !force) {
-    return { data: entry.data as T, fetchedAt: validFetchedAt(entry.fetchedAt), error: null, stale: false };
+    return {
+      data: entry.data as T,
+      fetchedAt: validFetchedAt(entry.fetchedAt),
+      error: null,
+      stale: false,
+    };
   }
 
   const backingOff = entry != null && now < entry.nextAttemptAt && !force;
@@ -139,9 +178,11 @@ export async function fetchUpstream<T>(
   }
 
   const existing = inflight.get(key);
-  const promise =
-    existing ??
-    rawFetch(path, timeoutMs)
+  let promise: Promise<unknown>;
+  if (existing && now - existing.startedAt <= timeoutMs) {
+    promise = existing.promise;
+  } else {
+    promise = rawFetch(path, timeoutMs)
       .then((data) => {
         cache.set(key, {
           data,
@@ -167,15 +208,21 @@ export async function fetchUpstream<T>(
         throw new Error(message);
       })
       .finally(() => {
-        inflight.delete(key);
+        const current = inflight.get(key);
+        if (current?.promise === promise) inflight.delete(key);
       });
-
-  if (!existing) inflight.set(key, promise);
+    inflight.set(key, { promise, startedAt: now });
+  }
 
   try {
-    const data = (await promise) as T;
+    const data = (await withDeadline(promise, timeoutMs + 400, "请求超时")) as T;
     const updated = cache.get(key);
-    return { data, fetchedAt: validFetchedAt(updated?.fetchedAt) ?? Date.now(), error: null, stale: false };
+    return {
+      data,
+      fetchedAt: validFetchedAt(updated?.fetchedAt) ?? Date.now(),
+      error: null,
+      stale: false,
+    };
   } catch (error) {
     const previous = cache.get(key);
     const previousAt = validFetchedAt(previous?.fetchedAt);

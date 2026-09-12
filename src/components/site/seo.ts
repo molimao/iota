@@ -124,8 +124,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? copy.privacyIntro
             : page === "learn"
               ? en
-                ? "Clear answers for IOTA Train at Home: what IOTA Watch is, how it differs from the IOTA coin, how to find a Miner ID, how rewards and USD estimates work, and what device statuses mean."
-                : "把 IOTA Train at Home 的常见问题写清楚：IOTA Watch 是什么、和 IOTA 公链有何区别、Miner ID 怎么找、收益与美元估价怎么算、设备状态是什么意思。"
+                ? "Clear answers for IOTA Train at Home: what IOTA Watch is, SN9 vs the IOTA coin, Miner ID, Google device lists, refresh interrupted, rewards, and USD estimates."
+                : "把 IOTA Train at Home 的常见问题写清楚：IOTA Watch 是什么、SN9 和 IOTA 公链、Miner ID、Google 清单、刷新中断、收益与美元估价。"
               : page === "account"
                 ? en
                   ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
@@ -288,6 +288,70 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           ? "Public SS58 hotkey that identifies an IOTA Train at Home device. Not a private key, seed phrase, or coldkey."
           : "标识 IOTA Train at Home 设备的公开 SS58 hotkey。不是私钥、助记词或 coldkey。",
         inDefinedTermSet: "IOTA Train at Home",
+        url,
+      }),
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: article.title[locale],
+        description: article.description[locale],
+        inLanguage: language(locale),
+        step: [
+          {
+            "@type": "HowToStep",
+            position: 1,
+            name: en ? "Open Train at Home" : "打开 Train at Home",
+            text: en
+              ? "Launch the official app and wait until it shows Connected."
+              : "打开官方应用，等到状态显示 Connected。",
+          },
+          {
+            "@type": "HowToStep",
+            position: 2,
+            name: en ? "Open Miner" : "打开 Miner",
+            text: en
+              ? "Select Miner in the top left and copy the complete public Miner ID."
+              : "点左上角 Miner，复制完整的公开 Miner ID。",
+          },
+          {
+            "@type": "HowToStep",
+            position: 3,
+            name: en ? "Add it to IOTA Watch" : "加到 IOTA Watch",
+            text: en
+              ? "Paste the SS58 hotkey on the dashboard and give the device a name."
+              : "在监控页粘贴这段 SS58 hotkey，并起一个认得的名字。",
+          },
+        ],
+      }),
+    );
+  }
+
+  if (article?.slug === "what-is-sn9-iota") {
+    scripts.push(
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        name: "SN9",
+        alternateName: ["IOTA Train at Home token", "subnet 9 alpha", "iota-2"],
+        description: en
+          ? "Bittensor subnet 9 alpha token used by IOTA Train at Home. Not TAO and not IOTA Layer 1."
+          : "Bittensor 子网 9 的 IOTA Train at Home alpha 代币。不是 TAO，也不是 IOTA 公链币。",
+        inDefinedTermSet: "IOTA Train at Home",
+        url,
+      }),
+    );
+  }
+
+  if (article?.slug === "what-refresh-interrupted-means") {
+    scripts.push(
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "DefinedTerm",
+        name: en ? "Refresh interrupted" : "刷新中断",
+        description: en
+          ? "IOTA Watch could not finish a successful official data read for more than five minutes. Not proof the Mac is offline."
+          : "IOTA Watch 超过 5 分钟没能成功读完官方数据。不证明 Mac 已经掉线。",
+        inDefinedTermSet: "IOTA Watch",
         url,
       }),
     );

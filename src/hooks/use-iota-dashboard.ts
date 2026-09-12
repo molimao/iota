@@ -3,15 +3,16 @@ import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { aggregateUnits, type Aggregate } from "@/lib/earnings";
+import { withDeadline } from "@/lib/deadline";
 import {
   computeStatus,
+  latestValidClock,
   resolveLastSuccessfulFetchAt,
   statusBucket,
-  validFetchedAt,
   type DeviceStatus,
   type StatusBucket,
 } from "@/lib/device-status";
-import { hintRunIdsFromDevices } from "@/lib/iota-discover";
+import { hintRunIdsFromDevices, mergeDiscovery } from "@/lib/iota-discover";
 import { fetchSn9UsdFromMarkets } from "@/lib/iota-price-sources";
 import { discoverDevices, getEarnings, getIotaUsdPrice, getOccupancy } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
@@ -21,6 +22,9 @@ export const DISCOVERY_POLL_MS = 30_000;
 export const EARNINGS_POLL_MS = 120_000;
 export const MANUAL_COOLDOWN_MS = 15_000;
 export const EARNINGS_FRESH_MS = 15 * 60 * 1000;
+const DISCOVER_CLIENT_MS = 8_000;
+const EARNINGS_CLIENT_MS = 16_000;
+const REFRESH_CLIENT_MS = 18_000;
 
 type Snapshot = {
   discovery: DiscoveryResult;
@@ -105,13 +109,17 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const results: DiscoveryResult[] = [];
       for (let i = 0; i < hotkeys.length; i += 200)
         results.push(
-          await discoverFn({
-            data: {
-              hotkeys: hotkeys.slice(i, i + 200),
-              force: forceRef.current && i === 0,
-              hintRunIds,
-            },
-          }),
+          await withDeadline(
+            discoverFn({
+              data: {
+                hotkeys: hotkeys.slice(i, i + 200),
+                force: forceRef.current && i === 0,
+                hintRunIds,
+              },
+            }),
+            DISCOVER_CLIENT_MS,
+            "状态刷新超时",
+          ),
         );
       const first = results[0]!;
       return {
@@ -137,9 +145,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       for (let i = 0; i < hotkeys.length; i += 200)
         devices.push(
           ...(
-            await earningsFn({
-              data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current },
-            })
+            await withDeadline(
+              earningsFn({
+                data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current },
+              }),
+              EARNINGS_CLIENT_MS,
+              "收益刷新超时",
+            )
           ).devices,
         );
       return { devices };
@@ -163,20 +175,28 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     placeholderData: keepPreviousData,
   });
 
-  const discovery = discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
+  const lastDiscoveryRef = useRef<DiscoveryResult | undefined>(undefined);
+  const discovery = useMemo(() => {
+    const incoming = discoveryQuery.data ?? (hotkeys.length ? cached?.payload.discovery : undefined);
+    if (!incoming) return undefined;
+    return mergeDiscovery(incoming, lastDiscoveryRef.current ?? cached?.payload.discovery);
+  }, [cached, discoveryQuery.data, hotkeys.length]);
+  useEffect(() => {
+    if (discovery) lastDiscoveryRef.current = discovery;
+  }, [discovery]);
   const earnings =
     earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
   const usingCachedOnly = !discoveryQuery.data && Boolean(cached) && hotkeys.length > 0;
   hintRunIdsRef.current = hintRunIdsFromDevices(discovery?.devices);
 
   useEffect(() => {
-    if (discoveryQuery.data && earningsQuery.data) {
+    if (discovery && earningsQuery.data) {
       writeTelemetryCache<Snapshot>({
-        discovery: discoveryQuery.data,
+        discovery,
         earnings: earningsQuery.data.devices,
       });
     }
-  }, [discoveryQuery.data, earningsQuery.data]);
+  }, [discovery, earningsQuery.data]);
 
   const refresh = useCallback(async () => {
     if (!enabled) return;
@@ -185,11 +205,11 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     forceRef.current = true;
     setManualState({ running: true, lastAt: Date.now(), error: null });
     try {
-      const [discoveryResult, earningsResult] = await Promise.all([
-        discoveryQuery.refetch(),
-        earningsQuery.refetch(),
-        priceQuery.refetch(),
-      ]);
+      const [discoveryResult, earningsResult] = await withDeadline(
+        Promise.all([discoveryQuery.refetch(), earningsQuery.refetch(), priceQuery.refetch()]),
+        REFRESH_CLIENT_MS,
+        "刷新超时，已停止等待。请稍后再试。",
+      );
       const messages = [
         ...(discoveryResult.error ? [discoveryResult.error.message] : []),
         ...(earningsResult.error ? [earningsResult.error.message] : []),
@@ -219,6 +239,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))
     : 0;
 
+  const queryUpdatedAt = latestValidClock(
+    discoveryQuery.isSuccess ? discoveryQuery.dataUpdatedAt : null,
+    earningsQuery.isSuccess ? earningsQuery.dataUpdatedAt : null,
+  );
+  const querySuccess = discoveryQuery.isSuccess || earningsQuery.isSuccess;
+  const fetching = discoveryQuery.isFetching || earningsQuery.isFetching || manualState.running;
+
   const views: DeviceView[] = useMemo(() => {
     const minerByHotkey = new Map(
       discovery?.devices.map((device) => [device.hotkey, device]) ?? [],
@@ -232,12 +259,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
         miner: found?.miner ?? null,
         fullCoverage: discovery?.fullCoverage ?? false,
         lastSuccessfulFetchAt: resolveLastSuccessfulFetchAt({
-          querySuccess: discoveryQuery.isSuccess,
-          queryUpdatedAt: discoveryQuery.dataUpdatedAt,
+          querySuccess,
+          queryUpdatedAt,
           deviceFetchedAt: found?.fetchedAt,
           discoveryFetchedAt: discovery?.fetchedAt,
         }),
         now,
+        fetching,
       });
       const earningsUsable =
         reward !== null &&
@@ -259,8 +287,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     discovery,
     earnings,
     now,
-    discoveryQuery.isSuccess,
-    discoveryQuery.dataUpdatedAt,
+    querySuccess,
+    queryUpdatedAt,
+    fetching,
   ]);
 
   const counts = useMemo(() => {
@@ -299,8 +328,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     occupancyError: occupancyQuery.data?.error ?? null,
     fetchedAt:
       resolveLastSuccessfulFetchAt({
-        querySuccess: discoveryQuery.isSuccess,
-        queryUpdatedAt: discoveryQuery.dataUpdatedAt,
+        querySuccess,
+        queryUpdatedAt,
         deviceFetchedAt: null,
         discoveryFetchedAt: discovery?.fetchedAt ?? cached?.savedAt,
       }),

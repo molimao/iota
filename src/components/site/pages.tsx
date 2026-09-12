@@ -3,9 +3,9 @@ import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath } from "@/lib/site";
 import { useAuth } from "@/hooks/use-auth";
 import { AccountAvatar, AccountMenu } from "./account-menu";
-import { articles, getArticle } from "./articles";
+import { articleClusterMeta, getArticle, relatedArticles } from "./articles";
 import { content } from "./content";
-import { useLocale } from "./locale";
+import { useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
 
 export type { Page } from "./seo";
@@ -222,6 +222,9 @@ export function Landing() {
               <div>
                 <h3>{title}</h3>
                 <p>{body}</p>
+                <a href={`/${locale}${copy.jobsLinks[i]}`}>
+                  {copy.jobsCta[i]} <ArrowRight size={14} />
+                </a>
               </div>
             </article>
           ))}
@@ -255,18 +258,7 @@ export function Landing() {
           <h2>{copy.learnTitle}</h2>
           <p>{copy.learnIntro}</p>
         </div>
-        <div className="learn-grid">
-          {articles.map((article) => (
-            <a key={article.slug} href={`/${locale}/learn/${article.slug}`}>
-              <span>{article.topic[locale]}</span>
-              <h3>
-                {article.title[locale]}
-                <ArrowUpRight size={18} />
-              </h3>
-              <p>{article.description[locale]}</p>
-            </a>
-          ))}
-        </div>
+        <LearnGrid locale={locale} />
       </section>
       <section className="ecosystem">
         <span className="eyebrow">{copy.ecosystemTitle}</span>
@@ -333,6 +325,37 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
   );
 }
 
+function LearnGrid({ locale }: { locale: Locale }) {
+  return (
+    <div className="learn-clusters">
+      {(Object.keys(articleClusterMeta) as Array<keyof typeof articleClusterMeta>).map((cluster) => {
+        const meta = articleClusterMeta[cluster];
+        return (
+          <section key={cluster} className="learn-cluster">
+            <h2 className="learn-cluster-title">{meta.title[locale]}</h2>
+            <div className="learn-grid">
+              {meta.slugs.map((slug) => {
+                const article = getArticle(slug);
+                if (!article) return null;
+                return (
+                  <a key={article.slug} href={`/${locale}/learn/${article.slug}`}>
+                    <span>{article.topic[locale]}</span>
+                    <h3>
+                      {article.title[locale]}
+                      <ArrowUpRight size={18} />
+                    </h3>
+                    <p>{article.description[locale]}</p>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
 export function LearnIndex() {
   const { locale, en } = useLocale();
   const copy = content[locale];
@@ -344,18 +367,7 @@ export function LearnIndex() {
       <span className="eyebrow">IOTA WATCH / LEARN</span>
       <h1>{copy.learnTitle}</h1>
       <p className="article-lead">{copy.learnIntro}</p>
-      <div className="learn-grid">
-        {articles.map((article) => (
-          <a key={article.slug} href={`/${locale}/learn/${article.slug}`}>
-            <span>{article.topic[locale]}</span>
-            <h3>
-              {article.title[locale]}
-              <ArrowUpRight size={18} />
-            </h3>
-            <p>{article.description[locale]}</p>
-          </a>
-        ))}
-      </div>
+      <LearnGrid locale={locale} />
     </article>
   );
 }
@@ -364,7 +376,7 @@ export function LearnArticle({ slug }: { slug: string }) {
   const { locale, en } = useLocale();
   const article = getArticle(slug);
   if (!article) return null;
-  const related = articles.filter((item) => item.slug !== slug);
+  const related = relatedArticles(slug);
   return (
     <article className="article-page learn-article">
       <a className="back-link" href={`/${locale}/learn`}>
@@ -434,7 +446,9 @@ export function AccountPage() {
                   ? "Google sign-in only binds your public Miner ID list so you can open it on another device. IOTA Watch never asks for a password, private key, or seed phrase."
                   : "Google 登录只是把公开 Miner ID 清单绑到账号上，换设备也能看。IOTA Watch 不要密码、私钥或助记词。"}
               </p>
-              <a href={`/${locale}/privacy`}>{en ? "Privacy notes" : "隐私说明"} →</a>
+              <a href={`/${locale}/learn/google-account-device-list`}>
+                {en ? "How the device list syncs" : "设备清单怎么同步"} →
+              </a>
             </section>
           </div>
           <button type="button" className="account-signout" onClick={() => void auth.signOut()}>

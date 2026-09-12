@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
+import { withDeadline } from "./deadline";
 import { validFetchedAt } from "./device-status";
 import { sumTodayUnits, toUnits } from "./earnings";
 import { orderActiveRuns } from "./iota-discover";
@@ -118,29 +119,19 @@ export const discoverDevices = createServerFn({ method: "POST" })
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const errors: string[] = [];
     const started = Date.now();
-    const BUDGET_MS = 7_000;
+    const BUDGET_MS = 6_000;
+    const EXTRA_RUN_LISTS = 2;
     const remain = () => Math.max(0, BUDGET_MS - (Date.now() - started));
-
-    const runsResult = await fetchUpstream<{ runs?: RunInfo[] }>(
-      "/runs",
-      TTL.runs,
-      data.force,
-      Math.min(4_000, Math.max(remain(), 1_200)),
-    );
-    if (runsResult.error) errors.push(`训练任务列表：${runsResult.error}`);
-    const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
-    const activeRuns = orderActiveRuns(
-      allRuns.filter((run) => run.state === "active" && RUN_ID_RE.test(run.run_id)),
-      data.hintRunIds,
-    );
 
     const wanted = new Set(data.hotkeys);
     const best = new Map<
       string,
       { miner: MinerRecord; fetchedAt: number | null; runIds: Set<string> }
     >();
+    let activeRuns: RunInfo[] = [];
     let runsFetched = 0;
-    let lastFetchedAt: number | null = validFetchedAt(runsResult.fetchedAt);
+    let lastFetchedAt: number | null = null;
+    let runsError = false;
     let timedOut = false;
 
     const ingest = (
@@ -173,64 +164,87 @@ export const discoverDevices = createServerFn({ method: "POST" })
       }
     };
 
-    const allFound = () => data.hotkeys.every((hotkey) => best.has(hotkey));
-
-    if (!allFound() && remain() > 600) {
-      const untitled = await fetchUpstream<{ miners?: MinerRecord[] }>(
-        "/miners",
-        TTL.miners,
-        data.force,
-        Math.min(4_000, remain()),
-      );
-      if (untitled.error) errors.push(`默认矿工名单：${untitled.error}`);
-      const miners = Array.isArray(untitled.data?.miners) ? untitled.data!.miners : null;
-      if (miners) ingest(miners, validFetchedAt(untitled.fetchedAt));
-    }
-
-    for (const run of activeRuns) {
-      if (allFound()) break;
-      if (remain() < 600) {
-        timedOut = true;
-        break;
-      }
-      const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
-        `/miners?run_id=${encodeURIComponent(run.run_id)}`,
-        TTL.miners,
-        data.force,
-        Math.min(4_000, remain()),
-      );
-      if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
-      const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
-      if (miners === null) continue;
-      if (!result.error) runsFetched += 1;
-      ingest(miners, validFetchedAt(result.fetchedAt), run.run_id);
-    }
-
-    if (timedOut && best.size < data.hotkeys.length) {
-      errors.push("本次未在时限内读完全部训练任务名单，已返回当前已找到的设备");
-    }
-
-    const devices: DiscoveredDevice[] = data.hotkeys.map((hotkey) => {
-      const entry = best.get(hotkey);
-      return {
-        hotkey,
-        miner: entry?.miner ?? null,
-        fetchedAt: validFetchedAt(entry?.fetchedAt),
-        runIds: entry ? [...entry.runIds] : [],
-      };
+    const snapshot = (fullCoverage: boolean): DiscoveryResult => ({
+      devices: data.hotkeys.map((hotkey) => {
+        const entry = best.get(hotkey);
+        return {
+          hotkey,
+          miner: entry?.miner ?? null,
+          fetchedAt: validFetchedAt(entry?.fetchedAt),
+          runIds: entry ? [...entry.runIds] : [],
+        };
+      }),
+      runs: activeRuns,
+      runsTotal: activeRuns.length,
+      runsFetched: Math.min(runsFetched, activeRuns.length),
+      fullCoverage,
+      fetchedAt: lastFetchedAt ?? Date.now(),
+      errors,
     });
 
-    const runsTotal = activeRuns.length;
-    const scannedAll = !timedOut && runsFetched >= runsTotal && runsTotal > 0;
-    return {
-      devices,
-      runs: activeRuns,
-      runsTotal,
-      runsFetched: Math.min(runsFetched, runsTotal),
-      fullCoverage: runsTotal > 0 && scannedAll && !runsResult.error,
-      fetchedAt: lastFetchedAt,
-      errors,
+    const allFound = () => data.hotkeys.every((hotkey) => best.has(hotkey));
+
+    const execute = async (): Promise<DiscoveryResult> => {
+      const requestMs = () => Math.min(3_500, Math.max(remain(), 800));
+      const [runsResult, untitled] = await Promise.all([
+        fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force, requestMs()),
+        fetchUpstream<{ miners?: MinerRecord[] }>("/miners", TTL.miners, data.force, requestMs()),
+      ]);
+      if (runsResult.error) {
+        runsError = true;
+        errors.push(`训练任务列表：${runsResult.error}`);
+      }
+      const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
+      activeRuns = orderActiveRuns(
+        allRuns.filter((item) => item.state === "active" && RUN_ID_RE.test(item.run_id)),
+        data.hintRunIds,
+      );
+      lastFetchedAt = validFetchedAt(runsResult.fetchedAt) ?? lastFetchedAt;
+      if (untitled.error) errors.push(`默认矿工名单：${untitled.error}`);
+      const defaultMiners = Array.isArray(untitled.data?.miners) ? untitled.data!.miners : null;
+      if (defaultMiners) ingest(defaultMiners, validFetchedAt(untitled.fetchedAt));
+
+      let extra = 0;
+      for (const item of activeRuns) {
+        if (allFound()) break;
+        if (remain() < 700) {
+          timedOut = true;
+          break;
+        }
+        if (extra >= EXTRA_RUN_LISTS) break;
+        extra += 1;
+        const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
+          `/miners?run_id=${encodeURIComponent(item.run_id)}`,
+          TTL.miners,
+          data.force,
+          Math.min(3_500, remain()),
+        );
+        if (result.error) errors.push(`任务 ${item.run_id}：${result.error}`);
+        const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
+        if (miners === null) continue;
+        if (!result.error) runsFetched += 1;
+        ingest(miners, validFetchedAt(result.fetchedAt), item.run_id);
+      }
+
+      if (timedOut && best.size < data.hotkeys.length) {
+        errors.push("本次未在时限内读完全部训练任务名单，已返回当前已找到的设备");
+      }
+
+      const runsTotal = activeRuns.length;
+      const scannedAll = !timedOut && runsTotal > 0 && runsFetched >= runsTotal;
+      return snapshot(Boolean(scannedAll && !runsError));
     };
+
+    try {
+      return await withDeadline(execute(), BUDGET_MS + 400, "本次未在时限内读完官方名单");
+    } catch (error) {
+      if (best.size > 0) {
+        const message = error instanceof Error ? error.message : "本次未在时限内读完官方名单";
+        if (!errors.includes(message)) errors.push(message);
+        return snapshot(false);
+      }
+      throw error;
+    }
   });
 
 /** Rewards are queried for EVERY saved hotkey, even ones absent from run lists. */
@@ -243,8 +257,8 @@ export const getEarnings = createServerFn({ method: "POST" })
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const now = Date.now();
 
-    const devices = await Promise.all(
-      data.hotkeys.map(async (hotkey): Promise<DeviceEarnings> => {
+    const devices: DeviceEarnings[] = [];
+    const loadOne = async (hotkey: string): Promise<DeviceEarnings> => {
         const encoded = encodeURIComponent(hotkey);
         const [totalsResult, historyResult] = await Promise.all([
           fetchUpstream<EntitlementTotals>(
@@ -304,8 +318,13 @@ export const getEarnings = createServerFn({ method: "POST" })
           fetchedAt: fetchedCandidates.length ? Math.min(...fetchedCandidates) : null,
           error: errors.length ? errors.join("；") : null,
         };
-      }),
-    );
+    };
+
+    for (let i = 0; i < data.hotkeys.length; i += 2) {
+      devices.push(
+        ...(await Promise.all(data.hotkeys.slice(i, i + 2).map((hotkey) => loadOne(hotkey)))),
+      );
+    }
 
     return { devices, now };
   });

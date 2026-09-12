@@ -28,9 +28,15 @@ export const content = {
         "Waiting for tasks and a failed website refresh are different. The dashboard explains both so you know whether to open the IOTA app.",
       ],
     ],
+    jobsLinks: [
+      "/learn/device-status",
+      "/learn/how-rewards-work",
+      "/learn/what-refresh-interrupted-means",
+    ],
+    jobsCta: ["Read device statuses", "How rewards are counted", "What refresh interrupted means"],
     learnTitle: "Clear answers people actually search for",
     learnIntro:
-      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin, find a Miner ID, and read how rewards and USD estimates work.",
+      "These notes are written so you — and search engines — can tell IOTA Train at Home apart from the IOTA coin, find a Miner ID, bind a Google list, and read statuses, refresh interrupted, SN9, and USD estimates.",
     ecosystemTitle: "Official IOTA Train at Home links",
     ecosystem: [
       ["Download Train at Home", "https://iota.macrocosmos.ai/", "Official Mac app"],
@@ -116,7 +122,7 @@ export const content = {
       ],
       [
         "How current are the numbers?",
-        "The dashboard checks every five seconds. Server caches normally retain device status for 60 seconds and rewards for five minutes. Manual refresh has a 15-second cooldown. Official sample time and the time we fetched it are different.",
+        "Device status is checked about every 30 seconds; rewards about every two minutes. Official sample time and the time this site fetched the data are different. Manual refresh has a 15-second cooldown.",
       ],
       [
         "Does zero throughput mean my device is offline?",
@@ -133,6 +139,14 @@ export const content = {
       [
         "Why is a reward value missing?",
         "Unavailable or malformed data is shown as unknown, not zero. Overall totals show partial coverage when not all devices have usable reward data.",
+      ],
+      [
+        "What does refresh interrupted mean?",
+        "This site could not finish a successful official read for more than five minutes. Last good numbers stay on the cards. It does not prove the Mac is offline.",
+      ],
+      [
+        "What is SN9?",
+        "SN9 is Bittensor subnet 9 (IOTA Train at Home). The reward token is the subnet alpha, also called IOTA here. It is not TAO and not IOTA Layer 1.",
       ],
     ],
     privacyTitle: "Your device list, in the browser or on your account",
@@ -190,9 +204,15 @@ export const content = {
         "等待任务和网站刷新失败是两回事。每个状态都会说明它能确认什么、不能确认什么。",
       ],
     ],
+    jobsLinks: [
+      "/learn/device-status",
+      "/learn/how-rewards-work",
+      "/learn/what-refresh-interrupted-means",
+    ],
+    jobsCta: ["看设备状态含义", "收益怎么算", "刷新中断是什么意思"],
     learnTitle: "把关键信息写成可搜索的说明",
     learnIntro:
-      "产品是什么、和 IOTA 公链有何区别、Miner ID 怎么找、收益与美元估价怎么算、状态是什么意思。写给用户看，也方便搜索引擎和 AI 引用。",
+      "产品是什么、和 IOTA 公链有何区别、Miner ID 怎么找、Google 清单怎么同步、刷新中断和 SN9 是什么、收益与美元估价怎么算。写给用户看，也方便搜索引擎和 AI 引用。",
     ecosystemTitle: "官方 IOTA Train at Home 入口",
     ecosystem: [
       ["下载 Train at Home", "https://iota.macrocosmos.ai/", "官方 Mac 应用"],
@@ -274,7 +294,7 @@ export const content = {
       ],
       [
         "数据多久刷新？",
-        "页面每 5 秒检查更新。服务端通常将设备状态缓存 60 秒，收益缓存 5 分钟。手动刷新有 15 秒冷却。官方采样时间与本站获取时间是两回事。",
+        "设备状态大约每 30 秒检查一次，收益大约每 2 分钟。官方采样时间和本站获取时间是两回事。手动刷新有 15 秒冷却。",
       ],
       [
         "吞吐量为零，就是设备离线了吗？",
@@ -291,6 +311,14 @@ export const content = {
       [
         "为什么收益有时是横线？",
         "无法获取或格式异常的数据会显示未知，不当作零。只有部分设备收益可用时，总计会注明覆盖数量。",
+      ],
+      [
+        "刷新中断是什么意思？",
+        "本站超过 5 分钟没能成功读完官方数据。卡片会留下上一次的数字。这不证明 Mac 已经掉线。",
+      ],
+      [
+        "SN9 是什么？",
+        "SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha，本站也叫 IOTA。它不是 TAO，也不是 IOTA 公链币。",
       ],
     ],
     privacyTitle: "设备清单：浏览器或账号",

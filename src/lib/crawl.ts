@@ -13,7 +13,9 @@ function articlePriority(slug: string) {
   if (
     slug === "what-is-iota-watch" ||
     slug === "find-miner-id" ||
-    slug === "iota-train-at-home-vs-iota-coin"
+    slug === "iota-train-at-home-vs-iota-coin" ||
+    slug === "what-is-sn9-iota" ||
+    slug === "what-refresh-interrupted-means"
   ) {
     return "0.9";
   }
