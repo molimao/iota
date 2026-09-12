@@ -11,7 +11,7 @@ const EN: Record<string, string> = {
   "用 Google 登录": "Sign in with Google",
   正在登录: "Signing in",
   退出登录: "Sign out",
-  "收益和运行情况，一眼看清。": "Your devices. One clear view.",
+  "收益和运行情况。": "Status and rewards.",
   "台设备 · ID 保存在当前浏览器": "devices · IDs saved in this browser",
   "台设备 · 已绑定到 Google 账号": "devices · bound to your Google account",
   "台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看":
@@ -62,7 +62,7 @@ const EN: Record<string, string> = {
   档位: "Tier",
   名额: "Slots",
   官方面板: "Official dashboard",
-  "你的设备": "Yours",
+  你的设备: "Yours",
   金额: "Amount",
   美元按公开市场价格估算: "USD is a public market estimate",
   "美元价格暂未获取，IOTA 数量仍按官方记账显示":
@@ -72,6 +72,7 @@ const EN: Record<string, string> = {
   导出备份: "Export backup",
   导入失败: "Import failed",
   文件读取失败: "Unable to read file",
+  添加第一台设备: "Add the first device",
   把你的第一台设备加进来: "Add your first device",
   "打开 IOTA 应用，复制 Miner 页面里的 Miner ID。":
     "Open the IOTA app and copy the Miner ID from the Miner page.",
@@ -89,7 +90,7 @@ const EN: Record<string, string> = {
   "设备已保存到此浏览器。": "Device saved in this browser.",
   保存失败: "Could not save",
   设备名称: "Device name",
-  "例如：家里的 Mac": "For example: Home Mac",
+  "例如：书房电脑": "For example: Study Mac",
   "从 IOTA 应用复制完整 ID": "Copy the full ID from the IOTA app",
   保存设备: "Save device",
   "Miner ID 已复制": "Miner ID copied",
@@ -161,16 +162,15 @@ const EN: Record<string, string> = {
   收益刷新超时: "Rewards refresh timed out",
   "刷新超时，已停止等待。请稍后再试。": "Refresh timed out. Try again in a moment.",
   刷新失败: "Refresh failed",
-  "本次未在时限内读完官方名单": "Could not finish reading official lists in time",
+  本次未在时限内读完官方名单: "Could not finish reading official lists in time",
   "本次未在时限内读完全部训练任务名单，已返回当前已找到的设备":
     "Could not finish every run list in time. Showing devices already found.",
-  "上游返回的不是有效 JSON（可能被中间层拦截）":
-    "Official API did not return valid JSON",
+  "上游返回的不是有效 JSON（可能被中间层拦截）": "Official API did not return valid JSON",
   未知错误: "Unknown error",
   市场价格暂不可用: "Market price is unavailable",
-  "找不到这台设备": "That device is not on the list",
+  找不到这台设备: "That device is not on the list",
   "文件不是有效的 JSON": "That file is not valid JSON",
-  "文件格式不符合导入要求": "That file is not in the import format",
+  文件格式不符合导入要求: "That file is not in the import format",
   "本地保存的设备清单格式损坏，已忽略。可以重新添加或导入备份。":
     "The saved device list was damaged and was ignored. Add the devices again or import a backup.",
   "本地保存的设备清单不符合格式要求，已忽略。":
@@ -180,13 +180,14 @@ const EN: Record<string, string> = {
   "读取本地设备清单失败。": "Could not read the local device list.",
   "此浏览器不允许本地存储，改动无法保存。":
     "This browser blocked local storage, so the change could not be saved.",
-  "浏览器存储空间已满，改动没能保存。": "Browser storage is full, so the change could not be saved.",
+  "浏览器存储空间已满，改动没能保存。":
+    "Browser storage is full, so the change could not be saved.",
   "写入本地存储失败，改动没能保存（可能处于隐私模式）。":
     "Could not write to browser storage. You may be in private mode.",
   "浏览器未能保存，请检查存储权限。": "Could not save. Check this browser’s storage permission.",
   "浏览器未能保存导入清单。": "Could not save the imported list.",
   "单次最多查询 200 台设备，请分批查询": "You can look up 200 devices at a time. Split the list.",
-  "非法的训练任务编号": "That training run id is not valid",
+  非法的训练任务编号: "That training run id is not valid",
   "非法的 Miner ID": "That Miner ID is not valid",
   "格式不对：含有无效字符": "Invalid characters in that Miner ID",
   "长度不对：应为 48 位左右的 SS58 地址": "Length looks wrong. A Miner ID is about 48 characters.",

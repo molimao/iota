@@ -58,5 +58,5 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [How Google sign-in stores your IOTA Watch device list (en)](https://iotahome.site/en/learn/google-account-device-list)
 - [Train at Home 的 SN9 / IOTA 是什么代币 (zh)](https://iotahome.site/zh/learn/what-is-sn9-iota)
 - [What SN9 / IOTA means on Train at Home (en)](https://iotahome.site/en/learn/what-is-sn9-iota)
-- [IOTA Watch 显示「尚未找到」怎么办 (zh)](https://iotahome.site/zh/learn/device-not-found)
+- [IOTA Watch 显示「尚未找到」 (zh)](https://iotahome.site/zh/learn/device-not-found)
 - [IOTA Watch says the Miner ID was not found (en)](https://iotahome.site/en/learn/device-not-found)

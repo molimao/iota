@@ -100,7 +100,7 @@ export function SiteFooter() {
           GitHub
         </a>
       </div>
-      <small>{en ? "Made for people training at home." : "为在家参与训练的人而做。"}</small>
+      <small>{en ? "Read-only public data." : "只读监控公开数据。"}</small>
     </footer>
   );
 }
@@ -146,7 +146,7 @@ function StartForm() {
         />
       </label>
       <button className="site-button" type="submit">
-        {value.trim() ? (en ? "Watch this device" : "看这台设备") : content[locale].cta}
+        {value.trim() ? (en ? "Add this device" : "添加此设备") : content[locale].cta}
         <ArrowUpRight size={19} />
       </button>
       {error ? (
@@ -192,7 +192,7 @@ export function Landing() {
         <strong>{copy.disambiguationTitle}</strong>
         <p>{copy.disambiguation}</p>
         <a href={`/${locale}/learn/what-is-iota-watch`}>
-          {en ? "What this site is" : "这是什么"} <ArrowRight size={15} />
+          {en ? "About this site" : "本站说明"} <ArrowRight size={15} />
         </a>
       </aside>
       <section className="purpose-section">
@@ -293,15 +293,13 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       </div>
       {page === "guide" && (
         <aside className="article-tip">
-          <h2>{en ? "What you should know before starting" : "开始之前，了解这几点"}</h2>
+          <h2>{en ? "Before you start" : "使用前须知"}</h2>
           <p>
             {en
-              ? "You need an existing Train at Home device and its public Miner ID. This dashboard cannot run training for you, promise rewards, or read your local logs."
-              : "你需要已经运行 Train at Home 的设备及其公开 Miner ID。监控页不会替你启动训练，不承诺收益，也不能读取本机日志。"}
+              ? "A Train at Home device and its public Miner ID are required. This dashboard cannot run training, promise rewards, or read local logs."
+              : "需要已运行 Train at Home 的设备及其公开 Miner ID。本站不能启动训练、承诺收益，也不能读取本地日志。"}
           </p>
-          <a href={`/${locale}/learn/find-miner-id`}>
-            {en ? "Illustrated Miner ID steps" : "看 Miner ID 详细步骤"} →
-          </a>
+          <a href={`/${locale}/learn/find-miner-id`}>{en ? "Miner ID steps" : "Miner ID 步骤"} →</a>
         </aside>
       )}
       <p className="article-updated">{copy.updated}</p>
@@ -422,22 +420,22 @@ export function AccountPage() {
               <h2>{en ? "Device list" : "设备清单"}</h2>
               <p>
                 {en
-                  ? "This account can keep up to 10 devices. Open the dashboard to add, rename, or remove them."
-                  : "这个账号最多绑定 10 台设备。添加、改名和移除都在监控页完成。"}
+                  ? "This account can keep up to 10 devices. Open My devices to add, rename, or remove them."
+                  : "该账号最多绑定 10 台设备。添加、改名和移除均在「我的设备」完成。"}
               </p>
               <a className="site-button small" href={`/${locale}/app`}>
                 {en ? "Open my devices" : "打开我的设备"}
               </a>
             </section>
             <section>
-              <h2>{en ? "What this account is for" : "这个账号用来做什么"}</h2>
+              <h2>{en ? "Account purpose" : "账号用途"}</h2>
               <p>
                 {en
-                  ? "Google sign-in only binds your public Miner ID list so you can open it on another device. IOTA Watch never asks for a password, private key, or seed phrase."
-                  : "Google 登录只是把公开 Miner ID 清单绑到账号上，换设备也能看。IOTA Watch 不要密码、私钥或助记词。"}
+                  ? "Google sign-in binds the public Miner ID list so it can be opened on another device. IOTA Watch does not ask for a password, private key, or seed phrase."
+                  : "Google 登录用于将公开 Miner ID 清单绑定到账号，以便在其他设备查看。IOTA Watch 不要求密码、私钥或助记词。"}
               </p>
               <a href={`/${locale}/learn/google-account-device-list`}>
-                {en ? "How the device list syncs" : "设备清单怎么同步"} →
+                {en ? "Device list sync" : "设备清单同步"} →
               </a>
             </section>
           </div>
@@ -450,7 +448,7 @@ export function AccountPage() {
           <p className="article-lead">
             {en
               ? "Sign in with Google to bind up to 10 devices to your account. Without signing in, this browser can keep 3 devices locally."
-              : "用 Google 登录后，最多把 10 台设备绑到账号上。未登录时，当前浏览器最多保存 3 台。"}
+              : "使用 Google 登录后，最多将 10 台设备绑定到账号。未登录时，当前浏览器最多保存 3 台。"}
           </p>
           <button
             type="button"

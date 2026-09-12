@@ -70,7 +70,8 @@ function websiteGraph() {
 function googleVerification() {
   const token =
     (typeof import.meta !== "undefined" &&
-      (import.meta.env as { VITE_GOOGLE_SITE_VERIFICATION?: string }).VITE_GOOGLE_SITE_VERIFICATION) ||
+      (import.meta.env as { VITE_GOOGLE_SITE_VERIFICATION?: string })
+        .VITE_GOOGLE_SITE_VERIFICATION) ||
     (typeof process !== "undefined"
       ? process.env["GOOGLE_SITE_VERIFICATION"] || process.env["VITE_GOOGLE_SITE_VERIFICATION"]
       : "") ||
@@ -128,16 +129,16 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? copy.privacyIntro
             : page === "learn"
               ? en
-                ? "Find your Miner ID, read device status and rewards, and keep the same list after you sign in."
-                : "Miner ID 怎么找、状态和收益怎么看、登录后设备清单怎么跟着走。"
+                ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
+                : "Miner ID、设备状态、收益，以及登录后的清单同步。"
               : page === "account"
                 ? en
                   ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
                   : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
                 : page === "network"
                   ? en
-                    ? "Live view of every IOTA Train at Home run: open slots, miners online, miners actually training, progress and loss per run, by tier."
-                    : "IOTA Train at Home 全网训练任务实况：剩余名额、在线矿工、实际在训练的机器、各任务进度与损失，按档位分列。"
+                    ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
+                    : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
                   : en
                     ? "Track reported training activity and rewards for your saved devices."
                     : "查看已保存设备的训练状态与收益。";
@@ -152,7 +153,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
 
   const scripts = [];
   if (page !== "app" && page !== "account") {
-    scripts.push(jsonLd({ "@context": "https://schema.org", "@graph": [organizationGraph(), websiteGraph()] }));
+    scripts.push(
+      jsonLd({ "@context": "https://schema.org", "@graph": [organizationGraph(), websiteGraph()] }),
+    );
   }
   scripts.push(
     breadcrumbs(
@@ -212,7 +215,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
-        about: "IOTA Train at Home device and reward monitoring. Not the IOTA Layer 1 cryptocurrency.",
+        about:
+          "IOTA Train at Home device and reward monitoring. Not the IOTA Layer 1 cryptocurrency.",
       }),
     );
   }
@@ -315,7 +319,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             name: en ? "Open Train at Home" : "打开 Train at Home",
             text: en
               ? "Launch the official app and wait until it shows Connected."
-              : "打开官方应用，等到状态显示 Connected。",
+              : "打开官方应用，待状态显示 Connected。",
           },
           {
             "@type": "HowToStep",
@@ -323,15 +327,15 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             name: en ? "Open Miner" : "打开 Miner",
             text: en
               ? "Select Miner in the top left and copy the complete public Miner ID."
-              : "点左上角 Miner，复制完整的公开 Miner ID。",
+              : "选择左上角 Miner，复制完整的公开 Miner ID。",
           },
           {
             "@type": "HowToStep",
             position: 3,
-            name: en ? "Add it to IOTA Watch" : "加到 IOTA Watch",
+            name: en ? "Add it to IOTA Watch" : "添加到 IOTA Watch",
             text: en
               ? "Paste the SS58 hotkey on the dashboard and give the device a name."
-              : "在监控页粘贴这段 SS58 hotkey，并起一个认得的名字。",
+              : "在监控页粘贴该 SS58 hotkey，并填写设备名称。",
           },
         ],
       }),

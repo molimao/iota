@@ -113,14 +113,14 @@ function DiagnosisBlock({ diagnosis }: { diagnosis: Diagnosis }) {
           ) : null}
           {note.slug ? (
             <a href={`/${locale}/learn/${note.slug}`}>
-              {en ? "What to do" : "查看处理方法"}
+              {en ? "Details" : "说明"}
               <ArrowUpRight size={14} />
             </a>
           ) : null}
         </section>
       ))}
       <details className="diagnosis-reconcile">
-        <summary>{en ? "Comparing numbers elsewhere?" : "数字和别处对不上？"}</summary>
+        <summary>{en ? "Numbers differ from another source" : "与其他来源不一致"}</summary>
         <dl>
           {RECONCILE_NOTES.map((item) => (
             <div key={item.q.en}>
@@ -352,7 +352,7 @@ export function Dashboard() {
         {!watch.devices.length ? (
           <div className="empty">
             <Monitor size={36} />
-            <h2>{t("把你的第一台设备加进来")}</h2>
+            <h2>{t("添加第一台设备")}</h2>
             <p>{t("打开 IOTA 应用，复制 Miner 页面里的 Miner ID。")}</p>
             <button className="solid" onClick={() => setAdding(true)}>
               <Plus size={16} />
@@ -371,7 +371,7 @@ export function Dashboard() {
                     </span>
                     <button
                       className={`badge ${meta.tone}`}
-                      title={en ? "Why this status?" : "为什么是这个状态？"}
+                      title={en ? "Status details" : "状态说明"}
                       onClick={() => openDevice(view.entry.hotkey, "diagnose")}
                     >
                       {t(meta.label)}
@@ -410,7 +410,7 @@ export function Dashboard() {
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>
-            {en ? "Paste the public ID from the Miner screen." : "粘贴 Miner 页面里的公开 ID。"}
+            {en ? "Paste the public ID from the Miner page." : "粘贴 Miner 页面中的公开 ID。"}
           </DialogDescription>
           <form
             className="device-form"
@@ -432,7 +432,7 @@ export function Dashboard() {
                 maxLength={40}
                 value={label}
                 onChange={(e) => setLabel(e.target.value)}
-                placeholder={t("例如：家里的 Mac")}
+                placeholder={t("例如：书房电脑")}
               />
             </label>
             <label>
