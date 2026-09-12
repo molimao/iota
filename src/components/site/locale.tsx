@@ -82,6 +82,8 @@ const EN: Record<string, string> = {
   收益记录: "Reward history",
   激活处理量: "Activations",
   "吞吐量（官方上报）": "Throughput (reported)",
+  吞吐量: "Throughput",
+  旧数据: "Cached",
   "今日收益 · IOTA": "Today · IOTA",
   "累计收益 · IOTA": "Lifetime · IOTA",
   "统计采样：": "Statistics sample:",

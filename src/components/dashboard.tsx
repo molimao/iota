@@ -79,7 +79,6 @@ function Total({
   usdPerIota: number | null;
   primary?: boolean;
 }) {
-  const { t, en } = useLocale();
   const units = value.known || !value.total ? value.units : null;
   return (
     <section className={`total ${primary ? "primary" : ""}`}>
@@ -87,15 +86,11 @@ function Total({
       <div className="amount">
         <MoneyPair large units={units} usdPerIota={usdPerIota} />
       </div>
-      <p>
-        {value.partial
-          ? en
-            ? `Partial · ${value.known}/${value.total} devices`
-            : `部分数据 · 已获取 ${value.known}/${value.total} 台`
-          : primary
-            ? t("香港时间今日 00:00 起的已记账收益")
-            : t("所有已添加设备的累计记账收益")}
-      </p>
+      {value.partial ? (
+        <p>
+          {value.known}/{value.total}
+        </p>
+      ) : null}
     </section>
   );
 }
@@ -159,27 +154,24 @@ export function Dashboard() {
         </div>
       </header>
       <div className="page-title">
-        <div>
-          <h1>{t("收益和运行情况，一眼看清。")}</h1>
-          <p>
-            {auth.userId ? (
-              <>
-                <a className="account-name-link" href={`/${locale}/account`}>
-                  {auth.name || auth.email || (en ? "Signed in" : "已登录")}
-                </a>
-                {` · ${watch.devices.length}/${watch.limit} ${t("台设备 · 已绑定到 Google 账号")}`}
-              </>
-            ) : (
-              `${watch.devices.length}/${watch.limit} ${t("台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看")}`
-            )}
-          </p>
-        </div>
+        <p>
+          {auth.userId ? (
+            <>
+              <a className="account-name-link" href={`/${locale}/account`}>
+                {auth.name || auth.email || (en ? "Signed in" : "已登录")}
+              </a>
+              {` · ${watch.devices.length}/${watch.limit}`}
+            </>
+          ) : (
+            `${watch.devices.length}/${watch.limit}`
+          )}
+        </p>
         <span className="refresh-label">
           {t("最近获取")}
           {en
             ? dash.fetchedAt
               ? new Date(dash.fetchedAt).toLocaleTimeString("en-GB", { timeZone: "Asia/Hong_Kong" })
-              : "No data yet"
+              : "—"
             : formatAgo(dash.fetchedAt, dash.now)}
         </span>
       </div>
@@ -200,7 +192,6 @@ export function Dashboard() {
       {(dash.errors.length > 0 || dash.manual.error || dash.usingCachedOnly) && (
         <div className="notice warning" role="status">
           {dash.manual.error || dash.errors[0] || t("正在连接，先显示浏览器保存的旧数据。")}
-          <span>{t("旧数据会保留，连接恢复后自动更新。")}</span>
         </div>
       )}
       <div className="totals">
@@ -212,13 +203,9 @@ export function Dashboard() {
         />
         <Total title={t("累计总收益")} value={dash.lifetimeTotal} usdPerIota={dash.usdPerIota} />
       </div>
-      <p className="fx-note">
-        {dash.usdPerIota
-          ? `${t("美元按公开市场价格估算")} · 1 IOTA ≈ ${formatUsd(dash.usdPerIota)}`
-          : dash.usdError
-            ? `${t("美元价格暂未获取，IOTA 数量仍按官方记账显示")} · ${dash.usdError}`
-            : t("美元价格暂未获取，IOTA 数量仍按官方记账显示")}
-      </p>
+      {dash.usdPerIota ? (
+        <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p>
+      ) : null}
       <div className="status-strip">
         {Object.entries(dash.counts).map(([key, count]) => (
           <div key={key}>
@@ -290,7 +277,6 @@ export function Dashboard() {
                     <span className={`badge ${meta.tone}`}>{t(meta.label)}</span>
                   </div>
                   <h3>{view.entry.label}</h3>
-                  <p className="explain">{t(meta.explain)}</p>
                   <PresenceSignals miner={view.miner} />
                   <div className="device-earnings">
                     <div>
@@ -306,11 +292,7 @@ export function Dashboard() {
                     </div>
                   </div>
                   <div className="device-foot">
-                    <span>
-                      {view.earnings && !view.earningsUsable
-                        ? t("收益为旧数据 · IOTA")
-                        : t("IOTA · 子网代币")}{" "}
-                    </span>
+                    <span>{view.earnings && !view.earningsUsable ? t("旧数据") : ""}</span>
                     <button onClick={() => setSelected(view.entry.hotkey)}>
                       {t("查看详情")}
                       <ArrowUpRight size={16} />
@@ -322,14 +304,6 @@ export function Dashboard() {
           </div>
         )}
       </section>
-      <footer>
-        <span>{t("每 5 秒检查更新；官方状态缓存 60 秒，收益缓存 5 分钟。支持手动刷新。")}</span>
-        <span>
-          {auth.userId
-            ? t("仅查询公开数据。登录后清单绑定账号；退出后此浏览器仍保留未登录时的本地副本。")
-            : t("仅查询公开数据；未登录时清理浏览器数据会移除本地清单，请先导出备份。")}
-        </span>
-      </footer>
       <Dialog open={adding} onOpenChange={setAdding}>
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
@@ -385,7 +359,7 @@ export function Dashboard() {
           {active && (
             <>
               <DialogTitle>{active.entry.label}</DialogTitle>
-              <DialogDescription>{t(STATUS_META[active.status].explain)}</DialogDescription>
+              <DialogDescription>{t(STATUS_META[active.status].label)}</DialogDescription>
               <DeviceDetail
                 key={active.entry.hotkey}
                 view={active}
@@ -468,14 +442,13 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
         {tab === t("运行情况") ? (
           <>
             <PresenceSignals miner={view.miner} />
-            <p className="presence-note">{t("依据官方最近一次采样，不是这台电脑的心跳。")}</p>
             <div className="detail-grid">
               <div>
                 <span>{t("激活处理量")}</span>
                 <b>{formatCount(view.miner?.activation_count)}</b>
               </div>
               <div>
-                <span>{t("吞吐量（官方上报）")}</span>
+                <span>{t("吞吐量")}</span>
                 <b>{formatCount(view.miner?.throughput)}</b>
               </div>
               <div>
@@ -490,7 +463,6 @@ function DeviceDetail({ view, usdPerIota }: { view: DeviceView; usdPerIota: numb
             <p>
               {t("统计采样：")}
               {formatSecondsTimestamp(view.miner?.timestamp)}
-              {t("。采样时间不是本机心跳。")}
             </p>
             <details>
               <summary>{t("技术信息")}</summary>

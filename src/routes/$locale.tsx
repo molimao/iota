@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { createFileRoute, Outlet, notFound } from "@tanstack/react-router";
+import { createFileRoute, Outlet, notFound, useMatchRoute } from "@tanstack/react-router";
 import { LocaleContext, type Locale } from "@/components/site/locale";
 import { SiteNav, SiteFooter } from "@/components/site/pages";
 import { persistLocale, isLocale } from "@/lib/site";
@@ -13,6 +13,8 @@ export const Route = createFileRoute("/$locale")({
 
 function Layout() {
   const { locale } = Route.useParams();
+  const matchRoute = useMatchRoute();
+  const isMonitor = Boolean(matchRoute({ to: "/$locale/app", fuzzy: true }));
   useEffect(() => {
     if (isLocale(locale)) persistLocale(locale);
   }, [locale]);
@@ -26,7 +28,7 @@ function Layout() {
         <div id="main">
           <Outlet />
         </div>
-        <SiteFooter />
+        {isMonitor ? null : <SiteFooter />}
       </div>
     </LocaleContext.Provider>
   );
