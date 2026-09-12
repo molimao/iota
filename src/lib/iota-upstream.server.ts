@@ -3,9 +3,11 @@
  *
  * Guarantees:
  *  - only fixed allowlisted path shapes are ever requested (no arbitrary URL / SSRF)
- *  - shared TTL cache + singleflight + max 3 concurrent upstream requests
- *  - 20s timeout, exponential backoff after failures (stale data is kept and flagged)
+ *  - shared TTL cache + singleflight + max 6 concurrent upstream requests
+ *  - 12s timeout, exponential backoff after failures (stale data is kept and flagged)
  */
+
+import { validFetchedAt } from "./device-status";
 
 export const IOTA_BASE = "https://iota-web.api.macrocosmos.ai/mainnet";
 
@@ -18,8 +20,12 @@ export const TTL = {
   rewards: 300_000,
 } as const;
 
-const TIMEOUT_MS = 20_000;
-const MAX_CONCURRENCY = 3;
+const TIMEOUT_MS = 12_000;
+const MAX_CONCURRENCY = 6;
+const UPSTREAM_HEADERS = {
+  accept: "application/json",
+  "user-agent": "IOTA-Watch/1.0 (+https://iotahome.site)",
+} as const;
 const BACKOFF_BASE_MS = 5_000;
 const BACKOFF_MAX_MS = 120_000;
 
@@ -67,7 +73,7 @@ async function rawFetch(path: string): Promise<unknown> {
     try {
       const response = await fetch(`${IOTA_BASE}${path}`, {
         method: "GET",
-        headers: { accept: "application/json" },
+        headers: UPSTREAM_HEADERS,
         signal: controller.signal,
       });
       const text = await response.text();
@@ -95,7 +101,7 @@ async function rawFetch(path: string): Promise<unknown> {
 
 function describeError(error: unknown): string {
   if (error instanceof Error) {
-    if (error.name === "AbortError") return "请求超时（20 秒）";
+    if (error.name === "AbortError") return "请求超时（12 秒）";
     return error.message;
   }
   return "未知错误";
@@ -118,14 +124,14 @@ export async function fetchUpstream<T>(
   const fresh =
     entry && !entry.lastError && entry.data !== undefined && now - entry.fetchedAt < ttlMs;
   if (fresh && !force) {
-    return { data: entry.data as T, fetchedAt: entry.fetchedAt, error: null, stale: false };
+    return { data: entry.data as T, fetchedAt: validFetchedAt(entry.fetchedAt), error: null, stale: false };
   }
 
   const backingOff = entry != null && now < entry.nextAttemptAt && !force;
   if (backingOff) {
     return {
       data: (entry.data as T) ?? null,
-      fetchedAt: entry.data === undefined ? null : entry.fetchedAt,
+      fetchedAt: entry.data === undefined ? null : validFetchedAt(entry.fetchedAt),
       error: entry.lastError,
       stale: true,
     };
@@ -152,7 +158,7 @@ export async function fetchUpstream<T>(
         const delay = Math.min(BACKOFF_BASE_MS * 2 ** (failures - 1), BACKOFF_MAX_MS);
         cache.set(key, {
           data: previous?.data as unknown,
-          fetchedAt: previous?.fetchedAt ?? 0,
+          fetchedAt: previous?.data !== undefined ? (previous.fetchedAt ?? 0) : 0,
           failures,
           nextAttemptAt: Date.now() + delay,
           lastError: message,
@@ -168,13 +174,14 @@ export async function fetchUpstream<T>(
   try {
     const data = (await promise) as T;
     const updated = cache.get(key);
-    return { data, fetchedAt: updated?.fetchedAt ?? Date.now(), error: null, stale: false };
+    return { data, fetchedAt: validFetchedAt(updated?.fetchedAt) ?? Date.now(), error: null, stale: false };
   } catch (error) {
     const previous = cache.get(key);
-    const hasPrevious = previous?.data !== undefined && (previous?.fetchedAt ?? 0) > 0;
+    const previousAt = validFetchedAt(previous?.fetchedAt);
+    const hasPrevious = previous?.data !== undefined && previousAt !== null;
     return {
       data: hasPrevious ? (previous!.data as T) : null,
-      fetchedAt: hasPrevious ? previous!.fetchedAt : null,
+      fetchedAt: hasPrevious ? previousAt : null,
       error: describeError(error),
       stale: true,
     };

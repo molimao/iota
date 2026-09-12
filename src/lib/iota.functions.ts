@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 
+import { validFetchedAt } from "./device-status";
 import { sumTodayUnits, toUnits } from "./earnings";
+import { orderActiveRuns } from "./iota-discover";
 import type {
   CumulativeTokens,
   DeviceEarnings,
@@ -45,6 +47,19 @@ function validRunId(input: unknown): string {
 
 function validPeriod(input: unknown): Period {
   return (PERIODS as readonly string[]).includes(input as string) ? (input as Period) : "week";
+}
+
+function validHintRunIds(input: unknown): string[] {
+  if (!Array.isArray(input)) return [];
+  const seen = new Set<string>();
+  for (const item of input) {
+    if (typeof item !== "string") continue;
+    const value = item.trim();
+    if (!RUN_ID_RE.test(value) || seen.has(value)) continue;
+    seen.add(value);
+    if (seen.size >= 20) break;
+  }
+  return [...seen];
 }
 
 function numberOrNull(value: unknown): number | null {
@@ -94,19 +109,22 @@ export const getRunProgress = createServerFn({ method: "POST" })
  * most recent statistics sample timestamp.
  */
 export const discoverDevices = createServerFn({ method: "POST" })
-  .inputValidator((input: { hotkeys: string[]; force?: boolean }) => ({
+  .inputValidator((input: { hotkeys: string[]; force?: boolean; hintRunIds?: string[] }) => ({
     hotkeys: validHotkeys(input?.hotkeys),
     force: input?.force === true,
+    hintRunIds: validHintRunIds(input?.hintRunIds),
   }))
   .handler(async ({ data }): Promise<DiscoveryResult> => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const errors: string[] = [];
+    const deadline = Date.now() + 12_000;
 
     const runsResult = await fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force);
     if (runsResult.error) errors.push(`训练任务列表：${runsResult.error}`);
     const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
-    const activeRuns = allRuns.filter(
-      (run) => run.state === "active" && RUN_ID_RE.test(run.run_id),
+    const activeRuns = orderActiveRuns(
+      allRuns.filter((run) => run.state === "active" && RUN_ID_RE.test(run.run_id)),
+      data.hintRunIds,
     );
 
     const wanted = new Set(data.hotkeys);
@@ -116,48 +134,61 @@ export const discoverDevices = createServerFn({ method: "POST" })
     >();
     let runsFetched = 0;
     let lastFetchedAt: number | null = null;
+    let timedOut = false;
+    const BATCH = 3;
 
-    const lists = await Promise.all(
-      activeRuns.map(async (run) => {
-        const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
-          `/miners?run_id=${encodeURIComponent(run.run_id)}`,
-          TTL.miners,
-          data.force,
-        );
-        return { run, result };
-      }),
-    );
-
-    for (const { run, result } of lists) {
-      if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
-      const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
-      if (miners === null) continue;
-      if (!result.error) runsFetched += 1;
-      if (
-        result.fetchedAt !== null &&
-        (lastFetchedAt === null || result.fetchedAt > lastFetchedAt)
-      ) {
-        lastFetchedAt = result.fetchedAt;
+    for (let i = 0; i < activeRuns.length; ) {
+      if (data.hotkeys.every((hotkey) => best.has(hotkey))) break;
+      if (Date.now() > deadline) {
+        timedOut = true;
+        break;
       }
-      for (const miner of miners) {
-        if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
-        const entry = best.get(miner.hotkey);
-        if (!entry) {
-          best.set(miner.hotkey, {
-            miner,
-            fetchedAt: result.fetchedAt,
-            runIds: new Set([miner.run_id ?? run.run_id]),
-          });
-        } else {
-          entry.runIds.add(miner.run_id ?? run.run_id);
-          const currentTs = numberOrNull(miner.timestamp) ?? 0;
-          const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
-          if (currentTs > bestTs) {
-            entry.miner = miner;
-            entry.fetchedAt = result.fetchedAt;
+      const batch = activeRuns.slice(i, i + BATCH);
+      i += BATCH;
+      const lists = await Promise.all(
+        batch.map(async (run) => {
+          const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
+            `/miners?run_id=${encodeURIComponent(run.run_id)}`,
+            TTL.miners,
+            data.force,
+          );
+          return { run, result };
+        }),
+      );
+
+      for (const { run, result } of lists) {
+        if (result.error) errors.push(`任务 ${run.run_id}：${result.error}`);
+        const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
+        if (miners === null) continue;
+        if (!result.error) runsFetched += 1;
+        const fetchedAt = validFetchedAt(result.fetchedAt);
+        if (fetchedAt !== null && (lastFetchedAt === null || fetchedAt > lastFetchedAt)) {
+          lastFetchedAt = fetchedAt;
+        }
+        for (const miner of miners) {
+          if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
+          const entry = best.get(miner.hotkey);
+          if (!entry) {
+            best.set(miner.hotkey, {
+              miner,
+              fetchedAt,
+              runIds: new Set([miner.run_id ?? run.run_id]),
+            });
+          } else {
+            entry.runIds.add(miner.run_id ?? run.run_id);
+            const currentTs = numberOrNull(miner.timestamp) ?? 0;
+            const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
+            if (currentTs > bestTs) {
+              entry.miner = miner;
+              entry.fetchedAt = fetchedAt;
+            }
           }
         }
       }
+    }
+
+    if (timedOut && best.size < data.hotkeys.length) {
+      errors.push("本次未在时限内读完全部训练任务名单，已返回当前已找到的设备");
     }
 
     const devices: DiscoveredDevice[] = data.hotkeys.map((hotkey) => {
@@ -165,18 +196,19 @@ export const discoverDevices = createServerFn({ method: "POST" })
       return {
         hotkey,
         miner: entry?.miner ?? null,
-        fetchedAt: entry?.fetchedAt ?? null,
+        fetchedAt: validFetchedAt(entry?.fetchedAt),
         runIds: entry ? [...entry.runIds] : [],
       };
     });
 
     const runsTotal = activeRuns.length;
+    const scannedAll = !timedOut && runsFetched === runsTotal;
     return {
       devices,
       runs: activeRuns,
       runsTotal,
       runsFetched,
-      fullCoverage: runsTotal > 0 && runsFetched === runsTotal && !runsResult.error,
+      fullCoverage: runsTotal > 0 && scannedAll && !runsResult.error,
       fetchedAt: lastFetchedAt,
       errors,
     };

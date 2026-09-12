@@ -10,6 +10,13 @@ export type DeviceStatus =
 
 export const REFRESH_INTERRUPTED_MS = 5 * 60 * 1000;
 
+/** Accept only millisecond clocks. Reject 0, NaN, and unix-second timestamps. */
+export function validFetchedAt(value: number | null | undefined): number | null {
+  return typeof value === "number" && Number.isFinite(value) && value > 1_000_000_000_000
+    ? value
+    : null;
+}
+
 export type StatusInput = {
   miner: MinerRecord | null;
   /** true only if every active run's miner list was fetched successfully */
@@ -26,7 +33,8 @@ export type StatusInput = {
  */
 export function computeStatus(input: StatusInput): DeviceStatus {
   const { miner, fullCoverage, lastSuccessfulFetchAt, now } = input;
-  if (lastSuccessfulFetchAt === null || now - lastSuccessfulFetchAt > REFRESH_INTERRUPTED_MS) {
+  const fetchedAt = validFetchedAt(lastSuccessfulFetchAt);
+  if (fetchedAt === null || now - fetchedAt > REFRESH_INTERRUPTED_MS) {
     return "refresh_interrupted";
   }
   if (miner) {

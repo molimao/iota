@@ -17,7 +17,8 @@ import {
   iotaUnitsToUsd,
   UNIT_SCALE,
 } from "./earnings";
-import { computeStatus } from "./device-status";
+import { computeStatus, REFRESH_INTERRUPTED_MS, validFetchedAt } from "./device-status";
+import { hintRunIdsFromDevices, orderActiveRuns } from "./iota-discover";
 import { addEntry, parseWatchlist, serializeExport, importDevices } from "./watchlist";
 import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
@@ -73,10 +74,33 @@ it("old statistical sample does not imply offline", () => {
     computeStatus({
       miner: { timestamp: 1, is_active: true, throughput: 4 } as never,
       fullCoverage: true,
-      lastSuccessfulFetchAt: 1000000,
-      now: 1000001,
+      lastSuccessfulFetchAt: Date.parse("2026-09-12T10:00:00Z"),
+      now: Date.parse("2026-09-12T10:00:01Z"),
     }),
   ).toBe("contributing");
+});
+it("marks refresh interrupted after five minutes without a real fetch clock", () => {
+  const now = Date.parse("2026-09-12T10:00:00Z");
+  expect(
+    computeStatus({
+      miner: { timestamp: 1, is_active: true, throughput: 4 } as never,
+      fullCoverage: true,
+      lastSuccessfulFetchAt: now - REFRESH_INTERRUPTED_MS - 1,
+      now,
+    }),
+  ).toBe("refresh_interrupted");
+  expect(validFetchedAt(0)).toBeNull();
+  expect(validFetchedAt(1_726_000_000)).toBeNull();
+});
+it("scans previously seen runs first so known devices do not wait on every task list", () => {
+  const runs = [{ run_id: "a" }, { run_id: "b" }, { run_id: "c" }];
+  expect(orderActiveRuns(runs, ["c", "b"]).map((run) => run.run_id)).toEqual(["b", "c", "a"]);
+  expect(
+    hintRunIdsFromDevices([
+      { runIds: ["c"], miner: { run_id: "b" } },
+      { runIds: ["c"], miner: { run_id: "c" } },
+    ]),
+  ).toEqual(["c", "b"]);
 });
 it("roundtrips more than three public IDs and prevents duplicates", () => {
   let entries: any[] = [];

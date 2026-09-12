@@ -6,15 +6,18 @@ import { aggregateUnits, type Aggregate } from "@/lib/earnings";
 import {
   computeStatus,
   statusBucket,
+  validFetchedAt,
   type DeviceStatus,
   type StatusBucket,
 } from "@/lib/device-status";
+import { hintRunIdsFromDevices } from "@/lib/iota-discover";
 import { fetchSn9UsdFromMarkets } from "@/lib/iota-price-sources";
 import { discoverDevices, getEarnings, getIotaUsdPrice, getOccupancy } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord, Occupancy } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
 
-export const POLL_MS = 5_000;
+export const DISCOVERY_POLL_MS = 30_000;
+export const EARNINGS_POLL_MS = 120_000;
 export const MANUAL_COOLDOWN_MS = 15_000;
 export const EARNINGS_FRESH_MS = 15 * 60 * 1000;
 
@@ -43,23 +46,23 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const priceFn = useServerFn(getIotaUsdPrice);
 
   const forceRef = useRef(false);
+  const hintRunIdsRef = useRef<string[]>([]);
   const [manualState, setManualState] = useState<{
     running: boolean;
     lastAt: number | null;
     error: string | null;
   }>({ running: false, lastAt: null, error: null });
   const [now, setNow] = useState(() => Date.now());
-  const [cached, setCached] = useState<{ savedAt: number; payload: Snapshot } | null>(null);
-
-  useEffect(() => {
+  const [cached, setCached] = useState<{ savedAt: number; payload: Snapshot } | null>(() => {
     const candidate = readTelemetryCache<Snapshot>();
     if (
       candidate &&
       Array.isArray(candidate.payload?.discovery?.devices) &&
       Array.isArray(candidate.payload?.earnings)
     )
-      setCached(candidate);
-  }, []);
+      return candidate;
+    return null;
+  });
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1_000);
@@ -97,11 +100,16 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const discoveryQuery = useQuery({
     queryKey: ["iota", "discovery", hotkeyKey],
     queryFn: async () => {
+      const hintRunIds = hintRunIdsRef.current;
       const results: DiscoveryResult[] = [];
       for (let i = 0; i < hotkeys.length; i += 200)
         results.push(
           await discoverFn({
-            data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current && i === 0 },
+            data: {
+              hotkeys: hotkeys.slice(i, i + 200),
+              force: forceRef.current && i === 0,
+              hintRunIds,
+            },
           }),
         );
       const first = results[0]!;
@@ -113,9 +121,11 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       };
     },
     enabled,
-    refetchInterval: POLL_MS,
+    staleTime: 25_000,
+    refetchInterval: DISCOVERY_POLL_MS,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
+    retry: 1,
     placeholderData: keepPreviousData,
   });
 
@@ -134,9 +144,11 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       return { devices };
     },
     enabled,
-    refetchInterval: POLL_MS,
+    staleTime: 60_000,
+    refetchInterval: EARNINGS_POLL_MS,
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
+    retry: 1,
     placeholderData: keepPreviousData,
   });
 
@@ -154,6 +166,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const earnings =
     earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
   const usingCachedOnly = !discoveryQuery.data && Boolean(cached) && hotkeys.length > 0;
+  hintRunIdsRef.current = hintRunIdsFromDevices(discovery?.devices);
 
   useEffect(() => {
     if (discoveryQuery.data && earningsQuery.data) {
@@ -217,9 +230,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const status = computeStatus({
         miner: found?.miner ?? null,
         fullCoverage: discovery?.fullCoverage ?? false,
-        lastSuccessfulFetchAt: found?.miner
-          ? (found.fetchedAt ?? null)
-          : (discovery?.fetchedAt ?? null),
+        lastSuccessfulFetchAt:
+          validFetchedAt(found?.fetchedAt) ?? validFetchedAt(discovery?.fetchedAt),
         now,
       });
       const earningsUsable =
@@ -273,11 +285,10 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     discovery,
     occupancy,
     occupancyError: occupancyQuery.data?.error ?? null,
-    fetchedAt: (() => {
-      const live = Math.max(discoveryQuery.dataUpdatedAt ?? 0, earningsQuery.dataUpdatedAt ?? 0);
-      if (live > 0) return live;
-      return discovery?.fetchedAt ?? cached?.savedAt ?? null;
-    })(),
+    fetchedAt:
+      validFetchedAt(discovery?.fetchedAt) ??
+      validFetchedAt(cached?.savedAt) ??
+      null,
     earningsFetchedAt:
       earnings?.reduce<number | null>(
         (min, device) =>
