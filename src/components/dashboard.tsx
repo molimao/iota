@@ -140,10 +140,16 @@ export function Dashboard() {
             : formatAgo(dash.fetchedAt, dash.now)}
         </span>
       </div>
-      {(watch.storageError || message) && (
+      {(watch.storageError || watch.syncMessage || auth.error || message) && (
         <div role="status" className="notice">
-          {t(watch.storageError || message)}
-          <button aria-label={t("关闭提示")} onClick={() => setMessage("")}>
+          {t(watch.storageError || watch.syncMessage || auth.error || message)}
+          <button
+            aria-label={t("关闭提示")}
+            onClick={() => {
+              setMessage("");
+              watch.clearSyncMessage();
+            }}
+          >
             <X size={16} />
           </button>
         </div>
@@ -192,7 +198,7 @@ export function Dashboard() {
             const f = e.target.files?.[0];
             if (!f) return;
             try {
-              const result = watch.importJson(await f.text());
+              const result = await watch.importJson(await f.text());
               setMessage(
                 result.ok
                   ? en
@@ -267,14 +273,16 @@ export function Dashboard() {
           <DialogDescription>{t("填写公开的 Miner ID，不需要私钥或助记词。")}</DialogDescription>
           <form
             className="device-form"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              const result = watch.add({ label, hotkey });
+              const result = await watch.add({ label, hotkey });
               if (result.ok) {
                 setAdding(false);
                 setLabel("");
                 setHotkey("");
-                setMessage(t("设备已保存到此浏览器。"));
+                setMessage(
+                  watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"),
+                );
               } else setMessage(result.error || t("保存失败"));
             }}
           >
@@ -330,10 +338,10 @@ export function Dashboard() {
                   {t("复制 ID")}
                 </button>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const name = window.prompt(t("设备名称"), active.entry.label);
                     if (name !== null) {
-                      const r = watch.rename(active.entry.hotkey, name);
+                      const r = await watch.rename(active.entry.hotkey, name);
                       setMessage(r.ok ? t("名称已保存") : r.error || t("保存失败"));
                     }
                   }}
@@ -350,7 +358,7 @@ export function Dashboard() {
                           : `从本浏览器移除「${active.entry.label}」？不会停止设备训练。`,
                       )
                     ) {
-                      watch.remove(active.entry.hotkey);
+                      void watch.remove(active.entry.hotkey);
                       setSelected(null);
                     }
                   }}
