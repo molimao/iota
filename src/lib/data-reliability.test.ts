@@ -180,6 +180,25 @@ it("joins independent training series by epoch without inventing missing values"
 });
 
 describe("shared official proxy", () => {
+  it("uses the edge-compatible redirect mode and rejects redirected responses", async () => {
+    const fetch = vi.fn().mockImplementation((_url, options) => {
+      if (options.redirect === "error") throw new Error("Unsupported at the edge");
+      return Promise.resolve(
+        new Response(null, {
+          status: 302,
+          headers: { location: "https://example.com/redirected" },
+        }),
+      );
+    });
+    vi.stubGlobal("fetch", fetch);
+    const { fetchUpstream } = await import("./iota-upstream.server");
+    const result = await fetchUpstream("/runs", 1000);
+    expect(fetch.mock.calls[0]?.[1].redirect).toBe("manual");
+    expect(result.data).toBeNull();
+    expect(result.fetchedAt).toBeNull();
+    expect(result.error).toMatch(/HTTP 302/);
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
   it("shares requests, caches success, and preserves its clock after invalid data", async () => {
     vi.useFakeTimers();
     vi.setSystemTime(now);

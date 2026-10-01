@@ -122,7 +122,8 @@ async function fetchJson(path: string, timeoutMs: number): Promise<unknown> {
         method: "GET",
         headers: UPSTREAM_HEADERS,
         signal: controller.signal,
-        redirect: "error",
+        // Cloudflare Workers supports manual/follow; reject redirects below.
+        redirect: "manual",
       }),
       timeoutMs + 250,
       "请求超时",
