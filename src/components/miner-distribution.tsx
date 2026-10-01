@@ -168,9 +168,13 @@ export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partia
           </ol>
           {!data.rows.length && (
             <p className="viz-note">
-              {en
-                ? "No location records are available in the fetched roster."
-                : "已读取名单暂未提供位置记录。"}
+              {farm.listed === null
+                ? en
+                  ? "Waiting for the miner roster…"
+                  : "正在等待矿工名单…"
+                : en
+                  ? "No location records are available in the fetched roster."
+                  : "已读取名单暂未提供位置记录。"}
             </p>
           )}
           {data.rows.length > 8 && (
@@ -192,9 +196,13 @@ export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partia
         </div>
       </div>
       <p className="viz-note">
-        {en
-          ? `Shares use the fetched roster, deduplicated by Miner ID. ${formatCount(data.unknown, locale)} have no location record. Location is reported data; it does not indicate training activity.`
-          : `占比按已读取名单中的去重 Miner ID 计算，${formatCount(data.unknown, locale)} 个未提供位置。位置来自上报数据，不代表当前训练状态。`}
+        {farm.listed === null
+          ? en
+            ? "Shares will appear after the miner roster is fetched. Missing data is not counted as zero."
+            : "获取矿工名单后显示地区占比，未获取的数据不计为零。"
+          : en
+            ? `Shares use the fetched roster, deduplicated by Miner ID. ${formatCount(data.unknown, locale)} have no location record. Location is reported data; it does not indicate training activity.`
+            : `占比按已读取名单中的去重 Miner ID 计算，${formatCount(data.unknown, locale)} 个未提供位置。位置来自上报数据，不代表当前训练状态。`}
       </p>
     </section>
   );
