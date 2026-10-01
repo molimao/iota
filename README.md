@@ -1,67 +1,106 @@
-# IOTA 矿工之家
+# IOTA Watch
 
-Build and prepare to publish a production Simplified Chinese IOTA Train at Home multi-device monitoring dashboard, migrating an existing localhost tool. Name: IOTA 我的设备. User explicitly wants deployment to Lovable and LOCAL browser caching of public Miner IDs/hotkeys. Use Lovable standard stack and implement full working experience, not a mock. No account, paid tier, device count cap, private keys, wallet connection or seed phrase. Do not prepopulate any real users/addresses. No fake metrics.
+开源的 **IOTA Train at Home 多设备监控面板**，在浏览器中查看训练状态、收益、历史趋势与全网矿工分布。
 
-Visual: clean light background #f3f5f9, white device cards, ink #172338, blue #245bdb, concise Chinese. Top prominently displays 今日总收益 and 累计总收益 in IOTA (alpha, subnet token, NOT TAO or fiat), then counts 有贡献 / 等待任务 / 需检查 / 待确认. Device grid cards: name, understandable status and explanation, today's and total earnings, fetched time, details button. Add device dialog with label and Miner ID; rename, copy ID, remove confirmation. Details sheet tabs 运行情况 / 训练记录 / 收益记录. Addresses, raw layer index, coldkey, run tucked in collapsed technical details. All-runs capacity collapsed advanced section. Responsive and legible, no technical wall of text.
+**[官网](https://iotahome.site) · [我的设备](https://iotahome.site/zh/app) · [全网现况](https://iotahome.site/zh/network) · [博客](https://iotahome.site/zh/blog) · [English](https://iotahome.site/en)**
 
-PERSISTENCE: localStorage versioned key iota-watchlist-v1 for {hotkey,label,addedAt} list with schema validation, duplicate prevention, storage errors shown. Unlimited product limit. Validate SS58 generic network42 address incl checksum with suitable reputable JS utility. Browser device-local only, not shared DB. Show clear note local to browser, clearing browser data removes list. Add local JSON import/export (public IDs/names only) so existing localhost list can migrate. Never embed real addresses in source or URL. Initial empty state Add device; no demo seed. Client telemetry cache timestamped under separate key; bound size, never label cached data fresh. No need for database/auth.
+IOTA Watch is an open-source, bilingual dashboard for monitoring Macrocosmos IOTA Train at Home devices and public network data. It is an independent community tool for the Bittensor SN9 ecosystem, not an IOTA Layer 1 wallet.
 
-DATA: Verified official base https://iota-web.api.macrocosmos.ai/mainnet. Implement server-side constrained read-only proxy using Lovable backend (or edge function only if necessary), avoiding browser CORS. Do not use localhost/127.0.0.1 proxy in hosted code. Only fixed allowlisted endpoints; validate hotkeys/runIds/period; prevent arbitrary URL SSRF. No credentials currently required. Shared TTL, singleflight, max3 concurrency, timeout20s, exponential failure backoff. Page polls5s; miners cache60s, runs300s, occupancy120s, contributions/rewards300s. Manual refresh button bypasses normal TTL with15s cooldown, displays progress and failures, retains previous data. If upstream Cloudflare blocks cloud traffic report it truthfully, do not fabricate success.
+![矿工分布与网络容量](docs/images/network-overview.jpg)
 
-GET endpoints + exact observed JSON:
-/runs => {runs:[{run_id,name,state:'active',metadata:{description,n_splits,model_name}}]}
-/miners?run_id=... => {miners:[{timestamp (Unix seconds),layer (zero-based),hotkey,coldkey,activation_count,throughput,is_active,registration_time,run_id,location_name,location_country}]}
-Discover devices by fetching all current active runs and matching exact hotkey. Dedup same hotkey across run lists using most recent timestamp. Unknown/incomplete coverage is NOT missing or offline.
-/progress?run_id => {activation_count,total_activations,token_count,total_tokens,loss}
-/v1/runs_occupancy => {run_ids:[],max_miners:[],active_miners:[],slots_remaining:[]} (capacity occupancy not proof of active compute).
-/v1/epoch_miner_scores/runs/{run}/hotkeys/{hotkey}/metrics?period=week => {epochs:[],token_counts:[],act_contribution_percs:[],activation_ranks:[],num_hotkeys_in_epochs:[],timestamps:[]}
-same prefix /throughput?period=week => {epochs:[],throughputs:[],timestamps:[]}
-same prefix /cumulative_tokens?period=week => {epochs:[],token_counts_cumulative:[],timestamps:[]}
-/v1/entitlements/totals/hotkey/{hotkey} => {total_amount_earned,total_amount_paid,total_amount_pending,total_amount_frozen,minimum_payout_amount}
-/v1/entitlements/history/hotkey/{hotkey} => {alpha_amounts:[],timestamps:[],statuses:[]}
+截图展示矿工分布和网络容量，数字为截图时的官方数据。
 
-EARNINGS correct semantics: query rewards for EVERY saved hotkey, even if absent from active run lists. Per-device cumulative = total_amount_earned. TODAY = sum alpha_amounts where history timestamp falls today from 00:00 Asia/Hong_Kong (UTC+8), timestamp <= now and status in ['pending','settled'] (matches official client filtering). Exclude frozen/other. This is official reward accounting date, not real-time estimated earnings or payout day. Use fixed precision arithmetic, preserve up to8 decimals. No double count paid + earned. Display unit IOTA and note alpha. Totals aggregate saved unique devices only; if some missing show known partial sum with x/y coverage and 部分, never silently zero unknown. Successful empty arrays =>0; malformed arrays/errors =>unknown. Recompute day after midnight. Cached earnings older15min/error flagged not included as current totals. Full coverage empty watchlist can show0 or empty guidance.
+## 功能
 
-STATUS crucial bug to avoid: miner timestamp is official statistics sample time, NOT heartbeat and NOT time our API refreshed. Never mark every device offline/stale just because timestamp>5min. Separate fetchedAt vs sampleTimestamp. No new successful API fetch>5min =>刷新中断, keep last values. is_active true & throughput>0 =>有训练贡献 (official last reported activity, not guarantee current compute); active true zero =>在线待任务; false=>暂未参与, not proof offline; not found only after all active run lists successfully fetched=>尚未找到. Cloud app CANNOT read Mac logs, so do not include fake local heartbeat or Electron error checks. Local log tool remains separate.
+- **多设备监控**：通过公开 Miner ID 添加、命名和查看设备，按有贡献、等待任务、需检查、待确认筛选。
+- **收益记录**：今日、累计、已支付、待支付、冻结与最低支付金额；同时显示带来源和时间的美元估价。
+- **训练历史**：按日、周、月查看训练 Token、吞吐量和累计 Token，缺失数据保留为空缺。
+- **全网可视化**：地区分布环图、矿工人数排行、名额占用、任务进度与档位概览。
+- **数据时效**：独立显示各来源的读取时间、覆盖率、旧数据与部分失败提示。
+- **设备清单**：未登录时在当前浏览器保存最多 3 台；Google 登录后账号最多绑定 10 台；支持 JSON 导入导出。
+- **中英文内容**：使用说明与博客，包含文章目录、官方资料来源及 AI 可读取的 Markdown 版本。
+- **手机适配**：响应式卡片、图表和导航菜单。
 
-Validate build and key tests: persistence add/rename/remove >3 devices, duplicate/invalid ID; current successful response with old statistics timestamp stays active; failed refresh retains last data +warning; HK midnight inclusion, future/frozen excluded, no-data vs0, partial aggregate; fetch real /runs and /miners from hosted server. No marketing landing page. Return implemented files, tests/build and actual API verification outcome. Do not deploy automatically; I will call deploy after review.
+网页读取公开数据，不控制训练应用，不配置收款地址，也不需要私钥或助记词。
 
-This project was built with [Lovable](https://lovable.dev).
+## 本地运行
 
-## Current data behavior
-
-- Device status checks every 30 seconds while the page is visible. Official miner lists are cached for 60 seconds; every active run is scanned, and duplicate devices are resolved using the latest official sample. A complete successful scan can confirm that an ID is absent. An incomplete scan keeps the last record and labels it as cached.
-- Rewards check every 2 minutes with a 5-minute official API cache. Today is the official accounting day in Hong Kong (UTC+8). Midnight changes the query key and clears yesterday's displayed total until today's accounting is available. Reward totals and history have separate clocks and errors, so a history failure does not erase valid lifetime rewards.
-- Manual refresh bypasses normal cache expiry, with a 15-second cooldown. Requests share in-flight work and are limited to 3 upstream connections per server instance. Network requests have a 10-second timeout and a bounded 20-second queue wait. Failures retain validated data, use exponential backoff, and respect official `Retry-After` limits. The cache is bounded to 512 entries per instance.
-- All official responses are validated before caching, including array alignment. Missing values remain unknown, while a successful empty response may be zero. The network page shows coverage, independent source ages and partial failures; global miner totals deduplicate IDs across runs.
-- Device history supports day/week/month ranges, joins contributions, ranks, throughput and cumulative tokens by epoch, and loads the trend chart on demand. Reward details include paid, pending, frozen and minimum payout balances. USD amounts are market estimates with a source and fetch time.
-- Hidden pages pause polling. Returning to the page or reconnecting triggers a data check. Statistics sample times are separate from API fetch times and are never treated as a device heartbeat.
-
-Run the regression suite with `npx vitest run`, the type check with `npx tsc --noEmit`, and the production build with `npm run build`. Live official API checks are opt-in: `IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts`. The live check selects a public ID from the official roster only in memory and does not save it to the device list or source files.
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/5854fd0c-7c2c-425c-a833-b540ffe023bd).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+需要 **Node.js 22.12 或更高版本**（推荐 Node.js 24 LTS）和 npm。
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/molimao/iota.git
+cd iota
+npm ci
+cp .env.example .env.local
+# 在 .env.local 中填写自己的 Supabase 项目配置
 npm run dev
 ```
 
-## Search and AI-readable content
+本项目使用 React、TypeScript、TanStack Start / Router / Query、Vite、Tailwind CSS、Recharts 和 Supabase。
 
-- Public Chinese and English pages use self-canonicals on `iotahome.site` with reciprocal language alternates. The dashboard and account pages remain `noindex,follow` in HTML and response headers; robots allows those pages to be fetched so search crawlers can see that directive. Server-function endpoints are excluded from crawling.
-- Guide publication/modification dates are per article. Do not update dates just because a build runs. Guide HTML, JSON-LD, Markdown and sitemap timestamps share the same content metadata.
-- `/zh/learn/<slug>.md` and `/en/learn/<slug>.md` return the complete guide with canonical HTTP links and localized absolute links. `/llms-full.txt` contains complete bilingual content. These are reading aids; they do not guarantee indexing or AI citations.
-- Crawl generators are in `src/lib/crawl.ts`. Keep generated `public/sitemap.xml`, `robots.txt`, `llms.txt`, and `llms-full.txt` synchronized when editing content; regression tests detect drift. PNG sharing previews are generated from `public/og.svg`.
-- Search Console verification can use `VITE_GOOGLE_SITE_VERIFICATION` or `GOOGLE_SITE_VERIFICATION`. Search indexing, query impressions and organic conversions must be measured separately from website visits and registered account counts.
+### 环境配置
+
+`.env.example` 提供客户端与服务端配置的字段。仓库现有 `.env` 是 Lovable 生成的公开客户端配置；复刻或部署自己的实例时，请使用 `.env.local` 覆盖为自己的 Supabase 项目。
+
+- `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`：浏览器使用的项目地址和公开 publishable key。
+- `SUPABASE_URL` / `SUPABASE_PUBLISHABLE_KEY`：服务端使用的对应配置。
+- Supabase 数据表和访问策略位于 [`supabase/migrations`](supabase/migrations)，按文件时间顺序应用到自己的项目。
+- 当前 Google 登录通过 Lovable Cloud OAuth 接入。独立部署时，需要配置自己的 OAuth 与回调地址，并按自己的认证方案适配 [`src/integrations/lovable/index.ts`](src/integrations/lovable/index.ts)。
+
+私有配置放在未跟踪的本地环境文件或部署平台的环境变量中。不要把 service role key、OAuth secret、用户会话或钱包凭据加入源码。
+
+### 检查与构建
+
+```sh
+npx vitest run
+npx tsc --noEmit
+npm run build
+```
+
+官方 API 检查为可选项：
+
+```sh
+IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts
+```
+
+该检查只在内存中选取官方公开名单中的 ID，不写入设备清单或源码。
+
+## 数据来源与口径
+
+公开训练数据来自 Macrocosmos 官方 API：`https://iota-web.api.macrocosmos.ai/mainnet`。服务端只代理固定允许的端点，校验响应、限制并发、设置超时与缓存，并保留失败前的有效数据。
+
+- 设备状态约每 30 秒检查一次；官方矿工名单缓存 60 秒。官方采样时间与本站成功读取时间分开显示，采样较旧不能单独证明设备离线。
+- 收益约每 2 分钟检查一次；官方收益数据缓存 5 分钟。今日收益按香港时间 00:00 起的 `pending`、`settled` 记账记录求和，排除冻结与未来记录。
+- 名单扫描不完整时不把设备判为缺席；数据缺失不填成零；部分收益明确标注覆盖率。
+- 全网矿工按 Miner ID 去重，地区别名合并后再计算人数和占比。名额、训练活动和收益来自不同来源。
+- 美元金额为公开市场估价，不是结算金额。上游限流或拒绝访问时，页面保留有效旧数据并显示提示。
+
+官方资料：[TAH 用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) · [官方 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs)。
+
+## 项目结构
+
+| 路径                  | 内容                                     |
+| --------------------- | ---------------------------------------- |
+| `src/components`      | 设备监控、全网视图、历史图表             |
+| `src/components/site` | 中英文页面、博客、使用说明与 SEO         |
+| `src/hooks`           | 查询、登录、设备清单状态                 |
+| `src/lib`             | 官方 API、数据校验、收益与状态计算、测试 |
+| `src/routes`          | TanStack 页面路由                        |
+| `src/server.ts`       | 服务端响应、抓取资源与错误处理           |
+| `supabase/migrations` | 账号设备表、行级访问策略与设备数量限制   |
+
+## 部署与内容维护
+
+官网部署在 Lovable / Cloudflare。仓库 `main` 与 [Lovable 项目](https://lovable.dev/projects/5854fd0c-7c2c-425c-a833-b540ffe023bd) 同步；同步代码后在 Lovable 发布。
+
+自行部署需要能够运行 TanStack Start 服务端的环境，并配置自己的 Supabase / OAuth。当前官网规范地址为 `iotahome.site`；更换域名时，更新 [`src/lib/site.ts`](src/lib/site.ts) 的域名配置，以及生成的抓取文件。
+
+文章维护在 `src/components/site/articles.ts` 和 `blog-posts.ts`。正文、结构化信息、Markdown、网站地图共用文章元数据。修改内容后，保持 `public/sitemap.xml`、`robots.txt`、`llms.txt`、`llms-full.txt` 与 `src/lib/crawl.ts` 的生成结果一致；文章日期只在内容实际更新时调整。
+
+## 贡献
+
+欢迎提交 [Issue](https://github.com/molimao/iota/issues) 或 Pull Request。报告问题时请说明页面、复现步骤和数据来源提示，避免附带私人账号数据或凭据。数据相关改动应覆盖未知值、零值、部分覆盖及缓存失败的情况。
+
+## 开源许可
+
+本项目采用 [MIT License](LICENSE)。第三方依赖保留各自的许可；Macrocosmos、IOTA Train at Home 和其他产品名称属于各自权利人。

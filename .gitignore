@@ -16,6 +16,10 @@ dist-ssr
 .nitro
 *.local
 
+# Private local overrides; .env is tracked public Lovable client configuration.
+.env.*
+!.env.example
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

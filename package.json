@@ -1,5 +1,11 @@
 {
   "name": "tanstack_start_ts",
+  "license": "MIT",
+  "homepage": "https://iotahome.site",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molimao/iota.git"
+  },
   "private": true,
   "sideEffects": false,
   "type": "module",
