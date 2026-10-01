@@ -74,6 +74,24 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/zh/downloads</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/downloads</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/faq</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>

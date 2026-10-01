@@ -56,6 +56,7 @@ export function SiteNav() {
     [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/learn`, copy.nav[2]],
     [`/${locale}/blog`, en ? "Blog" : "博客"],
+    [`/${locale}/downloads`, en ? "Downloads" : "工具下载"],
   ] as const;
   return (
     <nav className="site-nav" aria-label={en ? "Main navigation" : "主导航"}>
@@ -118,6 +119,7 @@ export function SiteFooter() {
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
         <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
         <a href={`/${locale}/blog`}>{en ? "Blog" : "博客"}</a>
+        <a href={`/${locale}/downloads`}>{en ? "Downloads" : "工具下载"}</a>
         <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub

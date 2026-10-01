@@ -21,6 +21,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
+- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
 ## Official sources
 
@@ -40,6 +41,8 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [Help (en)](https://iotahome.site/en/learn)
 - [全网训练现况 (zh)](https://iotahome.site/zh/network)
 - [Network status (en)](https://iotahome.site/en/network)
+- [工具下载 (zh)](https://iotahome.site/zh/downloads)
+- [Downloads (en)](https://iotahome.site/en/downloads)
 - [常见问题 (zh)](https://iotahome.site/zh/faq)
 - [FAQ (en)](https://iotahome.site/en/faq)
 - [使用指南 (zh)](https://iotahome.site/zh/guide)

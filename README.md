@@ -108,3 +108,11 @@ IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts
 ## 开源许可
 
 本项目采用 [MIT License](LICENSE)。第三方依赖保留各自的许可；Macrocosmos、IOTA Train at Home 和其他产品名称属于各自权利人。
+
+## Mac 本地工具下载
+
+官网 [工具下载](https://iotahome.site/zh/downloads) 提供 IOTA Train at Home 状态查看、优化启动和异常守护工具。源码与安装、停止、卸载说明在 [tools/iota-local/README.md](tools/iota-local/README.md)。已在 Apple Silicon Mac、官方客户端 3.7.0 上使用，要求 `/usr/bin/python3` 为 Python 3.9+；其他版本未验证。
+
+公开发布包仅包含固定清单中的脚本、说明和 MIT 许可证，不包含本机状态、日志、账号或钱包文件。安装会注册当前用户的登录守护及异常自动重启；网页监控本身仍只读。
+
+修改脚本后运行 `python3 scripts/package-iota-tools.py`，它会生成 ZIP、SHA-256、版本元数据及单独的状态查看脚本。校验：`PYTHONDONTWRITEBYTECODE=1 python3 tools/tests/test_iota_tools.py`，不安装服务、不启动或重启 IOTA。

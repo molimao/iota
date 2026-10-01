@@ -3,9 +3,19 @@ import { articles, articleDates, getArticle } from "./articles";
 import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
+import localToolsRelease from "@/lib/local-tools-release.json";
 
 export type Page =
-  "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account" | "network" | "blog";
+  | "home"
+  | "guide"
+  | "faq"
+  | "privacy"
+  | "app"
+  | "learn"
+  | "account"
+  | "network"
+  | "blog"
+  | "downloads";
 
 const OG_IMAGE = `${ORIGIN}/og.png`;
 const ORG_ID = `${ORIGIN}/#organization`;
@@ -94,67 +104,75 @@ export function seo(locale: Locale, page: Page, slug?: string) {
 
   const title = article
     ? `${article.title[locale]} | IOTA Watch`
-    : page === "blog"
+    : page === "downloads"
       ? en
-        ? "IOTA Train at Home monitoring blog | IOTA Watch"
-        : "IOTA Train at Home 监控博客｜IOTA Watch"
-      : page === "home"
+        ? "IOTA Train at Home Mac tools: status and startup | IOTA Watch"
+        : "IOTA Mac 工具下载：状态查看与优化启动｜IOTA Watch"
+      : page === "blog"
         ? en
-          ? "IOTA Train at Home Device Monitor | IOTA Watch"
-          : "IOTA Train at Home 设备监控｜IOTA Watch"
-        : page === "guide"
-          ? `${copy.guideTitle} | IOTA Watch`
-          : page === "faq"
-            ? `${copy.faqTitle} | IOTA Watch`
-            : page === "privacy"
-              ? `${copy.privacyTitle} | IOTA Watch`
-              : page === "learn"
-                ? en
-                  ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
-                  : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
-                : page === "account"
+          ? "IOTA Train at Home monitoring blog | IOTA Watch"
+          : "IOTA Train at Home 监控博客｜IOTA Watch"
+        : page === "home"
+          ? en
+            ? "IOTA Train at Home Device Monitor | IOTA Watch"
+            : "IOTA Train at Home 设备监控｜IOTA Watch"
+          : page === "guide"
+            ? `${copy.guideTitle} | IOTA Watch`
+            : page === "faq"
+              ? `${copy.faqTitle} | IOTA Watch`
+              : page === "privacy"
+                ? `${copy.privacyTitle} | IOTA Watch`
+                : page === "learn"
                   ? en
-                    ? "Account | IOTA Watch"
-                    : "账号｜IOTA Watch"
-                  : page === "network"
+                    ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
+                    : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
+                  : page === "account"
                     ? en
-                      ? "IOTA Train at Home network status | IOTA Watch"
-                      : "全网训练现况｜IOTA Watch"
-                    : en
-                      ? "My devices | IOTA Watch"
-                      : "我的设备｜IOTA Watch";
+                      ? "Account | IOTA Watch"
+                      : "账号｜IOTA Watch"
+                    : page === "network"
+                      ? en
+                        ? "IOTA Train at Home network status | IOTA Watch"
+                        : "全网训练现况｜IOTA Watch"
+                      : en
+                        ? "My devices | IOTA Watch"
+                        : "我的设备｜IOTA Watch";
 
   const description = article
     ? article.description[locale]
-    : page === "blog"
+    : page === "downloads"
       ? en
-        ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
-        : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。"
-      : page === "home"
+        ? "Download open-source local scripts for IOTA Train at Home on Apple Silicon Mac: startup relay, status viewer and background guardian, with installation and removal instructions."
+        : "下载适用于 Apple Silicon Mac 的 IOTA Train at Home 开源本地脚本：优化启动、状态查看和异常守护，附安装与卸载说明。"
+      : page === "blog"
         ? en
-          ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
-          : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
-        : page === "guide"
-          ? copy.guideIntro
-          : page === "faq"
-            ? copy.faqIntro
-            : page === "privacy"
-              ? copy.privacyIntro
-              : page === "learn"
-                ? en
-                  ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
-                  : "Miner ID、设备状态、收益，以及登录后的清单同步。"
-                : page === "account"
+          ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
+          : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。"
+        : page === "home"
+          ? en
+            ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
+            : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
+          : page === "guide"
+            ? copy.guideIntro
+            : page === "faq"
+              ? copy.faqIntro
+              : page === "privacy"
+                ? copy.privacyIntro
+                : page === "learn"
                   ? en
-                    ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
-                    : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
-                  : page === "network"
+                    ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
+                    : "Miner ID、设备状态、收益，以及登录后的清单同步。"
+                  : page === "account"
                     ? en
-                      ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
-                      : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
-                    : en
-                      ? "Track reported training activity and rewards for your saved devices."
-                      : "查看已保存设备的训练状态与收益。";
+                      ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
+                      : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
+                    : page === "network"
+                      ? en
+                        ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
+                        : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
+                      : en
+                        ? "Track reported training activity and rewards for your saved devices."
+                        : "查看已保存设备的训练状态与收益。";
 
   const keywords = article
     ? en
@@ -188,31 +206,35 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               { name: home, path: "" },
               {
                 name:
-                  page === "blog"
+                  page === "downloads"
                     ? en
-                      ? "Blog"
-                      : "博客"
-                    : page === "guide"
-                      ? copy.guideTitle
-                      : page === "faq"
-                        ? copy.faqTitle
-                        : page === "privacy"
-                          ? copy.privacyTitle
-                          : page === "learn"
-                            ? en
-                              ? "Help"
-                              : "使用说明"
-                            : page === "account"
+                      ? "Downloads"
+                      : "工具下载"
+                    : page === "blog"
+                      ? en
+                        ? "Blog"
+                        : "博客"
+                      : page === "guide"
+                        ? copy.guideTitle
+                        : page === "faq"
+                          ? copy.faqTitle
+                          : page === "privacy"
+                            ? copy.privacyTitle
+                            : page === "learn"
                               ? en
-                                ? "Account"
-                                : "账号"
-                              : page === "network"
+                                ? "Help"
+                                : "使用说明"
+                              : page === "account"
                                 ? en
-                                  ? "Network"
-                                  : "全网"
-                                : en
-                                  ? "Dashboard"
-                                  : "监控",
+                                  ? "Account"
+                                  : "账号"
+                                : page === "network"
+                                  ? en
+                                    ? "Network"
+                                    : "全网"
+                                  : en
+                                    ? "Dashboard"
+                                    : "监控",
                 path,
               },
             ],
@@ -252,6 +274,25 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           name: question,
           acceptedAnswer: { "@type": "Answer", text: answer },
         })),
+      }),
+    );
+  }
+
+  if (page === "downloads") {
+    scripts.push(
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "IOTA Local Tools",
+        description,
+        url,
+        downloadUrl: `${ORIGIN}/downloads/${localToolsRelease.filename}`,
+        softwareVersion: localToolsRelease.version,
+        operatingSystem: "macOS (Apple Silicon), Python 3.9+",
+        applicationCategory: "UtilitiesApplication",
+        license: "https://github.com/molimao/iota/blob/main/LICENSE",
+        isAccessibleForFree: true,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       }),
     );
   }

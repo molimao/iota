@@ -30,6 +30,7 @@ export const crawlPages: CrawlPage[] = [
   { path: "blog", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "learn", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
+  { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
   { path: "privacy", changefreq: "yearly", priority: "0.3" },
@@ -58,6 +59,7 @@ function pageLabel(locale: SiteLocale, path: string) {
     return blogPosts.find((post) => path === `blog/${post.slug}`)?.title[locale] ?? path;
   if (path === "learn") return locale === "en" ? "Help" : "使用说明";
   if (path === "network") return locale === "en" ? "Network status" : "全网训练现况";
+  if (path === "downloads") return locale === "en" ? "Downloads" : "工具下载";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
   if (path === "guide") return locale === "en" ? "Get started" : "使用指南";
   if (path === "privacy") return locale === "en" ? "Privacy" : "隐私说明";
@@ -146,6 +148,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
+- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See ${origin}/en/downloads for installation effects and removal instructions.
 
 ## Official sources
 

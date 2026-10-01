@@ -67,6 +67,144 @@ body:has(.site-shell) {
 .mobile-nav {
   display: none;
 }
+.downloads-page {
+  padding-top: 36px;
+}
+.tool-download-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 32px;
+  padding: 30px;
+  border: 1px solid var(--watch-border);
+  border-radius: 20px;
+  background: var(--watch-surface);
+}
+.tool-release-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  font-size: 12px;
+}
+.tool-download-card h2 {
+  margin: 18px 0 10px;
+  color: var(--watch-text);
+  font-size: 24px;
+}
+.tool-download-card p {
+  margin: 10px 0 0;
+  line-height: 1.8;
+}
+.tool-download-card .tool-install-note {
+  font-size: 12px;
+  color: var(--watch-text);
+}
+.tool-download-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.tool-download-actions > span {
+  font-size: 12px;
+}
+.tool-download-actions .site-button {
+  gap: 10px;
+  white-space: nowrap;
+}
+.tool-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+}
+.tool-compatibility {
+  margin: 16px 0 28px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.tool-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 30px 0 40px;
+}
+.tool-features svg {
+  color: var(--watch-text);
+}
+.tool-features h2 {
+  color: var(--watch-text);
+  font-size: 16px;
+  margin: 14px 0 8px;
+}
+.tool-features p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.tool-instructions {
+  margin: 32px 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--watch-border);
+}
+.tool-instructions h2 {
+  color: var(--watch-text);
+  font-size: 21px;
+}
+.tool-instructions ol {
+  padding-left: 24px;
+}
+.tool-instructions li {
+  padding-left: 8px;
+  margin: 20px 0;
+}
+.tool-instructions h3 {
+  color: var(--watch-text);
+  font-size: 15px;
+}
+.tool-instructions p {
+  line-height: 1.8;
+  font-size: 14px;
+}
+.tool-instructions code {
+  display: block;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  font-size: 12px;
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--watch-surface);
+}
+.tool-instructions details {
+  margin-top: 20px;
+}
+.tool-instructions summary {
+  cursor: pointer;
+  color: var(--watch-text);
+  font-size: 14px;
+}
+.tool-files a {
+  color: var(--watch-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 720px) {
+  .tool-download-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px;
+    gap: 24px;
+  }
+  .tool-download-actions {
+    align-items: stretch;
+    text-align: center;
+  }
+  .tool-source-link {
+    justify-content: center;
+  }
+  .tool-features {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+}
 .article-page {
   color: var(--watch-muted);
 }
