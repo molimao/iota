@@ -116,3 +116,11 @@ IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts
 公开发布包仅包含固定清单中的脚本、说明和 MIT 许可证，不包含本机状态、日志、账号或钱包文件。安装会注册当前用户的登录守护及异常自动重启；网页监控本身仍只读。
 
 修改脚本后运行 `python3 scripts/package-iota-tools.py`，它会生成 ZIP、SHA-256、版本元数据及单独的状态查看脚本。校验：`PYTHONDONTWRITEBYTECODE=1 python3 tools/tests/test_iota_tools.py`，不安装服务、不启动或重启 IOTA。
+
+## 搜索引擎更新提交
+
+Google Search Console 使用 `https://iotahome.site/sitemap.xml`；新增的重要页面可在网址检查中请求编入索引。不要使用已废弃的 sitemap ping 接口，也不要将普通文章提交到仅适用于招聘和直播页面的 Google Indexing API。
+
+官网发布完成后，运行 `npm run seo:submit`，通过 IndexNow 将线上网站地图中的可索引页面通知 Bing 等支持该协议的搜索引擎。`node scripts/submit-indexnow.mjs --check` 只检查线上地图和归属文件，不提交。脚本会拒绝非官网地址及 app/account 页面；成功接收不表示已经收录。
+
+`scripts/indexnow.json` 和对应的根目录 TXT 是协议要求公开的站点归属校验标识，不是私密 API 密钥、钱包密钥或管理凭证。
