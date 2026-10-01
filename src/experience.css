@@ -929,6 +929,10 @@ body:has(.site-shell) {
 .device-filters button[data-bucket] b {
   opacity: 1;
 }
+.site-shell .dashboard .device-top .badge[data-bucket] {
+  color: var(--status-color);
+  background: rgba(var(--status-rgb), 0.16);
+}
 .dash-dialog {
   background: var(--watch-bg) !important;
   border-radius: 22px !important;

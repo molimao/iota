@@ -505,6 +505,7 @@ export function Dashboard() {
                       </span>
                       <button
                         className={`badge ${meta.tone}`}
+                        data-bucket={view.bucket}
                         title={en ? "Status details" : "状态说明"}
                         onClick={() => openDevice(view.entry.hotkey, "diagnose")}
                       >
