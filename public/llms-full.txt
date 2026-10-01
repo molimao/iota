@@ -34,6 +34,8 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 - [首页 (zh)](https://iotahome.site/zh)
 - [Home (en)](https://iotahome.site/en)
+- [博客 (zh)](https://iotahome.site/zh/blog)
+- [Blog (en)](https://iotahome.site/en/blog)
 - [使用说明 (zh)](https://iotahome.site/zh/learn)
 - [Help (en)](https://iotahome.site/en/learn)
 - [全网训练现况 (zh)](https://iotahome.site/zh/network)
@@ -70,6 +72,12 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [How to read IOTA Train at Home training history and throughput (en)](https://iotahome.site/en/learn/training-history-and-metrics)
 - [IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
 - [IOTA Train at Home network status: slots, online miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
+- [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
+- [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
+- [IOTA Train at Home 收益为零或没到账，先检查什么？ (zh)](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home rewards are zero or unpaid: what to check first (en)](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh)](https://iotahome.site/zh/blog/iota-waiting-for-tasks)
+- [IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)](https://iotahome.site/en/blog/iota-waiting-for-tasks)
 
 ## Complete bilingual guides
 
@@ -854,5 +862,268 @@ Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missi
 
 在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
 - Source: Macrocosmos · Train at Home — https://iota.macrocosmos.ai/
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · source code — https://github.com/molimao/iota
+
+### How to monitor multiple IOTA Train at Home devices from one browser
+- ZH: https://iotahome.site/zh/blog/monitor-multiple-iota-devices
+- EN: https://iotahome.site/en/blog/monitor-multiple-iota-devices
+- Published: 2026-10-01
+- Updated: 2026-10-01
+- Publisher: IOTA Watch (independent monitor)
+
+When several Macs run IOTA Train at Home, opening each machine’s app is useful for local checks but inconvenient for a quick overview. IOTA Watch brings public device readings into one browser: reported activity, reward totals and training history. Training continues in the official app on each Mac; the browser is a monitor, not a remote control.
+
+## Start with a separate Miner ID for each machine
+
+Copy the public Miner ID from each device’s official Miner screen. The [Macrocosmos FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) distinguishes a device’s hotkey from the coldkey used for payouts: devices have different hotkeys even when they share a payout address. Adding the same ID twice does not monitor two machines.
+
+- Open [My devices](https://iotahome.site/en/app) and add the complete Miner ID
+
+- Give it a name that identifies the machine, such as its room or your existing inventory label
+
+- Repeat on the other Macs and check each name against its source machine
+
+Do not rely on the first few address characters to distinguish devices. Naming the list reduces mistakes when reviewing a machine that is waiting or renaming a device later.
+
+## Choose where the list should live
+
+Without signing in, IOTA Watch stores up to three devices in the current browser. This is convenient for checking a small setup on one computer. A different browser or phone will not automatically receive that local list; clearing browser storage can remove it.
+
+Google sign-in supports up to ten devices in an account-bound list. Use the same Google account when opening the monitor elsewhere. Check the list after switching accounts or signing out: the local and signed-in storage modes are different. The [account and device-list guide](https://iotahome.site/en/learn/google-account-device-list) explains the product limits and storage behavior.
+
+## Read the overview in a consistent order
+
+Start with the data-source ages and warnings. Then filter device statuses to narrow down machines worth checking. An old official sample, waiting state or zero throughput is not enough to conclude that a Mac has disconnected.
+
+Review rewards after checking coverage. When only some devices have usable earnings data, the aggregate is marked partial. That total represents the known devices; it should not be compared with a fully covered total as though both represent the same fleet.
+
+- For a waiting device, compare its run with the [network view](https://iotahome.site/en/network)
+
+- For a device absent from a complete scan, check its full ID and official app
+
+- For one unusual trend, open device details and select the relevant run and time range
+
+## Keep a portable backup
+
+Export the device list as JSON before changing browsers or clearing site data. Import and export move public IDs and names; they do not migrate local training sessions, wallet credentials or payout settings. Store the file where you can retrieve it and verify the restored names after import.
+
+A useful routine is simple: check freshness, review exceptions, inspect reward coverage, then open the official app only where a local check is needed. Start with [finding a Miner ID](https://iotahome.site/en/learn/find-miner-id) and the [data freshness guide](https://iotahome.site/en/learn/data-sources-and-freshness).
+
+### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？
+
+多台 Mac 同时运行 IOTA Train at Home 时，逐台打开官方应用适合检查本地问题，却不方便快速了解全局。IOTA Watch 把设备的公开上报状态、收益与训练历史集中到一个浏览器中。训练仍在每台 Mac 的官方应用里运行，网页提供监控，不提供远程控制。
+
+## 每台机器使用自己的 Miner ID
+
+分别在每台设备的官方 Miner 页面复制公开 Miner ID。[Macrocosmos FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 区分设备 hotkey 与收款 coldkey：即使多台设备使用相同的收款地址，设备 hotkey 仍各不相同。重复添加同一个 ID，不会变成监控两台机器。
+
+- 打开 [我的设备](https://iotahome.site/zh/app)，添加完整 Miner ID
+
+- 用房间名称或已有资产编号给设备命名，方便辨认
+
+- 在其余 Mac 上重复操作，核对名称是否对应正确机器
+
+不要只用地址开头几个字符区分设备。清晰的名称能减少查看等待任务的机器、重命名或移除设备时的误操作。
+
+## 清单应该保存在浏览器还是账号里？
+
+未登录时，IOTA Watch 最多在当前浏览器保存 3 台设备，适合在一台电脑上查看小规模设备清单。换浏览器或用手机打开时，原来的本地清单不会自动出现；清除浏览器数据也可能移除清单。
+
+使用 Google 登录后，可在账号清单中绑定最多 10 台设备。换设备查看时，请登录相同 Google 账号。切换账号或退出登录后，要再次确认当前清单：本地模式与登录模式使用不同的保存方式。详见 [账号与设备清单说明](https://iotahome.site/zh/learn/google-account-device-list)。
+
+## 按固定顺序读设备概览
+
+先检查数据源更新时间和警告，再用状态筛选缩小需要检查的机器范围。官方采样较旧、正在等待任务或吞吐量为零，都不足以单独证明 Mac 已断开连接。
+
+查看收益时，先确认数据覆盖率。只有部分设备的收益可用时，合计会标为「部分」。它代表已知设备的收益，不应直接与覆盖全部机器的合计比较，认为两者描述了相同设备范围。
+
+- 设备在等待任务时，对照其任务与 [全网现况](https://iotahome.site/zh/network)
+
+- 完整扫描仍未找到设备时，核对完整 ID 并检查官方应用
+
+- 单台设备趋势异常时，打开详情，选择对应任务与时间范围
+
+## 给清单留一份可迁移备份
+
+更换浏览器或清除站点数据前，先导出 JSON 清单。导入导出迁移的是公开 ID 与设备名称，不会迁移本地训练会话、钱包凭据或收款设置。把文件保存在便于找回的位置，导入后再次核对名称。
+
+日常检查可以按同一顺序完成：确认数据时效、查看需要关注的设备、核对收益覆盖率，最后对确有本地问题的机器打开官方应用。初次使用可先读 [Miner ID 获取步骤](https://iotahome.site/zh/learn/find-miner-id) 和 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+- Source: Macrocosmos · TAH support and FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · source code — https://github.com/molimao/iota
+
+### IOTA Train at Home rewards are zero or unpaid: what to check first
+- ZH: https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid
+- EN: https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid
+- Published: 2026-10-01
+- Updated: 2026-10-01
+- Publisher: IOTA Watch (independent monitor)
+
+A zero on the dashboard and a missing wallet payout are different questions. The first concerns the records the monitor can read; the second concerns official payout processing. Before restarting training or assuming rewards were lost, identify which field changed and whether its data source succeeded.
+
+## First distinguish zero from unknown
+
+IOTA Watch shows a known zero only when a usable official response supports it. A failed request, invalid response or missing field remains unknown. If a refresh fails, a previous successful reading may stay visible with its original timestamp and a warning.
+
+Open the device’s reward details and inspect totals and history separately. Lifetime totals can be available while the history request fails, or the reverse. A partly available reward panel does not make every number current. Check [data freshness](https://iotahome.site/en/learn/data-sources-and-freshness) before comparing two screenshots taken at different times.
+
+## Check which day the total covers
+
+Today’s rewards in IOTA Watch use the Hong Kong calendar day, starting at 00:00 Asia/Hong_Kong. They sum official pending and settled history entries in that window, excluding frozen entries and future timestamps. The result is accounted earnings, not an estimate of how much the machine is earning this second.
+
+After midnight, today’s reading can be zero while lifetime earnings remain positive. Look at the history record timestamps before treating that as a regression. A device in a different timezone still uses the same dashboard accounting day. The [reward calculation guide](https://iotahome.site/en/learn/how-rewards-work) describes this rule in detail.
+
+## Earned, pending and paid answer different questions
+
+Lifetime earned describes the official amount credited overall. Paid describes what the official totals endpoint reports as paid. Pending describes a balance awaiting payment. Adding paid to earned would count part of the reward twice; IOTA Watch keeps those fields separate.
+
+The [official FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) describes a changing payout threshold and conditions that can freeze entitlements. Use the current balance and minimum-payout fields returned by the official API instead of relying on an old numeric threshold from a post. A pending or frozen record is not a confirmed wallet receipt.
+
+## Check coverage before comparing several devices
+
+If one device has no usable history, a fleet’s today total is incomplete even when other devices are readable. The dashboard marks the known total as partial. An increase in the number of readable devices can increase the total without showing a sudden change in training performance.
+
+- Confirm the saved ID is the device’s public Miner ID
+
+- Check the official app’s earnings view alongside the web monitor
+
+- Record which field is missing, its source warning and the last successful fetch time
+
+- For a payout issue, check settings in the official app and consult official support
+
+## Keep the monitor and payout setup separate
+
+IOTA Watch does not configure where the official app pays rewards, move tokens or verify a wallet transaction. A Google account synchronizes a device list; it does not change a payout address. For reported activity with no recent training volume, continue with [waiting-for-task checks](https://iotahome.site/en/blog/iota-waiting-for-tasks).
+
+### IOTA Train at Home 收益为零或没到账，先检查什么？
+
+监控页显示 0 与钱包没有收到代币，是两个不同的问题。前者涉及网页读到了哪些记录，后者涉及官方支付流程。重启训练或判断收益丢失前，先确认变化的是哪个字段，以及对应数据源是否成功更新。
+
+## 先区分零值与未知
+
+IOTA Watch 只有在可用的官方响应支持零值时才显示已知的 0。请求失败、响应格式异常或字段缺失会保留为未知。刷新失败后，上次成功读取的数值可能继续显示，同时保留原更新时间并附上警告。
+
+打开设备的收益详情，分别检查总额与历史记录。累计收益可能可用，而历史请求失败；也可能相反。收益面板部分可用，不代表其中所有数字都是最新。比较不同时间的截图前，先看 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+
+## 确认今日收益属于哪一天
+
+本站的今日收益按香港时间每天 00:00 起算，累加该时间窗口内官方历史中的 pending 与 settled 记录，排除 frozen 及未来时间戳。它是记账收益，不是对机器当前每秒收益的估算。
+
+跨过午夜后，今日收益可以为 0，而累计收益仍为正。先检查收益记录的时间，再判断是否出现异常。即使机器位于其他时区，网页也使用同一记账日口径。详细规则见 [收益计算说明](https://iotahome.site/zh/learn/how-rewards-work)。
+
+## 已赚取、待支付与已支付分别说明什么？
+
+累计已赚取描述官方已记入的总额；已支付描述官方 totals 接口报告的支付金额；待支付描述等待支付的余额。把已支付再加到累计已赚取上，会把一部分收益重复计算，因此本站分别展示这些字段。
+
+[官方 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 说明支付门槛会变化，某些条件下记账权益可能被冻结。请以官网 API 当前返回的余额和最低支付字段为准，不要把旧文章里的固定门槛当成现行规则。pending 或 frozen 记录也不是钱包已收到代币的凭证。
+
+## 比较多台设备前先检查覆盖率
+
+某台设备的历史不可用时，即使其他设备可读，全队列的今日合计仍不完整。网页会把已知总额标为「部分」。可读设备数量增加后，总额也可能上升，这不等于训练表现突然提高。
+
+- 确认清单里保存的是该设备的公开 Miner ID
+
+- 对照官方应用中的收益页面与网页监控
+
+- 记录缺失字段、数据源警告和最近成功读取时间
+
+- 收款问题请检查官方应用设置，并参考官方支持说明
+
+## 监控清单与收款设置分开处理
+
+IOTA Watch 不配置官方应用的收款地址，不转移代币，也不验证钱包交易。Google 账号用于同步设备清单，不会改变收款地址。若设备有上报状态却没有近期训练量，可继续查看 [等待任务的排查步骤](https://iotahome.site/zh/blog/iota-waiting-for-tasks)。
+- Source: Macrocosmos · TAH support and FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · source code — https://github.com/molimao/iota
+
+### IOTA Train at Home waiting for tasks: how to investigate zero throughput
+- ZH: https://iotahome.site/zh/blog/iota-waiting-for-tasks
+- EN: https://iotahome.site/en/blog/iota-waiting-for-tasks
+- Published: 2026-10-01
+- Updated: 2026-10-01
+- Publisher: IOTA Watch (independent monitor)
+
+A device can appear in the official miner list while its latest reported throughput is zero. That snapshot is not enough to identify a hardware failure or a lost connection. A useful investigation separates three things: whether the website refreshed, what the official network reported, and what the local training app is doing.
+
+## Check whether the website has current source data
+
+Look at the device status source age and any refresh warning first. If the website has not successfully refreshed that source for more than five minutes, IOTA Watch marks the refresh interrupted and retains the prior readings. This indicates a data-read problem; it does not establish that the Mac stopped training.
+
+A newer earnings timestamp does not renew a device status timestamp. Different sources can succeed independently. Manual refresh has a cooldown and still respects official rate limits, so repeatedly clicking it is not a reliable way to obtain a new sample. See [refresh interrupted](https://iotahome.site/en/learn/what-refresh-interrupted-means).
+
+## Read the status as a reported sample
+
+IOTA Watch uses official miner data to distinguish reported contribution, waiting and non-participation. Throughput belongs to a statistics sample, not a live heartbeat. Check the sample timestamp separately from the time the browser fetched that response.
+
+If every active roster was read successfully and an ID is absent, check the full saved Miner ID. If roster coverage is incomplete, an unknown result cannot establish absence. Renaming a device changes its label, not the public ID used for discovery.
+
+## Compare the device with its current run
+
+Open the [network page](https://iotahome.site/en/network) and find the run associated with the device. Read roster coverage, slots, reported training counts and progress together. A slot reading does not guarantee immediate assignment, and run-wide progress is not the progress of one Mac.
+
+A network snapshot gives context, but it does not explain every local issue. Two devices can be in different runs, and two sources can have different fetch times. Avoid comparing their numbers as if they were synchronized measurements.
+
+## Use history to see whether there is a recent pattern
+
+Open device details, select the relevant task and inspect a day or week of throughput and training tokens. Compare several samples rather than one point. History sources are joined by epoch; missing values stay gaps instead of being filled with zero.
+
+An empty selected history may mean the API has no records for that task and period. Try a different period, verify the run selection and check source warnings. Neither an empty chart nor a high ranking establishes how much a device should be paid.
+
+## Then make the local checks
+
+The [official user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) identifies the app’s readiness status, run panel, run log and update notices as local checks. Open the affected Mac’s app and inspect those views; the monitor cannot read them remotely.
+
+- Check the app’s displayed connection and training state
+
+- Note the run ID and any visible error or update notice
+
+- Compare those observations with the browser’s last successful readings
+
+- Use official support when the local app reports an error you cannot resolve
+
+Keep the observation precise: “the current sample reports zero throughput” is more useful than assuming the machine is offline. For rewards that look inconsistent with activity, read [zero or unpaid rewards](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid).
+
+### IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？
+
+设备可能仍出现在官方矿工名单中，但最近一次上报的吞吐量为零。单凭这一张快照，无法确认硬件故障或连接中断。排查时可以分开看三件事：网页有没有成功刷新、官方网络上报了什么，以及本地训练应用正在做什么。
+
+## 先确认网页拿到了较新的数据
+
+先看设备状态来源的更新时间与刷新警告。该来源超过 5 分钟没有成功刷新时，IOTA Watch 会标记刷新中断，并保留旧数值。这说明数据读取遇到问题，不足以证明 Mac 已停止训练。
+
+收益更新时间变新，不会让设备状态的时间自动变新。不同来源可能分别成功或失败。手动刷新有冷却时间，也遵守官方限流，连续点击并不能保证得到新采样。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。
+
+## 把状态理解为一次上报采样
+
+本站根据官方 miner 数据区分有贡献、等待与暂未参与。吞吐量属于统计采样，不是实时心跳。请分别检查采样时间与浏览器拉取该响应的时间。
+
+只有完整读取所有进行中任务的名单后，仍找不到某个 ID，才应进一步核对保存的完整 Miner ID。名单覆盖不完整时，未知状态不能证明设备缺席。重命名只改变显示名称，不改变用于查找的公开 ID。
+
+## 对照设备所处任务的全网情况
+
+打开 [全网现况](https://iotahome.site/zh/network)，找到设备对应任务，结合名单覆盖率、名额、训练人数和进度一起看。名额数据不保证立即分配任务，任务整体进度也不是这台 Mac 的单机进度。
+
+网络快照提供背景，但不能解释每一个本地问题。两台设备可能处于不同任务，不同数据源也可能在不同时间成功拉取。对比数字时，不要默认它们来自完全同步的测量。
+
+## 用历史判断是否形成持续现象
+
+打开设备详情，选择对应任务，检查一天或一周的吞吐量与训练 token 数。对照多次采样比只看一个点更有帮助。历史数据按 epoch 对齐，缺失值保留为空缺，不填成 0。
+
+所选历史为空，可能是 API 没有提供这个任务和时间范围的记录。可以切换范围、核对任务选择并查看来源警告。空图表或较高排名，都不能单独推出设备应该获得多少收益。
+
+## 最后进行本地检查
+
+[官方用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) 将应用就绪状态、任务面板、运行日志及更新提示列为可查看的本地信息。请在对应 Mac 上打开应用检查，网页无法远程读取这些信息。
+
+- 检查应用显示的连接状态与训练状态
+
+- 记下 run ID，以及可见错误或更新提示
+
+- 将本地观察与网页最近成功读取的结果对照
+
+- 本地错误无法解决时，参考官方支持渠道
+
+描述问题时，使用「最近一次采样上报吞吐量为零」比直接判断机器离线更准确。若活动状态与收益看起来不一致，可继续读 [收益为零或未到账的检查步骤](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)。
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota

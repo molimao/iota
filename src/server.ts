@@ -9,6 +9,7 @@ import {
   buildRobotsTxt,
   buildSitemapXml,
 } from "./lib/crawl";
+import { getBlogPost } from "./components/site/blog-posts";
 import { getArticle } from "./components/site/articles";
 import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest } from "./lib/site";
 
@@ -71,9 +72,10 @@ function crawlAssetResponse(request: Request): Response | null {
   const path = new URL(request.url).pathname;
   const origin = originFromRequest(request);
   const cache = "public, max-age=3600";
-  const markdown = path.match(/^\/(en|zh)\/learn\/([a-z0-9-]+)\.md$/);
+  const markdown = path.match(/^\/(en|zh)\/(learn|blog)\/([a-z0-9-]+)\.md$/);
   if (markdown && (request.method === "GET" || request.method === "HEAD")) {
-    const article = getArticle(markdown[2]!);
+    const section = markdown[2] === "blog" ? "blog" : "learn";
+    const article = section === "blog" ? getBlogPost(markdown[3]!) : getArticle(markdown[3]!);
     if (!article)
       return new Response("Guide not found", {
         status: 404,
@@ -81,12 +83,12 @@ function crawlAssetResponse(request: Request): Response | null {
       });
     const locale = markdown[1] === "en" ? "en" : "zh";
     return new Response(
-      request.method === "HEAD" ? null : buildArticleMarkdown(article, locale, origin),
+      request.method === "HEAD" ? null : buildArticleMarkdown(article, locale, origin, section),
       {
         headers: {
           "content-type": "text/markdown; charset=utf-8",
           "cache-control": cache,
-          Link: `<${origin}/${locale}/learn/${article.slug}>; rel="canonical"`,
+          Link: `<${origin}/${locale}/${section}/${article.slug}>; rel="canonical"`,
         },
       },
     );

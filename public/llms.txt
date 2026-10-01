@@ -34,6 +34,8 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 - [首页 (zh)](https://iotahome.site/zh)
 - [Home (en)](https://iotahome.site/en)
+- [博客 (zh)](https://iotahome.site/zh/blog)
+- [Blog (en)](https://iotahome.site/en/blog)
 - [使用说明 (zh)](https://iotahome.site/zh/learn)
 - [Help (en)](https://iotahome.site/en/learn)
 - [全网训练现况 (zh)](https://iotahome.site/zh/network)
@@ -70,3 +72,9 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [How to read IOTA Train at Home training history and throughput (en)](https://iotahome.site/en/learn/training-history-and-metrics)
 - [IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
 - [IOTA Train at Home network status: slots, online miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
+- [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
+- [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
+- [IOTA Train at Home 收益为零或没到账，先检查什么？ (zh)](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home rewards are zero or unpaid: what to check first (en)](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh)](https://iotahome.site/zh/blog/iota-waiting-for-tasks)
+- [IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)](https://iotahome.site/en/blog/iota-waiting-for-tasks)

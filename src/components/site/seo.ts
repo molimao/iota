@@ -1,9 +1,11 @@
 import { ORIGIN, sitePath } from "@/lib/site";
 import { articles, articleDates, getArticle } from "./articles";
+import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
 
-export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account" | "network";
+export type Page =
+  "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account" | "network" | "blog";
 
 const OG_IMAGE = `${ORIGIN}/og.png`;
 const ORG_ID = `${ORIGIN}/#organization`;
@@ -84,66 +86,75 @@ function googleVerification() {
 export function seo(locale: Locale, page: Page, slug?: string) {
   const copy = content[locale];
   const en = locale === "en";
-  const article = slug ? getArticle(slug) : undefined;
-  const path = page === "learn" && slug ? `learn/${slug}` : page === "home" ? "" : page;
+  const article = slug ? (page === "blog" ? getBlogPost(slug) : getArticle(slug)) : undefined;
+  const path =
+    (page === "learn" || page === "blog") && slug ? `${page}/${slug}` : page === "home" ? "" : page;
   const url = ORIGIN + sitePath(locale, path);
   const home = "IOTA Watch";
 
   const title = article
     ? `${article.title[locale]} | IOTA Watch`
-    : page === "home"
+    : page === "blog"
       ? en
-        ? "IOTA Train at Home Device Monitor | IOTA Watch"
-        : "IOTA Train at Home 设备监控｜IOTA Watch"
-      : page === "guide"
-        ? `${copy.guideTitle} | IOTA Watch`
-        : page === "faq"
-          ? `${copy.faqTitle} | IOTA Watch`
-          : page === "privacy"
-            ? `${copy.privacyTitle} | IOTA Watch`
-            : page === "learn"
-              ? en
-                ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
-                : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
-              : page === "account"
+        ? "IOTA Train at Home monitoring blog | IOTA Watch"
+        : "IOTA Train at Home 监控博客｜IOTA Watch"
+      : page === "home"
+        ? en
+          ? "IOTA Train at Home Device Monitor | IOTA Watch"
+          : "IOTA Train at Home 设备监控｜IOTA Watch"
+        : page === "guide"
+          ? `${copy.guideTitle} | IOTA Watch`
+          : page === "faq"
+            ? `${copy.faqTitle} | IOTA Watch`
+            : page === "privacy"
+              ? `${copy.privacyTitle} | IOTA Watch`
+              : page === "learn"
                 ? en
-                  ? "Account | IOTA Watch"
-                  : "账号｜IOTA Watch"
-                : page === "network"
+                  ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
+                  : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
+                : page === "account"
                   ? en
-                    ? "IOTA Train at Home network status | IOTA Watch"
-                    : "全网训练现况｜IOTA Watch"
-                  : en
-                    ? "My devices | IOTA Watch"
-                    : "我的设备｜IOTA Watch";
+                    ? "Account | IOTA Watch"
+                    : "账号｜IOTA Watch"
+                  : page === "network"
+                    ? en
+                      ? "IOTA Train at Home network status | IOTA Watch"
+                      : "全网训练现况｜IOTA Watch"
+                    : en
+                      ? "My devices | IOTA Watch"
+                      : "我的设备｜IOTA Watch";
 
   const description = article
     ? article.description[locale]
-    : page === "home"
+    : page === "blog"
       ? en
-        ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
-        : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
-      : page === "guide"
-        ? copy.guideIntro
-        : page === "faq"
-          ? copy.faqIntro
-          : page === "privacy"
-            ? copy.privacyIntro
-            : page === "learn"
-              ? en
-                ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
-                : "Miner ID、设备状态、收益，以及登录后的清单同步。"
-              : page === "account"
+        ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
+        : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。"
+      : page === "home"
+        ? en
+          ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
+          : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
+        : page === "guide"
+          ? copy.guideIntro
+          : page === "faq"
+            ? copy.faqIntro
+            : page === "privacy"
+              ? copy.privacyIntro
+              : page === "learn"
                 ? en
-                  ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
-                  : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
-                : page === "network"
+                  ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
+                  : "Miner ID、设备状态、收益，以及登录后的清单同步。"
+                : page === "account"
                   ? en
-                    ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
-                    : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
-                  : en
-                    ? "Track reported training activity and rewards for your saved devices."
-                    : "查看已保存设备的训练状态与收益。";
+                    ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
+                    : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
+                  : page === "network"
+                    ? en
+                      ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
+                      : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
+                    : en
+                      ? "Track reported training activity and rewards for your saved devices."
+                      : "查看已保存设备的训练状态与收益。";
 
   const keywords = article
     ? en
@@ -164,37 +175,44 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       locale,
       page === "home"
         ? [{ name: home, path: "" }]
-        : page === "learn" && article
+        : (page === "learn" || page === "blog") && article
           ? [
               { name: home, path: "" },
-              { name: en ? "Help" : "使用说明", path: "learn" },
-              { name: article.title[locale], path: `learn/${article.slug}` },
+              {
+                name: page === "blog" ? (en ? "Blog" : "博客") : en ? "Help" : "使用说明",
+                path: page,
+              },
+              { name: article.title[locale], path: `${page}/${article.slug}` },
             ]
           : [
               { name: home, path: "" },
               {
                 name:
-                  page === "guide"
-                    ? copy.guideTitle
-                    : page === "faq"
-                      ? copy.faqTitle
-                      : page === "privacy"
-                        ? copy.privacyTitle
-                        : page === "learn"
-                          ? en
-                            ? "Help"
-                            : "使用说明"
-                          : page === "account"
+                  page === "blog"
+                    ? en
+                      ? "Blog"
+                      : "博客"
+                    : page === "guide"
+                      ? copy.guideTitle
+                      : page === "faq"
+                        ? copy.faqTitle
+                        : page === "privacy"
+                          ? copy.privacyTitle
+                          : page === "learn"
                             ? en
-                              ? "Account"
-                              : "账号"
-                            : page === "network"
+                              ? "Help"
+                              : "使用说明"
+                            : page === "account"
                               ? en
-                                ? "Network"
-                                : "全网"
-                              : en
-                                ? "Dashboard"
-                                : "监控",
+                                ? "Account"
+                                : "账号"
+                              : page === "network"
+                                ? en
+                                  ? "Network"
+                                  : "全网"
+                                : en
+                                  ? "Dashboard"
+                                  : "监控",
                 path,
               },
             ],
@@ -256,20 +274,20 @@ export function seo(locale: Locale, page: Page, slug?: string) {
     );
   }
 
-  if (page === "learn" && !article) {
+  if ((page === "learn" || page === "blog") && !article) {
     scripts.push(
       jsonLd({
         "@context": "https://schema.org",
-        "@type": "CollectionPage",
+        "@type": page === "blog" ? "Blog" : "CollectionPage",
         name: title,
         description,
         url,
         inLanguage: language(locale),
         isPartOf: { "@id": WEBSITE_ID },
-        hasPart: articles.map((item) => ({
-          "@type": "Article",
+        hasPart: (page === "blog" ? blogPosts : articles).map((item) => ({
+          "@type": page === "blog" ? "BlogPosting" : "Article",
           name: item.title[locale],
-          url: ORIGIN + sitePath(locale, `learn/${item.slug}`),
+          url: ORIGIN + sitePath(locale, `${page}/${item.slug}`),
         })),
       }),
     );
@@ -279,7 +297,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
     scripts.push(
       jsonLd({
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": page === "blog" ? "BlogPosting" : "Article",
         headline: article.title[locale],
         description: article.description[locale],
         datePublished: articleDates(article).published,

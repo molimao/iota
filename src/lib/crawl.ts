@@ -1,4 +1,5 @@
 import { articles, articleDates, type Article } from "../components/site/articles";
+import { blogPosts } from "../components/site/blog-posts";
 import { ORIGIN, LOCALES, type SiteLocale } from "./site";
 
 export const LASTMOD = "2026-09-12";
@@ -26,6 +27,7 @@ function articlePriority(slug: string) {
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
   { path: "", lastmod: "2026-10-01", changefreq: "weekly", priority: "1.0" },
+  { path: "blog", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "learn", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
@@ -37,6 +39,12 @@ export const crawlPages: CrawlPage[] = [
     changefreq: "monthly" as const,
     priority: articlePriority(article.slug),
   })),
+  ...blogPosts.map((post) => ({
+    path: `blog/${post.slug}`,
+    lastmod: articleDates(post).modified,
+    changefreq: "monthly" as const,
+    priority: "0.8",
+  })),
 ];
 
 export function pageUrl(locale: string, path: string, origin = ORIGIN) {
@@ -45,6 +53,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 
 function pageLabel(locale: SiteLocale, path: string) {
   if (!path) return locale === "en" ? "Home" : "首页";
+  if (path === "blog") return locale === "en" ? "Blog" : "博客";
+  if (path.startsWith("blog/"))
+    return blogPosts.find((post) => path === `blog/${post.slug}`)?.title[locale] ?? path;
   if (path === "learn") return locale === "en" ? "Help" : "使用说明";
   if (path === "network") return locale === "en" ? "Network status" : "全网训练现况";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
@@ -151,12 +162,15 @@ ${links}
 }
 
 export function buildLlmsFullTxt(origin = ORIGIN) {
-  const articleBlocks = articles
-    .map((article) => {
+  const articleBlocks = [
+    ...articles.map((article) => ({ article, section: "learn" })),
+    ...blogPosts.map((article) => ({ article, section: "blog" })),
+  ]
+    .map(({ article, section }) => {
       const dates = articleDates(article);
       return `### ${article.title.en}
-- ZH: ${pageUrl("zh", `learn/${article.slug}`, origin)}
-- EN: ${pageUrl("en", `learn/${article.slug}`, origin)}
+- ZH: ${pageUrl("zh", `${section}/${article.slug}`, origin)}
+- EN: ${pageUrl("en", `${section}/${article.slug}`, origin)}
 - Published: ${dates.published}
 - Updated: ${dates.modified}
 - Publisher: IOTA Watch (independent monitor)
@@ -184,9 +198,14 @@ function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) 
   );
 }
 
-export function buildArticleMarkdown(article: Article, locale: SiteLocale, origin = ORIGIN) {
+export function buildArticleMarkdown(
+  article: Article,
+  locale: SiteLocale,
+  origin = ORIGIN,
+  section: "learn" | "blog" = "learn",
+) {
   const dates = articleDates(article);
-  const url = pageUrl(locale, `learn/${article.slug}`, origin);
+  const url = pageUrl(locale, `${section}/${article.slug}`, origin);
   return `# ${article.title[locale]}
 
 ${article.description[locale]}

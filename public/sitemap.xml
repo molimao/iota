@@ -20,6 +20,24 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/zh/blog</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/blog</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
@@ -339,6 +357,60 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/blog/monitor-multiple-iota-devices</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/blog/monitor-multiple-iota-devices</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/blog/iota-waiting-for-tasks</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/blog/iota-waiting-for-tasks</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

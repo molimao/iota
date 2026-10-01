@@ -1,3 +1,4 @@
+import { blogPosts } from "../components/site/blog-posts";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { plausibleSn9Usd, readCoinGeckoSimple, readDexScreener } from "./iota-price-sources";
@@ -317,7 +318,7 @@ it("roundtrips more than three public IDs and prevents duplicates", () => {
 describe("crawl assets for GSC", () => {
   it("lists every indexable locale URL and never includes the dashboard", () => {
     const xml = buildSitemapXml();
-    expect(crawlPages).toHaveLength(6 + articles.length);
+    expect(crawlPages).toHaveLength(7 + articles.length + blogPosts.length);
     expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 2);
     expect(ORIGIN).toBe("https://iotahome.site");
     expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);

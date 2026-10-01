@@ -5,10 +5,17 @@ import { persistLocale, swapLocalePath } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
 import { AccountAvatar, AccountMenu } from "./account-menu";
-import { articleClusterMeta, articleDates, getArticle, relatedArticles } from "./articles";
+import {
+  articleClusterMeta,
+  articleDates,
+  getArticle,
+  relatedArticles,
+  type Article,
+} from "./articles";
 import { content } from "./content";
 import { localizeMessage, useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
+import { blogPosts } from "./blog-posts";
 
 export type { Page } from "./seo";
 export { seo } from "./seo";
@@ -48,6 +55,7 @@ export function SiteNav() {
     [`/${locale}/guide`, copy.nav[0]],
     [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/learn`, copy.nav[2]],
+    [`/${locale}/blog`, en ? "Blog" : "博客"],
   ] as const;
   return (
     <nav className="site-nav" aria-label={en ? "Main navigation" : "主导航"}>
@@ -95,6 +103,7 @@ export function SiteFooter() {
         <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
         <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
+        <a href={`/${locale}/blog`}>{en ? "Blog" : "博客"}</a>
         <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
@@ -260,6 +269,17 @@ export function Landing() {
           ))}
         </div>
       </section>
+      <section className="blog-entry">
+        <h2>{en ? "Practical monitoring articles" : "监控使用文章"}</h2>
+        <ul>
+          {blogPosts.map((post) => (
+            <li key={post.slug}>
+              <a href={`/${locale}/blog/${post.slug}`}>{post.title[locale]} →</a>
+            </li>
+          ))}
+        </ul>
+        <a href={`/${locale}/blog`}>{en ? "All blog articles" : "查看全部博客文章"} →</a>
+      </section>
     </div>
   );
 }
@@ -356,23 +376,42 @@ export function LearnIndex() {
       <h1>{copy.learnTitle}</h1>
       <p className="article-lead">{copy.learnIntro}</p>
       <LearnGrid locale={locale} />
+      <p className="article-updated">
+        <a href={`/${locale}/blog`}>
+          {en
+            ? "For practical workflows and troubleshooting, browse the blog."
+            : "实际使用流程与问题排查，也可查看博客文章。"}
+        </a>
+      </p>
     </article>
   );
 }
 
 export function LearnArticle({ slug }: { slug: string }) {
-  const { locale, en } = useLocale();
   const article = getArticle(slug);
-  if (!article) return null;
-  const related = relatedArticles(slug);
+  return article ? (
+    <ArticleView article={article} section="learn" related={relatedArticles(slug)} />
+  ) : null;
+}
+
+export function ArticleView({
+  article,
+  section,
+  related,
+}: {
+  article: Article;
+  section: "learn" | "blog";
+  related: Article[];
+}) {
+  const { locale, en } = useLocale();
   const dates = articleDates(article);
   const sections = article.body[locale].flatMap((block, i) =>
     block.startsWith("## ") ? [{ title: block.slice(3), id: `section-${i}` }] : [],
   );
   return (
     <article className="article-page learn-article">
-      <a className="back-link" href={`/${locale}/learn`}>
-        ← {en ? "All guides" : "全部说明"}
+      <a className="back-link" href={`/${locale}/${section}`}>
+        ← {section === "blog" ? (en ? "All posts" : "全部文章") : en ? "All guides" : "全部说明"}
       </a>
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
@@ -387,7 +426,7 @@ export function LearnArticle({ slug }: { slug: string }) {
           </>
         )}
       </p>
-      <a className="article-text-version" href={`/${locale}/learn/${article.slug}.md`}>
+      <a className="article-text-version" href={`/${locale}/${section}/${article.slug}.md`}>
         {en ? "Plain text version" : "纯文本版本"}
       </a>
       {sections.length > 0 && (
@@ -428,7 +467,7 @@ export function LearnArticle({ slug }: { slug: string }) {
         <h2>{en ? "Related" : "相关说明"}</h2>
         <div>
           {related.map((item) => (
-            <a key={item.slug} href={`/${locale}/learn/${item.slug}`}>
+            <a key={item.slug} href={`/${locale}/${section}/${item.slug}`}>
               {item.title[locale]}
             </a>
           ))}

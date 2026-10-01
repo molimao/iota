@@ -19,6 +19,7 @@ import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
 import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
+import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
 
 const IndexRoute = IndexRouteImport.update({
@@ -71,6 +72,12 @@ const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleBlogChar123SlugChar125Route =
+  LocaleBlogChar123SlugChar125RouteImport.update({
+    id: '/blog/{-$slug}',
+    path: '/blog/{-$slug}',
+    getParentRoute: () => LocaleRoute,
+  } as any)
 const LocaleLearnChar123SlugChar125Route =
   LocaleLearnChar123SlugChar125RouteImport.update({
     id: '/learn/{-$slug}',
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
 }
 export interface FileRoutesByTo {
@@ -101,6 +109,7 @@ export interface FileRoutesByTo {
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale': typeof LocaleIndexRoute
+  '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
 }
 export interface FileRoutesById {
@@ -115,6 +124,7 @@ export interface FileRoutesById {
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
 }
 export interface FileRouteTypes {
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/'
+    | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale'
+    | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
   id:
     | '__root__'
@@ -155,6 +167,7 @@ export interface FileRouteTypes {
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/'
+    | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +249,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePrivacyRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/blog/{-$slug}': {
+      id: '/$locale/blog/{-$slug}'
+      path: '/blog/{-$slug}'
+      fullPath: '/$locale/blog/{-$slug}'
+      preLoaderRoute: typeof LocaleBlogChar123SlugChar125RouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/learn/{-$slug}': {
       id: '/$locale/learn/{-$slug}'
       path: '/learn/{-$slug}'
@@ -254,6 +274,7 @@ interface LocaleRouteChildren {
   LocaleNetworkRoute: typeof LocaleNetworkRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
 }
 
@@ -265,6 +286,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleNetworkRoute: LocaleNetworkRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,
 }
 
