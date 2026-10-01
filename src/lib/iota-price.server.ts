@@ -3,6 +3,8 @@
  * This is not IOTA Layer 1 and not an official settlement rate.
  */
 import { fetchSn9UsdFromMarkets } from "./iota-price-sources";
+import { fetchSn9UsdFromTaostats } from "./iota-price-taostats.server";
+import type { Sn9MarketQuote } from "./iota-price-taostats";
 
 const TTL_MS = 2 * 60 * 1000;
 const KEEP_MS = 6 * 60 * 60 * 1000;
@@ -13,6 +15,7 @@ export type IotaUsdQuote = {
   error: string | null;
   stale: boolean;
   source?: string;
+  quotedAt?: number;
 };
 
 type Cache = {
@@ -20,6 +23,7 @@ type Cache = {
   fetchedAt: number;
   error: string | null;
   source?: string;
+  quotedAt?: number;
 };
 
 let cache: Cache | null = null;
@@ -32,13 +36,14 @@ export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
   }
 
   if (!inflight) {
-    inflight = fetchSn9UsdFromMarkets()
+    inflight = Promise.any<Sn9MarketQuote>([fetchSn9UsdFromMarkets(), fetchSn9UsdFromTaostats()])
       .then((next) => {
         cache = {
           usdPerIota: next.usdPerIota,
           fetchedAt: Date.now(),
           error: null,
           source: next.source,
+          ...(next.quotedAt !== undefined ? { quotedAt: next.quotedAt } : {}),
         };
         return cache;
       })
@@ -63,5 +68,6 @@ export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
     error: next.error,
     stale: next.error !== null && next.usdPerIota !== null,
     ...(next.source ? { source: next.source } : {}),
+    ...(next.quotedAt !== undefined ? { quotedAt: next.quotedAt } : {}),
   };
 }

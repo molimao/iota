@@ -367,10 +367,23 @@ export function Dashboard() {
           {dash.usdPerIota ? (
             <p className="fx-note">
               1 IOTA ≈ {formatUsd(dash.usdPerIota)} · {t("美元按公开市场价格估算")} ·{" "}
-              {dash.priceSource} · {formatAgo(dash.priceFetchedAt, dash.now, locale)}
+              {dash.priceSource === "taostats-sn9" ? (
+                <a href="https://taostats.io/subnets/9" target="_blank" rel="noopener noreferrer">
+                  Taostats · SN9 × TAO/USD
+                </a>
+              ) : (
+                dash.priceSource
+              )}{" "}
+              · {formatAgo(dash.priceQuotedAt ?? dash.priceFetchedAt, dash.now, locale)}
               {dash.priceStale ? ` · ${t("旧数据")}` : ""}
             </p>
-          ) : null}
+          ) : (
+            <p className="fx-note" role="status">
+              {dash.priceLoading
+                ? t("正在读取美元行情…")
+                : t("美元行情暂不可用，收益仍按官方 IOTA 记账。")}
+            </p>
+          )}
           <AttentionBanner
             views={dash.needsAttention}
             onOpen={(hotkey) => openDevice(hotkey, "diagnose")}

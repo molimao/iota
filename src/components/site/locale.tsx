@@ -65,6 +65,9 @@ const EN: Record<string, string> = {
   你的设备: "Yours",
   金额: "Amount",
   美元按公开市场价格估算: "USD is a public market estimate",
+  "正在读取美元行情…": "Loading the USD market quote…",
+  "美元行情暂不可用，收益仍按官方 IOTA 记账。":
+    "USD quote is temporarily unavailable. Rewards still use official IOTA accounting.",
   "美元价格暂未获取，IOTA 数量仍按官方记账显示":
     "USD price is unavailable. IOTA amounts still use official accounting.",
   设备: "Devices",

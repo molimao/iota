@@ -67,7 +67,8 @@ export function readGeckoTerminal(payload: unknown): number | null {
   if (!Array.isArray(data)) return null;
   for (const pool of data) {
     const usd = readNumber(
-      (pool as { attributes?: { base_token_price_usd?: unknown } })?.attributes?.base_token_price_usd,
+      (pool as { attributes?: { base_token_price_usd?: unknown } })?.attributes
+        ?.base_token_price_usd,
     );
     const name = String(
       (pool as { attributes?: { name?: unknown } })?.attributes?.name ?? "",
@@ -81,7 +82,11 @@ async function fetchJson(url: string): Promise<unknown> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), PER_SOURCE_MS);
   try {
-    const response = await fetch(url, { method: "GET", headers: HEADERS, signal: controller.signal });
+    const response = await fetch(url, {
+      method: "GET",
+      headers: HEADERS,
+      signal: controller.signal,
+    });
     const text = await response.text();
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return JSON.parse(text) as unknown;
@@ -95,16 +100,6 @@ const SOURCES: Array<{ name: string; url: string; read: (payload: unknown) => nu
     name: "coingecko-simple",
     url: "https://api.coingecko.com/api/v3/simple/price?ids=iota-2&vs_currencies=usd",
     read: readCoinGeckoSimple,
-  },
-  {
-    name: "dexscreener",
-    url: "https://api.dexscreener.com/latest/dex/search?q=SN9",
-    read: readDexScreener,
-  },
-  {
-    name: "geckoterminal",
-    url: "https://api.geckoterminal.com/api/v2/search/pools?query=SN9%20iota",
-    read: readGeckoTerminal,
   },
   {
     name: "coingecko-coin",

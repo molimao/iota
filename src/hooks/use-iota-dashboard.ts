@@ -413,12 +413,14 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     usdPerIota: priceQuery.data?.usdPerIota ?? null,
     usdError: priceQuery.data?.error ?? priceQuery.error?.message ?? null,
     priceFetchedAt: priceQuery.data?.fetchedAt ?? null,
+    priceQuotedAt: priceQuery.data?.quotedAt ?? null,
+    priceLoading: priceQuery.isLoading,
     priceSource: priceQuery.data?.source ?? null,
     priceStale:
       !!priceQuery.data?.stale ||
       !!priceQuery.error ||
       (priceQuery.data?.fetchedAt !== null &&
         priceQuery.data?.fetchedAt !== undefined &&
-        now - priceQuery.data.fetchedAt > 5 * 60_000),
+        now - (priceQuery.data.quotedAt ?? priceQuery.data.fetchedAt) > 5 * 60_000),
   };
 }

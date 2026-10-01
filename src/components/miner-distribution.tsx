@@ -59,7 +59,7 @@ function countryName(country: string, en: boolean) {
   return en ? country : COUNTRY_ZH[country] || country;
 }
 
-const COLORS = ["#79e2bb", "#75baff", "#afa4ff", "#f3cb83", "#f297b3", "#75d7df"];
+const COLORS = ["#f5f5f5", "#d4d4d4", "#b3b3b3", "#929292", "#737373", "#545454"];
 
 export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partial: boolean }) {
   const { en, locale } = useLocale();
@@ -69,10 +69,10 @@ export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partia
   const segments = [
     ...data.rows.slice(0, 6).map((row, index) => ({ ...row, color: COLORS[index]! })),
     ...(data.other
-      ? [{ country: en ? "Other regions" : "其他地区", count: data.other, color: "#58738d" }]
+      ? [{ country: en ? "Other regions" : "其他地区", count: data.other, color: "#424242" }]
       : []),
     ...(data.unknown
-      ? [{ country: en ? "Location unknown" : "位置未知", count: data.unknown, color: "#38424d" }]
+      ? [{ country: en ? "Location unknown" : "位置未知", count: data.unknown, color: "#303030" }]
       : []),
   ];
   const circumference = 2 * Math.PI * 76;
@@ -101,7 +101,7 @@ export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partia
         <div className="distribution-overview">
           <div className="distribution-donut">
             <svg viewBox="0 0 200 200" aria-hidden="true">
-              <circle cx="100" cy="100" r="76" fill="none" stroke="#26313a" strokeWidth="17" />
+              <circle cx="100" cy="100" r="76" fill="none" stroke="#292929" strokeWidth="17" />
               {segments.map((segment) => {
                 const length = data.total > 0 ? (segment.count / data.total) * circumference : 0;
                 const start = offset;
@@ -159,7 +159,7 @@ export function MinerDistribution({ farm, partial }: { farm: FarmSummary; partia
                   <i
                     style={{
                       width: `${data.rows[0] ? (row.count / data.rows[0].count) * 100 : 0}%`,
-                      background: COLORS[index] ?? "#58738d",
+                      background: COLORS[index] ?? "#424242",
                     }}
                   />
                 </div>

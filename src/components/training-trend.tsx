@@ -48,8 +48,8 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
             >
               <defs>
                 <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#79e2bb" stopOpacity={0.28} />
-                  <stop offset="100%" stopColor="#79e2bb" stopOpacity={0.01} />
+                  <stop offset="0%" stopColor="#e5e5e5" stopOpacity={0.28} />
+                  <stop offset="100%" stopColor="#e5e5e5" stopOpacity={0.01} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -59,14 +59,14 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
               />
               <XAxis
                 dataKey="epoch"
-                stroke="#8b929b"
+                stroke="#939393"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
                 minTickGap={24}
               />
               <YAxis
-                stroke="#8b929b"
+                stroke="#939393"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -75,13 +75,13 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
               />
               <Tooltip
                 contentStyle={{
-                  background: "#17212b",
-                  border: "1px solid #354450",
+                  background: "#1c1c1c",
+                  border: "1px solid #383838",
                   borderRadius: 12,
-                  color: "#eef4f8",
+                  color: "#f5f5f5",
                   fontSize: 12,
                 }}
-                cursor={{ stroke: "#657887", strokeDasharray: "3 4" }}
+                cursor={{ stroke: "#737373", strokeDasharray: "3 4" }}
                 labelFormatter={(value) => `${t("轮次")} ${value}`}
                 formatter={(value: number) => [formatCount(value, locale), labels[metric]]}
               />
@@ -89,7 +89,7 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
                 dataKey={metric}
                 name={labels[metric]}
                 type="linear"
-                stroke="#79e2bb"
+                stroke="#e5e5e5"
                 fill={`url(#${gradientId})`}
                 strokeWidth={2}
                 dot={false}
