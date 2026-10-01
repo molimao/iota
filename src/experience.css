@@ -622,14 +622,126 @@ body:has(.site-shell) {
   box-shadow: 0 10px 30px oklch(0 0 0 / 8%);
 }
 .site-shell .dashboard .total {
-  padding: 28px;
+  padding: 30px;
+  min-width: 0;
 }
 .site-shell .dashboard .total.primary {
-  background: linear-gradient(120deg, oklch(0.3 0 0 / 65%), var(--watch-surface));
-  border-color: oklch(0.84 0 0 / 27%);
+  background: linear-gradient(125deg, #fff, #ededed);
+  border-color: #fff;
+  color: #171717;
+  box-shadow: 0 12px 40px #00000026;
 }
-.site-shell .dashboard .total.primary .money-pair strong {
-  color: var(--watch-accent);
+.earnings-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.site-shell .dashboard .earnings-card-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: inherit;
+  font-size: 15px;
+  font-weight: 600;
+}
+.earnings-badge {
+  padding: 5px 9px;
+  border: 1px solid #ffffff26;
+  border-radius: 99px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #c9c9c9;
+}
+.total.primary .earnings-badge {
+  border-color: #0000001a;
+  color: #525252;
+}
+.site-shell .dashboard .total .amount {
+  margin: 30px 0 22px;
+  font-size: clamp(32px, 4.2vw, 56px);
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+}
+.site-shell .dashboard .total .money-pair {
+  gap: 18px;
+  width: 100%;
+}
+.site-shell .dashboard .total .money-pair strong {
+  font-weight: 650;
+}
+.site-shell .dashboard .total .money-pair strong small {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.site-shell .dashboard .total .money-pair em {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  padding: 12px 15px;
+  border: 1px solid #ffffff1a;
+  border-radius: 12px;
+  background: #ffffff08;
+  color: #ededed;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.site-shell .dashboard .total .money-pair em small {
+  color: #aaa;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  opacity: 1;
+}
+.site-shell .dashboard .total.primary .money-pair strong,
+.site-shell .dashboard .total.primary .money-pair em {
+  color: #171717;
+}
+.site-shell .dashboard .total.primary .money-pair em {
+  background: #00000006;
+  border-color: #00000014;
+}
+.site-shell .dashboard .total.primary .money-pair em small,
+.site-shell .dashboard .total.primary p {
+  color: #626262;
+}
+.earnings-story {
+  color: #dedede;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.total.primary .earnings-story {
+  color: #333;
+}
+.site-shell .dashboard .total p {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.total.primary[data-earned="true"] .earnings-card-heading svg {
+  animation: earnings-sparkle 900ms ease-out both;
+}
+@keyframes earnings-sparkle {
+  0% {
+    transform: scale(0.8) rotate(-12deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(8deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .total.primary[data-earned="true"] .earnings-card-heading svg {
+    animation: none;
+  }
 }
 .site-shell .dashboard .device {
   padding: 24px;
