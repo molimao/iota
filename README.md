@@ -36,6 +36,8 @@ cp .env.example .env.local
 npm run dev
 ```
 
+启动后打开 **http://localhost:8080/zh/app**。若提示端口占用，先关闭占用 8080 的进程。
+
 本项目使用 React、TypeScript、TanStack Start / Router / Query、Vite、Tailwind CSS、Recharts 和 Supabase。
 
 ### 环境配置
@@ -91,9 +93,11 @@ IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts
 
 ## 部署与内容维护
 
+完整步骤见 **[部署指南](docs/DEPLOYMENT.md)**，包含 Supabase 配置、数据库初始化、Cloudflare 发布与常见问题。
+
 官网部署在 Lovable / Cloudflare。仓库 `main` 与 [Lovable 项目](https://lovable.dev/projects/5854fd0c-7c2c-425c-a833-b540ffe023bd) 同步；同步代码后在 Lovable 发布。
 
-自行部署需要能够运行 TanStack Start 服务端的环境，并配置自己的 Supabase / OAuth。当前官网规范地址为 `iotahome.site`；更换域名时，更新 [`src/lib/site.ts`](src/lib/site.ts) 的域名配置，以及生成的抓取文件。
+独立部署目前需要配置自己的 Supabase，并适配 Google OAuth；完整账号功能尚未做到无需改动即可一键部署。当前官网规范地址为 `iotahome.site`；更换域名时，更新 [`src/lib/site.ts`](src/lib/site.ts) 的域名配置，以及生成的抓取文件。
 
 文章维护在 `src/components/site/articles.ts` 和 `blog-posts.ts`。正文、结构化信息、Markdown、网站地图共用文章元数据。修改内容后，保持 `public/sitemap.xml`、`robots.txt`、`llms.txt`、`llms-full.txt` 与 `src/lib/crawl.ts` 的生成结果一致；文章日期只在内容实际更新时调整。
 
