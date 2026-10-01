@@ -647,18 +647,6 @@ body:has(.site-shell) {
   font-size: 15px;
   font-weight: 600;
 }
-.earnings-badge {
-  padding: 5px 9px;
-  border: 1px solid #ffffff26;
-  border-radius: 99px;
-  font-size: 11px;
-  line-height: 1.4;
-  color: #c9c9c9;
-}
-.total.primary .earnings-badge {
-  border-color: #0000001a;
-  color: #525252;
-}
 .site-shell .dashboard .total .amount {
   margin: 30px 0 22px;
   font-size: clamp(32px, 4.2vw, 56px);
@@ -711,37 +699,10 @@ body:has(.site-shell) {
 .site-shell .dashboard .total.primary p {
   color: #626262;
 }
-.earnings-story {
-  color: #dedede;
-  font-size: 14px;
-  line-height: 1.7;
-}
-.total.primary .earnings-story {
-  color: #333;
-}
 .site-shell .dashboard .total p {
   margin: 8px 0 0;
   font-size: 11px;
   line-height: 1.7;
-}
-.total.primary[data-earned="true"] .earnings-card-heading svg {
-  animation: earnings-sparkle 900ms ease-out both;
-}
-@keyframes earnings-sparkle {
-  0% {
-    transform: scale(0.8) rotate(-12deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(8deg);
-  }
-  100% {
-    transform: scale(1) rotate(0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .total.primary[data-earned="true"] .earnings-card-heading svg {
-    animation: none;
-  }
 }
 .site-shell .dashboard .device {
   padding: 24px;

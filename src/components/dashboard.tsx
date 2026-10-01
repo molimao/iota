@@ -10,8 +10,6 @@ import {
   Stethoscope,
   X,
   LoaderCircle,
-  Sparkles,
-  Coins,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { FarmLine } from "@/components/farm-view";
@@ -95,54 +93,13 @@ function Total({
 }) {
   const units = value.known || !value.total ? value.units : null;
   const { t, en } = useLocale();
-  const earned = units !== null && units > 0 && !value.partial;
-  const badge = value.partial
-    ? en
-      ? "Partial data"
-      : "部分数据"
-    : units === null
-      ? en
-        ? "Awaiting data"
-        : "等待数据"
-      : earned
-        ? primary
-          ? en
-            ? "A little win today"
-            : "今日有收获"
-          : en
-            ? "Every contribution counts"
-            : "点滴积累"
-        : en
-          ? "Awaiting rewards"
-          : "等待记账";
   return (
-    <section className={`total ${primary ? "primary" : ""}`} data-earned={earned}>
+    <section className={`total ${primary ? "primary" : ""}`}>
       <div className="earnings-card-heading">
-        <h2>
-          {primary ? (
-            <Sparkles size={18} aria-hidden="true" />
-          ) : (
-            <Coins size={18} aria-hidden="true" />
-          )}
-          {title}
-        </h2>
-        <span className="earnings-badge">{badge}</span>
+        <h2>{title}</h2>
       </div>
       <div className="amount">
         <MoneyPair large units={units} usdPerIota={usdPerIota} />
-      </div>
-      <div className="earnings-story">
-        {earned
-          ? primary
-            ? en
-              ? "Today's contribution. A reward you can see."
-              : "今天的贡献，有了看得见的回报。"
-            : en
-              ? "Your contributions, adding up over time."
-              : "每一次贡献，都在慢慢积累。"
-          : en
-            ? "Official rewards appear here as they are recorded."
-            : "官方收益记账后，会在这里呈现。"}
       </div>
       <p>{primary ? t("香港时间今日 00:00 起的已记账收益") : t("所有已添加设备的累计记账收益")}</p>
       {value.partial && (
