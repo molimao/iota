@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor, Menu } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
@@ -84,6 +84,20 @@ export function SiteNav() {
         </a>
         <LanguageSwitch />
         <AccountMenu />
+        <details className="mobile-nav">
+          <summary aria-label={en ? "Navigation menu" : "导航菜单"}>
+            <Menu size={20} />
+          </summary>
+          <div>
+            {links.map(([href, label]) => (
+              <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
+                {label}
+                <ArrowUpRight size={15} />
+              </a>
+            ))}
+            <LanguageSwitch />
+          </div>
+        </details>
       </div>
     </nav>
   );

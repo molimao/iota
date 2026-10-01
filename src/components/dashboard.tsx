@@ -240,8 +240,8 @@ export function Dashboard() {
             <Monitor size={22} />
           </span>
           <div>
-            <b>IOTA</b>
-            <span>{t("我的设备")}</span>
+            <span className="eyebrow">IOTA WATCH / {en ? "MONITOR" : "设备监控"}</span>
+            <h1>{t("我的设备")}</h1>
           </div>
         </div>
         <div className="actions">
@@ -440,6 +440,17 @@ export function Dashboard() {
           </div>
         ) : (
           <>
+            <div className="device-mix" aria-hidden="true">
+              {(Object.keys(BUCKET_LABEL) as StatusBucket[]).map((bucket) => (
+                <i
+                  key={bucket}
+                  data-bucket={bucket}
+                  style={{
+                    width: `${dash.views.length ? (dash.counts[bucket] / dash.views.length) * 100 : 0}%`,
+                  }}
+                />
+              ))}
+            </div>
             <div
               className="device-filters"
               role="group"

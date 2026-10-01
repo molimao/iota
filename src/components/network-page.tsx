@@ -8,15 +8,15 @@ const GLOSSARY: Array<{ term: { zh: string; en: string }; body: { zh: string; en
   {
     term: { zh: "名额", en: "Slots" },
     body: {
-      zh: "任务可容纳的矿工人数。满员后需等待下一个任务。",
-      en: "How many miners a run can hold. A full run accepts no new machines until the next run opens.",
+      zh: "任务可容纳的矿工人数与剩余容量，以官方名额接口的当前记录为准。",
+      en: "The run's miner capacity and remaining slots, as reported by the official occupancy source.",
     },
   },
   {
     term: { zh: "官方在线 / 已开始训练", en: "Online / training" },
     body: {
-      zh: "在线是当前名单人数；已开始训练是实际有训练量的人数，通常更少。",
-      en: "Online is the current roster. Training is how many of those actually have work in this sample, and is usually smaller.",
+      zh: "官方在线为名单中标记 active 的矿工；已开始训练是其中上报吞吐量大于零的人数。",
+      en: "Online counts miners marked active in the roster. Training counts those whose reported throughput is above zero.",
     },
   },
   {
@@ -83,7 +83,7 @@ export function NetworkPage() {
       )}
 
       {state.farm ? (
-        <FarmFull farm={state.farm} />
+        <FarmFull farm={state.farm} partial={state.coverage.known < state.coverage.total} />
       ) : (
         <p className="farm-empty">
           {state.error ? t(state.error) : en ? "Loading the network view…" : "正在读取全网数据…"}

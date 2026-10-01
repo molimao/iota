@@ -1,61 +1,9 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Activity, Layers, Users, Gauge } from "lucide-react";
 
+import { MinerDistribution } from "@/components/miner-distribution";
 import { useLocale } from "@/components/site/locale";
 import type { FarmSummary } from "@/lib/farm";
 import { formatCount, formatLoss, formatPct } from "@/lib/format";
-
-const COUNTRY_ZH: Record<string, string> = {
-  China: "中国",
-  "United States": "美国",
-  "Hong Kong": "香港",
-  Japan: "日本",
-  Canada: "加拿大",
-  Germany: "德国",
-  Taiwan: "台湾",
-  Singapore: "新加坡",
-  "United Kingdom": "英国",
-  "South Korea": "韩国",
-  France: "法国",
-  Australia: "澳大利亚",
-  India: "印度",
-  Russia: "俄罗斯",
-  Brazil: "巴西",
-  Netherlands: "荷兰",
-  Switzerland: "瑞士",
-  Sweden: "瑞典",
-  Finland: "芬兰",
-  Norway: "挪威",
-  Poland: "波兰",
-  Spain: "西班牙",
-  Italy: "意大利",
-  Ireland: "爱尔兰",
-  Israel: "以色列",
-  "United Arab Emirates": "阿联酋",
-  Indonesia: "印度尼西亚",
-  Vietnam: "越南",
-  Thailand: "泰国",
-  Turkey: "土耳其",
-  Ukraine: "乌克兰",
-  Mexico: "墨西哥",
-  Argentina: "阿根廷",
-  "South Africa": "南非",
-  Belgium: "比利时",
-  Austria: "奥地利",
-  Denmark: "丹麦",
-  "Czech Republic": "捷克",
-  Romania: "罗马尼亚",
-  Lithuania: "立陶宛",
-  Malaysia: "马来西亚",
-  Philippines: "菲律宾",
-  "New Zealand": "新西兰",
-  Portugal: "葡萄牙",
-  Chile: "智利",
-  Kazakhstan: "哈萨克斯坦",
-};
-
-function countryName(country: string, en: boolean) {
-  return en ? country : COUNTRY_ZH[country] || country;
-}
 
 function lossRange(min: number | null, max: number | null) {
   if (min === null) return "—";
@@ -112,7 +60,7 @@ export function FarmLine({
 }
 
 /** Everything known about the network. Lives on /network, never on the dashboard. */
-export function FarmFull({ farm }: { farm: FarmSummary }) {
+export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial?: boolean }) {
   const { t, en, locale } = useLocale();
   const fill =
     farm.maxMiners && farm.maxMiners > 0 && farm.activeMiners !== null
@@ -132,41 +80,87 @@ export function FarmFull({ farm }: { farm: FarmSummary }) {
           </a>
         </span>
       </div>
-      <div className="farm-bar" aria-hidden="true">
-        <i style={{ width: `${fill}%` }} />
-      </div>
       <div className="farm-stats">
-        <div>
-          <span>{t("进行中任务")}</span>
-          <b>{formatCount(farm.activeRuns, locale)}</b>
-        </div>
-        <div>
-          <span>{t("占用名额")}</span>
-          <b>
-            {formatCount(farm.activeMiners, locale)}
-            <small> / {formatCount(farm.maxMiners, locale)}</small>
-          </b>
-        </div>
-        <div>
-          <span>{t("剩余名额")}</span>
-          <b>{formatCount(farm.slotsRemaining, locale)}</b>
-        </div>
-        <div>
+        <div className="network-stat" data-tone="blue">
+          <Users size={18} aria-hidden="true" />
           <span>{t("官方在线")}</span>
           <b>{formatCount(farm.online, locale)}</b>
+          <small>{en ? "From the fetched miner roster" : "来自已读取矿工名单"}</small>
         </div>
-        <div>
+        <div className="network-stat" data-tone="mint">
+          <Activity size={18} aria-hidden="true" />
           <span>{t("已开始训练")}</span>
           <b>{formatCount(farm.training, locale)}</b>
+          <small>{en ? "Reported throughput above zero" : "上报吞吐量大于零"}</small>
         </div>
-        <div>
+        <div className="network-stat" data-tone="amber">
+          <Layers size={18} aria-hidden="true" />
+          <span>{t("剩余名额")}</span>
+          <b>{formatCount(farm.slotsRemaining, locale)}</b>
+          <small>
+            {formatCount(farm.activeRuns, locale)} {t("个任务")}
+          </small>
+        </div>
+        <div className="network-stat" data-tone="purple">
+          <Gauge size={18} aria-hidden="true" />
           <span>{t("训练进度")}</span>
           <b>{formatPct(farm.tokens, farm.totalTokens, locale)}</b>
+          <small>
+            {t("损失")} {lossRange(farm.lossMin, farm.lossMax)}
+          </small>
         </div>
-        <div>
-          <span>{t("损失")}</span>
-          <b>{lossRange(farm.lossMin, farm.lossMax)}</b>
-        </div>
+      </div>
+      <div className="network-visuals">
+        <MinerDistribution farm={farm} partial={partial} />
+        <section className="viz-panel capacity-panel" aria-labelledby="capacity-title">
+          <header className="viz-heading">
+            <div>
+              <span className="viz-kicker">
+                <Activity size={14} />
+                {en ? "CAPACITY" : "网络容量"}
+              </span>
+              <h2 id="capacity-title">{en ? "Slots & training" : "名额与训练"}</h2>
+            </div>
+          </header>
+          <div className="capacity-total">
+            <b>{formatCount(farm.activeMiners, locale)}</b>
+            <span> / {formatCount(farm.maxMiners, locale)}</span>
+          </div>
+          <p className="capacity-label">{t("占用名额")}</p>
+          <div className="capacity-track" aria-hidden="true">
+            <i style={{ width: `${fill}%` }} />
+          </div>
+          <div className="capacity-legend">
+            <span>
+              <i />
+              {t("占用名额")}
+            </span>
+            <b>{formatPct(farm.activeMiners, farm.maxMiners, locale)}</b>
+          </div>
+          <div className="participation-readout">
+            <span>{en ? "Training / online" : "已训练 / 官方在线"}</span>
+            <b>
+              {formatCount(farm.training, locale)} / {formatCount(farm.online, locale)}
+            </b>
+          </div>
+          <div className="participation-track" aria-hidden="true">
+            <i
+              style={{
+                width: `${farm.online && farm.training !== null ? Math.min(100, (farm.training / farm.online) * 100) : 0}%`,
+              }}
+            />
+          </div>
+          <p className="viz-note">
+            {en
+              ? "Slots and miner activity come from separate official sources. An occupied slot does not guarantee a training assignment."
+              : "名额与训练人数来自不同官方来源。占用名额不代表已经分配训练任务。"}
+          </p>
+          {partial && (
+            <span className="viz-tag" data-partial>
+              {en ? "Activity roster is incomplete" : "训练名单覆盖不完整"}
+            </span>
+          )}
+        </section>
       </div>
       {farm.tiers.length > 1 ? (
         <ul className="farm-tiers">
@@ -184,57 +178,76 @@ export function FarmFull({ farm }: { farm: FarmSummary }) {
         </ul>
       ) : null}
       {farm.runs.length ? (
-        <div
-          className="farm-table-wrap"
-          role="region"
-          aria-label={en ? "Active runs table" : "活跃任务表格"}
-          tabIndex={0}
-        >
-          <table className="farm-table">
-            <thead>
-              <tr>
-                <th>{t("各任务")}</th>
-                <th>{t("档位")}</th>
-                <th>{t("名额")}</th>
-                <th>{t("官方在线")}</th>
-                <th>{t("已开始训练")}</th>
-                <th>{t("训练进度")}</th>
-                <th>{t("损失")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {farm.runs.map((run) => (
-                <tr key={run.runId} data-mine={run.mineCount > 0 ? "yes" : undefined}>
-                  <td>
-                    {run.name}
-                    {run.mineCount > 0 ? (
-                      <small>
-                        {t("你的设备")} {formatCount(run.mineCount, locale)}
-                      </small>
-                    ) : null}
-                  </td>
-                  <td>{run.tier || "—"}</td>
-                  <td>
-                    {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
-                    {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
-                  </td>
-                  <td>{formatCount(run.online, locale)}</td>
-                  <td>{formatCount(run.training, locale)}</td>
-                  <td>{formatPct(run.tokens, run.totalTokens, locale)}</td>
-                  <td>{formatLoss(run.loss)}</td>
+        <section className="viz-panel runs-panel">
+          <header className="viz-heading">
+            <div>
+              <span className="viz-kicker">
+                <Layers size={14} />
+                {en ? "TRAINING RUNS" : "进行中任务"}
+              </span>
+              <h2>{en ? "Run overview" : "任务概览"}</h2>
+            </div>
+            <span className="viz-tag">
+              {formatCount(farm.runs.length, locale)} {t("个任务")}
+            </span>
+          </header>
+          <div
+            className="farm-table-wrap"
+            role="region"
+            aria-label={en ? "Active runs table" : "活跃任务表格"}
+            tabIndex={0}
+          >
+            <table className="farm-table">
+              <thead>
+                <tr>
+                  <th>{t("各任务")}</th>
+                  <th>{t("档位")}</th>
+                  <th>{t("名额")}</th>
+                  <th>{t("官方在线")}</th>
+                  <th>{t("已开始训练")}</th>
+                  <th>{t("训练进度")}</th>
+                  <th>{t("损失")}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : null}
-      {farm.countries.length ? (
-        <p className="farm-countries">
-          <b>{t("矿工分布")}</b>
-          {farm.countries
-            .map((item) => `${countryName(item.country, en)} ${formatCount(item.count, locale)}`)
-            .join(" · ")}
-        </p>
+              </thead>
+              <tbody>
+                {farm.runs.map((run) => (
+                  <tr key={run.runId} data-mine={run.mineCount > 0 ? "yes" : undefined}>
+                    <td>
+                      {run.name}
+                      {run.mineCount > 0 ? (
+                        <small>
+                          {t("你的设备")} {formatCount(run.mineCount, locale)}
+                        </small>
+                      ) : null}
+                    </td>
+                    <td>{run.tier || "—"}</td>
+                    <td>
+                      {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
+                      {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
+                    </td>
+                    <td>{formatCount(run.online, locale)}</td>
+                    <td>{formatCount(run.training, locale)}</td>
+                    <td>
+                      <div className="run-progress">
+                        <span>{formatPct(run.tokens, run.totalTokens, locale)}</span>
+                        {run.tokens !== null && run.totalTokens !== null && run.totalTokens > 0 && (
+                          <div aria-hidden="true">
+                            <i
+                              style={{
+                                width: `${Math.max(0, Math.min(100, (run.tokens / run.totalTokens) * 100))}%`,
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td>{formatLoss(run.loss)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
       ) : null}
     </div>
   );

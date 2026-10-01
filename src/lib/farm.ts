@@ -1,4 +1,5 @@
 import type { MinerRecord, Occupancy, RunInfo, RunProgress } from "./iota-types";
+import { normalizeCountry } from "./distribution";
 
 export type FarmRun = {
   runId: string;
@@ -90,7 +91,7 @@ export function aggregateFarmMiners(
     runs.push({ runId: list.runId, listed: miners.length, online, training });
   }
   for (const miner of unique.values()) {
-    const country = miner.location_country?.trim();
+    const country = normalizeCountry(miner.location_country);
     if (country) countries.set(country, (countries.get(country) ?? 0) + 1);
   }
   const all = [...unique.values()];
@@ -105,8 +106,7 @@ export function aggregateFarmMiners(
       : null,
     countries: [...countries.entries()]
       .map(([country, count]) => ({ country, count }))
-      .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country))
-      .slice(0, 8),
+      .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country)),
   };
 }
 

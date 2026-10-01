@@ -1,11 +1,20 @@
-import { useState } from "react";
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useId, useState } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { useLocale } from "@/components/site/locale";
 import { formatCount } from "@/lib/format";
 import type { TrainingRow } from "@/lib/training";
 
 export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
   const { t, en, locale } = useLocale();
+  const gradientId = useId();
   const [metric, setMetric] = useState<"tokens" | "throughput" | "cumulative">("tokens");
   const labels = { tokens: t("训练 Token"), throughput: t("吞吐量"), cumulative: t("累计 Token") };
   const available = rows.filter((row) => row[metric] !== null).length;
@@ -32,11 +41,22 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
               : `${labels[metric]}随训练轮次变化，具体数值也列在下方表格中。`
           }
         >
-          <ResponsiveContainer width="100%" height={190}>
-            <LineChart
+          <ResponsiveContainer width="100%" height={230}>
+            <AreaChart
               data={[...rows].reverse()}
               margin={{ top: 18, right: 12, bottom: 0, left: 0 }}
             >
+              <defs>
+                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#79e2bb" stopOpacity={0.28} />
+                  <stop offset="100%" stopColor="#79e2bb" stopOpacity={0.01} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                vertical={false}
+                stroke="rgba(255,255,255,0.07)"
+                strokeDasharray="3 5"
+              />
               <XAxis
                 dataKey="epoch"
                 stroke="#8b929b"
@@ -54,22 +74,30 @@ export default function TrainingTrend({ rows }: { rows: TrainingRow[] }) {
                 tickFormatter={(value: number) => compact.format(value)}
               />
               <Tooltip
-                contentStyle={{ background: "#161616", border: "1px solid #444", fontSize: 12 }}
+                contentStyle={{
+                  background: "#17212b",
+                  border: "1px solid #354450",
+                  borderRadius: 12,
+                  color: "#eef4f8",
+                  fontSize: 12,
+                }}
+                cursor={{ stroke: "#657887", strokeDasharray: "3 4" }}
                 labelFormatter={(value) => `${t("轮次")} ${value}`}
                 formatter={(value: number) => [formatCount(value, locale), labels[metric]]}
               />
-              <Line
+              <Area
                 dataKey={metric}
                 name={labels[metric]}
                 type="linear"
-                stroke="#6fe0ab"
+                stroke="#79e2bb"
+                fill={`url(#${gradientId})`}
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 3 }}
                 connectNulls={false}
                 isAnimationActive={false}
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       ) : (
