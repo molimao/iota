@@ -352,11 +352,13 @@ describe("crawl assets for GSC", () => {
     );
   });
 
-  it("tells Googlebot to skip the dashboard", () => {
+  it("lets search crawlers read noindex HTML but skips server RPC", () => {
     const robots = buildRobotsTxt();
     expect(robots).toContain("User-agent: Googlebot");
-    expect(robots).toContain("Disallow: /zh/app");
-    expect(robots).toContain("Disallow: /zh/account");
+    expect(robots).not.toContain("Disallow: /zh/app");
+    expect(robots).not.toContain("Disallow: /zh/account");
+    expect(robots).toContain("User-agent: OAI-SearchBot");
+    expect(robots).toContain("Disallow: /_serverFn/");
     expect(robots).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
   });
 

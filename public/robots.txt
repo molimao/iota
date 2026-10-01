@@ -1,38 +1,49 @@
 User-agent: *
 Allow: /
-Disallow: /app
-Disallow: /zh/app
-Disallow: /en/app
-Disallow: /zh/account
-Disallow: /en/account
+Disallow: /_serverFn/
 
 User-agent: Googlebot
 Allow: /
-Disallow: /app
-Disallow: /zh/app
-Disallow: /en/app
-Disallow: /zh/account
-Disallow: /en/account
+Disallow: /_serverFn/
 
 User-agent: Googlebot-Image
 Allow: /
+Disallow: /_serverFn/
 
-User-agent: GPTBot
+User-agent: Bingbot
 Allow: /
+Disallow: /_serverFn/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /_serverFn/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /_serverFn/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /_serverFn/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /_serverFn/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /_serverFn/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /_serverFn/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /_serverFn/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /_serverFn/
 
 Sitemap: https://iotahome.site/sitemap.xml

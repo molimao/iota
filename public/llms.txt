@@ -15,6 +15,10 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
 - Lifetime rewards: official total earned; paid is not added again
 - Device status: official sample, not a Mac heartbeat
+- Sources have independent fetch clocks; an earnings refresh does not renew a device status clock
+- Failed reads retain prior data with its original timestamp; missing fields are unknown, not zero
+- Network roster coverage can be partial; network miner counts are not IOTA Watch visitor or account counts
+- Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
 
@@ -60,3 +64,9 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [What SN9 / IOTA means on Train at Home (en)](https://iotahome.site/en/learn/what-is-sn9-iota)
 - [IOTA Watch 显示「尚未找到」 (zh)](https://iotahome.site/zh/learn/device-not-found)
 - [IOTA Watch says the Miner ID was not found (en)](https://iotahome.site/en/learn/device-not-found)
+- [IOTA Watch 数据来自哪里，多久更新一次？ (zh)](https://iotahome.site/zh/learn/data-sources-and-freshness)
+- [Where IOTA Watch data comes from and how often it refreshes (en)](https://iotahome.site/en/learn/data-sources-and-freshness)
+- [IOTA Train at Home 训练历史、吞吐量与贡献率怎么看？ (zh)](https://iotahome.site/zh/learn/training-history-and-metrics)
+- [How to read IOTA Train at Home training history and throughput (en)](https://iotahome.site/en/learn/training-history-and-metrics)
+- [IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
+- [IOTA Train at Home network status: slots, online miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)

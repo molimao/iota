@@ -1,7 +1,11 @@
+import { dataGuides } from "./data-guides";
 import type { Locale } from "./locale";
 
 export type Article = {
   slug: string;
+  published?: string;
+  modified?: string;
+  sources?: Array<{ name: string; url: string }>;
   topic: { en: string; zh: string };
   title: { en: string; zh: string };
   description: { en: string; zh: string };
@@ -437,7 +441,15 @@ export const articles: Article[] = [
       ],
     },
   },
+  ...dataGuides,
 ];
+
+export function articleDates(article: Article) {
+  return {
+    published: article.published ?? "2026-09-12",
+    modified: article.modified ?? "2026-09-12",
+  };
+}
 
 export type ArticleCluster = "understand" | "start" | "read";
 
@@ -460,15 +472,37 @@ export const articleClusterMeta: Record<
       "iota-rewards-in-usd",
       "device-status",
       "what-refresh-interrupted-means",
+      "data-sources-and-freshness",
+      "training-history-and-metrics",
+      "network-status-explained",
     ],
   },
 };
 
 const relatedBySlug: Record<string, string[]> = {
+  "data-sources-and-freshness": [
+    "what-refresh-interrupted-means",
+    "network-status-explained",
+    "how-rewards-work",
+  ],
+  "training-history-and-metrics": [
+    "device-status",
+    "how-rewards-work",
+    "data-sources-and-freshness",
+  ],
+  "network-status-explained": [
+    "data-sources-and-freshness",
+    "device-not-found",
+    "training-history-and-metrics",
+  ],
   "what-is-iota-watch": ["iota-train-at-home-vs-iota-coin", "what-is-sn9-iota", "find-miner-id"],
   "find-miner-id": ["google-account-device-list", "device-not-found", "device-status"],
   "how-rewards-work": ["iota-rewards-in-usd", "what-is-sn9-iota", "device-status"],
-  "device-status": ["what-refresh-interrupted-means", "device-not-found", "how-rewards-work"],
+  "device-status": [
+    "what-refresh-interrupted-means",
+    "training-history-and-metrics",
+    "network-status-explained",
+  ],
   "iota-train-at-home-vs-iota-coin": [
     "what-is-iota-watch",
     "what-is-sn9-iota",

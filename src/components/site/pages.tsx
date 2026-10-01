@@ -5,7 +5,7 @@ import { persistLocale, swapLocalePath } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
 import { AccountAvatar, AccountMenu } from "./account-menu";
-import { articleClusterMeta, getArticle, relatedArticles } from "./articles";
+import { articleClusterMeta, articleDates, getArticle, relatedArticles } from "./articles";
 import { content } from "./content";
 import { localizeMessage, useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
@@ -365,6 +365,10 @@ export function LearnArticle({ slug }: { slug: string }) {
   const article = getArticle(slug);
   if (!article) return null;
   const related = relatedArticles(slug);
+  const dates = articleDates(article);
+  const sections = article.body[locale].flatMap((block, i) =>
+    block.startsWith("## ") ? [{ title: block.slice(3), id: `section-${i}` }] : [],
+  );
   return (
     <article className="article-page learn-article">
       <a className="back-link" href={`/${locale}/learn`}>
@@ -373,9 +377,53 @@ export function LearnArticle({ slug }: { slug: string }) {
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
       <p className="article-lead">{article.description[locale]}</p>
+      <p className="article-updated article-byline">
+        IOTA Watch · {en ? "Published" : "发布"}{" "}
+        <time dateTime={dates.published}>{dates.published}</time>
+        {dates.modified !== dates.published && (
+          <>
+            {" "}
+            · {en ? "Updated" : "更新"} <time dateTime={dates.modified}>{dates.modified}</time>
+          </>
+        )}
+      </p>
+      <a className="article-text-version" href={`/${locale}/learn/${article.slug}.md`}>
+        {en ? "Plain text version" : "纯文本版本"}
+      </a>
+      {sections.length > 0 && (
+        <nav className="article-toc" aria-label={en ? "On this page" : "本文目录"}>
+          <h2>{en ? "On this page" : "本文目录"}</h2>
+          <ul>
+            {sections.map((section) => (
+              <li key={section.id}>
+                <a href={`#${section.id}`}>{section.title}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
       <div className="learn-body">
         <ArticleBlocks blocks={article.body[locale]} locale={locale} />
       </div>
+      {article.sources && (
+        <aside className="article-sources">
+          <h2>{en ? "Sources and implementation" : "资料来源与本站实现"}</h2>
+          <p>
+            {en
+              ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
+              : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。"}
+          </p>
+          <ul>
+            {article.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  {source.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
       <aside className="related-notes">
         <h2>{en ? "Related" : "相关说明"}</h2>
         <div>

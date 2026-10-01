@@ -57,3 +57,11 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Search and AI-readable content
+
+- Public Chinese and English pages use self-canonicals on `iotahome.site` with reciprocal language alternates. The dashboard and account pages remain `noindex,follow` in HTML and response headers; robots allows those pages to be fetched so search crawlers can see that directive. Server-function endpoints are excluded from crawling.
+- Guide publication/modification dates are per article. Do not update dates just because a build runs. Guide HTML, JSON-LD, Markdown and sitemap timestamps share the same content metadata.
+- `/zh/learn/<slug>.md` and `/en/learn/<slug>.md` return the complete guide with canonical HTTP links and localized absolute links. `/llms-full.txt` contains complete bilingual content. These are reading aids; they do not guarantee indexing or AI citations.
+- Crawl generators are in `src/lib/crawl.ts`. Keep generated `public/sitemap.xml`, `robots.txt`, `llms.txt`, and `llms-full.txt` synchronized when editing content; regression tests detect drift. PNG sharing previews are generated from `public/og.svg`.
+- Search Console verification can use `VITE_GOOGLE_SITE_VERIFICATION` or `GOOGLE_SITE_VERIFICATION`. Search indexing, query impressions and organic conversions must be measured separately from website visits and registered account counts.

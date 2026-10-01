@@ -111,6 +111,15 @@ export function NetworkPage() {
         </p>
         <a href={`/${locale}/app`}>{en ? "My devices" : "我的设备"} →</a>
       </aside>
+      <p className="article-updated">
+        <a href={`/${locale}/learn/network-status-explained`}>
+          {en ? "How to read network status" : "全网数字怎么读"}
+        </a>
+        {" · "}
+        <a href={`/${locale}/learn/data-sources-and-freshness`}>
+          {en ? "Data sources and freshness" : "数据来源与时效"}
+        </a>
+      </p>
     </article>
   );
 }

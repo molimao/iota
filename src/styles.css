@@ -3201,3 +3201,63 @@ body:has(.site-shell) {
     font-size: 12px;
   }
 }
+
+.article-byline {
+  margin-top: -8px;
+  font-size: 13px;
+}
+.article-toc,
+.article-sources {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+}
+.article-toc h2,
+.article-sources h2 {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+.article-toc ul,
+.article-sources ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+  margin: 0;
+}
+.article-toc a,
+.article-sources a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.article-toc a:hover,
+.article-sources a:hover {
+  color: white;
+}
+.article-sources p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 12px;
+}
+.learn-body h2[id] {
+  scroll-margin-top: 100px;
+}
+@media (max-width: 640px) {
+  .article-toc,
+  .article-sources {
+    padding: 18px;
+  }
+}
+.article-text-version {
+  display: inline-block;
+  margin: -8px 0 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.article-text-version:hover {
+  color: white;
+}

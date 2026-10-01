@@ -6,7 +6,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,7 +15,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -24,7 +24,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -33,7 +33,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -42,7 +42,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -51,7 +51,7 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -286,6 +286,60 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/data-sources-and-freshness</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/data-sources-and-freshness</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/training-history-and-metrics</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/training-history-and-metrics</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/learn/network-status-explained</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/learn/network-status-explained</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

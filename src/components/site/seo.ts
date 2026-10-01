@@ -1,17 +1,19 @@
-import { LASTMOD } from "@/lib/crawl";
 import { ORIGIN, sitePath } from "@/lib/site";
-import { articles, getArticle } from "./articles";
+import { articles, articleDates, getArticle } from "./articles";
 import { content } from "./content";
 import type { Locale } from "./locale";
 
 export type Page = "home" | "guide" | "faq" | "privacy" | "app" | "learn" | "account" | "network";
 
-const OG_IMAGE = `${ORIGIN}/og.svg`;
+const OG_IMAGE = `${ORIGIN}/og.png`;
 const ORG_ID = `${ORIGIN}/#organization`;
 const WEBSITE_ID = `${ORIGIN}/#website`;
 
 function jsonLd(data: unknown) {
-  return { type: "application/ld+json" as const, children: JSON.stringify(data) };
+  return {
+    type: "application/ld+json" as const,
+    children: JSON.stringify(data).replace(/</g, "\u003c"),
+  };
 }
 
 function language(locale: Locale) {
@@ -101,8 +103,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
             ? `${copy.privacyTitle} | IOTA Watch`
             : page === "learn"
               ? en
-                ? "How to use IOTA Watch"
-                : "使用说明｜IOTA Watch"
+                ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
+                : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
               : page === "account"
                 ? en
                   ? "Account | IOTA Watch"
@@ -280,8 +282,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@type": "Article",
         headline: article.title[locale],
         description: article.description[locale],
-        datePublished: LASTMOD,
-        dateModified: LASTMOD,
+        datePublished: articleDates(article).published,
+        dateModified: articleDates(article).modified,
+        ...(article.sources ? { citation: article.sources.map((source) => source.url) } : {}),
         image: OG_IMAGE,
         inLanguage: language(locale),
         mainEntityOfPage: url,
@@ -400,6 +403,14 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      ...(article
+        ? [
+            { property: "article:published_time", content: articleDates(article).published },
+            { property: "article:modified_time", content: articleDates(article).modified },
+          ]
+        : []),
       ...googleVerification(),
     ],
     links: [{ rel: "canonical", href: url }, ...alternates(path)],

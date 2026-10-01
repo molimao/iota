@@ -1,10 +1,11 @@
-import { articles } from "../components/site/articles";
+import { articles, articleDates, type Article } from "../components/site/articles";
 import { ORIGIN, LOCALES, type SiteLocale } from "./site";
 
 export const LASTMOD = "2026-09-12";
 
 export type CrawlPage = {
   path: string;
+  lastmod?: string;
   changefreq: "weekly" | "monthly" | "yearly";
   priority: string;
 };
@@ -24,14 +25,15 @@ function articlePriority(slug: string) {
 
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
-  { path: "", changefreq: "weekly", priority: "1.0" },
-  { path: "learn", changefreq: "weekly", priority: "0.9" },
-  { path: "network", changefreq: "weekly", priority: "0.8" },
+  { path: "", lastmod: "2026-10-01", changefreq: "weekly", priority: "1.0" },
+  { path: "learn", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
+  { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
   { path: "privacy", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
+    lastmod: articleDates(article).modified,
     changefreq: "monthly" as const,
     priority: articlePriority(article.slug),
   })),
@@ -63,7 +65,7 @@ export function buildSitemapXml(origin = ORIGIN) {
     <xhtml:link rel="alternate" hreflang="zh-CN" href="${zh}"/>
     <xhtml:link rel="alternate" hreflang="en" href="${en}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>
-    <lastmod>${LASTMOD}</lastmod>
+    <lastmod>${page.lastmod ?? LASTMOD}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`;
@@ -78,45 +80,26 @@ ${urls.join("\n")}
 }
 
 export function buildRobotsTxt(origin = ORIGIN) {
-  return `User-agent: *
-Allow: /
-Disallow: /app
-Disallow: /zh/app
-Disallow: /en/app
-Disallow: /zh/account
-Disallow: /en/account
-
-User-agent: Googlebot
-Allow: /
-Disallow: /app
-Disallow: /zh/app
-Disallow: /en/app
-Disallow: /zh/account
-Disallow: /en/account
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-Sitemap: ${origin}/sitemap.xml
-`;
+  // Let crawlers read HTML noindex directives on app/account pages.
+  // Search crawler policy is separate from the existing training crawler policy.
+  const agents = [
+    "*",
+    "Googlebot",
+    "Googlebot-Image",
+    "Bingbot",
+    "OAI-SearchBot",
+    "ChatGPT-User",
+    "GPTBot",
+    "Google-Extended",
+    "ClaudeBot",
+    "Claude-SearchBot",
+    "anthropic-ai",
+    "PerplexityBot",
+  ];
+  return (
+    agents.map((agent) => `User-agent: ${agent}\nAllow: /\nDisallow: /_serverFn/\n`).join("\n") +
+    `\nSitemap: ${origin}/sitemap.xml\n`
+  );
 }
 
 export function buildLlmsTxt(origin = ORIGIN) {
@@ -146,6 +129,10 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
 - Lifetime rewards: official total earned; paid is not added again
 - Device status: official sample, not a Mac heartbeat
+- Sources have independent fetch clocks; an earnings refresh does not renew a device status clock
+- Failed reads retain prior data with its original timestamp; missing fields are unknown, not zero
+- Network roster coverage can be partial; network miner counts are not IOTA Watch visitor or account counts
+- Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
 
@@ -166,29 +153,50 @@ ${links}
 export function buildLlmsFullTxt(origin = ORIGIN) {
   const articleBlocks = articles
     .map((article) => {
-      const zh = article.body.zh
-        .filter(
-          (line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> "),
-        )
-        .slice(0, 2);
-      const en = article.body.en
-        .filter(
-          (line) => !line.startsWith("##") && !line.startsWith("- ") && !line.startsWith("> "),
-        )
-        .slice(0, 2);
+      const dates = articleDates(article);
       return `### ${article.title.en}
 - ZH: ${pageUrl("zh", `learn/${article.slug}`, origin)}
 - EN: ${pageUrl("en", `learn/${article.slug}`, origin)}
+- Published: ${dates.published}
+- Updated: ${dates.modified}
+- Publisher: IOTA Watch (independent monitor)
 
-${en.join("\n\n")}
+${article.body.en.map((block) => absoluteArticleLinks(block, "en", origin)).join("\n\n")}
 
-${zh.join("\n\n")}`;
+### ${article.title.zh}
+
+${article.body.zh.map((block) => absoluteArticleLinks(block, "zh", origin)).join("\n\n")}
+${article.sources?.map((source) => `- Source: ${source.name} — ${source.url}`).join("\n") ?? ""}`;
     })
     .join("\n\n");
 
   return `${buildLlmsTxt(origin)}
-## Article excerpts
+## Complete bilingual guides
 
 ${articleBlocks}
+`;
+}
+
+function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) {
+  return text.replace(
+    /\]\(\/(?!\/)([^)]+)\)/g,
+    (_, path: string) => `](${origin}/${/^(en|zh)(\/|$)/.test(path) ? path : `${locale}/${path}`})`,
+  );
+}
+
+export function buildArticleMarkdown(article: Article, locale: SiteLocale, origin = ORIGIN) {
+  const dates = articleDates(article);
+  const url = pageUrl(locale, `learn/${article.slug}`, origin);
+  return `# ${article.title[locale]}
+
+${article.description[locale]}
+
+- Canonical: ${url}
+- Publisher: IOTA Watch
+- Published: ${dates.published}
+- Updated: ${dates.modified}
+
+${article.body[locale].map((block) => absoluteArticleLinks(block, locale, origin)).join("\n\n")}
+${article.sources ? `\n## ${locale === "en" ? "Sources and implementation" : "资料来源与本站实现"}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
 `;
 }

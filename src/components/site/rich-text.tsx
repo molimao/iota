@@ -26,11 +26,7 @@ function renderInline(text: string, locale: Locale): ReactNode[] {
         const href = localizeHref(link[2], locale);
         const external = /^https?:\/\//.test(href);
         nodes.push(
-          <a
-            key={key++}
-            href={href}
-            {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-          >
+          <a key={key++} href={href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
             {link[1]}
           </a>,
         );
@@ -71,7 +67,11 @@ export function ArticleBlocks({ blocks, locale }: { blocks: string[]; locale: Lo
     }
     flush();
     if (block.startsWith("## ")) {
-      out.push(<h2 key={`h-${i}`}>{block.slice(3)}</h2>);
+      out.push(
+        <h2 id={`section-${i}`} key={`h-${i}`}>
+          {block.slice(3)}
+        </h2>,
+      );
       return;
     }
     if (block.startsWith("> ")) {

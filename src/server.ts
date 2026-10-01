@@ -2,7 +2,14 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { buildLlmsFullTxt, buildLlmsTxt, buildRobotsTxt, buildSitemapXml } from "./lib/crawl";
+import {
+  buildArticleMarkdown,
+  buildLlmsFullTxt,
+  buildLlmsTxt,
+  buildRobotsTxt,
+  buildSitemapXml,
+} from "./lib/crawl";
+import { getArticle } from "./components/site/articles";
 import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest } from "./lib/site";
 
 type ServerEntry = {
@@ -64,6 +71,26 @@ function crawlAssetResponse(request: Request): Response | null {
   const path = new URL(request.url).pathname;
   const origin = originFromRequest(request);
   const cache = "public, max-age=3600";
+  const markdown = path.match(/^\/(en|zh)\/learn\/([a-z0-9-]+)\.md$/);
+  if (markdown && (request.method === "GET" || request.method === "HEAD")) {
+    const article = getArticle(markdown[2]!);
+    if (!article)
+      return new Response("Guide not found", {
+        status: 404,
+        headers: { "X-Robots-Tag": "noindex" },
+      });
+    const locale = markdown[1] === "en" ? "en" : "zh";
+    return new Response(
+      request.method === "HEAD" ? null : buildArticleMarkdown(article, locale, origin),
+      {
+        headers: {
+          "content-type": "text/markdown; charset=utf-8",
+          "cache-control": cache,
+          Link: `<${origin}/${locale}/learn/${article.slug}>; rel="canonical"`,
+        },
+      },
+    );
+  }
   if (path === "/sitemap.xml") {
     return new Response(buildSitemapXml(origin), {
       headers: { "content-type": "application/xml; charset=utf-8", "cache-control": cache },
@@ -138,7 +165,11 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
   }
 
   return changed
-    ? new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+    ? new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      })
     : response;
 }
 
