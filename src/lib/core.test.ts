@@ -1,13 +1,15 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import {
-  plausibleSn9Usd,
-  readCoinGeckoSimple,
-  readDexScreener,
-} from "./iota-price-sources";
+import { plausibleSn9Usd, readCoinGeckoSimple, readDexScreener } from "./iota-price-sources";
 import { articleClusterMeta, articles, relatedArticles } from "../components/site/articles";
 import { profileFromUser } from "./auth-profile";
-import { buildLlmsFullTxt, buildLlmsTxt, buildRobotsTxt, buildSitemapXml, crawlPages } from "./crawl";
+import {
+  buildLlmsFullTxt,
+  buildLlmsTxt,
+  buildRobotsTxt,
+  buildSitemapXml,
+  crawlPages,
+} from "./crawl";
 import { ORIGIN, originFromRequest } from "./site";
 import {
   sumTodayUnits,
@@ -31,7 +33,13 @@ import {
   validFetchedAt,
 } from "./device-status";
 import { hintRunIdsFromDevices, mergeDiscovery, orderActiveRuns } from "./iota-discover";
-import { addEntry, parseWatchlist, serializeExport, importDevices } from "./watchlist";
+import {
+  addEntry,
+  parseWatchlist,
+  serializeExport,
+  importDevices,
+  type WatchEntry,
+} from "./watchlist";
 import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
 function address(n: number) {
@@ -119,7 +127,7 @@ it("marks refresh interrupted after five minutes without a real fetch clock", ()
   expect(validFetchedAt(0)).toBeNull();
   expect(validFetchedAt(1_726_000_000)).toBeNull();
 });
-it("counts a successful dashboard query as a fresh fetch even if miner stamps are old", () => {
+it("does not let an application query renew an old official fetch clock", () => {
   const now = Date.parse("2026-09-12T10:00:00Z");
   expect(
     resolveLastSuccessfulFetchAt({
@@ -128,7 +136,7 @@ it("counts a successful dashboard query as a fresh fetch even if miner stamps ar
       deviceFetchedAt: now - REFRESH_INTERRUPTED_MS - 1,
       discoveryFetchedAt: now - REFRESH_INTERRUPTED_MS - 1,
     }),
-  ).toBe(now);
+  ).toBe(now - REFRESH_INTERRUPTED_MS - 1);
   expect(
     resolveLastSuccessfulFetchAt({
       querySuccess: false,
@@ -146,15 +154,19 @@ it("counts a successful dashboard query as a fresh fetch even if miner stamps ar
       now,
       fetching: true,
     }),
-  ).toBe("contributing");
+  ).toBe("refresh_interrupted");
 });
 it("translates composed dashboard errors and relative time for English", () => {
   expect(localizeMessage("请求超时", "en")).toBe("Request timed out");
   expect(localizeMessage("训练任务列表：请求超时", "en")).toBe("Runs list: Request timed out");
   expect(localizeMessage("任务 abc：请求排队超时", "en")).toBe("Run abc: Request queued too long");
-  expect(localizeMessage("状态连接失败：请求超时", "en")).toBe("Could not load status: Request timed out");
+  expect(localizeMessage("状态连接失败：请求超时", "en")).toBe(
+    "Could not load status: Request timed out",
+  );
   expect(localizeMessage("收益 5Fxxx…：请求超时", "en")).toBe("Rewards 5Fxxx…: Request timed out");
-  expect(localizeMessage("格式不对：含有无效字符", "en")).toBe("Invalid characters in that Miner ID");
+  expect(localizeMessage("格式不对：含有无效字符", "en")).toBe(
+    "Invalid characters in that Miner ID",
+  );
   expect(localizeMessage("请求超时", "zh")).toBe("请求超时");
   const now = Date.parse("2026-09-12T10:12:00Z");
   expect(formatAgo(now - 12 * 60_000, now, "en")).toBe("12 min ago");
@@ -237,7 +249,9 @@ it("summarizes official occupancy into farm totals", () => {
     online: 2,
     training: 1,
   });
-  expect(farm?.runs.map((run) => [run.runId, run.tier, run.mineCount, run.online, run.training])).toEqual([
+  expect(
+    farm?.runs.map((run) => [run.runId, run.tier, run.mineCount, run.online, run.training]),
+  ).toEqual([
     ["4.12.16.1-tah", "Bronze", 2, 2, 1],
     ["4.12.16.2-tah", "Silver", 0, null, null],
   ]);
@@ -287,7 +301,7 @@ it("scans previously seen runs first so known devices do not wait on every task 
   ).toEqual(["c", "b"]);
 });
 it("roundtrips more than three public IDs and prevents duplicates", () => {
-  let entries: any[] = [];
+  let entries: WatchEntry[] = [];
   for (let n = 1; n <= 5; n++) {
     const result = addEntry(entries, { hotkey: address(n), label: `设备${n}` });
     expect(result.ok).toBe(true);
@@ -319,9 +333,13 @@ describe("crawl assets for GSC", () => {
 
   it("keeps production crawl URLs on iotahome.site and only follows localhost", () => {
     expect(originFromRequest()).toBe(ORIGIN);
-    expect(originFromRequest(new Request("https://iota-my-watch.lovable.app/sitemap.xml"))).toBe(ORIGIN);
+    expect(originFromRequest(new Request("https://iota-my-watch.lovable.app/sitemap.xml"))).toBe(
+      ORIGIN,
+    );
     expect(originFromRequest(new Request("https://www.iotahome.site/sitemap.xml"))).toBe(ORIGIN);
-    expect(originFromRequest(new Request("http://127.0.0.1:5179/sitemap.xml"))).toBe("http://127.0.0.1:5179");
+    expect(originFromRequest(new Request("http://127.0.0.1:5179/sitemap.xml"))).toBe(
+      "http://127.0.0.1:5179",
+    );
     expect(buildSitemapXml("http://127.0.0.1:5179")).toContain("http://127.0.0.1:5179/zh");
   });
 
@@ -342,128 +360,130 @@ describe("crawl assets for GSC", () => {
     expect(robots).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
   });
 
-it("accepts SN9 market quotes and rejects the Layer 1 IOTA price", () => {
-  expect(readCoinGeckoSimple({ "iota-2": { usd: 5.8 } })).toBe(5.8);
-  expect(readCoinGeckoSimple({ iota: { usd: 0.12 } })).toBeNull();
-  expect(plausibleSn9Usd(0.05)).toBe(false);
-  expect(
-    readDexScreener({
-      pairs: [
-        {
-          chainId: "bittensor",
-          baseToken: { symbol: "SN9", name: "iota" },
-          priceUsd: "5.8",
-          liquidity: { usd: 400000 },
-        },
-        {
-          chainId: "ethereum",
-          baseToken: { symbol: "IOTA", name: "IOTA" },
-          priceUsd: "0.12",
-          liquidity: { usd: 9_000_000 },
-        },
-      ],
-    }),
-  ).toBe(5.8);
-});
-
-describe("reward troubleshooting", () => {
-  const earnings = (over: Partial<Parameters<typeof diagnoseDevice>[0]["earnings"] & object> = {}) => ({
-    hotkey: "5abc",
-    totalEarnedUnits: 100,
-    todayUnits: 10,
-    pendingUnits: 0,
-    frozenUnits: 0,
-    minimumPayoutUnits: 0,
-    historyCount: 1,
-    recent: [],
-    fetchedAt: 1,
-    error: null,
-    ...over,
+  it("accepts SN9 market quotes and rejects the Layer 1 IOTA price", () => {
+    expect(readCoinGeckoSimple({ "iota-2": { usd: 5.8 } })).toBe(5.8);
+    expect(readCoinGeckoSimple({ iota: { usd: 0.12 } })).toBeNull();
+    expect(plausibleSn9Usd(0.05)).toBe(false);
+    expect(
+      readDexScreener({
+        pairs: [
+          {
+            chainId: "bittensor",
+            baseToken: { symbol: "SN9", name: "iota" },
+            priceUsd: "5.8",
+            liquidity: { usd: 400000 },
+          },
+          {
+            chainId: "ethereum",
+            baseToken: { symbol: "IOTA", name: "IOTA" },
+            priceUsd: "0.12",
+            liquidity: { usd: 9_000_000 },
+          },
+        ],
+      }),
+    ).toBe(5.8);
   });
 
-  it("blames the site, not the machine, when our own refresh stalled", () => {
-    const result = diagnoseDevice({
-      status: "refresh_interrupted",
-      miner: null,
-      earnings: earnings(),
-      earningsUsable: true,
+  describe("reward troubleshooting", () => {
+    const earnings = (
+      over: Partial<Parameters<typeof diagnoseDevice>[0]["earnings"] & object> = {},
+    ) => ({
+      hotkey: "5abc",
+      totalEarnedUnits: 100,
+      todayUnits: 10,
+      pendingUnits: 0,
+      frozenUnits: 0,
+      minimumPayoutUnits: 0,
+      historyCount: 1,
+      recent: [],
+      fetchedAt: 1,
+      error: null,
+      ...over,
     });
-    expect(result.primary.code).toBe("refresh_interrupted");
-    expect(result.tone).toBe("info");
-  });
 
-  it("treats a device missing from every roster as worth acting on", () => {
-    const result = diagnoseDevice({
-      status: "not_found",
-      miner: null,
-      earnings: null,
-      earningsUsable: false,
+    it("blames the site, not the machine, when our own refresh stalled", () => {
+      const result = diagnoseDevice({
+        status: "refresh_interrupted",
+        miner: null,
+        earnings: earnings(),
+        earningsUsable: true,
+      });
+      expect(result.primary.code).toBe("refresh_interrupted");
+      expect(result.tone).toBe("info");
     });
-    expect(result.primary.code).toBe("not_found");
-    expect(result.tone).toBe("warn");
-    expect(result.primary.slug).toBe("device-not-found");
-  });
 
-  it("explains a training device that has not been credited today", () => {
-    const result = diagnoseDevice({
-      status: "contributing",
-      miner: null,
-      earnings: earnings({ todayUnits: 0 }),
-      earningsUsable: true,
+    it("treats a device missing from every roster as worth acting on", () => {
+      const result = diagnoseDevice({
+        status: "not_found",
+        miner: null,
+        earnings: null,
+        earningsUsable: false,
+      });
+      expect(result.primary.code).toBe("not_found");
+      expect(result.tone).toBe("warn");
+      expect(result.primary.slug).toBe("device-not-found");
     });
-    expect(result.notes.map((note) => note.code)).toEqual(["no_today_rewards"]);
-    expect(result.tone).toBe("info");
-  });
 
-  it("points at the payout threshold when pending has not cleared it", () => {
-    const result = diagnoseDevice({
-      status: "contributing",
-      miner: null,
-      earnings: earnings({ pendingUnits: 50_000_000, minimumPayoutUnits: 100_000_000 }),
-      earningsUsable: true,
+    it("explains a training device that has not been credited today", () => {
+      const result = diagnoseDevice({
+        status: "contributing",
+        miner: null,
+        earnings: earnings({ todayUnits: 0 }),
+        earningsUsable: true,
+      });
+      expect(result.notes.map((note) => note.code)).toEqual(["no_today_rewards"]);
+      expect(result.tone).toBe("info");
     });
-    const note = result.notes.find((item) => item.code === "below_minimum_payout");
-    expect(note?.cause.zh).toContain("0.5");
-    expect(note?.cause.en).toContain("1");
-  });
 
-  it("stays quiet when the device is training and today is credited", () => {
-    const result = diagnoseDevice({
-      status: "contributing",
-      miner: null,
-      earnings: earnings(),
-      earningsUsable: true,
+    it("points at the payout threshold when pending has not cleared it", () => {
+      const result = diagnoseDevice({
+        status: "contributing",
+        miner: null,
+        earnings: earnings({ pendingUnits: 50_000_000, minimumPayoutUnits: 100_000_000 }),
+        earningsUsable: true,
+      });
+      const note = result.notes.find((item) => item.code === "below_minimum_payout");
+      expect(note?.cause.zh).toContain("0.5");
+      expect(note?.cause.en).toContain("1");
     });
-    expect(result.tone).toBe("ok");
-    expect(result.notes).toHaveLength(1);
-    expect(result.primary.code).toBe("ok");
-  });
 
-  it("flags stale rewards without inventing a device fault", () => {
-    const result = diagnoseDevice({
-      status: "contributing",
-      miner: null,
-      earnings: earnings({ error: "收益刷新超时" }),
-      earningsUsable: false,
+    it("stays quiet when the device is training and today is credited", () => {
+      const result = diagnoseDevice({
+        status: "contributing",
+        miner: null,
+        earnings: earnings(),
+        earningsUsable: true,
+      });
+      expect(result.tone).toBe("ok");
+      expect(result.notes).toHaveLength(1);
+      expect(result.primary.code).toBe("ok");
     });
-    expect(result.notes.map((note) => note.code)).toEqual(["earnings_stale"]);
-  });
-});
 
-it("reads the Google display name instead of only the user id", () => {
-  expect(
-    profileFromUser({
-      id: "user-1",
+    it("flags stale rewards without inventing a device fault", () => {
+      const result = diagnoseDevice({
+        status: "contributing",
+        miner: null,
+        earnings: earnings({ error: "收益刷新超时" }),
+        earningsUsable: false,
+      });
+      expect(result.notes.map((note) => note.code)).toEqual(["earnings_stale"]);
+    });
+  });
+
+  it("reads the Google display name instead of only the user id", () => {
+    expect(
+      profileFromUser({
+        id: "user-1",
+        email: "ada@example.com",
+        user_metadata: { full_name: "Ada Lovelace", avatar_url: "https://example.com/a.png" },
+      } as never),
+    ).toEqual({
+      userId: "user-1",
       email: "ada@example.com",
-      user_metadata: { full_name: "Ada Lovelace", avatar_url: "https://example.com/a.png" },
-    } as never),
-  ).toEqual({
-    userId: "user-1",
-    email: "ada@example.com",
-    name: "Ada Lovelace",
-    avatarUrl: "https://example.com/a.png",
+      name: "Ada Lovelace",
+      avatarUrl: "https://example.com/a.png",
+    });
   });
-});
 
   it("keeps public crawl files aligned with the generator", () => {
     expect(readFileSync("public/sitemap.xml", "utf8")).toBe(buildSitemapXml());

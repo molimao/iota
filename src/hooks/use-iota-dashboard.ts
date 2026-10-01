@@ -2,12 +2,11 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { aggregateUnits, type Aggregate } from "@/lib/earnings";
+import { aggregateUnits, hongKongDayStartSeconds, type Aggregate } from "@/lib/earnings";
+import { earningsFreshness, mergeEarnings } from "@/lib/earnings-data";
 import { withDeadline } from "@/lib/deadline";
 import {
   computeStatus,
-  latestValidClock,
-  resolveLastSuccessfulFetchAt,
   statusBucket,
   type DeviceStatus,
   type StatusBucket,
@@ -24,9 +23,9 @@ export const DISCOVERY_POLL_MS = 30_000;
 export const EARNINGS_POLL_MS = 120_000;
 export const MANUAL_COOLDOWN_MS = 15_000;
 export const EARNINGS_FRESH_MS = 15 * 60 * 1000;
-const DISCOVER_CLIENT_MS = 8_000;
-const EARNINGS_CLIENT_MS = 16_000;
-const REFRESH_CLIENT_MS = 18_000;
+const DISCOVER_CLIENT_MS = 45_000;
+const EARNINGS_CLIENT_MS = 65_000;
+const REFRESH_CLIENT_MS = 70_000;
 
 type Snapshot = {
   discovery: DiscoveryResult;
@@ -41,6 +40,10 @@ export type DeviceView = {
   bucket: StatusBucket;
   earnings: DeviceEarnings | null;
   earningsUsable: boolean;
+  todayUsable: boolean;
+  lifetimeUsable: boolean;
+  statusFetchedAt: number | null;
+  statusStale: boolean;
   diagnosis: Diagnosis;
 };
 
@@ -53,6 +56,8 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   const priceFn = useServerFn(getIotaUsdPrice);
 
   const forceRef = useRef(false);
+  const manualBusy = useRef(false);
+  const [online, setOnline] = useState(true);
   const hintRunIdsRef = useRef<string[]>([]);
   const [manualState, setManualState] = useState<{
     running: boolean;
@@ -76,6 +81,17 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    update();
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    return () => {
+      window.removeEventListener("online", update);
+      window.removeEventListener("offline", update);
+    };
+  }, []);
+  const accountingDay = hongKongDayStartSeconds(now);
   const enabled = ready && hotkeys.length > 0;
 
   const priceQuery = useQuery({
@@ -99,7 +115,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     enabled: ready,
     staleTime: 30_000,
     refetchInterval: 60_000,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
     retry: 2,
   });
@@ -134,22 +150,22 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     enabled,
     staleTime: 25_000,
     refetchInterval: DISCOVERY_POLL_MS,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
-    retry: 1,
+    retry: false,
     placeholderData: keepPreviousData,
   });
 
   const earningsQuery = useQuery({
-    queryKey: ["iota", "earnings", hotkeyKey],
+    queryKey: ["iota", "earnings", hotkeyKey, accountingDay],
     queryFn: async () => {
       const devices: DeviceEarnings[] = [];
-      for (let i = 0; i < hotkeys.length; i += 200)
+      for (let i = 0; i < hotkeys.length; i += 5)
         devices.push(
           ...(
             await withDeadline(
               earningsFn({
-                data: { hotkeys: hotkeys.slice(i, i + 200), force: forceRef.current },
+                data: { hotkeys: hotkeys.slice(i, i + 5), force: forceRef.current },
               }),
               EARNINGS_CLIENT_MS,
               "收益刷新超时",
@@ -161,9 +177,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     enabled,
     staleTime: 60_000,
     refetchInterval: EARNINGS_POLL_MS,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
-    retry: 1,
+    retry: false,
     placeholderData: keepPreviousData,
   });
 
@@ -177,8 +193,15 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   useEffect(() => {
     if (discovery) lastDiscoveryRef.current = discovery;
   }, [discovery]);
-  const earnings =
-    earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
+  const previousEarnings = useRef<DeviceEarnings[]>(cached?.payload.earnings ?? []);
+  const earnings = useMemo(() => {
+    const incoming =
+      earningsQuery.data?.devices ?? (hotkeys.length ? cached?.payload.earnings : undefined);
+    return incoming ? mergeEarnings(incoming, previousEarnings.current) : undefined;
+  }, [cached, earningsQuery.data, hotkeys.length]);
+  useEffect(() => {
+    if (earnings) previousEarnings.current = earnings;
+  }, [earnings]);
   const usingCachedOnly = !discoveryQuery.data && Boolean(cached) && hotkeys.length > 0;
   hintRunIdsRef.current = hintRunIdsFromDevices(discovery?.devices);
 
@@ -203,20 +226,26 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     if (discovery && earningsQuery.data) {
       writeTelemetryCache<Snapshot>({
         discovery,
-        earnings: earningsQuery.data.devices,
+        earnings: earnings ?? [],
       });
     }
-  }, [discovery, earningsQuery.data]);
+  }, [discovery, earnings, earningsQuery.data]);
 
   const refresh = useCallback(async () => {
-    if (!enabled) return;
+    if (!enabled || manualBusy.current) return;
     const last = manualState.lastAt;
     if (last !== null && Date.now() - last < MANUAL_COOLDOWN_MS) return;
+    manualBusy.current = true;
     forceRef.current = true;
     setManualState({ running: true, lastAt: Date.now(), error: null });
     try {
       const [discoveryResult, earningsResult] = await withDeadline(
-        Promise.all([discoveryQuery.refetch(), earningsQuery.refetch(), priceQuery.refetch()]),
+        Promise.all([
+          discoveryQuery.refetch({ cancelRefetch: false }),
+          earningsQuery.refetch({ cancelRefetch: false }),
+          priceQuery.refetch({ cancelRefetch: false }),
+          farmState.refresh(),
+        ]),
         REFRESH_CLIENT_MS,
         "刷新超时，已停止等待。请稍后再试。",
       );
@@ -241,7 +270,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       }));
     } finally {
       forceRef.current = false;
-      farmState.refresh();
+      manualBusy.current = false;
     }
   }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, priceQuery, farmState]);
 
@@ -249,12 +278,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))
     : 0;
 
-  const queryUpdatedAt = latestValidClock(
-    discoveryQuery.isSuccess ? discoveryQuery.dataUpdatedAt : null,
-    earningsQuery.isSuccess ? earningsQuery.dataUpdatedAt : null,
-  );
-  const querySuccess = discoveryQuery.isSuccess || earningsQuery.isSuccess;
-  const fetching = discoveryQuery.isFetching || earningsQuery.isFetching || manualState.running;
+  const fetching = discoveryQuery.isFetching;
 
   const views: DeviceView[] = useMemo(() => {
     const minerByHotkey = new Map(
@@ -268,20 +292,14 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       const status = computeStatus({
         miner: found?.miner ?? null,
         fullCoverage: discovery?.fullCoverage ?? false,
-        lastSuccessfulFetchAt: resolveLastSuccessfulFetchAt({
-          querySuccess,
-          queryUpdatedAt,
-          deviceFetchedAt: found?.fetchedAt,
-          discoveryFetchedAt: discovery?.fetchedAt,
-        }),
+        lastSuccessfulFetchAt: found?.miner ? found.fetchedAt : (discovery?.fetchedAt ?? null),
         now,
         fetching,
       });
-      const earningsUsable =
-        reward !== null &&
-        reward.error === null &&
-        reward.fetchedAt !== null &&
-        now - reward.fetchedAt <= EARNINGS_FRESH_MS;
+      const fresh = earningsFreshness(reward, now);
+      const todayUsable = fresh.today && !earningsQuery.error;
+      const lifetimeUsable = fresh.lifetime && !earningsQuery.error;
+      const earningsUsable = todayUsable && lifetimeUsable;
       const miner = found?.miner ?? null;
       return {
         entry,
@@ -289,12 +307,33 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
         runIds: found?.runIds ?? [],
         status,
         bucket: statusBucket(status),
-        earnings: reward,
+        earnings: reward
+          ? {
+              ...reward,
+              todayUnits: reward.accountingDay === accountingDay ? reward.todayUnits : null,
+            }
+          : null,
         earningsUsable,
+        todayUsable,
+        lifetimeUsable,
+        statusFetchedAt: found?.miner ? found.fetchedAt : (discovery?.fetchedAt ?? null),
+        statusStale:
+          !!(found?.miner || discovery?.fetchedAt) &&
+          (!!found?.stale || !!discoveryQuery.error || !online || status === "refresh_interrupted"),
         diagnosis: diagnoseDevice({ status, miner, earnings: reward, earningsUsable }),
       };
     });
-  }, [entries, discovery, earnings, now, querySuccess, queryUpdatedAt, fetching]);
+  }, [
+    entries,
+    discovery,
+    earnings,
+    now,
+    fetching,
+    earningsQuery.error,
+    discoveryQuery.error,
+    online,
+    accountingDay,
+  ]);
 
   const counts = useMemo(() => {
     const base: Record<StatusBucket, number> = {
@@ -309,13 +348,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
 
   const todayTotal: Aggregate = useMemo(
     () =>
-      aggregateUnits(views.map((view) => (view.earningsUsable ? view.earnings!.todayUnits : null))),
+      aggregateUnits(views.map((view) => (view.todayUsable ? view.earnings!.todayUnits : null))),
     [views],
   );
   const lifetimeTotal: Aggregate = useMemo(
     () =>
       aggregateUnits(
-        views.map((view) => (view.earningsUsable ? view.earnings!.totalEarnedUnits : null)),
+        views.map((view) => (view.lifetimeUsable ? view.earnings!.totalEarnedUnits : null)),
       ),
     [views],
   );
@@ -334,14 +373,14 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     lifetimeTotal,
     discovery,
     farm: farmState.farm,
+    farmStale: !!farmState.error,
     occupancy: farmState.occupancy,
     occupancyError: farmState.error,
-    fetchedAt: resolveLastSuccessfulFetchAt({
-      querySuccess,
-      queryUpdatedAt,
-      deviceFetchedAt: null,
-      discoveryFetchedAt: discovery?.fetchedAt ?? cached?.savedAt,
-    }),
+    fetchedAt: discovery?.fetchedAt ?? null,
+    fetching,
+    online,
+    statusError: discoveryQuery.error?.message ?? discovery?.errors.join("；") ?? null,
+    earningsFetching: earningsQuery.isFetching,
     earningsFetchedAt:
       earnings?.reduce<number | null>(
         (min, device) =>
@@ -360,6 +399,9 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     errors: [
       ...(discovery?.errors ?? []),
       ...(discoveryQuery.error ? ["状态连接失败：" + discoveryQuery.error.message] : []),
+      ...(earnings ?? [])
+        .filter((reward) => reward.error)
+        .map((reward) => `收益 ${reward.hotkey.slice(0, 8)}…：${reward.error}`),
       ...(earningsQuery.error ? ["收益连接失败：" + earningsQuery.error.message] : []),
     ],
     usingCachedOnly,
@@ -370,5 +412,13 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     now,
     usdPerIota: priceQuery.data?.usdPerIota ?? null,
     usdError: priceQuery.data?.error ?? priceQuery.error?.message ?? null,
+    priceFetchedAt: priceQuery.data?.fetchedAt ?? null,
+    priceSource: priceQuery.data?.source ?? null,
+    priceStale:
+      !!priceQuery.data?.stale ||
+      !!priceQuery.error ||
+      (priceQuery.data?.fetchedAt !== null &&
+        priceQuery.data?.fetchedAt !== undefined &&
+        now - priceQuery.data.fetchedAt > 5 * 60_000),
   };
 }

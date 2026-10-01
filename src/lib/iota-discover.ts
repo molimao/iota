@@ -41,7 +41,7 @@ export function mergeDiscovery(
   return {
     ...next,
     devices: next.devices.map((device) => {
-      if (device.miner) return device;
+      if (device.miner || next.fullCoverage) return device;
       const old = oldByHotkey.get(device.hotkey);
       if (!old?.miner) return device;
       return {
@@ -49,6 +49,7 @@ export function mergeDiscovery(
         miner: old.miner,
         runIds: device.runIds.length ? device.runIds : old.runIds,
         fetchedAt: device.fetchedAt ?? old.fetchedAt,
+        stale: true,
       };
     }),
     fetchedAt: next.fetchedAt ?? previous.fetchedAt,

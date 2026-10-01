@@ -36,7 +36,7 @@ export type RunProgress = {
   total_activations: number;
   token_count: number;
   total_tokens: number;
-  loss: number;
+  loss: number | null;
 };
 
 export type EpochMetrics = {
@@ -83,6 +83,12 @@ export type DeviceEarnings = {
   pendingUnits: number | null;
   frozenUnits: number | null;
   minimumPayoutUnits: number | null;
+  paidUnits?: number | null;
+  totalsFetchedAt?: number | null;
+  historyFetchedAt?: number | null;
+  totalsError?: string | null;
+  historyError?: string | null;
+  accountingDay?: number;
   historyCount: number;
   recent: Array<{ timestamp: number; units: number; status: string }>;
   fetchedAt: number | null;
@@ -95,6 +101,7 @@ export type DiscoveredDevice = {
   miner: MinerRecord | null;
   /** run ids in which this hotkey appeared in the current sample */
   runIds: string[];
+  stale?: boolean;
 };
 
 export type DiscoveryResult = {

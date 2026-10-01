@@ -93,6 +93,38 @@ const EN: Record<string, string> = {
   "例如：书房电脑": "For example: Study Mac",
   "从 IOTA 应用复制完整 ID": "Copy the full ID from the IOTA app",
   保存设备: "Save device",
+  取消: "Cancel",
+  "保存中…": "Saving…",
+  "移除中…": "Removing…",
+  "导入中…": "Importing…",
+  确认移除: "Confirm removal",
+  设备已移除: "Device removed",
+  "正在读取设备清单…": "Loading your device list…",
+  "正在获取设备数据…": "Loading device data…",
+  重试: "Try again",
+  未获取: "Unavailable",
+  设备状态: "Device status",
+  收益记账: "Rewards",
+  任务列表: "Runs",
+  网络名额: "Network slots",
+  矿工名单: "Miner lists",
+  训练贡献: "Contribution",
+  "累计 Token": "Cumulative tokens",
+  最近轮次: "Latest epoch",
+  贡献占比: "Contribution share",
+  统计采样: "Sample time",
+  累计记账: "Lifetime accounting",
+  已支付: "Paid",
+  最低支付金额: "Minimum payout",
+  部分数据: "Partial data",
+  全部: "All",
+  状态为旧数据: "Cached status",
+  收益为旧数据: "Cached rewards",
+  全网部分数据未刷新: "Some network data could not refresh",
+  "这个状态下暂无设备。": "No devices with this status.",
+  查看全部设备: "Show all devices",
+  "官方数据格式异常，已保留上次有效数据。":
+    "Official data has an unexpected format. Keeping the last valid data.",
   "Miner ID 已复制": "Miner ID copied",
   "复制失败，请展开技术信息手动复制。":
     "Copy failed. Expand technical details and copy the ID manually.",
@@ -205,9 +237,9 @@ const PREFIXES: Array<[string, string]> = [
 function translatePiece(text: string): string {
   if (EN[text]) return EN[text];
   const task = text.match(/^任务 (.+)：(.+)$/);
-  if (task) return `Run ${task[1]}: ${translatePiece(task[2])}`;
+  if (task) return `Run ${task[1]}: ${translatePiece(task[2]!)}`;
   const reward = text.match(/^收益 (.+)：(.+)$/);
-  if (reward) return `Rewards ${reward[1]}: ${translatePiece(reward[2])}`;
+  if (reward) return `Rewards ${reward[1]}: ${translatePiece(reward[2]!)}`;
   const blocked = text.match(/^上游拒绝访问（HTTP (\d+)，可能是 Cloudflare 拦截）：(.*)$/);
   if (blocked) return `Official API blocked (HTTP ${blocked[1]}): ${blocked[2]}`;
   const http = text.match(/^上游返回 HTTP (\d+)：(.*)$/);

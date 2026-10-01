@@ -98,6 +98,7 @@ export function sumTodayUnits(
     if (ts < dayStart || ts > nowSec) continue;
     if (!(COUNTED_STATUSES as readonly string[]).includes(status.toLowerCase())) continue;
     total += units;
+    if (!Number.isSafeInteger(total)) return { units: null, counted: 0 };
     counted += 1;
   }
   return { units: total, counted };

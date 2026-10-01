@@ -21,7 +21,12 @@ export function profileFromUser(user: User | null): AuthProfile {
   return {
     userId: user.id,
     email,
-    name: firstText(meta.full_name, meta.name, meta.preferred_username, email?.split("@")[0]),
-    avatarUrl: firstText(meta.avatar_url, meta.picture),
+    name: firstText(
+      meta["full_name"],
+      meta["name"],
+      meta["preferred_username"],
+      email?.split("@")[0],
+    ),
+    avatarUrl: firstText(meta["avatar_url"], meta["picture"]),
   };
 }

@@ -1,7 +1,5 @@
 import { useLocale } from "@/components/site/locale";
 import { useEffect, useState, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import {
   Plus,
   RefreshCw,
@@ -11,17 +9,27 @@ import {
   ArrowUpRight,
   Stethoscope,
   X,
+  LoaderCircle,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { FarmLine } from "@/components/farm-view";
+import { DeviceForm } from "@/components/device-form";
+import { DeviceActions } from "@/components/device-actions";
+import { DataHealth } from "@/components/data-health";
 import { useAuth } from "@/hooks/use-auth";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useIotaDashboard, type DeviceView } from "@/hooks/use-iota-dashboard";
-import { STATUS_META, officialSignals, type OfficialSignal } from "@/lib/device-status";
+import {
+  BUCKET_LABEL,
+  STATUS_META,
+  officialSignals,
+  type OfficialSignal,
+  type StatusBucket,
+} from "@/lib/device-status";
 import { RECONCILE_NOTES, type Diagnosis } from "@/lib/diagnose";
 import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
 import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
-import { getDeviceSeries } from "@/lib/iota.functions";
+import { DeviceHistory } from "@/components/device-history";
 
 type DetailTab = "diagnose" | "overview" | "history" | "rewards";
 
@@ -81,17 +89,25 @@ function Total({
   primary?: boolean;
 }) {
   const units = value.known || !value.total ? value.units : null;
+  const { t, en } = useLocale();
   return (
     <section className={`total ${primary ? "primary" : ""}`}>
       <span>{title}</span>
       <div className="amount">
         <MoneyPair large units={units} usdPerIota={usdPerIota} />
       </div>
-      {value.partial ? (
-        <p>
-          {value.known}/{value.total}
+      <p>{primary ? t("香港时间今日 00:00 起的已记账收益") : t("所有已添加设备的累计记账收益")}</p>
+      {value.partial && (
+        <p className="coverage-note" role="status">
+          {value.known
+            ? en
+              ? `Partial total · ${value.known}/${value.total} devices`
+              : `部分合计 · 已获取 ${value.known}/${value.total} 台`
+            : en
+              ? "Rewards are not available yet"
+              : "收益数据暂未获取"}
         </p>
-      ) : null}
+      )}
     </section>
   );
 }
@@ -172,11 +188,24 @@ export function Dashboard() {
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("overview");
-  const [label, setLabel] = useState("");
   const [hotkey, setHotkey] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState("");
+  const [filter, setFilter] = useState<StatusBucket | "all">("all");
   const file = useRef<HTMLInputElement>(null);
   const active = dash.views.find((v) => v.entry.hotkey === selected);
+  const visible =
+    filter === "all" ? dash.views : dash.views.filter((view) => view.bucket === filter);
+
+  function openAdd() {
+    if (!watch.loaded) return;
+    if (atLimit) setMessage(watch.limitMessage);
+    else {
+      setHotkey("");
+      setAdding(true);
+    }
+  }
 
   // Arriving from the home page input: prefill and open the add form once.
   const prefilled = useRef(false);
@@ -229,13 +258,7 @@ export function Dashboard() {
                   : t("立即刷新")}
             </button>
           ) : null}
-          <button
-            className="solid"
-            onClick={() => {
-              if (atLimit) setMessage(watch.limitMessage);
-              else setAdding(true);
-            }}
-          >
+          <button className="solid" disabled={!watch.loaded || importing} onClick={openAdd}>
             <Plus size={17} />
             {t("添加设备")}
           </button>
@@ -252,17 +275,60 @@ export function Dashboard() {
                 {` · ${watch.devices.length}/${watch.limit}`}
               </>
             ) : (
-              `${watch.devices.length}/${watch.limit}`
+              `${watch.devices.length}/${watch.limit} · ${en ? "Saved in this browser" : "保存在此浏览器"}`
             )}
           </p>
           <span className="refresh-label">
-            {t("最近获取")} {formatAgo(dash.fetchedAt, dash.now, locale)}
+            {dash.loading ? (
+              t("正在获取设备数据…")
+            ) : (
+              <>
+                {t("最近获取")} {formatAgo(dash.fetchedAt, dash.now, locale)}
+              </>
+            )}
           </span>
         </div>
       ) : null}
-      {(watch.storageError || watch.syncMessage || auth.error || message) && (
+      {watch.devices.length > 0 && (
+        <DataHealth
+          now={dash.now}
+          sources={[
+            {
+              label: "设备状态",
+              fetchedAt: dash.fetchedAt,
+              error: dash.statusError,
+              loading: dash.fetching,
+            },
+            {
+              label: "收益记账",
+              fetchedAt: dash.earningsFetchedAt,
+              error: dash.views.some((view) => !view.earningsUsable) ? "partial" : null,
+              loading: dash.earningsFetching,
+              maxAgeMs: 15 * 60_000,
+            },
+          ]}
+          note={
+            en
+              ? "Official cache: status 1 min, rewards 5 min. Sample time is not a device heartbeat."
+              : "官方接口缓存：状态 1 分钟，收益 5 分钟。采样时间不代表设备心跳。"
+          }
+        />
+      )}
+      {!dash.online && (
+        <div className="notice warning" role="status">
+          {en
+            ? "You are offline. Keeping previous data; updates resume when you reconnect."
+            : "当前网络已断开，保留上次数据；连接恢复后会自动更新。"}
+        </div>
+      )}
+      {(watch.storageError || auth.error) && (
+        <div role="alert" className="notice warning">
+          {t(watch.storageError || auth.error || "")}
+        </div>
+      )}
+      {(watch.syncMessage || message) && (
         <div role="status" className="notice">
-          {t(watch.storageError || watch.syncMessage || auth.error || message)}
+          {t(message || watch.syncMessage || "")}
           <button
             aria-label={t("关闭提示")}
             onClick={() => {
@@ -299,7 +365,11 @@ export function Dashboard() {
             />
           </div>
           {dash.usdPerIota ? (
-            <p className="fx-note">1 IOTA ≈ {formatUsd(dash.usdPerIota)}</p>
+            <p className="fx-note">
+              1 IOTA ≈ {formatUsd(dash.usdPerIota)} · {t("美元按公开市场价格估算")} ·{" "}
+              {dash.priceSource} · {formatAgo(dash.priceFetchedAt, dash.now, locale)}
+              {dash.priceStale ? ` · ${t("旧数据")}` : ""}
+            </p>
           ) : null}
           <AttentionBanner
             views={dash.needsAttention}
@@ -314,9 +384,9 @@ export function Dashboard() {
             <span>{watch.devices.length}</span>
           </h2>
           <div className="actions">
-            <button onClick={() => file.current?.click()}>
-              <Upload size={15} />
-              {t("导入")}
+            <button disabled={!watch.loaded || importing} onClick={() => file.current?.click()}>
+              {importing ? <LoaderCircle size={15} className="spin" /> : <Upload size={15} />}
+              {importing ? t("导入中…") : t("导入")}
             </button>
             {watch.devices.length ? (
               <button onClick={exportList}>
@@ -334,6 +404,8 @@ export function Dashboard() {
           onChange={async (e) => {
             const f = e.target.files?.[0];
             if (!f) return;
+            const input = e.currentTarget;
+            setImporting(true);
             try {
               const result = await watch.importJson(await f.text());
               setMessage(
@@ -345,110 +417,153 @@ export function Dashboard() {
               );
             } catch {
               setMessage(t("文件读取失败"));
+            } finally {
+              input.value = "";
+              setImporting(false);
             }
-            e.target.value = "";
           }}
         />
-        {!watch.devices.length ? (
+        {!watch.loaded ? (
+          <div className="empty" role="status" aria-busy="true">
+            <LoaderCircle size={28} className="spin" />
+            <p>{t("正在读取设备清单…")}</p>
+          </div>
+        ) : !watch.devices.length ? (
           <div className="empty">
             <Monitor size={36} />
             <h2>{t("添加第一台设备")}</h2>
             <p>{t("打开 IOTA 应用，复制 Miner 页面里的 Miner ID。")}</p>
-            <button className="solid" onClick={() => setAdding(true)}>
+            <button className="solid" disabled={importing} onClick={openAdd}>
               <Plus size={16} />
               {t("添加设备")}
             </button>
           </div>
         ) : (
-          <div className="devices">
-            {dash.views.map((view) => {
-              const meta = STATUS_META[view.status];
-              return (
-                <article className="device" key={view.entry.hotkey}>
-                  <div className="device-top">
-                    <span className="device-icon">
-                      <Monitor size={22} />
-                    </span>
-                    <button
-                      className={`badge ${meta.tone}`}
-                      title={en ? "Status details" : "状态说明"}
-                      onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                    >
-                      {t(meta.label)}
-                    </button>
-                  </div>
-                  <h3>{view.entry.label}</h3>
-                  <PresenceSignals miner={view.miner} />
-                  <div className="device-earnings">
-                    <div>
-                      <span>{t("今日收益")}</span>
-                      <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
+          <>
+            <div
+              className="device-filters"
+              role="group"
+              aria-label={en ? "Filter by device status" : "按设备状态筛选"}
+            >
+              <button aria-pressed={filter === "all"} onClick={() => setFilter("all")}>
+                {t("全部")} <b>{dash.views.length}</b>
+              </button>
+              {(Object.keys(BUCKET_LABEL) as StatusBucket[]).map((bucket) => (
+                <button
+                  key={bucket}
+                  aria-pressed={filter === bucket}
+                  onClick={() => setFilter(bucket)}
+                >
+                  {t(BUCKET_LABEL[bucket])} <b>{dash.counts[bucket]}</b>
+                </button>
+              ))}
+            </div>
+            {!visible.length && (
+              <div className="filter-empty">
+                <p>{t("这个状态下暂无设备。")}</p>
+                <button onClick={() => setFilter("all")}>{t("查看全部设备")}</button>
+              </div>
+            )}
+            <div className="devices">
+              {visible.map((view) => {
+                const meta = STATUS_META[view.status];
+                return (
+                  <article className="device" key={view.entry.hotkey}>
+                    <div className="device-top">
+                      <span className="device-icon">
+                        <Monitor size={22} />
+                      </span>
+                      <button
+                        className={`badge ${meta.tone}`}
+                        title={en ? "Status details" : "状态说明"}
+                        onClick={() => openDevice(view.entry.hotkey, "diagnose")}
+                      >
+                        {t(meta.label)}
+                      </button>
                     </div>
-                    <div>
-                      <span>{t("累计收益")}</span>
-                      <MoneyPair
-                        units={view.earnings?.totalEarnedUnits}
-                        usdPerIota={dash.usdPerIota}
-                      />
+                    <h3>
+                      <button className="device-name" onClick={() => openDevice(view.entry.hotkey)}>
+                        {view.entry.label}
+                      </button>
+                    </h3>
+                    <PresenceSignals miner={view.miner} />
+                    <div className="device-earnings">
+                      <div>
+                        <span>{t("今日收益")}</span>
+                        <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
+                      </div>
+                      <div>
+                        <span>{t("累计收益")}</span>
+                        <MoneyPair
+                          units={view.earnings?.totalEarnedUnits}
+                          usdPerIota={dash.usdPerIota}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="device-foot">
-                    <span>{view.earnings && !view.earningsUsable ? t("旧数据") : ""}</span>
-                    <button onClick={() => openDevice(view.entry.hotkey)}>
-                      {t("查看详情")}
-                      <ArrowUpRight size={16} />
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                    <div className="device-foot">
+                      <span>
+                        {formatAgo(view.statusFetchedAt, dash.now, locale)}
+                        {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
+                        {view.earnings && !view.earningsUsable ? ` · ${t("收益为旧数据")}` : ""}
+                      </span>
+                      <button onClick={() => openDevice(view.entry.hotkey)}>
+                        {t("查看详情")}
+                        <ArrowUpRight size={16} />
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </>
         )}
       </section>
-      {dash.farm ? <FarmLine farm={dash.farm} deviceCount={watch.devices.length} /> : null}
-      <Dialog open={adding} onOpenChange={setAdding}>
+      {watch.loaded && (
+        <p className="storage-note">
+          {watch.cloud
+            ? en
+              ? "Device list saved to your account. You can view it on other devices after signing in."
+              : "设备清单已绑定账号，登录后可在其他设备查看。"
+            : en
+              ? "Device list saved in this browser. Export a backup before clearing browser data."
+              : "设备清单保存在此浏览器，清理浏览器数据前请导出备份。"}
+        </p>
+      )}
+      {dash.farm ? (
+        <FarmLine farm={dash.farm} deviceCount={watch.devices.length} stale={dash.farmStale} />
+      ) : null}
+      <Dialog
+        open={adding}
+        onOpenChange={(open) => {
+          if (!saving) setAdding(open);
+        }}
+      >
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>
             {en ? "Paste the public ID from the Miner page." : "粘贴 Miner 页面中的公开 ID。"}
           </DialogDescription>
-          <form
-            className="device-form"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const result = await watch.add({ label, hotkey });
-              if (result.ok) {
-                setAdding(false);
-                setLabel("");
-                setHotkey("");
-                setMessage(watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"));
-              } else setMessage(result.error || t("保存失败"));
+          <DeviceForm
+            initialHotkey={hotkey}
+            duplicateIds={watch.devices.map((device) => device.hotkey)}
+            onCancel={() => setAdding(false)}
+            onSave={async (input) => {
+              setSaving(true);
+              try {
+                const result = await watch.add(input);
+                if (result.ok) {
+                  setAdding(false);
+                  setHotkey("");
+                  setMessage(
+                    watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"),
+                  );
+                }
+                return result;
+              } finally {
+                setSaving(false);
+              }
             }}
-          >
-            <label>
-              {t("设备名称")}
-              <input
-                required
-                maxLength={40}
-                value={label}
-                onChange={(e) => setLabel(e.target.value)}
-                placeholder={t("例如：书房电脑")}
-              />
-            </label>
-            <label>
-              Miner ID
-              <input
-                required
-                value={hotkey}
-                onChange={(e) => setHotkey(e.target.value)}
-                placeholder={t("从 IOTA 应用复制完整 ID")}
-              />
-            </label>
-            {message && <p role="alert">{t(message)}</p>}
-            <button className="solid" type="submit">
-              {t("保存设备")}
-            </button>
-          </form>
+          />
         </DialogContent>
       </Dialog>
       <Dialog
@@ -468,53 +583,19 @@ export function Dashboard() {
                 usdPerIota={dash.usdPerIota}
                 tab={detailTab}
                 onTab={setDetailTab}
+                now={dash.now}
               />
-              <div className="actions detail-actions">
-                <button
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(active.entry.hotkey);
-                      setMessage(t("Miner ID 已复制"));
-                    } catch {
-                      setMessage(t("复制失败，请展开技术信息手动复制。"));
-                    }
-                  }}
-                >
-                  {t("复制 ID")}
-                </button>
-                <button
-                  onClick={async () => {
-                    const name = window.prompt(t("设备名称"), active.entry.label);
-                    if (name !== null) {
-                      const r = await watch.rename(active.entry.hotkey, name);
-                      setMessage(r.ok ? t("名称已保存") : r.error || t("保存失败"));
-                    }
-                  }}
-                >
-                  {t("改名")}
-                </button>
-                <button
-                  className="danger"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        watch.cloud
-                          ? en
-                            ? `Remove ${active.entry.label} from your account? Training will keep running.`
-                            : `从账号移除「${active.entry.label}」？不会停止设备训练。`
-                          : en
-                            ? `Remove ${active.entry.label} from this browser? Training will keep running.`
-                            : `从本浏览器移除「${active.entry.label}」？不会停止设备训练。`,
-                      )
-                    ) {
-                      void watch.remove(active.entry.hotkey);
-                      setSelected(null);
-                    }
-                  }}
-                >
-                  {t("移除设备")}
-                </button>
-              </div>
+              <DeviceActions
+                key={`actions-${active.entry.hotkey}`}
+                entry={active.entry}
+                cloud={watch.cloud}
+                onRename={watch.rename}
+                onRemove={watch.remove}
+                onRemoved={() => {
+                  setSelected(null);
+                  setMessage(t("设备已移除"));
+                }}
+              />
             </>
           )}
         </DialogContent>
@@ -527,21 +608,15 @@ function DeviceDetail({
   usdPerIota,
   tab,
   onTab,
+  now,
 }: {
   view: DeviceView;
   usdPerIota: number | null;
   tab: DetailTab;
   onTab: (tab: DetailTab) => void;
+  now: number;
 }) {
   const { t, en, locale } = useLocale();
-  const seriesFn = useServerFn(getDeviceSeries);
-  const series = useQuery({
-    queryKey: ["series", view.entry.hotkey, view.miner?.run_id],
-    queryFn: () =>
-      seriesFn({ data: { hotkey: view.entry.hotkey, runId: view.miner!.run_id, period: "week" } }),
-    enabled: tab === "history" && !!view.miner?.run_id,
-    staleTime: 300000,
-  });
   const tabs: Array<[DetailTab, string]> = [
     ["diagnose", t("排查")],
     ["overview", t("运行情况")],
@@ -568,6 +643,24 @@ function DeviceDetail({
         ) : tab === "overview" ? (
           <>
             <PresenceSignals miner={view.miner} />
+            <DataHealth
+              now={now}
+              sources={[
+                {
+                  label: "设备状态",
+                  fetchedAt: view.statusFetchedAt,
+                  error: view.statusStale ? "stale" : null,
+                  loading: false,
+                },
+                {
+                  label: "收益记账",
+                  fetchedAt: view.earnings?.fetchedAt ?? null,
+                  error: view.earnings?.error ?? null,
+                  loading: false,
+                  maxAgeMs: 15 * 60_000,
+                },
+              ]}
+            />
             <div className="detail-grid">
               <div>
                 <span>{t("激活处理量")}</span>
@@ -586,10 +679,19 @@ function DeviceDetail({
                 <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={usdPerIota} />
               </div>
             </div>
+            {view.miner && (
+              <p>
+                {t("训练任务")} · {view.miner.run_id}
+                {view.miner.location_country
+                  ? ` · ${view.miner.location_name || ""} ${view.miner.location_country}`
+                  : ""}
+              </p>
+            )}
             <p>
               {t("统计采样：")}
               {formatSecondsTimestamp(view.miner?.timestamp, locale)}
             </p>
+            <p>{t("依据官方最近一次采样，不是这台电脑的心跳。")}</p>
             <details>
               <summary>{t("技术信息")}</summary>
               <dl>
@@ -611,37 +713,55 @@ function DeviceDetail({
             </details>
           </>
         ) : tab === "history" ? (
-          <>
-            {series.isLoading ? (
-              <p>{t("正在获取最近一周训练记录…")}</p>
-            ) : series.error || series.data?.error ? (
-              <p role="alert">{t(series.data?.error || "训练记录获取失败，请稍后重试。")}</p>
-            ) : null}
-            {series.data?.metrics?.epochs?.length ? (
-              <table>
-                <thead>
-                  <tr>
-                    <th>{t("轮次")}</th>
-                    <th>{t("训练 Token")}</th>
-                    <th>{t("激活排名")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {series.data.metrics.epochs.map((epoch, i) => (
-                    <tr key={`${epoch}-${i}`}>
-                      <td>{epoch}</td>
-                      <td>{formatCount(series.data?.metrics?.token_counts[i], locale)}</td>
-                      <td>{formatCount(series.data?.metrics?.activation_ranks[i], locale)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              !series.isLoading && <p>{t("暂无可用的训练记录。")}</p>
-            )}
-          </>
+          <DeviceHistory view={view} now={now} />
         ) : (
           <>
+            <DataHealth
+              now={now}
+              sources={[
+                {
+                  label: "累计记账",
+                  fetchedAt: view.earnings?.totalsFetchedAt ?? null,
+                  error: view.earnings?.totalsError ?? null,
+                  loading: false,
+                  maxAgeMs: 15 * 60_000,
+                },
+                {
+                  label: "收益记录",
+                  fetchedAt: view.earnings?.historyFetchedAt ?? null,
+                  error: view.earnings?.historyError ?? null,
+                  loading: false,
+                  maxAgeMs: 15 * 60_000,
+                },
+              ]}
+            />
+            <div className="detail-grid reward-balances">
+              <div>
+                <span>{t("累计收益")}</span>
+                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={usdPerIota} />
+              </div>
+              <div>
+                <span>{t("已支付")}</span>
+                <MoneyPair units={view.earnings?.paidUnits} usdPerIota={usdPerIota} />
+              </div>
+              <div>
+                <span>{t("待结算")}</span>
+                <MoneyPair units={view.earnings?.pendingUnits} usdPerIota={usdPerIota} />
+              </div>
+              <div>
+                <span>{t("冻结")}</span>
+                <MoneyPair units={view.earnings?.frozenUnits} usdPerIota={usdPerIota} />
+              </div>
+            </div>
+            <p>
+              {t("最低支付金额")} ·{" "}
+              {formatIota(view.earnings?.minimumPayoutUnits ?? null, 8, locale)} IOTA
+            </p>
+            <p>
+              {en
+                ? "Paid and pending are accounting balances; they are not added again to lifetime rewards. Frozen records are excluded from today's total."
+                : "已支付、待结算为记账余额，不会重复加进累计收益。冻结记录不计入今日收益。"}
+            </p>
             {view.earnings?.error && <p role="alert">{t("收益刷新失败，以下可能为旧记录。")}</p>}
             {view.earnings?.recent.length ? (
               <table>
@@ -669,7 +789,20 @@ function DeviceDetail({
                 </tbody>
               </table>
             ) : (
-              <p>{t("暂无收益记录。")}</p>
+              <p>
+                {view.earnings?.historyFetchedAt && !view.earnings?.historyError
+                  ? t("暂无收益记录。")
+                  : en
+                    ? "Reward records are not available yet."
+                    : "收益记录暂未获取。"}
+              </p>
+            )}
+            {!!view.earnings?.recent.length && (
+              <p>
+                {en
+                  ? `Showing the latest ${view.earnings.recent.length} of ${view.earnings.historyCount} records. Times use Hong Kong (UTC+8).`
+                  : `显示最近 ${view.earnings.recent.length} 条，共 ${view.earnings.historyCount} 条记录。时间按香港时间（UTC+8）显示。`}
+              </p>
             )}
           </>
         )}

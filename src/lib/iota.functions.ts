@@ -1,10 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { withDeadline } from "./deadline";
+import { mapConcurrent } from "./concurrent";
 import { aggregateFarmMiners } from "./farm";
 import { validFetchedAt } from "./device-status";
-import { sumTodayUnits, toUnits } from "./earnings";
-import { orderActiveRuns } from "./iota-discover";
+
 import type {
   CumulativeTokens,
   DeviceEarnings,
@@ -69,7 +68,7 @@ function numberOrNull(value: unknown): number | null {
 }
 
 export const getRuns = createServerFn({ method: "POST" })
-  .inputValidator((input: { force?: boolean }) => ({ force: input?.force === true }))
+  .validator((input: { force?: boolean }) => ({ force: input?.force === true }))
   .handler(async ({ data }) => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const result = await fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force);
@@ -83,7 +82,7 @@ export const getRuns = createServerFn({ method: "POST" })
   });
 
 export const getOccupancy = createServerFn({ method: "POST" })
-  .inputValidator((input: { force?: boolean }) => ({ force: input?.force === true }))
+  .validator((input: { force?: boolean }) => ({ force: input?.force === true }))
   .handler(async ({ data }) => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
     const result = await fetchUpstream<Occupancy>("/v1/runs_occupancy", TTL.occupancy, data.force);
@@ -91,7 +90,7 @@ export const getOccupancy = createServerFn({ method: "POST" })
   });
 
 export const getRunProgress = createServerFn({ method: "POST" })
-  .inputValidator((input: { runId: string; force?: boolean }) => ({
+  .validator((input: { runId: string; force?: boolean }) => ({
     runId: validRunId(input?.runId),
     force: input?.force === true,
   }))
@@ -106,46 +105,64 @@ export const getRunProgress = createServerFn({ method: "POST" })
   });
 
 export const getRunProgressBatch = createServerFn({ method: "POST" })
-  .inputValidator((input: { runIds?: string[]; force?: boolean }) => ({
+  .validator((input: { runIds?: string[]; force?: boolean }) => ({
     runIds: validHintRunIds(input?.runIds),
     force: input?.force === true,
   }))
   .handler(async ({ data }) => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
-    const entries = await Promise.all(
-      data.runIds.map(async (runId) => {
-        const result = await fetchUpstream<RunProgress>(
-          `/progress?run_id=${encodeURIComponent(runId)}`,
-          TTL.progress,
-          data.force,
-        );
-        return [runId, result.data] as const;
-      }),
-    );
-    return { progress: Object.fromEntries(entries) as Record<string, RunProgress | null> };
+    const entries = await mapConcurrent(data.runIds, 3, async (runId) => {
+      const result = await fetchUpstream<RunProgress>(
+        `/progress?run_id=${encodeURIComponent(runId)}`,
+        TTL.progress,
+        data.force,
+      );
+      return { runId, ...result };
+    });
+    const clocks = entries
+      .map((entry) => entry.fetchedAt)
+      .filter((clock): clock is number => clock !== null);
+    return {
+      progress: Object.fromEntries(entries.map((entry) => [entry.runId, entry.data])) as Record<
+        string,
+        RunProgress | null
+      >,
+      fetchedAt: clocks.length ? Math.min(...clocks) : null,
+      errors: entries
+        .filter((entry) => entry.error)
+        .map((entry) => `任务 ${entry.runId}：${entry.error}`),
+    };
   });
 
 export const getFarmMiners = createServerFn({ method: "POST" })
-  .inputValidator((input: { runIds?: string[]; force?: boolean }) => ({
+  .validator((input: { runIds?: string[]; force?: boolean }) => ({
     runIds: validHintRunIds(input?.runIds),
     force: input?.force === true,
   }))
   .handler(async ({ data }) => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
-    const lists = await Promise.all(
-      data.runIds.map(async (runId) => {
-        const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
-          `/miners?run_id=${encodeURIComponent(runId)}`,
-          TTL.miners,
-          data.force,
-        );
-        return {
-          runId,
-          miners: Array.isArray(result.data?.miners) ? result.data!.miners : null,
-        };
-      }),
-    );
-    return aggregateFarmMiners(lists);
+    const lists = await mapConcurrent(data.runIds, 3, async (runId) => {
+      const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
+        `/miners?run_id=${encodeURIComponent(runId)}`,
+        TTL.miners,
+        data.force,
+      );
+      return {
+        runId,
+        miners: Array.isArray(result.data?.miners) ? result.data!.miners : null,
+        fetchedAt: result.fetchedAt,
+        error: result.error,
+      };
+    });
+    const clocks = lists
+      .map((list) => list.fetchedAt)
+      .filter((clock): clock is number => clock !== null);
+    return {
+      ...aggregateFarmMiners(lists),
+      freshRuns: lists.filter((list) => list.miners !== null && !list.error).length,
+      fetchedAt: clocks.length ? Math.min(...clocks) : null,
+      errors: lists.filter((list) => list.error).map((list) => `任务 ${list.runId}：${list.error}`),
+    };
   });
 
 /**
@@ -154,240 +171,53 @@ export const getFarmMiners = createServerFn({ method: "POST" })
  * most recent statistics sample timestamp.
  */
 export const discoverDevices = createServerFn({ method: "POST" })
-  .inputValidator((input: { hotkeys: string[]; force?: boolean; hintRunIds?: string[] }) => ({
+  .validator((input: { hotkeys: string[]; force?: boolean; hintRunIds?: string[] }) => ({
     hotkeys: validHotkeys(input?.hotkeys),
     force: input?.force === true,
     hintRunIds: validHintRunIds(input?.hintRunIds),
   }))
   .handler(async ({ data }): Promise<DiscoveryResult> => {
-    const { fetchUpstream, TTL } = await import("./iota-upstream.server");
-    const errors: string[] = [];
-    const started = Date.now();
-    const BUDGET_MS = 6_000;
-    /**
-     * Bounded by the time budget below, not by a small fixed count: a device in
-     * the 6th run was otherwise never found and sat on 待确认 forever. The
-     * network view keeps every run list warm in the shared cache, so most of
-     * these iterations are cache hits.
-     */
-    const EXTRA_RUN_LISTS = 24;
-    const remain = () => Math.max(0, BUDGET_MS - (Date.now() - started));
-
-    const wanted = new Set(data.hotkeys);
-    const best = new Map<
-      string,
-      { miner: MinerRecord; fetchedAt: number | null; runIds: Set<string> }
-    >();
-    let activeRuns: RunInfo[] = [];
-    let runsFetched = 0;
-    let lastFetchedAt: number | null = null;
-    let runsError = false;
-    let timedOut = false;
-
-    const ingest = (
-      miners: MinerRecord[],
-      fetchedAt: number | null,
-      fallbackRunId?: string,
-    ) => {
-      if (fetchedAt !== null && (lastFetchedAt === null || fetchedAt > lastFetchedAt)) {
-        lastFetchedAt = fetchedAt;
-      }
-      for (const miner of miners) {
-        if (!miner || typeof miner.hotkey !== "string" || !wanted.has(miner.hotkey)) continue;
-        const runId = miner.run_id || fallbackRunId;
-        const entry = best.get(miner.hotkey);
-        if (!entry) {
-          best.set(miner.hotkey, {
-            miner,
-            fetchedAt,
-            runIds: new Set(runId ? [runId] : []),
-          });
-          continue;
-        }
-        if (runId) entry.runIds.add(runId);
-        const currentTs = numberOrNull(miner.timestamp) ?? 0;
-        const bestTs = numberOrNull(entry.miner.timestamp) ?? 0;
-        if (currentTs > bestTs) {
-          entry.miner = miner;
-          entry.fetchedAt = fetchedAt;
-        }
-      }
-    };
-
-    const snapshot = (fullCoverage: boolean): DiscoveryResult => ({
-      devices: data.hotkeys.map((hotkey) => {
-        const entry = best.get(hotkey);
-        return {
-          hotkey,
-          miner: entry?.miner ?? null,
-          fetchedAt: validFetchedAt(entry?.fetchedAt),
-          runIds: entry ? [...entry.runIds] : [],
-        };
-      }),
-      runs: activeRuns,
-      runsTotal: activeRuns.length,
-      runsFetched: Math.min(runsFetched, activeRuns.length),
-      fullCoverage,
-      fetchedAt: lastFetchedAt ?? Date.now(),
-      errors,
-    });
-
-    const allFound = () => data.hotkeys.every((hotkey) => best.has(hotkey));
-
-    const execute = async (): Promise<DiscoveryResult> => {
-      const requestMs = () => Math.min(3_500, Math.max(remain(), 800));
-      const [runsResult, untitled] = await Promise.all([
-        fetchUpstream<{ runs?: RunInfo[] }>("/runs", TTL.runs, data.force, requestMs()),
-        fetchUpstream<{ miners?: MinerRecord[] }>("/miners", TTL.miners, data.force, requestMs()),
-      ]);
-      if (runsResult.error) {
-        runsError = true;
-        errors.push(`训练任务列表：${runsResult.error}`);
-      }
-      const allRuns = Array.isArray(runsResult.data?.runs) ? runsResult.data!.runs : [];
-      activeRuns = orderActiveRuns(
-        allRuns.filter((item) => item.state === "active" && RUN_ID_RE.test(item.run_id)),
-        data.hintRunIds,
-      );
-      lastFetchedAt = validFetchedAt(runsResult.fetchedAt) ?? lastFetchedAt;
-      if (untitled.error) errors.push(`默认矿工名单：${untitled.error}`);
-      const defaultMiners = Array.isArray(untitled.data?.miners) ? untitled.data!.miners : null;
-      if (defaultMiners) ingest(defaultMiners, validFetchedAt(untitled.fetchedAt));
-
-      let extra = 0;
-      for (const item of activeRuns) {
-        if (allFound()) break;
-        if (remain() < 700) {
-          timedOut = true;
-          break;
-        }
-        if (extra >= EXTRA_RUN_LISTS) break;
-        extra += 1;
-        const result = await fetchUpstream<{ miners?: MinerRecord[] }>(
-          `/miners?run_id=${encodeURIComponent(item.run_id)}`,
-          TTL.miners,
-          data.force,
-          Math.min(3_500, remain()),
-        );
-        if (result.error) errors.push(`任务 ${item.run_id}：${result.error}`);
-        const miners = Array.isArray(result.data?.miners) ? result.data!.miners : null;
-        if (miners === null) continue;
-        if (!result.error) runsFetched += 1;
-        ingest(miners, validFetchedAt(result.fetchedAt), item.run_id);
-      }
-
-      if (timedOut && best.size < data.hotkeys.length) {
-        errors.push("本次未在时限内读完全部训练任务名单，已返回当前已找到的设备");
-      }
-
-      const runsTotal = activeRuns.length;
-      const scannedAll = !timedOut && runsTotal > 0 && runsFetched >= runsTotal;
-      return snapshot(Boolean(scannedAll && !runsError));
-    };
-
-    try {
-      return await withDeadline(execute(), BUDGET_MS + 400, "本次未在时限内读完官方名单");
-    } catch (error) {
-      if (best.size > 0) {
-        const message = error instanceof Error ? error.message : "本次未在时限内读完官方名单";
-        if (!errors.includes(message)) errors.push(message);
-        return snapshot(false);
-      }
-      throw error;
-    }
+    const { discoverOfficialDevices } = await import("./iota-discovery.server");
+    return discoverOfficialDevices(data.hotkeys, data.force, data.hintRunIds);
   });
 
 /** Rewards are queried for EVERY saved hotkey, even ones absent from run lists. */
 export const getEarnings = createServerFn({ method: "POST" })
-  .inputValidator((input: { hotkeys: string[]; force?: boolean }) => ({
+  .validator((input: { hotkeys: string[]; force?: boolean }) => ({
     hotkeys: validHotkeys(input?.hotkeys),
     force: input?.force === true,
   }))
   .handler(async ({ data }): Promise<{ devices: DeviceEarnings[]; now: number }> => {
     const { fetchUpstream, TTL } = await import("./iota-upstream.server");
-    const now = Date.now();
-
-    const devices: DeviceEarnings[] = [];
-    const loadOne = async (hotkey: string): Promise<DeviceEarnings> => {
-        const encoded = encodeURIComponent(hotkey);
-        const [totalsResult, historyResult] = await Promise.all([
-          fetchUpstream<EntitlementTotals>(
-            `/v1/entitlements/totals/hotkey/${encoded}`,
-            TTL.rewards,
-            data.force,
-          ),
-          fetchUpstream<EntitlementHistory>(
-            `/v1/entitlements/history/hotkey/${encoded}`,
-            TTL.rewards,
-            data.force,
-          ),
-        ]);
-
-        const totals = totalsResult.data;
-        const history = historyResult.data;
-        const today = sumTodayUnits(history, now);
-        const recent = (() => {
-          if (
-            !history ||
-            !Array.isArray(history.alpha_amounts) ||
-            !Array.isArray(history.timestamps) ||
-            !Array.isArray(history.statuses)
-          ) {
-            return [] as DeviceEarnings["recent"];
-          }
-          return history.alpha_amounts
-            .map((amount, index) => ({
-              timestamp: history.timestamps[index] ?? 0,
-              units: toUnits(amount) ?? 0,
-              status: history.statuses[index] ?? "unknown",
-            }))
-            .sort((a, b) => b.timestamp - a.timestamp)
-            .slice(0, 30);
-        })();
-
-        const fetchedCandidates = [totalsResult.fetchedAt, historyResult.fetchedAt].filter(
-          (value): value is number => value !== null,
-        );
-        const errors = [totalsResult.error, historyResult.error].filter(
-          (value): value is string => value !== null,
-        );
-
-        const earnedRaw = numberOrNull(totals?.total_amount_earned);
-
-        return {
-          hotkey,
-          totalEarnedUnits: earnedRaw === null ? null : toUnits(earnedRaw),
-          todayUnits: today.units,
-          pendingUnits: totals ? toUnits(numberOrNull(totals.total_amount_pending) ?? 0) : null,
-          frozenUnits: totals ? toUnits(numberOrNull(totals.total_amount_frozen) ?? 0) : null,
-          minimumPayoutUnits: totals
-            ? toUnits(numberOrNull(totals.minimum_payout_amount) ?? 0)
-            : null,
-          historyCount: recent.length,
-          recent,
-          fetchedAt: fetchedCandidates.length ? Math.min(...fetchedCandidates) : null,
-          error: errors.length ? errors.join("；") : null,
-        };
-    };
-
-    for (let i = 0; i < data.hotkeys.length; i += 2) {
-      devices.push(
-        ...(await Promise.all(data.hotkeys.slice(i, i + 2).map((hotkey) => loadOne(hotkey)))),
-      );
-    }
-
-    return { devices, now };
+    const { buildDeviceEarnings } = await import("./earnings-data");
+    const devices = await mapConcurrent(data.hotkeys, 3, async (hotkey) => {
+      const encoded = encodeURIComponent(hotkey);
+      const [totals, history] = await Promise.all([
+        fetchUpstream<EntitlementTotals>(
+          `/v1/entitlements/totals/hotkey/${encoded}`,
+          TTL.rewards,
+          data.force,
+        ),
+        fetchUpstream<EntitlementHistory>(
+          `/v1/entitlements/history/hotkey/${encoded}`,
+          TTL.rewards,
+          data.force,
+        ),
+      ]);
+      return buildDeviceEarnings(hotkey, totals, history, Date.now());
+    });
+    return { devices, now: Date.now() };
   });
 
 export const getIotaUsdPrice = createServerFn({ method: "POST" })
-  .inputValidator((input: { force?: boolean }) => ({ force: input?.force === true }))
+  .validator((input: { force?: boolean }) => ({ force: input?.force === true }))
   .handler(async ({ data }) => {
     const { fetchIotaUsdPrice } = await import("./iota-price.server");
     return fetchIotaUsdPrice(data.force);
   });
 
 export const getDeviceSeries = createServerFn({ method: "POST" })
-  .inputValidator((input: { runId: string; hotkey: string; period?: string; force?: boolean }) => {
+  .validator((input: { runId: string; hotkey: string; period?: string; force?: boolean }) => {
     const hotkey = typeof input?.hotkey === "string" ? input.hotkey.trim() : "";
     if (!isValidMinerId(hotkey)) throw new Error("非法的 Miner ID");
     return {
@@ -420,7 +250,18 @@ export const getDeviceSeries = createServerFn({ method: "POST" })
       metrics: metrics.data,
       throughput: throughput.data,
       cumulative: cumulative.data,
-      fetchedAt: metrics.fetchedAt,
+      fetchedAt: [metrics.fetchedAt, throughput.fetchedAt, cumulative.fetchedAt].reduce<
+        number | null
+      >(
+        (oldest, clock) =>
+          clock === null ? oldest : oldest === null ? clock : Math.min(oldest, clock),
+        null,
+      ),
+      sources: {
+        metrics: { fetchedAt: metrics.fetchedAt, error: metrics.error },
+        throughput: { fetchedAt: throughput.fetchedAt, error: throughput.error },
+        cumulative: { fetchedAt: cumulative.fetchedAt, error: cumulative.error },
+      },
       error: errors.length ? errors.join("；") : null,
     };
   });

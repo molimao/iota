@@ -1,6 +1,8 @@
 import { FarmFull } from "@/components/farm-view";
 import { useLocale } from "@/components/site/locale";
 import { useFarm } from "@/hooks/use-farm";
+import { DataHealth } from "@/components/data-health";
+import { RefreshCw } from "lucide-react";
 
 const GLOSSARY: Array<{ term: { zh: string; en: string }; body: { zh: string; en: string } }> = [
   {
@@ -48,6 +50,37 @@ export function NetworkPage() {
           ? "Active training runs. Public data, updated about once a minute."
           : "进行中的训练任务。公开数据，约每分钟更新。"}
       </p>
+
+      <div className="network-toolbar">
+        <p>
+          {en
+            ? `Miner lists: ${state.coverage.known}/${state.coverage.total} runs`
+            : `矿工名单：已获取 ${state.coverage.known}/${state.coverage.total} 个任务`}
+          {state.coverage.known < state.coverage.total ? ` · ${t("部分数据")}` : ""}
+        </p>
+        <button
+          disabled={state.refreshing || state.cooldownRemaining > 0}
+          onClick={() => void state.refresh()}
+        >
+          <RefreshCw size={15} className={state.refreshing ? "spin" : ""} />
+          {state.refreshing
+            ? t("刷新中")
+            : state.cooldownRemaining > 0
+              ? `${Math.ceil(state.cooldownRemaining / 1000)} s`
+              : t("立即刷新")}
+        </button>
+      </div>
+      <DataHealth sources={state.sources} now={state.now} />
+      {state.error && (
+        <details className="network-errors">
+          <summary>
+            {en
+              ? "Some sources could not refresh. Previous data is retained."
+              : "部分数据刷新失败，保留上次数据。"}
+          </summary>
+          <p role="alert">{t(state.error)}</p>
+        </details>
+      )}
 
       {state.farm ? (
         <FarmFull farm={state.farm} />

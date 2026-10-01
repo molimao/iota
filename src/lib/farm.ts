@@ -59,9 +59,11 @@ export type FarmMinerRun = {
 
 export type FarmMinerStats = {
   runs: FarmMinerRun[];
-  listed: number;
-  online: number;
-  training: number;
+  listed: number | null;
+  online: number | null;
+  training: number | null;
+  knownRuns: number;
+  totalRuns: number;
   countries: Array<{ country: string; count: number }>;
 };
 
@@ -70,25 +72,37 @@ export function aggregateFarmMiners(
 ): FarmMinerStats {
   const countries = new Map<string, number>();
   const runs: FarmMinerRun[] = [];
+  const unique = new Map<string, MinerRecord>();
   for (const list of lists) {
-    const miners = list.miners ?? [];
+    if (list.miners === null) continue;
+    const miners = list.miners;
     let online = 0;
     let training = 0;
-    for (const miner of miners) {
+    for (const [index, miner] of miners.entries()) {
       if (miner.is_active) {
         online += 1;
         if ((miner.throughput ?? 0) > 0) training += 1;
       }
-      const country = miner.location_country?.trim();
-      if (country) countries.set(country, (countries.get(country) ?? 0) + 1);
+      const key = miner.hotkey || `${list.runId}:${index}`;
+      const old = unique.get(key);
+      if (!old || miner.timestamp >= old.timestamp) unique.set(key, miner);
     }
     runs.push({ runId: list.runId, listed: miners.length, online, training });
   }
+  for (const miner of unique.values()) {
+    const country = miner.location_country?.trim();
+    if (country) countries.set(country, (countries.get(country) ?? 0) + 1);
+  }
+  const all = [...unique.values()];
   return {
     runs,
-    listed: runs.reduce((sum, item) => sum + item.listed, 0),
-    online: runs.reduce((sum, item) => sum + item.online, 0),
-    training: runs.reduce((sum, item) => sum + item.training, 0),
+    knownRuns: runs.length,
+    totalRuns: lists.length,
+    listed: runs.length ? all.length : null,
+    online: runs.length ? all.filter((miner) => miner.is_active).length : null,
+    training: runs.length
+      ? all.filter((miner) => miner.is_active && miner.throughput > 0).length
+      : null,
     countries: [...countries.entries()]
       .map(([country, count]) => ({ country, count }))
       .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country))

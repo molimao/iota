@@ -1,12 +1,7 @@
 import type { MinerRecord } from "./iota-types";
 
 export type DeviceStatus =
-  | "contributing"
-  | "waiting"
-  | "idle"
-  | "not_found"
-  | "unknown"
-  | "refresh_interrupted";
+  "contributing" | "waiting" | "idle" | "not_found" | "unknown" | "refresh_interrupted";
 
 export const REFRESH_INTERRUPTED_MS = 5 * 60 * 1000;
 
@@ -28,8 +23,8 @@ export function latestValidClock(...values: Array<number | null | undefined>): n
 }
 
 /**
- * 刷新中断 is about our dashboard round-trip, not the miner-list cache stamp.
- * A successful query counts even if some upstream lists were stale or skipped.
+ * Only successful official roster fetch clocks count. A successful application
+ * round-trip (including one returning stale data) cannot renew a failed source.
  */
 export function resolveLastSuccessfulFetchAt(input: {
   querySuccess: boolean;
@@ -37,13 +32,6 @@ export function resolveLastSuccessfulFetchAt(input: {
   deviceFetchedAt: number | null | undefined;
   discoveryFetchedAt: number | null | undefined;
 }): number | null {
-  if (input.querySuccess) {
-    return (
-      validFetchedAt(input.queryUpdatedAt) ??
-      validFetchedAt(input.discoveryFetchedAt) ??
-      validFetchedAt(input.deviceFetchedAt)
-    );
-  }
   return validFetchedAt(input.deviceFetchedAt) ?? validFetchedAt(input.discoveryFetchedAt);
 }
 
@@ -54,7 +42,7 @@ export type StatusInput = {
   /** last successful upstream fetch of miner lists (NOT the sample timestamp) */
   lastSuccessfulFetchAt: number | null;
   now: number;
-  /** A refresh is in flight: keep the last readable status instead of flipping to interrupt. */
+  /** A refresh is in flight; it does not renew the last successful source clock. */
   fetching?: boolean;
 };
 
@@ -64,9 +52,10 @@ export type StatusInput = {
  * device offline. Only a missing successful fetch of our own produces 刷新中断.
  */
 export function computeStatus(input: StatusInput): DeviceStatus {
-  const { miner, fullCoverage, lastSuccessfulFetchAt, now, fetching } = input;
+  const { miner, fullCoverage, lastSuccessfulFetchAt, now } = input;
   const fetchedAt = validFetchedAt(lastSuccessfulFetchAt);
-  if ((fetchedAt === null || now - fetchedAt > REFRESH_INTERRUPTED_MS) && !fetching) {
+  if (fetchedAt === null) return miner ? "refresh_interrupted" : "unknown";
+  if (now - fetchedAt > REFRESH_INTERRUPTED_MS) {
     return "refresh_interrupted";
   }
   if (miner) {

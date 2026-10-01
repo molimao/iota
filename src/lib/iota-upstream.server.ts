@@ -3,13 +3,14 @@
  *
  * Guarantees:
  *  - only fixed allowlisted path shapes are ever requested (no arbitrary URL / SSRF)
- *  - shared TTL cache + singleflight + max 8 concurrent upstream requests
+ *  - shared TTL cache + singleflight + max 3 concurrent upstream requests
  *  - hard timeout (AbortController + Promise.race) so one hung /miners cannot pin the isolate
  *  - exponential backoff after failures (stale data is kept and flagged)
  */
 
 import { validFetchedAt } from "./device-status";
 import { withDeadline } from "./deadline";
+import { parseUpstreamPayload, upstreamKind } from "./iota-api-schema";
 
 export const IOTA_BASE = "https://iota-web.api.macrocosmos.ai/mainnet";
 
@@ -22,9 +23,11 @@ export const TTL = {
   rewards: 300_000,
 } as const;
 
-const TIMEOUT_MS = 4_000;
-const QUEUE_WAIT_MS = 2_000;
-const MAX_CONCURRENCY = 8;
+export const TIMEOUT_MS = 10_000;
+const QUEUE_WAIT_MS = 20_000;
+const MAX_CONCURRENCY = 3;
+const MAX_CACHE_ENTRIES = 512;
+const FORCE_COOLDOWN_MS = 15_000;
 const UPSTREAM_HEADERS = {
   accept: "application/json",
   "user-agent": "IOTA-Watch/1.0 (+https://iotahome.site)",
@@ -37,6 +40,7 @@ export type UpstreamResult<T> = {
   fetchedAt: number | null;
   error: string | null;
   stale: boolean;
+  retryAt?: number | null;
 };
 
 type CacheEntry = {
@@ -45,6 +49,8 @@ type CacheEntry = {
   failures: number;
   nextAttemptAt: number;
   lastError: string | null;
+  lastAttemptAt: number;
+  retryAfterAt: number;
 };
 
 type Inflight = {
@@ -57,6 +63,23 @@ const inflight = new Map<string, Inflight>();
 
 let activeCount = 0;
 const waiters: Array<() => void> = [];
+
+class UpstreamFailure extends Error {
+  constructor(
+    message: string,
+    readonly retryAfterMs = 0,
+  ) {
+    super(message);
+  }
+}
+
+function trimCache() {
+  while (cache.size > MAX_CACHE_ENTRIES) {
+    const oldest = cache.keys().next().value;
+    if (oldest === undefined) break;
+    cache.delete(oldest);
+  }
+}
 
 async function acquireSlot(waitMs: number): Promise<boolean> {
   if (activeCount < MAX_CONCURRENCY) {
@@ -99,11 +122,12 @@ async function fetchJson(path: string, timeoutMs: number): Promise<unknown> {
         method: "GET",
         headers: UPSTREAM_HEADERS,
         signal: controller.signal,
+        redirect: "error",
       }),
       timeoutMs + 250,
       "请求超时",
     );
-    const text = await withDeadline(response.text(), 2_000, "读取响应超时");
+    const text = await withDeadline(response.text(), timeoutMs, "读取响应超时");
     if (!response.ok) {
       const snippet = text.slice(0, 160).replace(/\s+/g, " ");
       if (response.status === 403 || response.status === 503) {
@@ -111,12 +135,22 @@ async function fetchJson(path: string, timeoutMs: number): Promise<unknown> {
           `上游拒绝访问（HTTP ${response.status}，可能是 Cloudflare 拦截）：${snippet}`,
         );
       }
-      throw new Error(`上游返回 HTTP ${response.status}：${snippet}`);
+      const retry = response.headers.get("retry-after");
+      const retryAfterMs = retry
+        ? /^\d+$/.test(retry)
+          ? Number(retry) * 1000
+          : Math.max(0, Date.parse(retry) - Date.now())
+        : 0;
+      throw new UpstreamFailure(
+        `上游返回 HTTP ${response.status}：${snippet}`,
+        Number.isFinite(retryAfterMs) ? retryAfterMs : 0,
+      );
     }
     try {
-      return JSON.parse(text) as unknown;
+      const payload: unknown = JSON.parse(text);
+      return parseUpstreamPayload(path, payload);
     } catch {
-      throw new Error("上游返回的不是有效 JSON（可能被中间层拦截）");
+      throw new Error("官方数据格式异常，已保留上次有效数据。");
     }
   } finally {
     clearTimeout(timer);
@@ -124,7 +158,7 @@ async function fetchJson(path: string, timeoutMs: number): Promise<unknown> {
 }
 
 async function rawFetch(path: string, timeoutMs = TIMEOUT_MS): Promise<unknown> {
-  const got = await acquireSlot(Math.min(QUEUE_WAIT_MS, Math.max(400, timeoutMs)));
+  const got = await acquireSlot(QUEUE_WAIT_MS);
   if (!got) throw new Error("请求排队超时");
   try {
     return await fetchJson(path, timeoutMs);
@@ -152,6 +186,7 @@ export async function fetchUpstream<T>(
   force = false,
   timeoutMs = TIMEOUT_MS,
 ): Promise<UpstreamResult<T>> {
+  upstreamKind(path);
   const now = Date.now();
   const key = path;
   const entry = cache.get(key);
@@ -167,19 +202,24 @@ export async function fetchUpstream<T>(
     };
   }
 
-  const backingOff = entry != null && now < entry.nextAttemptAt && !force;
-  if (backingOff) {
+  const backingOff = entry != null && now < entry.nextAttemptAt;
+  const forceCoolingDown = force && entry && now - entry.lastAttemptAt < FORCE_COOLDOWN_MS;
+  if (
+    (backingOff && (!force || forceCoolingDown || now < entry.retryAfterAt)) ||
+    forceCoolingDown
+  ) {
     return {
       data: (entry.data as T) ?? null,
       fetchedAt: entry.data === undefined ? null : validFetchedAt(entry.fetchedAt),
       error: entry.lastError,
-      stale: true,
+      stale: entry.lastError !== null || now - entry.fetchedAt >= ttlMs,
+      retryAt: entry.nextAttemptAt || null,
     };
   }
 
   const existing = inflight.get(key);
   let promise: Promise<unknown>;
-  if (existing && now - existing.startedAt <= timeoutMs) {
+  if (existing) {
     promise = existing.promise;
   } else {
     promise = rawFetch(path, timeoutMs)
@@ -190,21 +230,30 @@ export async function fetchUpstream<T>(
           failures: 0,
           nextAttemptAt: 0,
           lastError: null,
+          lastAttemptAt: now,
+          retryAfterAt: 0,
         });
+        trimCache();
         return data;
       })
       .catch((error: unknown) => {
         const message = describeError(error);
         const previous = cache.get(key);
         const failures = (previous?.failures ?? 0) + 1;
-        const delay = Math.min(BACKOFF_BASE_MS * 2 ** (failures - 1), BACKOFF_MAX_MS);
+        const delay = Math.max(
+          Math.min(BACKOFF_BASE_MS * 2 ** (failures - 1), BACKOFF_MAX_MS),
+          error instanceof UpstreamFailure ? error.retryAfterMs : 0,
+        );
         cache.set(key, {
           data: previous?.data as unknown,
           fetchedAt: previous?.data !== undefined ? (previous.fetchedAt ?? 0) : 0,
           failures,
           nextAttemptAt: Date.now() + delay,
           lastError: message,
+          lastAttemptAt: now,
+          retryAfterAt: error instanceof UpstreamFailure ? Date.now() + error.retryAfterMs : 0,
         });
+        trimCache();
         throw new Error(message);
       })
       .finally(() => {
@@ -215,7 +264,7 @@ export async function fetchUpstream<T>(
   }
 
   try {
-    const data = (await withDeadline(promise, timeoutMs + 400, "请求超时")) as T;
+    const data = (await withDeadline(promise, QUEUE_WAIT_MS + timeoutMs + 500, "请求超时")) as T;
     const updated = cache.get(key);
     return {
       data,
@@ -232,6 +281,7 @@ export async function fetchUpstream<T>(
       fetchedAt: hasPrevious ? previousAt : null,
       error: describeError(error),
       stale: true,
+      retryAt: previous?.nextAttemptAt ?? null,
     };
   }
 }

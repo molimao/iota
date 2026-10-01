@@ -76,8 +76,16 @@ function myTiers(farm: FarmSummary): string[] {
  * One line on the dashboard. Answers "where am I, is there room" and links
  * out — the full network breakdown lives on its own page.
  */
-export function FarmLine({ farm, deviceCount }: { farm: FarmSummary; deviceCount: number }) {
-  const { t, locale } = useLocale();
+export function FarmLine({
+  farm,
+  deviceCount,
+  stale = false,
+}: {
+  farm: FarmSummary;
+  deviceCount: number;
+  stale?: boolean;
+}) {
+  const { t, en, locale } = useLocale();
   const mine = myTiers(farm);
   const parts: string[] = [];
   if (deviceCount > 0 && mine.length) {
@@ -94,9 +102,10 @@ export function FarmLine({ farm, deviceCount }: { farm: FarmSummary; deviceCount
   if (farm.training !== null) {
     parts.push(`${formatCount(farm.training, locale)} ${t("台在训练")}`);
   }
+  if (stale) parts.push(t("全网部分数据未刷新"));
   return (
     <a className="farm-line" href={`/${locale}/network`}>
-      <span>{parts.join(" · ")}</span>
+      <span>{parts.join(" · ") || (en ? "View network training" : "查看全网训练情况")}</span>
       <ArrowUpRight size={15} />
     </a>
   );
@@ -175,42 +184,49 @@ export function FarmFull({ farm }: { farm: FarmSummary }) {
         </ul>
       ) : null}
       {farm.runs.length ? (
-        <table className="farm-table">
-          <thead>
-            <tr>
-              <th>{t("各任务")}</th>
-              <th>{t("档位")}</th>
-              <th>{t("名额")}</th>
-              <th>{t("官方在线")}</th>
-              <th>{t("已开始训练")}</th>
-              <th>{t("训练进度")}</th>
-              <th>{t("损失")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {farm.runs.map((run) => (
-              <tr key={run.runId} data-mine={run.mineCount > 0 ? "yes" : undefined}>
-                <td>
-                  {run.name}
-                  {run.mineCount > 0 ? (
-                    <small>
-                      {t("你的设备")} {formatCount(run.mineCount, locale)}
-                    </small>
-                  ) : null}
-                </td>
-                <td>{run.tier || "—"}</td>
-                <td>
-                  {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
-                  {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
-                </td>
-                <td>{formatCount(run.online, locale)}</td>
-                <td>{formatCount(run.training, locale)}</td>
-                <td>{formatPct(run.tokens, run.totalTokens, locale)}</td>
-                <td>{formatLoss(run.loss)}</td>
+        <div
+          className="farm-table-wrap"
+          role="region"
+          aria-label={en ? "Active runs table" : "活跃任务表格"}
+          tabIndex={0}
+        >
+          <table className="farm-table">
+            <thead>
+              <tr>
+                <th>{t("各任务")}</th>
+                <th>{t("档位")}</th>
+                <th>{t("名额")}</th>
+                <th>{t("官方在线")}</th>
+                <th>{t("已开始训练")}</th>
+                <th>{t("训练进度")}</th>
+                <th>{t("损失")}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {farm.runs.map((run) => (
+                <tr key={run.runId} data-mine={run.mineCount > 0 ? "yes" : undefined}>
+                  <td>
+                    {run.name}
+                    {run.mineCount > 0 ? (
+                      <small>
+                        {t("你的设备")} {formatCount(run.mineCount, locale)}
+                      </small>
+                    ) : null}
+                  </td>
+                  <td>{run.tier || "—"}</td>
+                  <td>
+                    {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
+                    {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
+                  </td>
+                  <td>{formatCount(run.online, locale)}</td>
+                  <td>{formatCount(run.training, locale)}</td>
+                  <td>{formatPct(run.tokens, run.totalTokens, locale)}</td>
+                  <td>{formatLoss(run.loss)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : null}
       {farm.countries.length ? (
         <p className="farm-countries">

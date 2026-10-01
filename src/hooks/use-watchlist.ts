@@ -147,16 +147,18 @@ export function useWatchlist(userId: string | null, authReady = true) {
   );
 
   const remove = useCallback(
-    async (hotkey: string) => {
+    async (hotkey: string): Promise<WatchlistResult> => {
       if (cloud) {
         const result = await removeCloudDevice(hotkey);
-        if (!result.ok) setStorageError(result.error);
-        await reloadCloud();
-        return;
+        if (!result.ok) return { ok: false, error: result.error };
+        setDevices((current) => removeEntry(current, hotkey));
+        return { ok: true };
       }
-      commitLocal(removeEntry(devices, hotkey));
+      return commitLocal(removeEntry(devices, hotkey))
+        ? { ok: true }
+        : { ok: false, error: "移除失败，请稍后重试。" };
     },
-    [devices, cloud, reloadCloud, commitLocal],
+    [devices, cloud, commitLocal],
   );
 
   const importJson = useCallback(

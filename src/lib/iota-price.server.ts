@@ -27,7 +27,7 @@ let inflight: Promise<Cache> | null = null;
 
 export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
   const now = Date.now();
-  if (cache?.usdPerIota && !force && now - cache.fetchedAt < TTL_MS) {
+  if (cache?.usdPerIota && !cache.error && !force && now - cache.fetchedAt < TTL_MS) {
     return { ...cache, stale: false };
   }
 
@@ -62,6 +62,6 @@ export async function fetchIotaUsdPrice(force = false): Promise<IotaUsdQuote> {
     fetchedAt: next.fetchedAt || null,
     error: next.error,
     stale: next.error !== null && next.usdPerIota !== null,
-    source: next.source,
+    ...(next.source ? { source: next.source } : {}),
   };
 }

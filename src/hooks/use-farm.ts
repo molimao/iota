@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { summarizeFarm, type FarmSummary } from "@/lib/farm";
 import { getFarmMiners, getOccupancy, getRunProgressBatch, getRuns } from "@/lib/iota.functions";
@@ -11,7 +11,17 @@ export type FarmState = {
   occupancy: Occupancy | null;
   loading: boolean;
   error: string | null;
-  refresh: () => void;
+  refresh: () => Promise<void>;
+  refreshing: boolean;
+  cooldownRemaining: number;
+  sources: Array<{
+    label: string;
+    fetchedAt: number | null;
+    error: string | null;
+    loading: boolean;
+  }>;
+  coverage: { known: number; total: number };
+  now: number;
 };
 
 /**
@@ -26,6 +36,15 @@ export function useFarm(options?: {
   fallbackRuns?: RunInfo[] | null;
 }): FarmState {
   const enabled = options?.enabled ?? true;
+  const force = useRef(false);
+  const busy = useRef(false);
+  const lastRefresh = useRef(0);
+  const [refreshing, setRefreshing] = useState(false);
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, []);
   const occupancyFn = useServerFn(getOccupancy);
   const runsFn = useServerFn(getRuns);
   const progressFn = useServerFn(getRunProgressBatch);
@@ -33,53 +52,59 @@ export function useFarm(options?: {
 
   const occupancyQuery = useQuery({
     queryKey: ["iota", "occupancy"],
-    queryFn: () => occupancyFn({ data: {} }),
+    queryFn: () => occupancyFn({ data: { force: force.current } }),
     enabled,
     refetchInterval: 120_000,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   const runsQuery = useQuery({
     queryKey: ["iota", "runs"],
-    queryFn: () => runsFn({ data: {} }),
+    queryFn: () => runsFn({ data: { force: force.current } }),
     enabled,
     staleTime: 120_000,
     refetchInterval: 300_000,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   const runIds = useMemo(() => {
     const ids = [
       ...(occupancyQuery.data?.occupancy?.run_ids ?? []),
-      ...(runsQuery.data?.runs ?? []).map((run) => run.run_id),
+      ...(runsQuery.data?.runs ?? [])
+        .filter((run) => run.state === "active")
+        .map((run) => run.run_id),
     ];
     return [...new Set(ids)].sort();
   }, [occupancyQuery.data?.occupancy?.run_ids, runsQuery.data?.runs]);
 
   const progressQuery = useQuery({
     queryKey: ["iota", "progress", runIds.join(",")],
-    queryFn: () => progressFn({ data: { runIds } }),
+    queryFn: () => progressFn({ data: { runIds, force: force.current } }),
     enabled: enabled && runIds.length > 0,
     staleTime: 45_000,
     refetchInterval: 60_000,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   const minersQuery = useQuery({
     queryKey: ["iota", "farm-miners", runIds.join(",")],
-    queryFn: () => farmMinersFn({ data: { runIds } }),
+    queryFn: () => farmMinersFn({ data: { runIds, force: force.current } }),
     enabled: enabled && runIds.length > 0,
     staleTime: 45_000,
     refetchInterval: 60_000,
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   const occupancy = occupancyQuery.data?.occupancy ?? null;
@@ -90,7 +115,7 @@ export function useFarm(options?: {
     () =>
       summarizeFarm(
         occupancy,
-        runsQuery.data?.runs ?? fallbackRuns ?? null,
+        (runsQuery.data?.runs ?? fallbackRuns)?.filter((run) => run.state === "active") ?? null,
         progressQuery.data?.progress,
         mineCounts,
         minersQuery.data,
@@ -105,18 +130,66 @@ export function useFarm(options?: {
     ],
   );
 
-  const refresh = useCallback(() => {
-    void occupancyQuery.refetch();
-    void runsQuery.refetch();
-    void progressQuery.refetch();
-    void minersQuery.refetch();
+  const sources = [
+    {
+      label: "任务列表",
+      fetchedAt: runsQuery.data?.fetchedAt ?? null,
+      error: runsQuery.data?.error ?? runsQuery.error?.message ?? null,
+      loading: runsQuery.isFetching,
+    },
+    {
+      label: "网络名额",
+      fetchedAt: occupancyQuery.data?.fetchedAt ?? null,
+      error: occupancyQuery.data?.error ?? occupancyQuery.error?.message ?? null,
+      loading: occupancyQuery.isFetching,
+    },
+    {
+      label: "矿工名单",
+      fetchedAt: minersQuery.data?.fetchedAt ?? null,
+      error: minersQuery.data?.errors?.join("；") || minersQuery.error?.message || null,
+      loading: minersQuery.isFetching,
+    },
+    {
+      label: "训练进度",
+      fetchedAt: progressQuery.data?.fetchedAt ?? null,
+      error: progressQuery.data?.errors?.join("；") || progressQuery.error?.message || null,
+      loading: progressQuery.isFetching,
+    },
+  ];
+  const refresh = useCallback(async () => {
+    if (busy.current || Date.now() - lastRefresh.current < 15_000) return;
+    busy.current = true;
+    force.current = true;
+    lastRefresh.current = Date.now();
+    setRefreshing(true);
+    try {
+      await Promise.all([
+        occupancyQuery.refetch({ cancelRefetch: false }),
+        runsQuery.refetch({ cancelRefetch: false }),
+        progressQuery.refetch({ cancelRefetch: false }),
+        minersQuery.refetch({ cancelRefetch: false }),
+      ]);
+    } finally {
+      force.current = false;
+      busy.current = false;
+      setRefreshing(false);
+    }
   }, [occupancyQuery, runsQuery, progressQuery, minersQuery]);
 
   return {
     farm,
     occupancy,
-    loading: occupancyQuery.isLoading || runsQuery.isLoading,
-    error: occupancyQuery.data?.error ?? occupancyQuery.error?.message ?? null,
     refresh,
+    refreshing,
+    sources,
+    now,
+    cooldownRemaining: Math.max(0, 15_000 - (now - lastRefresh.current)),
+    coverage: { known: minersQuery.data?.freshRuns ?? 0, total: runIds.length },
+    loading: occupancyQuery.isLoading || runsQuery.isLoading,
+    error:
+      sources
+        .map((source) => source.error)
+        .filter(Boolean)
+        .join("；") || null,
   };
 }
