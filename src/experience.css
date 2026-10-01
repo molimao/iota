@@ -884,14 +884,24 @@ body:has(.site-shell) {
   background: #878787;
   border-radius: 5px;
 }
-.device-mix i[data-bucket="contributing"] {
-  background: var(--watch-accent);
+.dashboard [data-bucket="contributing"] {
+  --status-color: #6ee7b7;
+  --status-rgb: 110, 231, 183;
 }
-.device-mix i[data-bucket="waiting"] {
-  background: var(--watch-secondary);
+.dashboard [data-bucket="waiting"] {
+  --status-color: #93c5fd;
+  --status-rgb: 147, 197, 253;
 }
-.device-mix i[data-bucket="attention"] {
-  background: #d0d0d0;
+.dashboard [data-bucket="attention"] {
+  --status-color: #fdba74;
+  --status-rgb: 253, 186, 116;
+}
+.dashboard [data-bucket="pending"] {
+  --status-color: #c4b5fd;
+  --status-rgb: 196, 181, 253;
+}
+.device-mix i[data-bucket] {
+  background: var(--status-color);
 }
 .site-shell .dashboard .device-filters button {
   background: var(--watch-surface);
@@ -902,6 +912,22 @@ body:has(.site-shell) {
   background: oklch(0.84 0 0 / 12%);
   color: var(--watch-accent);
   border-color: oklch(0.84 0 0 / 35%);
+}
+.site-shell .dashboard .device-filters button[data-bucket] {
+  color: var(--status-color);
+  background: rgba(var(--status-rgb), 0.08);
+  border-color: rgba(var(--status-rgb), 0.28);
+}
+.site-shell .dashboard .device-filters button[data-bucket]:hover {
+  background: rgba(var(--status-rgb), 0.16);
+  border-color: rgba(var(--status-rgb), 0.5);
+}
+.site-shell .dashboard .device-filters button[data-bucket][aria-pressed="true"] {
+  background: rgba(var(--status-rgb), 0.22);
+  border-color: var(--status-color);
+}
+.device-filters button[data-bucket] b {
+  opacity: 1;
 }
 .dash-dialog {
   background: var(--watch-bg) !important;

@@ -480,6 +480,7 @@ export function Dashboard() {
               {(Object.keys(BUCKET_LABEL) as StatusBucket[]).map((bucket) => (
                 <button
                   key={bucket}
+                  data-bucket={bucket}
                   aria-pressed={filter === bucket}
                   onClick={() => setFilter(bucket)}
                 >
