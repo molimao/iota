@@ -34,94 +34,139 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 ## Indexable pages
 
 - [首页 (zh)](https://iotahome.site/zh)
+- [首頁 (zh-TW)](https://iotahome.site/zh-TW)
 - [Home (en)](https://iotahome.site/en)
+- [홈 (ko)](https://iotahome.site/ko)
+- [ホーム (ja)](https://iotahome.site/ja)
 - [博客 (zh)](https://iotahome.site/zh/blog)
+- [部落格 (zh-TW)](https://iotahome.site/zh-TW/blog)
 - [Blog (en)](https://iotahome.site/en/blog)
+- [블로그 (ko)](https://iotahome.site/ko/blog)
+- [ブログ (ja)](https://iotahome.site/ja/blog)
 - [使用说明 (zh)](https://iotahome.site/zh/learn)
+- [使用說明 (zh-TW)](https://iotahome.site/zh-TW/learn)
 - [Help (en)](https://iotahome.site/en/learn)
+- [도움말 (ko)](https://iotahome.site/ko/learn)
+- [ヘルプ (ja)](https://iotahome.site/ja/learn)
 - [全网训练现况 (zh)](https://iotahome.site/zh/network)
+- [全網訓練現況 (zh-TW)](https://iotahome.site/zh-TW/network)
 - [Network status (en)](https://iotahome.site/en/network)
+- [네트워크 상태 (ko)](https://iotahome.site/ko/network)
+- [ネットワークステータス (ja)](https://iotahome.site/ja/network)
 - [工具下载 (zh)](https://iotahome.site/zh/downloads)
+- [工具下載 (zh-TW)](https://iotahome.site/zh-TW/downloads)
 - [Downloads (en)](https://iotahome.site/en/downloads)
+- [다운로드 (ko)](https://iotahome.site/ko/downloads)
+- [ダウンロード (ja)](https://iotahome.site/ja/downloads)
 - [常见问题 (zh)](https://iotahome.site/zh/faq)
+- [常見問題 (zh-TW)](https://iotahome.site/zh-TW/faq)
 - [FAQ (en)](https://iotahome.site/en/faq)
+- [자주 묻는 질문 (ko)](https://iotahome.site/ko/faq)
+- [よくある質問 (ja)](https://iotahome.site/ja/faq)
 - [使用指南 (zh)](https://iotahome.site/zh/guide)
+- [使用指南 (zh-TW)](https://iotahome.site/zh-TW/guide)
 - [Get started (en)](https://iotahome.site/en/guide)
+- [시작하기 (ko)](https://iotahome.site/ko/guide)
+- [はじめに (ja)](https://iotahome.site/ja/guide)
 - [隐私说明 (zh)](https://iotahome.site/zh/privacy)
+- [隱私權說明 (zh-TW)](https://iotahome.site/zh-TW/privacy)
 - [Privacy (en)](https://iotahome.site/en/privacy)
+- [개인정보 보호 (ko)](https://iotahome.site/ko/privacy)
+- [プライバシー (ja)](https://iotahome.site/ja/privacy)
 - [IOTA Watch 是什么？它不是 IOTA 公链钱包 (zh)](https://iotahome.site/zh/learn/what-is-iota-watch)
+- [IOTA Watch 是什麼？它不是 IOTA 公鏈錢包 (zh-TW)](https://iotahome.site/zh-TW/learn/what-is-iota-watch)
 - [What IOTA Watch is — not the IOTA cryptocurrency (en)](https://iotahome.site/en/learn/what-is-iota-watch)
+- [IOTA Watch란? IOTA 암호화폐와의 차이 (ko)](https://iotahome.site/ko/learn/what-is-iota-watch)
+- [IOTA Watchとは？IOTA暗号資産との違い (ja)](https://iotahome.site/ja/learn/what-is-iota-watch)
 - [如何找到 IOTA Train at Home 的 Miner ID (zh)](https://iotahome.site/zh/learn/find-miner-id)
+- [如何找到 IOTA Train at Home 的 Miner ID (zh-TW)](https://iotahome.site/zh-TW/learn/find-miner-id)
 - [How to find your IOTA Train at Home Miner ID (en)](https://iotahome.site/en/learn/find-miner-id)
+- [IOTA Train at Home의 Miner ID 찾는 방법 (ko)](https://iotahome.site/ko/learn/find-miner-id)
+- [IOTA Train at HomeのMiner IDを確認する方法 (ja)](https://iotahome.site/ja/learn/find-miner-id)
 - [IOTA Train at Home 今日收益和累计收益怎么算 (zh)](https://iotahome.site/zh/learn/how-rewards-work)
+- [IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)](https://iotahome.site/zh-TW/learn/how-rewards-work)
 - [How IOTA Train at Home daily and lifetime rewards are counted (en)](https://iotahome.site/en/learn/how-rewards-work)
+- [IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)](https://iotahome.site/ko/learn/how-rewards-work)
+- [IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)](https://iotahome.site/ja/learn/how-rewards-work)
 - [IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh)](https://iotahome.site/zh/learn/device-status)
+- [IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)](https://iotahome.site/zh-TW/learn/device-status)
 - [What IOTA Train at Home device statuses mean (en)](https://iotahome.site/en/learn/device-status)
+- [IOTA Train at Home 기기 상태의 의미 (ko)](https://iotahome.site/ko/learn/device-status)
+- [IOTA Train at Homeのデバイス状態の見方 (ja)](https://iotahome.site/ja/learn/device-status)
 - [IOTA Train at Home 和 IOTA 公链有什么区别 (zh)](https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin)
+- [IOTA Train at Home 和 IOTA 公鏈有什麼區別 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin)
 - [IOTA Train at Home vs the IOTA cryptocurrency (en)](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin)
+- [IOTA Train at Home과 IOTA 암호화폐의 차이 (ko)](https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin)
+- [IOTA Train at HomeとIOTA暗号資産の違い (ja)](https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin)
 - [IOTA Train at Home 收益怎么同时显示美元 (zh)](https://iotahome.site/zh/learn/iota-rewards-in-usd)
+- [IOTA Train at Home 收益怎麼同時顯示美元 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-rewards-in-usd)
 - [How IOTA Train at Home rewards are shown in USD (en)](https://iotahome.site/en/learn/iota-rewards-in-usd)
+- [IOTA Train at Home 보상의 USD 환산 방식 (ko)](https://iotahome.site/ko/learn/iota-rewards-in-usd)
+- [IOTA Train at Homeの報酬を米ドルで表示する仕組み (ja)](https://iotahome.site/ja/learn/iota-rewards-in-usd)
 - [IOTA Watch「刷新中断」是什么意思 (zh)](https://iotahome.site/zh/learn/what-refresh-interrupted-means)
+- [IOTA Watch「刷新中斷」是什麼意思 (zh-TW)](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)
 - [What “refresh interrupted” means on IOTA Watch (en)](https://iotahome.site/en/learn/what-refresh-interrupted-means)
+- [IOTA Watch의 새로고침 중단은 무슨 뜻인가요? (ko)](https://iotahome.site/ko/learn/what-refresh-interrupted-means)
+- [IOTA Watchの「更新中断」とは？ (ja)](https://iotahome.site/ja/learn/what-refresh-interrupted-means)
 - [IOTA Watch 用 Google 登录后，设备清单怎么同步 (zh)](https://iotahome.site/zh/learn/google-account-device-list)
+- [IOTA Watch 用 Google 登入後，裝置清單怎麼同步 (zh-TW)](https://iotahome.site/zh-TW/learn/google-account-device-list)
 - [How Google sign-in stores your IOTA Watch device list (en)](https://iotahome.site/en/learn/google-account-device-list)
+- [Google 로그인으로 IOTA Watch 기기 목록 동기화하기 (ko)](https://iotahome.site/ko/learn/google-account-device-list)
+- [GoogleログインでIOTA Watchのデバイス一覧を同期する方法 (ja)](https://iotahome.site/ja/learn/google-account-device-list)
 - [Train at Home 的 SN9 / IOTA 是什么代币 (zh)](https://iotahome.site/zh/learn/what-is-sn9-iota)
+- [Train at Home 的 SN9 / IOTA 是什麼代幣 (zh-TW)](https://iotahome.site/zh-TW/learn/what-is-sn9-iota)
 - [What SN9 / IOTA means on Train at Home (en)](https://iotahome.site/en/learn/what-is-sn9-iota)
+- [Train at Home의 SN9 / IOTA 토큰이란? (ko)](https://iotahome.site/ko/learn/what-is-sn9-iota)
+- [Train at HomeのSN9 / IOTAトークンとは？ (ja)](https://iotahome.site/ja/learn/what-is-sn9-iota)
 - [IOTA Watch 显示「尚未找到」 (zh)](https://iotahome.site/zh/learn/device-not-found)
+- [IOTA Watch 顯示“尚未找到” (zh-TW)](https://iotahome.site/zh-TW/learn/device-not-found)
 - [IOTA Watch says the Miner ID was not found (en)](https://iotahome.site/en/learn/device-not-found)
+- [IOTA Watch에서 Miner ID를 찾을 수 없을 때 (ko)](https://iotahome.site/ko/learn/device-not-found)
+- [IOTA WatchでMiner IDが見つからない場合 (ja)](https://iotahome.site/ja/learn/device-not-found)
 - [IOTA Watch 数据来自哪里，多久更新一次？ (zh)](https://iotahome.site/zh/learn/data-sources-and-freshness)
+- [IOTA Watch 數據來自哪裡，多久更新一次？ (zh-TW)](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)
 - [Where IOTA Watch data comes from and how often it refreshes (en)](https://iotahome.site/en/learn/data-sources-and-freshness)
+- [IOTA Watch 데이터 출처와 갱신 주기 (ko)](https://iotahome.site/ko/learn/data-sources-and-freshness)
+- [IOTA Watchのデータ取得元と更新頻度 (ja)](https://iotahome.site/ja/learn/data-sources-and-freshness)
 - [IOTA Train at Home 训练历史、吞吐量与贡献率怎么看？ (zh)](https://iotahome.site/zh/learn/training-history-and-metrics)
+- [IOTA Train at Home 訓練歷史、吞吐量與貢獻率怎麼看？ (zh-TW)](https://iotahome.site/zh-TW/learn/training-history-and-metrics)
 - [How to read IOTA Train at Home training history and throughput (en)](https://iotahome.site/en/learn/training-history-and-metrics)
+- [IOTA Train at Home 훈련 기록과 처리량 확인하기 (ko)](https://iotahome.site/ko/learn/training-history-and-metrics)
+- [IOTA Train at Homeの学習履歴と処理量の見方 (ja)](https://iotahome.site/ja/learn/training-history-and-metrics)
 - [IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
+- [IOTA Train at Home 全網狀態：名額、線上礦工與訓練進度 (zh-TW)](https://iotahome.site/zh-TW/learn/network-status-explained)
 - [IOTA Train at Home network status: slots, online miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
+- [IOTA Train at Home 네트워크 상태: 슬롯, 온라인 마이너, 훈련 진행 (ko)](https://iotahome.site/ko/learn/network-status-explained)
+- [IOTA Train at Homeのネットワーク状態：枠数・オンラインマイナー・学習進捗 (ja)](https://iotahome.site/ja/learn/network-status-explained)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
+- [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
+- [여러 IOTA Train at Home 기기를 한 브라우저에서 확인하기 (ko)](https://iotahome.site/ko/blog/monitor-multiple-iota-devices)
+- [複数のIOTA Train at Homeデバイスを1つのブラウザーで確認する方法 (ja)](https://iotahome.site/ja/blog/monitor-multiple-iota-devices)
 - [IOTA Train at Home 收益为零或没到账，先检查什么？ (zh)](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home 收益為零或沒到賬，先檢查什麼？ (zh-TW)](https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid)
 - [IOTA Train at Home rewards are zero or unpaid: what to check first (en)](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Home 보상이 0이거나 미지급일 때 확인할 사항 (ko)](https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid)
+- [IOTA Train at Homeの報酬がゼロ・未払いの場合に確認すること (ja)](https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid)
 - [IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh)](https://iotahome.site/zh/blog/iota-waiting-for-tasks)
+- [IOTA Train at Home 一直等待任務、吞吐量為零，怎麼檢查？ (zh-TW)](https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks)
 - [IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)](https://iotahome.site/en/blog/iota-waiting-for-tasks)
+- [IOTA Train at Home 작업 대기와 처리량 0: 확인 방법 (ko)](https://iotahome.site/ko/blog/iota-waiting-for-tasks)
+- [IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)](https://iotahome.site/ja/blog/iota-waiting-for-tasks)
 
-## Complete bilingual guides
+## Complete multilingual guides
 
 ### What IOTA Watch is — not the IOTA cryptocurrency
-- ZH: https://iotahome.site/zh/learn/what-is-iota-watch
-- EN: https://iotahome.site/en/learn/what-is-iota-watch
+- zh-CN: https://iotahome.site/zh/learn/what-is-iota-watch
+- zh-TW: https://iotahome.site/zh-TW/learn/what-is-iota-watch
+- en: https://iotahome.site/en/learn/what-is-iota-watch
+- ko: https://iotahome.site/ko/learn/what-is-iota-watch
+- ja: https://iotahome.site/ja/learn/what-is-iota-watch
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-IOTA Watch is an independent browser dashboard for [IOTA Train at Home](https://iota.macrocosmos.ai/). Add a public Miner ID to view reported training status, today’s accounted rewards, and lifetime rewards.
-
-It is **not** the IOTA Foundation Layer 1 network, not an IOTA coin wallet, and not Firefly. It cannot send tokens, hold funds, or sign transactions.
-
-## What it can do
-
-- Look up official reported status with a public Miner ID (SS58 hotkey)
-
-- Show several devices in one list, with custom names
-
-- Keep up to 3 devices in this browser, or sign in with Google to bind up to 10
-
-## What it cannot do
-
-- Start or stop training on the device
-
-- Read local IOTA app logs
-
-- Promise rewards or a payout time
-
-Training still runs in the official Train at Home app on each machine. See the [Macrocosmos TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
-
-## Why search results are confusing
-
-A search for “IOTA” usually means the IOTA Foundation chain. IOTA Train at Home is a Macrocosmos product in the Bittensor ecosystem. The reward unit is also called IOTA, but it is the subnet alpha token — not IOTA Layer 1, and not TAO. See [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
-
-> To monitor home training devices, use IOTA Watch. To hold IOTA Layer 1 coins, use that network’s official wallet. Do not paste a private key or seed phrase here.
-
-Next: [find your Miner ID](https://iotahome.site/en/learn/find-miner-id), then open [My devices](https://iotahome.site/en/app).
-
-### IOTA Watch 是什么？它不是 IOTA 公链钱包
+### IOTA Watch 是什么？它不是 IOTA 公链钱包 (zh-CN)
 
 IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独立网页监控工具。添加公开 Miner ID 后，可在同一页面查看上报的训练状态、今日记账收益和累计收益。
 
@@ -153,43 +198,146 @@ IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独�
 
 下一步：[获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)，然后打开 [我的设备](https://iotahome.site/zh/app)。
 
+### IOTA Watch 是什麼？它不是 IOTA 公鏈錢包 (zh-TW)
+
+IOTA Watch 是針對 [IOTA Train at Home](https://iota.macrocosmos.ai/)的獨立網頁監控工具。新增公開 Miner ID 後，可在同一頁面查看上報的訓練狀態、今日記帳收益和累積收益。
+
+它**不是**IOTA Foundation 的 Layer 1 公鏈，也不是 IOTA 幣錢包，更不是 Firefly。它不能轉帳、託管資金或簽名交易。
+
+## 功能範圍
+
+- 以公開 Miner ID（SS58 hotkey）查詢官方回報數據
+
+- 將多台設備放在同一份清單中，使用自訂名稱區分
+
+- 未登入可在瀏覽器中儲存最多 3 台，Google 登入後最多綁定 10 台
+
+## 功能限制
+
+- 不能啟動或停止訓練
+
+- 無法讀取裝置上的 IOTA 應用程式日誌
+
+- 不能保證收益或到帳時間
+
+訓練必須在每台設備的官方 Train at Home 應用中運作。官方說明請見 [Macrocosmos TAH 使用者指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+
+## 搜尋結果容易混淆的原因
+
+搜尋「IOTA」時，結果大多指向 IOTA 公鏈。 IOTA Train at Home 是 Macrocosmos 在 Bittensor 生態中的去中心化訓練產品。收益單位也稱為 IOTA，但是子網 alpha 代幣，不是 IOTA 公鏈幣，也不是 TAO。對照見 [Train at Home 和 IOTA 公鏈的區別](https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin)。
+
+> 監控訓練設備請使用 IOTA Watch。管理 IOTA 公鏈資產請使用對應官方錢包。請勿在本站填寫私鑰或助記詞。
+
+下一步：[取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)，然後開啟 [我的裝置](https://iotahome.site/zh-TW/app)。
+
+### What IOTA Watch is — not the IOTA cryptocurrency (en)
+
+IOTA Watch is an independent browser dashboard for [IOTA Train at Home](https://iota.macrocosmos.ai/). Add a public Miner ID to view reported training status, today’s accounted rewards, and lifetime rewards.
+
+It is **not** the IOTA Foundation Layer 1 network, not an IOTA coin wallet, and not Firefly. It cannot send tokens, hold funds, or sign transactions.
+
+## What it can do
+
+- Look up official reported status with a public Miner ID (SS58 hotkey)
+
+- Show several devices in one list, with custom names
+
+- Keep up to 3 devices in this browser, or sign in with Google to bind up to 10
+
+## What it cannot do
+
+- Start or stop training on the device
+
+- Read local IOTA app logs
+
+- Promise rewards or a payout time
+
+Training still runs in the official Train at Home app on each machine. See the [Macrocosmos TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
+
+## Why search results are confusing
+
+A search for “IOTA” usually means the IOTA Foundation chain. IOTA Train at Home is a Macrocosmos product in the Bittensor ecosystem. The reward unit is also called IOTA, but it is the subnet alpha token — not IOTA Layer 1, and not TAO. See [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
+
+> To monitor home training devices, use IOTA Watch. To hold IOTA Layer 1 coins, use that network’s official wallet. Do not paste a private key or seed phrase here.
+
+Next: [find your Miner ID](https://iotahome.site/en/learn/find-miner-id), then open [My devices](https://iotahome.site/en/app).
+
+### IOTA Watch란? IOTA 암호화폐와의 차이 (ko)
+
+IOTA Watch는 [IOTA Train at Home](https://iota.macrocosmos.ai/)을 위한 독립적인 웹 대시보드입니다. 공개 Miner ID를 추가하면 공식 데이터에 보고된 훈련 상태, 오늘의 기록된 보상, 누적 보상을 확인할 수 있습니다.
+
+IOTA Foundation의 Layer 1 네트워크, IOTA 코인 지갑, Firefly와는 **다른 서비스**입니다. 토큰 전송, 자금 보관, 거래 서명 기능은 없습니다.
+
+## 할 수 있는 일
+
+- 공개Miner ID(SS58hotkey)으로 공식 보고 상태 조회
+
+- 여러 장치를 하나의 목록에 사용자 정의 이름으로 표시
+
+- 이 브라우저에는 최대 3개의 장치를 보관하거나,Google으로 로그인하여 최대 10개까지 바인딩할 수 있습니다.
+
+## 할 수 없는 일
+
+- 장치에서 훈련을 시작하거나 중지합니다.
+
+- 로컬IOTA앱 로그 읽기
+
+- 보상이나 지불 시간을 약속합니다.
+
+훈련은 여전히 각 머신의 공식Train at Home앱에서 실행됩니다. [MacrocosmosTAH 사용자 가이드](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)를 참조하세요.
+
+## 검색결과가 혼란스러운 이유
+
+"IOTA"으로 검색하면 일반적으로IOTAFoundation 체인을 의미합니다.IOTA Train at Home는Bittensor생태계의Macrocosmos제품입니다. 보상 단위는IOTA라고도 부르지만IOTA레이어 1이나TAO이 아닌 서브넷 알파 토큰입니다. [Train at Home대IOTA코인](https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin)을 참조하세요.
+
+> 홈트레이닝 기기를 모니터링하려면IOTA Watch을 사용하세요.IOTA개의 레이어 1 코인을 보유하려면 해당 네트워크의 공식 지갑을 사용하세요. 여기에 개인 키나 시드 문구를 붙여넣지 마세요.
+
+다음: [Miner ID](https://iotahome.site/ko/learn/find-miner-id)을 찾은 다음 [내 장치](https://iotahome.site/ko/app)를 엽니다.
+
+### IOTA Watchとは？IOTA暗号資産との違い (ja)
+
+IOTA Watchは[IOTA Train at Home](https://iota.macrocosmos.ai/)向けの独立したウェブダッシュボードです。公開Miner IDを追加すると、公式データに記録された学習状態、本日の報酬、累計報酬を確認できます。
+
+IOTA FoundationのLayer 1ネットワーク、IOTAコインのウォレット、Fireflyとは**別のサービス**です。トークンの送金、資金の保管、取引への署名はできません。
+
+## できること
+
+- 公式に報告されたステータスをパブリックMiner ID(SS58hotkey) で検索します。
+
+- 複数のデバイスをカスタム名で 1 つのリストに表示します
+
+- このブラウザで最大 3 台のデバイスを保持するか、Googleでサインインして最大 10 台までバインドします
+
+## できないこと
+
+- デバイス上でトレーニングを開始または停止する
+
+- ローカルのIOTAアプリ ログを読み取る
+
+- 報酬や支払い時期を約束する
+
+トレーニングは各マシンの公式Train at Homeアプリで引き続き実行されます。 [MacrocosmosTAH ユーザー ガイド](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) を参照してください。
+
+## 検索結果がわかりにくい理由
+
+「IOTA」を検索すると、通常はIOTAFoundation チェーンを意味します。IOTA Train at Homeは、Bittensorエコシステム内のMacrocosmos製品です。報酬ユニットはIOTAとも呼ばれますが、これはサブネット アルファ トークンであり、IOTALayer 1 やTAOではありません。 [Train at Home対IOTAコイン](https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin)を参照してください。
+
+> ホームトレーニングデバイスを監視するには、IOTA Watchを使用します。IOTAのレイヤー 1 コインを保持するには、そのネットワークの公式ウォレットを使用してください。ここに秘密キーやシードフレーズを貼り付けないでください。
+
+次に: [Miner IDを検索](https://iotahome.site/ja/learn/find-miner-id)、[マイ デバイス](https://iotahome.site/ja/app) を開きます。
+
 
 ### How to find your IOTA Train at Home Miner ID
-- ZH: https://iotahome.site/zh/learn/find-miner-id
-- EN: https://iotahome.site/en/learn/find-miner-id
+- zh-CN: https://iotahome.site/zh/learn/find-miner-id
+- zh-TW: https://iotahome.site/zh-TW/learn/find-miner-id
+- en: https://iotahome.site/en/learn/find-miner-id
+- ko: https://iotahome.site/ko/learn/find-miner-id
+- ja: https://iotahome.site/ja/learn/find-miner-id
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-The Miner ID used by IOTA Watch is the public SS58 hotkey shown in the official Train at Home app. It is not a private key, seed phrase, coldkey, or a row number on this website.
-
-## Copy it from the app
-
-- Install Train at Home from [iota.macrocosmos.ai](https://iota.macrocosmos.ai/) if you have not already
-
-- Launch the app and wait until it shows Connected
-
-- Open **Miner** in the top left
-
-- Copy the complete Miner ID
-
-The official guide is here: [TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
-
-## Add it to IOTA Watch
-
-- Open the [dashboard](https://iotahome.site/en/app)
-
-- Paste the full ID and give the device a name
-
-- Repeat for each machine
-
-Without signing in, the list stays in this browser (up to 3 devices). [Sign in with Google](https://iotahome.site/en/learn/google-account-device-list) to bind up to 10 and open the same list elsewhere. A JSON backup can still be exported.
-
-> An incomplete ID will not match. If a device is “not found”, confirm that the full public address was copied.
-
-After it is saved, see [device statuses](https://iotahome.site/en/learn/device-status) and [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
-
-### 如何找到 IOTA Train at Home 的 Miner ID
+### 如何找到 IOTA Train at Home 的 Miner ID (zh-CN)
 
 IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开 SS58 hotkey。它不是私钥、助记词、coldkey，也不是本站设备清单的行号。
 
@@ -219,45 +367,138 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开
 
 保存之后，可查看 [设备状态](https://iotahome.site/zh/learn/device-status) 与 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
+### 如何找到 IOTA Train at Home 的 Miner ID (zh-TW)
+
+IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的公開 SS58 hotkey。它不是私鑰、助記詞、coldkey，也不是本站設備清單的行號。
+
+## 從應用程式複製
+
+- 若尚未安裝，請至 [iota.macrocosmos.ai](https://iota.macrocosmos.ai/)下載 Train at Home
+
+- 開啟應用，待狀態顯示 Connected
+
+- 選擇左上角**Miner**
+
+- 複製完整的 Miner ID
+
+官方步驟請見 [TAH 使用者指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+
+## 加入 IOTA Watch
+
+- 開啟 [我的裝置](https://iotahome.site/zh-TW/app)
+
+- 貼上完整 ID，並填寫設備名稱
+
+- 每台設備分別添加一次
+
+未登入時清單儲存在目前瀏覽器（最多 3 台）。 [使用 Google 登入](https://iotahome.site/zh-TW/learn/google-account-device-list)後最多綁定 10 台，可在其他裝置查看。仍可匯出 JSON 備份。
+
+> ID 不完整將無法比對。若顯示「尚未找到」，請核對是否複製了完整公開地址。
+
+儲存後，可查看 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)與 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+### How to find your IOTA Train at Home Miner ID (en)
+
+The Miner ID used by IOTA Watch is the public SS58 hotkey shown in the official Train at Home app. It is not a private key, seed phrase, coldkey, or a row number on this website.
+
+## Copy it from the app
+
+- Install Train at Home from [iota.macrocosmos.ai](https://iota.macrocosmos.ai/) if you have not already
+
+- Launch the app and wait until it shows Connected
+
+- Open **Miner** in the top left
+
+- Copy the complete Miner ID
+
+The official guide is here: [TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
+
+## Add it to IOTA Watch
+
+- Open the [dashboard](https://iotahome.site/en/app)
+
+- Paste the full ID and give the device a name
+
+- Repeat for each machine
+
+Without signing in, the list stays in this browser (up to 3 devices). [Sign in with Google](https://iotahome.site/en/learn/google-account-device-list) to bind up to 10 and open the same list elsewhere. A JSON backup can still be exported.
+
+> An incomplete ID will not match. If a device is “not found”, confirm that the full public address was copied.
+
+After it is saved, see [device statuses](https://iotahome.site/en/learn/device-status) and [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
+
+### IOTA Train at Home의 Miner ID 찾는 방법 (ko)
+
+IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개SS58hotkey입니다. 이는 개인 키, 시드 문구,coldkey또는 이 웹사이트의 행 번호가 아닙니다.
+
+## 앱에서 복사하세요
+
+- 아직 설치하지 않은 경우 [iota.macrocosmos.ai](https://iota.macrocosmos.ai/)에서Train at Home을 설치합니다.
+
+- 앱을 실행하고 연결됨이 표시될 때까지 기다립니다.
+
+- 왼쪽 상단에서 **Miner**를 엽니다.
+
+- 전체Miner ID을 복사하세요.
+
+공식 가이드는 [TAH 사용자 가이드](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)에 있습니다.
+
+## IOTA Watch에 추가하세요
+
+- [대시보드](https://iotahome.site/ko/app)를 엽니다.
+
+- 전체 ID를 붙여넣고 장치 이름을 지정하세요.
+
+- 각 기계에 대해 반복
+
+로그인하지 않으면 목록이 이 브라우저에 유지됩니다(최대 3개 장치). [Google으로 로그인](https://iotahome.site/ko/learn/google-account-device-list)하여 최대 10개까지 바인딩하고 다른 곳에서도 동일한 목록을 열 수 있습니다. JSON 백업은 계속 내보낼 수 있습니다.
+
+> 불완전한 ID는 일치하지 않습니다. 장치를 찾을 수 없는 경우 전체 공개 주소가 복사되었는지 확인하세요.
+
+저장한 후 [기기 상태](https://iotahome.site/ko/learn/device-status) 및 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 확인하세요.
+
+### IOTA Train at HomeのMiner IDを確認する方法 (ja)
+
+IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示される公開SS58hotkeyです。これは、秘密キー、シード フレーズ、coldkey、またはこの Web サイトの行番号ではありません。
+
+## アプリからコピーします
+
+- まだインストールしていない場合は、[iota.macrocosmos.ai](https://iota.macrocosmos.ai/) からTrain at Homeをインストールします。
+
+- アプリを起動し、「接続されました」と表示されるまで待ちます
+
+- 左上の **Miner** を開きます
+
+- Miner IDを完全にコピーします
+
+公式ガイドはこちらです: [TAH ユーザーガイド](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+
+## IOTA Watchに追加します
+
+- [ダッシュボード](https://iotahome.site/ja/app)を開きます。
+
+- 完全な ID を貼り付け、デバイスに名前を付けます
+
+- マシンごとに繰り返します
+
+サインインしないと、リストはこのブラウザーに残ります (最大 3 台のデバイス)。 [Google](https://iotahome.site/ja/learn/google-account-device-list) でサインインすると、最大 10 個までバインドし、同じリストを他の場所で開きます。 JSON バックアップは引き続きエクスポートできます。
+
+> 不完全な ID は一致しません。デバイスが「見つからない」場合は、完全なパブリック アドレスがコピーされていることを確認してください。
+
+保存したら、[デバイスのステータス](https://iotahome.site/ja/learn/device-status) と [報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work) を参照してください。
+
 
 ### How IOTA Train at Home daily and lifetime rewards are counted
-- ZH: https://iotahome.site/zh/learn/how-rewards-work
-- EN: https://iotahome.site/en/learn/how-rewards-work
+- zh-CN: https://iotahome.site/zh/learn/how-rewards-work
+- zh-TW: https://iotahome.site/zh-TW/learn/how-rewards-work
+- en: https://iotahome.site/en/learn/how-rewards-work
+- ko: https://iotahome.site/ko/learn/how-rewards-work
+- ja: https://iotahome.site/ja/learn/how-rewards-work
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-IOTA Watch does not estimate earnings. It reads official entitlement records and shows two numbers: today’s accounted rewards, and lifetime accounted rewards.
-
-## Today’s rewards
-
-- Calendar day starts at 00:00 in Asia/Hong_Kong (UTC+8)
-
-- Only records with status **pending** or **settled** are added
-
-- Frozen and other statuses are excluded
-
-- A timestamp after “now” is excluded
-
-This is an accounting date. It does not mean the tokens arrived in a wallet today.
-
-## Lifetime rewards
-
-Lifetime uses **total earned** from the official totals API. Paid amounts are not added on top of earned, so the same reward is not counted twice.
-
-## What the IOTA unit means here
-
-On this site, IOTA is the Train at Home subnet alpha token used by the upstream API. It is not a TAO amount and not IOTA Layer 1. Next to each IOTA figure the dashboard also shows a USD estimate from the public SN9 market price. That estimate is not an official payout. Details: [how USD is shown](https://iotahome.site/en/learn/iota-rewards-in-usd).
-
-## Missing values are not zero
-
-If a request fails or the payload is unusable, the dashboard shows unknown — not 0. When only some devices have usable data, the total is marked partial (for example 2/3 devices).
-
-> Numbers refresh on a cache: device status is usually kept for 60 seconds, rewards for five minutes. A manual refresh has a 15-second cooldown.
-
-If a device appears idle, see [status meanings](https://iotahome.site/en/learn/device-status) before treating it as offline.
-
-### IOTA Train at Home 今日收益和累计收益怎么算
+### IOTA Train at Home 今日收益和累计收益怎么算 (zh-CN)
 
 IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出两个数字：今日记账收益，以及累计记账收益。
 
@@ -289,37 +530,146 @@ IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出�
 
 若设备显示未在训练，请先查看 [状态含义](https://iotahome.site/zh/learn/device-status)，不宜直接视为离线。
 
+### IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)
+
+IOTA Watch 不會估算收益。它讀取官方 entitlements 記錄，並給出兩個數字：今日記帳收益，以及累積記帳收益。
+
+## 今日收益
+
+- 以香港時間（UTC+8）當天 00:00 算
+
+- 只加總狀態為**pending**或**settled**的記錄
+
+- 凍結和其他狀態不計入
+
+- 時間戳晚於當下時刻的記錄不計入
+
+這是記帳日口徑，不代表代幣今天已經打到錢包。
+
+## 累計收益
+
+累計收益取官方 totals 介面裡的**total earned**。不會再把已支付金額疊加上去，避免同一筆記兩次。
+
+## 這裡的 IOTA 是什麼單位
+
+本站的 IOTA 是 Train at Home 上游介面使用的子網路 alpha 代幣。它不是 TAO，也不是 IOTA 公鏈幣。每個 IOTA 數字旁邊會同時給出以公開市場價格估算的美元，那不是官方結算價。詳見 [收益怎麼顯示美元](https://iotahome.site/zh-TW/learn/iota-rewards-in-usd)。
+
+## 缺失不是零
+
+請求失敗或資料不可用時，頁面顯示未知，不記作 0。只有部分設備有可用資料時，總計會標示覆蓋範圍，例如 2/3 台。
+
+> 資料有快取：設備狀態通常保留 60 秒，收益保留 5 分鐘。手動刷新有 15 秒冷卻。
+
+若設備顯示未在訓練，請先查看 [狀態意義](https://iotahome.site/zh-TW/learn/device-status)，不宜直接視為離線。
+
+### How IOTA Train at Home daily and lifetime rewards are counted (en)
+
+IOTA Watch does not estimate earnings. It reads official entitlement records and shows two numbers: today’s accounted rewards, and lifetime accounted rewards.
+
+## Today’s rewards
+
+- Calendar day starts at 00:00 in Asia/Hong_Kong (UTC+8)
+
+- Only records with status **pending** or **settled** are added
+
+- Frozen and other statuses are excluded
+
+- A timestamp after “now” is excluded
+
+This is an accounting date. It does not mean the tokens arrived in a wallet today.
+
+## Lifetime rewards
+
+Lifetime uses **total earned** from the official totals API. Paid amounts are not added on top of earned, so the same reward is not counted twice.
+
+## What the IOTA unit means here
+
+On this site, IOTA is the Train at Home subnet alpha token used by the upstream API. It is not a TAO amount and not IOTA Layer 1. Next to each IOTA figure the dashboard also shows a USD estimate from the public SN9 market price. That estimate is not an official payout. Details: [how USD is shown](https://iotahome.site/en/learn/iota-rewards-in-usd).
+
+## Missing values are not zero
+
+If a request fails or the payload is unusable, the dashboard shows unknown — not 0. When only some devices have usable data, the total is marked partial (for example 2/3 devices).
+
+> Numbers refresh on a cache: device status is usually kept for 60 seconds, rewards for five minutes. A manual refresh has a 15-second cooldown.
+
+If a device appears idle, see [status meanings](https://iotahome.site/en/learn/device-status) before treating it as offline.
+
+### IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)
+
+IOTA Watch는 보상을 임의로 계산하거나 예측하지 않습니다. 공식 보상 기록을 읽고 오늘의 기록된 보상과 누적 보상을 표시합니다.
+
+## 오늘의 보상
+
+- 하루는 Asia/Hong_Kong 기준 00:00(UTC+8)에 시작합니다.
+
+- 상태가 **pending**(대기) 또는 **settled**(정산 완료)인 기록만 합산합니다.
+
+- 동결된 기록과 그 밖의 상태는 제외합니다.
+
+- 현재 시각보다 뒤의 타임스탬프는 제외합니다.
+
+이 날짜는 보상이 기록된 날짜입니다. 오늘 지갑으로 토큰이 입금되었다는 뜻은 아닙니다.
+
+## 누적 보상
+
+누적 보상은 공식 합계 API의 **총 획득량**을 사용합니다. 이미 지급된 금액을 획득량에 다시 더하지 않으므로 같은 보상을 중복 계산하지 않습니다.
+
+## 여기서 IOTA 단위의 의미
+
+이 사이트의 IOTA는 공식 API에서 사용하는 Train at Home 서브넷의 alpha 토큰입니다. TAO 금액이나 IOTA Layer 1 코인이 아닙니다. 각 IOTA 금액 옆에는 공개 SN9 시세를 기준으로 계산한 USD 추정값도 표시됩니다. 이 추정값은 공식 지급액이 아닙니다. 자세한 내용은 [USD 표시 방식](https://iotahome.site/ko/learn/iota-rewards-in-usd)을 확인하세요.
+
+## 누락된 값은 0이 아닙니다
+
+요청이 실패하거나 응답 데이터를 사용할 수 없으면 0이 아닌 확인 대기 상태로 표시합니다. 일부 기기의 데이터만 조회된 경우 합계에는 조회 범위가 표시됩니다(예: 2/3대).
+
+> 데이터는 캐시를 통해 갱신됩니다. 기기 상태는 보통 60초, 보상은 5분 동안 캐시됩니다. 수동 새로고침에는 15초 대기 시간이 있습니다.
+
+기기가 유휴 상태로 보인다면 오프라인으로 판단하기 전에 [상태의 의미](https://iotahome.site/ko/learn/device-status)를 확인하세요.
+
+### IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)
+
+IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得して、本日の記録済み報酬と累計報酬を表示します。
+
+## 本日の報酬
+
+- 1日はAsia/Hong_Kongの00:00（UTC+8）から始まります。
+
+- 状態が**pending**（保留中）または**settled**（精算済み）の記録だけを合計します。
+
+- 凍結された記録と、それ以外の状態は除外します。
+
+- 現在時刻より後のタイムスタンプは除外します。
+
+この日付は報酬が記録された日付です。本日ウォレットにトークンが入金されたことを意味しません。
+
+## 累計報酬
+
+累計報酬には公式の合計APIの**総獲得量**を使います。支払い済みの額を獲得量に再び加算しないため、同じ報酬を重複して数えることはありません。
+
+## ここでのIOTAの単位
+
+このサイトのIOTAは、公式APIで使われるTrain at Homeサブネットのalphaトークンです。TAOの金額でもIOTA Layer 1のコインでもありません。各IOTA額の横には、公開SN9市場価格による米ドル推定額も表示します。この推定額は公式の支払額ではありません。詳しくは[米ドル表示の仕組み](https://iotahome.site/ja/learn/iota-rewards-in-usd)をご覧ください。
+
+## 欠落した値はゼロではありません
+
+リクエストが失敗したり応答データが使えない場合は、0ではなく未確認として表示します。一部のデバイスのデータだけ取得できた場合、合計に取得範囲を表示します（例：3台中2台）。
+
+> データはキャッシュを通して更新されます。デバイス状態は通常60秒、報酬は5分間キャッシュされます。手動更新には15秒の待機時間があります。
+
+デバイスが待機中に見える場合は、オフラインと判断する前に[状態の見方](https://iotahome.site/ja/learn/device-status)をご確認ください。
+
 
 ### What IOTA Train at Home device statuses mean
-- ZH: https://iotahome.site/zh/learn/device-status
-- EN: https://iotahome.site/en/learn/device-status
+- zh-CN: https://iotahome.site/zh/learn/device-status
+- zh-TW: https://iotahome.site/zh-TW/learn/device-status
+- en: https://iotahome.site/en/learn/device-status
+- ko: https://iotahome.site/ko/learn/device-status
+- ja: https://iotahome.site/ja/learn/device-status
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from the device, and it is not the time this website last fetched data.
-
-## Statuses
-
-- **Contributing**: the latest official sample reports the device active with throughput above zero. That is reported activity, not a live guarantee that it is computing this second.
-
-- **Waiting for tasks**: the device is reported active, but the latest sample has no throughput. It is often waiting to be assigned work.
-
-- **Not participating**: the device is not reported as in the current training set. This does not prove it is offline or broken.
-
-- **Not found**: every active run list was fetched successfully, and this Miner ID was not in them. Check the ID first.
-
-- **Unknown / check later**: some run lists could not be fetched. Incomplete coverage is not a device fault.
-
-## Two clocks, two meanings
-
-If this website cannot refresh official data for more than five minutes, the dashboard says the refresh was interrupted and keeps the last successful values. That is a **fetch** problem. It is different from an old sample timestamp on a successful fetch. Details: [what “refresh interrupted” means](https://iotahome.site/en/learn/what-refresh-interrupted-means).
-
-> Zero throughput is not evidence that the device is offline. For local errors, open the IOTA Train at Home app. This website cannot read local logs.
-
-To add a device, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id). For the numbers beside the status, see [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
-
-### IOTA 设备状态含义：有贡献、等待任务、暂未参与
+### IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh-CN)
 
 IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官方的**统计采样时间**，不是设备心跳，也不是本站最近一次拉取数据的时间。
 
@@ -343,33 +693,114 @@ IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官�
 
 添加设备见 [如何获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)。状态旁的数字见 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
+### IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)
+
+IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是官方的**統計採樣時間**，不是設備心跳，也不是本站最近一次拉取資料的時間。
+
+## 狀態說明
+
+- **有貢獻**：最近一次官方採樣顯示設備在線，且吞吐量大於 0。這是上報活動，不保證當前秒仍在計算。
+
+- **等待任務**：設備被報為在線，但最近一次採樣沒有吞吐量。常見情況是等待分配任務。
+
+- **暫未參與**：目前訓練名單未將其計為正在參與。這不等於設備已離線或故障。
+
+- **尚未找到**：所有進行中的訓練任務名單均讀取成功，其中沒有該 Miner ID。請先核對 ID。
+
+- **待確認**：部分任務名單本次未能讀取。覆蓋不完整，不代表設備故障。
+
+## 兩個時間，兩件事情
+
+如果本站超過 5 分鐘都沒能成功拿到官方數據，頁面會提示刷新中斷，並保留上一次成功的內容。那就是**獲取失敗**。它和「這次獲取成功，但官方採樣時間比較舊」不是一回事。詳見 [刷新中斷是什麼意思](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)。
+
+> 吞吐量為零，不等於設備已斷線。本機報錯需在 IOTA Train at Home 應用中查看。本站無法讀取設備本機日誌。
+
+新增設備見 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。狀態旁的數字請參考 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+### What IOTA Train at Home device statuses mean (en)
+
+IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from the device, and it is not the time this website last fetched data.
+
+## Statuses
+
+- **Contributing**: the latest official sample reports the device active with throughput above zero. That is reported activity, not a live guarantee that it is computing this second.
+
+- **Waiting for tasks**: the device is reported active, but the latest sample has no throughput. It is often waiting to be assigned work.
+
+- **Not participating**: the device is not reported as in the current training set. This does not prove it is offline or broken.
+
+- **Not found**: every active run list was fetched successfully, and this Miner ID was not in them. Check the ID first.
+
+- **Unknown / check later**: some run lists could not be fetched. Incomplete coverage is not a device fault.
+
+## Two clocks, two meanings
+
+If this website cannot refresh official data for more than five minutes, the dashboard says the refresh was interrupted and keeps the last successful values. That is a **fetch** problem. It is different from an old sample timestamp on a successful fetch. Details: [what “refresh interrupted” means](https://iotahome.site/en/learn/what-refresh-interrupted-means).
+
+> Zero throughput is not evidence that the device is offline. For local errors, open the IOTA Train at Home app. This website cannot read local logs.
+
+To add a device, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id). For the numbers beside the status, see [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
+
+### IOTA Train at Home 기기 상태의 의미 (ko)
+
+IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채굴자 타임스탬프는 공식 **통계 샘플 시간**입니다. 이는 장치의 하트비트가 아니며 이 웹사이트가 마지막으로 데이터를 가져온 시간도 아닙니다.
+
+## 상태
+
+- **기여**: 최신 공식 샘플에서는 장치가 처리량이 0보다 높은 활성 상태라고 보고합니다. 이는 보고된 활동이지 이번 초를 계산하고 있다는 실시간 보장은 아닙니다.
+
+- **작업 대기 중**: 장치가 활성 상태로 보고되었지만 최신 샘플에는 처리량이 없습니다. 작업이 할당되기를 기다리는 경우가 많습니다.
+
+- **참여하지 않음**: 장치가 현재 훈련 세트에 있는 것으로 보고되지 않습니다. 이는 오프라인 상태이거나 손상되었음을 증명하지 않습니다.
+
+- **찾을 수 없음**: 모든 활성 실행 목록을 성공적으로 가져왔지만 이Miner ID은 목록에 없습니다. 먼저 ID를 확인하세요.
+
+- **알 수 없음/나중에 확인**: 일부 실행 목록을 가져올 수 없습니다. 불완전한 보장은 장치 결함이 아닙니다.
+
+## 두 개의 시계, 두 가지 의미
+
+이 웹사이트에서 5분 이상 공식 데이터를 새로 고칠 수 없는 경우 대시보드는 새로고침이 중단되었다는 메시지를 표시하고 마지막으로 성공한 값을 유지합니다. 그것은 **가져오기** 문제입니다. 이는 성공적인 가져오기에 대한 이전 샘플 타임스탬프와 다릅니다. 세부 정보: ["새로고침 중단됨"의 의미](https://iotahome.site/ko/learn/what-refresh-interrupted-means).
+
+> 처리량 0은 장치가 오프라인이라는 증거가 아닙니다. 로컬 오류의 경우IOTA Train at Home앱을 엽니다. 이 웹사이트는 로컬 로그를 읽을 수 없습니다.
+
+장치를 추가하려면 [Miner ID찾는 방법](https://iotahome.site/ko/learn/find-miner-id)을 참조하세요. 상태 옆의 숫자는 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 참조하세요.
+
+### IOTA Train at Homeのデバイス状態の見方 (ja)
+
+IOTA Watchは、公式マイナー記録を短いステータスにマッピングします。マイナーのタイムスタンプは、公式の **統計サンプル時間** です。これはデバイスからのハートビートではなく、この Web サイトが最後にデータを取得した時間でもありません。
+
+## ステータス
+
+- **貢献**: 最新の公式サンプルでは、デバイスがゼロを超えるスループットでアクティブであると報告されています。これは報告されたアクティビティであり、この秒を計算していることを保証するものではありません。
+
+- **タスクを待機中**: デバイスはアクティブであると報告されていますが、最新のサンプルにはスループットがありません。仕事が割り当てられるのを待っていることがよくあります。
+
+- **参加していません**: デバイスは現在のトレーニング セットとして報告されません。これは、オフラインであるか壊れていることを証明するものではありません。
+
+- **見つかりません**: すべてのアクティブな実行リストは正常にフェッチされましたが、このMiner IDはその中にありませんでした。まずはIDを確認してみましょう。
+
+- **不明 / 後で確認してください**: 一部の実行リストを取得できませんでした。不完全なカバレッジはデバイスの障害ではありません。
+
+## 2 つの時計、2 つの意味
+
+この Web サイトが公式データを 5 分以上更新できない場合、ダッシュボードには更新が中断されたことが示され、最後に成功した値が保持されます。それは**フェッチ**の問題です。これは、フェッチが成功したときの古いサンプルのタイムスタンプとは異なります。詳細: [「リフレッシュの中断」の意味](https://iotahome.site/ja/learn/what-refresh-interrupted-means)。
+
+> スループットがゼロであっても、デバイスがオフラインであるという証拠にはなりません。ローカル エラーの場合は、IOTA Train at Homeアプリを開きます。この Web サイトはローカル ログを読み取ることができません。
+
+デバイスを追加するには、[Miner IDを見つける方法](https://iotahome.site/ja/learn/find-miner-id) を参照してください。ステータスの横の数字については、[報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work)を参照してください。
+
 
 ### IOTA Train at Home vs the IOTA cryptocurrency
-- ZH: https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin
-- EN: https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin
+- zh-CN: https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin
+- zh-TW: https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin
+- en: https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin
+- ko: https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin
+- ja: https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-People searching for “IOTA” usually land on the IOTA Foundation Layer 1 cryptocurrency. **IOTA Train at Home** is a different product: a Macrocosmos training network in the Bittensor ecosystem. IOTA Watch only monitors the second one.
-
-## Comparison
-
-- **IOTA Train at Home**: home computers contribute training work. Rewards are the subnet alpha token, often called IOTA or SN9. A machine is identified with a public Miner ID (SS58 hotkey).
-
-- **IOTA Layer 1**: a separate ledger and token. Wallets such as Firefly hold that coin. They do not show Train at Home device status.
-
-- **IOTA Watch**: a read-only dashboard for Train at Home Miner IDs. It is not a wallet and does not ask for a seed phrase.
-
-## Which to use
-
-To see whether a device is contributing and what it earned today, use [IOTA Watch](https://iotahome.site/en/learn/what-is-iota-watch) and the official [Train at Home app](https://iota.macrocosmos.ai/). To hold or send IOTA Layer 1 coins, use that network’s official wallet — not this site.
-
-> Do not paste a private key, recovery phrase, or coldkey secret into IOTA Watch. The Miner ID is a public address.
-
-Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what SN9 / IOTA means here](https://iotahome.site/en/learn/what-is-sn9-iota), then [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
-
-### IOTA Train at Home 和 IOTA 公链有什么区别
+### IOTA Train at Home 和 IOTA 公链有什么区别 (zh-CN)
 
 搜索「IOTA」时，结果多半是 IOTA Foundation 的 Layer 1 公链。**IOTA Train at Home** 是另一项产品：Macrocosmos 在 Bittensor 生态中的训练网络。IOTA Watch 只监控后者。
 
@@ -389,33 +820,98 @@ Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what S
 
 下一步：[获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)，了解 [SN9 / IOTA](https://iotahome.site/zh/learn/what-is-sn9-iota)，然后查看 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
+### IOTA Train at Home 和 IOTA 公鏈有什麼區別 (zh-TW)
+
+搜尋「IOTA」時，結果多半是 IOTA Foundation 的 Layer 1 公鏈。**IOTA Train at Home**是另一個產品：Macrocosmos 在 Bittensor 生態中的訓練網絡。 IOTA Watch 只監控後者。
+
+## 對照
+
+- **IOTA Train at Home**：設備貢獻訓練算力。收益是子網 alpha 代幣，通常稱為 IOTA 或 SN9。設備以公開 Miner ID（SS58 hotkey）識別。
+
+- **IOTA 公鏈**：另一套帳本和代幣。 Firefly 等錢包管理的是公鏈幣，無法顯示 Train at Home 裝置狀態。
+
+- **IOTA Watch**：唯讀監控 Train at Home 的 Miner ID。不是錢包，也不會索取助記詞。
+
+## 如何選擇
+
+查看設備是否在貢獻、今日收益，請使用 [IOTA Watch](https://iotahome.site/zh-TW/learn/what-is-iota-watch)和官方 [Train at Home 應用](https://iota.macrocosmos.ai/)。持有或轉出 IOTA 公鏈幣，請使用該鏈官方錢包，不要使用本站。
+
+> 請勿在 IOTA Watch 中填寫私鑰、助記詞或 coldkey 金鑰。 Miner ID 是公開地址。
+
+下一步：[取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)，了解 [SN9 / IOTA](https://iotahome.site/zh-TW/learn/what-is-sn9-iota)，然後查看 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+### IOTA Train at Home vs the IOTA cryptocurrency (en)
+
+People searching for “IOTA” usually land on the IOTA Foundation Layer 1 cryptocurrency. **IOTA Train at Home** is a different product: a Macrocosmos training network in the Bittensor ecosystem. IOTA Watch only monitors the second one.
+
+## Comparison
+
+- **IOTA Train at Home**: home computers contribute training work. Rewards are the subnet alpha token, often called IOTA or SN9. A machine is identified with a public Miner ID (SS58 hotkey).
+
+- **IOTA Layer 1**: a separate ledger and token. Wallets such as Firefly hold that coin. They do not show Train at Home device status.
+
+- **IOTA Watch**: a read-only dashboard for Train at Home Miner IDs. It is not a wallet and does not ask for a seed phrase.
+
+## Which to use
+
+To see whether a device is contributing and what it earned today, use [IOTA Watch](https://iotahome.site/en/learn/what-is-iota-watch) and the official [Train at Home app](https://iota.macrocosmos.ai/). To hold or send IOTA Layer 1 coins, use that network’s official wallet — not this site.
+
+> Do not paste a private key, recovery phrase, or coldkey secret into IOTA Watch. The Miner ID is a public address.
+
+Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what SN9 / IOTA means here](https://iotahome.site/en/learn/what-is-sn9-iota), then [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
+
+### IOTA Train at Home과 IOTA 암호화폐의 차이 (ko)
+
+“IOTA”을 검색하는 사람들은 일반적으로IOTAFoundation Layer 1 암호화폐에 도달합니다. **IOTA Train at Home**는 다른 제품입니다. 즉,Bittensor생태계의Macrocosmos훈련 네트워크입니다.IOTA Watch는 두 번째 항목만 모니터링합니다.
+
+## 비교
+
+- **IOTA Train at Home**: 가정용 컴퓨터가 교육 작업에 기여합니다. 보상은 종종IOTA또는SN9라고 불리는 서브넷 알파 토큰입니다. 머신은 공개Miner ID(SS58hotkey)으로 식별됩니다.
+
+- **IOTA레이어 1**: 별도의 원장 및 토큰.Firefly과 같은 지갑에는 해당 코인이 보관됩니다.Train at Home장치 상태는 표시되지 않습니다.
+
+- **IOTA Watch**:Train at HomeMiner IDs에 대한 읽기 전용 대시보드입니다. 지갑이 아니며 시드 문구를 요구하지 않습니다.
+
+## 어떤 것을 사용할 것인가
+
+기기가 기여했는지 여부와 오늘 얻은 수익을 확인하려면 [IOTA Watch](https://iotahome.site/ko/learn/what-is-iota-watch) 및 공식 [Train at Home앱](https://iota.macrocosmos.ai/)을 사용하세요.IOTA레이어 1 코인을 보관하거나 보내려면 이 사이트가 아닌 해당 네트워크의 공식 지갑을 사용하세요.
+
+> 개인 키, 복구 문구 또는coldkey비밀을IOTA Watch에 붙여넣지 마십시오.Miner ID는 공개 주소입니다.
+
+다음: [Miner ID찾기](https://iotahome.site/ko/learn/find-miner-id), [여기서SN9/IOTA의 의미](https://iotahome.site/ko/learn/what-is-sn9-iota), [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work).
+
+### IOTA Train at HomeとIOTA暗号資産の違い (ja)
+
+「IOTA」を検索すると、通常、IOTAFoundation Layer 1 暗号通貨にたどり着きます。 **IOTA Train at Home** は別の製品です。Bittensorエコシステム内のMacrocosmosトレーニング ネットワークです。IOTA Watchは 2 番目のみを監視します。
+
+## 比較
+
+- **IOTA Train at Home**: 家庭用コンピューターがトレーニング作業に貢献します。報酬はサブネット アルファ トークンであり、多くの場合IOTAまたはSN9と呼ばれます。マシンはパブリックMiner ID(SS58hotkey) で識別されます。
+
+- **IOTAレイヤ 1**: 個別の台帳とトークン。Fireflyなどの財布にはそのコインが入っています。Train at Homeデバイスのステータスは表示されません。
+
+- **IOTA Watch**:Train at HomeMiner IDの読み取り専用ダッシュボード。これはウォレットではないため、シード フレーズを要求しません。
+
+## どれを使用するか
+
+デバイスが貢献しているかどうか、および今日の収益を確認するには、[IOTA Watch](https://iotahome.site/ja/learn/what-is-iota-watch) および公式の [Train at Homeアプリ](https://iota.macrocosmos.ai/) を使用します。IOTAレイヤー 1 コインを保持または送信するには、このサイトではなく、そのネットワークの公式ウォレットを使用してください。
+
+> 秘密キー、回復フレーズ、またはcoldkeyシークレットをIOTA Watchに貼り付けないでください。Miner IDはパブリック アドレスです。
+
+次に: [Miner IDを検索](https://iotahome.site/ja/learn/find-miner-id)、[SN9/IOTAがここで何を意味するか](https://iotahome.site/ja/learn/what-is-sn9-iota)、次に [報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work)。
+
 
 ### How IOTA Train at Home rewards are shown in USD
-- ZH: https://iotahome.site/zh/learn/iota-rewards-in-usd
-- EN: https://iotahome.site/en/learn/iota-rewards-in-usd
+- zh-CN: https://iotahome.site/zh/learn/iota-rewards-in-usd
+- zh-TW: https://iotahome.site/zh-TW/learn/iota-rewards-in-usd
+- en: https://iotahome.site/en/learn/iota-rewards-in-usd
+- ko: https://iotahome.site/ko/learn/iota-rewards-in-usd
+- ja: https://iotahome.site/ja/learn/iota-rewards-in-usd
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-The dashboard shows **two numbers for the same reward**: the official IOTA amount from Train at Home entitlements, and an estimated USD value beside it.
-
-## What is official
-
-Today’s and lifetime IOTA amounts still follow the [reward rules](https://iotahome.site/en/learn/how-rewards-work): Hong Kong midnight, pending and settled only, lifetime = total earned. IOTA Watch does not invent those IOTA figures.
-
-## What is an estimate
-
-The USD line multiplies that IOTA amount by a public market price for the Train at Home subnet token (SN9 / CoinGecko `iota-2`). It is **not** the IOTA Foundation Layer 1 price, not TAO, and not a promise that you can sell at that rate.
-
-## When USD is a dash
-
-If the market feed is down, IOTA amounts stay visible and USD shows unknown. Missing price is not treated as $0.
-
-> Use the IOTA number for official accounting. Use USD only as a rough scale.
-
-If this token is still being mixed up with IOTA Layer 1, see [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
-
-### IOTA Train at Home 收益怎么同时显示美元
+### IOTA Train at Home 收益怎么同时显示美元 (zh-CN)
 
 监控页对同一笔收益会给出**两个数字**：官方 entitlements 里的 IOTA 数量，以及旁边估算的美元。
 
@@ -435,41 +931,98 @@ If this token is still being mixed up with IOTA Layer 1, see [Train at Home vs t
 
 如与 IOTA 公链混淆，请先阅读 [Train at Home 和 IOTA 公链的区别](https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin)。
 
+### IOTA Train at Home 收益怎麼同時顯示美元 (zh-TW)
+
+監視器頁面對同一筆收益會給出**兩個數字**：官方 entitlements 裡的 IOTA 數量，以及旁邊估算的美元。
+
+## 哪些是官方口徑
+
+今天和累積的 IOTA 數量仍按 [收益規則](https://iotahome.site/zh-TW/learn/how-rewards-work)：香港時間 0 點、只計 pending 和 settled，累計取 total earned。 IOTA Watch 不會自行產生這些 IOTA 數字。
+
+## 哪些只是估價
+
+美元一行，是用上述 IOTA 數量乘以 Train at Home 子網代幣（SN9 / CoinGecko`iota-2`）的公開市場價格。它**不是**IOTA 公鏈幣價，不是 TAO，也不保證你能以這個價格賣出。
+
+## 美元變成橫線時
+
+行情介面不可用時，IOTA 數量照常顯示，美元顯示未知。沒有價格不會當成 $0。
+
+> 核對帳目請以 IOTA 為準。美元僅用於參考量級。
+
+如與 IOTA 公鏈混淆，請先閱讀 [Train at Home 和 IOTA 公鏈的區別](https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin)。
+
+### How IOTA Train at Home rewards are shown in USD (en)
+
+The dashboard shows **two numbers for the same reward**: the official IOTA amount from Train at Home entitlements, and an estimated USD value beside it.
+
+## What is official
+
+Today’s and lifetime IOTA amounts still follow the [reward rules](https://iotahome.site/en/learn/how-rewards-work): Hong Kong midnight, pending and settled only, lifetime = total earned. IOTA Watch does not invent those IOTA figures.
+
+## What is an estimate
+
+The USD line multiplies that IOTA amount by a public market price for the Train at Home subnet token (SN9 / CoinGecko `iota-2`). It is **not** the IOTA Foundation Layer 1 price, not TAO, and not a promise that you can sell at that rate.
+
+## When USD is a dash
+
+If the market feed is down, IOTA amounts stay visible and USD shows unknown. Missing price is not treated as $0.
+
+> Use the IOTA number for official accounting. Use USD only as a rough scale.
+
+If this token is still being mixed up with IOTA Layer 1, see [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
+
+### IOTA Train at Home 보상의 USD 환산 방식 (ko)
+
+대시보드에는 **동일한 보상에 대해 두 개의 숫자**가 표시됩니다. 즉,Train at Home자격의 공식 금액인IOTA과 그 옆에 예상 USD 가치가 표시됩니다.
+
+## 공식이란 무엇인가
+
+오늘 및 평생IOTA금액은 여전히 [보상 규칙](https://iotahome.site/ko/learn/how-rewards-work)을 따릅니다: 홍콩 자정, 보류 및 정산만, 평생 = 총 수익.IOTA Watch는IOTA숫자를 발명하지 않습니다.
+
+## 추정값의 의미
+
+USD 라인은 해당IOTA금액에Train at Home서브넷 토큰의 공개 시장 가격(SN9/CoinGecko`iota-2`)을 곱합니다. 이는IOTAFoundation Layer 1 가격이 **아닙니다**,TAO도 아니고 해당 가격으로 판매할 수 있다는 약속도 아닙니다.
+
+## USD가 대시인 경우
+
+시장 피드가 다운되면IOTA금액이 계속 표시되고 USD는 알 수 없음으로 표시됩니다. 누락된 가격은 $0으로 처리되지 않습니다.
+
+> 공식 회계에는IOTA번호를 사용하십시오. USD는 대략적인 규모로만 사용하세요.
+
+이 토큰이 여전히IOTA레이어 1과 혼동되고 있는 경우 [Train at Home대IOTA코인](https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin)을 참조하세요.
+
+### IOTA Train at Homeの報酬を米ドルで表示する仕組み (ja)
+
+ダッシュボードには、**同じ報酬に対する 2 つの数字**が表示されます。つまり、権利Train at Homeからの正式な金額IOTAと、その横にある推定米ドル額です。
+
+## 公式とは
+
+現在および生涯の金額IOTAは、引き続き [報酬ルール](https://iotahome.site/ja/learn/how-rewards-work) に従います: 香港深夜、保留中および決済のみ、生涯 = 獲得総額。IOTA WatchはIOTAという数字を発明したものではありません。
+
+## 見積もりとは何ですか
+
+USD 行は、そのIOTAの金額に、Train at Homeサブネット トークンの公開市場価格 (SN9/CoinGecko`iota-2`) を乗算します。これは、TAOではなく、IOTAFoundation Layer 1 の価格ではなく、そのレートで販売できることを保証するものではありません。
+
+## USD がダッシュの場合
+
+マーケットフィードがダウンしている場合、IOTAの金額は表示されたままになり、USD は不明と表示されます。価格が記載されていない場合は、0 ドルとして扱われません。
+
+> 公式会計にはIOTA番号を使用します。米ドルは大まかなスケールとしてのみ使用してください。
+
+このトークンがまだIOTAレイヤ 1 と混同されている場合は、[Train at HomeとIOTAコインの比較](https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin) を参照してください。
+
 
 ### What “refresh interrupted” means on IOTA Watch
-- ZH: https://iotahome.site/zh/learn/what-refresh-interrupted-means
-- EN: https://iotahome.site/en/learn/what-refresh-interrupted-means
+- zh-CN: https://iotahome.site/zh/learn/what-refresh-interrupted-means
+- zh-TW: https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means
+- en: https://iotahome.site/en/learn/what-refresh-interrupted-means
+- ko: https://iotahome.site/ko/learn/what-refresh-interrupted-means
+- ja: https://iotahome.site/ja/learn/what-refresh-interrupted-means
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-**Refresh interrupted** appears when this website cannot complete a successful read of official Train at Home data for more than five minutes. The cards keep the last values that did arrive.
-
-It is a **website fetch** status. It is not a device heartbeat, and it is not the official statistics sample time.
-
-## What it is not
-
-- Not “the device stopped training”
-
-- Not “throughput is zero, so the device is offline”
-
-- Not the same as [Not found](https://iotahome.site/en/learn/device-not-found), which means the Miner ID was missing from a complete run list
-
-## What you can still trust
-
-IOTA amounts that already loaded are the last official entitlements this site received. USD beside them is only a public SN9 estimate. See [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
-
-## What to do
-
-- Wait for the next automatic check, or tap refresh once (there is a short cooldown)
-
-- If the yellow notice names an upstream error, the official API was unreachable from this site
-
-- For local errors — app disconnected, GPU idle, login failed — open the Train at Home app on that machine. IOTA Watch cannot read local logs
-
-> After a successful fetch, the badge should return to contributing, waiting, or not participating. Read those here: [device statuses](https://iotahome.site/en/learn/device-status).
-
-### IOTA Watch「刷新中断」是什么意思
+### IOTA Watch「刷新中断」是什么意思 (zh-CN)
 
 **刷新中断**出现在本站超过 5 分钟都没能成功读完官方 Train at Home 数据时。卡片会保留上一次已经拿到的数字。
 
@@ -497,43 +1050,130 @@ IOTA amounts that already loaded are the last official entitlements this site re
 
 > 获取成功后，徽章应回到有贡献、等待任务或暂未参与。对照见 [设备状态含义](https://iotahome.site/zh/learn/device-status)。
 
+### IOTA Watch「刷新中斷」是什麼意思 (zh-TW)
+
+**刷新中斷**出現在本站超過 5 分鐘都沒能成功讀完官方 Train at Home 資料時。卡片會保留上一次已經拿到的數字。
+
+這是**網站取得**狀態，不是設備心跳，也不是官方統計採樣時間。
+
+## 它不是什麼
+
+- 不是「設備已經停止訓練」
+
+- 不是「吞吐量為零，所以設備斷線了」
+
+- 也不同於 [尚未找到](https://iotahome.site/zh-TW/learn/device-not-found)：那是完整名單裡沒有這個 Miner ID
+
+## 哪些數字還能看
+
+已經顯示出來的 IOTA 數量，是本站上次拿到的官方 entitlements。旁邊的美元只是 SN9 公開市場估價。口徑請見 [收益怎麼算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+## 處理方式
+
+- 等待下一輪自動檢查，或點擊一次刷新（有短暫冷卻）
+
+- 若黃色提示寫明上游錯誤，表示本站當時無法連接官方接口
+
+- 本機報錯誤（應用程式斷連、GPU 閒置、登入失敗）請在該裝置上開啟 Train at Home 應用程式。 IOTA Watch 無法讀取本地日誌
+
+> 取得成功後，徽章應回到有貢獻、等待任務或暫未參與。對照見 [設備狀態意義](https://iotahome.site/zh-TW/learn/device-status)。
+
+### What “refresh interrupted” means on IOTA Watch (en)
+
+**Refresh interrupted** appears when this website cannot complete a successful read of official Train at Home data for more than five minutes. The cards keep the last values that did arrive.
+
+It is a **website fetch** status. It is not a device heartbeat, and it is not the official statistics sample time.
+
+## What it is not
+
+- Not “the device stopped training”
+
+- Not “throughput is zero, so the device is offline”
+
+- Not the same as [Not found](https://iotahome.site/en/learn/device-not-found), which means the Miner ID was missing from a complete run list
+
+## What you can still trust
+
+IOTA amounts that already loaded are the last official entitlements this site received. USD beside them is only a public SN9 estimate. See [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
+
+## What to do
+
+- Wait for the next automatic check, or tap refresh once (there is a short cooldown)
+
+- If the yellow notice names an upstream error, the official API was unreachable from this site
+
+- For local errors — app disconnected, GPU idle, login failed — open the Train at Home app on that machine. IOTA Watch cannot read local logs
+
+> After a successful fetch, the badge should return to contributing, waiting, or not participating. Read those here: [device statuses](https://iotahome.site/en/learn/device-status).
+
+### IOTA Watch의 새로고침 중단은 무슨 뜻인가요? (ko)
+
+**새로고침이 중단되었습니다**는 이 웹사이트가 5분 이상 공식Train at Home데이터 읽기를 성공적으로 완료할 수 없을 때 나타납니다. 카드는 마지막으로 도착한 값을 유지합니다.
+
+**웹사이트 가져오기** 상태입니다. 기기 하트비트도 아니고 공식 통계 샘플 시간도 아닙니다.
+
+## 그게 아닌데
+
+- "장치가 훈련을 중지했습니다"가 아닙니다.
+
+- "처리량이 0이므로 장치가 오프라인 상태입니다."가 아닙니다.
+
+- [찾을 수 없음](https://iotahome.site/ko/learn/device-not-found)과 동일하지 않습니다. 이는 전체 실행 목록에서Miner ID이 누락되었음을 의미합니다.
+
+## 아직도 믿을 수 있는 것
+
+이미 로드된IOTA금액은 이 사이트가 받은 마지막 공식 자격입니다. 그 옆에 있는 USD는 공개 추정치인SN9에 불과합니다. [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 참조하세요.
+
+## 해야 할 일
+
+- 다음 자동 확인을 기다리거나 새로고침을 한 번 탭하세요. (짧은 쿨타임이 있습니다.)
+
+- 노란색 알림이 업스트림 오류를 나타내는 경우 이 사이트에서 공식 API에 연결할 수 없는 것입니다.
+
+- 로컬 오류(앱 연결 끊김, GPU 유휴, 로그인 실패)의 경우 해당 컴퓨터에서Train at Home앱을 엽니다.IOTA Watch로컬 로그를 읽을 수 없습니다.
+
+> 가져오기가 성공적으로 완료되면 배지는 참여, 대기 또는 참여하지 않음 상태로 돌아가야 합니다. 여기에서 읽어보세요: [기기 상태](https://iotahome.site/ko/learn/device-status).
+
+### IOTA Watchの「更新中断」とは？ (ja)
+
+この Web サイトが公式Train at Homeデータの読み取りを 5 分以上正常に完了できない場合、**更新が中断されました** が表示されます。カードには、最後に到着した値が保持されます。
+
+**ウェブサイト取得**ステータスです。これはデバイスのハートビートではなく、公式の統計サンプル時間でもありません。
+
+## それは何ではないのか
+
+- 「デバイスがトレーニングを停止した」わけではありません
+
+- 「スループットがゼロなのでデバイスがオフライン」ではない
+
+- [見つかりません](https://iotahome.site/ja/learn/device-not-found) とは異なります。これは、Miner IDが完全な実行リストから欠落していることを意味します
+
+## まだ信頼できるもの
+
+すでにロードされているIOTAの金額は、このサイトが受け取った最後の正式な権利です。その横にある米ドルは、SN9という公的な推定値にすぎません。 [報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work)を参照してください。
+
+## 何をすべきか
+
+- 次の自動チェックを待つか、「更新」を 1 回タップします (短いクールダウンがあります)
+
+- 黄色の通知がアップストリーム エラーを示している場合は、このサイトから公式 API にアクセスできませんでした
+
+- ローカル エラー (アプリの切断、GPU アイドル、ログイン失敗) の場合は、そのマシンでTrain at Homeアプリを開きます。IOTA Watchローカルログを読み取れません
+
+> フェッチが成功すると、バッジは貢献、待機、または参加しない状態に戻ります。ここでそれらを参照してください: [デバイスのステータス](https://iotahome.site/ja/learn/device-status)。
+
 
 ### How Google sign-in stores your IOTA Watch device list
-- ZH: https://iotahome.site/zh/learn/google-account-device-list
-- EN: https://iotahome.site/en/learn/google-account-device-list
+- zh-CN: https://iotahome.site/zh/learn/google-account-device-list
+- zh-TW: https://iotahome.site/zh-TW/learn/google-account-device-list
+- en: https://iotahome.site/en/learn/google-account-device-list
+- ko: https://iotahome.site/ko/learn/google-account-device-list
+- ja: https://iotahome.site/ja/learn/google-account-device-list
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-Google sign-in on IOTA Watch only binds a **list of public Miner IDs and labels**. It is not a wallet login and never asks for a password, private key, or seed phrase.
-
-## Without signing in
-
-- This browser can keep up to **3** devices
-
-- The list lives in local storage on this machine
-
-- Another phone or computer will not see it unless you export and import a JSON backup
-
-## After Google sign-in
-
-- The same account can keep up to **10** devices
-
-- Open [Account](https://iotahome.site/en/account) to see the name, email, and avatar Google provided
-
-- Add, rename, and remove devices on the [dashboard](https://iotahome.site/en/app)
-
-- Sign in on another device to see the same list
-
-## What is stored
-
-Public SS58 hotkeys, labels you typed, and when you added them. Telemetry is fetched from official public APIs. Details: [privacy notes](https://iotahome.site/en/privacy).
-
-> Signing out does not delete the official training history. It only disconnects this browser from the bound list.
-
-To obtain an ID, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id).
-
-### IOTA Watch 用 Google 登录后，设备清单怎么同步
+### IOTA Watch 用 Google 登录后，设备清单怎么同步 (zh-CN)
 
 IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这不是钱包登录，不需要密码、私钥或助记词。
 
@@ -563,37 +1203,138 @@ IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这�
 
 获取 ID 见 [如何获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)。
 
+### IOTA Watch 用 Google 登入後，裝置清單怎麼同步 (zh-TW)
+
+IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這不是錢包登錄，不需要密碼、私鑰或助記詞。
+
+## 未登入時
+
+- 目前瀏覽器最多儲存**3**台
+
+- 清單位於該裝置的本機存儲
+
+- 其他裝置無法查看，除非匯出 JSON 後再匯入
+
+## Google 登入後
+
+- 同一帳號最多綁定**10**台
+
+- 開啟 [帳號頁](https://iotahome.site/zh-TW/account)可查看 Google 提供的姓名、信箱和頭像
+
+- 新增、改名、移除皆在 [我的裝置](https://iotahome.site/zh-TW/app)完成
+
+- 在其他裝置登入相同帳號即可查看同一份清單
+
+## 儲存內容
+
+公開的 SS58 hotkey、裝置名稱，以及新增時間。狀態和收益來自官方公開介面。詳見 [隱私權說明](https://iotahome.site/zh-TW/privacy)。
+
+> 登出登入不會刪除官方訓練記錄，僅使目前瀏覽器不再讀取已綁定的清單。
+
+取得 ID 請參閱 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。
+
+### How Google sign-in stores your IOTA Watch device list (en)
+
+Google sign-in on IOTA Watch only binds a **list of public Miner IDs and labels**. It is not a wallet login and never asks for a password, private key, or seed phrase.
+
+## Without signing in
+
+- This browser can keep up to **3** devices
+
+- The list lives in local storage on this machine
+
+- Another phone or computer will not see it unless you export and import a JSON backup
+
+## After Google sign-in
+
+- The same account can keep up to **10** devices
+
+- Open [Account](https://iotahome.site/en/account) to see the name, email, and avatar Google provided
+
+- Add, rename, and remove devices on the [dashboard](https://iotahome.site/en/app)
+
+- Sign in on another device to see the same list
+
+## What is stored
+
+Public SS58 hotkeys, labels you typed, and when you added them. Telemetry is fetched from official public APIs. Details: [privacy notes](https://iotahome.site/en/privacy).
+
+> Signing out does not delete the official training history. It only disconnects this browser from the bound list.
+
+To obtain an ID, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id).
+
+### Google 로그인으로 IOTA Watch 기기 목록 동기화하기 (ko)
+
+GoogleIOTA Watch에 로그인하면 **공개Miner ID및 레이블 목록**만 바인딩됩니다. 지갑 로그인이 아니며 비밀번호, 개인 키 또는 시드 문구를 요구하지 않습니다.
+
+## 로그인하지 않고
+
+- 이 브라우저는 최대 **3** 장치를 유지할 수 있습니다.
+
+- 목록은 이 컴퓨터의 로컬 저장소에 있습니다.
+
+- JSON 백업을 내보내고 가져오지 않으면 다른 전화나 컴퓨터에서 볼 수 없습니다.
+
+## Google로그인 후
+
+- 동일한 계정으로 최대 **10**개의 기기를 보관할 수 있습니다.
+
+- [계정](https://iotahome.site/ko/account)을 열어서 제공되는 이름, 이메일, 아바타Google을 확인하세요.
+
+- [대시보드](https://iotahome.site/ko/app)에서 기기를 추가하고, 이름을 바꾸거나 삭제할 수 있습니다.
+
+- 동일한 목록을 보려면 다른 기기에서 로그인하세요.
+
+## 저장되는 내용
+
+공개SS58hotkeys, 입력한 레이블 및 추가한 시기. 원격 측정은 공식 공개 API에서 가져옵니다. 세부 정보: [개인 정보 보호 메모](https://iotahome.site/ko/privacy).
+
+> 로그아웃을 하셔도 공식 훈련 이력은 삭제되지 않습니다. 이 브라우저는 바인딩된 목록에서만 연결이 끊어집니다.
+
+ID를 얻으려면 [Miner ID찾는 방법](https://iotahome.site/ko/learn/find-miner-id)을 참조하세요.
+
+### GoogleログインでIOTA Watchのデバイス一覧を同期する方法 (ja)
+
+IOTA WatchでのGoogleサインインは、**パブリックMiner IDとラベルのリスト**のみをバインドします。これはウォレットへのログインではなく、パスワード、秘密キー、シード フレーズを要求されることはありません。
+
+## サインインしない場合
+
+- このブラウザは最大 **3** デバイスを保持できます
+
+- リストはこのマシンのローカル ストレージにあります
+
+- JSON バックアップをエクスポートおよびインポートしない限り、別の電話またはコンピューターにはそれが表示されません。
+
+## Googleサインイン後
+
+- 同じアカウントで最大 **10** 台のデバイスを保持できます
+
+- [アカウント](https://iotahome.site/ja/account) を開くと、指定された名前、メールアドレス、アバターGoogleが表示されます。
+
+- [ダッシュボード](https://iotahome.site/ja/app)でのデバイスの追加、名前変更、削除
+
+- 別のデバイスにサインインすると、同じリストが表示されます
+
+## 保存されるもの
+
+PublicSS58hotkey、入力したラベル、およびそれらを追加した日時。テレメトリは公式のパブリック API から取得されます。詳細: [プライバシーに関する注意事項](https://iotahome.site/ja/privacy)。
+
+> サインアウトしても、公式のトレーニング履歴は削除されません。このブラウザをバインドされたリストから切断するだけです。
+
+ID を取得するには、[Miner IDを検索する方法](https://iotahome.site/ja/learn/find-miner-id) を参照してください。
+
 
 ### What SN9 / IOTA means on Train at Home
-- ZH: https://iotahome.site/zh/learn/what-is-sn9-iota
-- EN: https://iotahome.site/en/learn/what-is-sn9-iota
+- zh-CN: https://iotahome.site/zh/learn/what-is-sn9-iota
+- zh-TW: https://iotahome.site/zh-TW/learn/what-is-sn9-iota
+- en: https://iotahome.site/en/learn/what-is-sn9-iota
+- ko: https://iotahome.site/ko/learn/what-is-sn9-iota
+- ja: https://iotahome.site/ja/learn/what-is-sn9-iota
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-Train at Home rewards are denominated in the subnet’s **alpha token**. People call it IOTA or **SN9**. IOTA Watch uses the same unit the official entitlements API returns.
-
-## SN9 in one line
-
-SN9 is Bittensor subnet 9 — Macrocosmos IOTA Train at Home. The CoinGecko id for that token is `iota-2`. Do not use the Layer 1 id `iota`.
-
-## What it is not
-
-- Not **TAO**, the Bittensor parent token
-
-- Not the **IOTA Foundation** Layer 1 coin used by Firefly
-
-- Not a dollar payout. USD on the dashboard is a public-market estimate only
-
-If search results keep sending you to the wrong IOTA, read [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
-
-## How IOTA Watch uses it
-
-Today and lifetime figures stay in official IOTA amounts. The USD line multiplies those amounts by a public SN9 price. Missing price shows a dash, never $0. Details: [USD estimates](https://iotahome.site/en/learn/iota-rewards-in-usd) and [reward rules](https://iotahome.site/en/learn/how-rewards-work).
-
-> IOTA Watch cannot send, swap, or custody this token. It only displays official accounted amounts.
-
-### Train at Home 的 SN9 / IOTA 是什么代币
+### Train at Home 的 SN9 / IOTA 是什么代币 (zh-CN)
 
 Train at Home 的收益单位是子网 **alpha 代币**，通常称为 IOTA 或 **SN9**。IOTA Watch 使用官方 entitlements 接口返回的同一单位。
 
@@ -617,41 +1358,114 @@ SN9 是 Bittensor 子网 9，即 Macrocosmos 的 IOTA Train at Home。该代币�
 
 > IOTA Watch 不能发送、兑换或托管这种代币，只展示官方记账数量。
 
+### Train at Home 的 SN9 / IOTA 是什麼代幣 (zh-TW)
+
+Train at Home 的收益單位是子網**alpha 代幣**，通常稱為 IOTA 或**SN9**。 IOTA Watch 使用官方 entitlements 介面返回的相同單位。
+
+## SN9 說明
+
+SN9 是 Bittensor 子網路 9，即 Macrocosmos 的 IOTA Train at Home。該代幣在 CoinGecko 上的 id 是`iota-2`，請勿使用公鏈的`iota`。
+
+## 排除項
+
+- 不是**TAO**（Bittensor 主網代幣）
+
+- 不是**IOTA Foundation**公鏈幣，也不是 Firefly 中的 IOTA
+
+- 不是美元結算。監視器頁上的 USD 僅為公開市場估價
+
+若搜尋結果指向另一條 IOTA，請先閱讀 [Train at Home 和 IOTA 公鏈的差異](https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin)。
+
+## IOTA Watch 的用法
+
+今日和累積數字保持官方 IOTA 數量。美元一行以公開 SN9 價格折算。沒有行情則顯示橫線，不記作 $0。詳見 [美元估價](https://iotahome.site/zh-TW/learn/iota-rewards-in-usd)和 [收益規則](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+> IOTA Watch 不能發送、兌換或託管這種代幣，只展示官方記帳數量。
+
+### What SN9 / IOTA means on Train at Home (en)
+
+Train at Home rewards are denominated in the subnet’s **alpha token**. People call it IOTA or **SN9**. IOTA Watch uses the same unit the official entitlements API returns.
+
+## SN9 in one line
+
+SN9 is Bittensor subnet 9 — Macrocosmos IOTA Train at Home. The CoinGecko id for that token is `iota-2`. Do not use the Layer 1 id `iota`.
+
+## What it is not
+
+- Not **TAO**, the Bittensor parent token
+
+- Not the **IOTA Foundation** Layer 1 coin used by Firefly
+
+- Not a dollar payout. USD on the dashboard is a public-market estimate only
+
+If search results keep sending you to the wrong IOTA, read [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
+
+## How IOTA Watch uses it
+
+Today and lifetime figures stay in official IOTA amounts. The USD line multiplies those amounts by a public SN9 price. Missing price shows a dash, never $0. Details: [USD estimates](https://iotahome.site/en/learn/iota-rewards-in-usd) and [reward rules](https://iotahome.site/en/learn/how-rewards-work).
+
+> IOTA Watch cannot send, swap, or custody this token. It only displays official accounted amounts.
+
+### Train at Home의 SN9 / IOTA 토큰이란? (ko)
+
+Train at Home보상은 서브넷의 **알파 토큰**으로 표시됩니다. 사람들은 그것을IOTA또는 **SN9**라고 부릅니다.IOTA Watch은 공식 자격 API가 반환하는 것과 동일한 단위를 사용합니다.
+
+## SN9란?
+
+SN9은Bittensor서브넷 9 —MacrocosmosIOTA Train at Home입니다. 해당 토큰의CoinGeckoID는`iota-2`입니다. 레이어 1 ID`iota`을 사용하지 마세요.
+
+## 그게 아닌데
+
+- **TAO**이 아니라Bittensor상위 토큰입니다.
+
+- Firefly이 사용하는 **IOTAFoundation** 레이어 1 코인이 아닙니다.
+
+- 1달러 지급이 아닙니다. 대시보드의 USD는 공개 시장 추정치일 뿐입니다.
+
+검색 결과가 계속 잘못된IOTA으로 표시되는 경우 [Train at Home대IOTA코인](https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin)을 읽어보세요.
+
+## IOTA Watch의 표시 방식
+
+오늘과 평생 수치는 공식적인IOTA금액으로 유지됩니다. USD 라인은 해당 금액에 공개 가격SN9을 곱합니다. 누락된 가격에는 대시가 표시되며 $0는 표시되지 않습니다. 세부정보: [USD 추정치](https://iotahome.site/ko/learn/iota-rewards-in-usd) 및 [보상 규칙](https://iotahome.site/ko/learn/how-rewards-work).
+
+> IOTA Watch은 이 토큰을 보내거나 교환하거나 보관할 수 없습니다. 공식적으로 계산된 금액만 표시됩니다.
+
+### Train at HomeのSN9 / IOTAトークンとは？ (ja)
+
+Train at Homeの報酬は、サブネットの **アルファ トークン**で指定されます。人々はそれをIOTAまたは **SN9** と呼びます。IOTA Watchは、公式資格 API が返すのと同じ単位を使用します。
+
+## SN9とは？
+
+SN9は、Bittensorサブネット 9 —MacrocosmosIOTA Train at Homeです。このトークンのCoinGeckoID は`iota-2`です。レイヤ 1 ID`iota`は使用しないでください。
+
+## それは何ではないのか
+
+- **TAO**、Bittensor親トークンではありません
+
+- Fireflyによって使用される **IOTAFoundation** レイヤー 1 コインではありません
+
+- ドルの支払いではありません。ダッシュボード上の米ドルは公開市場の推定値のみです
+
+検索結果で別のIOTAが表示される場合は、[Train at HomeとIOTA暗号資産の違い](https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin)をご覧ください。
+
+## IOTA Watchでの表示方法
+
+現在および生涯の数字は、公式のIOTAの金額にとどまります。 USD ラインは、これらの金額に公開価格SN9を乗算します。価格が欠落している場合はダッシュが表示され、$0 は表示されません。詳細: [USD の見積もり](https://iotahome.site/ja/learn/iota-rewards-in-usd) および [報酬ルール](https://iotahome.site/ja/learn/how-rewards-work)。
+
+> IOTA Watchは、このトークンを送信、交換、または保管できません。公式に計算された金額のみが表示されます。
+
 
 ### IOTA Watch says the Miner ID was not found
-- ZH: https://iotahome.site/zh/learn/device-not-found
-- EN: https://iotahome.site/en/learn/device-not-found
+- zh-CN: https://iotahome.site/zh/learn/device-not-found
+- zh-TW: https://iotahome.site/zh-TW/learn/device-not-found
+- en: https://iotahome.site/en/learn/device-not-found
+- ko: https://iotahome.site/ko/learn/device-not-found
+- ja: https://iotahome.site/ja/learn/device-not-found
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
 
-**Not found** is only used after IOTA Watch successfully reads every active Train at Home run list and still does not see this Miner ID.
-
-That is different from [refresh interrupted](https://iotahome.site/en/learn/what-refresh-interrupted-means) (this site could not finish the fetch) and from [unknown / check later](https://iotahome.site/en/learn/device-status) (some lists failed, so we cannot judge).
-
-## Check the ID first
-
-- Copy the complete public Miner ID from the official app’s Miner screen
-
-- It is an SS58 hotkey, usually starting with `5`
-
-- Do not paste a private key, seed phrase, coldkey secret, or a row number from this website
-
-Steps: [how to find your Miner ID](https://iotahome.site/en/learn/find-miner-id).
-
-## Other common reasons
-
-- The app is installed but the miner is not registered or not yet on any active run
-
-- You copied an old ID after reinstalling the app
-
-- A character was truncated when pasting
-
-> Training still has to run in the official app. IOTA Watch cannot register a miner or start a job for you.
-
-If the ID is correct and a fetch succeeds, the card should move to contributing, waiting, or not participating. Those meanings: [device statuses](https://iotahome.site/en/learn/device-status).
-
-### IOTA Watch 显示「尚未找到」
+### IOTA Watch 显示「尚未找到」 (zh-CN)
 
 **尚未找到**只会在 IOTA Watch 已经成功读完所有进行中的 Train at Home 任务名单，而且里面仍然没有这个 Miner ID 时出现。
 
@@ -679,13 +1493,194 @@ If the ID is correct and a fetch succeeds, the card should move to contributing,
 
 ID 正确且获取成功后，卡片应变成有贡献、等待任务或暂未参与。含义见 [设备状态](https://iotahome.site/zh/learn/device-status)。
 
+### IOTA Watch 顯示“尚未找到” (zh-TW)
+
+**尚未找到**只會在 IOTA Watch 已經成功讀完所有進行中的 Train at Home 任務名單，而且裡面仍然沒有這個 Miner ID 時出現。
+
+它不同於 [刷新中斷](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)（本站沒讀完），也不同於 [待確認](https://iotahome.site/zh-TW/learn/device-status)（部分名單失敗，暫時無法判斷）。
+
+## 核對 ID
+
+- 從官方應用程式的 Miner 頁面複製完整公開 Miner ID
+
+- 它是 SS58 hotkey，通常以`5`開頭
+
+- 請勿貼上私鑰、助記詞、coldkey 金鑰，或本站清單的行號
+
+步驟請見 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。
+
+## 其他常見原因
+
+- 應用程式已安裝，但礦工尚未註冊，或尚未出現在任何進行中的任務中
+
+- 重裝應用後仍使用舊 ID
+
+- 貼上時截斷了一個字符
+
+> 訓練仍須在官方應用程式中運作。 IOTA Watch 不能註冊礦工或開始任務。
+
+ID 正確且取得成功後，卡片應變成有貢獻、等待任務或暫未參與。意義請參閱 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)。
+
+### IOTA Watch says the Miner ID was not found (en)
+
+**Not found** is only used after IOTA Watch successfully reads every active Train at Home run list and still does not see this Miner ID.
+
+That is different from [refresh interrupted](https://iotahome.site/en/learn/what-refresh-interrupted-means) (this site could not finish the fetch) and from [unknown / check later](https://iotahome.site/en/learn/device-status) (some lists failed, so we cannot judge).
+
+## Check the ID first
+
+- Copy the complete public Miner ID from the official app’s Miner screen
+
+- It is an SS58 hotkey, usually starting with `5`
+
+- Do not paste a private key, seed phrase, coldkey secret, or a row number from this website
+
+Steps: [how to find your Miner ID](https://iotahome.site/en/learn/find-miner-id).
+
+## Other common reasons
+
+- The app is installed but the miner is not registered or not yet on any active run
+
+- You copied an old ID after reinstalling the app
+
+- A character was truncated when pasting
+
+> Training still has to run in the official app. IOTA Watch cannot register a miner or start a job for you.
+
+If the ID is correct and a fetch succeeds, the card should move to contributing, waiting, or not participating. Those meanings: [device statuses](https://iotahome.site/en/learn/device-status).
+
+### IOTA Watch에서 Miner ID를 찾을 수 없을 때 (ko)
+
+**찾을 수 없음**은IOTA Watch이 모든 활성Train at Home실행 목록을 성공적으로 읽은 후에만 사용되며 여전히 이Miner ID를 볼 수 없습니다.
+
+이는 [새로고침 중단됨](https://iotahome.site/ko/learn/what-refresh-interrupted-means)(이 사이트에서 가져오기를 완료할 수 없음) 및 [알 수 없음/나중에 확인](https://iotahome.site/ko/learn/device-status)(일부 목록이 실패하여 판단할 수 없음)과 다릅니다.
+
+## 먼저 ID를 확인하세요
+
+- 공식 앱의 Miner 화면에서 전체 공개Miner ID을 복사하세요.
+
+- SS58hotkey이며 일반적으로`5`로 시작합니다.
+
+- 이 웹사이트의 개인 키, 시드 문구,coldkey비밀 또는 행 번호를 붙여넣지 마십시오.
+
+단계: [Miner ID을 찾는 방법](https://iotahome.site/ko/learn/find-miner-id).
+
+## 기타 일반적인 이유
+
+- 앱이 설치되었지만 광부가 등록되지 않았거나 아직 활성 실행에 있지 않습니다.
+
+- 앱 재설치 후 기존 아이디를 복사한 경우
+
+- 붙여넣을 때 문자가 잘렸습니다.
+
+> 훈련은 여전히 공식 앱에서 실행되어야 합니다.IOTA Watch은 광부를 등록하거나 작업을 시작할 수 없습니다.
+
+ID가 정확하고 가져오기에 성공하면 카드는 기여, 대기 또는 참여하지 않음으로 이동해야 합니다. 해당 의미: [장치 상태](https://iotahome.site/ko/learn/device-status).
+
+### IOTA WatchでMiner IDが見つからない場合 (ja)
+
+**Not found** は、IOTA WatchがすべてのアクティブなTrain at Home実行リストを正常に読み取り、それでもこのMiner IDを認識しない場合にのみ使用されます。
+
+これは、[更新が中断されました](https://iotahome.site/ja/learn/what-refresh-interrupted-means) (このサイトはフェッチを完了できませんでした) や [不明 / 後で確認します](https://iotahome.site/ja/learn/device-status) (一部のリストが失敗したため、判断できません) とは異なります。
+
+## まずIDを確認してください
+
+- 公式アプリのマイナー画面から完全なパブリックMiner IDをコピーします
+
+- これはSS58hotkeyで、通常は`5`で始まります。
+
+- この Web サイトの秘密キー、シード フレーズ、coldkeyシークレット、または行番号を貼り付けないでください。
+
+手順: [Miner IDを見つける方法 ](https://iotahome.site/ja/learn/find-miner-id)。
+
+## その他の一般的な理由
+
+- アプリはインストールされていますが、マイナーが登録されていないか、アクティブな実行がまだ行われていません
+
+- アプリを再インストールした後に古い ID をコピーした
+
+- 貼り付け時に文字が切れてしまう
+
+> トレーニングは引き続き公式アプリで実行する必要があります。IOTA Watchはマイナーを登録したり、ジョブを開始したりできません。
+
+ID が正しく、フェッチが成功した場合、カードは貢献、待機、または参加しない状態に移行する必要があります。それらの意味: [デバイスのステータス](https://iotahome.site/ja/learn/device-status)。
+
 
 ### Where IOTA Watch data comes from and how often it refreshes
-- ZH: https://iotahome.site/zh/learn/data-sources-and-freshness
-- EN: https://iotahome.site/en/learn/data-sources-and-freshness
+- zh-CN: https://iotahome.site/zh/learn/data-sources-and-freshness
+- zh-TW: https://iotahome.site/zh-TW/learn/data-sources-and-freshness
+- en: https://iotahome.site/en/learn/data-sources-and-freshness
+- ko: https://iotahome.site/ko/learn/data-sources-and-freshness
+- ja: https://iotahome.site/ja/learn/data-sources-and-freshness
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### IOTA Watch 数据来自哪里，多久更新一次？ (zh-CN)
+
+IOTA Watch 读取 Macrocosmos 的公开主网 API。设备状态、收益与训练统计分别记录更新时间；某一项刷新成功，不会让其他项目自动变成最新。
+
+## 各页面使用哪些数据源？
+
+- 设备查找：进行中的任务，以及每个任务的矿工名单
+
+- 全网现况：任务列表、网络名额、矿工名单和任务进度
+
+- 收益：分别读取记账总额与收益历史记录
+
+- 训练历史：所选任务与时间范围内的训练指标、吞吐量和累计 token 数
+
+API 基础地址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)。这些是公开上报数据，本站无法读取设备本地日志或控制官方训练应用。
+
+## 页面多久更新一次？
+
+页面可见时，设备状态通常每 30 秒检查一次，收益每 2 分钟检查一次；全网矿工名单与进度约每分钟检查一次。服务端对矿工名单与进度缓存 60 秒，网络名额缓存 120 秒，任务列表、收益和历史指标缓存 5 分钟。多次检查可能复用仍有效的缓存结果。
+
+手动刷新有 15 秒冷却，可请求较新的数据，但仍遵守官方限流和重试等待。页面隐藏时暂停后台轮询。
+
+## 拉取时间与采样时间有什么区别？
+
+拉取时间是该数据源最近一次成功读取的时间；采样时间是官方记录训练统计的时间。成功读取也可能返回较旧的采样，不能仅据此判断机器离线。
+
+## 接口失败后会发生什么？
+
+上次成功的数据会保留，并显示警告和原来的拉取时间。缺失数据仍为未知。收益总额与收益记录可能分别失败，因此一个字段可用，不代表所有收益数据都是最新。
+
+设备数据超过 5 分钟没能成功更新，会提示读取中断。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。[全网数据不完整](https://iotahome.site/zh/learn/network-status-explained) 时会注明成功读取了多少份名单。
+
+### IOTA Watch 數據來自哪裡，多久更新一次？ (zh-TW)
+
+IOTA Watch 讀取 Macrocosmos 的公開主網 API。設備狀態、效益與訓練統計分別記錄更新時間；某一項刷新成功，不會讓其他項目自動變成最新。
+
+## 各頁面使用哪些資料來源？
+
+- 設備查找：進行中的任務，以及每個任務的礦工名單
+
+- 全網現況：任務清單、網路名額、礦工名單和任務進度
+
+- 收益：分別讀取記帳總額與收益歷史記錄
+
+- 訓練歷史：所選任務與時間範圍內的訓練指標、吞吐量和累積 token 數
+
+API 基礎位址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)。這些是公開上報數據，本站無法讀取設備本地日誌或控制官方訓練應用。
+
+## 頁面多久更新一次？
+
+頁面可見時，設備狀態通常每 30 秒檢查一次，收益每 2 分鐘檢查一次；全網礦工名單與進度約每分鐘檢查一次。服務端對礦工名單與進度快取 60 秒，網路名額快取 120 秒，任務清單、收益和歷史指標快取 5 分鐘。多次檢查可能重複使用仍有效的快取結果。
+
+手動刷新有 15 秒冷卻，可要求較新的數據，但仍遵守官方限流和重試等待。頁面隱藏時暫停後台輪詢。
+
+## 拉取時間與取樣時間有什麼不同？
+
+拉取時間是該資料來源最近一次成功讀取的時間；採樣時間是官方記錄訓練統計的時間。成功讀取也可能傳回較舊的取樣，不能僅據此判斷機器離線。
+
+## 介面失敗後會發生什麼事？
+
+上次成功的資料會保留，並顯示警告和原來的拉取時間。缺失資料仍為未知。收益總額與收益記錄可能分別失敗，因此一個欄位可用，不代表所有收益資料都是最新。
+
+設備資料超過 5 分鐘沒能成功更新，會提示讀取中斷。詳見 [刷新中斷說明](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)。 [全網資料不完整](https://iotahome.site/zh-TW/learn/network-status-explained)時會註明成功讀取了多少份名單。
+
+### Where IOTA Watch data comes from and how often it refreshes (en)
 
 IOTA Watch reads the public Macrocosmos mainnet API. Device status, rewards and training statistics have separate update clocks; refreshing one does not make the others current.
 
@@ -717,47 +1712,140 @@ Previous successful values remain visible with a warning and their original fetc
 
 A device refresh interrupted for more than five minutes is a data-read warning. See [refresh interrupted](https://iotahome.site/en/learn/what-refresh-interrupted-means). A [partial network view](https://iotahome.site/en/learn/network-status-explained) reports the number of rosters successfully read.
 
-### IOTA Watch 数据来自哪里，多久更新一次？
+### IOTA Watch 데이터 출처와 갱신 주기 (ko)
 
-IOTA Watch 读取 Macrocosmos 的公开主网 API。设备状态、收益与训练统计分别记录更新时间；某一项刷新成功，不会让其他项目自动变成最新。
+IOTA Watch은 공개Macrocosmos메인넷 API를 읽습니다. 장치 상태, 보상 및 훈련 통계에는 별도의 업데이트 시계가 있습니다. 하나를 새로 고쳐도 다른 것이 최신 상태가 되지는 않습니다.
 
-## 各页面使用哪些数据源？
+## 각 조회수에 피드를 제공하는 소스는 무엇인가요?
 
-- 设备查找：进行中的任务，以及每个任务的矿工名单
+- 장치 검색: 활성 실행 및 모든 활성 실행에 대한 채굴자 명단
 
-- 全网现况：任务列表、网络名额、矿工名单和任务进度
+- 네트워크 보기: 실행, 실행 점유, 채굴자 명단 및 실행 진행 상황
 
-- 收益：分别读取记账总额与收益历史记录
+- 보상: 자격 총계 및 보상 내역을 독립적으로 가져옵니다.
 
-- 训练历史：所选任务与时间范围内的训练指标、吞吐量和累计 token 数
+- 훈련 내역: 선택한 실행 및 기간에 대한 지표, 처리량 및 누적 토큰
 
-API 基础地址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)。这些是公开上报数据，本站无法读取设备本地日志或控制官方训练应用。
+API 기반은 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)입니다. 이것은 공개 독서입니다.IOTA Watch은 로컬 장치 로그를 읽거나 공식 훈련 앱을 제어할 수 없습니다.
 
-## 页面多久更新一次？
+## 페이지는 얼마나 자주 업데이트되나요?
 
-页面可见时，设备状态通常每 30 秒检查一次，收益每 2 分钟检查一次；全网矿工名单与进度约每分钟检查一次。服务端对矿工名单与进度缓存 60 秒，网络名额缓存 120 秒，任务列表、收益和历史指标缓存 5 分钟。多次检查可能复用仍有效的缓存结果。
+페이지가 표시되는 동안 장치 상태는 일반적으로 30초마다 확인하고 2분마다 보상합니다. 네트워크 채굴자 명단과 진행 상황은 약 1분에 한 번씩 확인됩니다. 서버 캐시는 채굴자 명단 및 진행 상황에 대해 60초, 점유에 대해 120초, 실행, 보상 및 기록 지표에 대해 5분 동안 지속됩니다. 페이지를 반복적으로 확인하면 캐시된 유효한 응답을 재사용할 수 있습니다.
 
-手动刷新有 15 秒冷却，可请求较新的数据，但仍遵守官方限流和重试等待。页面隐藏时暂停后台轮询。
+수동 새로고침의 재사용 대기시간은 15초입니다. 최신 데이터를 요청할 수 있지만 여전히 공식적인 속도 제한과 재시도 지연을 준수합니다. 페이지가 숨겨져 있으면 백그라운드 폴링이 일시 중지됩니다.
 
-## 拉取时间与采样时间有什么区别？
+## 가져오기 시간과 샘플 시간 비교
 
-拉取时间是该数据源最近一次成功读取的时间；采样时间是官方记录训练统计的时间。成功读取也可能返回较旧的采样，不能仅据此判断机器离线。
+가져오기 시간은 해당 소스의 마지막 읽기 성공을 기록합니다. 샘플 시간은 공식 API가 훈련 통계를 기록한 시간입니다. 성공적인 읽기에는 이전 샘플이 포함될 수 있습니다. 이것만으로는 머신이 오프라인 상태임을 표시하지 않습니다.
 
-## 接口失败后会发生什么？
+## 소스에 오류가 발생하면 어떻게 되나요?
 
-上次成功的数据会保留，并显示警告和原来的拉取时间。缺失数据仍为未知。收益总额与收益记录可能分别失败，因此一个字段可用，不代表所有收益数据都是最新。
+이전에 성공한 값은 경고 및 원래 가져오기 시간과 함께 계속 표시됩니다. 누락된 데이터는 알 수 없는 상태로 유지됩니다. 보상 총액과 보상 내역이 별도로 실패할 수 있으므로 사용 가능한 필드가 하나 있다고 해서 모든 보상 필드가 최신임을 의미하지는 않습니다.
 
-设备数据超过 5 分钟没能成功更新，会提示读取中断。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。[全网数据不完整](https://iotahome.site/zh/learn/network-status-explained) 时会注明成功读取了多少份名单。
+5분 이상 장치 새로고침이 중단되면 데이터 읽기 경고가 나타납니다. [새로고침 중단됨](https://iotahome.site/ko/learn/what-refresh-interrupted-means)을 참조하세요. [부분 네트워크 보기](https://iotahome.site/ko/learn/network-status-explained)는 성공적으로 읽은 명단 수를 보고합니다.
+
+### IOTA Watchのデータ取得元と更新頻度 (ja)
+
+IOTA Watchは、パブリックMacrocosmosメインネット API を読み取ります。デバイスのステータス、報酬、トレーニング統計には個別の更新クロックがあります。 1 つを更新しても、他のものは最新になりません。
+
+## 各ビューにどのソースがフィードされますか?
+
+- デバイスの検出: アクティブな実行とすべてのアクティブな実行のマイナー名簿
+
+- ネットワークビュー: 実行、実行占有率、マイナー名簿、および実行の進行状況
+
+- 報酬: 資格の合計と報酬履歴、個別に取得
+
+- トレーニング履歴: 選択した実行と期間のメトリクス、スループット、累積トークン
+
+API ベースは [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs) です。これらは公開朗読です。IOTA Watchは、ローカル デバイスのログを読み取ることも、公式トレーニング アプリを制御することもできません。
+
+## ページはどのくらいの頻度で更新されますか?
+
+ページが表示されている間、デバイスのステータスは通常 30 秒ごとにチェックされ、2 分ごとに報酬が与えられます。ネットワークマイナーの名簿と進行状況を 1 分に 1 回程度チェックします。サーバー キャッシュは、マイナー名簿と進行状況については 60 秒間、占有については 120 秒間、実行、報酬および履歴メトリクスについては 5 分間継続します。ページチェックを繰り返すと、キャッシュされた有効な応答が再利用される場合があります。
+
+手動更新には 15 秒のクールダウンがあります。新しいデータを要求できますが、公式のレート制限と再試行遅延は尊重されます。ページが非表示になっている間、バックグラウンド ポーリングは一時停止します。
+
+## フェッチ時間とサンプル時間の関係
+
+フェッチ時間は、そのソースの最後に成功した読み取りを記録します。サンプル時間は、公式 API がトレーニング統計を記録したときの時間です。成功した読み取りには古いサンプルが含まれている可能性があります。それだけではマシンがオフラインであることはわかりません。
+
+## ソースに障害が発生するとどうなりますか?
+
+以前に成功した値は、警告と元のフェッチ時間とともに表示されたままになります。欠落したデータは不明のままです。報酬合計と報酬履歴は別々に失敗する可能性があるため、使用可能なフィールドが 1 つあるからといって、すべての報酬フィールドが最新であることを意味するわけではありません。
+
+デバイスのリフレッシュが 5 分を超えて中断されると、データ読み取りの警告が発生します。 [リフレッシュの中断](https://iotahome.site/ja/learn/what-refresh-interrupted-means)を参照してください。 [部分的なネットワーク ビュー](https://iotahome.site/ja/learn/network-status-explained) は、正常に読み取られた名簿の数を報告します。
 - Source: Macrocosmos · Train at Home — https://iota.macrocosmos.ai/
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
 ### How to read IOTA Train at Home training history and throughput
-- ZH: https://iotahome.site/zh/learn/training-history-and-metrics
-- EN: https://iotahome.site/en/learn/training-history-and-metrics
+- zh-CN: https://iotahome.site/zh/learn/training-history-and-metrics
+- zh-TW: https://iotahome.site/zh-TW/learn/training-history-and-metrics
+- en: https://iotahome.site/en/learn/training-history-and-metrics
+- ko: https://iotahome.site/ko/learn/training-history-and-metrics
+- ja: https://iotahome.site/ja/learn/training-history-and-metrics
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### IOTA Train at Home 训练历史、吞吐量与贡献率怎么看？ (zh-CN)
+
+打开已保存设备的详情，选择训练任务，再切换日、周或月。趋势图和表格展示所选范围内的官方历史采样。训练量不是代币到账金额，也不是未来收益预测。
+
+## 可以对比哪些指标？
+
+- Tokens：某个 epoch 上报的训练 token 数
+
+- 吞吐量：官方历史接口上报的处理速率
+
+- 累计 tokens：累计训练 token 数，与累计收益分开计算
+
+- 贡献率：把上报的比例显示为百分比，例如 0.02 显示为 2%
+
+- 排名与参与人数：该 epoch 上报的名次及参与人数，有数据时才展示
+
+趋势图可切换训练量、吞吐量或累计训练量。下方表格保留每次采样，便于对照图形与具体数字。
+
+## 为什么曲线会有空缺？
+
+三个历史数据源可能包含不同的 epoch。本站按 epoch 对齐数据，不假定数组中的相同位置属于同一次训练。缺失的测量值保留为空缺，不补成 0。
+
+## 为什么所选任务没有历史？
+
+官方 API 可能尚未提供该 Miner ID 在所选任务或时间范围内的采样。请核对任务选择，切换时间范围，并查看数据源警告。历史为空不能直接证明设备故障。
+
+当前活动看 [设备状态](https://iotahome.site/zh/learn/device-status)，记账代币看 [收益口径](https://iotahome.site/zh/learn/how-rewards-work)。[数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness) 解释了为什么刚拉取的数据仍可能包含旧采样。
+
+### IOTA Train at Home 訓練歷史、吞吐量與貢獻率怎麼看？ (zh-TW)
+
+開啟已儲存裝置的詳情，選擇訓練任務，再切換日、週或月。趨勢圖和表格顯示所選範圍內的官方歷史採樣。訓練量不是代幣到帳金額，也不是未來收益預測。
+
+## 可以對比哪些指標？
+
+- Tokens：某個 epoch 上報的訓練 token 數
+
+- 吞吐量：官方歷史介面上報的處理速率
+
+- 累計 tokens：累計訓練 token 數，與累計收益分開計算
+
+- 貢獻率：把上報的比例顯示為百分比，例如 0.02 顯示為 2%
+
+- 排名與參與人數：此 epoch 上報的名次及參與人數，有數據時才展示
+
+趨勢圖可切換訓練量、吞吐量或累積訓練量。下方表格保留每次採樣，方便對照圖形與具體數字。
+
+## 為什麼曲線會有空缺？
+
+三個歷史資料來源可能包含不同的 epoch。本站按 epoch 對齊數據，不假定數組中的相同位置屬於同一次訓練。缺失的測量值保留為空缺，不補成 0。
+
+## 為什麼所選任務沒有歷史？
+
+官方 API 可能尚未提供該 Miner ID 在所選任務或時間範圍內的取樣。請核對任務選擇，切換時間範圍，並查看資料來源警告。歷史為空不能直接證明設備故障。
+
+目前活動看 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)，記帳代幣看 [收益口徑](https://iotahome.site/zh-TW/learn/how-rewards-work)。 [資料時效說明](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)解釋了為何剛拉取的資料仍可能包含舊取樣。
+
+### How to read IOTA Train at Home training history and throughput (en)
 
 Open a saved device’s details, select a training run, then choose day, week or month. The chart and table show official historical samples for that selection. Training volume is not a token payout or a reward forecast.
 
@@ -785,43 +1873,120 @@ The official API may have no samples for this Miner ID in the chosen run or peri
 
 For current activity, read [device status](https://iotahome.site/en/learn/device-status). For accounted tokens, read [how rewards work](https://iotahome.site/en/learn/how-rewards-work). [Data freshness](https://iotahome.site/en/learn/data-sources-and-freshness) explains why recent retrieval can still contain older samples.
 
-### IOTA Train at Home 训练历史、吞吐量与贡献率怎么看？
+### IOTA Train at Home 훈련 기록과 처리량 확인하기 (ko)
 
-打开已保存设备的详情，选择训练任务，再切换日、周或月。趋势图和表格展示所选范围内的官方历史采样。训练量不是代币到账金额，也不是未来收益预测。
+저장된 장치의 세부 정보를 열고 훈련 실행을 선택한 다음 일, 주 또는 월을 선택하세요. 차트와 표는 해당 선택 항목에 대한 공식적인 과거 샘플을 보여줍니다. 훈련량은 토큰 지급이나 보상 예측이 아닙니다.
 
-## 可以对比哪些指标？
+## 어떤 측정항목을 비교할 수 있나요?
 
-- Tokens：某个 epoch 上报的训练 token 数
+- 토큰: 한 에포크에 대해 보고된 훈련 토큰 수
 
-- 吞吐量：官方历史接口上报的处理速率
+- 처리량: 공식 히스토리 API에서 보고하는 처리 속도
 
-- 累计 tokens：累计训练 token 数，与累计收益分开计算
+- 누적 토큰: 누적 보상과 별도로 누적된 훈련 토큰 수
 
-- 贡献率：把上报的比例显示为百分比，例如 0.02 显示为 2%
+- 기여도: 보고된 부분이 백분율로 표시됩니다. 0.02는 2%로 표시됩니다.
 
-- 排名与参与人数：该 epoch 上报的名次及参与人数，有数据时才展示
+- 순위 및 참가자: 가능한 경우 해당 시대에 대해 보고된 위치 및 참가자 수
 
-趋势图可切换训练量、吞吐量或累计训练量。下方表格保留每次采样，便于对照图形与具体数字。
+토큰, 처리량 및 누적 토큰 간에 차트를 전환합니다. 표는 개별 샘플을 보존하므로 숫자와 비교하여 추세를 확인할 수 있습니다.
 
-## 为什么曲线会有空缺？
+## 차트에 공백이 있는 이유는 무엇인가요?
 
-三个历史数据源可能包含不同的 epoch。本站按 epoch 对齐数据，不假定数组中的相同位置属于同一次训练。缺失的测量值保留为空缺，不补成 0。
+세 가지 기록 소스에는 서로 다른 시대가 포함될 수 있습니다.IOTA Watch은 배열 위치가 일치한다고 가정하는 대신 에포크별로 값을 조인합니다. 누락된 측정값은 0이 아닌 간격입니다.
 
-## 为什么所选任务没有历史？
+## 선택한 실행이 비어 있는 이유는 무엇인가요?
 
-官方 API 可能尚未提供该 Miner ID 在所选任务或时间范围内的采样。请核对任务选择，切换时间范围，并查看数据源警告。历史为空不能直接证明设备故障。
+공식 API에는 선택한 실행 또는 기간에 이Miner ID에 대한 샘플이 없을 수 있습니다. 작업 선택을 확인하고, 다른 기간을 시도하고, 소스 경고를 검사하세요. 빈 기록은 장치에 오류가 발생했음을 증명하지 않습니다.
 
-当前活动看 [设备状态](https://iotahome.site/zh/learn/device-status)，记账代币看 [收益口径](https://iotahome.site/zh/learn/how-rewards-work)。[数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness) 解释了为什么刚拉取的数据仍可能包含旧采样。
+현재 활동을 보려면 [기기 상태](https://iotahome.site/ko/learn/device-status)를 읽어보세요. 계정형 토큰의 경우 [보상 작동 방식](https://iotahome.site/ko/learn/how-rewards-work)을 읽어보세요. [데이터 최신성](https://iotahome.site/ko/learn/data-sources-and-freshness)은 최근 검색에 여전히 오래된 샘플이 포함될 수 있는 이유를 설명합니다.
+
+### IOTA Train at Homeの学習履歴と処理量の見方 (ja)
+
+保存されたデバイスの詳細を開き、トレーニング実行を選択して、日、週、または月を選択します。チャートと表は、その選択の公式履歴サンプルを示しています。トレーニング量はトークンの支払いや報酬の予測ではありません。
+
+## どの指標を比較できますか?
+
+- トークン: エポックの報告されたトレーニング トークン数
+
+- スループット: 公式履歴 API によって報告される処理速度
+
+- 累積トークン: 累計報酬とは別の累積トレーニング トークン数
+
+- 寄与率: 報告された割合がパーセンテージで表示されます。 0.02 は 2% として表示されます
+
+- ランクと参加者: そのエポックで報告された順位と参加者の数 (利用可能な場合)
+
+トークン、スループット、累積トークンの間でグラフを切り替えます。テーブルには個々のサンプルが保存されるため、数値と比較して傾向を確認できます。
+
+## グラフにギャップがあるのはなぜですか?
+
+3 つの歴史ソースには、異なる時代が含まれている場合があります。IOTA Watchは、配列の位置が揃っていると仮定するのではなく、エポックごとに値を結合します。測定値の欠落はギャップであり、作られたゼロではありません。
+
+## 選択した実行が空なのはなぜですか?
+
+公式 API には、選択した実行または期間にこのMiner IDのサンプルがない可能性があります。タスクの選択を確認し、別の期間を試して、ソースの警告を調べます。履歴が空であっても、デバイスに障害が発生したことは証明されません。
+
+現在のアクティビティについては、[デバイスのステータス](https://iotahome.site/ja/learn/device-status) を参照してください。アカウント化されたトークンについては、[報酬の仕組み](https://iotahome.site/ja/learn/how-rewards-work) をご覧ください。 [データの鮮度](https://iotahome.site/ja/learn/data-sources-and-freshness) は、最近の取得に古いサンプルが含まれている理由を説明しています。
 - Source: Macrocosmos · Train at Home — https://iota.macrocosmos.ai/
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
 ### IOTA Train at Home network status: slots, online miners and training progress
-- ZH: https://iotahome.site/zh/learn/network-status-explained
-- EN: https://iotahome.site/en/learn/network-status-explained
+- zh-CN: https://iotahome.site/zh/learn/network-status-explained
+- zh-TW: https://iotahome.site/zh-TW/learn/network-status-explained
+- en: https://iotahome.site/en/learn/network-status-explained
+- ko: https://iotahome.site/ko/learn/network-status-explained
+- ja: https://iotahome.site/ja/learn/network-status-explained
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh-CN)
+
+[全网页面](https://iotahome.site/zh/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。
+
+## 在线与训练人数有什么区别？
+
+在线人数来自已获取的矿工名单，训练人数反映有上报训练活动的矿工。名单里可能包含等待任务的矿工，两者不必相同。这些数字也不是 IOTA Watch 的用户人数。
+
+## 名额和进度应怎样理解？
+
+名额来自官方任务占用数据。进度与损失描述整个任务，不是单台设备。存在空位不保证立即分配任务，本站也无法分配名额。
+
+## 名单覆盖率是什么意思？
+
+覆盖率比较成功刷新的矿工名单数与正在检查的任务数。例如 7/8 表示一份名单没能更新，总量可能不完整；不会把失败的名单当成 0 个矿工。全网矿工总量会对已获取任务里的公开 hotkey 去重。
+
+各来源分别记录拉取时间。对照数据前，请先检查 [数据时效](https://iotahome.site/zh/learn/data-sources-and-freshness)。刷新失败时，较旧的成功数据会保留并附上警告。
+
+## 怎样检查自己的机器？
+
+在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
+
+### IOTA Train at Home 全網狀態：名額、線上礦工與訓練進度 (zh-TW)
+
+[全網頁面](https://iotahome.site/zh-TW/network)無需 Miner ID 或登錄，即可查看 IOTA Train at Home 的公開任務。它提供設備狀態的背景：有哪些任務、還剩多少名額，以及網路上報的活動狀況。
+
+## 在線上與訓練人數有什麼不同？
+
+線上人數來自已取得的礦工名單，訓練人數反映有上報訓練活動的礦工。名單裡可能包含等待任務的礦工，兩者不必相同。這些數字也不是 IOTA Watch 的使用者人數。
+
+## 名額和進度要怎麼理解？
+
+名額來自官方任務佔用數據。進度與損失描述整個任務，不是單一設備。存在空位不保證立即分配任務，本站也無法分配名額。
+
+## 名單覆蓋率是什麼意思？
+
+覆蓋率比較成功刷新的礦工名單數與正在檢查的任務數。例如 7/8 表示一份名單沒能更新，總量可能不完整；不會把失敗的名單當成 0 個礦工。全網礦工總量會對已獲取任務裡的公開 hotkey 去重。
+
+各來源分別記錄拉取時間。對照資料前，請先檢查 [數據時效](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)。刷新失敗時，較舊的成功資料會保留並附上警告。
+
+## 怎樣檢查自己的機器？
+
+在 [我的設備](https://iotahome.site/zh-TW/app)添加公開 Miner ID。設備缺失時，按 [尚未找到設備的檢查步驟](https://iotahome.site/zh-TW/learn/device-not-found)檢查。本地錯誤請開啟官方應用，全網頁面無法讀取 Mac 的本地狀態。
+
+### IOTA Train at Home network status: slots, online miners and training progress (en)
 
 The [network page](https://iotahome.site/en/network) shows public IOTA Train at Home runs without requiring a Miner ID or sign-in. It gives context for your device: which runs exist, their available slots and the activity reported by the network.
 
@@ -843,37 +2008,144 @@ Each source has its own retrieval time. Inspect [source freshness](https://iotah
 
 Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missing devices, follow [device not found](https://iotahome.site/en/learn/device-not-found). Open the official app for local errors; the network page cannot inspect your Mac.
 
-### IOTA Train at Home 全网状态：名额、在线矿工与训练进度
+### IOTA Train at Home 네트워크 상태: 슬롯, 온라인 마이너, 훈련 진행 (ko)
 
-[全网页面](https://iotahome.site/zh/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。
+[네트워크 페이지](https://iotahome.site/ko/network)에는 공개IOTA Train at Home이Miner ID또는 로그인 없이 실행되는 것으로 표시됩니다. 이는 실행 중인 장치, 사용 가능한 슬롯 및 네트워크에서 보고된 활동에 대한 컨텍스트를 제공합니다.
 
-## 在线与训练人数有什么区别？
+## 온라인은 훈련과 다르다
 
-在线人数来自已获取的矿工名单，训练人数反映有上报训练活动的矿工。名单里可能包含等待任务的矿工，两者不必相同。这些数字也不是 IOTA Watch 的用户人数。
+온라인 개수는 검색된 광부 명단에서 나옵니다. 훈련 횟수는 보고된 훈련 활동이 있는 광부를 반영합니다. 명단에는 작업을 기다리는 광부가 포함될 수 있습니다. 해당 개수는 일치할 필요가 없습니다.IOTA Watch을 사용하는 사람의 수가 아닙니다.
 
-## 名额和进度应怎样理解？
+## 슬롯과 진행 상황을 어떻게 읽어야 하나요?
 
-名额来自官方任务占用数据。进度与损失描述整个任务，不是单台设备。存在空位不保证立即分配任务，本站也无法分配名额。
+슬롯은 공식 실행 점유에서 나옵니다. 진행률과 손실률은 하나의 장치가 아닌 전체 실행을 나타냅니다. 사용 가능한 용량이 할당을 보장하지 않으며, 모니터링 사이트에서 슬롯을 할당할 수 없습니다.
 
-## 名单覆盖率是什么意思？
+## 명단 적용 범위는 무엇을 의미하나요?
 
-覆盖率比较成功刷新的矿工名单数与正在检查的任务数。例如 7/8 表示一份名单没能更新，总量可能不完整；不会把失败的名单当成 0 个矿工。全网矿工总量会对已获取任务里的公开 hotkey 去重。
+적용 범위는 성공적으로 새로 고쳐진 채굴자 목록과 확인 중인 실행을 비교합니다. 예를 들어 7/8은 하나의 목록을 새로 고칠 수 없음을 의미합니다. 합계가 불완전할 수 있습니다. 실패한 목록은 제로 마이너로 간주되지 않습니다. 글로벌 마이너 합계는 검색된 실행에서 공개hotkeys를 중복 제거합니다.
 
-各来源分别记录拉取时间。对照数据前，请先检查 [数据时效](https://iotahome.site/zh/learn/data-sources-and-freshness)。刷新失败时，较旧的成功数据会保留并附上警告。
+각 소스에는 고유한 검색 시간이 있습니다. 스냅샷을 비교하기 전에 [소스 신선도](https://iotahome.site/ko/learn/data-sources-and-freshness)를 검사하세요. 업데이트가 실패하면 경고와 함께 이전에 성공한 값이 유지됩니다.
 
-## 怎样检查自己的机器？
+## 내 컴퓨터는 어디서 확인해야 하나요?
 
-在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
+[내 장치](https://iotahome.site/ko/app)에 공개Miner ID을 추가하세요. 분실된 기기의 경우 [기기를 찾을 수 없음](https://iotahome.site/ko/learn/device-not-found)을 따르세요. 로컬 오류가 있는 경우 공식 앱을 엽니다. 네트워크 페이지에서는 Mac을 검사할 수 없습니다.
+
+### IOTA Train at Homeのネットワーク状態：枠数・オンラインマイナー・学習進捗 (ja)
+
+[ネットワーク ページ](https://iotahome.site/ja/network) は、Miner IDやサインインを必要とせずにパブリックIOTA Train at Homeが実行されることを示しています。これは、デバイスのコンテキスト (どの実行が存在するか、使用可能なスロット、ネットワークによって報告されるアクティビティ) を提供します。
+
+## オンラインはトレーニングとは異なります
+
+オンライン数は、取得されたマイナー名簿から取得されます。トレーニング数は、報告されたトレーニング活動を行ったマイナーを反映します。名簿には、作業を待っているマイナーを含めることができます。これらの数は一致する必要はありません。IOTA Watchを使用している人の数ではありません。
+
+## スロットと進行状況をどのように読めばよいですか?
+
+スロットは公式の実行占有率から得られます。進行状況と損失は、1 つのデバイスではなく実行全体を表します。利用可能な容量は割り当てを保証するものではなく、監視サイトはスロットを割り当てることができません。
+
+## 名簿の範囲とは何を意味しますか?
+
+カバレッジは、正常に更新されたマイナー リストとチェックされている実行を比較します。たとえば、7/8 は、1 つのリストを更新できなかったことを意味します。合計は不完全な場合があります。失敗したリストはゼロマイナーとしてカウントされません。グローバルマイナー合計は、取得された実行全体でパブリックhotkeyを重複排除します。
+
+各ソースには独自の取得時間があります。スナップショットを比較する前に、[ソースの鮮度](https://iotahome.site/ja/learn/data-sources-and-freshness)を検査してください。古い成功した値は保持され、更新が失敗した場合には警告が表示されます。
+
+## 自分のマシンをどこで確認すればよいですか?
+
+[マイデバイス](https://iotahome.site/ja/app) にパブリックMiner IDを追加します。見つからないデバイスについては、[デバイスが見つかりません](https://iotahome.site/ja/learn/device-not-found) に従ってください。ローカルエラーについては公式アプリを開いてください。ネットワーク ページでは Mac を検査できません。
 - Source: Macrocosmos · Train at Home — https://iota.macrocosmos.ai/
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
 ### How to monitor multiple IOTA Train at Home devices from one browser
-- ZH: https://iotahome.site/zh/blog/monitor-multiple-iota-devices
-- EN: https://iotahome.site/en/blog/monitor-multiple-iota-devices
+- zh-CN: https://iotahome.site/zh/blog/monitor-multiple-iota-devices
+- zh-TW: https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices
+- en: https://iotahome.site/en/blog/monitor-multiple-iota-devices
+- ko: https://iotahome.site/ko/blog/monitor-multiple-iota-devices
+- ja: https://iotahome.site/ja/blog/monitor-multiple-iota-devices
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh-CN)
+
+多台 Mac 同时运行 IOTA Train at Home 时，逐台打开官方应用适合检查本地问题，却不方便快速了解全局。IOTA Watch 把设备的公开上报状态、收益与训练历史集中到一个浏览器中。训练仍在每台 Mac 的官方应用里运行，网页提供监控，不提供远程控制。
+
+## 每台机器使用自己的 Miner ID
+
+分别在每台设备的官方 Miner 页面复制公开 Miner ID。[Macrocosmos FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 区分设备 hotkey 与收款 coldkey：即使多台设备使用相同的收款地址，设备 hotkey 仍各不相同。重复添加同一个 ID，不会变成监控两台机器。
+
+- 打开 [我的设备](https://iotahome.site/zh/app)，添加完整 Miner ID
+
+- 用房间名称或已有资产编号给设备命名，方便辨认
+
+- 在其余 Mac 上重复操作，核对名称是否对应正确机器
+
+不要只用地址开头几个字符区分设备。清晰的名称能减少查看等待任务的机器、重命名或移除设备时的误操作。
+
+## 清单应该保存在浏览器还是账号里？
+
+未登录时，IOTA Watch 最多在当前浏览器保存 3 台设备，适合在一台电脑上查看小规模设备清单。换浏览器或用手机打开时，原来的本地清单不会自动出现；清除浏览器数据也可能移除清单。
+
+使用 Google 登录后，可在账号清单中绑定最多 10 台设备。换设备查看时，请登录相同 Google 账号。切换账号或退出登录后，要再次确认当前清单：本地模式与登录模式使用不同的保存方式。详见 [账号与设备清单说明](https://iotahome.site/zh/learn/google-account-device-list)。
+
+## 按固定顺序读设备概览
+
+先检查数据源更新时间和警告，再用状态筛选缩小需要检查的机器范围。官方采样较旧、正在等待任务或吞吐量为零，都不足以单独证明 Mac 已断开连接。
+
+查看收益时，先确认数据覆盖率。只有部分设备的收益可用时，合计会标为「部分」。它代表已知设备的收益，不应直接与覆盖全部机器的合计比较，认为两者描述了相同设备范围。
+
+- 设备在等待任务时，对照其任务与 [全网现况](https://iotahome.site/zh/network)
+
+- 完整扫描仍未找到设备时，核对完整 ID 并检查官方应用
+
+- 单台设备趋势异常时，打开详情，选择对应任务与时间范围
+
+## 给清单留一份可迁移备份
+
+更换浏览器或清除站点数据前，先导出 JSON 清单。导入导出迁移的是公开 ID 与设备名称，不会迁移本地训练会话、钱包凭据或收款设置。把文件保存在便于找回的位置，导入后再次核对名称。
+
+日常检查可以按同一顺序完成：确认数据时效、查看需要关注的设备、核对收益覆盖率，最后对确有本地问题的机器打开官方应用。初次使用可先读 [Miner ID 获取步骤](https://iotahome.site/zh/learn/find-miner-id) 和 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+
+### 多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)
+
+多台 Mac 同時運行 IOTA Train at Home 時，逐台開啟官方應用程式適合檢查本地問題，卻不方便快速了解全局。 IOTA Watch 把設備的公開回報狀態、效益與訓練歷史集中到一個瀏覽器。訓練仍在每台 Mac 的官方應用程式中運行，網頁提供監控，不提供遠端控制。
+
+## 每台機器都使用自己的 Miner ID
+
+分別在每台裝置的官方 Miner 頁面複製公開 Miner ID。 [Macrocosmos FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs)區分設備 hotkey 與收款 coldkey：即使多台設備使用相同的收款位址，設備 hotkey 仍各不相同。重複加入同一個 ID，不會變成監控兩台機器。
+
+- 開啟 [我的裝置](https://iotahome.site/zh-TW/app)，新增完整 Miner ID
+
+- 以房間名稱或已有資產編號為設備命名，方便辨認
+
+- 在其餘 Mac 上重複操作，核對名稱是否對應正確機器
+
+不要只用地址開頭幾個字元區分設備。清晰的名稱能減少查看等待任務的機器、重新命名或移除裝置時的誤操作。
+
+## 清單應該保存在瀏覽器還是帳號裡？
+
+未登入時，IOTA Watch 最多在目前瀏覽器保存 3 台設備，適合在一台電腦上查看小規模設備清單。換瀏覽器或用手機開啟時，原先的本地清單不會自動出現；清除瀏覽器資料也可能移除清單。
+
+使用 Google 登入後，可在帳號清單中綁定最多 10 台裝置。換設備查看時，請登入相同 Google 帳號。切換帳號或登出登入後，要再次確認目前清單：本機模式與登入模式使用不同的儲存方式。詳見 [帳號與設備清單說明](https://iotahome.site/zh-TW/learn/google-account-device-list)。
+
+## 以固定順序讀取設備概覽
+
+先檢查資料來源更新時間和警告，再用狀態篩選縮小需要檢查的機器範圍。官方採樣較舊、正在等待任務或吞吐量為零，都不足以單獨證明 Mac 已斷開連線。
+
+查看收益時，先確認數據覆蓋率。只有部分設備的收益可用時，合計會標示為「部分」。它代表已知設備的收益，不應直接與覆蓋全部機器的合計比較，認為兩者描述了相同設備範圍。
+
+- 設備在等待任務時，對照其任務與 [全網現況](https://iotahome.site/zh-TW/network)
+
+- 完整掃描仍未找到裝置時，請核對完整 ID 並檢查官方應用
+
+- 單一設備趨勢異常時，開啟詳情，選擇對應任務與時間範圍
+
+## 為清單留一份可遷移備份
+
+更換瀏覽器或清除網站資料前，先匯出 JSON 清單。匯入匯出遷移的是公開 ID 與裝置名稱，不會遷移本機訓練會話、錢包憑證或收款設定。把文件保存在方便找回來的位置，導入後再核對名稱。
+
+日常檢查可以按同一順序完成：確認資料時效、查看需要注意的設備、核對收益覆蓋率，最後對確有本地問題的機器開啟官方應用。初次使用可先讀 [Miner ID 取得步驟](https://iotahome.site/zh-TW/learn/find-miner-id)和 [資料時效說明](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)。
+
+### How to monitor multiple IOTA Train at Home devices from one browser (en)
 
 When several Macs run IOTA Train at Home, opening each machine’s app is useful for local checks but inconvenient for a quick overview. IOTA Watch brings public device readings into one browser: reported activity, reward totals and training history. Training continues in the official app on each Mac; the browser is a monitor, not a remote control.
 
@@ -913,55 +2185,176 @@ Export the device list as JSON before changing browsers or clearing site data. I
 
 A useful routine is simple: check freshness, review exceptions, inspect reward coverage, then open the official app only where a local check is needed. Start with [finding a Miner ID](https://iotahome.site/en/learn/find-miner-id) and the [data freshness guide](https://iotahome.site/en/learn/data-sources-and-freshness).
 
-### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？
+### 여러 IOTA Train at Home 기기를 한 브라우저에서 확인하기 (ko)
 
-多台 Mac 同时运行 IOTA Train at Home 时，逐台打开官方应用适合检查本地问题，却不方便快速了解全局。IOTA Watch 把设备的公开上报状态、收益与训练历史集中到一个浏览器中。训练仍在每台 Mac 的官方应用里运行，网页提供监控，不提供远程控制。
+여러 Mac에서IOTA Train at Home을 실행하는 경우 각 컴퓨터의 앱을 여는 것은 로컬 확인에는 유용하지만 빠른 개요에는 불편합니다.IOTA Watch은 보고된 활동, 보상 합계, 훈련 내역 등 공개 장치 판독값을 하나의 브라우저에 제공합니다. 훈련은 각 Mac의 공식 앱에서 계속됩니다. 브라우저는 리모콘이 아니라 모니터입니다.
 
-## 每台机器使用自己的 Miner ID
+## 각 머신마다 별도의Miner ID으로 시작합니다.
 
-分别在每台设备的官方 Miner 页面复制公开 Miner ID。[Macrocosmos FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 区分设备 hotkey 与收款 coldkey：即使多台设备使用相同的收款地址，设备 hotkey 仍各不相同。重复添加同一个 ID，不会变成监控两台机器。
+각 기기의 공식 채굴 화면에서 공개Miner ID을 복사하세요. [MacrocosmosFAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs)는 기기의hotkey을 지급에 사용되는coldkey와 구별합니다. 기기는 지급 주소를 공유하는 경우에도hotkey가 다릅니다. 동일한 ID를 두 번 추가하면 두 컴퓨터가 모니터링되지 않습니다.
 
-- 打开 [我的设备](https://iotahome.site/zh/app)，添加完整 Miner ID
+- [내 장치](https://iotahome.site/ko/app)를 열고 전체Miner ID을 추가하세요.
 
-- 用房间名称或已有资产编号给设备命名，方便辨认
+- 공간이나 기존 재고 라벨과 같이 기계를 식별하는 이름을 지정하십시오.
 
-- 在其余 Mac 上重复操作，核对名称是否对应正确机器
+- 다른 Mac에서 반복하고 소스 컴퓨터와 비교하여 각 이름을 확인합니다.
 
-不要只用地址开头几个字符区分设备。清晰的名称能减少查看等待任务的机器、重命名或移除设备时的误操作。
+장치를 구별하기 위해 처음 몇 개의 주소 문자에 의존하지 마십시오. 목록에 이름을 지정하면 대기 중인 시스템을 검토하거나 나중에 장치 이름을 바꿀 때 실수가 줄어듭니다.
 
-## 清单应该保存在浏览器还是账号里？
+## 목록이 어디에 있어야 하는지 선택하세요
 
-未登录时，IOTA Watch 最多在当前浏览器保存 3 台设备，适合在一台电脑上查看小规模设备清单。换浏览器或用手机打开时，原来的本地清单不会自动出现；清除浏览器数据也可能移除清单。
+로그인하지 않고IOTA Watch은 현재 브라우저에 최대 3개의 장치를 저장합니다. 이는 한 대의 컴퓨터에서 소규모 설정을 확인하는 데 편리합니다. 다른 브라우저나 휴대폰에서는 해당 로컬 목록을 자동으로 수신하지 않습니다. 브라우저 저장 공간을 비우면 제거될 수 있습니다.
 
-使用 Google 登录后，可在账号清单中绑定最多 10 台设备。换设备查看时，请登录相同 Google 账号。切换账号或退出登录后，要再次确认当前清单：本地模式与登录模式使用不同的保存方式。详见 [账号与设备清单说明](https://iotahome.site/zh/learn/google-account-device-list)。
+Google로그인은 계정 바인딩 목록에서 최대 10개의 장치를 지원합니다. 다른 곳에서 모니터를 열 때 동일한Google계정을 사용하세요. 계정을 전환하거나 로그아웃한 후 목록을 확인하세요. 로컬 저장 모드와 로그인 저장 모드가 다릅니다. [계정 및 기기 목록 가이드](https://iotahome.site/ko/learn/google-account-device-list)에서는 제품 한도 및 저장 동작에 대해 설명합니다.
 
-## 按固定顺序读设备概览
+## 일관된 순서로 개요를 읽어보세요.
 
-先检查数据源更新时间和警告，再用状态筛选缩小需要检查的机器范围。官方采样较旧、正在等待任务或吞吐量为零，都不足以单独证明 Mac 已断开连接。
+데이터 소스 기간 및 경고부터 시작하세요. 그런 다음 장치 상태를 필터링하여 확인할 가치가 있는 컴퓨터의 범위를 좁힙니다. 오래된 공식 샘플, 대기 상태 또는 처리량 0만으로는 Mac의 연결이 끊어졌다는 결론을 내리기에 충분하지 않습니다.
 
-查看收益时，先确认数据覆盖率。只有部分设备的收益可用时，合计会标为「部分」。它代表已知设备的收益，不应直接与覆盖全部机器的合计比较，认为两者描述了相同设备范围。
+보장범위 확인 후 보상을 검토하세요. 일부 기기에만 사용 가능한 수익 데이터가 있는 경우 집계가 부분적으로 표시됩니다. 그 합계는 알려진 장치를 나타냅니다. 둘 다 동일한 차량을 나타내는 것처럼 완전히 포함된 총계와 비교해서는 안 됩니다.
 
-- 设备在等待任务时，对照其任务与 [全网现况](https://iotahome.site/zh/network)
+- 대기 중인 장치의 경우 [네트워크 보기](https://iotahome.site/ko/network)와 실행을 비교합니다.
 
-- 完整扫描仍未找到设备时，核对完整 ID 并检查官方应用
+- 전체 스캔에 포함되지 않은 기기의 경우 전체 ID와 공식 앱을 확인하세요.
 
-- 单台设备趋势异常时，打开详情，选择对应任务与时间范围
+- 한 가지 특이한 추세의 경우 장치 세부정보를 열고 관련 실행 및 시간 범위를 선택하세요.
 
-## 给清单留一份可迁移备份
+## 휴대용 백업을 유지하세요
 
-更换浏览器或清除站点数据前，先导出 JSON 清单。导入导出迁移的是公开 ID 与设备名称，不会迁移本地训练会话、钱包凭据或收款设置。把文件保存在便于找回的位置，导入后再次核对名称。
+브라우저를 변경하거나 사이트 데이터를 삭제하기 전에 장치 목록을 JSON으로 내보냅니다. 공개 ID 및 이름을 가져오고 내보냅니다. 로컬 교육 세션, 지갑 자격 증명 또는 지급 설정을 마이그레이션하지 않습니다. 파일을 검색할 수 있는 곳에 저장하고 가져온 후 복원된 이름을 확인하세요.
 
-日常检查可以按同一顺序完成：确认数据时效、查看需要关注的设备、核对收益覆盖率，最后对确有本地问题的机器打开官方应用。初次使用可先读 [Miner ID 获取步骤](https://iotahome.site/zh/learn/find-miner-id) 和 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+유용한 루틴은 간단합니다. 최신 상태를 확인하고, 예외 사항을 검토하고, 보상 범위를 검사한 다음, 로컬 확인이 필요한 경우에만 공식 앱을 엽니다. [Miner ID찾기](https://iotahome.site/ko/learn/find-miner-id) 및 [데이터 최신성 가이드](https://iotahome.site/ko/learn/data-sources-and-freshness)부터 시작하세요.
+
+### 複数のIOTA Train at Homeデバイスを1つのブラウザーで確認する方法 (ja)
+
+複数の Mac がIOTA Train at Homeを実行している場合、各マシンのアプリを開くことはローカル チェックには便利ですが、簡単に概要を確認するには不便です。IOTA Watchは、報告されたアクティビティ、報酬の合計、トレーニング履歴など、デバイスの公開測定値を 1 つのブラウザーにまとめます。トレーニングは各 Mac の公式アプリで継続します。ブラウザはモニターであり、リモコンではありません。
+
+## マシンごとに個別のMiner IDから開始します
+
+各デバイスの公式マイナー画面からパブリックMiner IDをコピーします。 [MacrocosmosFAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) では、デバイスのhotkeyと支払いに使用されるcoldkeyが区別されます。デバイスは、支払いアドレスを共有している場合でも、異なるhotkeyを持ちます。同じIDを2回追加しても2台のマシンを監視することはできません。
+
+- [マイ デバイス](https://iotahome.site/ja/app) を開き、完全なMiner IDを追加します。
+
+- 部屋や既存の在庫ラベルなど、マシンを識別する名前を付けます。
+
+- 他の Mac でも繰り返し、各名前をソース マシンと照合して確認します。
+
+デバイスを区別するために最初のいくつかのアドレス文字に依存しないでください。リストに名前を付けると、待機中のマシンを確認したり、後でデバイスの名前を変更したりする際の間違いが減ります。
+
+## リストを保存する場所を選択します
+
+サインインしない場合、IOTA Watchは現在のブラウザーに最大 3 台のデバイスを保存します。 1 台のコンピュータで小規模な設定を確認する場合に便利です。別のブラウザまたは電話は、そのローカル リストを自動的に受信しません。ブラウザのストレージをクリアすると削除できます。
+
+Googleサインインでは、アカウントにバインドされたリストで最大 10 台のデバイスがサポートされます。他の場所でモニターを開くときは、同じGoogleアカウントを使用してください。アカウントを切り替えるかサインアウトした後、リストを確認してください。ローカル ストレージ モードとサインインしたストレージ モードは異なります。 [アカウントとデバイスリストのガイド](https://iotahome.site/ja/learn/google-account-device-list) では、製品の制限とストレージの動作について説明しています。
+
+## 一貫した順序で概要を読んでください
+
+データソースの経過時間と警告から始めます。次に、デバイスのステータスをフィルタリングして、チェックする価値のあるマシンを絞り込みます。古い公式サンプル、待機状態、またはゼロ スループットだけでは、Mac が切断されたと結論付けるのに十分ではありません。
+
+補償範囲を確認した後、特典を確認してください。一部のデバイスのみが使用可能な収益データを持っている場合、集計は部分的としてマークされます。この合計は既知のデバイスを表します。両方が同じフリートを表しているかのように、完全にカバーされた合計と比較すべきではありません。
+
+- 待機中のデバイスの場合は、その実行を [ネットワーク ビュー](https://iotahome.site/ja/network) と比較します。
+
+- 完全なスキャンが完了していないデバイスについては、完全な ID と公式アプリを確認してください
+
+- 1 つの異常な傾向については、デバイスの詳細を開いて、関連する実行時間と時間範囲を選択します。
+
+## ポータブルなバックアップを保管しておいてください
+
+ブラウザを変更したり、サイト データをクリアしたりする前に、デバイス リストを JSON としてエクスポートします。インポートとエクスポートにより、パブリック ID と名前が移動します。ローカルのトレーニング セッション、ウォレットの認証情報、支払い設定は移行されません。ファイルを取得できる場所に保存し、インポート後に復元された名前を確認します。
+
+便利なルーチンはシンプルです。鮮度をチェックし、例外を確認し、報酬範囲を検査し、ローカル チェックが必要な場合にのみ公式アプリを開きます。 [Miner IDの検索](https://iotahome.site/ja/learn/find-miner-id) と [データ鮮度ガイド](https://iotahome.site/ja/learn/data-sources-and-freshness) から始めます。
 - Source: Macrocosmos · TAH support and FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
 ### IOTA Train at Home rewards are zero or unpaid: what to check first
-- ZH: https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid
-- EN: https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid
+- zh-CN: https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid
+- zh-TW: https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid
+- en: https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid
+- ko: https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid
+- ja: https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### IOTA Train at Home 收益为零或没到账，先检查什么？ (zh-CN)
+
+监控页显示 0 与钱包没有收到代币，是两个不同的问题。前者涉及网页读到了哪些记录，后者涉及官方支付流程。重启训练或判断收益丢失前，先确认变化的是哪个字段，以及对应数据源是否成功更新。
+
+## 先区分零值与未知
+
+IOTA Watch 只有在可用的官方响应支持零值时才显示已知的 0。请求失败、响应格式异常或字段缺失会保留为未知。刷新失败后，上次成功读取的数值可能继续显示，同时保留原更新时间并附上警告。
+
+打开设备的收益详情，分别检查总额与历史记录。累计收益可能可用，而历史请求失败；也可能相反。收益面板部分可用，不代表其中所有数字都是最新。比较不同时间的截图前，先看 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+
+## 确认今日收益属于哪一天
+
+本站的今日收益按香港时间每天 00:00 起算，累加该时间窗口内官方历史中的 pending 与 settled 记录，排除 frozen 及未来时间戳。它是记账收益，不是对机器当前每秒收益的估算。
+
+跨过午夜后，今日收益可以为 0，而累计收益仍为正。先检查收益记录的时间，再判断是否出现异常。即使机器位于其他时区，网页也使用同一记账日口径。详细规则见 [收益计算说明](https://iotahome.site/zh/learn/how-rewards-work)。
+
+## 已赚取、待支付与已支付分别说明什么？
+
+累计已赚取描述官方已记入的总额；已支付描述官方 totals 接口报告的支付金额；待支付描述等待支付的余额。把已支付再加到累计已赚取上，会把一部分收益重复计算，因此本站分别展示这些字段。
+
+[官方 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 说明支付门槛会变化，某些条件下记账权益可能被冻结。请以官网 API 当前返回的余额和最低支付字段为准，不要把旧文章里的固定门槛当成现行规则。pending 或 frozen 记录也不是钱包已收到代币的凭证。
+
+## 比较多台设备前先检查覆盖率
+
+某台设备的历史不可用时，即使其他设备可读，全队列的今日合计仍不完整。网页会把已知总额标为「部分」。可读设备数量增加后，总额也可能上升，这不等于训练表现突然提高。
+
+- 确认清单里保存的是该设备的公开 Miner ID
+
+- 对照官方应用中的收益页面与网页监控
+
+- 记录缺失字段、数据源警告和最近成功读取时间
+
+- 收款问题请检查官方应用设置，并参考官方支持说明
+
+## 监控清单与收款设置分开处理
+
+IOTA Watch 不配置官方应用的收款地址，不转移代币，也不验证钱包交易。Google 账号用于同步设备清单，不会改变收款地址。若设备有上报状态却没有近期训练量，可继续查看 [等待任务的排查步骤](https://iotahome.site/zh/blog/iota-waiting-for-tasks)。
+
+### IOTA Train at Home 收益為零或沒到賬，先檢查什麼？ (zh-TW)
+
+監視器頁顯示 0 與錢包沒有收到代幣，是兩個不同的問題。前者涉及網頁讀到了哪些記錄，後者涉及官方支付流程。重啟訓練或判斷收益遺失前，先確認變化的是哪個字段，以及對應資料來源是否成功更新。
+
+## 先區分零值與未知
+
+IOTA Watch 只有在可用的官方回應支援零值時才顯示已知的 0。請求失敗、回應格式異常或欄位缺失會保留為未知。刷新失敗後，上次成功讀取的數值可能會繼續顯示，同時保留原始更新時間並附上警告。
+
+開啟設備的收益詳情，分別檢查總額與歷史記錄。累計收益可能可用，而歷史請求失敗；也可能相反。收益面板部分可用，不代表其中所有數字都是最新。比較不同時間的截圖前，先看 [資料時效說明](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)。
+
+## 確認今日收益屬於哪一天
+
+本站的今日收益以香港時間每天 00:00 算，累加該時間窗口內官方歷史中的 pending 與 settled 記錄，排除 frozen 及未來時間戳。它是記帳收益，不是機器當前每秒收益的估算。
+
+跨過午夜後，今日收益可以為 0，而累積收益仍為正。先檢查收益記錄的時間，再判斷是否有異常。即使機器位於其他時區，網頁也使用同一記帳日口徑。詳細規則請參閱 [收益計算說明](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+## 已賺取、待支付與已支付分別說明什麼？
+
+累計已賺取描述官方已記入的總額；已支付描述官方 totals 介面報告的支付金額；待支付描述等待支付的餘額。把已支付再加到累計已賺取上，會把一部分收益重複計算，因此本站分別展示這些欄位。
+
+[官方 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs)說明支付門檻會變化，某些條件下記帳權益可能會被凍結。請以官網 API 目前傳回的餘額和最低支付欄位為準，不要把舊文章裡的固定門檻當成現行規則。 pending 或 frozen 記錄也不是錢包已收到代幣的憑證。
+
+## 比較多台裝置前先檢查覆蓋率
+
+某台設備的歷史不可用時，即使其他設備可讀，全隊列的今日合計仍不完整。網頁會把已知總額標為「部分」。可讀設備數量增加後，總額也可能上升，不等於訓練表現突然提高。
+
+- 確認清單裡保存的是該設備的公開 Miner ID
+
+- 對照官方應用中的收益頁面與網頁監控
+
+- 記錄缺失欄位、資料來源警告和最近成功讀取時間
+
+- 收款問題請檢查官方應用程式設置，並參考官方支援說明
+
+## 監控清單與收款設定分開處理
+
+IOTA Watch 不配置官方應用的收款地址，不轉移代幣，也不驗證錢包交易。 Google 帳號用於同步裝置清單，不會改變收款地址。若設備有回報狀態卻沒有近期訓練量，可繼續查看 [等待任務的檢驗步驟](https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks)。
+
+### IOTA Train at Home rewards are zero or unpaid: what to check first (en)
 
 A zero on the dashboard and a missing wallet payout are different questions. The first concerns the records the monitor can read; the second concerns official payout processing. Before restarting training or assuming rewards were lost, identify which field changed and whether its data source succeeded.
 
@@ -999,53 +2392,180 @@ If one device has no usable history, a fleet’s today total is incomplete even 
 
 IOTA Watch does not configure where the official app pays rewards, move tokens or verify a wallet transaction. A Google account synchronizes a device list; it does not change a payout address. For reported activity with no recent training volume, continue with [waiting-for-task checks](https://iotahome.site/en/blog/iota-waiting-for-tasks).
 
-### IOTA Train at Home 收益为零或没到账，先检查什么？
+### IOTA Train at Home 보상이 0이거나 미지급일 때 확인할 사항 (ko)
 
-监控页显示 0 与钱包没有收到代币，是两个不同的问题。前者涉及网页读到了哪些记录，后者涉及官方支付流程。重启训练或判断收益丢失前，先确认变化的是哪个字段，以及对应数据源是否成功更新。
+대시보드의 0과 지갑 지불금 누락은 다른 질문입니다. 첫 번째는 모니터가 읽을 수 있는 기록에 관한 것입니다. 두 번째는 공식적인 지급 처리에 관한 것입니다. 훈련을 다시 시작하거나 보상이 손실되었다고 가정하기 전에 어떤 필드가 변경되었는지, 해당 데이터 소스가 성공했는지 확인하세요.
 
-## 先区分零值与未知
+## 먼저 0과 알 수 없음을 구별합니다.
 
-IOTA Watch 只有在可用的官方响应支持零值时才显示已知的 0。请求失败、响应格式异常或字段缺失会保留为未知。刷新失败后，上次成功读取的数值可能继续显示，同时保留原更新时间并附上警告。
+IOTA Watch은 사용 가능한 공식 응답이 지원하는 경우에만 알려진 0을 표시합니다. 실패한 요청, 잘못된 응답 또는 누락된 필드는 알 수 없는 상태로 남아 있습니다. 새로고침이 실패하면 이전에 성공적으로 읽은 값이 원래 타임스탬프 및 경고와 함께 계속 표시될 수 있습니다.
 
-打开设备的收益详情，分别检查总额与历史记录。累计收益可能可用，而历史请求失败；也可能相反。收益面板部分可用，不代表其中所有数字都是最新。比较不同时间的截图前，先看 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+기기의 보상 세부정보를 열고 총계와 내역을 별도로 검사하세요. 내역 요청이 실패하는 동안 또는 그 반대의 경우에도 전체 기간을 사용할 수 있습니다. 부분적으로 사용 가능한 보상 패널이 모든 수치를 최신 상태로 만들지는 않습니다. 서로 다른 시간에 촬영된 두 스크린샷을 비교하기 전에 [데이터 최신성](https://iotahome.site/ko/learn/data-sources-and-freshness)을 확인하세요.
 
-## 确认今日收益属于哪一天
+## 총 금액이 어느 날인지 확인하세요.
 
-本站的今日收益按香港时间每天 00:00 起算，累加该时间窗口内官方历史中的 pending 与 settled 记录，排除 frozen 及未来时间戳。它是记账收益，不是对机器当前每秒收益的估算。
+IOTA Watch의 오늘 보상은 00:00 Asia/Hong_Kong부터 홍콩 역일을 사용합니다. 고정된 항목과 향후 타임스탬프를 제외하고 해당 창에 공식 보류 및 확정 내역 항목을 합산합니다. 그 결과는 기계가 이번 순간에 얼마나 벌고 있는지에 대한 추정치가 아니라 계산된 수입입니다.
 
-跨过午夜后，今日收益可以为 0，而累计收益仍为正。先检查收益记录的时间，再判断是否出现异常。即使机器位于其他时区，网页也使用同一记账日口径。详细规则见 [收益计算说明](https://iotahome.site/zh/learn/how-rewards-work)。
+자정 이후에는 오늘의 수치가 0이 될 수 있지만 평생 수입은 양수로 유지됩니다. 회귀로 처리하기 전에 기록 기록 타임스탬프를 살펴보세요. 다른 시간대의 장치는 여전히 동일한 대시보드 회계 날짜를 사용합니다. [보상 계산 가이드](https://iotahome.site/ko/learn/how-rewards-work)에 이 규칙이 자세히 설명되어 있습니다.
 
-## 已赚取、待支付与已支付分别说明什么？
+## 획득, 보류 및 유료 답변 다양한 질문
 
-累计已赚取描述官方已记入的总额；已支付描述官方 totals 接口报告的支付金额；待支付描述等待支付的余额。把已支付再加到累计已赚取上，会把一部分收益重复计算，因此本站分别展示这些字段。
+평생 적립은 전체적으로 적립된 공식 금액을 나타냅니다. 유료(Paid)는 공식 총계 엔드포인트가 유료로 보고하는 내용을 설명합니다. Pending은 지불 대기 중인 잔액을 나타냅니다. 획득한 금액에 지불한 금액을 추가하면 보상의 일부가 두 번 계산됩니다.IOTA Watch은 해당 필드를 별도로 유지합니다.
 
-[官方 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) 说明支付门槛会变化，某些条件下记账权益可能被冻结。请以官网 API 当前返回的余额和最低支付字段为准，不要把旧文章里的固定门槛当成现行规则。pending 或 frozen 记录也不是钱包已收到代币的凭证。
+[공식 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs)에서는 자격이 동결될 수 있는 지급 기준액 및 조건 변경에 대해 설명합니다. 게시물의 이전 숫자 임계값에 의존하는 대신 공식 API에서 반환된 현재 잔액 및 최소 지불금 필드를 사용하세요. 보류 중이거나 동결된 기록은 확인된 지갑 영수증이 아닙니다.
 
-## 比较多台设备前先检查覆盖率
+## 여러 기기를 비교하기 전에 커버리지를 확인하세요
 
-某台设备的历史不可用时，即使其他设备可读，全队列的今日合计仍不完整。网页会把已知总额标为「部分」。可读设备数量增加后，总额也可能上升，这不等于训练表现突然提高。
+한 장치에 사용 가능한 기록이 없으면 다른 장치를 읽을 수 있더라도 플릿의 오늘 합계가 불완전합니다. 대시보드는 알려진 총계를 부분적으로 표시합니다. 판독 가능한 장치의 수를 늘리면 훈련 성능에 급격한 변화를 나타내지 않고 전체를 늘릴 수 있습니다.
 
-- 确认清单里保存的是该设备的公开 Miner ID
+- 저장된 ID가 해당 기기의 공개번호Miner ID인지 확인하세요.
 
-- 对照官方应用中的收益页面与网页监控
+- 공식앱의 수익조회를 웹모니터와 함께 확인하세요
 
-- 记录缺失字段、数据源警告和最近成功读取时间
+- 누락된 필드, 해당 소스 경고 및 마지막으로 성공한 가져오기 시간을 기록합니다.
 
-- 收款问题请检查官方应用设置，并参考官方支持说明
+- 지급 문제의 경우 공식 앱 설정을 확인하고 공식 지원팀에 문의하세요.
 
-## 监控清单与收款设置分开处理
+## 모니터와 지급 설정을 별도로 유지하세요
 
-IOTA Watch 不配置官方应用的收款地址，不转移代币，也不验证钱包交易。Google 账号用于同步设备清单，不会改变收款地址。若设备有上报状态却没有近期训练量，可继续查看 [等待任务的排查步骤](https://iotahome.site/zh/blog/iota-waiting-for-tasks)。
+IOTA Watch은 공식 앱이 보상을 지불하고 토큰을 이동하거나 지갑 거래를 확인하는 위치를 구성하지 않습니다.Google계정은 장치 목록을 동기화합니다. 지급 주소는 변경되지 않습니다. 최근 훈련량이 없는 보고된 활동의 경우 [작업 대기 확인](https://iotahome.site/ko/blog/iota-waiting-for-tasks)을 계속 진행하세요.
+
+### IOTA Train at Homeの報酬がゼロ・未払いの場合に確認すること (ja)
+
+ダッシュボードにゼロがあることと、ウォレットへの支払いが不足していることは別の問題です。 1 つ目は、モニターが読み取ることができるレコードに関するものです。 2 つ目は、公式の支払い処理に関するものです。トレーニングを再開する前、または報酬が失われたと想定する前に、どのフィールドが変化したか、そのデータ ソースが成功したかどうかを特定します。
+
+## まずゼロと未知を区別します
+
+IOTA Watchは、使用可能な公式応答がそれをサポートしている場合にのみ、既知のゼロを表示します。失敗したリクエスト、無効なレスポンス、または欠落しているフィールドは不明のままです。更新が失敗した場合、以前に成功した読み取りが元のタイムスタンプと警告とともに表示されたままになることがあります。
+
+デバイスの報酬の詳細を開き、合計と履歴を個別に調べます。生涯合計は、履歴リクエストが失敗している間も、またはその逆の間も利用できます。部分的に利用可能な報酬パネルでは、すべての数字が最新のものになるわけではありません。異なる時間に撮影した 2 つのスクリーンショットを比較する前に、[データの鮮度](https://iotahome.site/ja/learn/data-sources-and-freshness) を確認してください。
+
+## 合計が何日をカバーしているかを確認してください
+
+IOTA Watchの今日の報酬は、00:00 Asia/Hong_Kong から始まる香港暦日を使用します。これらは、凍結されたエントリと将来のタイムスタンプを除いて、そのウィンドウ内の公式の保留中および決済された履歴エントリを合計します。結果は計算上の収益であり、マシンがこの秒でいくら稼いでいるかの推定値ではありません。
+
+真夜中を過ぎると、生涯所得がプラスのままでも、今日の測定値がゼロになることがあります。それを回帰として扱う前に、履歴レコードのタイムスタンプを確認してください。異なるタイムゾーンのデバイスでも、同じダッシュボードの会計日が使用されます。このルールについては、[報酬計算ガイド](https://iotahome.site/ja/learn/how-rewards-work) で詳しく説明されています。
+
+## 獲得済み、保留中、支払い済みのさまざまな質問に答えます
+
+生涯獲得額は、全体的にクレジットされる正式な金額を表します。有料は、公式の合計エンドポイントが有料として報告する金額を説明します。保留中は、支払いを待っている残高を表します。支払われた額と稼いだ額を加算すると、報酬の一部が 2 倍にカウントされます。IOTA Watchは、これらのフィールドを分離します。
+
+[公式 FAQ](https://docs.macrocosmos.ai/product-and-services/tah/faqs) では、支払いのしきい値の変更と権利を凍結する可能性がある条件について説明しています。投稿からの古い数値しきい値に依存するのではなく、公式 API によって返される現在の残高と最低支払いフィールドを使用します。保留中または凍結されたレコードは、確認されたウォレットの受領書ではありません。
+
+## 複数のデバイスを比較する前にカバレッジを確認してください
+
+1 つのデバイスに使用可能な履歴がない場合、他のデバイスが読み取り可能であっても、フリートの今日の合計は不完全になります。ダッシュボードでは、既知の合計が部分的なものとしてマークされます。読み取り可能なデバイスの数が増加すると、トレーニングのパフォーマンスに突然の変化が見られずに合計が増加する可能性があります。
+
+- 保存された ID がデバイスの公開 IDMiner IDであることを確認します。
+
+- 公式アプリの収益画面をWebモニターと並べて確認
+
+- どのフィールドが欠落しているか、そのソース警告、最後に成功したフェッチ時刻を記録します。
+
+- 支払いの問題については、公式アプリの設定を確認し、公式サポートに相談してください
+
+## モニターと支払いのセットアップを分離しておきます
+
+IOTA Watchは、公式アプリが報酬を支払う場所、トークンを移動する場所、またはウォレット トランザクションを確認する場所を構成しません。Googleアカウントはデバイス リストを同期します。支払いアドレスは変更されません。最近のトレーニング量のない報告されたアクティビティの場合は、[タスク待機チェック](https://iotahome.site/ja/blog/iota-waiting-for-tasks) に進みます。
 - Source: Macrocosmos · TAH support and FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
 ### IOTA Train at Home waiting for tasks: how to investigate zero throughput
-- ZH: https://iotahome.site/zh/blog/iota-waiting-for-tasks
-- EN: https://iotahome.site/en/blog/iota-waiting-for-tasks
+- zh-CN: https://iotahome.site/zh/blog/iota-waiting-for-tasks
+- zh-TW: https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks
+- en: https://iotahome.site/en/blog/iota-waiting-for-tasks
+- ko: https://iotahome.site/ko/blog/iota-waiting-for-tasks
+- ja: https://iotahome.site/ja/blog/iota-waiting-for-tasks
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+
+### IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh-CN)
+
+设备可能仍出现在官方矿工名单中，但最近一次上报的吞吐量为零。单凭这一张快照，无法确认硬件故障或连接中断。排查时可以分开看三件事：网页有没有成功刷新、官方网络上报了什么，以及本地训练应用正在做什么。
+
+## 先确认网页拿到了较新的数据
+
+先看设备状态来源的更新时间与刷新警告。该来源超过 5 分钟没有成功刷新时，IOTA Watch 会标记刷新中断，并保留旧数值。这说明数据读取遇到问题，不足以证明 Mac 已停止训练。
+
+收益更新时间变新，不会让设备状态的时间自动变新。不同来源可能分别成功或失败。手动刷新有冷却时间，也遵守官方限流，连续点击并不能保证得到新采样。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。
+
+## 把状态理解为一次上报采样
+
+本站根据官方 miner 数据区分有贡献、等待与暂未参与。吞吐量属于统计采样，不是实时心跳。请分别检查采样时间与浏览器拉取该响应的时间。
+
+只有完整读取所有进行中任务的名单后，仍找不到某个 ID，才应进一步核对保存的完整 Miner ID。名单覆盖不完整时，未知状态不能证明设备缺席。重命名只改变显示名称，不改变用于查找的公开 ID。
+
+## 对照设备所处任务的全网情况
+
+打开 [全网现况](https://iotahome.site/zh/network)，找到设备对应任务，结合名单覆盖率、名额、训练人数和进度一起看。名额数据不保证立即分配任务，任务整体进度也不是这台 Mac 的单机进度。
+
+网络快照提供背景，但不能解释每一个本地问题。两台设备可能处于不同任务，不同数据源也可能在不同时间成功拉取。对比数字时，不要默认它们来自完全同步的测量。
+
+## 用历史判断是否形成持续现象
+
+打开设备详情，选择对应任务，检查一天或一周的吞吐量与训练 token 数。对照多次采样比只看一个点更有帮助。历史数据按 epoch 对齐，缺失值保留为空缺，不填成 0。
+
+所选历史为空，可能是 API 没有提供这个任务和时间范围的记录。可以切换范围、核对任务选择并查看来源警告。空图表或较高排名，都不能单独推出设备应该获得多少收益。
+
+## 最后进行本地检查
+
+[官方用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) 将应用就绪状态、任务面板、运行日志及更新提示列为可查看的本地信息。请在对应 Mac 上打开应用检查，网页无法远程读取这些信息。
+
+- 检查应用显示的连接状态与训练状态
+
+- 记下 run ID，以及可见错误或更新提示
+
+- 将本地观察与网页最近成功读取的结果对照
+
+- 本地错误无法解决时，参考官方支持渠道
+
+描述问题时，使用「最近一次采样上报吞吐量为零」比直接判断机器离线更准确。若活动状态与收益看起来不一致，可继续读 [收益为零或未到账的检查步骤](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)。
+
+### IOTA Train at Home 一直等待任務、吞吐量為零，怎麼檢查？ (zh-TW)
+
+設備可能仍出現在官方礦工名單中，但最近一次上報的吞吐量為零。單憑這張快照，無法確認硬體故障或連線中斷。排查時可以分開看三件事：網頁有沒有成功刷新、官方網路上報了什麼，以及本地訓練應用程式正在做什麼。
+
+## 先確認網頁拿到了較新的數據
+
+先看設備狀態來源的更新時間與刷新警告。當來源超過 5 分鐘沒有成功刷新時，IOTA Watch 會標記刷新中斷，並保留舊數值。這表示資料讀取遇到問題，不足以證明 Mac 已停止訓練。
+
+收益更新時間變新，不會讓設備狀態的時間自動變新。不同來源可能分別成功或失敗。手動刷新有冷卻時間，也遵守官方限流，連續點擊並不能保證得到新採樣。詳見 [刷新中斷說明](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)。
+
+## 把狀態理解為一次上報取樣
+
+本站根據官方 miner 數據區分有貢獻、等待與暫未參與。吞吐量屬於統計採樣，不是即時心跳。請分別檢查取樣時間與瀏覽器拉取該回應的時間。
+
+只有在完整讀取所有進行中任務的名單後，仍找不到某個 ID，才應進一步核對已儲存的完整 Miner ID。名單覆蓋不完整時，未知狀態無法證明設備缺席。重新命名只改變顯示名稱，不改變用於尋找的公開 ID。
+
+## 對照設備所處任務的全網情況
+
+開啟 [全網現況](https://iotahome.site/zh-TW/network)，找到設備對應任務，結合名單覆蓋率、名額、訓練人數和進度一起看。名額資料不保證立即分配任務，任務整體進度也不是這台 Mac 的單機進度。
+
+網路快照提供背景，但不能解釋每一個本地問題。兩台設備可能處於不同任務，不同資料來源也可能在不同時間成功拉取。在比較數字時，不要預設它們來自完全同步的測量。
+
+## 用歷史判斷是否形成持續現象
+
+開啟裝置詳情，選擇對應任務，檢查一天或一週的吞吐量與訓練 token 數。對照多次採樣比只看一個點更有幫助。歷史資料按 epoch 對齊，缺失值保留為空缺，不填成 0。
+
+所選歷史為空，可能是 API 沒有提供這個任務和時間範圍的記錄。可以切換範圍、核對任務選擇並查看來源警告。空圖表或較高排名，都不能單獨推出設備應該獲得多少收益。
+
+## 最後進行本地檢查
+
+[官方使用者指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)將套用就緒狀態、任務面板、執行日誌及更新提示列為可查看的本機資訊。請在對應 Mac 上開啟應用程式檢查，網頁無法遠端讀取這些資訊。
+
+- 檢查應用程式顯示的連線狀態與訓練狀態
+
+- 記下 run ID，以及可見錯誤或更新提示
+
+- 將本地觀察與網頁最近成功讀取的結果對照
+
+- 當本地錯誤無法解決時，參考官方支援管道
+
+描述問題時，使用「最近一次採樣上報吞吐量為零」比直接判斷機器離線更準確。若活動狀態與收益看起來不一致，可繼續讀取 [收益為零或未到帳的檢查步驟](https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid)。
+
+### IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)
 
 A device can appear in the official miner list while its latest reported throughput is zero. That snapshot is not enough to identify a hardware failure or a lost connection. A useful investigation separates three things: whether the website refreshed, what the official network reported, and what the local training app is doing.
 
@@ -1087,46 +2607,88 @@ The [official user guide](https://docs.macrocosmos.ai/product-and-services/tah/t
 
 Keep the observation precise: “the current sample reports zero throughput” is more useful than assuming the machine is offline. For rewards that look inconsistent with activity, read [zero or unpaid rewards](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid).
 
-### IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？
+### IOTA Train at Home 작업 대기와 처리량 0: 확인 방법 (ko)
 
-设备可能仍出现在官方矿工名单中，但最近一次上报的吞吐量为零。单凭这一张快照，无法确认硬件故障或连接中断。排查时可以分开看三件事：网页有没有成功刷新、官方网络上报了什么，以及本地训练应用正在做什么。
+장치는 최근 보고된 처리량이 0인 동안에도 공식 채굴자 목록에 나타날 수 있습니다. 해당 스냅샷은 하드웨어 오류나 연결 끊김을 식별하는 데 충분하지 않습니다. 유용한 조사는 웹사이트가 새로 고쳐졌는지 여부, 공식 네트워크에서 보고한 내용, 지역 훈련 앱이 수행하는 작업의 세 가지 항목을 구분합니다.
 
-## 先确认网页拿到了较新的数据
+## 웹사이트에 현재 소스 데이터가 있는지 확인하세요.
 
-先看设备状态来源的更新时间与刷新警告。该来源超过 5 分钟没有成功刷新时，IOTA Watch 会标记刷新中断，并保留旧数值。这说明数据读取遇到问题，不足以证明 Mac 已停止训练。
+먼저 장치 상태 소스 수명과 새로고침 경고를 확인하세요. 웹 사이트가 5분 이상 해당 소스를 성공적으로 새로 고치지 못한 경우IOTA Watch은 새로고침이 중단된 것으로 표시하고 이전 판독값을 유지합니다. 이는 데이터 읽기 문제를 나타냅니다. Mac이 훈련을 중단했다는 사실은 입증되지 않습니다.
 
-收益更新时间变新，不会让设备状态的时间自动变新。不同来源可能分别成功或失败。手动刷新有冷却时间，也遵守官方限流，连续点击并不能保证得到新采样。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。
+최신 수입 타임스탬프는 기기 상태 타임스탬프를 갱신하지 않습니다. 다양한 소스가 독립적으로 성공할 수 있습니다. 수동 새로고침에는 쿨다운이 있고 여전히 공식 속도 제한을 따르므로 반복적으로 클릭하는 것은 새 샘플을 얻는 안정적인 방법이 아닙니다. [새로고침 중단됨](https://iotahome.site/ko/learn/what-refresh-interrupted-means)을 참조하세요.
 
-## 把状态理解为一次上报采样
+## 보고된 샘플로 상태를 읽습니다.
 
-本站根据官方 miner 数据区分有贡献、等待与暂未参与。吞吐量属于统计采样，不是实时心跳。请分别检查采样时间与浏览器拉取该响应的时间。
+IOTA Watch은 공식 채굴자 데이터를 사용하여 보고된 기여, 대기 및 비참여를 구분합니다. 처리량은 실시간 하트비트가 아닌 통계 샘플에 속합니다. 브라우저가 해당 응답을 가져온 시간과 별도로 샘플 타임스탬프를 확인하세요.
 
-只有完整读取所有进行中任务的名单后，仍找不到某个 ID，才应进一步核对保存的完整 Miner ID。名单覆盖不完整时，未知状态不能证明设备缺席。重命名只改变显示名称，不改变用于查找的公开 ID。
+모든 활성 명단을 성공적으로 읽었고 ID가 없는 경우 저장된 전체Miner ID을 확인하세요. 명단 적용이 불완전한 경우 알 수 없는 결과로 결석을 입증할 수 없습니다. 장치 이름을 바꾸면 검색에 사용되는 공개 ID가 아닌 레이블이 변경됩니다.
 
-## 对照设备所处任务的全网情况
+## 장치를 현재 실행과 비교
 
-打开 [全网现况](https://iotahome.site/zh/network)，找到设备对应任务，结合名单覆盖率、名额、训练人数和进度一起看。名额数据不保证立即分配任务，任务整体进度也不是这台 Mac 的单机进度。
+[네트워크 페이지](https://iotahome.site/ko/network)를 열고 장치와 연결된 실행을 찾습니다. 명단 범위, 슬롯, 보고된 훈련 횟수 및 진행 상황을 함께 읽어보세요. 슬롯 읽기는 즉시 할당을 보장하지 않으며 전체 실행 진행은 Mac 한 대의 진행이 아닙니다.
 
-网络快照提供背景，但不能解释每一个本地问题。两台设备可能处于不同任务，不同数据源也可能在不同时间成功拉取。对比数字时，不要默认它们来自完全同步的测量。
+네트워크 스냅샷은 컨텍스트를 제공하지만 모든 로컬 문제를 설명하지는 않습니다. 두 장치는 서로 다른 실행에 있을 수 있으며, 두 소스는 서로 다른 가져오기 시간을 가질 수 있습니다. 마치 동기화된 측정인 것처럼 숫자를 비교하지 마십시오.
 
-## 用历史判断是否形成持续现象
+## 최근 패턴이 있는지 확인하려면 기록을 사용하세요.
 
-打开设备详情，选择对应任务，检查一天或一周的吞吐量与训练 token 数。对照多次采样比只看一个点更有帮助。历史数据按 epoch 对齐，缺失值保留为空缺，不填成 0。
+장치 세부 정보를 열고, 관련 작업을 선택하고, 하루 또는 일주일의 처리량과 훈련 토큰을 검사하세요. 한 지점이 아닌 여러 샘플을 비교하십시오. 역사 소스는 시대별로 연결됩니다. 결측값은 0으로 채워지지 않고 간격을 유지합니다.
 
-所选历史为空，可能是 API 没有提供这个任务和时间范围的记录。可以切换范围、核对任务选择并查看来源警告。空图表或较高排名，都不能单独推出设备应该获得多少收益。
+선택한 기록이 비어 있으면 API에 해당 작업 및 기간에 대한 기록이 없다는 의미일 수 있습니다. 다른 기간을 시도하고 실행 선택을 확인하고 소스 경고를 확인하십시오. 빈 차트나 높은 순위는 기기에 얼마를 지불해야 하는지를 결정하지 않습니다.
 
-## 最后进行本地检查
+## 그런 다음 로컬 확인을 수행합니다.
 
-[官方用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) 将应用就绪状态、任务面板、运行日志及更新提示列为可查看的本地信息。请在对应 Mac 上打开应用检查，网页无法远程读取这些信息。
+[공식 사용자 가이드](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)는 앱의 준비 상태, 실행 패널, 실행 로그 및 업데이트 알림을 로컬 확인으로 식별합니다. 영향을 받는 Mac의 앱을 열고 해당 보기를 검사합니다. 모니터는 원격으로 읽을 수 없습니다.
 
-- 检查应用显示的连接状态与训练状态
+- 앱에 표시된 연결 및 훈련 상태를 확인하세요.
 
-- 记下 run ID，以及可见错误或更新提示
+- 실행 ID와 눈에 띄는 오류 또는 업데이트 알림을 기록해 둡니다.
 
-- 将本地观察与网页最近成功读取的结果对照
+- 해당 관찰 내용을 브라우저의 마지막 성공적인 판독값과 비교
 
-- 本地错误无法解决时，参考官方支持渠道
+- 로컬 앱에서 해결할 수 없는 오류를 보고하는 경우 공식 지원을 사용하세요.
 
-描述问题时，使用「最近一次采样上报吞吐量为零」比直接判断机器离线更准确。若活动状态与收益看起来不一致，可继续读 [收益为零或未到账的检查步骤](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)。
+관찰을 정확하게 유지하십시오. "현재 샘플은 처리량이 0이라고 보고합니다"는 기계가 오프라인이라고 가정하는 것보다 더 유용합니다. 활동과 일치하지 않는 보상에 대해서는 [0 또는 미지급 보상](https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid)을 읽어보세요.
+
+### IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)
+
+デバイスは、最新に報告されたスループットがゼロであっても、公式マイナー リストに表示されることがあります。このスナップショットは、ハードウェアの障害や接続の切断を特定するには十分ではありません。有益な調査は、Web サイトが更新されたかどうか、公式ネットワークが報告したこと、ローカル トレーニング アプリが何を行っているかという 3 つのことを分離します。
+
+## Web サイトに現在のソース データがあるかどうかを確認する
+
+まず、デバイス ステータス ソースの経過時間と更新警告を確認してください。 Web サイトがそのソースを 5 分以上正常に更新できなかった場合、IOTA Watchは更新が中断されたことをマークし、以前の読み取り値を保持します。これはデータ読み取りの問題を示しています。 Mac がトレーニングを停止したということは証明されていません。
+
+新しい収益タイムスタンプによってデバイス ステータスのタイムスタンプは更新されません。異なるソースは独立して成功する可能性があります。手動更新にはクールダウンがあり、公式のレート制限が尊重されるため、手動更新を繰り返しクリックすることは、新しいサンプルを取得するための信頼できる方法ではありません。 [リフレッシュの中断](https://iotahome.site/ja/learn/what-refresh-interrupted-means)を参照してください。
+
+## レポートされたサンプルとしてステータスを読み取る
+
+IOTA Watchは、公式マイナー データを使用して、報告された貢献、待機、および不参加を区別します。スループットは、ライブ ハートビートではなく、統計サンプルに属します。ブラウザが応答を取得した時間とは別に、サンプルのタイムスタンプを確認してください。
+
+すべてのアクティブな名簿が正常に読み取られ、ID が存在しない場合は、保存された完全なMiner IDを確認してください。名簿の網羅が不完全な場合、結果が不明であっても欠席を証明することはできません。デバイスの名前を変更すると、検出に使用されるパブリック ID ではなく、そのラベルが変更されます。
+
+## デバイスを現在の実行状態と比較します。
+
+[ネットワーク ページ](https://iotahome.site/ja/network) を開き、デバイスに関連付けられている実行を見つけます。名簿の範囲、スロット、報告されたトレーニング数、進捗状況を一緒に確認します。スロットの読み取りはすぐに割り当てられることを保証するものではなく、実行全体の進行状況は 1 台の Mac の進行状況ではありません。
+
+ネットワーク スナップショットはコンテキストを提供しますが、すべてのローカル問題を説明できるわけではありません。 2 つのデバイスが異なる実行になる可能性があり、2 つのソースのフェッチ時間が異なる場合があります。同期した測定値であるかのように数値を比較することは避けてください。
+
+## 履歴を使用して、最近のパターンがあるかどうかを確認します
+
+デバイスの詳細を開き、関連するタスクを選択して、1 日または 1 週間のスループットとトレーニング トークンを検査します。 1 点ではなく、複数のサンプルを比較します。歴史ソースは時代ごとに結合されます。欠損値はゼロで埋められるのではなく、ギャップのままになります。
+
+選択された履歴が空である場合は、API にそのタスクおよび期間のレコードがないことを意味する可能性があります。別の期間を試し、実行の選択を確認し、ソースの警告を確認してください。空のチャートも上位ランキングも、デバイスに支払われるべき金額を決定するものではありません。
+
+## 次にローカルチェックを行います
+
+[公式ユーザー ガイド](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) では、アプリの準備状況、実行パネル、実行ログ、更新通知がローカル チェックとして識別されます。影響を受ける Mac のアプリを開いて、それらのビューを調べます。モニターはリモートからそれらを読み取ることはできません。
+
+- アプリの表示された接続とトレーニング状態を確認します
+
+- 実行 ID と、目に見えるエラーまたは更新通知を書き留めます。
+
+- これらの観察結果とブラウザの最後に成功した読み取り値を比較します。
+
+- ローカル アプリで解決できないエラーが報告された場合は、公式サポートを利用する
+
+観察を正確に保ちます。マシンがオフラインであると仮定するよりも、「現在のサンプルはスループットがゼロであると報告する」方が有益です。アクティビティと矛盾していると思われる報酬については、[ゼロまたは未払いの報酬](https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid) を参照してください。
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota

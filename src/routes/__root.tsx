@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import experienceCss from "../experience.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { isLocale, LANGUAGE_TAG } from "../lib/site";
 
 function NotFoundComponent() {
   return (
@@ -98,8 +99,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const locale = pathname.split("/")[1];
   return (
-    <html lang={pathname.startsWith("/en") ? "en" : "zh-CN"}>
+    <html lang={locale && isLocale(locale) ? LANGUAGE_TAG[locale] : "zh-CN"}>
       <head>
         <HeadContent />
       </head>

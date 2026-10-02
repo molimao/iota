@@ -1,7 +1,8 @@
+import { localizeValue } from "@/components/site/localization";
 import { useState } from "react";
 import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor, Menu } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
-import { persistLocale, swapLocalePath } from "@/lib/site";
+import { persistLocale, swapLocalePath, LOCALES, LANGUAGE_TAG, LANGUAGE_NAME } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
 import { AccountAvatar, AccountMenu } from "./account-menu";
@@ -24,21 +25,26 @@ export function LanguageSwitch() {
   const { locale, en } = useLocale();
   const path = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <div className="lang-switch" role="group" aria-label={en ? "Language" : "语言"}>
-      {(["zh", "en"] as const).map((item) => (
-        <a
-          key={item}
-          href={swapLocalePath(path, item)}
-          hrefLang={item === "zh" ? "zh-CN" : "en"}
-          lang={item === "zh" ? "zh-CN" : "en"}
-          aria-current={locale === item ? "page" : undefined}
-          className={locale === item ? "is-active" : undefined}
-          onClick={() => persistLocale(item)}
-        >
-          {item === "zh" ? "中文" : "EN"}
-        </a>
-      ))}
-    </div>
+    <details className="language-picker">
+      <summary aria-label={localizeValue(en ? "Language" : "语言", locale)}>
+        {LANGUAGE_NAME[locale]} <span aria-hidden="true">▾</span>
+      </summary>
+      <div className="language-options">
+        {LOCALES.map((item) => (
+          <a
+            key={item}
+            href={swapLocalePath(path, item)}
+            hrefLang={LANGUAGE_TAG[item]}
+            lang={LANGUAGE_TAG[item]}
+            aria-current={locale === item ? "page" : undefined}
+            className={locale === item ? "is-active" : undefined}
+            onClick={() => persistLocale(item)}
+          >
+            {LANGUAGE_NAME[item]}
+          </a>
+        ))}
+      </div>
+    </details>
   );
 }
 
@@ -55,11 +61,11 @@ export function SiteNav() {
     [`/${locale}/guide`, copy.nav[0]],
     [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/learn`, copy.nav[2]],
-    [`/${locale}/blog`, en ? "Blog" : "博客"],
-    [`/${locale}/downloads`, en ? "Downloads" : "工具下载"],
+    [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
+    [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
   ] as const;
   return (
-    <nav className="site-nav" aria-label={en ? "Main navigation" : "主导航"}>
+    <nav className="site-nav" aria-label={localizeValue(en ? "Main navigation" : "主导航", locale)}>
       <a
         className="site-brand"
         href={`/${locale}`}
@@ -81,12 +87,12 @@ export function SiteNav() {
           href={`/${locale}/app`}
           aria-current={navCurrent(pathname, `/${locale}/app`)}
         >
-          {en ? "My devices" : "我的设备"}
+          {localizeValue(en ? "My devices" : "我的设备", locale)}
         </a>
         <LanguageSwitch />
         <AccountMenu />
         <details className="mobile-nav">
-          <summary aria-label={en ? "Navigation menu" : "导航菜单"}>
+          <summary aria-label={localizeValue(en ? "Navigation menu" : "导航菜单", locale)}>
             <Menu size={20} />
           </summary>
           <div>
@@ -118,14 +124,14 @@ export function SiteFooter() {
         <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
         <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
-        <a href={`/${locale}/blog`}>{en ? "Blog" : "博客"}</a>
-        <a href={`/${locale}/downloads`}>{en ? "Downloads" : "工具下载"}</a>
+        <a href={`/${locale}/blog`}>{localizeValue(en ? "Blog" : "博客", locale)}</a>
+        <a href={`/${locale}/downloads`}>{localizeValue(en ? "Downloads" : "工具下载", locale)}</a>
         <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
         </a>
       </div>
-      <small>{en ? "Read-only public data." : "只读监控公开数据。"}</small>
+      <small>{localizeValue(en ? "Read-only public data." : "只读监控公开数据。", locale)}</small>
     </footer>
   );
 }
@@ -166,12 +172,17 @@ function StartForm() {
             setValue(event.target.value);
             if (error) setError(null);
           }}
-          placeholder={en ? "Paste your public Miner ID" : "粘贴你的公开 Miner ID"}
+          placeholder={localizeValue(
+            en ? "Paste your public Miner ID" : "粘贴你的公开 Miner ID",
+            locale,
+          )}
           aria-invalid={error ? true : undefined}
         />
       </label>
       <button className="site-button" type="submit">
-        {value.trim() ? (en ? "Add this device" : "添加此设备") : content[locale].cta}
+        {value.trim()
+          ? localizeValue(en ? "Add this device" : "添加此设备", locale)
+          : content[locale].cta}
         <ArrowUpRight size={19} />
       </button>
       {error ? (
@@ -217,7 +228,7 @@ export function Landing() {
         <strong>{copy.disambiguationTitle}</strong>
         <p>{copy.disambiguation}</p>
         <a href={`/${locale}/learn/what-is-iota-watch`}>
-          {en ? "About this site" : "本站说明"} <ArrowRight size={15} />
+          {localizeValue(en ? "About this site" : "本站说明", locale)} <ArrowRight size={15} />
         </a>
       </aside>
       <section className="purpose-section">
@@ -243,7 +254,7 @@ export function Landing() {
       </section>
       <section className="start-section">
         <div>
-          <span className="eyebrow">{en ? "GET STARTED" : "开始使用"}</span>
+          <span className="eyebrow">{localizeValue(en ? "GET STARTED" : "开始使用", locale)}</span>
           <h2>{copy.stepsTitle}</h2>
           <p>{copy.bottom}</p>
           <a className="site-button" href={`/${locale}/app`}>
@@ -265,7 +276,7 @@ export function Landing() {
       </section>
       <section className="learn-index landing-learn">
         <div className="learn-index-head">
-          <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
+          <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
           <h2>{copy.learnTitle}</h2>
           <p>{copy.learnIntro}</p>
         </div>
@@ -286,7 +297,7 @@ export function Landing() {
         </div>
       </section>
       <section className="blog-entry">
-        <h2>{en ? "Practical monitoring articles" : "监控使用文章"}</h2>
+        <h2>{localizeValue(en ? "Practical monitoring articles" : "监控使用文章", locale)}</h2>
         <ul>
           {blogPosts.map((post) => (
             <li key={post.slug}>
@@ -294,7 +305,9 @@ export function Landing() {
             </li>
           ))}
         </ul>
-        <a href={`/${locale}/blog`}>{en ? "All blog articles" : "查看全部博客文章"} →</a>
+        <a href={`/${locale}/blog`}>
+          {localizeValue(en ? "All blog articles" : "查看全部博客文章", locale)} →
+        </a>
       </section>
     </div>
   );
@@ -311,7 +324,7 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
   return (
     <article className="article-page">
       <a className="back-link" href={`/${locale}`}>
-        ← {en ? "Home" : "首页"}
+        ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
       <span className="eyebrow">IOTA WATCH / {page.toUpperCase()}</span>
       <h1>{title}</h1>
@@ -329,13 +342,18 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       </div>
       {page === "guide" && (
         <aside className="article-tip">
-          <h2>{en ? "Before you start" : "使用前须知"}</h2>
+          <h2>{localizeValue(en ? "Before you start" : "使用前须知", locale)}</h2>
           <p>
-            {en
-              ? "A Train at Home device and its public Miner ID are required. This dashboard cannot run training, promise rewards, or read local logs."
-              : "需要已运行 Train at Home 的设备及其公开 Miner ID。本站不能启动训练、承诺收益，也不能读取本地日志。"}
+            {localizeValue(
+              en
+                ? "A Train at Home device and its public Miner ID are required. This dashboard cannot run training, promise rewards, or read local logs."
+                : "需要已运行 Train at Home 的设备及其公开 Miner ID。本站不能启动训练、承诺收益，也不能读取本地日志。",
+              locale,
+            )}
           </p>
-          <a href={`/${locale}/learn/find-miner-id`}>{en ? "Miner ID steps" : "Miner ID 步骤"} →</a>
+          <a href={`/${locale}/learn/find-miner-id`}>
+            {localizeValue(en ? "Miner ID steps" : "Miner ID 步骤", locale)} →
+          </a>
         </aside>
       )}
       <p className="article-updated">{copy.updated}</p>
@@ -386,17 +404,20 @@ export function LearnIndex() {
   return (
     <article className="article-page learn-page">
       <a className="back-link" href={`/${locale}`}>
-        ← {en ? "Home" : "首页"}
+        ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
-      <span className="eyebrow">{en ? "HELP" : "使用说明"}</span>
+      <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
       <h1>{copy.learnTitle}</h1>
       <p className="article-lead">{copy.learnIntro}</p>
       <LearnGrid locale={locale} />
       <p className="article-updated">
         <a href={`/${locale}/blog`}>
-          {en
-            ? "For practical workflows and troubleshooting, browse the blog."
-            : "实际使用流程与问题排查，也可查看博客文章。"}
+          {localizeValue(
+            en
+              ? "For practical workflows and troubleshooting, browse the blog."
+              : "实际使用流程与问题排查，也可查看博客文章。",
+            locale,
+          )}
         </a>
       </p>
     </article>
@@ -427,27 +448,34 @@ export function ArticleView({
   return (
     <article className="article-page learn-article">
       <a className="back-link" href={`/${locale}/${section}`}>
-        ← {section === "blog" ? (en ? "All posts" : "全部文章") : en ? "All guides" : "全部说明"}
+        ←{" "}
+        {section === "blog"
+          ? localizeValue(en ? "All posts" : "全部文章", locale)
+          : localizeValue(en ? "All guides" : "全部说明", locale)}
       </a>
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
       <p className="article-lead">{article.description[locale]}</p>
       <p className="article-updated article-byline">
-        IOTA Watch · {en ? "Published" : "发布"}{" "}
+        IOTA Watch · {localizeValue(en ? "Published" : "发布", locale)}{" "}
         <time dateTime={dates.published}>{dates.published}</time>
         {dates.modified !== dates.published && (
           <>
             {" "}
-            · {en ? "Updated" : "更新"} <time dateTime={dates.modified}>{dates.modified}</time>
+            · {localizeValue(en ? "Updated" : "更新", locale)}{" "}
+            <time dateTime={dates.modified}>{dates.modified}</time>
           </>
         )}
       </p>
       <a className="article-text-version" href={`/${locale}/${section}/${article.slug}.md`}>
-        {en ? "Plain text version" : "纯文本版本"}
+        {localizeValue(en ? "Plain text version" : "纯文本版本", locale)}
       </a>
       {sections.length > 0 && (
-        <nav className="article-toc" aria-label={en ? "On this page" : "本文目录"}>
-          <h2>{en ? "On this page" : "本文目录"}</h2>
+        <nav
+          className="article-toc"
+          aria-label={localizeValue(en ? "On this page" : "本文目录", locale)}
+        >
+          <h2>{localizeValue(en ? "On this page" : "本文目录", locale)}</h2>
           <ul>
             {sections.map((section) => (
               <li key={section.id}>
@@ -462,11 +490,14 @@ export function ArticleView({
       </div>
       {article.sources && (
         <aside className="article-sources">
-          <h2>{en ? "Sources and implementation" : "资料来源与本站实现"}</h2>
+          <h2>{localizeValue(en ? "Sources and implementation" : "资料来源与本站实现", locale)}</h2>
           <p>
-            {en
-              ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
-              : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。"}
+            {localizeValue(
+              en
+                ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
+                : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
+              locale,
+            )}
           </p>
           <ul>
             {article.sources.map((source) => (
@@ -480,7 +511,7 @@ export function ArticleView({
         </aside>
       )}
       <aside className="related-notes">
-        <h2>{en ? "Related" : "相关说明"}</h2>
+        <h2>{localizeValue(en ? "Related" : "相关说明", locale)}</h2>
         <div>
           {related.map((item) => (
             <a key={item.slug} href={`/${locale}/${section}/${item.slug}`}>
@@ -500,58 +531,72 @@ export function ArticleView({
 export function AccountPage() {
   const { locale, en } = useLocale();
   const auth = useAuth();
-  const label = auth.name || auth.email || (en ? "Account" : "账号");
+  const label = auth.name || auth.email || localizeValue(en ? "Account" : "账号", locale);
   return (
     <article className="article-page account-page">
       <a className="back-link" href={auth.userId ? `/${locale}/app` : `/${locale}`}>
-        ← {auth.userId ? (en ? "My devices" : "我的设备") : en ? "Home" : "首页"}
+        ←{" "}
+        {auth.userId
+          ? localizeValue(en ? "My devices" : "我的设备", locale)
+          : localizeValue(en ? "Home" : "首页", locale)}
       </a>
       <span className="eyebrow">IOTA WATCH / ACCOUNT</span>
-      <h1>{en ? "Account" : "账号"}</h1>
+      <h1>{localizeValue(en ? "Account" : "账号", locale)}</h1>
       {auth.userId ? (
         <>
           <div className="account-card">
             <AccountAvatar name={label} avatarUrl={auth.avatarUrl} size={56} />
             <div>
-              <b>{auth.name || (en ? "Signed in" : "已登录")}</b>
+              <b>{auth.name || localizeValue(en ? "Signed in" : "已登录", locale)}</b>
               {auth.email ? <p>{auth.email}</p> : null}
-              <span>{en ? "Signed in with Google" : "已用 Google 登录"}</span>
+              <span>
+                {localizeValue(en ? "Signed in with Google" : "已用 Google 登录", locale)}
+              </span>
             </div>
           </div>
           <div className="account-facts">
             <section>
-              <h2>{en ? "Device list" : "设备清单"}</h2>
+              <h2>{localizeValue(en ? "Device list" : "设备清单", locale)}</h2>
               <p>
-                {en
-                  ? "This account can keep up to 10 devices. Open My devices to add, rename, or remove them."
-                  : "该账号最多绑定 10 台设备。添加、改名和移除均在「我的设备」完成。"}
+                {localizeValue(
+                  en
+                    ? "This account can keep up to 10 devices. Open My devices to add, rename, or remove them."
+                    : "该账号最多绑定 10 台设备。添加、改名和移除均在「我的设备」完成。",
+                  locale,
+                )}
               </p>
               <a className="site-button small" href={`/${locale}/app`}>
-                {en ? "Open my devices" : "打开我的设备"}
+                {localizeValue(en ? "Open my devices" : "打开我的设备", locale)}
               </a>
             </section>
             <section>
-              <h2>{en ? "Account purpose" : "账号用途"}</h2>
+              <h2>{localizeValue(en ? "Account purpose" : "账号用途", locale)}</h2>
               <p>
-                {en
-                  ? "Google sign-in binds the public Miner ID list so it can be opened on another device. IOTA Watch does not ask for a password, private key, or seed phrase."
-                  : "Google 登录用于将公开 Miner ID 清单绑定到账号，以便在其他设备查看。IOTA Watch 不要求密码、私钥或助记词。"}
+                {localizeValue(
+                  en
+                    ? "Google sign-in binds the public Miner ID list so it can be opened on another device. IOTA Watch does not ask for a password, private key, or seed phrase."
+                    : "Google 登录用于将公开 Miner ID 清单绑定到账号，以便在其他设备查看。IOTA Watch 不要求密码、私钥或助记词。",
+                  locale,
+                )}
               </p>
               <a href={`/${locale}/learn/google-account-device-list`}>
-                {en ? "Device list sync" : "设备清单同步"} →
+                {localizeValue(en ? "Device list sync" : "设备清单同步", locale)} →
               </a>
             </section>
           </div>
           <button type="button" className="account-signout" onClick={() => void auth.signOut()}>
-            {en ? "Sign out" : "退出登录"}
+            {localizeValue(en ? "Sign out" : "退出登录", locale)}
           </button>
         </>
       ) : (
         <>
           <p className="article-lead">
-            {en
-              ? "Sign in with Google to bind up to 10 devices to your account. Without signing in, this browser can keep 3 devices locally."
-              : "使用 Google 登录后，最多将 10 台设备绑定到账号。未登录时，当前浏览器最多保存 3 台。"}
+            {localizeValue(
+              en
+                ? "Sign in with Google to bind up to 10 devices to your account. Without signing in, this browser can keep 3 devices locally."
+                : "使用 Google 登录后，最多将 10 台设备绑定到账号。未登录时，当前浏览器最多保存 3 台。",
+              locale,
+            )}
           </p>
           <button
             type="button"
@@ -561,12 +606,8 @@ export function AccountPage() {
           >
             <LogIn size={16} />
             {auth.signingIn
-              ? en
-                ? "Signing in"
-                : "正在登录"
-              : en
-                ? "Sign in with Google"
-                : "用 Google 登录"}
+              ? localizeValue(en ? "Signing in" : "正在登录", locale)
+              : localizeValue(en ? "Sign in with Google" : "用 Google 登录", locale)}
           </button>
         </>
       )}

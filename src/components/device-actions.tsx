@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { useRef, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
@@ -19,7 +20,7 @@ export function DeviceActions({
   onRemove: (hotkey: string) => Promise<WatchlistResult>;
   onRemoved: () => void;
 }) {
-  const { t, en } = useLocale();
+  const { t, en, locale } = useLocale();
   const [mode, setMode] = useState<"actions" | "rename" | "remove">("actions");
   const [feedback, setFeedback] = useState("");
   const [failed, setFailed] = useState(false);
@@ -27,7 +28,10 @@ export function DeviceActions({
   const busy = useRef(false);
 
   return (
-    <section className="device-management" aria-label={en ? "Manage device" : "管理设备"}>
+    <section
+      className="device-management"
+      aria-label={localizeValue(en ? "Manage device" : "管理设备", locale)}
+    >
       {feedback && (
         <p className="management-feedback" role={failed ? "alert" : "status"}>
           {t(feedback)}
@@ -51,11 +55,16 @@ export function DeviceActions({
         />
       ) : mode === "remove" ? (
         <div className="remove-confirmation" aria-busy={removing}>
-          <h3>{en ? `Remove ${entry.label}?` : `移除「${entry.label}」？`}</h3>
+          <h3>
+            {localizeValue(en ? `Remove ${entry.label}?` : `移除「${entry.label}」？`, locale)}
+          </h3>
           <p>
-            {en
-              ? `This removes the device from ${cloud ? "your account" : "this browser"}. Training will keep running. You can add it again with its Miner ID.`
-              : `将从${cloud ? "你的账号" : "此浏览器"}移除设备，不会停止训练。之后可以用 Miner ID 重新添加。`}
+            {localizeValue(
+              en
+                ? `This removes the device from ${cloud ? "your account" : "this browser"}. Training will keep running. You can add it again with its Miner ID.`
+                : `将从${cloud ? "你的账号" : "此浏览器"}移除设备，不会停止训练。之后可以用 Miner ID 重新添加。`,
+              locale,
+            )}
           </p>
           <div className="actions form-actions">
             <button

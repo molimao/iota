@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { ChevronDown, LogOut, Monitor, Settings, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
@@ -57,7 +58,7 @@ export function AccountMenu() {
   useEffect(() => setMounted(true), []);
   const onApp = pathname === `/${locale}/app` || pathname.startsWith(`/${locale}/app/`);
   const onAccount = pathname === `/${locale}/account` || pathname.startsWith(`/${locale}/account/`);
-  const label = auth.name || auth.email || (en ? "Account" : "账号");
+  const label = auth.name || auth.email || localizeValue(en ? "Account" : "账号", locale);
 
   if (!mounted) {
     return null;
@@ -85,7 +86,7 @@ export function AccountMenu() {
         <button
           type="button"
           className="account-trigger"
-          aria-label={en ? "Account menu" : "账号菜单"}
+          aria-label={localizeValue(en ? "Account menu" : "账号菜单", locale)}
         >
           <AccountAvatar name={label} avatarUrl={auth.avatarUrl} />
           <span className="account-trigger-name">{auth.name || auth.email}</span>
@@ -96,7 +97,7 @@ export function AccountMenu() {
         <div className="account-menu-head">
           <AccountAvatar name={label} avatarUrl={auth.avatarUrl} size={36} />
           <div>
-            <b>{auth.name || (en ? "Signed in" : "已登录")}</b>
+            <b>{auth.name || localizeValue(en ? "Signed in" : "已登录", locale)}</b>
             {auth.email ? <span>{auth.email}</span> : null}
           </div>
         </div>
@@ -113,13 +114,13 @@ export function AccountMenu() {
           <DropdownMenuItem asChild>
             <a href={`/${locale}/account`}>
               <Settings size={15} />
-              {en ? "Account settings" : "账号设置"}
+              {localizeValue(en ? "Account settings" : "账号设置", locale)}
             </a>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem disabled>
             <UserRound size={15} />
-            {en ? "Account settings" : "账号设置"}
+            {localizeValue(en ? "Account settings" : "账号设置", locale)}
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />

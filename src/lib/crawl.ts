@@ -1,6 +1,7 @@
 import { articles, articleDates, type Article } from "../components/site/articles";
 import { blogPosts } from "../components/site/blog-posts";
-import { ORIGIN, LOCALES, type SiteLocale } from "./site";
+import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
+import { localizeText } from "../components/site/localization";
 
 export const LASTMOD = "2026-09-12";
 
@@ -52,7 +53,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
   return path ? `${origin}/${locale}/${path}` : `${origin}/${locale}`;
 }
 
-function pageLabel(locale: SiteLocale, path: string) {
+function pageLabel(locale: SiteLocale, path: string): string {
+  if (locale !== "zh" && locale !== "en")
+    return localizeText(pageLabel(locale === "zh-TW" ? "zh" : "en", path), locale);
   if (!path) return locale === "en" ? "Home" : "首页";
   if (path === "blog") return locale === "en" ? "Blog" : "博客";
   if (path.startsWith("blog/"))
@@ -71,14 +74,12 @@ export function buildSitemapXml(origin = ORIGIN) {
   const urls = crawlPages.flatMap((page) =>
     LOCALES.map((locale) => {
       const loc = pageUrl(locale, page.path, origin);
-      const zh = pageUrl("zh", page.path, origin);
       const en = pageUrl("en", page.path, origin);
       return `  <url>
     <loc>${loc}</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="${zh}"/>
-    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>
+${LOCALES.map((language) => `    <xhtml:link rel="alternate" hreflang="${LANGUAGE_TAG[language]}" href="${pageUrl(language, page.path, origin)}"/>`).join("\n")}
     <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>
-    <lastmod>${page.lastmod ?? LASTMOD}</lastmod>
+    <lastmod>${locale === "zh" || locale === "en" ? (page.lastmod ?? LASTMOD) : "2026-10-02"}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`;
@@ -172,23 +173,18 @@ export function buildLlmsFullTxt(origin = ORIGIN) {
     .map(({ article, section }) => {
       const dates = articleDates(article);
       return `### ${article.title.en}
-- ZH: ${pageUrl("zh", `${section}/${article.slug}`, origin)}
-- EN: ${pageUrl("en", `${section}/${article.slug}`, origin)}
+${LOCALES.map((locale) => `- ${LANGUAGE_TAG[locale]}: ${pageUrl(locale, `${section}/${article.slug}`, origin)}`).join("\n")}
 - Published: ${dates.published}
 - Updated: ${dates.modified}
 - Publisher: IOTA Watch (independent monitor)
 
-${article.body.en.map((block) => absoluteArticleLinks(block, "en", origin)).join("\n\n")}
-
-### ${article.title.zh}
-
-${article.body.zh.map((block) => absoluteArticleLinks(block, "zh", origin)).join("\n\n")}
+${LOCALES.map((locale) => `### ${article.title[locale]} (${LANGUAGE_TAG[locale]})\n\n${article.body[locale].map((block) => absoluteArticleLinks(block, locale, origin)).join("\n\n")}`).join("\n\n")}
 ${article.sources?.map((source) => `- Source: ${source.name} — ${source.url}`).join("\n") ?? ""}`;
     })
     .join("\n\n");
 
   return `${buildLlmsTxt(origin)}
-## Complete bilingual guides
+## Complete multilingual guides
 
 ${articleBlocks}
 `;
@@ -197,7 +193,8 @@ ${articleBlocks}
 function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) {
   return text.replace(
     /\]\(\/(?!\/)([^)]+)\)/g,
-    (_, path: string) => `](${origin}/${/^(en|zh)(\/|$)/.test(path) ? path : `${locale}/${path}`})`,
+    (_, path: string) =>
+      `](${origin}/${/^(zh-TW|en|zh|ko|ja)(\/|$)/.test(path) ? path : `${locale}/${path}`})`,
   );
 }
 
@@ -219,6 +216,6 @@ ${article.description[locale]}
 - Updated: ${dates.modified}
 
 ${article.body[locale].map((block) => absoluteArticleLinks(block, locale, origin)).join("\n\n")}
-${article.sources ? `\n## ${locale === "en" ? "Sources and implementation" : "资料来源与本站实现"}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
+${article.sources ? `\n## ${localizeText(locale === "zh" || locale === "zh-TW" ? "资料来源与本站实现" : "Sources and implementation", locale)}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
 `;
 }

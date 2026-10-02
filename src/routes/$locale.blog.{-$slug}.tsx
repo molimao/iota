@@ -1,3 +1,4 @@
+import { isLocale } from "@/lib/site";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { BlogArticle, BlogIndex } from "@/components/site/blog";
 import { getBlogPost } from "@/components/site/blog-posts";
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/$locale/blog/{-$slug}")({
     slug: params.slug ?? slugFromPath(location.pathname, params.locale),
   }),
   head: ({ params, loaderData }) =>
-    seo(params.locale === "en" ? "en" : "zh", "blog", loaderData?.slug ?? params.slug),
+    seo(isLocale(params.locale) ? params.locale : "zh", "blog", loaderData?.slug ?? params.slug),
   component: Page,
 });
 function Page() {

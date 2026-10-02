@@ -84,7 +84,7 @@ IOTA_LIVE_CHECK=1 npx vitest run src/lib/official-api.live.test.ts
 | 路径                  | 内容                                     |
 | --------------------- | ---------------------------------------- |
 | `src/components`      | 设备监控、全网视图、历史图表             |
-| `src/components/site` | 中英文页面、博客、使用说明与 SEO         |
+| `src/components/site` | 五语言页面、博客、使用说明与 SEO         |
 | `src/hooks`           | 查询、登录、设备清单状态                 |
 | `src/lib`             | 官方 API、数据校验、收益与状态计算、测试 |
 | `src/routes`          | TanStack 页面路由                        |
@@ -124,3 +124,11 @@ Google Search Console 使用 `https://iotahome.site/sitemap.xml`；新增的重�
 官网发布完成后，运行 `npm run seo:submit`，通过 IndexNow 将线上网站地图中的可索引页面通知 Bing 等支持该协议的搜索引擎。`node scripts/submit-indexnow.mjs --check` 只检查线上地图和归属文件，不提交。脚本会拒绝非官网地址及 app/account 页面；成功接收不表示已经收录。
 
 `scripts/indexnow.json` 和对应的根目录 TXT 是协议要求公开的站点归属校验标识，不是私密 API 密钥、钱包密钥或管理凭证。
+
+### 多语言与搜索收录
+
+网站提供简体中文 `/zh`、繁体中文 `/zh-TW`、英文 `/en`、韩语 `/ko` 和日语 `/ja`。每种语言使用独立网址，切换语言会保留当前页面；页面正文由服务器输出，访问时不需要调用翻译服务。
+
+译文保存在 `src/components/site/translations/`。新增或修改文案时，同步更新三份静态词典，并检查术语、文章链接和 Markdown 格式。运行测试与构建后，同步生成 `public/sitemap.xml`、`public/llms.txt` 和 `public/llms-full.txt`，保持它们与 `src/lib/crawl.ts` 的输出一致。
+
+公开页面有独立 canonical、相互对应的五语言 hreflang、x-default 和本地化结构化数据；个人设备与账号页面不参与搜索收录。发布后可运行 `npm run seo:submit` 提交公开网址给 IndexNow。

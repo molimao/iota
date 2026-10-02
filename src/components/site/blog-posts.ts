@@ -1,3 +1,4 @@
+import { withLocales } from "@/components/site/localization";
 import type { Article } from "./articles";
 
 const implementation = { name: "IOTA Watch · source code", url: "https://github.com/molimao/iota" };
@@ -10,7 +11,7 @@ const faq = {
   url: "https://docs.macrocosmos.ai/product-and-services/tah/faqs",
 };
 
-export const blogPosts: Article[] = [
+export const blogPosts: Article[] = withLocales([
   {
     slug: "monitor-multiple-iota-devices",
     published: "2026-10-01",
@@ -188,7 +189,7 @@ export const blogPosts: Article[] = [
       ],
     },
   },
-];
+]);
 
 export function getBlogPost(slug: string) {
   return blogPosts.find((post) => post.slug === slug);

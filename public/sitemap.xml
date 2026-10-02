@@ -4,432 +4,1440 @@
   <url>
     <loc>https://iotahome.site/zh</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/blog</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/blog</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/blog</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/blog</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/blog</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/network</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/network"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/network"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/network"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/network</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/network"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/network"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/network"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/network</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/network"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/network"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/network"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/network</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/network"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/network"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/network"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/network</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/network"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/network"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/network"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/network"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/network"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/network"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/downloads</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/downloads"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/downloads"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/downloads</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/downloads</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/downloads"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/downloads"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/downloads</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/downloads</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/downloads"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/downloads"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/downloads"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/downloads"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/downloads"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/faq</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/faq"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/faq"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/faq"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/faq</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/faq"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/faq"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/faq</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/faq"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/faq"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/faq"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/faq</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/faq"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/faq"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/faq</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/faq"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/faq"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/faq"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/guide</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/guide"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/guide"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/guide"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/guide"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/guide</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/guide"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/guide"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/guide"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/guide</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/guide"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/guide"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/guide"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/guide"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/guide</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/guide"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/guide"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/guide"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/guide</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/guide"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/guide"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/guide"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/guide"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/guide"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/privacy</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/privacy"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/privacy"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/privacy"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/privacy"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/privacy</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/privacy"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/privacy"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/privacy"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/privacy"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/privacy"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/privacy"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/what-is-iota-watch</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-iota-watch"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-iota-watch"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/what-is-iota-watch</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/what-is-iota-watch</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-iota-watch"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-iota-watch"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/what-is-iota-watch</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/what-is-iota-watch</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-iota-watch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-iota-watch"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/find-miner-id</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/find-miner-id"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/find-miner-id"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/find-miner-id"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/find-miner-id</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/find-miner-id</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/find-miner-id"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/find-miner-id"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/find-miner-id"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/find-miner-id</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/find-miner-id</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/find-miner-id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/find-miner-id"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/how-rewards-work</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/how-rewards-work"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/how-rewards-work"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/how-rewards-work"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/how-rewards-work</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/how-rewards-work</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/how-rewards-work"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/how-rewards-work"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/how-rewards-work"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/how-rewards-work</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/how-rewards-work</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/how-rewards-work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/how-rewards-work"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/device-status</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-status"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-status"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-status"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/device-status</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-status"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/device-status</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-status"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-status"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-status"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/device-status</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-status"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/device-status</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-status"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/iota-rewards-in-usd</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-rewards-in-usd"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-rewards-in-usd"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/iota-rewards-in-usd</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/iota-rewards-in-usd</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-rewards-in-usd"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-rewards-in-usd"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/iota-rewards-in-usd</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/iota-rewards-in-usd</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/iota-rewards-in-usd"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/iota-rewards-in-usd"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/what-refresh-interrupted-means</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-refresh-interrupted-means"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/what-refresh-interrupted-means</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-refresh-interrupted-means"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/what-refresh-interrupted-means</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/what-refresh-interrupted-means</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-refresh-interrupted-means"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-refresh-interrupted-means"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/google-account-device-list</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/google-account-device-list"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/google-account-device-list"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/google-account-device-list</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/google-account-device-list</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/google-account-device-list"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/google-account-device-list"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/google-account-device-list</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/google-account-device-list</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/google-account-device-list"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/google-account-device-list"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/what-is-sn9-iota</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-sn9-iota"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-sn9-iota"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/what-is-sn9-iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/what-is-sn9-iota</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-sn9-iota"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-sn9-iota"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/what-is-sn9-iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/what-is-sn9-iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/what-is-sn9-iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/what-is-sn9-iota"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/device-not-found</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-not-found"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-not-found"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
     <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/device-not-found</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/device-not-found</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-not-found"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-not-found"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
     <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/device-not-found</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/device-not-found</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/device-not-found"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/device-not-found"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/data-sources-and-freshness</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/data-sources-and-freshness"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/data-sources-and-freshness"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/data-sources-and-freshness</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/data-sources-and-freshness</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/data-sources-and-freshness"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/data-sources-and-freshness"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/data-sources-and-freshness</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/data-sources-and-freshness</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/data-sources-and-freshness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/data-sources-and-freshness"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/training-history-and-metrics</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/training-history-and-metrics"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/training-history-and-metrics"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/training-history-and-metrics</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/training-history-and-metrics</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/training-history-and-metrics"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/training-history-and-metrics"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/training-history-and-metrics</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/training-history-and-metrics</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/training-history-and-metrics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/training-history-and-metrics"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/learn/network-status-explained</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/learn/network-status-explained</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/learn/network-status-explained</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/network-status-explained"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/learn/network-status-explained</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/learn/network-status-explained</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/learn/network-status-explained"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/learn/network-status-explained"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/blog/monitor-multiple-iota-devices</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/monitor-multiple-iota-devices"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/blog/monitor-multiple-iota-devices</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/monitor-multiple-iota-devices"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/blog/monitor-multiple-iota-devices</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/blog/monitor-multiple-iota-devices</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/monitor-multiple-iota-devices"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/monitor-multiple-iota-devices"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/blog/iota-waiting-for-tasks</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-waiting-for-tasks"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/en/blog/iota-waiting-for-tasks</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-waiting-for-tasks"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
     <lastmod>2026-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/blog/iota-waiting-for-tasks</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/blog/iota-waiting-for-tasks</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/blog/iota-waiting-for-tasks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/blog/iota-waiting-for-tasks"/>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

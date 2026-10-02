@@ -11,7 +11,7 @@ import {
 } from "./lib/crawl";
 import { getBlogPost } from "./components/site/blog-posts";
 import { getArticle } from "./components/site/articles";
-import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest } from "./lib/site";
+import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest, isLocale } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -72,7 +72,7 @@ function crawlAssetResponse(request: Request): Response | null {
   const path = new URL(request.url).pathname;
   const origin = originFromRequest(request);
   const cache = "public, max-age=3600";
-  const markdown = path.match(/^\/(en|zh)\/(learn|blog)\/([a-z0-9-]+)\.md$/);
+  const markdown = path.match(/^\/(zh-TW|en|zh|ko|ja)\/(learn|blog)\/([a-z0-9-]+)\.md$/);
   if (markdown && (request.method === "GET" || request.method === "HEAD")) {
     const section = markdown[2] === "blog" ? "blog" : "learn";
     const article = section === "blog" ? getBlogPost(markdown[3]!) : getArticle(markdown[3]!);
@@ -81,7 +81,8 @@ function crawlAssetResponse(request: Request): Response | null {
         status: 404,
         headers: { "X-Robots-Tag": "noindex" },
       });
-    const locale = markdown[1] === "en" ? "en" : "zh";
+    const locale = markdown[1];
+    if (!isLocale(locale)) return new Response("Not found", { status: 404 });
     return new Response(
       request.method === "HEAD" ? null : buildArticleMarkdown(article, locale, origin, section),
       {
@@ -159,8 +160,8 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
   if (
     path === "/app" ||
     path === "/app/" ||
-    /^\/(en|zh)\/app\/?$/.test(path) ||
-    /^\/(en|zh)\/account\/?$/.test(path)
+    /^\/(zh-TW|en|zh|ko|ja)\/app\/?$/.test(path) ||
+    /^\/(zh-TW|en|zh|ko|ja)\/account\/?$/.test(path)
   ) {
     headers.set("X-Robots-Tag", "noindex, follow");
     changed = true;

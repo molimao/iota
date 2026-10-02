@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
 import { formatAgo } from "@/lib/format";
 
@@ -20,7 +21,10 @@ export function DataHealth({
 }) {
   const { t, en, locale } = useLocale();
   return (
-    <section className="data-health" aria-label={en ? "Data freshness" : "数据时效"}>
+    <section
+      className="data-health"
+      aria-label={localizeValue(en ? "Data freshness" : "数据时效", locale)}
+    >
       <div className="data-sources">
         {sources.map((source) => {
           const old =

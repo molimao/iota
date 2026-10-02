@@ -3,7 +3,7 @@ import type { Locale } from "./locale";
 
 function localizeHref(href: string, locale: Locale) {
   if (/^https?:\/\//.test(href) || href.startsWith("mailto:")) return href;
-  if (href.startsWith("/en/") || href.startsWith("/zh/") || href === "/en" || href === "/zh") {
+  if (/^\/(zh-TW|en|zh|ko|ja)(\/|$)/.test(href)) {
     return href;
   }
   return `/${locale}${href.startsWith("/") ? href : `/${href}`}`;

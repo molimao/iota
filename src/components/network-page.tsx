@@ -1,10 +1,12 @@
+import { withLocales } from "@/components/site/localization";
+import { localizeValue } from "@/components/site/localization";
 import { FarmFull } from "@/components/farm-view";
 import { useLocale } from "@/components/site/locale";
 import { useFarm } from "@/hooks/use-farm";
 import { DataHealth } from "@/components/data-health";
 import { RefreshCw } from "lucide-react";
 
-const GLOSSARY: Array<{ term: { zh: string; en: string }; body: { zh: string; en: string } }> = [
+const GLOSSARY = withLocales([
   {
     term: { zh: "名额", en: "Slots" },
     body: {
@@ -33,7 +35,7 @@ const GLOSSARY: Array<{ term: { zh: string; en: string }; body: { zh: string; en
       en: "The run as a whole, not an individual machine.",
     },
   },
-];
+]);
 
 export function NetworkPage() {
   const { locale, en, t } = useLocale();
@@ -41,21 +43,27 @@ export function NetworkPage() {
   return (
     <article className="article-page network-page">
       <a className="back-link" href={`/${locale}`}>
-        ← {en ? "Home" : "首页"}
+        ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
-      <span className="eyebrow">IOTA WATCH / {en ? "NETWORK" : "全网"}</span>
-      <h1>{en ? "Network status" : "全网训练现况"}</h1>
+      <span className="eyebrow">IOTA WATCH / {localizeValue(en ? "NETWORK" : "全网", locale)}</span>
+      <h1>{localizeValue(en ? "Network status" : "全网训练现况", locale)}</h1>
       <p className="article-lead">
-        {en
-          ? "Active training runs. Public data, updated about once a minute."
-          : "进行中的训练任务。公开数据，约每分钟更新。"}
+        {localizeValue(
+          en
+            ? "Active training runs. Public data, updated about once a minute."
+            : "进行中的训练任务。公开数据，约每分钟更新。",
+          locale,
+        )}
       </p>
 
       <div className="network-toolbar">
         <p>
-          {en
-            ? `Miner lists: ${state.coverage.known}/${state.coverage.total} runs`
-            : `矿工名单：已获取 ${state.coverage.known}/${state.coverage.total} 个任务`}
+          {localizeValue(
+            en
+              ? `Miner lists: ${state.coverage.known}/${state.coverage.total} runs`
+              : `矿工名单：已获取 ${state.coverage.known}/${state.coverage.total} 个任务`,
+            locale,
+          )}
           {state.coverage.known < state.coverage.total ? ` · ${t("部分数据")}` : ""}
         </p>
         <button
@@ -74,9 +82,12 @@ export function NetworkPage() {
       {state.error && (
         <details className="network-errors">
           <summary>
-            {en
-              ? "Some sources could not refresh. Previous data is retained."
-              : "部分数据刷新失败，保留上次数据。"}
+            {localizeValue(
+              en
+                ? "Some sources could not refresh. Previous data is retained."
+                : "部分数据刷新失败，保留上次数据。",
+              locale,
+            )}
           </summary>
           <p role="alert">{t(state.error)}</p>
         </details>
@@ -86,12 +97,14 @@ export function NetworkPage() {
         <FarmFull farm={state.farm} partial={state.coverage.known < state.coverage.total} />
       ) : (
         <p className="farm-empty">
-          {state.error ? t(state.error) : en ? "Loading the network view…" : "正在读取全网数据…"}
+          {state.error
+            ? t(state.error)
+            : localizeValue(en ? "Loading the network view…" : "正在读取全网数据…", locale)}
         </p>
       )}
 
       <div className="network-glossary">
-        <h2>{en ? "Numbers" : "数字含义"}</h2>
+        <h2>{localizeValue(en ? "Numbers" : "数字含义", locale)}</h2>
         <dl>
           {GLOSSARY.map((item) => (
             <div key={item.term.en}>
@@ -103,21 +116,24 @@ export function NetworkPage() {
       </div>
 
       <aside className="article-tip">
-        <h2>{en ? "Your devices" : "我的设备"}</h2>
+        <h2>{localizeValue(en ? "Your devices" : "我的设备", locale)}</h2>
         <p>
-          {en
-            ? "This page shows the whole network. Add a Miner ID to see your devices and rewards."
-            : "此页为全网数据。添加 Miner ID 后可查看自己的设备与收益。"}
+          {localizeValue(
+            en
+              ? "This page shows the whole network. Add a Miner ID to see your devices and rewards."
+              : "此页为全网数据。添加 Miner ID 后可查看自己的设备与收益。",
+            locale,
+          )}
         </p>
-        <a href={`/${locale}/app`}>{en ? "My devices" : "我的设备"} →</a>
+        <a href={`/${locale}/app`}>{localizeValue(en ? "My devices" : "我的设备", locale)} →</a>
       </aside>
       <p className="article-updated">
         <a href={`/${locale}/learn/network-status-explained`}>
-          {en ? "How to read network status" : "全网数字怎么读"}
+          {localizeValue(en ? "How to read network status" : "全网数字怎么读", locale)}
         </a>
         {" · "}
         <a href={`/${locale}/learn/data-sources-and-freshness`}>
-          {en ? "Data sources and freshness" : "数据来源与时效"}
+          {localizeValue(en ? "Data sources and freshness" : "数据来源与时效", locale)}
         </a>
       </p>
     </article>

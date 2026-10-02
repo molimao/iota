@@ -319,7 +319,7 @@ describe("crawl assets for GSC", () => {
   it("lists every indexable locale URL and never includes the dashboard", () => {
     const xml = buildSitemapXml();
     expect(crawlPages).toHaveLength(8 + articles.length + blogPosts.length);
-    expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 2);
+    expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 5);
     expect(ORIGIN).toBe("https://iotahome.site");
     expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);
     expect(xml).toContain(`${ORIGIN}/en/learn/iota-rewards-in-usd`);

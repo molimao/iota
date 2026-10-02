@@ -1,4 +1,5 @@
-export const content = {
+import { withLocales } from "@/components/site/localization";
+export const content = withLocales({
   en: {
     nav: ["Get started", "FAQ", "Help", "Privacy", "My devices", "Network"],
     eyebrow: "IOTA TRAIN AT HOME DEVICE MONITOR",
@@ -328,4 +329,4 @@ export const content = {
     ],
     updated: "更新于 2026 年 9 月 12 日",
   },
-} as const;
+} as const);

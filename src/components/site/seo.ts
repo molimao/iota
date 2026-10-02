@@ -1,4 +1,5 @@
-import { ORIGIN, sitePath } from "@/lib/site";
+import { localizeValue } from "@/components/site/localization";
+import { ORIGIN, sitePath, LOCALES, LANGUAGE_TAG, OG_LOCALE } from "@/lib/site";
 import { articles, articleDates, getArticle } from "./articles";
 import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
@@ -29,14 +30,14 @@ function jsonLd(data: unknown) {
 }
 
 function language(locale: Locale) {
-  return locale === "en" ? "en" : "zh-CN";
+  return LANGUAGE_TAG[locale];
 }
 
 function alternates(path: string) {
   return [
-    ...(["en", "zh"] as const).map((locale) => ({
+    ...LOCALES.map((locale) => ({
       rel: "alternate" as const,
-      hrefLang: locale === "zh" ? "zh-CN" : "en",
+      hrefLang: LANGUAGE_TAG[locale],
       href: ORIGIN + sitePath(locale, path),
     })),
     { rel: "alternate" as const, hrefLang: "x-default", href: ORIGIN + sitePath("en", path) },
@@ -75,7 +76,7 @@ function websiteGraph() {
     "@id": WEBSITE_ID,
     name: "IOTA Watch",
     url: ORIGIN,
-    inLanguage: ["zh-CN", "en"],
+    inLanguage: LOCALES.map((locale) => LANGUAGE_TAG[locale]),
     publisher: { "@id": ORG_ID },
     about: "IOTA Train at Home / Macrocosmos device and reward monitoring.",
   };
@@ -95,7 +96,7 @@ function googleVerification() {
 
 export function seo(locale: Locale, page: Page, slug?: string) {
   const copy = content[locale];
-  const en = locale === "en";
+  const en = locale !== "zh" && locale !== "zh-TW";
   const article = slug ? (page === "blog" ? getBlogPost(slug) : getArticle(slug)) : undefined;
   const path =
     (page === "learn" || page === "blog") && slug ? `${page}/${slug}` : page === "home" ? "" : page;
@@ -105,17 +106,26 @@ export function seo(locale: Locale, page: Page, slug?: string) {
   const title = article
     ? `${article.title[locale]} | IOTA Watch`
     : page === "downloads"
-      ? en
-        ? "IOTA Train at Home Mac tools: status and startup | IOTA Watch"
-        : "IOTA Mac 工具下载：状态查看与优化启动｜IOTA Watch"
+      ? localizeValue(
+          en
+            ? "IOTA Train at Home Mac tools: status and startup | IOTA Watch"
+            : "IOTA Mac 工具下载：状态查看与优化启动｜IOTA Watch",
+          locale,
+        )
       : page === "blog"
-        ? en
-          ? "IOTA Train at Home monitoring blog | IOTA Watch"
-          : "IOTA Train at Home 监控博客｜IOTA Watch"
+        ? localizeValue(
+            en
+              ? "IOTA Train at Home monitoring blog | IOTA Watch"
+              : "IOTA Train at Home 监控博客｜IOTA Watch",
+            locale,
+          )
         : page === "home"
-          ? en
-            ? "IOTA Train at Home Device Monitor | IOTA Watch"
-            : "IOTA Train at Home 设备监控｜IOTA Watch"
+          ? localizeValue(
+              en
+                ? "IOTA Train at Home Device Monitor | IOTA Watch"
+                : "IOTA Train at Home 设备监控｜IOTA Watch",
+              locale,
+            )
           : page === "guide"
             ? `${copy.guideTitle} | IOTA Watch`
             : page === "faq"
@@ -123,35 +133,49 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               : page === "privacy"
                 ? `${copy.privacyTitle} | IOTA Watch`
                 : page === "learn"
-                  ? en
-                    ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
-                    : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch"
+                  ? localizeValue(
+                      en
+                        ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
+                        : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch",
+                      locale,
+                    )
                   : page === "account"
-                    ? en
-                      ? "Account | IOTA Watch"
-                      : "账号｜IOTA Watch"
+                    ? localizeValue(en ? "Account | IOTA Watch" : "账号｜IOTA Watch", locale)
                     : page === "network"
-                      ? en
-                        ? "IOTA Train at Home network status | IOTA Watch"
-                        : "全网训练现况｜IOTA Watch"
-                      : en
-                        ? "My devices | IOTA Watch"
-                        : "我的设备｜IOTA Watch";
+                      ? localizeValue(
+                          en
+                            ? "IOTA Train at Home network status | IOTA Watch"
+                            : "全网训练现况｜IOTA Watch",
+                          locale,
+                        )
+                      : localizeValue(
+                          en ? "My devices | IOTA Watch" : "我的设备｜IOTA Watch",
+                          locale,
+                        );
 
   const description = article
     ? article.description[locale]
     : page === "downloads"
-      ? en
-        ? "Download open-source local scripts for IOTA Train at Home on Apple Silicon Mac: startup relay, status viewer and background guardian, with installation and removal instructions."
-        : "下载适用于 Apple Silicon Mac 的 IOTA Train at Home 开源本地脚本：优化启动、状态查看和异常守护，附安装与卸载说明。"
+      ? localizeValue(
+          en
+            ? "Download open-source local scripts for IOTA Train at Home on Apple Silicon Mac: startup relay, status viewer and background guardian, with installation and removal instructions."
+            : "下载适用于 Apple Silicon Mac 的 IOTA Train at Home 开源本地脚本：优化启动、状态查看和异常守护，附安装与卸载说明。",
+          locale,
+        )
       : page === "blog"
-        ? en
-          ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
-          : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。"
+        ? localizeValue(
+            en
+              ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
+              : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。",
+            locale,
+          )
         : page === "home"
-          ? en
-            ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
-            : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。"
+          ? localizeValue(
+              en
+                ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
+                : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。",
+              locale,
+            )
           : page === "guide"
             ? copy.guideIntro
             : page === "faq"
@@ -159,28 +183,46 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               : page === "privacy"
                 ? copy.privacyIntro
                 : page === "learn"
-                  ? en
-                    ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
-                    : "Miner ID、设备状态、收益，以及登录后的清单同步。"
+                  ? localizeValue(
+                      en
+                        ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
+                        : "Miner ID、设备状态、收益，以及登录后的清单同步。",
+                      locale,
+                    )
                   : page === "account"
-                    ? en
-                      ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
-                      : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。"
+                    ? localizeValue(
+                        en
+                          ? "Manage your IOTA Watch Google account, device list limit, and sign-out."
+                          : "管理 IOTA Watch 的 Google 账号、设备额度与退出登录。",
+                        locale,
+                      )
                     : page === "network"
-                      ? en
-                        ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
-                        : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。"
-                      : en
-                        ? "Track reported training activity and rewards for your saved devices."
-                        : "查看已保存设备的训练状态与收益。";
+                      ? localizeValue(
+                          en
+                            ? "Live view of IOTA Train at Home runs: open slots, miners online, miners training, progress and loss, by tier."
+                            : "IOTA Train at Home 全网训练任务：剩余名额、在线矿工、实际训练数量、各任务进度与损失，按档位分列。",
+                          locale,
+                        )
+                      : localizeValue(
+                          en
+                            ? "Track reported training activity and rewards for your saved devices."
+                            : "查看已保存设备的训练状态与收益。",
+                          locale,
+                        );
 
   const keywords = article
-    ? en
-      ? `${article.title.en}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
-      : `${article.title.zh}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`
-    : en
-      ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
-      : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 设备监控, 不是IOTA公链, Firefly";
+    ? localizeValue(
+        en
+          ? `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
+          : `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`,
+        locale,
+      )
+    : localizeValue(
+        en
+          ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
+          : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 设备监控, 不是IOTA公链, Firefly",
+        locale,
+      );
 
   const scripts = [];
   if (page !== "app" && page !== "account") {
@@ -197,7 +239,10 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           ? [
               { name: home, path: "" },
               {
-                name: page === "blog" ? (en ? "Blog" : "博客") : en ? "Help" : "使用说明",
+                name:
+                  page === "blog"
+                    ? localizeValue(en ? "Blog" : "博客", locale)
+                    : localizeValue(en ? "Help" : "使用说明", locale),
                 path: page,
               },
               { name: article.title[locale], path: `${page}/${article.slug}` },
@@ -207,13 +252,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               {
                 name:
                   page === "downloads"
-                    ? en
-                      ? "Downloads"
-                      : "工具下载"
+                    ? localizeValue(en ? "Downloads" : "工具下载", locale)
                     : page === "blog"
-                      ? en
-                        ? "Blog"
-                        : "博客"
+                      ? localizeValue(en ? "Blog" : "博客", locale)
                       : page === "guide"
                         ? copy.guideTitle
                         : page === "faq"
@@ -221,20 +262,12 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                           : page === "privacy"
                             ? copy.privacyTitle
                             : page === "learn"
-                              ? en
-                                ? "Help"
-                                : "使用说明"
+                              ? localizeValue(en ? "Help" : "使用说明", locale)
                               : page === "account"
-                                ? en
-                                  ? "Account"
-                                  : "账号"
+                                ? localizeValue(en ? "Account" : "账号", locale)
                                 : page === "network"
-                                  ? en
-                                    ? "Network"
-                                    : "全网"
-                                  : en
-                                    ? "Dashboard"
-                                    : "监控",
+                                  ? localizeValue(en ? "Network" : "全网", locale)
+                                  : localizeValue(en ? "Dashboard" : "监控", locale),
                 path,
               },
             ],
@@ -362,9 +395,12 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@type": "DefinedTerm",
         name: "Miner ID",
         alternateName: ["SS58 hotkey", "Train at Home miner address"],
-        description: en
-          ? "Public SS58 hotkey that identifies an IOTA Train at Home device. Not a private key, seed phrase, or coldkey."
-          : "标识 IOTA Train at Home 设备的公开 SS58 hotkey。不是私钥、助记词或 coldkey。",
+        description: localizeValue(
+          en
+            ? "Public SS58 hotkey that identifies an IOTA Train at Home device. Not a private key, seed phrase, or coldkey."
+            : "标识 IOTA Train at Home 设备的公开 SS58 hotkey。不是私钥、助记词或 coldkey。",
+          locale,
+        ),
         inDefinedTermSet: "IOTA Train at Home",
         url,
       }),
@@ -378,26 +414,35 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           {
             "@type": "HowToStep",
             position: 1,
-            name: en ? "Open Train at Home" : "打开 Train at Home",
-            text: en
-              ? "Launch the official app and wait until it shows Connected."
-              : "打开官方应用，待状态显示 Connected。",
+            name: localizeValue(en ? "Open Train at Home" : "打开 Train at Home", locale),
+            text: localizeValue(
+              en
+                ? "Launch the official app and wait until it shows Connected."
+                : "打开官方应用，待状态显示 Connected。",
+              locale,
+            ),
           },
           {
             "@type": "HowToStep",
             position: 2,
-            name: en ? "Open Miner" : "打开 Miner",
-            text: en
-              ? "Select Miner in the top left and copy the complete public Miner ID."
-              : "选择左上角 Miner，复制完整的公开 Miner ID。",
+            name: localizeValue(en ? "Open Miner" : "打开 Miner", locale),
+            text: localizeValue(
+              en
+                ? "Select Miner in the top left and copy the complete public Miner ID."
+                : "选择左上角 Miner，复制完整的公开 Miner ID。",
+              locale,
+            ),
           },
           {
             "@type": "HowToStep",
             position: 3,
-            name: en ? "Add it to IOTA Watch" : "添加到 IOTA Watch",
-            text: en
-              ? "Paste the SS58 hotkey on the dashboard and give the device a name."
-              : "在监控页粘贴该 SS58 hotkey，并填写设备名称。",
+            name: localizeValue(en ? "Add it to IOTA Watch" : "添加到 IOTA Watch", locale),
+            text: localizeValue(
+              en
+                ? "Paste the SS58 hotkey on the dashboard and give the device a name."
+                : "在监控页粘贴该 SS58 hotkey，并填写设备名称。",
+              locale,
+            ),
           },
         ],
       }),
@@ -411,9 +456,12 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@type": "DefinedTerm",
         name: "SN9",
         alternateName: ["IOTA Train at Home token", "subnet 9 alpha", "iota-2"],
-        description: en
-          ? "Bittensor subnet 9 alpha token used by IOTA Train at Home. Not TAO and not IOTA Layer 1."
-          : "Bittensor 子网 9 的 IOTA Train at Home alpha 代币。不是 TAO，也不是 IOTA 公链币。",
+        description: localizeValue(
+          en
+            ? "Bittensor subnet 9 alpha token used by IOTA Train at Home. Not TAO and not IOTA Layer 1."
+            : "Bittensor 子网 9 的 IOTA Train at Home alpha 代币。不是 TAO，也不是 IOTA 公链币。",
+          locale,
+        ),
         inDefinedTermSet: "IOTA Train at Home",
         url,
       }),
@@ -425,10 +473,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       jsonLd({
         "@context": "https://schema.org",
         "@type": "DefinedTerm",
-        name: en ? "Refresh interrupted" : "刷新中断",
-        description: en
-          ? "IOTA Watch could not finish a successful official data read for more than five minutes. Not proof the Mac is offline."
-          : "IOTA Watch 超过 5 分钟没能成功读完官方数据。不证明 Mac 已经掉线。",
+        name: localizeValue(en ? "Refresh interrupted" : "刷新中断", locale),
+        description: localizeValue(
+          en
+            ? "IOTA Watch could not finish a successful official data read for more than five minutes. Not proof the Mac is offline."
+            : "IOTA Watch 超过 5 分钟没能成功读完官方数据。不证明 Mac 已经掉线。",
+          locale,
+        ),
         inDefinedTermSet: "IOTA Watch",
         url,
       }),
@@ -455,8 +506,11 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       { property: "og:url", content: url },
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:alt", content: "IOTA Watch — IOTA Train at Home device monitor" },
-      { property: "og:locale", content: en ? "en_US" : "zh_CN" },
-      { property: "og:locale:alternate", content: en ? "zh_CN" : "en_US" },
+      { property: "og:locale", content: OG_LOCALE[locale] },
+      ...LOCALES.filter((item) => item !== locale).map((item) => ({
+        property: "og:locale:alternate",
+        content: OG_LOCALE[item],
+      })),
       { property: "og:site_name", content: "IOTA Watch" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },

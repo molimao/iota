@@ -1,3 +1,4 @@
+import { withLocales } from "@/components/site/localization";
 import type { Article } from "./articles";
 
 const sources = [
@@ -9,7 +10,7 @@ const sources = [
   { name: "IOTA Watch · source code", url: "https://github.com/molimao/iota" },
 ];
 
-export const dataGuides: Article[] = [
+export const dataGuides: Article[] = withLocales([
   {
     slug: "data-sources-and-freshness",
     published: "2026-10-01",
@@ -149,4 +150,4 @@ export const dataGuides: Article[] = [
       ],
     },
   },
-];
+]);

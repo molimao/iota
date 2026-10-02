@@ -1,7 +1,8 @@
-type Locale = "en" | "zh";
+import { LANGUAGE_TAG, type SiteLocale as Locale } from "./site";
+import { localizeText } from "@/components/site/localization";
 
 function intlLocale(locale: Locale): string {
-  return locale === "en" ? "en-GB" : "zh-CN";
+  return locale === "en" ? "en-GB" : LANGUAGE_TAG[locale];
 }
 
 export function formatClock(ms: number | null | undefined, locale: Locale = "zh"): string {
@@ -38,11 +39,19 @@ export function formatAgo(
   now: number,
   locale: Locale = "zh",
 ): string {
-  if (!ms) return locale === "en" ? "No data yet" : "尚无数据";
+  if (!ms)
+    return localizeText(locale === "zh" || locale === "zh-TW" ? "尚无数据" : "No data yet", locale);
   const diff = Math.max(0, now - ms);
   const seconds = Math.round(diff / 1000);
   const minutes = Math.round(diff / 60_000);
   const hours = Math.round(diff / 3_600_000);
+  if (locale === "ko" || locale === "ja" || locale === "zh-TW") {
+    const unit = diff < 60_000 ? "second" : diff < 3_600_000 ? "minute" : "hour";
+    return new Intl.RelativeTimeFormat(LANGUAGE_TAG[locale]).format(
+      -(unit === "second" ? seconds : unit === "minute" ? minutes : hours),
+      unit,
+    );
+  }
   if (locale === "en") {
     if (diff < 60_000) return `${seconds}s ago`;
     if (diff < 3_600_000) return `${minutes} min ago`;
@@ -53,10 +62,7 @@ export function formatAgo(
   return `${hours} 小时前`;
 }
 
-export function formatCount(
-  value: number | null | undefined,
-  locale: Locale = "zh",
-): string {
+export function formatCount(value: number | null | undefined, locale: Locale = "zh"): string {
   if (typeof value !== "number" || !Number.isFinite(value)) return "—";
   return value.toLocaleString(intlLocale(locale));
 }

@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
-export type Locale = "en" | "zh";
+import type { SiteLocale } from "@/lib/site";
+import { localizeText } from "./localization";
+export type Locale = SiteLocale;
 export const LocaleContext = createContext<Locale>("zh");
 const EN: Record<string, string> = {
   我的设备: "My devices",
@@ -256,18 +258,19 @@ function translatePiece(text: string): string {
 }
 
 export function localizeMessage(text: string, locale: Locale): string {
-  if (!text || locale !== "en") return text;
+  if (!text || locale === "zh") return text;
+  if (locale === "zh-TW") return localizeText(text, locale);
   return text
     .split("；")
-    .map((part) => translatePiece(part.trim()))
-    .join("; ");
+    .map((part) => localizeText(translatePiece(part.trim()), locale))
+    .join(locale === "ja" ? "；" : "; ");
 }
 
 export function useLocale() {
   const locale = useContext(LocaleContext);
   return {
     locale,
-    en: locale === "en",
+    en: locale !== "zh" && locale !== "zh-TW",
     t: (s: string) => localizeMessage(s, locale),
   };
 }

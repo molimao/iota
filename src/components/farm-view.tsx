@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { ArrowUpRight, Activity, Layers, Users, Gauge } from "lucide-react";
 
 import { MinerDistribution } from "@/components/miner-distribution";
@@ -53,7 +54,10 @@ export function FarmLine({
   if (stale) parts.push(t("全网部分数据未刷新"));
   return (
     <a className="farm-line" href={`/${locale}/network`}>
-      <span>{parts.join(" · ") || (en ? "View network training" : "查看全网训练情况")}</span>
+      <span>
+        {parts.join(" · ") ||
+          localizeValue(en ? "View network training" : "查看全网训练情况", locale)}
+      </span>
       <ArrowUpRight size={15} />
     </a>
   );
@@ -85,13 +89,17 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
           <Users size={18} aria-hidden="true" />
           <span>{t("官方在线")}</span>
           <b>{formatCount(farm.online, locale)}</b>
-          <small>{en ? "From the fetched miner roster" : "来自已读取矿工名单"}</small>
+          <small>
+            {localizeValue(en ? "From the fetched miner roster" : "来自已读取矿工名单", locale)}
+          </small>
         </div>
         <div className="network-stat" data-tone="mint">
           <Activity size={18} aria-hidden="true" />
           <span>{t("已开始训练")}</span>
           <b>{formatCount(farm.training, locale)}</b>
-          <small>{en ? "Reported throughput above zero" : "上报吞吐量大于零"}</small>
+          <small>
+            {localizeValue(en ? "Reported throughput above zero" : "上报吞吐量大于零", locale)}
+          </small>
         </div>
         <div className="network-stat" data-tone="amber">
           <Layers size={18} aria-hidden="true" />
@@ -117,9 +125,11 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             <div>
               <span className="viz-kicker">
                 <Activity size={14} />
-                {en ? "CAPACITY" : "网络容量"}
+                {localizeValue(en ? "CAPACITY" : "网络容量", locale)}
               </span>
-              <h2 id="capacity-title">{en ? "Slots & training" : "名额与训练"}</h2>
+              <h2 id="capacity-title">
+                {localizeValue(en ? "Slots & training" : "名额与训练", locale)}
+              </h2>
             </div>
           </header>
           <div className="capacity-total">
@@ -138,7 +148,7 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             <b>{formatPct(farm.activeMiners, farm.maxMiners, locale)}</b>
           </div>
           <div className="participation-readout">
-            <span>{en ? "Training / online" : "已训练 / 官方在线"}</span>
+            <span>{localizeValue(en ? "Training / online" : "已训练 / 官方在线", locale)}</span>
             <b>
               {formatCount(farm.training, locale)} / {formatCount(farm.online, locale)}
             </b>
@@ -151,13 +161,16 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             />
           </div>
           <p className="viz-note">
-            {en
-              ? "Slots and miner activity come from separate official sources. An occupied slot does not guarantee a training assignment."
-              : "名额与训练人数来自不同官方来源。占用名额不代表已经分配训练任务。"}
+            {localizeValue(
+              en
+                ? "Slots and miner activity come from separate official sources. An occupied slot does not guarantee a training assignment."
+                : "名额与训练人数来自不同官方来源。占用名额不代表已经分配训练任务。",
+              locale,
+            )}
           </p>
           {partial && (
             <span className="viz-tag" data-partial>
-              {en ? "Activity roster is incomplete" : "训练名单覆盖不完整"}
+              {localizeValue(en ? "Activity roster is incomplete" : "训练名单覆盖不完整", locale)}
             </span>
           )}
         </section>
@@ -183,9 +196,9 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             <div>
               <span className="viz-kicker">
                 <Layers size={14} />
-                {en ? "TRAINING RUNS" : "进行中任务"}
+                {localizeValue(en ? "TRAINING RUNS" : "进行中任务", locale)}
               </span>
-              <h2>{en ? "Run overview" : "任务概览"}</h2>
+              <h2>{localizeValue(en ? "Run overview" : "任务概览", locale)}</h2>
             </div>
             <span className="viz-tag">
               {formatCount(farm.runs.length, locale)} {t("个任务")}
@@ -194,7 +207,7 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
           <div
             className="farm-table-wrap"
             role="region"
-            aria-label={en ? "Active runs table" : "活跃任务表格"}
+            aria-label={localizeValue(en ? "Active runs table" : "活跃任务表格", locale)}
             tabIndex={0}
           >
             <table className="farm-table">

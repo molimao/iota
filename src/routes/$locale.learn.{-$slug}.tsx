@@ -1,3 +1,4 @@
+import { isLocale } from "@/lib/site";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { getArticle } from "@/components/site/articles";
 import { LearnArticle, LearnIndex, seo } from "@/components/site/pages";
@@ -11,16 +12,16 @@ function slugFromPath(pathname: string, locale: string) {
 
 export const Route = createFileRoute("/$locale/learn/{-$slug}")({
   beforeLoad: ({ params, location }) => {
-    const locale = params.locale === "en" ? "en" : "zh";
+    const locale = isLocale(params.locale) ? params.locale : "zh";
     const slug = params.slug ?? slugFromPath(location.pathname, locale);
     if (slug && !getArticle(slug)) throw notFound();
   },
   loader: ({ params, location }) => {
-    const locale = params.locale === "en" ? "en" : "zh";
+    const locale = isLocale(params.locale) ? params.locale : "zh";
     return { slug: params.slug ?? slugFromPath(location.pathname, locale) };
   },
   head: ({ params, loaderData }) =>
-    seo(params.locale === "en" ? "en" : "zh", "learn", loaderData?.slug ?? params.slug),
+    seo(isLocale(params.locale) ? params.locale : "zh", "learn", loaderData?.slug ?? params.slug),
   component: Page,
 });
 

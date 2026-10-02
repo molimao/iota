@@ -1,4 +1,5 @@
 import type { EntitlementHistory } from "./iota-types";
+import { LANGUAGE_TAG, type SiteLocale } from "./site";
 
 /** Alpha amounts are handled as integer counts of 1e-8 to avoid float drift. */
 export const UNIT_SCALE = 100_000_000;
@@ -33,18 +34,14 @@ export function formatUsd(usd: number | null): string {
   })}`;
 }
 
-export function formatIota(
-  units: number | null,
-  decimals = 4,
-  locale: "en" | "zh" = "zh",
-): string {
+export function formatIota(units: number | null, decimals = 4, locale: SiteLocale = "zh"): string {
   if (units === null) return "—";
   const negative = units < 0;
   const abs = Math.abs(units);
   const whole = Math.floor(abs / UNIT_SCALE);
   const frac = String(abs % UNIT_SCALE).padStart(8, "0");
   const shown = decimals >= 8 ? frac.replace(/0+$/, "") : frac.slice(0, decimals);
-  const group = locale === "en" ? "en-US" : "zh-CN";
+  const group = locale === "en" ? "en-US" : LANGUAGE_TAG[locale];
   const body =
     shown.length > 0 ? `${whole.toLocaleString(group)}.${shown}` : whole.toLocaleString(group);
   return `${negative ? "-" : ""}${body}`;

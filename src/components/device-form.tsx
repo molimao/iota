@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { useRef, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
@@ -20,7 +21,7 @@ export function DeviceForm({
   onSave: (input: { label: string; hotkey: string }) => Promise<WatchlistResult>;
   onCancel: () => void;
 }) {
-  const { t, en } = useLocale();
+  const { t, en, locale } = useLocale();
   const [label, setLabel] = useState(initialLabel);
   const [hotkey, setHotkey] = useState(initialHotkey);
   const [errors, setErrors] = useState<{
@@ -131,7 +132,11 @@ export function DeviceForm({
         </button>
         <button className="solid" type="submit" disabled={saving}>
           {saving && <LoaderCircle size={16} className="spin" />}
-          {saving ? t("保存中…") : rename ? (en ? "Save name" : "保存名称") : t("保存设备")}
+          {saving
+            ? t("保存中…")
+            : rename
+              ? localizeValue(en ? "Save name" : "保存名称", locale)
+              : t("保存设备")}
         </button>
       </div>
     </form>

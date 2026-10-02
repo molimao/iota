@@ -1,3 +1,4 @@
+import { withLocales } from "@/components/site/localization";
 import { dataGuides } from "./data-guides";
 import type { Locale } from "./locale";
 
@@ -6,13 +7,13 @@ export type Article = {
   published?: string;
   modified?: string;
   sources?: Array<{ name: string; url: string }>;
-  topic: { en: string; zh: string };
-  title: { en: string; zh: string };
-  description: { en: string; zh: string };
-  body: { en: string[]; zh: string[] };
+  topic: Record<Locale, string>;
+  title: Record<Locale, string>;
+  description: Record<Locale, string>;
+  body: Record<Locale, string[]>;
 };
 
-export const articles: Article[] = [
+export const articles: Article[] = withLocales([
   {
     slug: "what-is-iota-watch",
     topic: { en: "Definition", zh: "它是什么" },
@@ -442,7 +443,7 @@ export const articles: Article[] = [
     },
   },
   ...dataGuides,
-];
+]);
 
 export function articleDates(article: Article) {
   return {
@@ -455,8 +456,8 @@ export type ArticleCluster = "understand" | "start" | "read";
 
 export const articleClusterMeta: Record<
   ArticleCluster,
-  { title: { en: string; zh: string }; slugs: string[] }
-> = {
+  { title: Record<Locale, string>; slugs: string[] }
+> = withLocales({
   understand: {
     title: { en: "Product differences", zh: "产品区分" },
     slugs: ["what-is-iota-watch", "iota-train-at-home-vs-iota-coin", "what-is-sn9-iota"],
@@ -477,7 +478,7 @@ export const articleClusterMeta: Record<
       "network-status-explained",
     ],
   },
-};
+});
 
 const relatedBySlug: Record<string, string[]> = {
   "data-sources-and-freshness": [

@@ -1,3 +1,5 @@
+import { localizeValue } from "@/components/site/localization";
+import { withLocales } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -75,7 +77,7 @@ function MoneyPair({
       </strong>
       <em>
         <span>{usd} USD</span>
-        {large && <small>{en ? "Estimated value" : "美元估值"}</small>}
+        {large && <small>{localizeValue(en ? "Estimated value" : "美元估值", locale)}</small>}
       </em>
     </span>
   );
@@ -92,7 +94,7 @@ function Total({
   primary?: boolean;
 }) {
   const units = value.known || !value.total ? value.units : null;
-  const { t, en } = useLocale();
+  const { t, en, locale } = useLocale();
   return (
     <section className={`total ${primary ? "primary" : ""}`}>
       <div className="earnings-card-heading">
@@ -105,20 +107,22 @@ function Total({
       {value.partial && (
         <p className="coverage-note" role="status">
           {value.known
-            ? en
-              ? `Partial total · ${value.known}/${value.total} devices`
-              : `部分合计 · 已获取 ${value.known}/${value.total} 台`
-            : en
-              ? "Rewards are not available yet"
-              : "收益数据暂未获取"}
+            ? localizeValue(
+                en
+                  ? `Partial total · ${value.known}/${value.total} devices`
+                  : `部分合计 · 已获取 ${value.known}/${value.total} 台`,
+                locale,
+              )
+            : localizeValue(en ? "Rewards are not available yet" : "收益数据暂未获取", locale)}
         </p>
       )}
     </section>
   );
 }
 
-function DiagnosisBlock({ diagnosis }: { diagnosis: Diagnosis }) {
+function DiagnosisBlock({ diagnosis: originalDiagnosis }: { diagnosis: Diagnosis }) {
   const { locale, en } = useLocale();
+  const diagnosis = withLocales(originalDiagnosis);
   return (
     <div className="diagnosis">
       {diagnosis.notes.map((note) => (
@@ -134,16 +138,18 @@ function DiagnosisBlock({ diagnosis }: { diagnosis: Diagnosis }) {
           ) : null}
           {note.slug ? (
             <a href={`/${locale}/learn/${note.slug}`}>
-              {en ? "Details" : "说明"}
+              {localizeValue(en ? "Details" : "说明", locale)}
               <ArrowUpRight size={14} />
             </a>
           ) : null}
         </section>
       ))}
       <details className="diagnosis-reconcile">
-        <summary>{en ? "Numbers differ from another source" : "与其他来源不一致"}</summary>
+        <summary>
+          {localizeValue(en ? "Numbers differ from another source" : "与其他来源不一致", locale)}
+        </summary>
         <dl>
-          {RECONCILE_NOTES.map((item) => (
+          {withLocales(RECONCILE_NOTES).map((item) => (
             <div key={item.q.en}>
               <dt>{item.q[locale]}</dt>
               <dd>{item.a[locale]}</dd>
@@ -172,12 +178,17 @@ function AttentionBanner({
         {views.slice(0, 3).map((view) => (
           <button key={view.entry.hotkey} onClick={() => onOpen(view.entry.hotkey)}>
             <b>{view.entry.label}</b>
-            <span>{view.diagnosis.primary.title[locale]}</span>
+            <span>{withLocales(view.diagnosis.primary.title)[locale]}</span>
             <ArrowUpRight size={14} />
           </button>
         ))}
         {views.length > 3 ? (
-          <p>{en ? `And ${views.length - 3} more.` : `还有 ${views.length - 3} 台。`}</p>
+          <p>
+            {localizeValue(
+              en ? `And ${views.length - 3} more.` : `还有 ${views.length - 3} 台。`,
+              locale,
+            )}
+          </p>
         ) : null}
       </div>
     </div>
@@ -245,7 +256,9 @@ export function Dashboard() {
             <Monitor size={22} />
           </span>
           <div>
-            <span className="eyebrow">IOTA WATCH / {en ? "MONITOR" : "设备监控"}</span>
+            <span className="eyebrow">
+              IOTA WATCH / {localizeValue(en ? "MONITOR" : "设备监控", locale)}
+            </span>
             <h1>{t("我的设备")}</h1>
           </div>
         </div>
@@ -275,12 +288,12 @@ export function Dashboard() {
             {auth.userId ? (
               <>
                 <a className="account-name-link" href={`/${locale}/account`}>
-                  {auth.name || auth.email || (en ? "Signed in" : "已登录")}
+                  {auth.name || auth.email || localizeValue(en ? "Signed in" : "已登录", locale)}
                 </a>
                 {` · ${watch.devices.length}/${watch.limit}`}
               </>
             ) : (
-              `${watch.devices.length}/${watch.limit} · ${en ? "Saved in this browser" : "保存在此浏览器"}`
+              `${watch.devices.length}/${watch.limit} · ${localizeValue(en ? "Saved in this browser" : "保存在此浏览器", locale)}`
             )}
           </p>
           <span className="refresh-label">
@@ -296,9 +309,12 @@ export function Dashboard() {
       ) : null}
       {!dash.online && (
         <div className="notice warning" role="status">
-          {en
-            ? "You are offline. Keeping previous data; updates resume when you reconnect."
-            : "当前网络已断开，保留上次数据；连接恢复后会自动更新。"}
+          {localizeValue(
+            en
+              ? "You are offline. Keeping previous data; updates resume when you reconnect."
+              : "当前网络已断开，保留上次数据；连接恢复后会自动更新。",
+            locale,
+          )}
         </div>
       )}
       {(watch.storageError || auth.error) && (
@@ -388,11 +404,12 @@ export function Dashboard() {
               maxAgeMs: 15 * 60_000,
             },
           ]}
-          note={
+          note={localizeValue(
             en
               ? "Official cache: status 1 min, rewards 5 min. Sample time is not a device heartbeat."
-              : "官方接口缓存：状态 1 分钟，收益 5 分钟。采样时间不代表设备心跳。"
-          }
+              : "官方接口缓存：状态 1 分钟，收益 5 分钟。采样时间不代表设备心跳。",
+            locale,
+          )}
         />
       )}
       <section>
@@ -428,9 +445,12 @@ export function Dashboard() {
               const result = await watch.importJson(await f.text());
               setMessage(
                 result.ok
-                  ? en
-                    ? `Imported ${result.report?.added}; duplicates ${result.report?.duplicates}; invalid ${result.report?.invalid}.`
-                    : `已导入 ${result.report?.added} 台，重复 ${result.report?.duplicates} 台，无效 ${result.report?.invalid} 条。`
+                  ? localizeValue(
+                      en
+                        ? `Imported ${result.report?.added}; duplicates ${result.report?.duplicates}; invalid ${result.report?.invalid}.`
+                        : `已导入 ${result.report?.added} 台，重复 ${result.report?.duplicates} 台，无效 ${result.report?.invalid} 条。`,
+                      locale,
+                    )
                   : result.error || t("导入失败"),
               );
             } catch {
@@ -472,7 +492,7 @@ export function Dashboard() {
             <div
               className="device-filters"
               role="group"
-              aria-label={en ? "Filter by device status" : "按设备状态筛选"}
+              aria-label={localizeValue(en ? "Filter by device status" : "按设备状态筛选", locale)}
             >
               <button aria-pressed={filter === "all"} onClick={() => setFilter("all")}>
                 {t("全部")} <b>{dash.views.length}</b>
@@ -506,7 +526,7 @@ export function Dashboard() {
                       <button
                         className={`badge ${meta.tone}`}
                         data-bucket={view.bucket}
-                        title={en ? "Status details" : "状态说明"}
+                        title={localizeValue(en ? "Status details" : "状态说明", locale)}
                         onClick={() => openDevice(view.entry.hotkey, "diagnose")}
                       >
                         {t(meta.label)}
@@ -552,12 +572,18 @@ export function Dashboard() {
       {watch.loaded && (
         <p className="storage-note">
           {watch.cloud
-            ? en
-              ? "Device list saved to your account. You can view it on other devices after signing in."
-              : "设备清单已绑定账号，登录后可在其他设备查看。"
-            : en
-              ? "Device list saved in this browser. Export a backup before clearing browser data."
-              : "设备清单保存在此浏览器，清理浏览器数据前请导出备份。"}
+            ? localizeValue(
+                en
+                  ? "Device list saved to your account. You can view it on other devices after signing in."
+                  : "设备清单已绑定账号，登录后可在其他设备查看。",
+                locale,
+              )
+            : localizeValue(
+                en
+                  ? "Device list saved in this browser. Export a backup before clearing browser data."
+                  : "设备清单保存在此浏览器，清理浏览器数据前请导出备份。",
+                locale,
+              )}
         </p>
       )}
       {dash.farm ? (
@@ -572,7 +598,10 @@ export function Dashboard() {
         <DialogContent className="dash-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>
-            {en ? "Paste the public ID from the Miner page." : "粘贴 Miner 页面中的公开 ID。"}
+            {localizeValue(
+              en ? "Paste the public ID from the Miner page." : "粘贴 Miner 页面中的公开 ID。",
+              locale,
+            )}
           </DialogDescription>
           <DeviceForm
             initialHotkey={hotkey}
@@ -733,9 +762,12 @@ function DeviceDetail({
                 <dt>{t("负责的模型分区")}</dt>
                 <dd>
                   {view.miner
-                    ? en
-                      ? `Partition ${view.miner.layer + 1} (L${view.miner.layer})`
-                      : `第 ${view.miner.layer + 1} 段（L${view.miner.layer}）`
+                    ? localizeValue(
+                        en
+                          ? `Partition ${view.miner.layer + 1} (L${view.miner.layer})`
+                          : `第 ${view.miner.layer + 1} 段（L${view.miner.layer}）`,
+                        locale,
+                      )
                     : "—"}
                 </dd>
                 <dt>Coldkey</dt>
@@ -789,9 +821,12 @@ function DeviceDetail({
               {formatIota(view.earnings?.minimumPayoutUnits ?? null, 8, locale)} IOTA
             </p>
             <p>
-              {en
-                ? "Paid and pending are accounting balances; they are not added again to lifetime rewards. Frozen records are excluded from today's total."
-                : "已支付、待结算为记账余额，不会重复加进累计收益。冻结记录不计入今日收益。"}
+              {localizeValue(
+                en
+                  ? "Paid and pending are accounting balances; they are not added again to lifetime rewards. Frozen records are excluded from today's total."
+                  : "已支付、待结算为记账余额，不会重复加进累计收益。冻结记录不计入今日收益。",
+                locale,
+              )}
             </p>
             {view.earnings?.error && <p role="alert">{t("收益刷新失败，以下可能为旧记录。")}</p>}
             {view.earnings?.recent.length ? (
@@ -823,16 +858,20 @@ function DeviceDetail({
               <p>
                 {view.earnings?.historyFetchedAt && !view.earnings?.historyError
                   ? t("暂无收益记录。")
-                  : en
-                    ? "Reward records are not available yet."
-                    : "收益记录暂未获取。"}
+                  : localizeValue(
+                      en ? "Reward records are not available yet." : "收益记录暂未获取。",
+                      locale,
+                    )}
               </p>
             )}
             {!!view.earnings?.recent.length && (
               <p>
-                {en
-                  ? `Showing the latest ${view.earnings.recent.length} of ${view.earnings.historyCount} records. Times use Hong Kong (UTC+8).`
-                  : `显示最近 ${view.earnings.recent.length} 条，共 ${view.earnings.historyCount} 条记录。时间按香港时间（UTC+8）显示。`}
+                {localizeValue(
+                  en
+                    ? `Showing the latest ${view.earnings.recent.length} of ${view.earnings.historyCount} records. Times use Hong Kong (UTC+8).`
+                    : `显示最近 ${view.earnings.recent.length} 条，共 ${view.earnings.historyCount} 条记录。时间按香港时间（UTC+8）显示。`,
+                  locale,
+                )}
               </p>
             )}
           </>

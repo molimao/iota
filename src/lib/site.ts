@@ -1,17 +1,38 @@
 export const CANONICAL_HOST = "iotahome.site";
 export const ORIGIN = `https://${CANONICAL_HOST}`;
-export const LOCALES = ["zh", "en"] as const;
+export const LOCALES = ["zh", "zh-TW", "en", "ko", "ja"] as const;
 export type SiteLocale = (typeof LOCALES)[number];
+export const LANGUAGE_TAG: Record<SiteLocale, string> = {
+  zh: "zh-CN",
+  "zh-TW": "zh-TW",
+  en: "en",
+  ko: "ko",
+  ja: "ja",
+};
+export const LANGUAGE_NAME: Record<SiteLocale, string> = {
+  zh: "简体中文",
+  "zh-TW": "繁體中文",
+  en: "English",
+  ko: "한국어",
+  ja: "日本語",
+};
+export const OG_LOCALE: Record<SiteLocale, string> = {
+  zh: "zh_CN",
+  "zh-TW": "zh_TW",
+  en: "en_US",
+  ko: "ko_KR",
+  ja: "ja_JP",
+};
 
 export const LOCALE_COOKIE = "iota-locale";
 
 export function isLocale(value: string | undefined): value is SiteLocale {
-  return value === "en" || value === "zh";
+  return LOCALES.some((locale) => locale === value);
 }
 
 export function detectLocaleFromRequest(request: Request): SiteLocale {
   const cookie = request.headers.get("cookie") ?? "";
-  const saved = cookie.match(/(?:^|;\s*)iota-locale=(en|zh)/);
+  const saved = cookie.match(/(?:^|;\s*)iota-locale=(zh-TW|en|zh|ko|ja)(?=;|$)/);
   if (saved) return saved[1] as SiteLocale;
 
   const accept = request.headers.get("accept-language") ?? "";
@@ -21,7 +42,10 @@ export function detectLocaleFromRequest(request: Request): SiteLocale {
   });
   parts.sort((a, b) => b.q - a.q);
   for (const { tag } of parts) {
+    if (/^zh-(tw|hk|mo|hant)/.test(tag)) return "zh-TW";
     if (tag.startsWith("zh")) return "zh";
+    if (tag.startsWith("ko")) return "ko";
+    if (tag.startsWith("ja")) return "ja";
     if (tag.startsWith("en")) return "en";
   }
   return "zh";
@@ -29,7 +53,7 @@ export function detectLocaleFromRequest(request: Request): SiteLocale {
 
 export function detectLocaleOnClient(): SiteLocale {
   if (typeof document !== "undefined") {
-    const cookie = document.cookie.match(/(?:^|;\s*)iota-locale=(en|zh)/);
+    const cookie = document.cookie.match(/(?:^|;\s*)iota-locale=(zh-TW|en|zh|ko|ja)(?=;|$)/);
     if (cookie) return cookie[1] as SiteLocale;
     try {
       const stored = localStorage.getItem(LOCALE_COOKIE) ?? undefined;
@@ -37,10 +61,12 @@ export function detectLocaleOnClient(): SiteLocale {
     } catch {
       /* private mode */
     }
-    if (typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh")) {
-      return "zh";
-    }
-    if (typeof navigator !== "undefined" && navigator.language) return "en";
+    if (typeof navigator !== "undefined")
+      return detectLocaleFromRequest(
+        new Request("https://iotahome.site", {
+          headers: { "accept-language": navigator.languages?.join(",") || navigator.language },
+        }),
+      );
   }
   return "zh";
 }
@@ -86,10 +112,9 @@ export function originFromRequest(request?: Request) {
     const host = (forwarded || url.host).toLowerCase();
     const hostname = host.split(":")[0] ?? host;
     if (isLocalHost(hostname)) {
-      const proto = (request.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "")).replace(
-        /:$/,
-        "",
-      );
+      const proto = (
+        request.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "")
+      ).replace(/:$/, "");
       return `${proto}://${host}`;
     }
   } catch {
@@ -99,8 +124,8 @@ export function originFromRequest(request?: Request) {
 }
 
 export function swapLocalePath(pathname: string, next: SiteLocale) {
-  if (/^\/(en|zh)(?=\/|$)/.test(pathname)) {
-    return pathname.replace(/^\/(en|zh)(?=\/|$)/, `/${next}`);
+  if (/^\/(zh-TW|en|zh|ko|ja)(?=\/|$)/.test(pathname)) {
+    return pathname.replace(/^\/(zh-TW|en|zh|ko|ja)(?=\/|$)/, `/${next}`);
   }
   return `/${next}${pathname === "/" ? "" : pathname}`;
 }

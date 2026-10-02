@@ -1,3 +1,4 @@
+import { localizeValue } from "@/components/site/localization";
 import { lazy, Suspense, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -45,9 +46,12 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
   if (!runId)
     return (
       <p>
-        {en
-          ? "No training run has been identified for this device yet. History will appear when official data is available."
-          : "尚未找到这台设备所属的训练任务，官方记录可读取后会在这里显示。"}
+        {localizeValue(
+          en
+            ? "No training run has been identified for this device yet. History will appear when official data is available."
+            : "尚未找到这台设备所属的训练任务，官方记录可读取后会在这里显示。",
+          locale,
+        )}
       </p>
     );
   return (
@@ -67,22 +71,23 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
         )}
         <div
           role="group"
-          aria-label={en ? "History period" : "记录范围"}
+          aria-label={localizeValue(en ? "History period" : "记录范围", locale)}
           className="history-periods"
         >
           {(["day", "week", "month"] as const).map((key, index) => (
             <button key={key} aria-pressed={period === key} onClick={() => setPeriod(key)}>
               {
-                (en ? ["24 hours", "7 days", "30 days"] : ["近 24 小时", "近 7 天", "近 30 天"])[
-                  index
-                ]
+                localizeValue(
+                  en ? ["24 hours", "7 days", "30 days"] : ["近 24 小时", "近 7 天", "近 30 天"],
+                  locale,
+                )[index]
               }
             </button>
           ))}
         </div>
         <button
           disabled={query.isFetching || cooldown > 0}
-          aria-label={en ? "Refresh training history" : "刷新训练记录"}
+          aria-label={localizeValue(en ? "Refresh training history" : "刷新训练记录", locale)}
           onClick={async () => {
             force.current = true;
             lastRefresh.current = Date.now();
@@ -124,7 +129,9 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
         <p role="alert">{t(query.data?.error || "训练记录获取失败，请稍后重试。")}</p>
       )}
       {query.isLoading && (
-        <p role="status">{en ? "Loading training records…" : "正在获取训练记录…"}</p>
+        <p role="status">
+          {localizeValue(en ? "Loading training records…" : "正在获取训练记录…", locale)}
+        </p>
       )}
       {latest && (
         <div className="history-summary">
@@ -149,7 +156,9 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
         </div>
       )}
       {rows.length > 0 && (
-        <Suspense fallback={<p>{en ? "Loading chart…" : "正在加载趋势图…"}</p>}>
+        <Suspense
+          fallback={<p>{localizeValue(en ? "Loading chart…" : "正在加载趋势图…", locale)}</p>}
+        >
           <TrainingTrend rows={rows} />
         </Suspense>
       )}
@@ -157,7 +166,7 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
         <div
           className="history-table-wrap"
           role="region"
-          aria-label={en ? "Training history table" : "训练记录表格"}
+          aria-label={localizeValue(en ? "Training history table" : "训练记录表格", locale)}
           tabIndex={0}
         >
           <table>
@@ -191,9 +200,12 @@ export function DeviceHistory({ view, now }: { view: DeviceView; now: number }) 
         !query.isLoading && !query.error && !query.data?.error && <p>{t("暂无可用的训练记录。")}</p>
       )}
       <p className="history-note">
-        {en
-          ? "Series are matched by epoch. A dash means no value was reported for that metric. Counts describe official samples, not live device activity."
-          : "各项记录按轮次匹配；横线表示该指标没有上报值。数据来自官方采样，不代表设备实时活动。"}
+        {localizeValue(
+          en
+            ? "Series are matched by epoch. A dash means no value was reported for that metric. Counts describe official samples, not live device activity."
+            : "各项记录按轮次匹配；横线表示该指标没有上报值。数据来自官方采样，不代表设备实时活动。",
+          locale,
+        )}
       </p>
     </>
   );
