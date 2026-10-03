@@ -1,0 +1,67 @@
+import type { SiteLocale } from "@/lib/site";
+
+export const learningCopy = {
+  zh: {
+    title: "项目使用指南",
+    intro: "IOTA 训练、XID / MMM 和 Quantus 挖矿：地址、状态、收益与问题排查。",
+    guides: "教程与排查",
+    answer: "先看结论",
+    questions: "常见问题",
+    sources: "官方资料说明项目规则；数据口径和清单限制说明本站的实现。",
+    compare: "对比项目",
+    open: "打开对应监控",
+    reviewed: "资料核对",
+    all: "全部指南",
+  },
+  "zh-TW": {
+    title: "專案使用指南",
+    intro: "IOTA 訓練、XID / MMM 與 Quantus 挖礦：地址、狀態、收益與問題排查。",
+    guides: "教學與排查",
+    answer: "先看結論",
+    questions: "常見問題",
+    sources: "官方資料說明專案規則；資料口徑和清單限制說明本站實作。",
+    compare: "比較專案",
+    open: "開啟對應監控",
+    reviewed: "資料核對",
+    all: "全部指南",
+  },
+  en: {
+    title: "Project guides",
+    intro:
+      "IOTA training, XID / MMM and Quantus mining: addresses, activity, rewards and troubleshooting.",
+    guides: "Guides & troubleshooting",
+    answer: "At a glance",
+    questions: "Common questions",
+    sources:
+      "Official sources describe project rules; accounting and list limits describe this monitor’s implementation.",
+    compare: "Compare projects",
+    open: "Open this monitor",
+    reviewed: "Sources reviewed",
+    all: "All guides",
+  },
+  ko: {
+    title: "프로젝트 사용 안내",
+    intro: "IOTA 학습, XID / MMM 및 Quantus 채굴: 주소, 상태, 보상과 문제 점검.",
+    guides: "사용 안내 및 문제 점검",
+    answer: "핵심 내용",
+    questions: "자주 묻는 질문",
+    sources:
+      "공식 자료는 프로젝트 규칙을 설명하고, 집계 방식과 목록 제한은 이 모니터의 구현을 설명합니다.",
+    compare: "프로젝트 비교",
+    open: "해당 모니터 열기",
+    reviewed: "자료 확인",
+    all: "모든 안내",
+  },
+  ja: {
+    title: "プロジェクト利用ガイド",
+    intro: "IOTA学習、XID / MMMとQuantus採掘：アドレス、状態、報酬、問題確認。",
+    guides: "ガイドと問題確認",
+    answer: "要点",
+    questions: "よくある質問",
+    sources: "公式資料はプロジェクトの規則、集計方法と一覧の制限は当モニターの実装を説明します。",
+    compare: "プロジェクト比較",
+    open: "対応するモニターを開く",
+    reviewed: "資料確認",
+    all: "すべてのガイド",
+  },
+} satisfies Record<SiteLocale, Record<string, string>>;

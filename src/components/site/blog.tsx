@@ -5,6 +5,8 @@ import { ArticleView } from "./pages";
 import { articleDates } from "./articles";
 import { blogPosts, getBlogPost, relatedBlogPosts } from "./blog-posts";
 
+import { ProjectLearning } from "./project-learning";
+
 export function BlogIndex() {
   const { locale, en } = useLocale();
   return (
@@ -46,6 +48,7 @@ export function BlogIndex() {
           </article>
         ))}
       </div>
+      <ProjectLearning />
       <aside className="article-tip">
         <h2>
           {localizeValue(en ? "Looking for a specific feature?" : "需要查询具体功能？", locale)}

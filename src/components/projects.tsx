@@ -28,11 +28,15 @@ import {
 import { getProjectNetwork, getQuantusAccount } from "@/lib/projects.functions";
 import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
 import { shortId } from "@/lib/ss58";
+import { ProjectLearning } from "./site/project-learning";
+import { getArticle } from "./site/articles";
 
 export function ProjectSwitch() {
   const { locale } = useLocale();
   const path = useRouterState({ select: (s) => s.location.pathname });
-  const selected = path.match(/\/projects\/(xid|quantus)(?:\/|$)/)?.[1] as
+  const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
+  const selected = (path.match(/\/projects\/(xid|quantus)(?:\/|$)/)?.[1] ??
+    (articleProject === "xid" || articleProject === "quantus" ? articleProject : undefined)) as
     MiningProject | undefined;
   const c = projectsCopy[locale];
   return (
@@ -102,6 +106,7 @@ export function ProjectsHub() {
         </div>
       </header>
       <ProjectCards />
+      <ProjectLearning />
       <p className="project-footnote">{c.noSecrets}</p>
     </main>
   );
@@ -700,6 +705,7 @@ export function MiningProjectPage({
         )}
       </section>
       <AddressMonitor key={project} project={project} network={n} />
+      <ProjectLearning project={project} />
       <section id="setup" className="project-panel project-setup">
         <h2>{c.setup}</h2>
         <ol>

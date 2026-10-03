@@ -4,6 +4,7 @@ import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
 import { localizeText } from "../components/site/localization";
 import { projectsCopy } from "../components/projects-copy";
 import { PROJECTS } from "./projects";
+import { learningCopy } from "../components/site/guide-copy";
 
 export const LASTMOD = "2026-09-12";
 
@@ -33,8 +34,8 @@ export const crawlPages: CrawlPage[] = [
   { path: "projects", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
   { path: "projects/xid", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
   { path: "projects/quantus", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
-  { path: "blog", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
-  { path: "learn", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
+  { path: "blog", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
+  { path: "learn", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
@@ -59,6 +60,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 }
 
 function pageLabel(locale: SiteLocale, path: string): string {
+  if (path.startsWith("learn/"))
+    return articles.find((a) => path === `learn/${a.slug}`)?.title[locale] ?? path;
+  if (path === "learn") return learningCopy[locale].title;
   if (path === "projects") return projectsCopy[locale].projects;
   if (path === "projects/xid") return "XID / MMM";
   if (path === "projects/quantus") return "Quantus / QTC";
@@ -68,7 +72,6 @@ function pageLabel(locale: SiteLocale, path: string): string {
   if (path === "blog") return locale === "en" ? "Blog" : "博客";
   if (path.startsWith("blog/"))
     return blogPosts.find((post) => path === `blog/${post.slug}`)?.title[locale] ?? path;
-  if (path === "learn") return locale === "en" ? "Help" : "使用说明";
   if (path === "network") return locale === "en" ? "Network status" : "全网训练现况";
   if (path === "downloads") return locale === "en" ? "Downloads" : "工具下载";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
@@ -165,6 +168,8 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 
 - XID / MMM: ${origin}/en/projects/xid — source: ${PROJECTS.xid.explorer} (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - Quantus / QTC: ${origin}/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
+- Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
 - No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
 
 ## Official sources
@@ -172,6 +177,11 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - Train at Home app: https://iota.macrocosmos.ai/
 - TAH user guide: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Official network dashboard: https://iota.macrocosmos.ai/dashboard
+- xCoin: https://xcoinproject.com/
+- MMM mainnet guide: https://macmetalminer.com/
+- MMM repository: https://github.com/SystemThreat/MMM
+- Quantus mining guide: https://docs.quantus.com/guides/mining/
+- Quantus mainnet explorer: https://explorer.quantus.com/
 - Source code: https://github.com/molimao/iota
 - Longer machine-readable notes: ${origin}/llms-full.txt
 
@@ -194,7 +204,15 @@ ${LOCALES.map((locale) => `- ${LANGUAGE_TAG[locale]}: ${pageUrl(locale, `${secti
 - Updated: ${dates.modified}
 - Publisher: IOTA Watch (independent monitor)
 
-${LOCALES.map((locale) => `### ${article.title[locale]} (${LANGUAGE_TAG[locale]})\n\n${article.body[locale].map((block) => absoluteArticleLinks(block, locale, origin)).join("\n\n")}`).join("\n\n")}
+${LOCALES.map(
+  (locale) =>
+    `### ${article.title[locale]} (${LANGUAGE_TAG[locale]})\n\n${readableArticleBlocks(
+      article,
+      locale,
+    )
+      .map((block) => absoluteArticleLinks(block, locale, origin))
+      .join("\n\n")}`,
+).join("\n\n")}
 ${article.sources?.map((source) => `- Source: ${source.name} — ${source.url}`).join("\n") ?? ""}`;
     })
     .join("\n\n");
@@ -214,6 +232,34 @@ function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) 
   );
 }
 
+/** Keep extractable conclusions, comparisons and answers consistent with the visible page. */
+function readableArticleBlocks(article: Article, locale: SiteLocale) {
+  const c = learningCopy[locale];
+  const comparison = article.comparison?.[locale];
+  const tableRow = (cells: string[]) =>
+    `| ${cells.map((cell) => cell.replace(/\|/g, "\\|").replace(/\n/g, " ")).join(" | ")} |`;
+  return [
+    ...(article.summary ? [`## ${c.answer}`, article.summary[locale]] : []),
+    ...(comparison
+      ? [
+          `## ${c.compare}`,
+          [
+            tableRow(comparison.headers),
+            tableRow(comparison.headers.map(() => "---")),
+            ...comparison.rows.map(tableRow),
+          ].join("\n"),
+        ]
+      : []),
+    ...article.body[locale],
+    ...(article.questions
+      ? [
+          `## ${c.questions}`,
+          ...article.questions[locale].flatMap((q) => [`### ${q.question}`, q.answer]),
+        ]
+      : []),
+  ];
+}
+
 export function buildArticleMarkdown(
   article: Article,
   locale: SiteLocale,
@@ -231,7 +277,9 @@ ${article.description[locale]}
 - Published: ${dates.published}
 - Updated: ${dates.modified}
 
-${article.body[locale].map((block) => absoluteArticleLinks(block, locale, origin)).join("\n\n")}
+${readableArticleBlocks(article, locale)
+  .map((block) => absoluteArticleLinks(block, locale, origin))
+  .join("\n\n")}
 ${article.sources ? `\n## ${localizeText(locale === "zh" || locale === "zh-TW" ? "资料来源与本站实现" : "Sources and implementation", locale)}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
 `;
 }

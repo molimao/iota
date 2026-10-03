@@ -5,6 +5,9 @@ import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
 import localToolsRelease from "@/lib/local-tools-release.json";
+import { projectEntity } from "@/lib/projects";
+import { learningCopy } from "./guide-copy";
+import { projectsCopy } from "../projects-copy";
 
 export type Page =
   | "home"
@@ -66,7 +69,7 @@ function organizationGraph() {
     logo: `${ORIGIN}/favicon.svg`,
     sameAs: ["https://github.com/molimao/iota"],
     description:
-      "Independent read-only monitor for IOTA Train at Home devices. Not the IOTA Foundation Layer 1 cryptocurrency.",
+      "Independent read-only monitor for IOTA Train at Home, with separate xCoin (XID / MMM) and Quantus (QTC) monitors. Not an official app or wallet.",
   };
 }
 
@@ -78,7 +81,7 @@ function websiteGraph() {
     url: ORIGIN,
     inLanguage: LOCALES.map((locale) => LANGUAGE_TAG[locale]),
     publisher: { "@id": ORG_ID },
-    about: "IOTA Train at Home / Macrocosmos device and reward monitoring.",
+    about: [projectEntity("iota"), projectEntity("xid"), projectEntity("quantus")],
   };
 }
 
@@ -133,12 +136,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               : page === "privacy"
                 ? `${copy.privacyTitle} | IOTA Watch`
                 : page === "learn"
-                  ? localizeValue(
-                      en
-                        ? "IOTA Train at Home guides: devices, rewards and data | IOTA Watch"
-                        : "IOTA Train at Home 使用说明：设备、收益与数据｜IOTA Watch",
-                      locale,
-                    )
+                  ? `${learningCopy[locale].title}: IOTA / XID / Quantus | IOTA Watch`
                   : page === "account"
                     ? localizeValue(en ? "Account | IOTA Watch" : "账号｜IOTA Watch", locale)
                     : page === "network"
@@ -183,12 +181,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               : page === "privacy"
                 ? copy.privacyIntro
                 : page === "learn"
-                  ? localizeValue(
-                      en
-                        ? "Miner ID, device status, rewards, and how the device list is stored after sign-in."
-                        : "Miner ID、设备状态、收益，以及登录后的清单同步。",
-                      locale,
-                    )
+                  ? learningCopy[locale].intro
                   : page === "account"
                     ? localizeValue(
                         en
@@ -210,19 +203,23 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                           locale,
                         );
 
-  const keywords = article
-    ? localizeValue(
-        en
-          ? `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
-          : `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`,
-        locale,
-      )
-    : localizeValue(
-        en
-          ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
-          : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 设备监控, 不是IOTA公链, Firefly",
-        locale,
-      );
+  const keywords = article?.keywords
+    ? article.keywords[locale].join(", ")
+    : page === "learn" && !article
+      ? "IOTA Train at Home, xCoin XID, MMM Mac Metal Miner, Quantus QTC, project guides"
+      : article
+        ? localizeValue(
+            en
+              ? `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
+              : `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`,
+            locale,
+          )
+        : localizeValue(
+            en
+              ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
+              : "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 设备监控, 不是IOTA公链, Firefly",
+            locale,
+          );
 
   const scripts = [];
   if (page !== "app" && page !== "account") {
@@ -238,13 +235,23 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         : (page === "learn" || page === "blog") && article
           ? [
               { name: home, path: "" },
-              {
-                name:
-                  page === "blog"
-                    ? localizeValue(en ? "Blog" : "博客", locale)
-                    : localizeValue(en ? "Help" : "使用说明", locale),
-                path: page,
-              },
+              ...(article.project === "xid" || article.project === "quantus"
+                ? [
+                    { name: projectsCopy[locale].projects, path: "projects" },
+                    {
+                      name: article.project === "xid" ? "XID / MMM" : "Quantus / QTC",
+                      path: `projects/${article.project}`,
+                    },
+                  ]
+                : [
+                    {
+                      name:
+                        page === "blog"
+                          ? localizeValue(en ? "Blog" : "博客", locale)
+                          : localizeValue(en ? "Help" : "使用说明", locale),
+                      path: page,
+                    },
+                  ]),
               { name: article.title[locale], path: `${page}/${article.slug}` },
             ]
           : [
@@ -373,6 +380,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@context": "https://schema.org",
         "@type": page === "blog" ? "BlogPosting" : "Article",
         headline: article.title[locale],
+        url,
+        ...(article.summary ? { abstract: article.summary[locale] } : {}),
+        keywords,
         description: article.description[locale],
         datePublished: articleDates(article).published,
         dateModified: articleDates(article).modified,
@@ -383,7 +393,26 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         author: { "@id": ORG_ID },
         publisher: { "@id": ORG_ID },
         isPartOf: { "@id": WEBSITE_ID },
-        about: "IOTA Train at Home / Macrocosmos. Not IOTA Layer 1.",
+        about:
+          article.project === "all"
+            ? ["iota", "xid", "quantus"].map((p) => projectEntity(p as "iota" | "xid" | "quantus"))
+            : projectEntity(article.project ?? "iota"),
+      }),
+    );
+  }
+
+  if (article?.questions) {
+    scripts.push(
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${url}#questions`,
+        inLanguage: language(locale),
+        mainEntity: article.questions[locale].map((q) => ({
+          "@type": "Question",
+          name: q.question,
+          acceptedAnswer: { "@type": "Answer", text: q.answer },
+        })),
       }),
     );
   }
@@ -505,7 +534,12 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       { property: "og:type", content: article ? "article" : "website" },
       { property: "og:url", content: url },
       { property: "og:image", content: OG_IMAGE },
-      { property: "og:image:alt", content: "IOTA Watch — IOTA Train at Home device monitor" },
+      {
+        property: "og:image:alt",
+        content: article?.project
+          ? article.title[locale]
+          : "IOTA Watch — IOTA Train at Home device monitor",
+      },
       { property: "og:locale", content: OG_LOCALE[locale] },
       ...LOCALES.filter((item) => item !== locale).map((item) => ({
         property: "og:locale:alternate",

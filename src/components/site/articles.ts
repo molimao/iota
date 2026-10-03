@@ -1,19 +1,28 @@
 import { withLocales } from "@/components/site/localization";
 import { dataGuides } from "./data-guides";
 import type { Locale } from "./locale";
+import type { ProjectId } from "@/lib/projects";
+import { projectGuides } from "./project-guides";
+import { iotaGuideAnswers } from "./iota-guide-answers";
 
 export type Article = {
   slug: string;
   published?: string;
   modified?: string;
   sources?: Array<{ name: string; url: string }>;
+  project?: ProjectId | "all";
+  summary?: Record<Locale, string>;
+  questions?: Record<Locale, Array<{ question: string; answer: string }>>;
+  keywords?: Record<Locale, string[]>;
+  related?: string[];
+  comparison?: Record<Locale, { headers: string[]; rows: string[][] }>;
   topic: Record<Locale, string>;
   title: Record<Locale, string>;
   description: Record<Locale, string>;
   body: Record<Locale, string[]>;
 };
 
-export const articles: Article[] = withLocales([
+const iotaArticles = withLocales([
   {
     slug: "what-is-iota-watch",
     topic: { en: "Definition", zh: "它是什么" },
@@ -446,6 +455,11 @@ export const articles: Article[] = withLocales([
   ...dataGuides,
 ]);
 
+export const articles: Article[] = [
+  ...iotaArticles.map((article) => ({ ...article, ...iotaGuideAnswers[article.slug] })),
+  ...projectGuides,
+];
+
 export function articleDates(article: Article) {
   return {
     published: article.published ?? "2026-09-12",
@@ -453,33 +467,70 @@ export function articleDates(article: Article) {
   };
 }
 
-export type ArticleCluster = "understand" | "start" | "read";
+export type ArticleCluster = "understand" | "start" | "read" | "xid" | "quantus" | "compare";
 
 export const articleClusterMeta: Record<
   ArticleCluster,
   { title: Record<Locale, string>; slugs: string[] }
-> = withLocales({
-  understand: {
-    title: { en: "Product differences", zh: "产品区分" },
-    slugs: ["what-is-iota-watch", "iota-train-at-home-vs-iota-coin", "what-is-sn9-iota"],
+> = {
+  ...withLocales({
+    understand: {
+      title: { en: "Product differences", zh: "产品区分" },
+      slugs: ["what-is-iota-watch", "iota-train-at-home-vs-iota-coin", "what-is-sn9-iota"],
+    },
+    start: {
+      title: { en: "Add devices", zh: "添加设备" },
+      slugs: [
+        "find-miner-id",
+        "iota-miner-id-vs-payout-address",
+        "google-account-device-list",
+        "device-not-found",
+      ],
+    },
+    read: {
+      title: { en: "Status and rewards", zh: "状态与收益" },
+      slugs: [
+        "how-rewards-work",
+        "iota-rewards-in-usd",
+        "device-status",
+        "what-refresh-interrupted-means",
+        "data-sources-and-freshness",
+        "training-history-and-metrics",
+        "network-status-explained",
+      ],
+    },
+  }),
+  xid: {
+    title: {
+      zh: "XID / MMM 挖矿",
+      "zh-TW": "XID / MMM 挖礦",
+      en: "XID / MMM mining",
+      ko: "XID / MMM 채굴",
+      ja: "XID / MMM マイニング",
+    },
+    slugs: projectGuides.filter((a) => a.project === "xid").map((a) => a.slug),
   },
-  start: {
-    title: { en: "Add devices", zh: "添加设备" },
-    slugs: ["find-miner-id", "google-account-device-list", "device-not-found"],
+  quantus: {
+    title: {
+      zh: "Quantus / QTC 挖矿",
+      "zh-TW": "Quantus / QTC 挖礦",
+      en: "Quantus / QTC mining",
+      ko: "Quantus / QTC 채굴",
+      ja: "Quantus / QTC マイニング",
+    },
+    slugs: projectGuides.filter((a) => a.project === "quantus").map((a) => a.slug),
   },
-  read: {
-    title: { en: "Status and rewards", zh: "状态与收益" },
-    slugs: [
-      "how-rewards-work",
-      "iota-rewards-in-usd",
-      "device-status",
-      "what-refresh-interrupted-means",
-      "data-sources-and-freshness",
-      "training-history-and-metrics",
-      "network-status-explained",
-    ],
+  compare: {
+    title: {
+      zh: "项目对比",
+      "zh-TW": "專案比較",
+      en: "Project comparison",
+      ko: "프로젝트 비교",
+      ja: "プロジェクト比較",
+    },
+    slugs: ["iota-xid-quantus-compared"],
   },
-});
+};
 
 const relatedBySlug: Record<string, string[]> = {
   "data-sources-and-freshness": [
@@ -498,7 +549,11 @@ const relatedBySlug: Record<string, string[]> = {
     "training-history-and-metrics",
   ],
   "what-is-iota-watch": ["iota-train-at-home-vs-iota-coin", "what-is-sn9-iota", "find-miner-id"],
-  "find-miner-id": ["google-account-device-list", "device-not-found", "device-status"],
+  "find-miner-id": [
+    "iota-miner-id-vs-payout-address",
+    "google-account-device-list",
+    "device-status",
+  ],
   "how-rewards-work": ["iota-rewards-in-usd", "what-is-sn9-iota", "device-status"],
   "device-status": [
     "what-refresh-interrupted-means",
@@ -530,7 +585,7 @@ export function getArticle(slug: string) {
 }
 
 export function relatedArticles(slug: string) {
-  return (relatedBySlug[slug] ?? [])
+  return (getArticle(slug)?.related ?? relatedBySlug[slug] ?? [])
     .map((item) => getArticle(item))
     .filter((item): item is Article => Boolean(item));
 }

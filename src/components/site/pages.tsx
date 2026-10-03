@@ -19,7 +19,8 @@ import { ArticleBlocks } from "./rich-text";
 import { blogPosts } from "./blog-posts";
 import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
-import { isMiningProject } from "@/lib/projects";
+import { isMiningProject, projectPath } from "@/lib/projects";
+import { learningCopy } from "./guide-copy";
 
 export type { Page } from "./seo";
 export { seo } from "./seo";
@@ -59,7 +60,9 @@ export function SiteNav() {
   const { locale, en } = useLocale();
   const copy = content[locale];
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const projectId = pathname.match(/\/projects\/([^/]+)/)?.[1];
+  const projectId =
+    pathname.match(/\/projects\/([^/]+)/)?.[1] ??
+    getArticle(pathname.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const project = isMiningProject(projectId) ? projectId : undefined;
   const projectCopy = projectsCopy[locale];
   const links: ReadonlyArray<readonly [string, string]> = project
@@ -397,14 +400,16 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
   );
 }
 
-function LearnGrid({ locale }: { locale: Locale }) {
+function LearnGrid({ locale, allProjects = false }: { locale: Locale; allProjects?: boolean }) {
   return (
     <div className="learn-clusters">
       {(Object.keys(articleClusterMeta) as Array<keyof typeof articleClusterMeta>).map(
         (cluster) => {
+          if (!allProjects && (cluster === "xid" || cluster === "quantus" || cluster === "compare"))
+            return null;
           const meta = articleClusterMeta[cluster];
           return (
-            <section key={cluster} className="learn-cluster">
+            <section key={cluster} id={cluster} className="learn-cluster">
               <h2 className="learn-cluster-title">{meta.title[locale]}</h2>
               <div className="learn-grid">
                 {meta.slugs.map((slug) => {
@@ -432,16 +437,21 @@ function LearnGrid({ locale }: { locale: Locale }) {
 
 export function LearnIndex() {
   const { locale, en } = useLocale();
-  const copy = content[locale];
   return (
     <article className="article-page learn-page">
       <a className="back-link" href={`/${locale}`}>
         ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
       <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
-      <h1>{copy.learnTitle}</h1>
-      <p className="article-lead">{copy.learnIntro}</p>
-      <LearnGrid locale={locale} />
+      <h1>{learningCopy[locale].title}</h1>
+      <p className="article-lead">{learningCopy[locale].intro}</p>
+      <nav className="guide-jump-links" aria-label={learningCopy[locale].title}>
+        <a href="#start">IOTA</a>
+        <a href="#xid">XID / MMM</a>
+        <a href="#quantus">Quantus</a>
+        <a href="#compare">{learningCopy[locale].compare}</a>
+      </nav>
+      <LearnGrid locale={locale} allProjects />
       <p className="article-updated">
         <a href={`/${locale}/blog`}>
           {localizeValue(
@@ -474,11 +484,12 @@ export function ArticleView({
 }) {
   const { locale, en } = useLocale();
   const dates = articleDates(article);
+  const guideCopy = learningCopy[locale];
   const sections = article.body[locale].flatMap((block, i) =>
     block.startsWith("## ") ? [{ title: block.slice(3), id: `section-${i}` }] : [],
   );
   return (
-    <article className="article-page learn-article">
+    <article className="article-page learn-article" data-project={article.project ?? "iota"}>
       <a className="back-link" href={`/${locale}/${section}`}>
         ←{" "}
         {section === "blog"
@@ -502,6 +513,47 @@ export function ArticleView({
       <a className="article-text-version" href={`/${locale}/${section}/${article.slug}.md`}>
         {localizeValue(en ? "Plain text version" : "纯文本版本", locale)}
       </a>
+      {article.summary && (
+        <aside className="article-answer">
+          <h2>{guideCopy.answer}</h2>
+          <p>{article.summary[locale]}</p>
+        </aside>
+      )}
+      {article.comparison && (
+        <div
+          className="article-comparison"
+          role="region"
+          aria-label={guideCopy.compare}
+          tabIndex={0}
+        >
+          <table>
+            <thead>
+              <tr>
+                {article.comparison[locale].headers.map((h) => (
+                  <th key={h} scope="col">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {article.comparison[locale].rows.map((row) => (
+                <tr key={row[0]}>
+                  {row.map((cell, i) =>
+                    i === 0 ? (
+                      <th key={i} scope="row">
+                        {cell}
+                      </th>
+                    ) : (
+                      <td key={i}>{cell}</td>
+                    ),
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {sections.length > 0 && (
         <nav
           className="article-toc"
@@ -520,16 +572,29 @@ export function ArticleView({
       <div className="learn-body">
         <ArticleBlocks blocks={article.body[locale]} locale={locale} />
       </div>
+      {article.questions && (
+        <section id="questions" className="article-questions">
+          <h2>{guideCopy.questions}</h2>
+          {article.questions[locale].map((q) => (
+            <section key={q.question}>
+              <h3>{q.question}</h3>
+              <p>{q.answer}</p>
+            </section>
+          ))}
+        </section>
+      )}
       {article.sources && (
         <aside className="article-sources">
           <h2>{localizeValue(en ? "Sources and implementation" : "资料来源与本站实现", locale)}</h2>
           <p>
-            {localizeValue(
-              en
-                ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
-                : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
-              locale,
-            )}
+            {article.project
+              ? guideCopy.sources
+              : localizeValue(
+                  en
+                    ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
+                    : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
+                  locale,
+                )}
           </p>
           <ul>
             {article.sources.map((source) => (
@@ -552,8 +617,15 @@ export function ArticleView({
           ))}
         </div>
       </aside>
-      <a className="site-button" href={`/${locale}/app`}>
-        {content[locale].cta}
+      <a
+        className="site-button"
+        href={
+          article.project === "all"
+            ? `/${locale}/projects`
+            : projectPath(locale, article.project ?? "iota")
+        }
+      >
+        {article.project ? guideCopy.open : content[locale].cta}
         <ArrowUpRight size={18} />
       </a>
     </article>

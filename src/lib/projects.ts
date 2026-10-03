@@ -39,6 +39,26 @@ export function projectPath(locale: string, project: ProjectId) {
   return project === "iota" ? `/${locale}/app` : `/${locale}/projects/${project}`;
 }
 
+export function projectEntity(project: ProjectId) {
+  return {
+    "@type": "Thing",
+    "@id": `https://iotahome.site/#project-${project}`,
+    name:
+      project === "iota"
+        ? "IOTA Train at Home"
+        : project === "xid"
+          ? "xCoin (XID)"
+          : "Quantus (QTC)",
+    alternateName:
+      project === "iota"
+        ? ["Macrocosmos IOTA", "Train at Home"]
+        : project === "xid"
+          ? ["xCoin", "XID"]
+          : ["Quantus", "QTC"],
+    sameAs: PROJECTS[project].website,
+  };
+}
+
 export function validProjectAddress(project: MiningProject, value: unknown): value is string {
   if (typeof value !== "string" || value !== value.trim() || value.length > 100) return false;
   if (project === "quantus") {

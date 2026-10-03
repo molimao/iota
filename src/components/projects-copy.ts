@@ -54,7 +54,7 @@ const en = {
   poolScope:
     "Worker data covers the explorer's observed pools, not every miner. A worker name is not proof of a physical device or its model.",
   quantusScope:
-    "An address can receive rewards from several devices. Chain rewards cannot establish device count, current hashrate or online status.",
+    "An address can receive rewards from several devices. Chain rewards cannot establish device count, current hashrate or online status. This index covers block rewards, not the pool’s full payment ledger.",
   records: "Recent blocks",
   block: "Block",
   time: "Time",
@@ -152,7 +152,8 @@ const zh: Copy = {
   chartNote: "来自来源的近期区块，不是设备性能历史。",
   poolScope:
     "Worker 数据仅覆盖浏览器观测的矿池，不代表全网矿工。Worker 名称不能证明实际设备台数或型号。",
-  quantusScope: "一个地址可能接收多台设备的奖励；链上收益无法判断设备台数、当前算力或在线状态。",
+  quantusScope:
+    "一个地址可能接收多台设备的奖励；链上收益无法判断设备台数、当前算力或在线状态。这里查询出块奖励，不是矿池的完整付款账本。",
   records: "最近区块",
   block: "区块",
   time: "时间",
@@ -242,7 +243,8 @@ const tw: Copy = {
   chartNote: "來自來源的近期區塊，不是設備效能歷史。",
   poolScope:
     "Worker 資料僅涵蓋瀏覽器觀測的礦池，不代表全網礦工。Worker 名稱不能證明實際設備台數或型號。",
-  quantusScope: "一個地址可能接收多台設備的獎勵；鏈上收益無法判斷設備台數、目前算力或上線狀態。",
+  quantusScope:
+    "一個地址可能接收多台設備的獎勵；鏈上收益無法判斷設備台數、目前算力或上線狀態。這裡查詢出塊獎勵，不是礦池完整付款帳本。",
   records: "最近區塊",
   block: "區塊",
   time: "時間",
@@ -333,7 +335,7 @@ const ko: Copy = {
   poolScope:
     "워커 데이터는 탐색기가 관측한 풀만 포함합니다. 워커 이름으로 실제 장치 수나 모델을 알 수 없습니다.",
   quantusScope:
-    "한 주소가 여러 장치의 보상을 받을 수 있습니다. 온체인 보상으로 장치 수, 현재 해시레이트 또는 온라인 상태를 판단할 수 없습니다.",
+    "한 주소가 여러 장치의 보상을 받을 수 있습니다. 온체인 보상으로 장치 수, 현재 해시레이트 또는 온라인 상태를 판단할 수 없습니다. 이 인덱스는 블록 보상을 다루며 풀의 전체 지급 장부가 아닙니다.",
   records: "최근 블록",
   block: "블록",
   time: "시각",
@@ -431,7 +433,7 @@ const ja: Copy = {
   poolScope:
     "ワーカーデータはエクスプローラーが観測したプールのみです。名前から実際のデバイス数や機種は判断できません。",
   quantusScope:
-    "一つのアドレスで複数のデバイスの報酬を受け取れます。オンチェーン報酬では台数、現在のハッシュレート、接続状態は判断できません。",
+    "一つのアドレスで複数のデバイスの報酬を受け取れます。オンチェーン報酬では台数、現在のハッシュレート、接続状態は判断できません。 この索引はブロック報酬を扱い、プールの全支払台帳ではありません。",
   records: "最近のブロック",
   block: "ブロック",
   time: "時刻",

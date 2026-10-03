@@ -1,5 +1,6 @@
 import { projectsCopy } from "./projects-copy";
-import { PROJECTS, type MiningProject } from "@/lib/projects";
+import { PROJECTS, projectEntity, type MiningProject } from "@/lib/projects";
+import { guidesForProject } from "./site/project-guides";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, OG_LOCALE, type SiteLocale } from "@/lib/site";
 
 export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
@@ -21,7 +22,7 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
     isPartOf: { "@type": "WebSite", name: "IOTA Watch", url: ORIGIN },
     ...(project
       ? {
-          about: { "@type": "Thing", name, sameAs: PROJECTS[project].website },
+          about: projectEntity(project),
           citation: [
             PROJECTS[project].website,
             PROJECTS[project].explorer,
@@ -44,6 +45,18 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
       { name: c.projects, url: `${ORIGIN}/${locale}/projects` },
       ...(project ? [{ name, url }] : []),
     ].map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: item.url })),
+  };
+  const guides = guidesForProject(project);
+  const guideCollection = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${name} · ${c.guide}`,
+    itemListElement: guides.map((a, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: a.title[locale],
+      url: `${ORIGIN}/${locale}/learn/${a.slug}`,
+    })),
   };
   return {
     meta: [
@@ -79,9 +92,9 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
       })),
       { rel: "alternate", hrefLang: "x-default", href: `${ORIGIN}/en/${path}` },
     ],
-    scripts: [page, breadcrumb].map((data) => ({
+    scripts: [page, breadcrumb, guideCollection].map((data) => ({
       type: "application/ld+json" as const,
-      children: JSON.stringify(data).replace(/</g, "\\u003c"),
+      children: JSON.stringify(data).replace(/</g, "\u003c"),
     })),
   };
 }

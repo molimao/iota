@@ -29,6 +29,8 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
+- Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
 - No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
 
 ## Official sources
@@ -36,6 +38,11 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - Train at Home app: https://iota.macrocosmos.ai/
 - TAH user guide: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Official network dashboard: https://iota.macrocosmos.ai/dashboard
+- xCoin: https://xcoinproject.com/
+- MMM mainnet guide: https://macmetalminer.com/
+- MMM repository: https://github.com/SystemThreat/MMM
+- Quantus mining guide: https://docs.quantus.com/guides/mining/
+- Quantus mainnet explorer: https://explorer.quantus.com/
 - Source code: https://github.com/molimao/iota
 - Longer machine-readable notes: https://iotahome.site/llms-full.txt
 
@@ -66,11 +73,11 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [Blog (en)](https://iotahome.site/en/blog)
 - [블로그 (ko)](https://iotahome.site/ko/blog)
 - [ブログ (ja)](https://iotahome.site/ja/blog)
-- [使用说明 (zh)](https://iotahome.site/zh/learn)
-- [使用說明 (zh-TW)](https://iotahome.site/zh-TW/learn)
-- [Help (en)](https://iotahome.site/en/learn)
-- [도움말 (ko)](https://iotahome.site/ko/learn)
-- [ヘルプ (ja)](https://iotahome.site/ja/learn)
+- [项目使用指南 (zh)](https://iotahome.site/zh/learn)
+- [專案使用指南 (zh-TW)](https://iotahome.site/zh-TW/learn)
+- [Project guides (en)](https://iotahome.site/en/learn)
+- [프로젝트 사용 안내 (ko)](https://iotahome.site/ko/learn)
+- [プロジェクト利用ガイド (ja)](https://iotahome.site/ja/learn)
 - [全网训练现况 (zh)](https://iotahome.site/zh/network)
 - [全網訓練現況 (zh-TW)](https://iotahome.site/zh-TW/network)
 - [Network status (en)](https://iotahome.site/en/network)
@@ -161,6 +168,46 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [IOTA Train at Home network status: slots, roster miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
 - [IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)](https://iotahome.site/ko/learn/network-status-explained)
 - [IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)](https://iotahome.site/ja/learn/network-status-explained)
+- [XID / MMM 主网挖矿：Mac 设置与地址监控 (zh)](https://iotahome.site/zh/learn/xid-mmm-mainnet-setup)
+- [XID / MMM 主網挖礦：Mac 設定與地址監控 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-mmm-mainnet-setup)
+- [XID mining with MMM: Mac mainnet setup and monitoring (en)](https://iotahome.site/en/learn/xid-mmm-mainnet-setup)
+- [XID / MMM 채굴: Mac 메인넷 설정과 주소 모니터링 (ko)](https://iotahome.site/ko/learn/xid-mmm-mainnet-setup)
+- [XID / MMMのマイニング：Macのメインネット設定と監視 (ja)](https://iotahome.site/ja/learn/xid-mmm-mainnet-setup)
+- [XID / MMM 算力怎么看：Worker、份额与最近活动 (zh)](https://iotahome.site/zh/learn/xid-worker-hashrate-shares)
+- [XID / MMM 算力怎麼看：Worker、份額與最近活動 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-worker-hashrate-shares)
+- [XID / MMM hashrate: workers, shares and last activity (en)](https://iotahome.site/en/learn/xid-worker-hashrate-shares)
+- [XID / MMM 해시레이트: 워커, 셰어, 최근 활동 읽기 (ko)](https://iotahome.site/ko/learn/xid-worker-hashrate-shares)
+- [XID / MMMのハッシュレート：ワーカー、シェア、最終活動 (ja)](https://iotahome.site/ja/learn/xid-worker-hashrate-shares)
+- [XID 挖矿收益与余额：奖励成熟和出块如何区分 (zh)](https://iotahome.site/zh/learn/xid-rewards-balance-maturity)
+- [XID 挖礦收益與餘額：獎勵成熟和出塊如何區分 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-rewards-balance-maturity)
+- [XID mining rewards vs balance: blocks and maturity (en)](https://iotahome.site/en/learn/xid-rewards-balance-maturity)
+- [XID 채굴 보상과 잔액: 블록과 보상 성숙 구분 (ko)](https://iotahome.site/ko/learn/xid-rewards-balance-maturity)
+- [XIDのマイニング報酬と残高：ブロックと成熟の違い (ja)](https://iotahome.site/ja/learn/xid-rewards-balance-maturity)
+- [Quantus QTC 主网挖矿：Mac 节点同步与监控 (zh)](https://iotahome.site/zh/learn/quantus-mainnet-mining-mac)
+- [Quantus QTC 主網挖礦：Mac 節點同步與監控 (zh-TW)](https://iotahome.site/zh-TW/learn/quantus-mainnet-mining-mac)
+- [Quantus QTC mining on Mac: mainnet sync and monitoring (en)](https://iotahome.site/en/learn/quantus-mainnet-mining-mac)
+- [Mac에서 Quantus QTC 채굴: 메인넷 동기화와 모니터링 (ko)](https://iotahome.site/ko/learn/quantus-mainnet-mining-mac)
+- [MacでQuantus QTCをマイニング：メインネット同期と監視 (ja)](https://iotahome.site/ja/learn/quantus-mainnet-mining-mac)
+- [Quantus Wormhole 地址：今日与累计 QTC 收益怎么查 (zh)](https://iotahome.site/zh/learn/quantus-wormhole-rewards)
+- [Quantus Wormhole 地址：今日與累計 QTC 收益怎麼查 (zh-TW)](https://iotahome.site/zh-TW/learn/quantus-wormhole-rewards)
+- [Quantus wormhole address: check daily and lifetime QTC rewards (en)](https://iotahome.site/en/learn/quantus-wormhole-rewards)
+- [Quantus 웜홀 주소: 오늘과 누적 QTC 보상 조회 (ko)](https://iotahome.site/ko/learn/quantus-wormhole-rewards)
+- [Quantus Wormholeアドレス：今日と累計QTC報酬の確認 (ja)](https://iotahome.site/ja/learn/quantus-wormhole-rewards)
+- [Quantus 挖矿没有收益？先查地址、同步和奖励记录 (zh)](https://iotahome.site/zh/learn/quantus-mining-no-rewards)
+- [Quantus 挖礦沒有收益？先查地址、同步和獎勵紀錄 (zh-TW)](https://iotahome.site/zh-TW/learn/quantus-mining-no-rewards)
+- [Quantus mining with no rewards: address, sync and index checks (en)](https://iotahome.site/en/learn/quantus-mining-no-rewards)
+- [Quantus 채굴 보상이 없나요? 주소·동기화·기록 점검 (ko)](https://iotahome.site/ko/learn/quantus-mining-no-rewards)
+- [Quantusのマイニング報酬がない：アドレス・同期・記録の確認 (ja)](https://iotahome.site/ja/learn/quantus-mining-no-rewards)
+- [IOTA Train at Home：Miner ID 与收款 coldkey 的区别 (zh)](https://iotahome.site/zh/learn/iota-miner-id-vs-payout-address)
+- [IOTA Train at Home：Miner ID 與收款 coldkey 的差異 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-miner-id-vs-payout-address)
+- [IOTA Train at Home: Miner ID vs payout coldkey (en)](https://iotahome.site/en/learn/iota-miner-id-vs-payout-address)
+- [IOTA Train at Home: Miner ID와 지급 coldkey 차이 (ko)](https://iotahome.site/ko/learn/iota-miner-id-vs-payout-address)
+- [IOTA Train at Home：Miner IDと受取coldkeyの違い (ja)](https://iotahome.site/ja/learn/iota-miner-id-vs-payout-address)
+- [Mac 上的 IOTA、XID / MMM、Quantus：训练与挖矿有什么区别 (zh)](https://iotahome.site/zh/learn/iota-xid-quantus-compared)
+- [Mac 上的 IOTA、XID / MMM、Quantus：訓練與挖礦有何差異 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-xid-quantus-compared)
+- [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
+- [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
+- [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
