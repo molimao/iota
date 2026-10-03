@@ -17,6 +17,9 @@ import { content } from "./content";
 import { localizeMessage, useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
 import { blogPosts } from "./blog-posts";
+import { ProjectSwitch, ProjectCards } from "../projects";
+import { projectsCopy } from "../projects-copy";
+import { isMiningProject } from "@/lib/projects";
 
 export type { Page } from "./seo";
 export { seo } from "./seo";
@@ -56,26 +59,38 @@ export function SiteNav() {
   const { locale, en } = useLocale();
   const copy = content[locale];
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const links = [
-    [`/${locale}/network`, copy.nav[5]],
-    [`/${locale}/guide`, copy.nav[0]],
-    [`/${locale}/faq`, copy.nav[1]],
-    [`/${locale}/learn`, copy.nav[2]],
-    [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
-    [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
-  ] as const;
+  const projectId = pathname.match(/\/projects\/([^/]+)/)?.[1];
+  const project = isMiningProject(projectId) ? projectId : undefined;
+  const projectCopy = projectsCopy[locale];
+  const links: ReadonlyArray<readonly [string, string]> = project
+    ? [
+        [`/${locale}/projects/${project}#network`, projectCopy.network],
+        [`/${locale}/projects/${project}#setup`, projectCopy.setup],
+        [`/${locale}/projects`, projectCopy.back],
+      ]
+    : [
+        [`/${locale}/network`, copy.nav[5]],
+        [`/${locale}/guide`, copy.nav[0]],
+        [`/${locale}/faq`, copy.nav[1]],
+        [`/${locale}/learn`, copy.nav[2]],
+        [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
+        [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
+      ];
   return (
     <nav className="site-nav" aria-label={localizeValue(en ? "Main navigation" : "主导航", locale)}>
-      <a
-        className="site-brand"
-        href={`/${locale}`}
-        aria-current={pathname === `/${locale}` ? "page" : undefined}
-      >
-        <span>
-          <Layers size={20} />
-        </span>
-        IOTA <b>Watch</b>
-      </a>
+      <div className="site-brand-group">
+        <a
+          className="site-brand"
+          href={`/${locale}`}
+          aria-current={pathname === `/${locale}` ? "page" : undefined}
+        >
+          <span>
+            <Layers size={20} />
+          </span>
+          IOTA <b>Watch</b>
+        </a>
+        <ProjectSwitch />
+      </div>
       <div className="site-links">
         {links.map(([href, label]) => (
           <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
@@ -84,10 +99,10 @@ export function SiteNav() {
         ))}
         <a
           className="site-button small"
-          href={`/${locale}/app`}
-          aria-current={navCurrent(pathname, `/${locale}/app`)}
+          href={project ? `/${locale}/projects/${project}#addresses` : `/${locale}/app`}
+          aria-current={project ? undefined : navCurrent(pathname, `/${locale}/app`)}
         >
-          {localizeValue(en ? "My devices" : "我的设备", locale)}
+          {project ? projectCopy.mine : localizeValue(en ? "My devices" : "我的设备", locale)}
         </a>
         <LanguageSwitch />
         <AccountMenu />
@@ -117,9 +132,10 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <b>IOTA Watch</b>
-        <p>{copy.independent}</p>
+        <p>{projectsCopy[locale].independent}</p>
       </div>
       <div>
+        <a href={`/${locale}/projects`}>{projectsCopy[locale].projects}</a>
         <a href={`/${locale}/network`}>{copy.nav[5]}</a>
         <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
         <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
@@ -231,6 +247,16 @@ export function Landing() {
           {localizeValue(en ? "About this site" : "本站说明", locale)} <ArrowRight size={15} />
         </a>
       </aside>
+      <section className="landing-projects">
+        <div className="project-section-head">
+          <h2>{projectsCopy[locale].other}</h2>
+          <a className="text-link" href={`/${locale}/projects`}>
+            {projectsCopy[locale].back}
+            <ArrowRight size={15} />
+          </a>
+        </div>
+        <ProjectCards compact />
+      </section>
       <section className="purpose-section">
         <div>
           <span className="eyebrow">{copy.jobsEyebrow}</span>
@@ -356,7 +382,13 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           </a>
         </aside>
       )}
-      <p className="article-updated">{copy.updated}</p>
+      {page === "privacy" && (
+        <section className="article-tip">
+          <h2>{projectsCopy[locale].projects} · XID / MMM & Quantus</h2>
+          <p>{projectsCopy[locale].privacyData}</p>
+        </section>
+      )}
+      <p className="article-updated">{page === "privacy" ? "2026-10-03" : copy.updated}</p>
       <a className="site-button" href={`/${locale}/app`}>
         {copy.cta}
         <ArrowUpRight size={18} />

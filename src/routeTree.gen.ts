@@ -22,6 +22,7 @@ import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
+import { Route as LocaleProjectsChar123ProjectChar125RouteImport } from './routes/$locale.projects.{-$project}'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -90,6 +91,12 @@ const LocaleLearnChar123SlugChar125Route =
     path: '/learn/{-$slug}',
     getParentRoute: () => LocaleRoute,
   } as any)
+const LocaleProjectsChar123ProjectChar125Route =
+  LocaleProjectsChar123ProjectChar125RouteImport.update({
+    id: '/projects/{-$project}',
+    path: '/projects/{-$project}',
+    getParentRoute: () => LocaleRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -105,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
+  '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
+  '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -135,6 +144,7 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
+  '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
+    | '/$locale/projects/{-$project}'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
+    | '/$locale/projects/{-$project}'
   id:
     | '__root__'
     | '/'
@@ -181,6 +193,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
+    | '/$locale/projects/{-$project}'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -282,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleLearnChar123SlugChar125RouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/projects/{-$project}': {
+      id: '/$locale/projects/{-$project}'
+      path: '/projects/{-$project}'
+      fullPath: '/$locale/projects/{-$project}'
+      preLoaderRoute: typeof LocaleProjectsChar123ProjectChar125RouteImport
+      parentRoute: typeof LocaleRoute
+    }
   }
 }
 
@@ -296,6 +316,7 @@ interface LocaleRouteChildren {
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
+  LocaleProjectsChar123ProjectChar125Route: typeof LocaleProjectsChar123ProjectChar125Route
 }
 
 const LocaleRouteChildren: LocaleRouteChildren = {
@@ -309,6 +330,8 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,
+  LocaleProjectsChar123ProjectChar125Route:
+    LocaleProjectsChar123ProjectChar125Route,
 }
 
 const LocaleRouteWithChildren =

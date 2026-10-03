@@ -4,7 +4,7 @@
 
 **[官网](https://iotahome.site) · [我的设备](https://iotahome.site/zh/app) · [全网现况](https://iotahome.site/zh/network) · [博客](https://iotahome.site/zh/blog) · [English](https://iotahome.site/en)**
 
-IOTA Watch is an open-source, bilingual dashboard for monitoring Macrocosmos IOTA Train at Home devices and public network data. It is an independent community tool for the Bittensor SN9 ecosystem, not an IOTA Layer 1 wallet.
+IOTA Watch is an open-source, multilingual dashboard for monitoring Macrocosmos IOTA Train at Home devices and public network data. It is an independent community tool for the Bittensor SN9 ecosystem, not an IOTA Layer 1 wallet.
 
 ![矿工分布与网络容量](docs/images/network-overview.jpg)
 
@@ -18,10 +18,19 @@ IOTA Watch is an open-source, bilingual dashboard for monitoring Macrocosmos IOT
 - **全网可视化**：地区分布环图、矿工人数排行、名额占用、任务进度与档位概览。
 - **数据时效**：独立显示各来源的读取时间、覆盖率、旧数据与部分失败提示。
 - **设备清单**：未登录时在当前浏览器保存最多 3 台；Google 登录后账号最多绑定 10 台；支持 JSON 导入导出。
-- **中英文内容**：使用说明与博客，包含文章目录、官方资料来源及 AI 可读取的 Markdown 版本。
+- **五种语言**：简体中文、繁体中文、英文、韩语、日语；使用说明与博客，包含文章目录、官方资料来源及 AI 可读取的 Markdown 版本。
 - **手机适配**：响应式卡片、图表和导航菜单。
 
 网页读取公开数据，不控制训练应用，不配置收款地址，也不需要私钥或助记词。
+
+## 新增项目监控
+
+IOTA 保持主入口和既有网址；[项目中心](https://iotahome.site/zh/projects)提供独立的 XID / MMM 与 Quantus 页面。
+
+- **XID / MMM**：SuperKnet 公开网络与矿池 Worker 数据、算力、份额、活动时间和浏览器余额。矿池名单不代表全网设备数量，余额不等于累计收益。
+- **Quantus**：官方主网索引的区块、出块间隔，以及公开 Wormhole 地址的今日和累计 QTC 挖矿奖励。主网与 Planck 测试网分开，QTC 按 12 位小数精度转换。
+- 每个项目最多保存 10 个公开地址，支持命名和导出，保存在当前浏览器，暂不与 Google 账号同步。不要输入私钥、助记词或 inner hash。
+- 新项目无需额外密钥、数据库迁移或环境变量；服务端需要访问 `superknet.com` 和 `sqm.quantus.com`，请求有超时、缓存和旧数据提示。
 
 ## 本地运行
 

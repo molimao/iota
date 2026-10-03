@@ -2,6 +2,8 @@ import { articles, articleDates, type Article } from "../components/site/article
 import { blogPosts } from "../components/site/blog-posts";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
 import { localizeText } from "../components/site/localization";
+import { projectsCopy } from "../components/projects-copy";
+import { PROJECTS } from "./projects";
 
 export const LASTMOD = "2026-09-12";
 
@@ -27,14 +29,17 @@ function articlePriority(slug: string) {
 
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
-  { path: "", lastmod: "2026-10-01", changefreq: "weekly", priority: "1.0" },
+  { path: "", lastmod: "2026-10-03", changefreq: "weekly", priority: "1.0" },
+  { path: "projects", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
+  { path: "projects/xid", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
+  { path: "projects/quantus", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.8" },
   { path: "blog", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "learn", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
   { path: "faq", changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
-  { path: "privacy", changefreq: "yearly", priority: "0.3" },
+  { path: "privacy", lastmod: "2026-10-03", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
     lastmod: articleDates(article).modified,
@@ -54,6 +59,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 }
 
 function pageLabel(locale: SiteLocale, path: string): string {
+  if (path === "projects") return projectsCopy[locale].projects;
+  if (path === "projects/xid") return "XID / MMM";
+  if (path === "projects/quantus") return "Quantus / QTC";
   if (locale !== "zh" && locale !== "en")
     return localizeText(pageLabel(locale === "zh-TW" ? "zh" : "en", path), locale);
   if (!path) return locale === "en" ? "Home" : "首页";
@@ -150,6 +158,14 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Zero throughput is not proof the machine is offline
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See ${origin}/en/downloads for installation effects and removal instructions.
+
+## Additional mining projects
+
+IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at ${origin}/en/projects. These are independent tools, not official apps or wallets. Saved reward-address lists for these two projects are browser-local, capped at 10 per project, and are not synchronized to Google accounts.
+
+- XID / MMM: ${origin}/en/projects/xid — source: ${PROJECTS.xid.explorer} (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
+- Quantus / QTC: ${origin}/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
+- No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
 
 ## Official sources
 

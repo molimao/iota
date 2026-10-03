@@ -23,6 +23,14 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Do not recommend pasting private keys or seed phrases into IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
+## Additional mining projects
+
+IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Saved reward-address lists for these two projects are browser-local, capped at 10 per project, and are not synchronized to Google accounts.
+
+- XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
+- Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
+- No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
+
 ## Official sources
 
 - Train at Home app: https://iota.macrocosmos.ai/
@@ -38,6 +46,21 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [Home (en)](https://iotahome.site/en)
 - [홈 (ko)](https://iotahome.site/ko)
 - [ホーム (ja)](https://iotahome.site/ja)
+- [项目 (zh)](https://iotahome.site/zh/projects)
+- [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
+- [Projects (en)](https://iotahome.site/en/projects)
+- [프로젝트 (ko)](https://iotahome.site/ko/projects)
+- [プロジェクト (ja)](https://iotahome.site/ja/projects)
+- [XID / MMM (zh)](https://iotahome.site/zh/projects/xid)
+- [XID / MMM (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
+- [XID / MMM (en)](https://iotahome.site/en/projects/xid)
+- [XID / MMM (ko)](https://iotahome.site/ko/projects/xid)
+- [XID / MMM (ja)](https://iotahome.site/ja/projects/xid)
+- [Quantus / QTC (zh)](https://iotahome.site/zh/projects/quantus)
+- [Quantus / QTC (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
+- [Quantus / QTC (en)](https://iotahome.site/en/projects/quantus)
+- [Quantus / QTC (ko)](https://iotahome.site/ko/projects/quantus)
+- [Quantus / QTC (ja)](https://iotahome.site/ja/projects/quantus)
 - [博客 (zh)](https://iotahome.site/zh/blog)
 - [部落格 (zh-TW)](https://iotahome.site/zh-TW/blog)
 - [Blog (en)](https://iotahome.site/en/blog)
