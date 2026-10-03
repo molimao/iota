@@ -132,7 +132,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           : page === "guide"
             ? `${copy.guideTitle} | IOTA Watch`
             : page === "faq"
-              ? `${copy.faqTitle} | IOTA Watch`
+              ? `${copy.faqTitle}: IOTA / XID / Quantus | IOTA Watch`
               : page === "privacy"
                 ? `${copy.privacyTitle} | IOTA Watch`
                 : page === "learn"
@@ -297,8 +297,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
-        about:
-          "IOTA Train at Home device and reward monitoring. Not the IOTA Layer 1 cryptocurrency.",
+        about: [projectEntity("iota"), projectEntity("xid"), projectEntity("quantus")],
+        license: "https://github.com/molimao/iota/blob/main/LICENSE",
       }),
     );
   }
@@ -308,6 +308,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
       jsonLd({
         "@context": "https://schema.org",
         "@type": "FAQPage",
+        url,
+        dateModified: "2026-10-03",
         inLanguage: language(locale),
         mainEntity: copy.faq.map(([question, answer]) => ({
           "@type": "Question",

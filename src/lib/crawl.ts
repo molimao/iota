@@ -5,6 +5,7 @@ import { localizeText } from "../components/site/localization";
 import { projectsCopy } from "../components/projects-copy";
 import { PROJECTS } from "./projects";
 import { learningCopy } from "../components/site/guide-copy";
+import { content } from "../components/site/content";
 
 export const LASTMOD = "2026-09-12";
 
@@ -38,7 +39,7 @@ export const crawlPages: CrawlPage[] = [
   { path: "learn", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
-  { path: "faq", changefreq: "monthly", priority: "0.8" },
+  { path: "faq", lastmod: "2026-10-03", changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
   { path: "privacy", lastmod: "2026-10-03", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
@@ -218,6 +219,19 @@ ${article.sources?.map((source) => `- Source: ${source.name} — ${source.url}`)
     .join("\n\n");
 
   return `${buildLlmsTxt(origin)}
+## Public project FAQ
+
+${LOCALES.map((locale) => {
+  const copy = content[locale];
+  return `### ${copy.faqTitle} (${LANGUAGE_TAG[locale]})
+- Canonical page: ${pageUrl(locale, "faq", origin)}
+- Updated: 2026-10-03
+
+${copy.faqIntro}
+
+${copy.faq.map(([question, answer]) => `#### ${question}\n\n${answer}`).join("\n\n")}`;
+}).join("\n\n")}
+
 ## Complete multilingual guides
 
 ${articleBlocks}

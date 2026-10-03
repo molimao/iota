@@ -1,10 +1,10 @@
 # IOTA Watch
 
-开源的 **IOTA Train at Home 多设备监控面板**，在浏览器中查看训练状态、收益、历史趋势与全网矿工分布。
+开源的五语言监控面板，以 **IOTA Train at Home** 为主，并提供独立的 **XID / MMM** 与 **Quantus QTC** 页面。在浏览器中查看公开状态、收益记录和网络数据。
 
 **[官网](https://iotahome.site) · [我的设备](https://iotahome.site/zh/app) · [全网现况](https://iotahome.site/zh/network) · [博客](https://iotahome.site/zh/blog) · [English](https://iotahome.site/en)**
 
-IOTA Watch is an open-source, multilingual dashboard for monitoring Macrocosmos IOTA Train at Home devices and public network data. It is an independent community tool for the Bittensor SN9 ecosystem, not an IOTA Layer 1 wallet.
+IOTA Watch is an MIT-licensed dashboard in English, Simplified Chinese, Traditional Chinese, Korean and Japanese. It monitors Macrocosmos IOTA Train at Home (Bittensor SN9), with separate xCoin XID / MMM and Quantus QTC pages. It is an independent, read-only community tool; projects, currencies and data coverage remain separate.
 
 ![矿工分布与网络容量](docs/images/network-overview.jpg)
 
@@ -31,6 +31,16 @@ IOTA 保持主入口和既有网址；[项目中心](https://iotahome.site/zh/pr
 - **Quantus**：官方主网索引的区块、出块间隔，以及公开 Wormhole 地址的今日和累计 QTC 挖矿奖励。主网与 Planck 测试网分开，QTC 按 12 位小数精度转换。
 - 每个项目最多保存 10 个公开地址，支持命名和导出，保存在当前浏览器，暂不与 Google 账号同步。不要输入私钥、助记词或 inner hash。
 - 新项目无需额外密钥、数据库迁移或环境变量；服务端需要访问 `superknet.com` 和 `sqm.quantus.com`，请求有超时、缓存和旧数据提示。
+
+## 项目入口与教程
+
+| 项目               | 监控                                                    | 地址、收益与排查                                                                                                                             |
+| ------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| IOTA Train at Home | [设备与收益](https://iotahome.site/en/app)              | [Miner ID 与收款地址](https://iotahome.site/en/learn/iota-miner-id-vs-payout-address)                                                        |
+| xCoin XID / MMM    | [Worker 与算力](https://iotahome.site/en/projects/xid)  | [主网设置](https://iotahome.site/en/learn/xid-mmm-mainnet-setup) · [奖励成熟](https://iotahome.site/en/learn/xid-rewards-balance-maturity)   |
+| Quantus QTC        | [主网与奖励](https://iotahome.site/en/projects/quantus) | [节点同步](https://iotahome.site/en/learn/quantus-mainnet-mining-mac) · [奖励排查](https://iotahome.site/en/learn/quantus-mining-no-rewards) |
+
+[项目对比](https://iotahome.site/en/learn/iota-xid-quantus-compared) · [五语言指南库](https://iotahome.site/en/learn) · [Mac 本地工具](https://iotahome.site/en/downloads)
 
 ## 本地运行
 

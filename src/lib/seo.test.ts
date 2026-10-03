@@ -4,8 +4,63 @@ import { blogPosts, relatedBlogPosts } from "../components/site/blog-posts";
 import { seo } from "../components/site/seo";
 import { buildArticleMarkdown, buildLlmsFullTxt, buildSitemapXml } from "./crawl";
 import { ORIGIN, LOCALES, LANGUAGE_TAG } from "./site";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { ArticlePage } from "../components/site/pages";
+import { LocaleContext } from "../components/site/locale";
+import { content } from "../components/site/content";
 
 describe("public guide indexing", () => {
+  it("keeps five-language project answers identical in visible HTML, FAQ schema and readable text", () => {
+    const full = buildLlmsFullTxt();
+    for (const locale of LOCALES) {
+      const html = renderToStaticMarkup(
+        createElement(
+          LocaleContext.Provider,
+          { value: locale },
+          createElement(ArticlePage, { page: "faq" }),
+        ),
+      );
+      const head = seo(locale, "faq");
+      const faq = head.scripts
+        .map((script) => JSON.parse(script.children))
+        .find((s) => s["@type"] === "FAQPage");
+      expect(faq.url).toBe(`${ORIGIN}/${locale}/faq`);
+      expect(faq.dateModified).toBe("2026-10-03");
+      expect(html).toContain('<time dateTime="2026-10-03">2026-10-03</time>');
+      expect(
+        faq.mainEntity.map((q: { name: string; acceptedAnswer: { text: string } }) => [
+          q.name,
+          q.acceptedAnswer.text,
+        ]),
+      ).toEqual(content[locale].faq);
+      for (const [question, answer] of content[locale].faq) {
+        expect(html).toContain(renderToStaticMarkup(createElement("h2", null, question)));
+        expect(html).toContain(renderToStaticMarkup(createElement("p", null, answer)));
+        expect(full).toContain(answer);
+      }
+      expect(html).toContain(`href="/${locale}/projects"`);
+      expect(html).toContain(`href="/${locale}/learn/iota-xid-quantus-compared"`);
+      const firstAnswers = content[locale].faq
+        .slice(0, 5)
+        .map(([, a]) => a)
+        .join(" ");
+      for (const identifier of ["Train at Home", "XID", "Quantus", "xpa1r", "Wormhole", "10", "3"])
+        expect(firstAnswers).toContain(identifier);
+    }
+  });
+
+  it("describes the homepage's three distinct projects and its public source license", () => {
+    for (const locale of LOCALES) {
+      const app = seo(locale, "home")
+        .scripts.map((script) => JSON.parse(script.children))
+        .find((s) => s["@type"] === "WebApplication");
+      expect(app.about).toHaveLength(3);
+      expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(3);
+      expect(app.sameAs).toContain("https://github.com/molimao/iota");
+      expect(app.license).toBe("https://github.com/molimao/iota/blob/main/LICENSE");
+    }
+  });
   it("keeps multilingual canonicals and article dates consistent", () => {
     for (const { article, section } of [
       ...articles.map((article) => ({ article, section: "learn" as const })),

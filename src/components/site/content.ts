@@ -1,5 +1,8 @@
 import { withLocales } from "@/components/site/localization";
-export const content = withLocales({
+import { projectFaq } from "./project-faq";
+import type { SiteLocale } from "@/lib/site";
+
+const legacyContent = withLocales({
   en: {
     nav: ["Get started", "FAQ", "Help", "Privacy", "My devices", "Network"],
     eyebrow: "IOTA TRAIN AT HOME DEVICE MONITOR",
@@ -330,3 +333,25 @@ export const content = withLocales({
     updated: "更新于 2026 年 9 月 12 日",
   },
 } as const);
+
+function contentWithProjectFaq(locale: SiteLocale) {
+  const legacy = legacyContent[locale];
+  return {
+    ...legacy,
+    faqIntro: projectFaq[locale].intro,
+    faq: [
+      ...projectFaq[locale].questions,
+      ...legacy.faq
+        .slice(2)
+        .map(([question, answer]): [string, string] => [`IOTA · ${question}`, answer]),
+    ],
+  };
+}
+
+export const content = {
+  en: contentWithProjectFaq("en"),
+  zh: contentWithProjectFaq("zh"),
+  "zh-TW": contentWithProjectFaq("zh-TW"),
+  ko: contentWithProjectFaq("ko"),
+  ja: contentWithProjectFaq("ja"),
+};

@@ -21,6 +21,7 @@ import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
 import { isMiningProject, projectPath } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
+import { ProjectLearning } from "./project-learning";
 
 export type { Page } from "./seo";
 export { seo } from "./seo";
@@ -391,9 +392,16 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           <p>{projectsCopy[locale].privacyData}</p>
         </section>
       )}
-      <p className="article-updated">{page === "privacy" ? "2026-10-03" : copy.updated}</p>
-      <a className="site-button" href={`/${locale}/app`}>
-        {copy.cta}
+      {page === "faq" && <ProjectLearning />}
+      <p className="article-updated">
+        {page === "privacy" || page === "faq" ? (
+          <time dateTime="2026-10-03">2026-10-03</time>
+        ) : (
+          copy.updated
+        )}
+      </p>
+      <a className="site-button" href={`/${locale}/${page === "faq" ? "projects" : "app"}`}>
+        {page === "faq" ? projectsCopy[locale].projects : copy.cta}
         <ArrowUpRight size={18} />
       </a>
     </article>
