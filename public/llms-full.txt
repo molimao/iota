@@ -133,11 +133,11 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - [How to read IOTA Train at Home training history and throughput (en)](https://iotahome.site/en/learn/training-history-and-metrics)
 - [IOTA Train at Home 훈련 기록과 처리량 확인하기 (ko)](https://iotahome.site/ko/learn/training-history-and-metrics)
 - [IOTA Train at Homeの学習履歴と処理量の見方 (ja)](https://iotahome.site/ja/learn/training-history-and-metrics)
-- [IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
-- [IOTA Train at Home 全網狀態：名額、線上礦工與訓練進度 (zh-TW)](https://iotahome.site/zh-TW/learn/network-status-explained)
-- [IOTA Train at Home network status: slots, online miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
-- [IOTA Train at Home 네트워크 상태: 슬롯, 온라인 마이너, 훈련 진행 (ko)](https://iotahome.site/ko/learn/network-status-explained)
-- [IOTA Train at Homeのネットワーク状態：枠数・オンラインマイナー・学習進捗 (ja)](https://iotahome.site/ja/learn/network-status-explained)
+- [IOTA Train at Home 全网状态：名额、名单矿工与训练进度 (zh)](https://iotahome.site/zh/learn/network-status-explained)
+- [IOTA Train at Home 全網狀態：名額、名單礦工與訓練進度 (zh-TW)](https://iotahome.site/zh-TW/learn/network-status-explained)
+- [IOTA Train at Home network status: slots, roster miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
+- [IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)](https://iotahome.site/ko/learn/network-status-explained)
+- [IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)](https://iotahome.site/ja/learn/network-status-explained)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
@@ -666,7 +666,7 @@ IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得�
 - ko: https://iotahome.site/ko/learn/device-status
 - ja: https://iotahome.site/ja/learn/device-status
 - Published: 2026-09-12
-- Updated: 2026-09-12
+- Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
 
 ### IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh-CN)
@@ -675,7 +675,7 @@ IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官�
 
 ## 状态说明
 
-- **有贡献**：最近一次官方采样显示设备在线，且吞吐量大于 0。这是上报活动，不保证当前秒仍在计算。
+- **有贡献**：最近一次官方采样显示吞吐量大于 0，不依赖 active 标记。这是上报训练活动，不保证当前秒仍在计算。
 
 - **等待任务**：设备被报为在线，但最近一次采样没有吞吐量。常见情况是等待分配任务。
 
@@ -699,7 +699,7 @@ IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是�
 
 ## 狀態說明
 
-- **有貢獻**：最近一次官方採樣顯示設備在線，且吞吐量大於 0。這是上報活動，不保證當前秒仍在計算。
+- **有貢獻**：最近一次官方採樣顯示吞吐量大於 0，不依賴 active 標記。這是上報訓練活動，不保證當前秒仍在計算。
 
 - **等待任務**：設備被報為在線，但最近一次採樣沒有吞吐量。常見情況是等待分配任務。
 
@@ -723,7 +723,7 @@ IOTA Watch maps official miner records into a short status. The miner timestamp 
 
 ## Statuses
 
-- **Contributing**: the latest official sample reports the device active with throughput above zero. That is reported activity, not a live guarantee that it is computing this second.
+- **Contributing**: the latest official sample reports throughput above zero, independently of the active flag. This is reported training work, not a guarantee that it is computing this second.
 
 - **Waiting for tasks**: the device is reported active, but the latest sample has no throughput. It is often waiting to be assigned work.
 
@@ -747,7 +747,7 @@ IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채�
 
 ## 상태
 
-- **기여**: 최신 공식 샘플에서는 장치가 처리량이 0보다 높은 활성 상태라고 보고합니다. 이는 보고된 활동이지 이번 초를 계산하고 있다는 실시간 보장은 아닙니다.
+- **훈련 기여 중**: 최신 공식 샘플의 처리량이 0보다 큰 상태이며 active 표시에는 의존하지 않습니다. 보고된 훈련 활동으로, 지금 이 순간 계산 중임을 보장하지는 않습니다.
 
 - **작업 대기 중**: 장치가 활성 상태로 보고되었지만 최신 샘플에는 처리량이 없습니다. 작업이 할당되기를 기다리는 경우가 많습니다.
 
@@ -771,7 +771,7 @@ IOTA Watchは、公式マイナー記録を短いステータスにマッピン�
 
 ## ステータス
 
-- **貢献**: 最新の公式サンプルでは、デバイスがゼロを超えるスループットでアクティブであると報告されています。これは報告されたアクティビティであり、この秒を計算していることを保証するものではありません。
+- **学習に貢献**：最新の公式サンプルで処理量がゼロを超える状態です。activeフラグには依存しません。報告された学習活動であり、今この瞬間に計算していることを保証するものではありません。
 
 - **タスクを待機中**: デバイスはアクティブであると報告されていますが、最新のサンプルにはスループットがありません。仕事が割り当てられるのを待っていることがよくあります。
 
@@ -1932,23 +1932,23 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 - Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
 
-### IOTA Train at Home network status: slots, online miners and training progress
+### IOTA Train at Home network status: slots, roster miners and training progress
 - zh-CN: https://iotahome.site/zh/learn/network-status-explained
 - zh-TW: https://iotahome.site/zh-TW/learn/network-status-explained
 - en: https://iotahome.site/en/learn/network-status-explained
 - ko: https://iotahome.site/ko/learn/network-status-explained
 - ja: https://iotahome.site/ja/learn/network-status-explained
 - Published: 2026-10-01
-- Updated: 2026-10-01
+- Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
 
-### IOTA Train at Home 全网状态：名额、在线矿工与训练进度 (zh-CN)
+### IOTA Train at Home 全网状态：名额、名单矿工与训练进度 (zh-CN)
 
 [全网页面](https://iotahome.site/zh/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。
 
-## 在线与训练人数有什么区别？
+## 名单矿工与训练人数有什么区别？
 
-在线人数来自已获取的矿工名单，训练人数反映有上报训练活动的矿工。名单里可能包含等待任务的矿工，两者不必相同。这些数字也不是 IOTA Watch 的用户人数。
+名单矿工按已读取任务中的公开 Miner ID 去重；训练人数统计任一已读取任务中吞吐量大于零的 ID，不依赖 is_active。官方 active 标记可能为 false，但仍上报正吞吐量。这两个数字都不是实时在线证明，也不是 IOTA Watch 用户人数。任务表与档位按相应任务的名单记录计数。
 
 ## 名额和进度应怎样理解？
 
@@ -1964,13 +1964,13 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 
 在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
 
-### IOTA Train at Home 全網狀態：名額、線上礦工與訓練進度 (zh-TW)
+### IOTA Train at Home 全網狀態：名額、名單礦工與訓練進度 (zh-TW)
 
 [全網頁面](https://iotahome.site/zh-TW/network)無需 Miner ID 或登錄，即可查看 IOTA Train at Home 的公開任務。它提供設備狀態的背景：有哪些任務、還剩多少名額，以及網路上報的活動狀況。
 
-## 在線上與訓練人數有什麼不同？
+## 名單礦工與訓練人數有什麼區別？
 
-線上人數來自已取得的礦工名單，訓練人數反映有上報訓練活動的礦工。名單裡可能包含等待任務的礦工，兩者不必相同。這些數字也不是 IOTA Watch 的使用者人數。
+名單礦工按已讀取任務中的公開 Miner ID 去重；訓練人數統計任一已讀取任務中吞吐量大於零的 ID，不依賴 is_active。官方 active 標記可能為 false，但仍上報正吞吐量。這兩個數字都不是即時在線證明，也不是 IOTA Watch 用戶人數。任務表與檔位按相應任務的名單記錄計數。
 
 ## 名額和進度要怎麼理解？
 
@@ -1986,13 +1986,13 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 
 在 [我的設備](https://iotahome.site/zh-TW/app)添加公開 Miner ID。設備缺失時，按 [尚未找到設備的檢查步驟](https://iotahome.site/zh-TW/learn/device-not-found)檢查。本地錯誤請開啟官方應用，全網頁面無法讀取 Mac 的本地狀態。
 
-### IOTA Train at Home network status: slots, online miners and training progress (en)
+### IOTA Train at Home network status: slots, roster miners and training progress (en)
 
 The [network page](https://iotahome.site/en/network) shows public IOTA Train at Home runs without requiring a Miner ID or sign-in. It gives context for your device: which runs exist, their available slots and the activity reported by the network.
 
-## Online is different from training
+## Roster miners are different from training miners
 
-Online counts come from the retrieved miner rosters. Training counts reflect miners with reported training activity. A roster can contain miners waiting for work; those counts do not have to match. They are not the number of people using IOTA Watch.
+Roster miners count unique public Miner IDs across fetched runs. Training counts IDs with throughput above zero in any fetched run, regardless of is_active. The official active flag can be false while throughput is positive. Neither number proves live connectivity or counts IOTA Watch users. Run and tier rows count records within those runs.
 
 ## How should I read slots and progress?
 
@@ -2008,13 +2008,13 @@ Each source has its own retrieval time. Inspect [source freshness](https://iotah
 
 Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missing devices, follow [device not found](https://iotahome.site/en/learn/device-not-found). Open the official app for local errors; the network page cannot inspect your Mac.
 
-### IOTA Train at Home 네트워크 상태: 슬롯, 온라인 마이너, 훈련 진행 (ko)
+### IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)
 
 [네트워크 페이지](https://iotahome.site/ko/network)에는 공개IOTA Train at Home이Miner ID또는 로그인 없이 실행되는 것으로 표시됩니다. 이는 실행 중인 장치, 사용 가능한 슬롯 및 네트워크에서 보고된 활동에 대한 컨텍스트를 제공합니다.
 
-## 온라인은 훈련과 다르다
+## 명단 마이너와 훈련 중 마이너의 차이
 
-온라인 개수는 검색된 광부 명단에서 나옵니다. 훈련 횟수는 보고된 훈련 활동이 있는 광부를 반영합니다. 명단에는 작업을 기다리는 광부가 포함될 수 있습니다. 해당 개수는 일치할 필요가 없습니다.IOTA Watch을 사용하는 사람의 수가 아닙니다.
+명단 마이너는 조회한 작업들의 공개 Miner ID를 중복 제외한 수입니다. 훈련 중은 is_active와 관계없이 작업 중 하나라도 처리량이 0보다 큰 ID를 셉니다. 공식 active 표시가 false여도 양의 처리량이 보고될 수 있습니다. 이 수치는 실시간 연결 여부나 IOTA Watch 사용자 수를 뜻하지 않습니다. 작업·등급별 행은 해당 작업의 명단 기록 수입니다.
 
 ## 슬롯과 진행 상황을 어떻게 읽어야 하나요?
 
@@ -2030,13 +2030,13 @@ Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missi
 
 [내 장치](https://iotahome.site/ko/app)에 공개Miner ID을 추가하세요. 분실된 기기의 경우 [기기를 찾을 수 없음](https://iotahome.site/ko/learn/device-not-found)을 따르세요. 로컬 오류가 있는 경우 공식 앱을 엽니다. 네트워크 페이지에서는 Mac을 검사할 수 없습니다.
 
-### IOTA Train at Homeのネットワーク状態：枠数・オンラインマイナー・学習進捗 (ja)
+### IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)
 
 [ネットワーク ページ](https://iotahome.site/ja/network) は、Miner IDやサインインを必要とせずにパブリックIOTA Train at Homeが実行されることを示しています。これは、デバイスのコンテキスト (どの実行が存在するか、使用可能なスロット、ネットワークによって報告されるアクティビティ) を提供します。
 
-## オンラインはトレーニングとは異なります
+## 一覧のマイナーと学習中のマイナーの違い
 
-オンライン数は、取得されたマイナー名簿から取得されます。トレーニング数は、報告されたトレーニング活動を行ったマイナーを反映します。名簿には、作業を待っているマイナーを含めることができます。これらの数は一致する必要はありません。IOTA Watchを使用している人の数ではありません。
+一覧のマイナーは取得したタスク全体で公開Miner IDの重複を除いた数です。学習中はis_activeに関係なく、いずれかのタスクで処理量がゼロを超えるIDを数えます。公式のactiveフラグがfalseでも正の処理量が報告される場合があります。これらはリアルタイム接続やIOTA Watchのユーザー数を示しません。タスク・等級別の行は該当するタスクの一覧記録数です。
 
 ## スロットと進行状況をどのように読めばよいですか?
 

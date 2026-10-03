@@ -15,10 +15,10 @@ const GLOSSARY = withLocales([
     },
   },
   {
-    term: { zh: "官方在线 / 已开始训练", en: "Online / training" },
+    term: { zh: "名单矿工 / 已开始训练", en: "Roster miners / training" },
     body: {
-      zh: "官方在线为名单中标记 active 的矿工；已开始训练是其中上报吞吐量大于零的人数。",
-      en: "Online counts miners marked active in the roster. Training counts those whose reported throughput is above zero.",
+      zh: "名单矿工按 Miner ID 去重；已开始训练为任一已读取任务中上报吞吐量大于零的矿工，不依赖 active 标记。任务表与档位按名单记录计数。这些都是官方采样数据，不是实时在线证明。",
+      en: "Roster miners are unique Miner IDs. Training counts IDs with positive throughput in any fetched run, independently of the active flag. Run and tier rows count roster records. These are official samples, not live connectivity checks.",
     },
   },
   {

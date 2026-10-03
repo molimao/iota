@@ -79,7 +79,7 @@ export function buildSitemapXml(origin = ORIGIN) {
     <loc>${loc}</loc>
 ${LOCALES.map((language) => `    <xhtml:link rel="alternate" hreflang="${LANGUAGE_TAG[language]}" href="${pageUrl(language, page.path, origin)}"/>`).join("\n")}
     <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>
-    <lastmod>${locale === "zh" || locale === "en" ? (page.lastmod ?? LASTMOD) : "2026-10-02"}</lastmod>
+    <lastmod>${locale === "zh" || locale === "en" ? (page.lastmod ?? LASTMOD) : [page.lastmod ?? LASTMOD, "2026-10-02"].sort().at(-1)}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`;

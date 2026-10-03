@@ -46,6 +46,7 @@ export type FarmSummary = {
     runs: number;
     maxMiners: number | null;
     slotsRemaining: number | null;
+    listed: number | null;
     online: number | null;
     training: number | null;
   }>;
@@ -74,6 +75,7 @@ export function aggregateFarmMiners(
   const countries = new Map<string, number>();
   const runs: FarmMinerRun[] = [];
   const unique = new Map<string, MinerRecord>();
+  const trainingIds = new Set<string>();
   for (const list of lists) {
     if (list.miners === null) continue;
     const miners = list.miners;
@@ -82,9 +84,14 @@ export function aggregateFarmMiners(
     for (const [index, miner] of miners.entries()) {
       if (miner.is_active) {
         online += 1;
-        if ((miner.throughput ?? 0) > 0) training += 1;
       }
       const key = miner.hotkey || `${list.runId}:${index}`;
+      // Throughput is an independent sample signal. The upstream active flag
+      // can be false even while the same record reports training work.
+      if (miner.throughput > 0) {
+        training += 1;
+        trainingIds.add(key);
+      }
       const old = unique.get(key);
       if (!old || miner.timestamp >= old.timestamp) unique.set(key, miner);
     }
@@ -101,9 +108,7 @@ export function aggregateFarmMiners(
     totalRuns: lists.length,
     listed: runs.length ? all.length : null,
     online: runs.length ? all.filter((miner) => miner.is_active).length : null,
-    training: runs.length
-      ? all.filter((miner) => miner.is_active && miner.throughput > 0).length
-      : null,
+    training: runs.length ? trainingIds.size : null,
     countries: [...countries.entries()]
       .map(([country, count]) => ({ country, count }))
       .sort((a, b) => b.count - a.count || a.country.localeCompare(b.country)),
@@ -241,12 +246,14 @@ export function summarizeFarm(
       runs: 0,
       maxMiners: null,
       slotsRemaining: null,
+      listed: null,
       online: null,
       training: null,
     };
     current.runs += 1;
     current.maxMiners = sumKnown([current.maxMiners, item.maxMiners]);
     current.slotsRemaining = sumKnown([current.slotsRemaining, item.slotsRemaining]);
+    current.listed = sumKnown([current.listed, item.listed]);
     current.online = sumKnown([current.online, item.online]);
     current.training = sumKnown([current.training, item.training]);
     tierMap.set(key, current);

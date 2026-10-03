@@ -59,7 +59,7 @@ export function computeStatus(input: StatusInput): DeviceStatus {
     return "refresh_interrupted";
   }
   if (miner) {
-    if (miner.is_active && miner.throughput > 0) return "contributing";
+    if (miner.throughput > 0) return "contributing";
     if (miner.is_active) return "waiting";
     return "idle";
   }
@@ -116,7 +116,7 @@ export function officialSignals(miner: MinerRecord | null): {
   if (!miner) return { online: "unknown", training: "unknown" };
   return {
     online: miner.is_active ? "yes" : "no",
-    training: miner.is_active && miner.throughput > 0 ? "yes" : "no",
+    training: miner.throughput > 0 ? "yes" : "no",
   };
 }
 

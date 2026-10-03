@@ -87,10 +87,13 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
       <div className="farm-stats">
         <div className="network-stat" data-tone="blue">
           <Users size={18} aria-hidden="true" />
-          <span>{t("官方在线")}</span>
-          <b>{formatCount(farm.online, locale)}</b>
+          <span>{localizeValue(en ? "Roster miners" : "名单矿工", locale)}</span>
+          <b>{formatCount(farm.listed, locale)}</b>
           <small>
-            {localizeValue(en ? "From the fetched miner roster" : "来自已读取矿工名单", locale)}
+            {localizeValue(
+              en ? "Unique Miner IDs in fetched rosters" : "已读取名单，按 Miner ID 去重",
+              locale,
+            )}
           </small>
         </div>
         <div className="network-stat" data-tone="mint">
@@ -148,15 +151,17 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             <b>{formatPct(farm.activeMiners, farm.maxMiners, locale)}</b>
           </div>
           <div className="participation-readout">
-            <span>{localizeValue(en ? "Training / online" : "已训练 / 官方在线", locale)}</span>
+            <span>
+              {localizeValue(en ? "Training / roster miners" : "已训练 / 名单矿工", locale)}
+            </span>
             <b>
-              {formatCount(farm.training, locale)} / {formatCount(farm.online, locale)}
+              {formatCount(farm.training, locale)} / {formatCount(farm.listed, locale)}
             </b>
           </div>
           <div className="participation-track" aria-hidden="true">
             <i
               style={{
-                width: `${farm.online && farm.training !== null ? Math.min(100, (farm.training / farm.online) * 100) : 0}%`,
+                width: `${farm.listed && farm.training !== null ? Math.min(100, (farm.training / farm.listed) * 100) : 0}%`,
               }}
             />
           </div>
@@ -181,8 +186,9 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
             <li key={tier.tier}>
               <b>{tier.tier}</b>
               <span>
-                {formatCount(tier.runs, locale)} {t("个任务")} · {t("官方在线")}{" "}
-                {formatCount(tier.online, locale)} · {t("已开始训练")}{" "}
+                {formatCount(tier.runs, locale)} {t("个任务")} ·{" "}
+                {localizeValue(en ? "Roster records" : "名单记录", locale)}{" "}
+                {formatCount(tier.listed, locale)} · {t("已开始训练")}{" "}
                 {formatCount(tier.training, locale)} · {t("剩余名额")}{" "}
                 {formatCount(tier.slotsRemaining, locale)}
               </span>
@@ -216,7 +222,7 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
                   <th>{t("各任务")}</th>
                   <th>{t("档位")}</th>
                   <th>{t("名额")}</th>
-                  <th>{t("官方在线")}</th>
+                  <th>{localizeValue(en ? "Roster records" : "名单记录", locale)}</th>
                   <th>{t("已开始训练")}</th>
                   <th>{t("训练进度")}</th>
                   <th>{t("损失")}</th>
@@ -238,7 +244,7 @@ export function FarmFull({ farm, partial = false }: { farm: FarmSummary; partial
                       {formatCount(run.activeMiners, locale)} / {formatCount(run.maxMiners, locale)}
                       {run.slotsRemaining === 0 ? <em>{t("已满")}</em> : null}
                     </td>
-                    <td>{formatCount(run.online, locale)}</td>
+                    <td>{formatCount(run.listed, locale)}</td>
                     <td>{formatCount(run.training, locale)}</td>
                     <td>
                       <div className="run-progress">

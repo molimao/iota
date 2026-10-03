@@ -158,6 +158,30 @@ it("does not turn failed miner lists into zero and deduplicates devices across r
   ).toMatchObject({ listed: 1, online: 1, training: 1 });
 });
 
+it("counts reported training even when every upstream active flag is false", () => {
+  const stats = aggregateFarmMiners([
+    { runId: "r1", miners: [{ ...roster, is_active: false, throughput: 12 }] },
+    {
+      runId: "r2",
+      miners: [
+        { ...roster, is_active: false, timestamp: 2, throughput: 0 },
+        { ...roster, hotkey: "waiting", is_active: false, throughput: 0 },
+      ],
+    },
+    { runId: "failed", miners: null },
+  ]);
+  expect(stats).toMatchObject({ listed: 2, online: 0, training: 1, knownRuns: 2 });
+  expect(stats.runs.map(({ training }) => training)).toEqual([1, 0]);
+  expect(
+    computeStatus({
+      miner: { ...roster, is_active: false, throughput: 12 },
+      fullCoverage: true,
+      lastSuccessfulFetchAt: now,
+      now,
+    }),
+  ).toBe("contributing");
+});
+
 it("joins independent training series by epoch without inventing missing values", () => {
   const rows = trainingRows(
     {

@@ -908,5 +908,16 @@
   "runs": "개 작업",
   "open": "남은 슬롯",
   "training": "훈련 중",
-  "splits": "개 구간"
+  "splits": "개 구간",
+  "Roster miners": "명단 마이너",
+  "Unique Miner IDs in fetched rosters": "조회한 명단의 고유 Miner ID",
+  "Training / roster miners": "훈련 중 / 명단 마이너",
+  "Roster records": "명단 기록",
+  "Roster miners / training": "명단 마이너 / 훈련 중",
+  "Roster miners are unique Miner IDs. Training counts IDs with positive throughput in any fetched run, independently of the active flag. Run and tier rows count roster records. These are official samples, not live connectivity checks.": "명단 마이너는 Miner ID를 중복 제외한 수입니다. 훈련 중은 조회한 작업 중 하나라도 처리량이 양수인 ID로, active 표시에 의존하지 않습니다. 작업과 등급별 행은 명단 기록 수를 표시합니다. 공식 샘플이며 실시간 연결 확인은 아닙니다.",
+  "IOTA Train at Home network status: slots, roster miners and training progress": "IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행",
+  "## Roster miners are different from training miners": "## 명단 마이너와 훈련 중 마이너의 차이",
+  "Roster miners count unique public Miner IDs across fetched runs. Training counts IDs with throughput above zero in any fetched run, regardless of is_active. The official active flag can be false while throughput is positive. Neither number proves live connectivity or counts IOTA Watch users. Run and tier rows count records within those runs.": "명단 마이너는 조회한 작업들의 공개 Miner ID를 중복 제외한 수입니다. 훈련 중은 is_active와 관계없이 작업 중 하나라도 처리량이 0보다 큰 ID를 셉니다. 공식 active 표시가 false여도 양의 처리량이 보고될 수 있습니다. 이 수치는 실시간 연결 여부나 IOTA Watch 사용자 수를 뜻하지 않습니다. 작업·등급별 행은 해당 작업의 명단 기록 수입니다.",
+  "- **Contributing**: the latest official sample reports throughput above zero, independently of the active flag. This is reported training work, not a guarantee that it is computing this second.": "- **훈련 기여 중**: 최신 공식 샘플의 처리량이 0보다 큰 상태이며 active 표시에는 의존하지 않습니다. 보고된 훈련 활동으로, 지금 이 순간 계산 중임을 보장하지는 않습니다.",
+  "Official active flag": "공식 active 표시"
 }

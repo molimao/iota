@@ -908,5 +908,16 @@
   "runs": "件のタスク",
   "open": "空き枠",
   "training": "学習中",
-  "splits": "区間"
+  "splits": "区間",
+  "Roster miners": "一覧のマイナー",
+  "Unique Miner IDs in fetched rosters": "取得した一覧のMiner IDを重複除外",
+  "Training / roster miners": "学習中 / 一覧のマイナー",
+  "Roster records": "一覧の記録数",
+  "Roster miners / training": "一覧のマイナー / 学習中",
+  "Roster miners are unique Miner IDs. Training counts IDs with positive throughput in any fetched run, independently of the active flag. Run and tier rows count roster records. These are official samples, not live connectivity checks.": "一覧のマイナーはMiner IDの重複を除いた数です。学習中は取得したいずれかのタスクで処理量が正のIDを数え、activeフラグには依存しません。タスク・等級別の行は一覧の記録数です。公式サンプルであり、リアルタイムの接続確認ではありません。",
+  "IOTA Train at Home network status: slots, roster miners and training progress": "IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗",
+  "## Roster miners are different from training miners": "## 一覧のマイナーと学習中のマイナーの違い",
+  "Roster miners count unique public Miner IDs across fetched runs. Training counts IDs with throughput above zero in any fetched run, regardless of is_active. The official active flag can be false while throughput is positive. Neither number proves live connectivity or counts IOTA Watch users. Run and tier rows count records within those runs.": "一覧のマイナーは取得したタスク全体で公開Miner IDの重複を除いた数です。学習中はis_activeに関係なく、いずれかのタスクで処理量がゼロを超えるIDを数えます。公式のactiveフラグがfalseでも正の処理量が報告される場合があります。これらはリアルタイム接続やIOTA Watchのユーザー数を示しません。タスク・等級別の行は該当するタスクの一覧記録数です。",
+  "- **Contributing**: the latest official sample reports throughput above zero, independently of the active flag. This is reported training work, not a guarantee that it is computing this second.": "- **学習に貢献**：最新の公式サンプルで処理量がゼロを超える状態です。activeフラグには依存しません。報告された学習活動であり、今この瞬間に計算していることを保証するものではありません。",
+  "Official active flag": "公式activeフラグ"
 }

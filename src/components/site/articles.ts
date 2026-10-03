@@ -158,6 +158,7 @@ export const articles: Article[] = withLocales([
   },
   {
     slug: "device-status",
+    modified: "2026-10-03",
     topic: { en: "Status", zh: "设备状态" },
     title: {
       en: "What IOTA Train at Home device statuses mean",
@@ -171,7 +172,7 @@ export const articles: Article[] = withLocales([
       en: [
         "IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from the device, and it is not the time this website last fetched data.",
         "## Statuses",
-        "- **Contributing**: the latest official sample reports the device active with throughput above zero. That is reported activity, not a live guarantee that it is computing this second.",
+        "- **Contributing**: the latest official sample reports throughput above zero, independently of the active flag. This is reported training work, not a guarantee that it is computing this second.",
         "- **Waiting for tasks**: the device is reported active, but the latest sample has no throughput. It is often waiting to be assigned work.",
         "- **Not participating**: the device is not reported as in the current training set. This does not prove it is offline or broken.",
         "- **Not found**: every active run list was fetched successfully, and this Miner ID was not in them. Check the ID first.",
@@ -184,7 +185,7 @@ export const articles: Article[] = withLocales([
       zh: [
         "IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官方的**统计采样时间**，不是设备心跳，也不是本站最近一次拉取数据的时间。",
         "## 状态说明",
-        "- **有贡献**：最近一次官方采样显示设备在线，且吞吐量大于 0。这是上报活动，不保证当前秒仍在计算。",
+        "- **有贡献**：最近一次官方采样显示吞吐量大于 0，不依赖 active 标记。这是上报训练活动，不保证当前秒仍在计算。",
         "- **等待任务**：设备被报为在线，但最近一次采样没有吞吐量。常见情况是等待分配任务。",
         "- **暂未参与**：当前训练名单未将其计为正在参与。这不等于设备已离线或故障。",
         "- **尚未找到**：所有进行中的训练任务名单均读取成功，其中没有该 Miner ID。请先核对 ID。",

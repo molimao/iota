@@ -112,12 +112,12 @@ export const dataGuides: Article[] = withLocales([
   {
     slug: "network-status-explained",
     published: "2026-10-01",
-    modified: "2026-10-01",
+    modified: "2026-10-03",
     sources,
     topic: { en: "Network status", zh: "全网现况" },
     title: {
-      en: "IOTA Train at Home network status: slots, online miners and training progress",
-      zh: "IOTA Train at Home 全网状态：名额、在线矿工与训练进度",
+      en: "IOTA Train at Home network status: slots, roster miners and training progress",
+      zh: "IOTA Train at Home 全网状态：名额、名单矿工与训练进度",
     },
     description: {
       en: "Understand active runs, roster coverage, online versus training miners and partial network data before diagnosing an individual device.",
@@ -126,8 +126,8 @@ export const dataGuides: Article[] = withLocales([
     body: {
       en: [
         "The [network page](/network) shows public IOTA Train at Home runs without requiring a Miner ID or sign-in. It gives context for your device: which runs exist, their available slots and the activity reported by the network.",
-        "## Online is different from training",
-        "Online counts come from the retrieved miner rosters. Training counts reflect miners with reported training activity. A roster can contain miners waiting for work; those counts do not have to match. They are not the number of people using IOTA Watch.",
+        "## Roster miners are different from training miners",
+        "Roster miners count unique public Miner IDs across fetched runs. Training counts IDs with throughput above zero in any fetched run, regardless of is_active. The official active flag can be false while throughput is positive. Neither number proves live connectivity or counts IOTA Watch users. Run and tier rows count records within those runs.",
         "## How should I read slots and progress?",
         "Slots come from official run occupancy. Progress and loss describe the whole run, not one device. Available capacity does not guarantee assignment, and the monitoring site cannot allocate a slot.",
         "## What does roster coverage mean?",
@@ -138,8 +138,8 @@ export const dataGuides: Article[] = withLocales([
       ],
       zh: [
         "[全网页面](/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。",
-        "## 在线与训练人数有什么区别？",
-        "在线人数来自已获取的矿工名单，训练人数反映有上报训练活动的矿工。名单里可能包含等待任务的矿工，两者不必相同。这些数字也不是 IOTA Watch 的用户人数。",
+        "## 名单矿工与训练人数有什么区别？",
+        "名单矿工按已读取任务中的公开 Miner ID 去重；训练人数统计任一已读取任务中吞吐量大于零的 ID，不依赖 is_active。官方 active 标记可能为 false，但仍上报正吞吐量。这两个数字都不是实时在线证明，也不是 IOTA Watch 用户人数。任务表与档位按相应任务的名单记录计数。",
         "## 名额和进度应怎样理解？",
         "名额来自官方任务占用数据。进度与损失描述整个任务，不是单台设备。存在空位不保证立即分配任务，本站也无法分配名额。",
         "## 名单覆盖率是什么意思？",

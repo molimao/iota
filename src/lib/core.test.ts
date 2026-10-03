@@ -102,7 +102,7 @@ it("splits official online from whether the last sample had training work", () =
   });
   expect(officialSignals({ is_active: false, throughput: 80 } as never)).toEqual({
     online: "no",
-    training: "no",
+    training: "yes",
   });
 });
 it("old statistical sample does not imply offline", () => {

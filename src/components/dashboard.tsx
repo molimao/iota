@@ -42,12 +42,12 @@ function signalText(signal: OfficialSignal, t: (key: string) => string) {
 }
 
 function PresenceSignals({ miner }: { miner: DeviceView["miner"] }) {
-  const { t } = useLocale();
+  const { t, en, locale } = useLocale();
   const signals = officialSignals(miner);
   return (
     <div className="presence">
       <div>
-        <span>{t("官方在线")}</span>
+        <span>{localizeValue(en ? "Official active flag" : "官方活跃标记", locale)}</span>
         <b data-signal={signals.online}>{signalText(signals.online, t)}</b>
       </div>
       <div>
