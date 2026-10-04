@@ -1,4 +1,8 @@
 {
+  "Quote": "시세",
+  "Fetched": "조회",
+  "Market refresh failed": "시세 갱신 실패",
+  "Older quote": "이전 시세",
   "No training run has been identified for this device yet. History will appear when official data is available.": "아직 이 장치에 대한 훈련 실행이 확인되지 않았습니다. 공식 데이터가 제공되면 기록이 표시됩니다.",
   "History period": "역사기간",
   "24 hours": "24시간",

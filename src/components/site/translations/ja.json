@@ -1,4 +1,8 @@
 {
+  "Quote": "価格時刻",
+  "Fetched": "取得",
+  "Market refresh failed": "相場の更新に失敗しました",
+  "Older quote": "古い価格",
   "money-pair{{0}}": "マネーペア{{0}}",
   " large": "大きい",
   "Estimated value": "推定値",

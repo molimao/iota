@@ -19,6 +19,7 @@ export type FarmState = {
     fetchedAt: number | null;
     error: string | null;
     loading: boolean;
+    partial?: boolean;
   }>;
   coverage: { known: number; total: number };
   now: number;
@@ -147,12 +148,18 @@ export function useFarm(options?: {
       label: "矿工名单",
       fetchedAt: minersQuery.data?.fetchedAt ?? null,
       error: minersQuery.data?.errors?.join("；") || minersQuery.error?.message || null,
+      partial:
+        (minersQuery.data?.freshRuns ?? 0) > 0 &&
+        (minersQuery.data?.freshRuns ?? 0) < runIds.length,
       loading: minersQuery.isFetching,
     },
     {
       label: "训练进度",
       fetchedAt: progressQuery.data?.fetchedAt ?? null,
       error: progressQuery.data?.errors?.join("；") || progressQuery.error?.message || null,
+      partial:
+        Object.values(progressQuery.data?.progress ?? {}).some((value) => value !== null) &&
+        (progressQuery.data?.errors?.length ?? 0) > 0,
       loading: progressQuery.isFetching,
     },
   ];

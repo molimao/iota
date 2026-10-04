@@ -370,8 +370,17 @@ export function Dashboard() {
               ) : (
                 dash.priceSource
               )}{" "}
-              · {formatAgo(dash.priceQuotedAt ?? dash.priceFetchedAt, dash.now, locale)}
-              {dash.priceStale ? ` · ${t("旧数据")}` : ""}
+              {dash.priceQuotedAt !== null && (
+                <>
+                  {" "}
+                  · {t("报价")} {formatAgo(dash.priceQuotedAt, dash.now, locale)}
+                </>
+              )}
+              {" · "}
+              {t("获取")} {formatAgo(dash.priceFetchedAt, dash.now, locale)}
+              {dash.priceStale
+                ? ` · ${t(dash.priceRefreshFailed ? "行情刷新失败" : "报价较早")}`
+                : ""}
             </p>
           ) : (
             <p className="fx-note" role="status">
@@ -394,6 +403,7 @@ export function Dashboard() {
               label: "设备状态",
               fetchedAt: dash.fetchedAt,
               error: dash.statusError,
+              partial: dash.statusPartial,
               loading: dash.fetching,
             },
             {

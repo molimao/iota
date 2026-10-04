@@ -2926,7 +2926,9 @@ body:has(.site-shell) {
 .data-source[data-state="pending"] i {
   background: #919191;
 }
-.data-source[data-state="old"] i {
+.data-source[data-state="old"] i,
+.data-source[data-state="failed"] i,
+.data-source[data-state="partial"] i {
   background: #c8c8c8;
 }
 .data-source b {

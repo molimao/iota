@@ -18,6 +18,7 @@ import { useFarm } from "@/hooks/use-farm";
 import { discoverDevices, getEarnings, getIotaUsdPrice } from "@/lib/iota.functions";
 import type { DeviceEarnings, DiscoveryResult, MinerRecord } from "@/lib/iota-types";
 import { readTelemetryCache, writeTelemetryCache, type WatchEntry } from "@/lib/watchlist";
+import { deviceStatusSource } from "@/lib/data-health";
 
 export const DISCOVERY_POLL_MS = 30_000;
 export const EARNINGS_POLL_MS = 120_000;
@@ -365,6 +366,12 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     [views],
   );
 
+  const statusSource = deviceStatusSource(
+    views,
+    discovery?.errors.join("；") || null,
+    discoveryQuery.error?.message ?? null,
+  );
+
   return {
     views,
     counts,
@@ -376,10 +383,11 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     farmStale: !!farmState.error,
     occupancy: farmState.occupancy,
     occupancyError: farmState.error,
-    fetchedAt: discovery?.fetchedAt ?? null,
+    fetchedAt: statusSource.fetchedAt,
     fetching,
     online,
-    statusError: discoveryQuery.error?.message ?? discovery?.errors.join("；") ?? null,
+    statusError: statusSource.error,
+    statusPartial: statusSource.partial,
     earningsFetching: earningsQuery.isFetching,
     earningsFetchedAt:
       earnings?.reduce<number | null>(
@@ -416,6 +424,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
     priceQuotedAt: priceQuery.data?.quotedAt ?? null,
     priceLoading: priceQuery.isLoading,
     priceSource: priceQuery.data?.source ?? null,
+    priceRefreshFailed: !!priceQuery.data?.error || !!priceQuery.error || !!priceQuery.data?.stale,
     priceStale:
       !!priceQuery.data?.stale ||
       !!priceQuery.error ||

@@ -1,6 +1,7 @@
 import { localizeValue } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
 import { formatAgo } from "@/lib/format";
+import { sourceHealth } from "@/lib/data-health";
 
 export type DataSourceState = {
   label: string;
@@ -8,6 +9,7 @@ export type DataSourceState = {
   error?: string | null | undefined;
   loading: boolean;
   maxAgeMs?: number;
+  partial?: boolean;
 };
 
 export function DataHealth({
@@ -27,14 +29,13 @@ export function DataHealth({
     >
       <div className="data-sources">
         {sources.map((source) => {
-          const old =
-            !!source.error ||
-            (source.fetchedAt !== null && now - source.fetchedAt > (source.maxAgeMs ?? 5 * 60_000));
+          const state = sourceHealth(source, now);
           return (
             <div
               className="data-source"
               key={source.label}
-              data-state={old ? "old" : source.fetchedAt === null ? "pending" : "ready"}
+              data-state={state}
+              title={source.error ? t(source.error) : undefined}
             >
               <i aria-hidden="true" />
               <span>{t(source.label)}</span>
@@ -46,7 +47,9 @@ export function DataHealth({
                     : formatAgo(source.fetchedAt, now, locale)}
               </b>
               {source.loading && source.fetchedAt !== null && <em>{t("刷新中")}</em>}
-              {old && source.fetchedAt !== null && <em>{t("旧数据")}</em>}
+              {state === "old" && <em>{t("旧数据")}</em>}
+              {state === "failed" && <em>{t("刷新失败")}</em>}
+              {state === "partial" && <em>{t("部分数据")}</em>}
             </div>
           );
         })}

@@ -2,7 +2,21 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { readTaostatsSn9Page } from "./iota-price-taostats";
 
 const now = Date.parse("2026-10-01T12:00:00Z");
-function page({ netuid = 9, name = "iota", symbol = "TAO", at = now - 120_000, tao = "300" } = {}) {
+function page({
+  netuid = 9,
+  name = "iota",
+  symbol = "TAO",
+  at = now - 120_000,
+  taoAt = at,
+  tao = "300",
+}: {
+  netuid?: number;
+  name?: string;
+  symbol?: string;
+  at?: number;
+  taoAt?: number;
+  tao?: string;
+} = {}) {
   const node = {
     dtaoSubnet: { netuid, name, price: "0.025", timestamp: new Date(at).toISOString() },
     queries: [
@@ -11,7 +25,12 @@ function page({ netuid = 9, name = "iota", symbol = "TAO", at = now - 120_000, t
         state: {
           data: {
             data: [
-              { symbol, slug: "bittensor", price: tao, last_updated: new Date(at).toISOString() },
+              {
+                symbol,
+                slug: "bittensor",
+                price: tao,
+                last_updated: new Date(taoAt).toISOString(),
+              },
             ],
           },
         },
@@ -39,6 +58,26 @@ describe("verified SN9 USD fallback", () => {
     expect(readTaostatsSn9Page(page({ netuid: 19 }), now)).toBeNull();
     expect(readTaostatsSn9Page(page({ name: "another" }), now)).toBeNull();
     expect(readTaostatsSn9Page(page({ symbol: "IOTA" }), now)).toBeNull();
+  });
+  it("keeps the older TAO quote time even when the page and subnet price just refreshed", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string | URL | Request) =>
+        String(url).includes("taostats.io")
+          ? new Response(page({ at: now - 60_000, taoAt: now - 600_000 }))
+          : new Response("rate limited", { status: 429 }),
+      ),
+    );
+    const { fetchIotaUsdPrice } = await import("./iota-price.server");
+    expect(await fetchIotaUsdPrice()).toMatchObject({
+      usdPerIota: 7.5,
+      fetchedAt: now,
+      quotedAt: now - 600_000,
+      error: null,
+      stale: false,
+    });
   });
   it("rejects old, future, zero and missing quotes", () => {
     expect(readTaostatsSn9Page(page({ at: now - 3_600_001 }), now)).toBeNull();
