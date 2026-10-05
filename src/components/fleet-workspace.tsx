@@ -27,6 +27,8 @@ import {
 import { PLANS } from "@/lib/plans";
 import type { BillingSummary } from "@/lib/plans";
 import { FleetMembership } from "./fleet-membership";
+import { deviceTodayEarnings } from "@/lib/fleet-earnings";
+import { formatUsd } from "@/lib/earnings";
 import { PROJECTS } from "@/lib/projects";
 import { shortId } from "@/lib/ss58";
 import type { ProjectReading } from "./fleet-review-data";
@@ -776,6 +778,9 @@ function FleetCard({
   const [expandedBinding, setExpandedBinding] = useState<string | null>(
     device.bindings[0]?.id ?? null,
   );
+  const daily = deviceTodayEarnings(
+    device.bindings.map((binding) => ({ binding, data: reading(binding) })),
+  );
   return (
     <article className="fleet-device-card">
       <header>
@@ -790,6 +795,29 @@ function FleetCard({
           {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
         </span>
       </header>
+      <section className="fleet-device-earnings" aria-label={c.deviceToday}>
+        <div>
+          <span>{c.deviceToday}</span>
+          <strong>
+            {formatUsd(daily.usd)}
+            <small>{daily.usd !== null ? "USD" : ""}</small>
+          </strong>
+        </div>
+        <div className="fleet-device-earnings-detail">
+          {daily.native.map((value, index) => (
+            <span key={index}>
+              {value.amount} <b>{value.unit}</b>
+            </span>
+          ))}
+          <small>
+            {daily.usd !== null
+              ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}`
+              : daily.known
+                ? c.noEarningsPrice
+                : c.noDeviceEarnings}
+          </small>
+        </div>
+      </section>
       <div className="fleet-project-readings">
         {!device.bindings.length && (
           <div className="fleet-no-projects">

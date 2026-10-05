@@ -5,6 +5,9 @@ export type ProjectReading = {
   activity: string;
   today: string | null;
   todayUsd?: string;
+  todayUsdValue?: number | null;
+  todayUsable?: boolean;
+  earningsPeriod?: "day" | "month";
   lifetime: string | null;
   unit: string;
   scope: "device" | "wallet";
@@ -65,6 +68,7 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
         activity: idle ? "—" : "24.8 tokens/s",
         today: idle ? "0.01825000" : "0.24161239",
         todayUsd: idle ? "0.14" : "1.80",
+        todayUsdValue: idle ? 0.1363275 : 1.80484455,
         lifetime: "12.38251600",
         unit: "IOTA",
         scope: "device",

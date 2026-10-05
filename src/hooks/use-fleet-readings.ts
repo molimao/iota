@@ -105,6 +105,9 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
         unit: "IOTA",
+        todayUsable: view.todayUsable,
+        todayUsdValue:
+          view.todayUsable && !iota.priceStale ? iotaUnitsToUsd(today, iota.usdPerIota) : null,
         ...(today !== null && !iota.priceStale && iota.usdPerIota
           ? { todayUsd: formatUsd(iotaUnitsToUsd(today, iota.usdPerIota)).replace("$", "") }
           : {}),
@@ -173,6 +176,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       today: sameMonth && wallet ? String(wallet.points) : null,
       lifetime: sameMonth && wallet ? String((wallet.share * 100).toFixed(2)) + "%" : null,
       todayLabel: c.monthPoints,
+      earningsPeriod: "month",
       totalLabel: c.monthShare,
       updated: clock(result?.fetchedAt),
       note:

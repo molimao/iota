@@ -1,0 +1,49 @@
+import { bindingIdentity, type FleetBinding } from "./fleet";
+
+type DailyReading = {
+  scope: "device" | "wallet";
+  today: string | null;
+  unit: string;
+  todayUsdValue?: number | null;
+  todayUsable?: boolean;
+  earningsPeriod?: "day" | "month";
+};
+
+/** Never add different tokens, rounded display strings, or shared wallet earnings. */
+export function deviceTodayEarnings(entries: { binding: FleetBinding; data: DailyReading }[]) {
+  const seen = new Set<string>();
+  let usd = 0,
+    priced = 0,
+    known = 0;
+  const native: { amount: string; unit: string }[] = [];
+  for (const { binding, data } of entries) {
+    const key = bindingIdentity(binding);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    if (
+      data.scope !== "device" ||
+      data.earningsPeriod === "month" ||
+      data.todayUsable === false ||
+      data.today === null
+    )
+      continue;
+    known++;
+    native.push({ amount: data.today, unit: data.unit });
+    if (
+      typeof data.todayUsdValue === "number" &&
+      Number.isFinite(data.todayUsdValue) &&
+      data.todayUsdValue >= 0
+    ) {
+      usd += data.todayUsdValue;
+      priced++;
+    }
+  }
+  return {
+    usd: priced > 0 && Number.isFinite(usd) ? usd : null,
+    native,
+    known,
+    priced,
+    total: seen.size,
+    partial: priced < seen.size,
+  };
+}

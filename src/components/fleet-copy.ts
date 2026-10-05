@@ -1,6 +1,35 @@
 import type { SiteLocale } from "@/lib/site";
 
 const labels = {
+  partialTotal: ["部分收益", "Partial earnings", "部分收益", "일부 수익", "一部の収益"],
+  deviceToday: [
+    "今日总收益",
+    "Today's total earnings",
+    "今日總收益",
+    "오늘 총수익",
+    "今日の合計収益",
+  ],
+  earningsCoverage: [
+    "已估值 {known}/{total} 项目",
+    "Priced {known}/{total} projects",
+    "已估值 {known}/{total} 項目",
+    "{total}개 중 {known}개 환산",
+    "{total} 件中 {known} 件を換算",
+  ],
+  noDeviceEarnings: [
+    "暂无可汇总的设备级今日收益",
+    "No device-level daily earnings available",
+    "暫無可彙總的設備級今日收益",
+    "기기별 일일 수익 데이터 없음",
+    "デバイス単位の日次収益は未取得",
+  ],
+  noEarningsPrice: [
+    "美元估值暂不可用",
+    "USD estimate unavailable",
+    "美元估值暫不可用",
+    "USD 환산 불가",
+    "USD 換算は未取得",
+  ],
   retry: ["重试", "Retry", "重試", "다시 시도", "再試行"],
   processing: ["处理中…", "Processing…", "處理中…", "처리 중…", "処理中…"],
   memberActive: ["Pro 已开通", "Pro is active", "Pro 已開通", "Pro 활성화됨", "Pro 有効"],

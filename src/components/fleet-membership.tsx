@@ -71,7 +71,6 @@ export function FleetMembership({
             <Layers size={17} />
             <div>
               <h3>{c.memberCapacity}</h3>
-              <p>{c.memberBenefit}</p>
             </div>
           </div>
           <div className="fleet-member-quotas">
