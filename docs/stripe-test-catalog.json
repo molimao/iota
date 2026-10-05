@@ -1,0 +1,42 @@
+{
+  "verifiedOn": "2026-10-05",
+  "environment": "sandbox",
+  "status": "sandbox_payment_verified",
+  "websiteIntegration": "actual_sandbox_events_verified_in_local_postgres; hosted_delivery_pending",
+  "livePaymentsEnabled": false,
+  "quotaScope": "per_project",
+  "deviceViewLimit": null,
+  "free": {
+    "projectDeviceLimit": 5
+  },
+  "pro": {
+    "name": "IOTA Watch Pro",
+    "projectDeviceLimit": 50,
+    "productId": "prod_VNx8PCG5ecwmQw",
+    "currency": "usd",
+    "monthly": {
+      "unitAmount": 290,
+      "interval": "month",
+      "intervalCount": 1,
+      "priceId": "price_1UNBE8PFxV04SFHtWYPE6Ozm"
+    },
+    "annual": {
+      "unitAmount": 1690,
+      "interval": "year",
+      "intervalCount": 1,
+      "priceId": "price_1UNBFPPFxV04SFHtkX0fAi20",
+      "lookupKey": "iota_watch_pro_annual"
+    }
+  },
+  "productionRelease": "awaiting_current_user_approval",
+  "validation": {
+    "localPostgres": "passed",
+    "signedWebhookSimulation": "passed",
+    "stripeSandboxCheckout": "paid_annual_usd_16_90_verified",
+    "stripeSandboxCancellation": "active_until_period_end_verified",
+    "actualStripeEventLocalReplay": "passed_quota_5_to_50_and_cancellation",
+    "stripeSandboxEndToEnd": "stripe_checkout_passed; signed_event_replay_passed; hosted_authenticated_flow_not_run",
+    "liveAccountActivation": "not_activated_in_dashboard",
+    "hostedWebhookDelivery": "not_run"
+  }
+}

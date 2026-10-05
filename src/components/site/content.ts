@@ -88,7 +88,7 @@ const legacyContent = withLocales({
       ],
       [
         "Keep the list",
-        "Sign in with Google to bind up to 10 devices to the account, or export a JSON backup.",
+        "Sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro to the account, or export a JSON backup.",
       ],
     ],
     bottomTitle: "Add more devices as needed.",
@@ -135,7 +135,7 @@ const legacyContent = withLocales({
       ],
       [
         "Do I need an account?",
-        "No. Without signing in you can keep up to 3 devices in this browser. Sign in with Google to bind up to 10 devices to the account and open the same list on another device.",
+        "No. Without signing in you can keep up to 5 devices per project on Free in this browser. Sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro to the account and open the same list on another device.",
       ],
       [
         "Can I use the same list on a phone?",
@@ -158,12 +158,16 @@ const legacyContent = withLocales({
     privacyIntro: "No wallet connection, private key, or seed phrase is required.",
     privacy: [
       [
+        "Device grouping and subscriptions",
+        "Device names, optional hardware labels, public project identifiers and worker names are saved locally or to the signed-in account. Stripe handles subscription payments; card details are not stored by this site. The server keeps Stripe customer and subscription IDs, payment status, and the paid period to verify Pro access. Device grouping does not change project quotas or merge devices automatically."
+      ],
+      [
         "What is stored locally",
-        "Without signing in, this browser keeps public Miner IDs and names, up to 3 devices. A small cache of recently fetched numbers is kept for up to 24 hours.",
+        "Without signing in, this browser keeps public Miner IDs and names, up to 5 devices per project on Free. A small cache of recently fetched numbers is kept for up to 24 hours.",
       ],
       [
         "What is sent to the server",
-        "To look up devices, the browser sends public Miner IDs to this site’s read-only service. The service requests public telemetry and reward records from iota-web.api.macrocosmos.ai. Local list storage does not mean IDs never leave the browser.",
+        "To look up devices, the browser sends public Miner IDs to this site’s read-only service. The service requests public telemetry and reward records from iota-web.api.macrocosmos.ai. Quantus lookups send public reward addresses to sqm.quantus.com; XID and fly.ai use public explorer and monthly records. Local list storage does not mean IDs never leave the browser.",
       ],
       [
         "Hosting and technical logs",
@@ -171,14 +175,14 @@ const legacyContent = withLocales({
       ],
       [
         "Accounts and removing the list",
-        "Google sign-in is optional. After sign-in, the list is stored on the account (up to 10 devices) so it can be opened elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices on the dashboard, or clear this site’s browser storage to erase the local copy.",
+        "Google sign-in is optional. After sign-in, the list is stored on the account (up to 5 devices per project on Free, or 50 per project on Pro) so it can be opened elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices on the dashboard, or clear this site’s browser storage to erase the local copy.",
       ],
       [
         "Independent, read-only access",
         "The monitor cannot access Mac log files, change training settings, move tokens or sign transactions. Public addresses can be linked to activity and rewards; share them with that visibility in mind.",
       ],
     ],
-    updated: "Updated September 12, 2026",
+    updated: "Updated October 5, 2026",
   },
   zh: {
     nav: ["使用指南", "常见问题", "使用说明", "隐私说明", "我的设备", "全网"],
@@ -242,7 +246,7 @@ const legacyContent = withLocales({
     steps: [
       ["复制 Miner ID", "在设备上打开 IOTA Train at Home 应用，于 Miner 页面复制完整 Miner ID。"],
       ["添加设备", "在监控页填写 ID 与设备名称。其余设备按同样方式添加。"],
-      ["同步清单", "使用 Google 登录后最多绑定 10 台，可在其他设备查看；也可导出 JSON 备份。"],
+      ["同步清单", "使用 Google 登录后每个项目免费 5 台、Pro 50 台，可在其他设备查看；也可导出 JSON 备份。"],
     ],
     bottomTitle: "可继续添加设备。",
     bottom: "先添加一台设备，再按需补充。",
@@ -287,7 +291,7 @@ const legacyContent = withLocales({
       ],
       [
         "需要注册账号吗？",
-        "不必须。未登录时当前浏览器最多保存 3 台。使用 Google 登录后，清单绑定账号，最多 10 台，可在其他设备查看。",
+        "不必须。未登录时当前浏览器每个项目免费最多 5 台。使用 Google 登录后，清单绑定账号，每个项目免费 5 台、Pro 50 台，可在其他设备查看。",
       ],
       [
         "手机和电脑可以看同一个清单吗？",
@@ -310,12 +314,16 @@ const legacyContent = withLocales({
     privacyIntro: "无需连接钱包，不需要私钥或助记词。",
     privacy: [
       [
+        "设备聚合与订阅",
+        "设备名称、选填的型号、项目公开标识和 Worker 名称会保存在本地或登录账号。订阅付款由 Stripe 处理，本站不保存银行卡信息。服务端保存 Stripe 客户与订阅标识、付款状态和已付费周期，用于核验 Pro 权益。设备聚合不改变各项目名额，也不会自动合并设备。"
+      ],
+      [
         "本地存储内容",
-        "未登录时，当前浏览器会保存已添加的公开 Miner ID 和名称，最多 3 台。最近查询的数字会暂存最多 24 小时。",
+        "未登录时，当前浏览器会保存已添加的公开 Miner ID 和名称，每个项目免费最多 5 台。最近查询的数字会暂存最多 24 小时。",
       ],
       [
         "发送到服务端的数据",
-        "查询时，浏览器会把公开 Miner ID 发给本站只读服务，再向 iota-web.api.macrocosmos.ai 请求公开状态和收益数据。本地保存清单并不表示 ID 从不离开浏览器。",
+        "查询时，浏览器会把公开 Miner ID 发给本站只读服务，再向 iota-web.api.macrocosmos.ai 请求公开状态和收益数据；Quantus 公开地址查询会发送到 sqm.quantus.com，XID 和 fly.ai 使用公开浏览器及月度记录。本地保存清单并不表示 ID 从不离开浏览器。",
       ],
       [
         "托管与技术日志",
@@ -323,14 +331,14 @@ const legacyContent = withLocales({
       ],
       [
         "账号、导出与删除",
-        "Google 登录为可选项。登录后清单保存在账号中（最多 10 台），可在其他设备打开。导出会生成包含公开 ID 和设备名称的 JSON。在监控页移除设备，或清理本站浏览器存储，可删除本地副本。",
+        "Google 登录为可选项。登录后清单保存在账号中（每个项目免费 5 台、Pro 50 台），可在其他设备打开。导出会生成包含公开 ID 和设备名称的 JSON。在监控页移除设备，或清理本站浏览器存储，可删除本地副本。",
       ],
       [
         "独立、只读",
         "本站不能读取 Mac 日志、更改训练设置、转移代币或签名交易。公开地址可能关联设备活动与收益，分享时请注意可见范围。",
       ],
     ],
-    updated: "更新于 2026 年 9 月 12 日",
+    updated: "更新于 2026 年 10 月 5 日",
   },
 } as const);
 

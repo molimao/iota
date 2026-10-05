@@ -15,11 +15,13 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleAccountRouteImport } from './routes/$locale.account'
 import { Route as LocaleAppRouteImport } from './routes/$locale.app'
+import { Route as LocaleDevicesRouteImport } from './routes/$locale.devices'
 import { Route as LocaleDownloadsRouteImport } from './routes/$locale.downloads'
 import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
 import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
+import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
 import { Route as LocaleProjectsChar123ProjectChar125RouteImport } from './routes/$locale.projects.{-$project}'
@@ -54,6 +56,11 @@ const LocaleAppRoute = LocaleAppRouteImport.update({
   path: '/app',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleDevicesRoute = LocaleDevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleDownloadsRoute = LocaleDownloadsRouteImport.update({
   id: '/downloads',
   path: '/downloads',
@@ -77,6 +84,11 @@ const LocaleNetworkRoute = LocaleNetworkRouteImport.update({
 const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleReviewRoute = LocaleReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleBlogChar123SlugChar125Route =
@@ -104,11 +116,13 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
+  '/$locale/devices': typeof LocaleDevicesRoute
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/review': typeof LocaleReviewRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -119,11 +133,13 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
+  '/$locale/devices': typeof LocaleDevicesRoute
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/review': typeof LocaleReviewRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -136,11 +152,13 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/$locale/account': typeof LocaleAccountRoute
   '/$locale/app': typeof LocaleAppRoute
+  '/$locale/devices': typeof LocaleDevicesRoute
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/review': typeof LocaleReviewRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -154,11 +172,13 @@ export interface FileRouteTypes {
     | '/app'
     | '/$locale/account'
     | '/$locale/app'
+    | '/$locale/devices'
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
     | '/$locale/network'
     | '/$locale/privacy'
+    | '/$locale/review'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -169,11 +189,13 @@ export interface FileRouteTypes {
     | '/app'
     | '/$locale/account'
     | '/$locale/app'
+    | '/$locale/devices'
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
     | '/$locale/network'
     | '/$locale/privacy'
+    | '/$locale/review'
     | '/$locale'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -185,11 +207,13 @@ export interface FileRouteTypes {
     | '/app'
     | '/$locale/account'
     | '/$locale/app'
+    | '/$locale/devices'
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
     | '/$locale/network'
     | '/$locale/privacy'
+    | '/$locale/review'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -246,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAppRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/devices': {
+      id: '/$locale/devices'
+      path: '/devices'
+      fullPath: '/$locale/devices'
+      preLoaderRoute: typeof LocaleDevicesRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/downloads': {
       id: '/$locale/downloads'
       path: '/downloads'
@@ -281,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePrivacyRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/review': {
+      id: '/$locale/review'
+      path: '/review'
+      fullPath: '/$locale/review'
+      preLoaderRoute: typeof LocaleReviewRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/blog/{-$slug}': {
       id: '/$locale/blog/{-$slug}'
       path: '/blog/{-$slug}'
@@ -308,11 +346,13 @@ declare module '@tanstack/react-router' {
 interface LocaleRouteChildren {
   LocaleAccountRoute: typeof LocaleAccountRoute
   LocaleAppRoute: typeof LocaleAppRoute
+  LocaleDevicesRoute: typeof LocaleDevicesRoute
   LocaleDownloadsRoute: typeof LocaleDownloadsRoute
   LocaleFaqRoute: typeof LocaleFaqRoute
   LocaleGuideRoute: typeof LocaleGuideRoute
   LocaleNetworkRoute: typeof LocaleNetworkRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
+  LocaleReviewRoute: typeof LocaleReviewRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
@@ -322,11 +362,13 @@ interface LocaleRouteChildren {
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleAccountRoute: LocaleAccountRoute,
   LocaleAppRoute: LocaleAppRoute,
+  LocaleDevicesRoute: LocaleDevicesRoute,
   LocaleDownloadsRoute: LocaleDownloadsRoute,
   LocaleFaqRoute: LocaleFaqRoute,
   LocaleGuideRoute: LocaleGuideRoute,
   LocaleNetworkRoute: LocaleNetworkRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
+  LocaleReviewRoute: LocaleReviewRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,

@@ -45,7 +45,7 @@ export const projectGuides: Article[] = [
         "## 启动后，先看本机再看远端",
         "在 MMM 确认挖矿引擎、当前 Worker 名称和份额活动，再用浏览器查地址。给不同机器不同的 Worker 名称有助于辨认，但一个 Worker 名称不等于一台确定的物理设备。矿池记录出现时间也可能晚于本机变化。",
         "## 添加到网页监控",
-        "打开 [XID / MMM 监控](/projects/xid)，保存公开地址和名称。每个项目最多保存 10 个地址，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。",
+        "打开 [XID / MMM 监控](/projects/xid)，保存公开地址和名称。每个项目每个项目免费 5 台、Pro 50 台，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。",
         "网页缺少 Worker 时，先核对所选矿池是否在来源名单的覆盖范围，再看最近获取时间。继续阅读 [算力与份额](/learn/xid-worker-hashrate-shares) 或 [余额与奖励成熟](/learn/xid-rewards-balance-maturity)。",
       ],
       "zh-TW": [
@@ -56,7 +56,7 @@ export const projectGuides: Article[] = [
         "## 啟動後，先看本機再看遠端",
         "在 MMM 確認挖礦引擎、目前 Worker 名稱和份額活動，再用瀏覽器查地址。為不同機器設定不同 Worker 名稱有助於辨認，但名稱不等於一台確定的實體設備。礦池紀錄可能晚於本機變化。",
         "## 新增至網頁監控",
-        "開啟 [XID / MMM 監控](/projects/xid)，儲存公開地址與名稱。每個專案最多儲存 10 個地址，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。",
+        "開啟 [XID / MMM 監控](/projects/xid)，儲存公開地址與名稱。每個專案每個項目免費 5 台、Pro 50 台，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。",
         "網頁缺少 Worker 時，先核對所選礦池是否在來源名單涵蓋範圍，再看最近取得時間。繼續閱讀 [算力與份額](/learn/xid-worker-hashrate-shares) 或 [餘額與獎勵成熟](/learn/xid-rewards-balance-maturity)。",
       ],
       en: [
@@ -67,7 +67,7 @@ export const projectGuides: Article[] = [
         "## Check local activity before remote records",
         "Check MMM’s engine, current worker name and share activity before looking up the address remotely. Distinct names make machines easier to recognize, but a worker name does not establish a physical device count. Pool records can lag behind local changes.",
         "## Add the address to the web monitor",
-        "Open the [XID / MMM monitor](/projects/xid) and save the public address and a name. Each project supports up to 10 browser-local addresses and an export backup. Google sign-in does not synchronize this new-project list.",
+        "Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.",
         "If workers are missing, check whether the chosen pool is covered by the source list, then inspect the fetch time. Continue with [hashrate and shares](/learn/xid-worker-hashrate-shares) or [balance and reward maturity](/learn/xid-rewards-balance-maturity).",
       ],
       ko: [
@@ -78,7 +78,7 @@ export const projectGuides: Article[] = [
         "## 로컬 상태를 먼저 확인하기",
         "주소를 원격으로 조회하기 전에 MMM의 엔진, 워커 이름과 셰어 활동을 확인하세요. 기기마다 이름을 다르게 정하면 구별하기 쉽지만 워커 이름만으로 실제 기기 수를 확정할 수는 없습니다. 풀 기록은 로컬 변화보다 늦을 수 있습니다.",
         "## 웹 모니터에 주소 추가하기",
-        "[XID / MMM 모니터](/projects/xid)에 공개 주소와 이름을 저장하세요. 프로젝트별로 최대 10개 주소를 현재 브라우저에 저장하고 내보낼 수 있습니다. 이 목록은 Google 로그인으로 동기화되지 않습니다.",
+        "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
         "워커가 보이지 않으면 선택한 풀이 원본 목록에 포함되는지와 조회 시각을 확인하세요. [해시레이트와 셰어](/learn/xid-worker-hashrate-shares), [잔액과 보상 성숙](/learn/xid-rewards-balance-maturity)도 참고하세요.",
       ],
       ja: [
@@ -89,7 +89,7 @@ export const projectGuides: Article[] = [
         "## ローカルの状態から確認する",
         "遠隔のアドレス照会より先に、MMMのエンジン、ワーカー名、シェア活動を確認します。機器ごとに名前を分けると識別しやすくなりますが、名前だけでは実機台数を確定できません。プールの記録はローカルの変化より遅れる場合があります。",
         "## Webモニターに追加する",
-        "[XID / MMMモニター](/projects/xid)に公開アドレスと名前を保存します。各プロジェクトで最大10件をこのブラウザーに保存でき、バックアップを書き出せます。この一覧はGoogleログインでは同期されません。",
+        "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
         "ワーカーが見つからない場合は対象プールが元データに含まれるかと取得時刻を確認します。[ハッシュレートとシェア](/learn/xid-worker-hashrate-shares)、[残高と報酬の成熟](/learn/xid-rewards-balance-maturity)も参照してください。",
       ],
     },
@@ -719,7 +719,7 @@ export const projectGuides: Article[] = [
         "## 索引奖励不是钱包余额",
         "奖励记录回答地址获得了哪些挖矿奖励，不计算所有转入转出。一个地址可以接收多台设备的奖励，也可能没有近期奖励；不能据此推算设备数量、型号或在线状态。",
         "## 保存与交叉核对",
-        "在 [Quantus 监控](/projects/quantus) 保存地址与名称，可展开最近奖励并跳转官方浏览器。清单保存在当前浏览器，最多 10 个，可导出。无记录时按 [无奖励排查](/learn/quantus-mining-no-rewards) 核对地址、同步和索引时间。",
+        "在 [Quantus 监控](/projects/quantus) 保存地址与名称，可展开最近奖励并跳转官方浏览器。每个项目免费 5 台、Pro 50 台；登录可跨设备同步，未登录时保存在当前浏览器，可导出。无记录时按 [无奖励排查](/learn/quantus-mining-no-rewards) 核对地址、同步和索引时间。",
       ],
       "zh-TW": [
         "## 找到實際收益地址",
@@ -729,7 +729,7 @@ export const projectGuides: Article[] = [
         "## 索引獎勵不是錢包餘額",
         "獎勵紀錄回答地址獲得哪些挖礦獎勵，不計算所有轉入轉出。一個地址可接收多台設備的獎勵，也可能沒有近期獎勵；不能據此推算設備數量、型號或上線狀態。",
         "## 儲存與交叉核對",
-        "在 [Quantus 監控](/projects/quantus) 儲存地址與名稱，可展開最近獎勵並前往官方瀏覽器。清單儲存在目前瀏覽器，最多 10 個，可匯出。無紀錄時依 [無獎勵排查](/learn/quantus-mining-no-rewards) 核對地址、同步與索引時間。",
+        "在 [Quantus 監控](/projects/quantus) 儲存地址與名稱，可展開最近獎勵並前往官方瀏覽器。每個項目免費 5 台、Pro 50 台；登入可跨設備同步，未登入時儲存在目前瀏覽器，可匯出。無紀錄時依 [無獎勵排查](/learn/quantus-mining-no-rewards) 核對地址、同步與索引時間。",
       ],
       en: [
         "## Find the address actually used for rewards",
@@ -739,7 +739,7 @@ export const projectGuides: Article[] = [
         "## Indexed rewards are not wallet balance",
         "Reward records describe mining rewards attributed to the address, not all incoming and outgoing transfers. An address can receive several devices’ rewards or have no recent reward. Do not infer device count, model or online status from it.",
         "## Save and cross-check",
-        "Save an address and name in the [Quantus monitor](/projects/quantus), expand recent rewards and follow the explorer link. Up to 10 addresses stay in this browser and can be exported. For absent records, use [missing reward checks](/learn/quantus-mining-no-rewards) to inspect address, sync and index time.",
+        "Save an address and name in the [Quantus monitor](/projects/quantus), expand recent rewards and follow the explorer link. Free supports 5 devices per project and Pro supports 50. Sign in to sync across devices; unsigned lists stay in this browser and can be exported. For absent records, use [missing reward checks](/learn/quantus-mining-no-rewards) to inspect address, sync and index time.",
       ],
       ko: [
         "## 실제 보상 주소 찾기",
@@ -749,7 +749,7 @@ export const projectGuides: Article[] = [
         "## 인덱싱된 보상과 지갑 잔액은 다름",
         "보상 기록은 주소에 귀속된 채굴 보상을 보여주며 모든 입출금을 계산하지 않습니다. 하나의 주소가 여러 기기의 보상을 받을 수 있고 최근 보상이 없을 수도 있습니다. 이 기록으로 기기 수, 모델, 온라인 상태를 추정하지 마세요.",
         "## 저장하고 교차 확인하기",
-        "[Quantus 모니터](/projects/quantus)에 주소와 이름을 저장하고 최근 보상과 탐색기 링크를 확인하세요. 최대 10개 주소가 현재 브라우저에 저장되며 내보낼 수 있습니다. 기록이 없으면 [보상 누락 점검](/learn/quantus-mining-no-rewards)으로 주소, 동기화, 인덱스 시각을 확인하세요.",
+        "[Quantus 모니터](/projects/quantus)에 주소와 이름을 저장하고 최근 보상 및 공식 탐색기를 확인하세요. 무료는 프로젝트별 5대, Pro는 50대입니다. 로그인하면 목록을 동기화하며, 로그인하지 않으면 브라우저에 저장합니다. 기록이 없으면 [보상 누락 점검](/learn/quantus-mining-no-rewards)에서 주소, 동기화와 인덱싱 시각을 확인하세요.",
       ],
       ja: [
         "## 実際の報酬アドレスを確認する",
@@ -759,7 +759,7 @@ export const projectGuides: Article[] = [
         "## 索引報酬とウォレット残高は別",
         "報酬記録はアドレスに帰属する採掘報酬を示し、全入出金を計算しません。1つのアドレスが複数機器の報酬を受け取る場合も、最近の報酬がない場合もあります。台数、機種、オンライン状態は推測できません。",
         "## 保存して照合する",
-        "[Quantusモニター](/projects/quantus)に名前とアドレスを保存し、最近の報酬や公式エクスプローラーを確認します。最大10件をこのブラウザーに保存し、書き出せます。記録がない場合は[報酬なしの確認](/learn/quantus-mining-no-rewards)でアドレス、同期、索引時刻を調べます。",
+        "[Quantusモニター](/projects/quantus)にアドレスと名前を保存し、最近の報酬と公式エクスプローラーを確認します。無料版は各プロジェクト5台、Proは50台です。ログインで一覧を同期し、未ログインではブラウザーに保存します。記録がない場合は[報酬なしの確認](/learn/quantus-mining-no-rewards)でアドレス、同期とインデックス時刻を確認してください。",
       ],
     },
     questions: {

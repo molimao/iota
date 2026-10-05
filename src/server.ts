@@ -161,7 +161,7 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
     path === "/app" ||
     path === "/app/" ||
     /^\/(zh-TW|en|zh|ko|ja)\/app\/?$/.test(path) ||
-    /^\/(zh-TW|en|zh|ko|ja)\/account\/?$/.test(path)
+    /^\/(zh-TW|en|zh|ko|ja)\/(account|devices|review)\/?$/.test(path)
   ) {
     headers.set("X-Robots-Tag", "noindex, follow");
     changed = true;
@@ -179,6 +179,10 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (new URL(request.url).pathname === "/api/stripe/webhook") {
+        const { stripeWebhook } = await import("./lib/billing.server");
+        return stripeWebhook(request);
+      }
       const www = wwwRedirect(request);
       if (www) return www;
       const asset = crawlAssetResponse(request);

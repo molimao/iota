@@ -2,7 +2,7 @@
 
 > Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor subnet 9). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional: 3 devices in the current browser without an account, or 10 devices bound to a Google account. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.90/month or US$16.90/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
 
@@ -25,7 +25,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Saved reward-address lists for these two projects are browser-local, capped at 10 per project, and are not synchronized to Google accounts.
+IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
@@ -278,7 +278,7 @@ IOTA 页面查看 Train at Home 的设备状态和记账收益；XID 页面查�
 
 #### IOTA · 需要注册账号吗？
 
-不必须。未登录时当前浏览器最多保存 3 台。使用 Google 登录后，清单绑定账号，最多 10 台，可在其他设备查看。
+不必须。未登录时当前浏览器每个项目免费最多 5 台。使用 Google 登录后，清单绑定账号，每个项目免费 5 台、Pro 50 台，可在其他设备查看。
 
 #### IOTA · 手机和电脑可以看同一个清单吗？
 
@@ -348,7 +348,7 @@ IOTA 頁面查看 Train at Home 的設備狀態與記帳收益；XID 頁面查�
 
 #### IOTA · 需要註冊帳號嗎？
 
-不必須。未登入時目前瀏覽器最多儲存 3 台。使用 Google 登入後，清單綁定帳號，最多 10 台，可在其他裝置查看。
+免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。
 
 #### IOTA · 手機和電腦可以看同一個清單嗎？
 
@@ -418,7 +418,7 @@ No. It may be waiting or not participating in the sampled run. A website refresh
 
 #### IOTA · Do I need an account?
 
-No. Without signing in you can keep up to 3 devices in this browser. Sign in with Google to bind up to 10 devices to the account and open the same list on another device.
+No. Without signing in you can keep up to 5 devices per project on Free in this browser. Sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro to the account and open the same list on another device.
 
 #### IOTA · Can I use the same list on a phone?
 
@@ -488,7 +488,7 @@ Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이�
 
 #### IOTA · 계정이 필요합니까?
 
-아니요. 로그인하지 않고도 이 브라우저에 최대 3개의 장치를 유지할 수 있습니다.Google으로 로그인하면 최대 10개의 장치를 계정에 바인딩하고 다른 장치에서 동일한 목록을 열 수 있습니다.
+무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
 #### IOTA · 전화기에서 동일한 목록을 사용할 수 있나요?
 
@@ -558,7 +558,7 @@ IOTAページではTrain at Homeのデバイス状態と記帳報酬、XIDペー
 
 #### IOTA · アカウントは必要ですか?
 
-いいえ。サインインせずに、このブラウザーで最大 3 台のデバイスを保持できます。Googleでサインインすると、最大 10 台のデバイスをアカウントにバインドし、別のデバイスで同じリストを開きます。
+無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
 #### IOTA · 同じリストを電話でも使用できますか?
 
@@ -600,7 +600,7 @@ IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独�
 
 - 将多台设备放在同一份清单中，使用自定义名称区分
 
-- 未登录可在浏览器保存最多 3 台，Google 登录后最多绑定 10 台
+- 未登录可在浏览器保存每个项目免费最多 5 台，Google 登录后每个项目免费 5 台、Pro 50 台
 
 ## 功能限制
 
@@ -632,7 +632,7 @@ IOTA Watch 是針對 [IOTA Train at Home](https://iota.macrocosmos.ai/)的獨立
 
 - 將多台設備放在同一份清單中，使用自訂名稱區分
 
-- 未登入可在瀏覽器中儲存最多 3 台，Google 登入後最多綁定 10 台
+- 免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。
 
 ## 功能限制
 
@@ -664,7 +664,7 @@ It is **not** the IOTA Foundation Layer 1 network, not an IOTA coin wallet, and 
 
 - Show several devices in one list, with custom names
 
-- Keep up to 3 devices in this browser, or sign in with Google to bind up to 10
+- Keep up to 5 devices per project on Free in this browser, or sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro
 
 ## What it cannot do
 
@@ -696,7 +696,7 @@ IOTA Foundation의 Layer 1 네트워크, IOTA 코인 지갑, Firefly와는 **다
 
 - 여러 장치를 하나의 목록에 사용자 정의 이름으로 표시
 
-- 이 브라우저에는 최대 3개의 장치를 보관하거나,Google으로 로그인하여 최대 10개까지 바인딩할 수 있습니다.
+- 무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
 ## 할 수 없는 일
 
@@ -728,7 +728,7 @@ IOTA FoundationのLayer 1ネットワーク、IOTAコインのウォレット、
 
 - 複数のデバイスをカスタム名で 1 つのリストに表示します
 
-- このブラウザで最大 3 台のデバイスを保持するか、Googleでサインインして最大 10 台までバインドします
+- 無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
 ## できないこと
 
@@ -783,7 +783,7 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开
 
 - 每台设备分别添加一次
 
-未登录时清单保存在当前浏览器（最多 3 台）。[使用 Google 登录](https://iotahome.site/zh/learn/google-account-device-list) 后最多绑定 10 台，可在其他设备查看。仍可导出 JSON 备份。
+未登录时清单保存在当前浏览器（每个项目免费最多 5 台）。[使用 Google 登录](https://iotahome.site/zh/learn/google-account-device-list) 后每个项目免费 5 台、Pro 50 台，可在其他设备查看。仍可导出 JSON 备份。
 
 > ID 不完整将无法匹配。若显示「尚未找到」，请核对是否复制了完整公开地址。
 
@@ -813,7 +813,7 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的
 
 - 每台設備分別添加一次
 
-未登入時清單儲存在目前瀏覽器（最多 3 台）。 [使用 Google 登入](https://iotahome.site/zh-TW/learn/google-account-device-list)後最多綁定 10 台，可在其他裝置查看。仍可匯出 JSON 備份。
+免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。 [帳號與設備清單說明](https://iotahome.site/zh-TW/learn/google-account-device-list)
 
 > ID 不完整將無法比對。若顯示「尚未找到」，請核對是否複製了完整公開地址。
 
@@ -843,7 +843,7 @@ The official guide is here: [TAH user guide](https://docs.macrocosmos.ai/product
 
 - Repeat for each machine
 
-Without signing in, the list stays in this browser (up to 3 devices). [Sign in with Google](https://iotahome.site/en/learn/google-account-device-list) to bind up to 10 and open the same list elsewhere. A JSON backup can still be exported.
+Without signing in, the list stays in this browser (up to 5 devices per project on Free). [Sign in with Google](https://iotahome.site/en/learn/google-account-device-list) to bind up to 5 devices per project on Free, or 50 per project on Pro and open the same list elsewhere. A JSON backup can still be exported.
 
 > An incomplete ID will not match. If a device is “not found”, confirm that the full public address was copied.
 
@@ -873,7 +873,7 @@ IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개
 
 - 각 기계에 대해 반복
 
-로그인하지 않으면 목록이 이 브라우저에 유지됩니다(최대 3개 장치). [Google으로 로그인](https://iotahome.site/ko/learn/google-account-device-list)하여 최대 10개까지 바인딩하고 다른 곳에서도 동일한 목록을 열 수 있습니다. JSON 백업은 계속 내보낼 수 있습니다.
+무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다. [계정 및 기기 목록 안내](https://iotahome.site/ko/learn/google-account-device-list)
 
 > 불완전한 ID는 일치하지 않습니다. 장치를 찾을 수 없는 경우 전체 공개 주소가 복사되었는지 확인하세요.
 
@@ -903,7 +903,7 @@ IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示�
 
 - マシンごとに繰り返します
 
-サインインしないと、リストはこのブラウザーに残ります (最大 3 台のデバイス)。 [Google](https://iotahome.site/ja/learn/google-account-device-list) でサインインすると、最大 10 個までバインドし、同じリストを他の場所で開きます。 JSON バックアップは引き続きエクスポートできます。
+無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。 [アカウントとデバイス一覧のガイド](https://iotahome.site/ja/learn/google-account-device-list)
 
 > 不完全な ID は一致しません。デバイスが「見つからない」場合は、完全なパブリック アドレスがコピーされていることを確認してください。
 
@@ -1745,7 +1745,7 @@ IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这�
 
 ## 未登录时
 
-- 当前浏览器最多保存 **3** 台
+- 当前浏览器每个项目免费最多 5 台
 
 - 清单位于该设备的本地存储
 
@@ -1753,7 +1753,7 @@ IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这�
 
 ## Google 登录后
 
-- 同一账号最多绑定 **10** 台
+- 同一账号每个项目免费 5 台、Pro 50 台
 
 - 打开 [账号页](https://iotahome.site/zh/account) 可查看 Google 提供的姓名、邮箱和头像
 
@@ -1775,7 +1775,7 @@ IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這�
 
 ## 未登入時
 
-- 目前瀏覽器最多儲存**3**台
+- 免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。
 
 - 清單位於該裝置的本機存儲
 
@@ -1783,7 +1783,7 @@ IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這�
 
 ## Google 登入後
 
-- 同一帳號最多綁定**10**台
+- 免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。
 
 - 開啟 [帳號頁](https://iotahome.site/zh-TW/account)可查看 Google 提供的姓名、信箱和頭像
 
@@ -1805,7 +1805,7 @@ Google sign-in on IOTA Watch only binds a **list of public Miner IDs and labels*
 
 ## Without signing in
 
-- This browser can keep up to **3** devices
+- This browser can keep up to 5 devices per project on Free
 
 - The list lives in local storage on this machine
 
@@ -1813,7 +1813,7 @@ Google sign-in on IOTA Watch only binds a **list of public Miner IDs and labels*
 
 ## After Google sign-in
 
-- The same account can keep up to **10** devices
+- The same account can keep up to 5 devices per project on Free, or 50 per project on Pro
 
 - Open [Account](https://iotahome.site/en/account) to see the name, email, and avatar Google provided
 
@@ -1835,7 +1835,7 @@ GoogleIOTA Watch에 로그인하면 **공개Miner ID및 레이블 목록**만 �
 
 ## 로그인하지 않고
 
-- 이 브라우저는 최대 **3** 장치를 유지할 수 있습니다.
+- 무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
 - 목록은 이 컴퓨터의 로컬 저장소에 있습니다.
 
@@ -1843,7 +1843,7 @@ GoogleIOTA Watch에 로그인하면 **공개Miner ID및 레이블 목록**만 �
 
 ## Google로그인 후
 
-- 동일한 계정으로 최대 **10**개의 기기를 보관할 수 있습니다.
+- 무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
 - [계정](https://iotahome.site/ko/account)을 열어서 제공되는 이름, 이메일, 아바타Google을 확인하세요.
 
@@ -1865,7 +1865,7 @@ IOTA WatchでのGoogleサインインは、**パブリックMiner IDとラベル
 
 ## サインインしない場合
 
-- このブラウザは最大 **3** デバイスを保持できます
+- 無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
 - リストはこのマシンのローカル ストレージにあります
 
@@ -1873,7 +1873,7 @@ IOTA WatchでのGoogleサインインは、**パブリックMiner IDとラベル
 
 ## Googleサインイン後
 
-- 同じアカウントで最大 **10** 台のデバイスを保持できます
+- 無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
 - [アカウント](https://iotahome.site/ja/account) を開くと、指定された名前、メールアドレス、アバターGoogleが表示されます。
 
@@ -2651,7 +2651,7 @@ XID 主网收益地址以 xpa1r 开头；退役测试网的 txa1r 地址不能�
 
 ## 添加到网页监控
 
-打开 [XID / MMM 监控](https://iotahome.site/zh/projects/xid)，保存公开地址和名称。每个项目最多保存 10 个地址，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。
+打开 [XID / MMM 监控](https://iotahome.site/zh/projects/xid)，保存公开地址和名称。每个项目每个项目免费 5 台、Pro 50 台，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。
 
 网页缺少 Worker 时，先核对所选矿池是否在来源名单的覆盖范围，再看最近获取时间。继续阅读 [算力与份额](https://iotahome.site/zh/learn/xid-worker-hashrate-shares) 或 [余额与奖励成熟](https://iotahome.site/zh/learn/xid-rewards-balance-maturity)。
 
@@ -2685,7 +2685,7 @@ XID 主網收益地址以 xpa1r 開頭；退役測試網的 txa1r 地址不能�
 
 ## 新增至網頁監控
 
-開啟 [XID / MMM 監控](https://iotahome.site/zh-TW/projects/xid)，儲存公開地址與名稱。每個專案最多儲存 10 個地址，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。
+開啟 [XID / MMM 監控](https://iotahome.site/zh-TW/projects/xid)，儲存公開地址與名稱。每個專案每個項目免費 5 台、Pro 50 台，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。
 
 網頁缺少 Worker 時，先核對所選礦池是否在來源名單涵蓋範圍，再看最近取得時間。繼續閱讀 [算力與份額](https://iotahome.site/zh-TW/learn/xid-worker-hashrate-shares) 或 [餘額與獎勵成熟](https://iotahome.site/zh-TW/learn/xid-rewards-balance-maturity)。
 
@@ -2719,7 +2719,7 @@ Check MMM’s engine, current worker name and share activity before looking up t
 
 ## Add the address to the web monitor
 
-Open the [XID / MMM monitor](https://iotahome.site/en/projects/xid) and save the public address and a name. Each project supports up to 10 browser-local addresses and an export backup. Google sign-in does not synchronize this new-project list.
+Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.
 
 If workers are missing, check whether the chosen pool is covered by the source list, then inspect the fetch time. Continue with [hashrate and shares](https://iotahome.site/en/learn/xid-worker-hashrate-shares) or [balance and reward maturity](https://iotahome.site/en/learn/xid-rewards-balance-maturity).
 
@@ -2753,7 +2753,7 @@ XID 메인넷 보상 주소는 xpa1r로 시작하고 txa1r는 종료된 테스�
 
 ## 웹 모니터에 주소 추가하기
 
-[XID / MMM 모니터](https://iotahome.site/ko/projects/xid)에 공개 주소와 이름을 저장하세요. 프로젝트별로 최대 10개 주소를 현재 브라우저에 저장하고 내보낼 수 있습니다. 이 목록은 Google 로그인으로 동기화되지 않습니다.
+무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
 워커가 보이지 않으면 선택한 풀이 원본 목록에 포함되는지와 조회 시각을 확인하세요. [해시레이트와 셰어](https://iotahome.site/ko/learn/xid-worker-hashrate-shares), [잔액과 보상 성숙](https://iotahome.site/ko/learn/xid-rewards-balance-maturity)도 참고하세요.
 
@@ -2787,7 +2787,7 @@ XIDメインネットの報酬アドレスはxpa1r、終了したテストネッ
 
 ## Webモニターに追加する
 
-[XID / MMMモニター](https://iotahome.site/ja/projects/xid)に公開アドレスと名前を保存します。各プロジェクトで最大10件をこのブラウザーに保存でき、バックアップを書き出せます。この一覧はGoogleログインでは同期されません。
+無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
 ワーカーが見つからない場合は対象プールが元データに含まれるかと取得時刻を確認します。[ハッシュレートとシェア](https://iotahome.site/ja/learn/xid-worker-hashrate-shares)、[残高と報酬の成熟](https://iotahome.site/ja/learn/xid-rewards-balance-maturity)も参照してください。
 
@@ -3356,7 +3356,7 @@ Quantus QTCはAI学習ではなくPoWマイニングです。自己運用には�
 
 ## 保存与交叉核对
 
-在 [Quantus 监控](https://iotahome.site/zh/projects/quantus) 保存地址与名称，可展开最近奖励并跳转官方浏览器。清单保存在当前浏览器，最多 10 个，可导出。无记录时按 [无奖励排查](https://iotahome.site/zh/learn/quantus-mining-no-rewards) 核对地址、同步和索引时间。
+在 [Quantus 监控](https://iotahome.site/zh/projects/quantus) 保存地址与名称，可展开最近奖励并跳转官方浏览器。每个项目免费 5 台、Pro 50 台；登录可跨设备同步，未登录时保存在当前浏览器，可导出。无记录时按 [无奖励排查](https://iotahome.site/zh/learn/quantus-mining-no-rewards) 核对地址、同步和索引时间。
 
 ## 常见问题
 
@@ -3388,7 +3388,7 @@ Quantus QTCはAI学習ではなくPoWマイニングです。自己運用には�
 
 ## 儲存與交叉核對
 
-在 [Quantus 監控](https://iotahome.site/zh-TW/projects/quantus) 儲存地址與名稱，可展開最近獎勵並前往官方瀏覽器。清單儲存在目前瀏覽器，最多 10 個，可匯出。無紀錄時依 [無獎勵排查](https://iotahome.site/zh-TW/learn/quantus-mining-no-rewards) 核對地址、同步與索引時間。
+在 [Quantus 監控](https://iotahome.site/zh-TW/projects/quantus) 儲存地址與名稱，可展開最近獎勵並前往官方瀏覽器。每個項目免費 5 台、Pro 50 台；登入可跨設備同步，未登入時儲存在目前瀏覽器，可匯出。無紀錄時依 [無獎勵排查](https://iotahome.site/zh-TW/learn/quantus-mining-no-rewards) 核對地址、同步與索引時間。
 
 ## 常見問題
 
@@ -3420,7 +3420,7 @@ Reward records describe mining rewards attributed to the address, not all incomi
 
 ## Save and cross-check
 
-Save an address and name in the [Quantus monitor](https://iotahome.site/en/projects/quantus), expand recent rewards and follow the explorer link. Up to 10 addresses stay in this browser and can be exported. For absent records, use [missing reward checks](https://iotahome.site/en/learn/quantus-mining-no-rewards) to inspect address, sync and index time.
+Save an address and name in the [Quantus monitor](https://iotahome.site/en/projects/quantus), expand recent rewards and follow the explorer link. Free supports 5 devices per project and Pro supports 50. Sign in to sync across devices; unsigned lists stay in this browser and can be exported. For absent records, use [missing reward checks](https://iotahome.site/en/learn/quantus-mining-no-rewards) to inspect address, sync and index time.
 
 ## Common questions
 
@@ -3452,7 +3452,7 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 
 ## 저장하고 교차 확인하기
 
-[Quantus 모니터](https://iotahome.site/ko/projects/quantus)에 주소와 이름을 저장하고 최근 보상과 탐색기 링크를 확인하세요. 최대 10개 주소가 현재 브라우저에 저장되며 내보낼 수 있습니다. 기록이 없으면 [보상 누락 점검](https://iotahome.site/ko/learn/quantus-mining-no-rewards)으로 주소, 동기화, 인덱스 시각을 확인하세요.
+[Quantus 모니터](https://iotahome.site/ko/projects/quantus)에 주소와 이름을 저장하고 최근 보상 및 공식 탐색기를 확인하세요. 무료는 프로젝트별 5대, Pro는 50대입니다. 로그인하면 목록을 동기화하며, 로그인하지 않으면 브라우저에 저장합니다. 기록이 없으면 [보상 누락 점검](https://iotahome.site/ko/learn/quantus-mining-no-rewards)에서 주소, 동기화와 인덱싱 시각을 확인하세요.
 
 ## 자주 묻는 질문
 
@@ -3484,7 +3484,7 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 
 ## 保存して照合する
 
-[Quantusモニター](https://iotahome.site/ja/projects/quantus)に名前とアドレスを保存し、最近の報酬や公式エクスプローラーを確認します。最大10件をこのブラウザーに保存し、書き出せます。記録がない場合は[報酬なしの確認](https://iotahome.site/ja/learn/quantus-mining-no-rewards)でアドレス、同期、索引時刻を調べます。
+[Quantusモニター](https://iotahome.site/ja/projects/quantus)にアドレスと名前を保存し、最近の報酬と公式エクスプローラーを確認します。無料版は各プロジェクト5台、Proは50台です。ログインで一覧を同期し、未ログインではブラウザーに保存します。記録がない場合は[報酬なしの確認](https://iotahome.site/ja/learn/quantus-mining-no-rewards)でアドレス、同期とインデックス時刻を確認してください。
 
 ## よくある質問
 
@@ -4050,7 +4050,7 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - ko: https://iotahome.site/ko/blog/monitor-multiple-iota-devices
 - ja: https://iotahome.site/ja/blog/monitor-multiple-iota-devices
 - Published: 2026-10-01
-- Updated: 2026-10-01
+- Updated: 2026-10-05
 - Publisher: IOTA Watch (independent monitor)
 
 ### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh-CN)
@@ -4071,9 +4071,9 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 
 ## 清单应该保存在浏览器还是账号里？
 
-未登录时，IOTA Watch 最多在当前浏览器保存 3 台设备，适合在一台电脑上查看小规模设备清单。换浏览器或用手机打开时，原来的本地清单不会自动出现；清除浏览器数据也可能移除清单。
+未登录时，IOTA Watch 在当前浏览器按项目免费保存最多 5 台设备，适合在一台电脑上查看小规模设备清单。换浏览器或用手机打开时，原来的本地清单不会自动出现；清除浏览器数据也可能移除清单。
 
-使用 Google 登录后，可在账号清单中绑定最多 10 台设备。换设备查看时，请登录相同 Google 账号。切换账号或退出登录后，要再次确认当前清单：本地模式与登录模式使用不同的保存方式。详见 [账号与设备清单说明](https://iotahome.site/zh/learn/google-account-device-list)。
+使用 Google 登录后，可在账号清单中绑定每个项目免费 5 台、Pro 50 台。换设备查看时，请登录相同 Google 账号。切换账号或退出登录后，要再次确认当前清单：本地模式与登录模式使用不同的保存方式。详见 [账号与设备清单说明](https://iotahome.site/zh/learn/google-account-device-list)。
 
 ## 按固定顺序读设备概览
 
@@ -4111,9 +4111,9 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 
 ## 清單應該保存在瀏覽器還是帳號裡？
 
-未登入時，IOTA Watch 最多在目前瀏覽器保存 3 台設備，適合在一台電腦上查看小規模設備清單。換瀏覽器或用手機開啟時，原先的本地清單不會自動出現；清除瀏覽器資料也可能移除清單。
+未登入時，IOTA Watch 最多在目前瀏覽器保存 5 台設備，適合在一台電腦上查看小規模設備清單。換瀏覽器或用手機開啟時，原先的本地清單不會自動出現；清除瀏覽器資料也可能移除清單。
 
-使用 Google 登入後，可在帳號清單中綁定最多 10 台裝置。換設備查看時，請登入相同 Google 帳號。切換帳號或登出登入後，要再次確認目前清單：本機模式與登入模式使用不同的儲存方式。詳見 [帳號與設備清單說明](https://iotahome.site/zh-TW/learn/google-account-device-list)。
+免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。 [帳號與設備清單說明](https://iotahome.site/zh-TW/learn/google-account-device-list)
 
 ## 以固定順序讀取設備概覽
 
@@ -4151,9 +4151,9 @@ Do not rely on the first few address characters to distinguish devices. Naming t
 
 ## Choose where the list should live
 
-Without signing in, IOTA Watch stores up to three devices in the current browser. This is convenient for checking a small setup on one computer. A different browser or phone will not automatically receive that local list; clearing browser storage can remove it.
+Without signing in, IOTA Watch stores up to 5 devices per project on Free in the current browser. This is convenient for checking a small setup on one computer. A different browser or phone will not automatically receive that local list; clearing browser storage can remove it.
 
-Google sign-in supports up to ten devices in an account-bound list. Use the same Google account when opening the monitor elsewhere. Check the list after switching accounts or signing out: the local and signed-in storage modes are different. The [account and device-list guide](https://iotahome.site/en/learn/google-account-device-list) explains the product limits and storage behavior.
+Google sign-in supports up to 5 devices per project on Free, or 50 per project on Pro in an account-bound list. Use the same Google account when opening the monitor elsewhere. Check the list after switching accounts or signing out: the local and signed-in storage modes are different. The [account and device-list guide](https://iotahome.site/en/learn/google-account-device-list) explains the product limits and storage behavior.
 
 ## Read the overview in a consistent order
 
@@ -4191,9 +4191,9 @@ A useful routine is simple: check freshness, review exceptions, inspect reward c
 
 ## 목록이 어디에 있어야 하는지 선택하세요
 
-로그인하지 않고IOTA Watch은 현재 브라우저에 최대 3개의 장치를 저장합니다. 이는 한 대의 컴퓨터에서 소규모 설정을 확인하는 데 편리합니다. 다른 브라우저나 휴대폰에서는 해당 로컬 목록을 자동으로 수신하지 않습니다. 브라우저 저장 공간을 비우면 제거될 수 있습니다.
+무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
 
-Google로그인은 계정 바인딩 목록에서 최대 10개의 장치를 지원합니다. 다른 곳에서 모니터를 열 때 동일한Google계정을 사용하세요. 계정을 전환하거나 로그아웃한 후 목록을 확인하세요. 로컬 저장 모드와 로그인 저장 모드가 다릅니다. [계정 및 기기 목록 가이드](https://iotahome.site/ko/learn/google-account-device-list)에서는 제품 한도 및 저장 동작에 대해 설명합니다.
+무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다. [계정 및 기기 목록 안내](https://iotahome.site/ko/learn/google-account-device-list)
 
 ## 일관된 순서로 개요를 읽어보세요.
 
@@ -4231,9 +4231,9 @@ Google로그인은 계정 바인딩 목록에서 최대 10개의 장치를 지�
 
 ## リストを保存する場所を選択します
 
-サインインしない場合、IOTA Watchは現在のブラウザーに最大 3 台のデバイスを保存します。 1 台のコンピュータで小規模な設定を確認する場合に便利です。別のブラウザまたは電話は、そのローカル リストを自動的に受信しません。ブラウザのストレージをクリアすると削除できます。
+無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
 
-Googleサインインでは、アカウントにバインドされたリストで最大 10 台のデバイスがサポートされます。他の場所でモニターを開くときは、同じGoogleアカウントを使用してください。アカウントを切り替えるかサインアウトした後、リストを確認してください。ローカル ストレージ モードとサインインしたストレージ モードは異なります。 [アカウントとデバイスリストのガイド](https://iotahome.site/ja/learn/google-account-device-list) では、製品の制限とストレージの動作について説明しています。
+無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。 [アカウントとデバイス一覧のガイド](https://iotahome.site/ja/learn/google-account-device-list)
 
 ## 一貫した順序で概要を読んでください
 

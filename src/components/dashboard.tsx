@@ -1,3 +1,4 @@
+import { fleetCopy } from "./fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { withLocales } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
@@ -199,7 +200,7 @@ export function Dashboard() {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
   const watch = useWatchlist(auth.userId, auth.ready);
-  const atLimit = watch.devices.length >= watch.limit;
+  const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -276,9 +277,9 @@ export function Dashboard() {
                   : t("立即刷新")}
             </button>
           ) : null}
-          <button className="solid" disabled={!watch.loaded || importing} onClick={openAdd}>
+          <button className="solid" disabled={!watch.loaded || importing} onClick={()=>atLimit?window.location.assign("/"+locale+"/devices?upgrade=iota"):openAdd()}>
             <Plus size={17} />
-            {t("添加设备")}
+            {atLimit?fleetCopy(locale).viewPro:t("添加设备")}
           </button>
         </div>
       </header>
@@ -290,10 +291,10 @@ export function Dashboard() {
                 <a className="account-name-link" href={`/${locale}/account`}>
                   {auth.name || auth.email || localizeValue(en ? "Signed in" : "已登录", locale)}
                 </a>
-                {` · ${watch.devices.length}/${watch.limit}`}
+                {` · ${watch.projectCount}/${watch.limit}`}
               </>
             ) : (
-              `${watch.devices.length}/${watch.limit} · ${localizeValue(en ? "Saved in this browser" : "保存在此浏览器", locale)}`
+              `${watch.projectCount}/${watch.limit} · ${localizeValue(en ? "Saved in this browser" : "保存在此浏览器", locale)}`
             )}
           </p>
           <span className="refresh-label">

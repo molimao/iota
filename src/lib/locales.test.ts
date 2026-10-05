@@ -40,10 +40,10 @@ describe("five language website", () => {
           const translated = article.body[locale][index]!;
           expect(translated).not.toMatch(/(?:QQTOKEN|ZXQ\d+|99887\d{5})/);
           if (/^(## |- |> )/.test(block))
-            expect(translated.startsWith(block.slice(0, block.startsWith("## ") ? 3 : 2))).toBe(
+            expect(translated.startsWith(block.slice(0, block.startsWith("## ") ? 3 : 2)), locale + ": " + article.slug + ": " + index + ": " + translated).toBe(
               true,
             );
-          expect([...translated.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1])).toEqual(
+          expect([...translated.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]), locale + ": " + article.slug + ": " + index + ": " + translated).toEqual(
             [...block.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]),
           );
         });

@@ -16,14 +16,14 @@ const EN: Record<string, string> = {
   "收益和运行情况。": "Status and rewards.",
   "台设备 · ID 保存在当前浏览器": "devices · IDs saved in this browser",
   "台设备 · 已绑定到 Google 账号": "devices · bound to your Google account",
-  "台设备 · 未登录保存在此浏览器，登录后最多 10 台并可换设备查看":
-    "devices · saved in this browser. Sign in to keep up to 10 and use them on other devices",
+  "台设备 · 未登录保存在此浏览器，登录后每个项目免费 5 台、Pro 50 台并可换设备查看":
+    "devices · saved in this browser. Sign in to keep up to 5 devices per project on Free, or 50 per project on Pro and use them on other devices",
   "设备已绑定到你的账号。": "Device bound to your account.",
   "登录未完成，请重试。": "Sign-in did not finish. Try again.",
   "读取账号设备清单失败，请稍后重试。": "Could not load your account list. Try again later.",
-  "每个账号最多绑定 10 台设备，更多暂不支持。": "Each account can keep up to 10 devices for now.",
-  "未登录最多保存 3 台设备，登录后可绑定 10 台。":
-    "Without signing in you can keep 3 devices here. Sign in to bind up to 10.",
+  "每个账号每个项目免费 5 台、Pro 50 台，更多暂不支持。": "Each account can keep up to 5 devices per project on Free, or 50 per project on Pro for now.",
+  "未登录每个项目免费最多 5 台，登录后可绑定 10 台。":
+    "Without signing in you can keep 5 devices per project on Free here. Sign in to bind up to 5 devices per project on Free, or 50 per project on Pro.",
   "保存到账号失败，请稍后重试。": "Could not save to your account. Try again later.",
   请填写设备名称: "Enter a device name",
   "设备名称最多 40 个字": "Device names can be up to 40 characters",

@@ -5,7 +5,7 @@ const en = {
   independent:
     "Independent read-only monitoring for IOTA Train at Home, XID / MMM and Quantus. Not affiliated with these projects.",
   privacyData:
-    "XID loads public explorer records and matches addresses in this browser. Quantus sends public addresses through this site to the official mainnet index. Address lists stay in this browser, with up to 10 per project, and do not sync to your account.",
+    "Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.",
   projects: "Projects",
   title: "Choose your project",
   intro: "Training and mining, with separate status and reward records for each project.",
@@ -24,10 +24,10 @@ const en = {
   remove: "Remove",
   invalid: "Check the address and checksum. Use a public mainnet reward address.",
   duplicate: "This address is already saved.",
-  limit: "You can save up to 10 addresses for each project.",
+  limit: "You can save up to 5 devices per project on Free, or 50 per project on Pro for each project.",
   storage: "This browser could not save your address list. Check storage permissions.",
   local:
-    "Saved in this browser, separately for each project. These lists do not sync to your account.",
+    "Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.",
   noSecrets: "Public addresses only. Never enter a seed phrase, private key or inner hash.",
   empty: "Add your reward address to monitor its records.",
   refresh: "Refresh",
@@ -106,7 +106,7 @@ const zh: Copy = {
   independent:
     "独立的 IOTA Train at Home、XID / MMM 和 Quantus 只读监控工具，与这些项目无隶属关系。",
   privacyData:
-    "XID 读取公开浏览器记录，在本机匹配地址；Quantus 通过本站服务向官方主网索引查询公开地址。地址清单保存在当前浏览器，每个项目最多 10 个，暂不与账号同步。",
+    "免费版每个项目可关联 5 台设备，Pro 每个项目 50 台。各项目独立计数，设备总览不另设总数限制。Google 登录可跨设备同步，未登录时清单保存在当前浏览器。",
   projects: "项目",
   title: "选择你的项目",
   intro: "训练与挖矿，每个项目分别查看状态和收益记录。",
@@ -125,9 +125,9 @@ const zh: Copy = {
   remove: "移除",
   invalid: "请核对地址及校验码，使用公开的主网收益地址。",
   duplicate: "这个地址已保存。",
-  limit: "每个项目最多保存 10 个地址。",
+  limit: "每个项目每个项目免费 5 台、Pro 50 台。",
   storage: "浏览器未能保存地址清单，请检查存储权限。",
-  local: "按项目分别保存在当前浏览器，这些清单暂不与账号同步。",
+  local: "免费版每个项目可关联 5 台设备，Pro 每个项目 50 台。各项目独立计数，设备总览不另设总数限制。Google 登录可跨设备同步，未登录时清单保存在当前浏览器。",
   noSecrets: "只填公开地址，不要填写助记词、私钥或 inner hash。",
   empty: "添加收益地址，查看它的挖矿记录。",
   refresh: "刷新",
@@ -199,7 +199,7 @@ const tw: Copy = {
   independent:
     "獨立的 IOTA Train at Home、XID / MMM 和 Quantus 唯讀監控工具，與這些專案無隸屬關係。",
   privacyData:
-    "XID 讀取公開瀏覽器紀錄，在本機比對地址；Quantus 透過本站服務向官方主網索引查詢公開地址。地址清單儲存在目前瀏覽器，每個專案最多 10 個，暫不與帳號同步。",
+    "免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。",
   unavailable: "暫不可用",
   overview: "概覽",
   projects: "專案",
@@ -218,9 +218,9 @@ const tw: Copy = {
   add: "儲存地址",
   invalid: "請核對地址及校驗碼，使用公開的主網收益地址。",
   duplicate: "這個地址已儲存。",
-  limit: "每個專案最多儲存 10 個地址。",
+  limit: "每個專案每個項目免費 5 台、Pro 50 台。",
   storage: "瀏覽器未能儲存地址清單，請檢查儲存權限。",
-  local: "按專案分別儲存在目前瀏覽器，這些清單暫不與帳號同步。",
+  local: "免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。",
   noSecrets: "只填公開地址，不要填寫助記詞、私鑰或 inner hash。",
   empty: "新增收益地址，查看它的挖礦紀錄。",
   refreshing: "重新整理中…",
@@ -287,7 +287,7 @@ const ko: Copy = {
   independent:
     "IOTA Train at Home, XID / MMM, Quantus의 독립적인 읽기 전용 모니터입니다. 각 프로젝트의 공식 서비스가 아닙니다.",
   privacyData:
-    "XID는 공개 탐색기 기록을 불러와 이 브라우저에서 주소를 찾습니다. Quantus는 이 사이트를 통해 공식 메인넷 인덱스에 공개 주소를 조회합니다. 주소 목록은 프로젝트별 최대 10개까지 현재 브라우저에 저장되며 계정과 동기화되지 않습니다.",
+    "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
   projects: "프로젝트",
   title: "프로젝트 선택",
   intro: "학습과 채굴 상태 및 보상 기록을 프로젝트별로 확인하세요.",
@@ -306,7 +306,7 @@ const ko: Copy = {
   remove: "삭제",
   invalid: "주소와 체크섬을 확인하세요. 공개 메인넷 보상 주소를 사용하세요.",
   duplicate: "이미 저장된 주소입니다.",
-  limit: "프로젝트마다 주소를 최대 10개 저장할 수 있습니다.",
+  limit: "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
   storage: "브라우저가 주소 목록을 저장하지 못했습니다. 저장 권한을 확인하세요.",
   local: "프로젝트별로 이 브라우저에 저장됩니다. 계정과 동기화되지 않습니다.",
   noSecrets: "공개 주소만 입력하세요. 시드 문구, 개인 키, inner hash는 입력하지 마세요.",
@@ -384,7 +384,7 @@ const ja: Copy = {
   independent:
     "IOTA Train at Home、XID / MMM、Quantusの独立した読み取り専用モニターです。各プロジェクトの公式サービスではありません。",
   privacyData:
-    "XIDは公開エクスプローラーの記録を読み込み、このブラウザー内でアドレスを照合します。Quantusは当サイトを通じて公式メインネットのインデックスに公開アドレスを照会します。アドレス一覧はプロジェクトごとに最大10件までこのブラウザーに保存され、アカウントには同期されません。",
+    "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
   projects: "プロジェクト",
   title: "プロジェクトを選択",
   intro: "学習とマイニングの状態・報酬記録をプロジェクトごとに確認できます。",
@@ -404,7 +404,7 @@ const ja: Copy = {
   remove: "削除",
   invalid: "アドレスとチェックサムを確認してください。公開メインネット報酬アドレスを使用します。",
   duplicate: "このアドレスは保存済みです。",
-  limit: "プロジェクトごとに最大 10 個のアドレスを保存できます。",
+  limit: "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
   storage: "ブラウザがアドレス一覧を保存できませんでした。保存権限を確認してください。",
   local: "プロジェクトごとにこのブラウザに保存されます。アカウントとは同期されません。",
   noSecrets: "公開アドレスのみ。シードフレーズ、秘密鍵、inner hash は入力しないでください。",

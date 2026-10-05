@@ -65,7 +65,7 @@ export function AccountMenu() {
   }
 
   if (!auth.userId) {
-    if (onApp || onAccount) {
+    if (onApp || onAccount || pathname.endsWith("/devices")) {
       return (
         <button
           type="button"

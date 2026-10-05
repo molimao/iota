@@ -1,3 +1,4 @@
+import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { useState } from "react";
 import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor, Menu } from "lucide-react";
@@ -73,6 +74,7 @@ export function SiteNav() {
         [`/${locale}/projects`, projectCopy.back],
       ]
     : [
+        ["/"+locale+"/devices", fleetCopy(locale).title],
         [`/${locale}/network`, copy.nav[5]],
         [`/${locale}/guide`, copy.nav[0]],
         [`/${locale}/faq`, copy.nav[1]],
@@ -672,8 +674,8 @@ export function AccountPage() {
               <p>
                 {localizeValue(
                   en
-                    ? "This account can keep up to 10 devices. Open My devices to add, rename, or remove them."
-                    : "该账号最多绑定 10 台设备。添加、改名和移除均在「我的设备」完成。",
+                    ? "Free: 5 devices per project. Pro: 50 per project. The device overview has no separate device limit."
+                    : "免费：每个项目 5 台。Pro：每个项目 50 台。设备总览无额外总数限制。",
                   locale,
                 )}
               </p>
@@ -705,8 +707,8 @@ export function AccountPage() {
           <p className="article-lead">
             {localizeValue(
               en
-                ? "Sign in with Google to bind up to 10 devices to your account. Without signing in, this browser can keep 3 devices locally."
-                : "使用 Google 登录后，最多将 10 台设备绑定到账号。未登录时，当前浏览器最多保存 3 台。",
+                ? "Sign in to sync devices across browsers. Free: 5 devices per project. Pro: 50 per project."
+                : "登录后可跨浏览器同步设备。免费每个项目 5 台，Pro 每个项目 50 台。",
               locale,
             )}
           </p>

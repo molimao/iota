@@ -136,7 +136,7 @@ export type SavedProjectAddress = { address: string; name: string };
 export function parseProjectList(project: MiningProject, value: unknown): SavedProjectAddress[] {
   if (!Array.isArray(value)) throw new Error("invalid-list");
   const seen = new Set<string>();
-  return value.slice(0, 10).map((item) => {
+  return value.map((item) => {
     const row = record(item);
     if (
       !validProjectAddress(project, row["address"]) ||

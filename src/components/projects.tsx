@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowRight,
@@ -16,8 +16,7 @@ import { projectsCopy } from "./projects-copy";
 import {
   PROJECT_IDS,
   PROJECTS,
-  parseProjectList,
-  projectPath,
+    projectPath,
   validProjectAddress,
   type MiningProject,
   type ProjectNetwork,
@@ -30,6 +29,9 @@ import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
 import { shortId } from "@/lib/ss58";
 import { ProjectLearning } from "./site/project-learning";
 import { getArticle } from "./site/articles";
+import { useAuth } from "@/hooks/use-auth";
+import { useFleet } from "@/hooks/use-fleet";
+import { fleetCopy } from "./fleet-copy";
 
 export function ProjectSwitch() {
   const { locale } = useLocale();
@@ -438,35 +440,29 @@ function AddressMonitor({
 }) {
   const { locale } = useLocale(),
     c = projectsCopy[locale];
-  const [saved, setSaved] = useState<SavedProjectAddress[]>([]),
-    [ready, setReady] = useState(false),
-    [address, setAddress] = useState(""),
+  const auth = useAuth(), fleet=useFleet(auth.userId,auth.ready), fc=fleetCopy(locale);
+  const saved=useMemo(()=>Array.from(new Map(fleet.devices.flatMap(d=>d.bindings.filter(b=>b.project===project).map(b=>[b.identifier,{address:b.identifier,name:d.name}] as const))).values()),[fleet.devices,project]);
+  const ready=fleet.ready;
+  const [address, setAddress] = useState(""),
     [name, setName] = useState(""),
+    [saving,setSaving] = useState(false),
     [error, setError] = useState<string | null>(null);
-  const key = `watch:projects:${project}:v1`;
   useEffect(() => {
-    setReady(false);
-    setSaved([]);
     setAddress("");
     setName("");
     setError(null);
+  }, [project]);
+  async function removeAddress(address:string) {
     try {
-      const text = localStorage.getItem(key);
-      setSaved(text ? parseProjectList(project, JSON.parse(text)) : []);
-    } catch {
-      setError(c.storage);
-    }
-    setReady(true);
-  }, [key, project, c.storage]);
-  function persist(next: SavedProjectAddress[]) {
-    try {
-      localStorage.setItem(key, JSON.stringify(next));
-      setSaved(next);
+      for(const device of fleet.devices) {
+        const matching=device.bindings.filter(b=>b.project===project&&b.identifier===address);
+        if(!matching.length) continue;
+        if(matching.length===device.bindings.length) await fleet.mutate({action:"remove",payload:{id:device.id}});
+        else for(const binding of matching) await fleet.mutate({action:"unlink",payload:{id:device.id,bindingId:binding.id}});
+      }
       setError(null);
-      return true;
     } catch {
       setError(c.storage);
-      return false;
     }
   }
   return (
@@ -474,7 +470,8 @@ function AddressMonitor({
       <div className="project-section-head">
         <div>
           <h2>{c.mine}</h2>
-          <p>{c.local}</p>
+          <p>{auth.userId?fc.savedAccount:fc.savedLocal} · {fc.perProject} · {fleet.limit}</p>
+          <a href={"/"+locale+"/devices"}>{fc.title} →</a>
         </div>
         {saved.length > 0 && (
           <button
@@ -499,7 +496,7 @@ function AddressMonitor({
       </div>
       <form
         className="project-address-form"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           const value = address.trim();
           if (!validProjectAddress(project, value)) {
@@ -510,14 +507,14 @@ function AddressMonitor({
             setError(c.duplicate);
             return;
           }
-          if (saved.length >= 10) {
-            setError(c.limit);
-            return;
-          }
-          if (persist([...saved, { address: value, name: name.trim() }])) {
+          setSaving(true);
+          try {
+            await fleet.mutate({action:"create",payload:{name:name.trim()||PROJECTS[project].name,hardware:"",binding:{project,identifier:value,worker:""}}});
             setAddress("");
             setName("");
-          }
+            setError(null);
+          } catch(e) {setError(e instanceof Error&&e.message==="project_device_limit_reached"?fc.limit:c.storage);}
+          finally {setSaving(false);}
         }}
       >
         <label>
@@ -544,7 +541,7 @@ function AddressMonitor({
             aria-invalid={error === c.invalid}
           />
         </label>
-        <button className="site-button" disabled={!ready} type="submit">
+        <button className="site-button" disabled={!ready || saving} type="submit">
           {c.add}
           <ArrowRight size={17} />
         </button>
@@ -552,7 +549,7 @@ function AddressMonitor({
       <p className="project-footnote">{c.noSecrets}</p>
       {error && (
         <p className="project-warning" role="alert">
-          {error}
+          {error}{error===fc.limit&&<a href={"/"+locale+"/devices?upgrade="+project}> · {fc.viewPro} →</a>}
         </p>
       )}
       {!saved.length ? (
@@ -566,14 +563,14 @@ function AddressMonitor({
             <QuantusAddress
               key={s.address}
               saved={s}
-              onRemove={() => persist(saved.filter((row) => row.address !== s.address))}
+              onRemove={() => void removeAddress(s.address)}
             />
           ) : (
             <XidAddress
               key={s.address}
               saved={s}
               network={network}
-              onRemove={() => persist(saved.filter((row) => row.address !== s.address))}
+              onRemove={() => void removeAddress(s.address)}
             />
           ),
         )
