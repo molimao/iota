@@ -1,3 +1,4 @@
+import { useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { FleetWorkspace } from "./fleet-workspace";
 import { reviewDevices, reviewReading } from "./fleet-review-data";
@@ -6,6 +7,9 @@ import { useLocale } from "./site/locale";
 import { bindingIdentity, validBinding } from "@/lib/fleet";
 
 export function FleetReview() {
+  const membershipView = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
+  });
   const [devices, setDevices] = useState(reviewDevices);
   const [plan, setPlan] = useState<"free" | "pro">("pro");
   const { locale } = useLocale(),
@@ -18,6 +22,7 @@ export function FleetReview() {
         </button>
       </div>
       <FleetWorkspace
+        initialTab={membershipView ? "plans" : "devices"}
         devices={devices}
         plan={plan}
         billing={{

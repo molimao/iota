@@ -1,3 +1,4 @@
+import { PROJECT_IDS, PROJECTS, isMonitorProject, projectPath } from "@/lib/projects";
 import { MonitoringViews, monitorViewCopy } from "../monitor-views";
 import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
@@ -22,7 +23,6 @@ import { ArticleBlocks } from "./rich-text";
 import { blogPosts } from "./blog-posts";
 import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
-import { isMonitorProject, projectPath } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
 import { ProjectLearning } from "./project-learning";
 
@@ -83,22 +83,12 @@ export function SiteNav() {
     (filteredProject === "iota" || isMonitorProject(filteredProject) ? filteredProject : undefined);
   const deviceView = /\/(devices|review)$/.test(pathname);
   const links: ReadonlyArray<readonly [string, string]> = [
-    [`/${locale}/projects`, views.projects],
-    [`/${locale}/devices`, views.devices],
-    ...(project
-      ? ([
-          [`/${locale}/projects/${project}#network`, projectCopy.network],
-          [`/${locale}/projects/${project}#setup`, projectCopy.setup],
-          [`/${locale}/projects`, projectCopy.back],
-        ] as const)
-      : ([
-          [`/${locale}/network`, copy.nav[5]],
-          [`/${locale}/guide`, copy.nav[0]],
-          [`/${locale}/faq`, copy.nav[1]],
-          [`/${locale}/learn`, copy.nav[2]],
-          [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
-          [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
-        ] as const)),
+    [`/${locale}/guide`, copy.nav[0]],
+    [`/${locale}/learn`, views.allGuides],
+    [`/${locale}/faq`, copy.nav[1]],
+    [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
+    [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
+    [`/${locale}/privacy`, copy.nav[3]],
   ];
   return (
     <nav className="site-nav" aria-label={localizeValue(en ? "Main navigation" : "主导航", locale)}>
@@ -133,18 +123,28 @@ export function SiteNav() {
           <summary aria-label={localizeValue(en ? "Navigation menu" : "导航菜单", locale)}>
             <Menu size={20} />
           </summary>
-          <div>
-            {links.map(([href, label]) => (
-              <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
-                <span>
-                  {label}
-                  {href.endsWith("/projects") && <small>{views.projectDescription}</small>}
-                  {href.endsWith("/devices") && <small>{views.deviceDescription}</small>}
-                </span>
-                <ArrowUpRight size={15} />
-              </a>
-            ))}
-            <LanguageSwitch />
+          <div className="site-menu-panel">
+            <section className="site-menu-group" aria-label={views.menuProjects}>
+              <h2>{views.menuProjects}</h2>
+              {PROJECT_IDS.map((id) => (
+                <a key={id} href={projectPath(locale, id)}>
+                  <span>{PROJECTS[id].name}</span>
+                  <ArrowUpRight size={14} />
+                </a>
+              ))}
+            </section>
+            <section className="site-menu-group" aria-label={views.menuResources}>
+              <h2>{views.menuResources}</h2>
+              {links.map(([href, label]) => (
+                <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
+                  <span>{label}</span>
+                  <ArrowUpRight size={14} />
+                </a>
+              ))}
+            </section>
+            <div className="site-menu-language">
+              <LanguageSwitch />
+            </div>
           </div>
         </details>
       </div>

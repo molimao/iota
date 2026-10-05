@@ -1,5 +1,5 @@
 import { localizeValue } from "@/components/site/localization";
-import { ChevronDown, LogOut, Monitor, Settings, UserRound } from "lucide-react";
+import { ChevronDown, CreditCard, LogOut, Settings, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
@@ -108,18 +108,10 @@ export function AccountMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <a href={`/${locale}/devices?view=membership`}>
-            <Settings size={15} />
+            <CreditCard size={15} />
             {billing.data?.plan === "pro" ? fleetCopy(locale).membership : fleetCopy(locale).plans}
           </a>
         </DropdownMenuItem>
-        {!onApp ? (
-          <DropdownMenuItem asChild>
-            <a href={`/${locale}/app`}>
-              <Monitor size={15} />
-              {t("我的设备")}
-            </a>
-          </DropdownMenuItem>
-        ) : null}
         {!onAccount ? (
           <DropdownMenuItem asChild>
             <a href={`/${locale}/account`}>

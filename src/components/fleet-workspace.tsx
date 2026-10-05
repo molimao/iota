@@ -67,7 +67,7 @@ export type FleetWorkspaceProps = {
 export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
-  const [tab, setTab] = useState<"devices" | "plans">(props.initialTab ?? "devices");
+  const tab = props.initialTab ?? "devices";
   const [project, setProject] = useState<FleetProject | "all">(props.initialProject ?? "all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
@@ -206,57 +206,30 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       <header className="fleet-heading">
         <div>
           <span className="eyebrow">IOTA WATCH / DEVICES</span>
-          <h1>{tab === "plans" && props.plan === "pro" ? c.membership : c.title}</h1>
-          <p>
-            {tab === "plans" && props.plan === "pro"
-              ? c.memberIntro
-              : monitorViewCopy(locale).deviceWorkflow}
-          </p>
+          <h1>{tab === "plans" ? (props.plan === "pro" ? c.membership : c.plans) : c.title}</h1>
+          {(tab === "devices" || props.plan === "pro") && (
+            <p>{tab === "plans" ? c.memberIntro : monitorViewCopy(locale).deviceWorkflow}</p>
+          )}
         </div>
-        <button className="site-button" onClick={() => open("add")}>
-          <Plus size={17} />
-          {c.add}
-        </button>
+        {tab === "devices" ? (
+          <button className="site-button" onClick={() => open("add")}>
+            <Plus size={17} />
+            {c.add}
+          </button>
+        ) : (
+          <a className="fleet-outline" href={`/${locale}/devices`}>
+            {c.devices}
+            <ArrowUpRight size={15} />
+          </a>
+        )}
       </header>
-      <div className="fleet-tabs" role="tablist" aria-label={c.title}>
-        <button
-          id="fleet-devices-tab"
-          role="tab"
-          aria-controls="fleet-devices-panel"
-          aria-selected={tab === "devices"}
-          onClick={() => setTab("devices")}
-        >
-          <Monitor size={16} />
-          {c.devices}
-        </button>
-        <button
-          id="fleet-plans-tab"
-          role="tab"
-          aria-controls="fleet-plans-panel"
-          aria-selected={tab === "plans"}
-          onClick={() => setTab("plans")}
-        >
-          <Layers size={16} />
-          {props.plan === "pro" ? c.membership : c.plans}
-          {props.plan === "free" && <span>{c.free}</span>}
-        </button>
-      </div>
       {props.error && (
         <p className="fleet-form-error" role="alert">
           {props.error}
         </p>
       )}
-      {props.plan === "pro" && tab === "devices" && (
-        <FleetMembership
-          compact
-          devices={props.devices}
-          billing={props.billing}
-          onManage={props.onManage}
-          onAdd={() => open("add")}
-        />
-      )}
       {tab === "devices" ? (
-        <section id="fleet-devices-panel" role="tabpanel" aria-labelledby="fleet-devices-tab">
+        <section id="fleet-devices-panel" aria-label={c.devices}>
           <div className="fleet-overview">
             <div className="fleet-total">
               <Monitor size={23} />
@@ -277,10 +250,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
             <div className="fleet-quota-summary">
               <div>
                 <b>{c.quotas}</b>
-                <button onClick={() => setTab("plans")}>
-                  {props.plan === "pro" ? "Pro" : c.free}
-                  <ArrowUpRight size={13} />
-                </button>
+                <span className="fleet-current-plan">{props.plan === "pro" ? "Pro" : c.free}</span>
               </div>
               <div className="fleet-quota-grid">
                 {FLEET_PROJECTS.map((p) => {
@@ -367,8 +337,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       ) : (
         <section
           id="fleet-plans-panel"
-          role="tabpanel"
-          aria-labelledby="fleet-plans-tab"
+          aria-label={props.plan === "pro" ? c.membership : c.plans}
           className="fleet-plans"
         >
           {props.plan === "pro" ? (

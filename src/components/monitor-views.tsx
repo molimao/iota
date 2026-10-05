@@ -4,6 +4,9 @@ import { projectPath, type ProjectId } from "@/lib/projects";
 import { useLocale } from "./site/locale";
 
 const labels = {
+  menuProjects: ["项目", "Projects", "專案", "프로젝트", "プロジェクト"],
+  menuResources: ["教程与工具", "Guides & tools", "教學與工具", "안내 및 도구", "ガイドとツール"],
+  allGuides: ["全部教程", "All guides", "全部教學", "모든 안내", "すべてのガイド"],
   deviceWorkflow: [
     "添加设备后，用卡片上的“添加项目”关联同一台机器运行的其他项目。",
     "Add a device, then use Add project on its card to link other projects running on that machine.",

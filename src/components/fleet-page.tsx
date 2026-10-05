@@ -78,41 +78,22 @@ export function FleetPage() {
     );
   return (
     <>
-      <div className="fleet-account-bar">
-        <span>{auth.userId ? c.savedAccount : c.savedLocal}</span>
-        {!auth.userId && (
-          <button
-            className="fleet-outline"
-            onClick={() => void auth.signInWithGoogle()}
-            disabled={auth.signingIn}
-          >
-            {c.signIn}
-          </button>
-        )}
-        {fleet.pendingLocal > 0 && (
-          <button
-            className="fleet-outline"
-            disabled={!fleet.ready}
-            onClick={() => void fleet.importLocal().catch((e) => setError(message(e)))}
-          >
-            {c.importLocal} · {fleet.pendingLocal}
-          </button>
-        )}
-        {fleet.billing?.hasCustomer && (
-          <button className="fleet-outline" onClick={() => void manage()}>
-            {c.manage}
-          </button>
-        )}
-        {!fleet.ready && <span role="status">{c.checking}</span>}
-        {billingResult === "success" && fleet.plan !== "pro" && (
-          <span role="status">{c.paymentPending}</span>
-        )}
-        {billingResult === "success" && fleet.plan === "pro" && (
-          <span className="fleet-payment-confirmed" role="status">
-            {c.paymentConfirmed}
-          </span>
-        )}
-      </div>
+      {(fleet.pendingLocal > 0 || billingResult === "success") && (
+        <div className="fleet-account-bar" role="status">
+          {fleet.pendingLocal > 0 && (
+            <button
+              className="fleet-outline"
+              disabled={!fleet.ready}
+              onClick={() => void fleet.importLocal().catch((e) => setError(message(e)))}
+            >
+              {c.importLocal} · {fleet.pendingLocal}
+            </button>
+          )}
+          {billingResult === "success" && (
+            <span>{fleet.plan === "pro" ? c.paymentConfirmed : c.paymentPending}</span>
+          )}
+        </div>
+      )}
       <FleetWorkspace
         initialProject={initialProject}
         devices={fleet.devices}
