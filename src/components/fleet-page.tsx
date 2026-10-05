@@ -26,18 +26,25 @@ export function FleetPage() {
     select: (s) => new URLSearchParams(s.location.searchStr).get("upgrade"),
   });
   const upgradeProject = FLEET_PROJECTS.find((p) => p === upgrade);
+  const memberView = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
+  });
   const message = (e: unknown) =>
     e instanceof Error && e.message === "project_device_limit_reached"
       ? c.limit
-      : e instanceof Error && e.message === "import_partial"
-        ? c.importPartial
-        : c.unavailable;
+      : e instanceof Error && e.message === "invalid_binding"
+        ? c.invalidId
+        : e instanceof Error && e.message === "duplicate_binding"
+          ? c.duplicate
+          : e instanceof Error && e.message === "import_partial"
+            ? c.importPartial
+            : c.unavailable;
   async function subscribe(interval: "month" | "year") {
     if (!auth.userId) {
       await auth.signInWithGoogle();
       return;
     }
-    if (!fleet.billing?.configured) throw new Error(c.previewBilling);
+    if (!fleet.billing?.configured) throw new Error(c.unavailable);
     try {
       const result = await checkoutFn({ data: { interval, locale } });
       window.location.assign(result.url);
@@ -53,6 +60,18 @@ export function FleetPage() {
       setError(message(e));
     }
   }
+  if (!fleet.ready)
+    return (
+      <main className="fleet-workspace">
+        <h1>{c.title}</h1>
+        <p role={fleet.error ? "alert" : "status"}>{fleet.error ? c.unavailable : c.checking}</p>
+        {fleet.error && (
+          <button className="site-button" onClick={() => void fleet.reload()}>
+            {c.retry}
+          </button>
+        )}
+      </main>
+    );
   return (
     <>
       <div className="fleet-account-bar">
@@ -84,15 +103,25 @@ export function FleetPage() {
         {billingResult === "success" && fleet.plan !== "pro" && (
           <span role="status">{c.paymentPending}</span>
         )}
+        {billingResult === "success" && fleet.plan === "pro" && (
+          <span className="fleet-payment-confirmed" role="status">
+            {c.paymentConfirmed}
+          </span>
+        )}
       </div>
       <FleetWorkspace
         devices={fleet.devices}
         plan={fleet.plan}
+        billing={fleet.billing}
+        initialTab={memberView ? "plans" : "devices"}
         initialPaywallProject={upgradeProject}
         reading={reading}
-        onAdd={async (name, hardware) => {
+        onAdd={async (name, hardware, binding) => {
           try {
-            await fleet.mutate({ action: "create", payload: { name, hardware } });
+            await fleet.mutate({
+              action: "create",
+              payload: { name, hardware, ...(binding ? { binding } : {}) },
+            });
           } catch (e) {
             throw new Error(message(e));
           }

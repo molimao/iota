@@ -2152,3 +2152,99 @@ body:has(.site-shell) {
   .fleet-choice-amount strong {font-size:27px;}
   .fleet-paywall-allowances ul {grid-template-columns:1fr;}
 }
+
+/* Membership is visible without leaving the device workspace. */
+.fleet-membership {border:1px solid #4a4a4a;border-radius:16px;background:linear-gradient(120deg,#232323,#181818);padding:28px;margin-bottom:24px;color:#f5f5f5;}
+.fleet-membership>header {display:flex;align-items:center;gap:18px;}
+.fleet-member-mark {display:inline-flex;align-items:center;gap:8px;background:#f2f2f2;color:#151515;font-size:14px;font-weight:750;letter-spacing:.1em;border-radius:9px;padding:13px 16px;flex-shrink:0;}
+.fleet-membership h2 {font-size:22px;letter-spacing:-.04em;font-weight:650;margin:0 0 5px;}
+.fleet-membership p {font-size:13px;line-height:1.7;color:#aaa;margin:0;}
+.fleet-member-date {margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;}
+.fleet-member-date>span {color:#aaa;font-size:11px;}
+.fleet-member-date>b {font-size:13px;}
+.fleet-member-date .fleet-outline {margin-top:5px;gap:6px;background:transparent;border-color:#555;color:#eee;padding:8px 12px;font-size:12px;}
+.fleet-membership-compact {padding:20px 22px;}
+.fleet-membership-compact h2 {font-size:18px;}
+.fleet-member-section {display:flex;gap:10px;align-items:flex-start;margin:30px 0 18px;}
+.fleet-member-section h3 {font-size:16px;font-weight:600;margin:0 0 5px;}
+.fleet-member-section svg {margin-top:4px;color:#bbb;}
+.fleet-member-quotas {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.fleet-member-quotas article {border:1px solid #393939;border-radius:11px;background:#1b1b1b;padding:20px;}
+.fleet-member-quotas article>b {font-size:13px;}
+.fleet-member-quotas article>div {display:flex;align-items:baseline;gap:7px;margin:17px 0 12px;}
+.fleet-member-quotas strong {font-size:32px;line-height:1;font-weight:650;font-variant-numeric:tabular-nums;}
+.fleet-member-quotas article span {font-size:12px;color:#aaa;}
+.fleet-member-quotas progress {width:100%;height:4px;appearance:none;border:none;border-radius:4px;background:#3b3b3b;overflow:hidden;margin:0 0 10px;}
+.fleet-member-quotas progress::-webkit-progress-bar {background:#3b3b3b;}
+.fleet-member-quotas progress::-webkit-progress-value {background:#ededed;}
+.fleet-member-quotas progress::-moz-progress-bar {background:#ededed;}
+.fleet-member-quotas p {display:flex;justify-content:space-between;font-size:12px;}
+.fleet-member-quotas p b {color:#eee;}
+.fleet-member-actions {display:flex;align-items:center;gap:22px;margin-top:26px;padding-top:24px;border-top:1px solid #393939;}
+.fleet-member-actions b {font-size:13px;}
+.fleet-member-actions p {font-size:12px;margin-top:4px;}
+.fleet-membership .fleet-plan-note {max-width:none;margin-top:18px;font-size:11px;}
+.account-pro-badge {display:inline-flex;align-items:center;border:1px solid currentColor;border-radius:4px;padding:2px 5px;font-size:9px;font-weight:750;letter-spacing:.05em;}
+.account-membership-card {display:flex;gap:18px;align-items:center;justify-content:space-between;border:1px solid #888;border-radius:12px;padding:24px;margin:22px 0;}
+.account-membership-card h2 {margin:10px 0 6px;font-size:22px;}
+.account-membership-card p {font-size:13px;color:#888;}
+.fleet-payment-confirmed {color:#eee;border:1px solid #555;border-radius:6px;padding:6px 10px;}
+.fleet-review-switch {max-width:1240px;margin:20px auto 0;padding:0 28px;}
+.fleet-review-switch .fleet-outline {font-size:12px;padding:7px 10px;}
+.fleet-input-note {font-size:11px!important;margin:8px 0!important;color:#777;}
+.fleet-optional-fields {border-top:1px solid #e5e5e5;margin-top:20px;padding-top:14px;}
+.fleet-optional-fields summary {font-size:12px;color:#666;cursor:pointer;}
+.fleet-dialog {max-height:calc(100dvh - 32px);overflow-y:auto;}
+.fleet-no-projects {padding:24px;text-align:center;}
+.fleet-no-projects>b {font-size:14px;}
+.fleet-no-projects p {font-size:12px;color:#aaa;margin:8px 0 18px;}
+.fleet-no-projects button {margin:auto;gap:7px;background:none;color:#eee;border-color:#555;}
+.fleet-card-freshness {color:#999;font-size:10px;margin:12px 0 0;}
+.fleet-device-card>header>div {min-width:0;}
+.fleet-device-card h2 {font-size:18px;overflow-wrap:anywhere;}
+.fleet-device-card>footer {justify-content:flex-end;gap:20px;}
+.fleet-device-card>footer button {font-size:12px;padding:4px 0;}
+.fleet-reading-heading {flex-wrap:wrap;}
+.fleet-reading-metrics strong {display:flex;flex-wrap:wrap;align-items:baseline;gap:2px;overflow-wrap:anywhere;}
+.fleet-reading-metrics strong>small {white-space:nowrap;}
+.fleet-overview {grid-template-columns:1fr 1fr 3fr;gap:12px;}
+.fleet-total {border:0;background:none;padding:12px 4px;}
+.fleet-total strong {font-size:26px;}
+.fleet-total>small {font-size:11px;color:#aaa;}
+.fleet-heading p,.fleet-quota-grid>div>span,.fleet-filters button {color:#aaa;}
+.fleet-workspace button:focus-visible,.fleet-dialog button:focus-visible {outline:2px solid #aaa;outline-offset:4px;}
+@media(max-width:950px) {
+ .fleet-overview {grid-template-columns:1fr 1fr;}
+ .fleet-member-quotas {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:650px) {
+ .fleet-membership {padding:20px 16px;}
+ .fleet-membership>header {flex-wrap:wrap;gap:12px;}
+ .fleet-member-mark {font-size:12px;padding:10px 12px;}
+ .fleet-membership h2 {font-size:19px;}
+ .fleet-membership header>div:not(.fleet-member-date) {flex:1;min-width:160px;}
+ .fleet-membership p {font-size:12px;}
+ .fleet-member-date {flex-basis:100%;text-align:left;align-items:flex-start;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;border-top:1px solid #393939;padding-top:12px;margin-top:4px;}
+ .fleet-member-date .fleet-outline {margin:0 0 0 auto;}
+ .fleet-member-quotas article {padding:15px;}
+ .fleet-member-quotas article span {font-size:10px;}
+ .fleet-member-quotas strong {font-size:28px;}
+ .fleet-member-actions {flex-direction:column;align-items:flex-start;gap:15px;}
+ .fleet-member-actions .site-button {width:100%;}
+ .account-membership-card {flex-direction:column;align-items:flex-start;}
+ .fleet-overview {grid-template-columns:1fr 1fr;}
+ .fleet-total {padding:8px 0;}
+ .fleet-quota-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+ .fleet-device-card>header {padding:18px;}
+ .fleet-dialog {padding:24px 20px;}
+}
+.fleet-project-toggle {width:100%;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;}
+.fleet-project-toggle>svg {margin-left:auto;transition:transform .15s;flex-shrink:0;color:#aaa;}
+.fleet-project-toggle>svg.is-expanded {transform:rotate(180deg);}
+.fleet-project-toggle small {margin-left:auto;color:#aaa;font-size:11px;}
+.fleet-project-toggle:has(+div) {margin-bottom:15px;}
+.fleet-project-reading {padding-top:17px;padding-bottom:16px;}
+.fleet-reading-heading {margin-bottom:0;}
+@media(prefers-reduced-motion:reduce) {.fleet-project-toggle>svg {transition:none;}}
+.fleet-device-card>footer {flex-direction:row;}
+.fleet-member-quotas progress {margin-top:12px;}

@@ -3,6 +3,8 @@ import { ChevronDown, LogOut, Monitor, Settings, UserRound } from "lucide-react"
 import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
+import { useBilling } from "@/hooks/use-billing";
+import { fleetCopy } from "../fleet-copy";
 import { useLocale } from "./locale";
 import {
   DropdownMenu,
@@ -53,6 +55,7 @@ export function AccountAvatar({
 export function AccountMenu() {
   const { locale, en, t } = useLocale();
   const auth = useAuth();
+  const billing = useBilling(auth.userId, auth.ready);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -90,6 +93,7 @@ export function AccountMenu() {
         >
           <AccountAvatar name={label} avatarUrl={auth.avatarUrl} />
           <span className="account-trigger-name">{auth.name || auth.email}</span>
+          {billing.data?.plan === "pro" && <span className="account-pro-badge">PRO</span>}
           <ChevronDown size={14} />
         </button>
       </DropdownMenuTrigger>
@@ -102,6 +106,12 @@ export function AccountMenu() {
           </div>
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <a href={`/${locale}/devices?view=membership`}>
+            <Settings size={15} />
+            {billing.data?.plan === "pro" ? fleetCopy(locale).membership : fleetCopy(locale).plans}
+          </a>
+        </DropdownMenuItem>
         {!onApp ? (
           <DropdownMenuItem asChild>
             <a href={`/${locale}/app`}>

@@ -27,10 +27,10 @@
     "apiChargesEnabled": "verified",
     "portalConfiguration": "verified",
     "webhookSignature": "verified with signed replay of existing non-financial live catalog event; unsigned requests rejected",
-    "webhookDelivery": "real payment notification pending; no real charge performed",
+    "webhookDelivery": "verified real customer payment notifications processed; one active Pro account",
     "hostedCheckout": "verified live monthly USD 2.90, quantity 1 and matching website account",
     "deviceMigration": "55 legacy devices preserved with matching owners, names and IOTA identifiers; zero missing",
-    "realPaymentEntitlement": "not exercised; no real charge performed"
+    "realPaymentEntitlement": "verified user-completed payment: active subscription with future paid period and Pro account"
   },
   "portalConfigurationId": "bpc_1UNEX7AGaLryMglFOq8RM0TO",
   "webhookEndpointId": "we_1UNEXAAGaLryMglFc1G5Xbnq"

@@ -9,14 +9,13 @@ import {
   type FleetDevice,
 } from "@/lib/fleet";
 import { getFleet, mutateFleet, type FleetMutation } from "@/lib/fleet.functions";
-import { getBilling } from "@/lib/billing.functions";
+import { useBilling } from "./use-billing";
 import { loadLocalFleet, localFleetMutation } from "@/lib/fleet-storage";
 
 export function useFleet(userId: string | null, authReady: boolean) {
   const client = useQueryClient(),
     readFn = useServerFn(getFleet),
-    mutateFn = useServerFn(mutateFleet),
-    billingFn = useServerFn(getBilling);
+    mutateFn = useServerFn(mutateFleet);
   const [local, setLocal] = useState<FleetDevice[]>([]),
     [loaded, setLoaded] = useState(false),
     [error, setError] = useState<string | null>(null);
@@ -51,15 +50,7 @@ export function useFleet(userId: string | null, authReady: boolean) {
       window.removeEventListener("focus", reload);
     };
   }, []);
-  const billing = useQuery({
-    queryKey: ["billing", userId],
-    queryFn: () => billingFn(),
-    enabled: authReady && !!userId,
-    staleTime: 30000,
-    refetchInterval: 60000,
-    refetchIntervalInBackground: false,
-    retry: 1,
-  });
+  const billing = useBilling(userId, authReady);
   const remote = useQuery({
     queryKey: key,
     queryFn: () => readFn(),
@@ -161,7 +152,7 @@ export function useFleet(userId: string | null, authReady: boolean) {
     devices,
     plan: remote.data?.plan ?? "free",
     limit: remote.data?.projectDeviceLimit ?? 5,
-    ready: authReady && (userId ? remote.isSuccess : loaded),
+    ready: authReady && (userId ? !!remote.data : loaded),
     error: error ?? (remote.isError ? "fleet_read_failed" : null),
     billing: billing.data,
     pendingLocal,

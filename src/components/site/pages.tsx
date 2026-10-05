@@ -6,6 +6,7 @@ import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath, LOCALES, LANGUAGE_TAG, LANGUAGE_NAME } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
+import { useBilling } from "@/hooks/use-billing";
 import { AccountAvatar, AccountMenu } from "./account-menu";
 import {
   articleClusterMeta,
@@ -74,7 +75,7 @@ export function SiteNav() {
         [`/${locale}/projects`, projectCopy.back],
       ]
     : [
-        ["/"+locale+"/devices", fleetCopy(locale).title],
+        ["/" + locale + "/devices", fleetCopy(locale).title],
         [`/${locale}/network`, copy.nav[5]],
         [`/${locale}/guide`, copy.nav[0]],
         [`/${locale}/faq`, copy.nav[1]],
@@ -645,6 +646,8 @@ export function ArticleView({
 export function AccountPage() {
   const { locale, en } = useLocale();
   const auth = useAuth();
+  const billing = useBilling(auth.userId, auth.ready),
+    membershipCopy = fleetCopy(locale);
   const label = auth.name || auth.email || localizeValue(en ? "Account" : "账号", locale);
   return (
     <article className="article-page account-page">
@@ -668,6 +671,30 @@ export function AccountPage() {
               </span>
             </div>
           </div>
+          <section className="account-membership-card">
+            <div>
+              <span className="account-pro-badge">
+                {billing.data ? (billing.data.plan === "pro" ? "PRO" : "FREE") : "…"}
+              </span>
+              <h2>
+                {billing.data
+                  ? billing.data.plan === "pro"
+                    ? membershipCopy.memberActive
+                    : membershipCopy.free
+                  : billing.isError
+                    ? membershipCopy.unavailable
+                    : membershipCopy.checking}
+              </h2>
+              <p>
+                {billing.data?.plan === "pro"
+                  ? membershipCopy.memberIntro
+                  : membershipCopy.sameFeatures}
+              </p>
+            </div>
+            <a className="site-button small" href={`/${locale}/devices?view=membership`}>
+              {billing.data?.plan === "pro" ? membershipCopy.membership : membershipCopy.plans} →
+            </a>
+          </section>
           <div className="account-facts">
             <section>
               <h2>{localizeValue(en ? "Device list" : "设备清单", locale)}</h2>

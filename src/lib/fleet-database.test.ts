@@ -71,6 +71,10 @@ describe("real PostgreSQL quota and subscription enforcement", () => {
     await expect(
       mutate("create", { name: "Sixth", binding: { project: "flyai", identifier: wallet(6) } }),
     ).rejects.toThrow("project_device_limit_reached");
+    const preserved = await db.query<{ count: number }>(
+      "SELECT count(*)::integer AS count FROM watch_devices",
+    );
+    expect(preserved.rows[0]!.count).toBe(22); // Atomic add must not leave an empty card after quota failure.
     const shared = snapshot.devices[0]!;
     const next = await mutate("link", {
       id: shared.id,

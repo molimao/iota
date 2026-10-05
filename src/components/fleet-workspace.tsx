@@ -17,12 +17,16 @@ import {
   FLEET_NAMES,
   FLEET_PROJECTS,
   canLinkProject,
+  bindingIdentity,
+  validBinding,
   projectDeviceCount,
   type FleetBinding,
   type FleetDevice,
   type FleetProject,
 } from "@/lib/fleet";
 import { PLANS } from "@/lib/plans";
+import type { BillingSummary } from "@/lib/plans";
+import { FleetMembership } from "./fleet-membership";
 import { PROJECTS } from "@/lib/projects";
 import { shortId } from "@/lib/ss58";
 import type { ProjectReading } from "./fleet-review-data";
@@ -33,11 +37,17 @@ import { annualMonthlyEquivalent, annualSavingPercent, copyValues } from "@/lib/
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
   initialPaywallProject?: FleetProject | undefined;
+  initialTab?: "devices" | "plans";
   devices: FleetDevice[];
   plan: "free" | "pro";
+  billing?: BillingSummary | undefined;
   preview?: boolean;
   reading: (binding: FleetBinding) => ProjectReading;
-  onAdd: (name: string, hardware: string) => Promise<void>;
+  onAdd: (
+    name: string,
+    hardware: string,
+    binding?: { project: FleetProject; identifier: string; worker: string },
+  ) => Promise<void>;
   onLink: (
     deviceId: string,
     project: FleetProject,
@@ -53,7 +63,7 @@ export type FleetWorkspaceProps = {
 export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
-  const [tab, setTab] = useState<"devices" | "plans">("devices");
+  const [tab, setTab] = useState<"devices" | "plans">(props.initialTab ?? "devices");
   const [project, setProject] = useState<FleetProject | "all">("all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
@@ -124,8 +134,32 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     setError(null);
     setBusy(true);
     try {
-      if (dialog === "add") await props.onAdd(name.trim(), hardware.trim());
-      else if (dialog === "link") {
+      if (dialog === "add") {
+        if (!validBinding(selectedProject, identifier.trim())) throw new Error(c.invalidId);
+        const key = bindingIdentity({
+          project: selectedProject,
+          identifier: identifier.trim(),
+          worker: selectedProject === "xid" ? worker.trim() : "",
+        });
+        if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
+          throw new Error(c.duplicate);
+        if (projectDeviceCount(props.devices, selectedProject) >= limit) {
+          throw new Error(c.limit);
+        }
+        await props.onAdd(name.trim(), hardware.trim(), {
+          project: selectedProject,
+          identifier: identifier.trim(),
+          worker: selectedProject === "xid" ? worker.trim() : "",
+        });
+      } else if (dialog === "link") {
+        if (!validBinding(selectedProject, identifier.trim())) throw new Error(c.invalidId);
+        const key = bindingIdentity({
+          project: selectedProject,
+          identifier: identifier.trim(),
+          worker: selectedProject === "xid" ? worker.trim() : "",
+        });
+        if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
+          throw new Error(c.duplicate);
         if (!canLinkProject(props.devices, selectedDevice, selectedProject, limit)) {
           if (props.plan === "free") {
             showPaywall(selectedProject, true);
@@ -166,8 +200,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       <header className="fleet-heading">
         <div>
           <span className="eyebrow">IOTA WATCH / DEVICES</span>
-          <h1>{c.title}</h1>
-          <p>{c.intro}</p>
+          <h1>{tab === "plans" && props.plan === "pro" ? c.membership : c.title}</h1>
+          <p>{tab === "plans" && props.plan === "pro" ? c.memberIntro : c.intro}</p>
         </div>
         <button className="site-button" onClick={() => open("add")}>
           <Plus size={17} />
@@ -193,14 +227,23 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           onClick={() => setTab("plans")}
         >
           <Layers size={16} />
-          {c.plans}
-          <span>{props.plan === "pro" ? "Pro" : c.free}</span>
+          {props.plan === "pro" ? c.membership : c.plans}
+          {props.plan === "free" && <span>{c.free}</span>}
         </button>
       </div>
       {props.error && (
         <p className="fleet-form-error" role="alert">
           {props.error}
         </p>
+      )}
+      {props.plan === "pro" && tab === "devices" && (
+        <FleetMembership
+          compact
+          devices={props.devices}
+          billing={props.billing}
+          onManage={props.onManage}
+          onAdd={() => open("add")}
+        />
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" role="tabpanel" aria-labelledby="fleet-devices-tab">
@@ -291,9 +334,14 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           {visible.length === 0 && (
             <div className="fleet-empty">
               <Monitor size={30} />
-              <p>{c.empty}</p>
-              <button className="site-button" onClick={() => open("add")}>
-                {c.add}
+              <p>{props.devices.length ? c.empty : c.emptyGuide}</p>
+              <button
+                className="site-button"
+                onClick={() =>
+                  props.devices.length ? (setProject("all"), setSearch("")) : open("add")
+                }
+              >
+                {props.devices.length ? c.clearFilters : c.add}
               </button>
             </div>
           )}
@@ -305,71 +353,80 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           aria-labelledby="fleet-plans-tab"
           className="fleet-plans"
         >
-          <div className="fleet-plan-intro">
-            <h2>{c.quotas}</h2>
-            <p>
-              {c.perProject} · {c.noFleetLimit}
-            </p>
-          </div>
-          <div className="fleet-pricing-grid">
-            <article className="fleet-plan-card">
-              <span className="eyebrow">FREE</span>
-              <h3>{c.free}</h3>
-              <div className="fleet-price">$0</div>
-              <p>
-                {c.upTo} <strong>5</strong> {c.devices}
-              </p>
-              <ProjectAllowances devices={props.devices} limit={5} c={c} />
-              <p className="fleet-plan-features">{c.sameFeatures}</p>
-              <button className="fleet-outline" disabled>
-                {props.plan === "free" ? c.current : c.free}
-              </button>
-            </article>
-            <article className="fleet-plan-card fleet-pro-card">
-              <span className="eyebrow">PRO</span>
-              <h3>Pro</h3>
-              <div className="fleet-billing-switch" role="group" aria-label={c.plans}>
-                <button aria-pressed={interval === "month"} onClick={() => setInterval("month")}>
-                  {c.month}
-                </button>
-                <button aria-pressed={interval === "year"} onClick={() => setInterval("year")}>
-                  {c.year}
-                </button>
+          {props.plan === "pro" ? (
+            <FleetMembership
+              devices={props.devices}
+              billing={props.billing}
+              onManage={props.onManage}
+              onAdd={() => open("add")}
+            />
+          ) : (
+            <>
+              <div className="fleet-plan-intro">
+                <h2>{c.quotas}</h2>
+                <p>
+                  {c.perProject} · {c.noFleetLimit}
+                </p>
               </div>
-              <div className="fleet-price">
-                {interval === "month" ? "$2.90" : "$16.90"}
-                <small>{interval === "month" ? c.perMonth : c.perYear}</small>
+              <div className="fleet-pricing-grid">
+                <article className="fleet-plan-card">
+                  <span className="eyebrow">FREE</span>
+                  <h3>{c.free}</h3>
+                  <div className="fleet-price">$0</div>
+                  <p>
+                    {c.upTo} <strong>5</strong> {c.devices}
+                  </p>
+                  <ProjectAllowances devices={props.devices} limit={5} c={c} />
+                  <p className="fleet-plan-features">{c.sameFeatures}</p>
+                  <button className="fleet-outline" disabled>
+                    {props.plan === "free" ? c.current : c.free}
+                  </button>
+                </article>
+                <article className="fleet-plan-card fleet-pro-card">
+                  <span className="eyebrow">PRO</span>
+                  <h3>Pro</h3>
+                  <div className="fleet-billing-switch" role="group" aria-label={c.plans}>
+                    <button
+                      aria-pressed={interval === "month"}
+                      onClick={() => setInterval("month")}
+                    >
+                      {c.month}
+                    </button>
+                    <button aria-pressed={interval === "year"} onClick={() => setInterval("year")}>
+                      {c.year}
+                    </button>
+                  </div>
+                  <div className="fleet-price">
+                    {interval === "month" ? "$2.90" : "$16.90"}
+                    <small>{interval === "month" ? c.perMonth : c.perYear}</small>
+                  </div>
+                  <p className="fleet-plan-saving">
+                    {interval === "year"
+                      ? copyValues(c.annualSave, { percent: annualSavingPercent }) +
+                        " · " +
+                        copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
+                      : c.monthlyCharge}
+                  </p>
+                  <p>
+                    {c.upTo} <strong>50</strong> {c.devices}
+                  </p>
+                  <ProjectAllowances devices={props.devices} limit={50} c={c} />
+                  <p className="fleet-plan-features">{c.sameFeatures}</p>
+                  <button className="site-button" onClick={() => open("billing")}>
+                    {c.choosePlan}
+                    <ArrowUpRight size={16} />
+                  </button>
+                </article>
               </div>
-              <p className="fleet-plan-saving">
-                {interval === "year"
-                  ? copyValues(c.annualSave, { percent: annualSavingPercent }) +
-                    " · " +
-                    copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
-                  : c.monthlyCharge}
-              </p>
-              <p>
-                {c.upTo} <strong>50</strong> {c.devices}
-              </p>
-              <ProjectAllowances devices={props.devices} limit={50} c={c} />
-              <p className="fleet-plan-features">{c.sameFeatures}</p>
-              <button
-                className="site-button"
-                onClick={() =>
-                  props.plan === "pro" && props.onManage ? void props.onManage() : open("billing")
-                }
-              >
-                {props.plan === "pro" ? c.manage : c.choosePlan}
-                <ArrowUpRight size={16} />
-              </button>
-            </article>
-          </div>
-          {props.preview && (
-            <button className="fleet-preview-wall" onClick={() => showPaywall("iota")}>
-              {c.previewWall} · IOTA
-            </button>
+              {props.preview && (
+                <button className="fleet-preview-wall" onClick={() => showPaywall("iota")}>
+                  {c.previewWall} · IOTA
+                </button>
+              )}
+              <p className="fleet-plan-note">{c.renewal}</p>
+              <p className="fleet-plan-note">{c.downgrade}</p>
+            </>
           )}
-          <p className="fleet-plan-note">{c.renewal}</p>
-          <p className="fleet-plan-note">{c.downgrade}</p>
         </section>
       )}
       <Dialog
@@ -402,7 +459,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
             {dialog === "billing"
               ? c.sameMonitoring
               : dialog === "add"
-                ? c.noFleetLimit
+                ? c.addGuide
                 : dialog === "merge"
                   ? c.mergeNote
                   : dialog === "remove" || dialog === "unlink"
@@ -413,25 +470,102 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           <form onSubmit={(e) => void save(e)}>
             {dialog === "add" || dialog === "edit" ? (
               <>
+                {dialog === "add" && (
+                  <>
+                    <label>
+                      {c.projects}
+                      <select
+                        value={selectedProject}
+                        onChange={(e) => {
+                          setSelectedProject(e.target.value as FleetProject);
+                          setIdentifier("");
+                          setWorker("");
+                        }}
+                      >
+                        {FLEET_PROJECTS.map((p) => (
+                          <option key={p} value={p}>
+                            {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      {selectedProject === "iota"
+                        ? "Miner ID"
+                        : selectedProject === "flyai"
+                          ? "fly.ai · Wallet Address"
+                          : selectedProject === "quantus"
+                            ? "Wormhole Address"
+                            : "xCoin Address"}
+                      <input
+                        autoFocus
+                        required
+                        autoComplete="off"
+                        spellCheck={false}
+                        maxLength={100}
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
+                        placeholder={
+                          selectedProject === "iota"
+                            ? "5…"
+                            : selectedProject === "xid"
+                              ? "xpa1r…"
+                              : selectedProject === "quantus"
+                                ? "Wormhole Address"
+                                : "0x…"
+                        }
+                      />
+                    </label>
+                    <p className="fleet-input-note">{c.publicOnly}</p>
+                    {selectedProject === "xid" && (
+                      <label>
+                        {c.worker}
+                        <input
+                          maxLength={80}
+                          value={worker}
+                          onChange={(e) => setWorker(e.target.value)}
+                          autoComplete="off"
+                        />
+                      </label>
+                    )}
+                    {projectDeviceCount(props.devices, selectedProject) >= limit && (
+                      <div className="fleet-quota-warning">
+                        <p>{c.limit}</p>
+                        {props.plan === "free" && (
+                          <button
+                            type="button"
+                            className="fleet-outline"
+                            onClick={() => showPaywall(selectedProject)}
+                          >
+                            {c.viewPro}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
                 <label>
                   {c.name}
                   <input
-                    autoFocus
+                    autoFocus={dialog === "edit"}
                     required
                     maxLength={40}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </label>
-                <label>
-                  {c.hardware}
-                  <input
-                    maxLength={100}
-                    value={hardware}
-                    onChange={(e) => setHardware(e.target.value)}
-                    placeholder="Apple M4 Max · 128 GB"
-                  />
-                </label>
+                <details className="fleet-optional-fields" open={dialog === "edit"}>
+                  <summary>{c.optionalDetails}</summary>
+                  <label>
+                    {c.hardware}
+                    <input
+                      maxLength={100}
+                      value={hardware}
+                      onChange={(e) => setHardware(e.target.value)}
+                      placeholder="Apple M4 Max · 128 GB"
+                    />
+                  </label>
+                </details>
                 {dialog === "edit" && (
                   <div className="fleet-edit-actions">
                     <button
@@ -495,7 +629,13 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   </div>
                 )}
                 <label>
-                  {c.identifier}
+                  {selectedProject === "iota"
+                    ? "Miner ID"
+                    : selectedProject === "flyai"
+                      ? "fly.ai · Wallet Address"
+                      : selectedProject === "quantus"
+                        ? "Wormhole Address"
+                        : "xCoin Address"}
                   <input
                     required
                     value={identifier}
@@ -505,15 +645,18 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     spellCheck={false}
                   />
                 </label>
-                <label>
-                  {c.worker}
-                  <input
-                    maxLength={80}
-                    value={worker}
-                    onChange={(e) => setWorker(e.target.value)}
-                    autoComplete="off"
-                  />
-                </label>
+                {selectedProject === "xid" && (
+                  <label>
+                    {c.worker}
+                    <input
+                      maxLength={80}
+                      value={worker}
+                      onChange={(e) => setWorker(e.target.value)}
+                      autoComplete="off"
+                    />
+                  </label>
+                )}
+                <p className="fleet-input-note">{c.publicOnly}</p>
               </>
             ) : dialog === "merge" ? (
               <label>
@@ -551,7 +694,12 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               </button>
               <button
                 className="site-button"
-                disabled={busy || (dialog === "billing" && (props.preview || !props.onSubscribe))}
+                disabled={
+                  busy ||
+                  (dialog === "add" &&
+                    projectDeviceCount(props.devices, selectedProject) >= limit) ||
+                  (dialog === "billing" && (props.preview || !props.onSubscribe))
+                }
                 type="submit"
               >
                 {dialog === "billing" ? (
@@ -562,6 +710,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       {interval === "year" ? c.perYear : c.perMonth}
                     </span>
                   </>
+                ) : busy ? (
+                  c.processing
+                ) : dialog === "add" ? (
+                  c.add
                 ) : (
                   c.save
                 )}
@@ -621,6 +773,9 @@ function FleetCard({
   onEdit: (() => void) | undefined;
   onUnlink: ((id: string) => void) | undefined;
 }) {
+  const [expandedBinding, setExpandedBinding] = useState<string | null>(
+    device.bindings[0]?.id ?? null,
+  );
   return (
     <article className="fleet-device-card">
       <header>
@@ -629,111 +784,133 @@ function FleetCard({
         </span>
         <div>
           <h2>{device.name}</h2>
-          <p>{device.hardware || "—"}</p>
+          {device.hardware && <p>{device.hardware}</p>}
         </div>
         <span className="fleet-project-count">
           {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
         </span>
       </header>
       <div className="fleet-project-readings">
+        {!device.bindings.length && (
+          <div className="fleet-no-projects">
+            <b>{c.noProjects}</b>
+            <p>{c.noProjectsGuide}</p>
+            <button className="fleet-outline" onClick={onLink}>
+              <Plus size={14} />
+              {c.addProject}
+            </button>
+          </div>
+        )}
         {device.bindings.map((binding) => {
           const data = reading(binding);
+          const expanded = expandedBinding === binding.id;
           return (
             <section className="fleet-project-reading" key={binding.id}>
-              <div className="fleet-reading-heading">
+              <button
+                type="button"
+                className="fleet-reading-heading fleet-project-toggle"
+                aria-expanded={expanded}
+                aria-controls={`fleet-reading-${binding.id}`}
+                onClick={() => setExpandedBinding(expanded ? null : binding.id)}
+              >
                 <b>{FLEET_NAMES[binding.project]}</b>
                 <span className={`fleet-status fleet-status-${data.status}`}>
                   <i />
                   {c[data.status]}
                 </span>
                 <small>{data.activity}</small>
-              </div>
-              <div className="fleet-reading-metrics">
-                <div>
-                  <span>
-                    {data.todayLabel ?? c.today}
-                    {data.scope === "wallet" && <small>{c.wallet}</small>}
-                  </span>
-                  <strong>
-                    {data.today ?? "—"}
-                    <small>{data.today !== null ? data.unit : ""}</small>
-                  </strong>
-                  {data.todayUsd && (
-                    <small className="fleet-usd-estimate">
-                      ≈ ${data.todayUsd} USD · {c.usdEstimate}
-                    </small>
-                  )}
-                </div>
-                <div>
-                  <span>
-                    {data.totalLabel ?? c.total}
-                    {data.scope === "wallet" && <small>{c.wallet}</small>}
-                  </span>
-                  <strong>
-                    {data.lifetime ?? "—"}
-                    <small>{data.lifetime !== null ? data.unit : ""}</small>
-                  </strong>
-                </div>
-              </div>
-              {data.note && <p className="fleet-reading-note">{data.note}</p>}
-              <details className="fleet-reading-details">
-                <summary>
-                  {c.details}
-                  <ChevronDown size={13} />
-                </summary>
-                <dl>
-                  <div>
-                    <dt>{c.identifier}</dt>
-                    <dd title={binding.identifier}>{shortId(binding.identifier, 12, 8)}</dd>
-                  </div>
-                  {binding.worker && (
+                <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
+              </button>
+              {expanded && (
+                <div id={`fleet-reading-${binding.id}`}>
+                  <div className="fleet-reading-metrics">
                     <div>
-                      <dt>Worker</dt>
-                      <dd>{binding.worker}</dd>
+                      <span>
+                        {data.todayLabel ?? c.today}
+                        {data.scope === "wallet" && <small>{c.wallet}</small>}
+                      </span>
+                      <strong>
+                        {data.today ?? "—"}
+                        <small>{data.today !== null ? data.unit : ""}</small>
+                      </strong>
+                      {data.todayUsd && (
+                        <small className="fleet-usd-estimate">
+                          ≈ ${data.todayUsd} USD · {c.usdEstimate}
+                        </small>
+                      )}
                     </div>
-                  )}
-                  <div>
-                    <dt>{c.source}</dt>
-                    <dd>
-                      {data.source} · {data.updated}
-                    </dd>
+                    <div>
+                      <span>
+                        {data.totalLabel ?? c.total}
+                        {data.scope === "wallet" && <small>{c.wallet}</small>}
+                      </span>
+                      <strong>
+                        {data.lifetime ?? "—"}
+                        <small>{data.lifetime !== null ? data.unit : ""}</small>
+                      </strong>
+                    </div>
                   </div>
-                </dl>
-                {data.scope === "wallet" && <p>{c.walletNote}</p>}
-                <a
-                  href={
-                    binding.project === "flyai"
-                      ? "https://www.flyaiworld.com/compute/"
-                      : PROJECTS[binding.project].explorer
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {data.source}
-                  <ArrowUpRight size={13} />
-                </a>
-                {onUnlink && (
-                  <button
-                    type="button"
-                    className="fleet-unlink"
-                    onClick={() => onUnlink(binding.id)}
-                  >
-                    {c.unlink}
-                  </button>
-                )}
-              </details>
+                  {data.note && <p className="fleet-reading-note">{data.note}</p>}
+                  <p className="fleet-card-freshness">
+                    {c.updatedAt} · {data.updated}
+                  </p>
+                  <details className="fleet-reading-details">
+                    <summary>
+                      {c.details}
+                      <ChevronDown size={13} />
+                    </summary>
+                    <dl>
+                      <div>
+                        <dt>{c.identifier}</dt>
+                        <dd title={binding.identifier}>{shortId(binding.identifier, 12, 8)}</dd>
+                      </div>
+                      {binding.worker && (
+                        <div>
+                          <dt>Worker</dt>
+                          <dd>{binding.worker}</dd>
+                        </div>
+                      )}
+                      <div>
+                        <dt>{c.source}</dt>
+                        <dd>
+                          {data.source} · {data.updated}
+                        </dd>
+                      </div>
+                    </dl>
+                    {data.scope === "wallet" && <p>{c.walletNote}</p>}
+                    <a
+                      href={
+                        binding.project === "flyai"
+                          ? "https://www.flyaiworld.com/compute/"
+                          : PROJECTS[binding.project].explorer
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {data.source}
+                      <ArrowUpRight size={13} />
+                    </a>
+                    {onUnlink && (
+                      <button
+                        type="button"
+                        className="fleet-unlink"
+                        onClick={() => onUnlink(binding.id)}
+                      >
+                        {c.unlink}
+                      </button>
+                    )}
+                  </details>
+                </div>
+              )}
             </section>
           );
         })}
       </div>
       <footer>
-        <span>
-          {c.linked} · {new Set(device.bindings.map((b) => b.project)).size}
-        </span>
         {onEdit && <button onClick={onEdit}>{c.rename}</button>}
         <button onClick={onLink}>
           <Plus size={14} />
-          {c.link}
+          {c.addProject}
         </button>
       </footer>
     </article>
