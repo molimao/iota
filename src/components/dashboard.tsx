@@ -1,3 +1,4 @@
+import { monitorViewCopy } from "./monitor-views";
 import { fleetCopy } from "./fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { withLocales } from "@/components/site/localization";
@@ -260,7 +261,7 @@ export function Dashboard() {
             <span className="eyebrow">
               IOTA WATCH / {localizeValue(en ? "MONITOR" : "设备监控", locale)}
             </span>
-            <h1>{t("我的设备")}</h1>
+            <h1>{monitorViewCopy(locale).iotaMonitor}</h1>
           </div>
         </div>
         <div className="actions">
@@ -277,9 +278,15 @@ export function Dashboard() {
                   : t("立即刷新")}
             </button>
           ) : null}
-          <button className="solid" disabled={!watch.loaded || importing} onClick={()=>atLimit?window.location.assign("/"+locale+"/devices?upgrade=iota"):openAdd()}>
+          <button
+            className="solid"
+            disabled={!watch.loaded || importing}
+            onClick={() =>
+              atLimit ? window.location.assign("/" + locale + "/devices?upgrade=iota") : openAdd()
+            }
+          >
             <Plus size={17} />
-            {atLimit?fleetCopy(locale).viewPro:t("添加设备")}
+            {atLimit ? fleetCopy(locale).viewPro : t("添加设备")}
           </button>
         </div>
       </header>

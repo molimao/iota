@@ -1,3 +1,4 @@
+import { monitorViewCopy } from "./monitor-views";
 import { useMemo, useState } from "react";
 import {
   ArrowUpRight,
@@ -29,7 +30,7 @@ import type { BillingSummary } from "@/lib/plans";
 import { FleetMembership } from "./fleet-membership";
 import { deviceTodayEarnings } from "@/lib/fleet-earnings";
 import { formatUsd } from "@/lib/earnings";
-import { PROJECTS } from "@/lib/projects";
+import { PROJECTS, projectPath } from "@/lib/projects";
 import { shortId } from "@/lib/ss58";
 import type { ProjectReading } from "./fleet-review-data";
 import type { FleetMutation } from "@/lib/fleet-policy";
@@ -206,7 +207,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         <div>
           <span className="eyebrow">IOTA WATCH / DEVICES</span>
           <h1>{tab === "plans" && props.plan === "pro" ? c.membership : c.title}</h1>
-          <p>{tab === "plans" && props.plan === "pro" ? c.memberIntro : c.intro}</p>
+          <p>
+            {tab === "plans" && props.plan === "pro"
+              ? c.memberIntro
+              : monitorViewCopy(locale).deviceWorkflow}
+          </p>
         </div>
         <button className="site-button" onClick={() => open("add")}>
           <Plus size={17} />
@@ -296,6 +301,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               </div>
             </div>
           </div>
+          <p className="fleet-filter-caption">{monitorViewCopy(locale).filter}</p>
           <div className="fleet-toolbar">
             <div className="fleet-filters">
               {["all", ...FLEET_PROJECTS].map((p) => (
@@ -304,7 +310,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   aria-pressed={project === p}
                   onClick={() => setProject(p as FleetProject | "all")}
                 >
-                  {p === "all" ? c.all : FLEET_NAMES[p as FleetProject]}
+                  {p === "all"
+                    ? monitorViewCopy(locale).allDevices
+                    : FLEET_NAMES[p as FleetProject]}
                   {p !== "all" && (
                     <span>{projectDeviceCount(props.devices, p as FleetProject)}</span>
                   )}
@@ -321,6 +329,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               />
             </label>
           </div>
+          {project !== "all" && (
+            <p className="fleet-filter-hint">
+              {monitorViewCopy(locale).filterHint.replace("{project}", FLEET_NAMES[project])}
+            </p>
+          )}
           <div className="fleet-cards">
             {visible.map((device) => (
               <FleetCard
@@ -784,6 +797,7 @@ function FleetCard({
   const daily = deviceTodayEarnings(
     device.bindings.map((binding) => ({ binding, data: reading(binding) })),
   );
+  const { locale } = useLocale();
   return (
     <article className="fleet-device-card">
       <header>
@@ -882,6 +896,13 @@ function FleetCard({
                     </div>
                   </div>
                   {data.note && <p className="fleet-reading-note">{data.note}</p>}
+                  <a className="fleet-project-link" href={projectPath(locale, binding.project)}>
+                    {monitorViewCopy(locale).projectRecords.replace(
+                      "{project}",
+                      FLEET_NAMES[binding.project],
+                    )}
+                    <ArrowUpRight size={13} />
+                  </a>
                   <p className="fleet-card-freshness">
                     {c.updatedAt} · {data.updated}
                   </p>

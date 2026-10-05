@@ -1,3 +1,4 @@
+import { MonitoringViews, monitorViewCopy } from "../monitor-views";
 import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { useState } from "react";
@@ -73,26 +74,38 @@ export function SiteNav() {
     getArticle(pathname.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const project = isMonitorProject(projectId) ? projectId : undefined;
   const projectCopy = projectsCopy[locale];
-  const links: ReadonlyArray<readonly [string, string]> = project
-    ? [
-        [`/${locale}/projects/${project}#network`, projectCopy.network],
-        [`/${locale}/projects/${project}#setup`, projectCopy.setup],
-        [`/${locale}/projects`, projectCopy.back],
-      ]
-    : [
-        ["/" + locale + "/devices", fleetCopy(locale).title],
-        [`/${locale}/network`, copy.nav[5]],
-        [`/${locale}/guide`, copy.nav[0]],
-        [`/${locale}/faq`, copy.nav[1]],
-        [`/${locale}/learn`, copy.nav[2]],
-        [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
-        [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
-      ];
+  const views = monitorViewCopy(locale);
+  const filteredProject = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("project"),
+  });
+  const viewProject =
+    project ??
+    (filteredProject === "iota" || isMonitorProject(filteredProject) ? filteredProject : undefined);
+  const deviceView = /\/(devices|review)$/.test(pathname);
+  const links: ReadonlyArray<readonly [string, string]> = [
+    [`/${locale}/projects`, views.projects],
+    [`/${locale}/devices`, views.devices],
+    ...(project
+      ? ([
+          [`/${locale}/projects/${project}#network`, projectCopy.network],
+          [`/${locale}/projects/${project}#setup`, projectCopy.setup],
+          [`/${locale}/projects`, projectCopy.back],
+        ] as const)
+      : ([
+          [`/${locale}/network`, copy.nav[5]],
+          [`/${locale}/guide`, copy.nav[0]],
+          [`/${locale}/faq`, copy.nav[1]],
+          [`/${locale}/learn`, copy.nav[2]],
+          [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
+          [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
+        ] as const)),
+  ];
   return (
     <nav className="site-nav" aria-label={localizeValue(en ? "Main navigation" : "主导航", locale)}>
       <div className="site-brand-group">
         <a
           className="site-brand"
+          aria-label="IOTA Watch"
           href={`/${locale}`}
           aria-current={pathname === `/${locale}` ? "page" : undefined}
         >
@@ -101,21 +114,19 @@ export function SiteNav() {
           </span>
           IOTA <b>Watch</b>
         </a>
-        <ProjectSwitch />
+        <MonitoringViews current={deviceView ? "devices" : "projects"} project={viewProject} />
+        {!deviceView && <ProjectSwitch />}
       </div>
       <div className="site-links">
-        {links.map(([href, label]) => (
-          <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
-            {label}
+        {!deviceView && !pathname.endsWith("/projects") && (
+          <a
+            className="site-button small"
+            href={project ? `/${locale}/projects/${project}#addresses` : `/${locale}/app`}
+            aria-current={project ? undefined : navCurrent(pathname, `/${locale}/app`)}
+          >
+            {project ? projectCopy.mine : views.iotaMonitor}
           </a>
-        ))}
-        <a
-          className="site-button small"
-          href={project ? `/${locale}/projects/${project}#addresses` : `/${locale}/app`}
-          aria-current={project ? undefined : navCurrent(pathname, `/${locale}/app`)}
-        >
-          {project ? projectCopy.mine : localizeValue(en ? "My devices" : "我的设备", locale)}
-        </a>
+        )}
         <LanguageSwitch />
         <AccountMenu />
         <details className="mobile-nav">
@@ -125,7 +136,11 @@ export function SiteNav() {
           <div>
             {links.map(([href, label]) => (
               <a key={href} href={href} aria-current={navCurrent(pathname, href)}>
-                {label}
+                <span>
+                  {label}
+                  {href.endsWith("/projects") && <small>{views.projectDescription}</small>}
+                  {href.endsWith("/devices") && <small>{views.deviceDescription}</small>}
+                </span>
                 <ArrowUpRight size={15} />
               </a>
             ))}
