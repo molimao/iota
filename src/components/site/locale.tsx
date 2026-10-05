@@ -21,8 +21,9 @@ const EN: Record<string, string> = {
   "设备已绑定到你的账号。": "Device bound to your account.",
   "登录未完成，请重试。": "Sign-in did not finish. Try again.",
   "读取账号设备清单失败，请稍后重试。": "Could not load your account list. Try again later.",
-  "每个账号每个项目免费 5 台、Pro 50 台，更多暂不支持。": "Each account can keep up to 5 devices per project on Free, or 50 per project on Pro for now.",
-  "未登录每个项目免费最多 5 台，登录后可绑定 10 台。":
+  "每个账号每个项目免费 5 台、Pro 50 台，更多暂不支持。":
+    "Each account can keep up to 5 devices per project on Free, or 50 per project on Pro for now.",
+  "未登录每个项目免费最多 5 台，登录后可同步清单。":
     "Without signing in you can keep 5 devices per project on Free here. Sign in to bind up to 5 devices per project on Free, or 50 per project on Pro.",
   "保存到账号失败，请稍后重试。": "Could not save to your account. Try again later.",
   请填写设备名称: "Enter a device name",
@@ -263,11 +264,51 @@ function translatePiece(text: string): string {
 
 export function localizeMessage(text: string, locale: Locale): string {
   if (!text || locale === "zh") return text;
-  if (locale === "zh-TW") return localizeText(text, locale);
-  return text
-    .split("；")
-    .map((part) => localizeText(translatePiece(part.trim()), locale))
-    .join(locale === "ja" ? "；" : "; ");
+  if (text.includes("；"))
+    return text
+      .split("；")
+      .map((part) => localizeMessage(part.trim(), locale))
+      .join(locale === "ja" || locale === "zh-TW" ? "；" : "; ");
+  const direct = localizeText(text, locale);
+  if (direct !== text) return direct;
+  const nested = text.match(/^(任务|收益) (.+)：(.+)$/);
+  if (nested) {
+    const label =
+      locale === "zh-TW"
+        ? nested[1] === "任务"
+          ? "任務"
+          : "收益"
+        : localizeText(nested[1] === "任务" ? "Run {{0}}: {{1}}" : "Rewards {{0}}: {{1}}", locale);
+    const detail = localizeMessage(nested[3]!, locale);
+    return locale === "zh-TW"
+      ? `${label} ${nested[2]}：${detail}`
+      : label.replace("{{0}}", nested[2]!).replace("{{1}}", detail);
+  }
+  for (const [zh, en] of PREFIXES) {
+    if (text.startsWith(zh)) {
+      const label =
+        locale === "zh-TW"
+          ? (
+              {
+                "训练任务列表：": "訓練任務清單：",
+                "默认矿工名单：": "預設礦工名單：",
+                "状态连接失败：": "狀態連線失敗：",
+                "收益连接失败：": "收益連線失敗：",
+              } as Record<string, string>
+            )[zh]
+          : localizeText(en, locale);
+      return `${label}${localizeMessage(text.slice(zh.length), locale)}`;
+    }
+  }
+  if (locale === "zh-TW") {
+    const http = text.match(
+      /^上游(?:拒绝访问（HTTP (\d+)，可能是 Cloudflare 拦截）：|返回 HTTP (\d+)：)(.*)$/,
+    );
+    if (http)
+      return `上游${http[1] ? "拒絕存取" : "回傳"} HTTP ${http[1] ?? http[2]}：${localizeMessage(http[3]!, locale)}`;
+    return text;
+  }
+  return localizeText(translatePiece(text), locale);
 }
 
 export function useLocale() {

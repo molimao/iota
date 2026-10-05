@@ -3,7 +3,7 @@ import type { SiteLocale } from "@/lib/site";
 const en = {
   monitor: "Mining monitor",
   independent:
-    "Independent read-only monitoring for IOTA Train at Home, XID / MMM and Quantus. Not affiliated with these projects.",
+    "Independent read-only monitoring for IOTA Train at Home, XID / MMM, Quantus and fly.ai. Not affiliated with these projects.",
   privacyData:
     "Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.",
   projects: "Projects",
@@ -12,6 +12,8 @@ const en = {
   iota: "Reported training activity, network slots and accounted IOTA rewards.",
   xid: "Monitor xCoin mining with MMM: pool workers, reported hashrate and chain records.",
   quantus: "Monitor Quantus mainnet blocks and QTC mining rewards by public wormhole address.",
+  flyai: "Track fly.ai monthly compute points and wallet share with a public ETH reward address.",
+  compute: "Compute points",
   open: "Open monitor",
   training: "AI training",
   mining: "Mining",
@@ -24,7 +26,8 @@ const en = {
   remove: "Remove",
   invalid: "Check the address and checksum. Use a public mainnet reward address.",
   duplicate: "This address is already saved.",
-  limit: "You can save up to 5 devices per project on Free, or 50 per project on Pro for each project.",
+  limit:
+    "You can save up to 5 devices per project on Free, or 50 per project on Pro for each project.",
   storage: "This browser could not save your address list. Check storage permissions.",
   local:
     "Free supports 5 devices per project; Pro supports 50 per project. Project quotas are independent, and the device overview has no additional total limit. Google sign-in syncs the list across devices; without signing in it stays in this browser.",
@@ -104,7 +107,7 @@ type Copy = { [K in keyof typeof en]: string };
 const zh: Copy = {
   monitor: "挖矿监控",
   independent:
-    "独立的 IOTA Train at Home、XID / MMM 和 Quantus 只读监控工具，与这些项目无隶属关系。",
+    "独立的 IOTA Train at Home、XID / MMM、Quantus 和 fly.ai 只读监控工具，与这些项目无隶属关系。",
   privacyData:
     "免费版每个项目可关联 5 台设备，Pro 每个项目 50 台。各项目独立计数，设备总览不另设总数限制。Google 登录可跨设备同步，未登录时清单保存在当前浏览器。",
   projects: "项目",
@@ -113,6 +116,8 @@ const zh: Copy = {
   iota: "查看上报训练贡献、网络名额和已记账 IOTA 收益。",
   xid: "查看 MMM 的 xCoin 挖矿数据：矿池 Worker、上报算力和链上记录。",
   quantus: "用公开 Wormhole 地址查看 Quantus 主网区块与 QTC 挖矿收益。",
+  flyai: "用公开 ETH 收益地址查看 fly.ai 本月算力积分和钱包积分占比。",
+  compute: "算力积分",
   open: "打开监控",
   training: "AI 训练",
   mining: "挖矿",
@@ -125,9 +130,10 @@ const zh: Copy = {
   remove: "移除",
   invalid: "请核对地址及校验码，使用公开的主网收益地址。",
   duplicate: "这个地址已保存。",
-  limit: "每个项目每个项目免费 5 台、Pro 50 台。",
+  limit: "每个项目免费 5 台、Pro 50 台。",
   storage: "浏览器未能保存地址清单，请检查存储权限。",
-  local: "免费版每个项目可关联 5 台设备，Pro 每个项目 50 台。各项目独立计数，设备总览不另设总数限制。Google 登录可跨设备同步，未登录时清单保存在当前浏览器。",
+  local:
+    "免费版每个项目可关联 5 台设备，Pro 每个项目 50 台。各项目独立计数，设备总览不另设总数限制。Google 登录可跨设备同步，未登录时清单保存在当前浏览器。",
   noSecrets: "只填公开地址，不要填写助记词、私钥或 inner hash。",
   empty: "添加收益地址，查看它的挖矿记录。",
   refresh: "刷新",
@@ -197,7 +203,7 @@ const tw: Copy = {
   ...zh,
   monitor: "挖礦監控",
   independent:
-    "獨立的 IOTA Train at Home、XID / MMM 和 Quantus 唯讀監控工具，與這些專案無隸屬關係。",
+    "獨立的 IOTA Train at Home、XID / MMM、Quantus 和 fly.ai 唯讀監控工具，與這些專案無隸屬關係。",
   privacyData:
     "免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。",
   unavailable: "暫不可用",
@@ -208,6 +214,8 @@ const tw: Copy = {
   iota: "查看回報訓練貢獻、網路名額和已記帳 IOTA 收益。",
   xid: "查看 MMM 的 xCoin 挖礦資料：礦池 Worker、回報算力和鏈上紀錄。",
   quantus: "用公開 Wormhole 地址查看 Quantus 主網區塊與 QTC 挖礦收益。",
+  flyai: "用公開 ETH 收益地址查看 fly.ai 本月算力積分和錢包積分佔比。",
+  compute: "算力積分",
   open: "開啟監控",
   training: "AI 訓練",
   mining: "挖礦",
@@ -220,7 +228,8 @@ const tw: Copy = {
   duplicate: "這個地址已儲存。",
   limit: "每個專案每個項目免費 5 台、Pro 50 台。",
   storage: "瀏覽器未能儲存地址清單，請檢查儲存權限。",
-  local: "免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。",
+  local:
+    "免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。",
   noSecrets: "只填公開地址，不要填寫助記詞、私鑰或 inner hash。",
   empty: "新增收益地址，查看它的挖礦紀錄。",
   refreshing: "重新整理中…",
@@ -285,7 +294,7 @@ const tw: Copy = {
 const ko: Copy = {
   monitor: "채굴 모니터",
   independent:
-    "IOTA Train at Home, XID / MMM, Quantus의 독립적인 읽기 전용 모니터입니다. 각 프로젝트의 공식 서비스가 아닙니다.",
+    "IOTA Train at Home, XID / MMM, Quantus, fly.ai의 독립적인 읽기 전용 모니터입니다. 각 프로젝트의 공식 서비스가 아닙니다.",
   privacyData:
     "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
   projects: "프로젝트",
@@ -294,6 +303,8 @@ const ko: Copy = {
   iota: "보고된 학습 기여도, 네트워크 슬롯, 기록된 IOTA 보상을 확인합니다.",
   xid: "MMM의 xCoin 채굴 데이터: 풀 워커, 보고된 해시레이트, 온체인 기록을 확인합니다.",
   quantus: "공개 Wormhole 주소로 Quantus 메인넷 블록과 QTC 채굴 보상을 확인합니다.",
+  flyai: "공개 ETH 보상 주소로 fly.ai의 월간 컴퓨팅 포인트와 지갑 비중을 확인합니다.",
+  compute: "컴퓨팅 포인트",
   open: "모니터 열기",
   training: "AI 학습",
   mining: "채굴",
@@ -306,7 +317,8 @@ const ko: Copy = {
   remove: "삭제",
   invalid: "주소와 체크섬을 확인하세요. 공개 메인넷 보상 주소를 사용하세요.",
   duplicate: "이미 저장된 주소입니다.",
-  limit: "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
+  limit:
+    "무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.",
   storage: "브라우저가 주소 목록을 저장하지 못했습니다. 저장 권한을 확인하세요.",
   local: "프로젝트별로 이 브라우저에 저장됩니다. 계정과 동기화되지 않습니다.",
   noSecrets: "공개 주소만 입력하세요. 시드 문구, 개인 키, inner hash는 입력하지 마세요.",
@@ -382,7 +394,7 @@ const ko: Copy = {
 const ja: Copy = {
   monitor: "マイニングモニター",
   independent:
-    "IOTA Train at Home、XID / MMM、Quantusの独立した読み取り専用モニターです。各プロジェクトの公式サービスではありません。",
+    "IOTA Train at Home、XID / MMM、Quantus、fly.aiの独立した読み取り専用モニターです。各プロジェクトの公式サービスではありません。",
   privacyData:
     "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
   projects: "プロジェクト",
@@ -392,6 +404,8 @@ const ja: Copy = {
   xid: "MMM の xCoin マイニングを監視：プールのワーカー、報告されたハッシュレート、オンチェーン記録。",
   quantus:
     "公開 Wormhole アドレスで Quantus メインネットのブロックと QTC マイニング報酬を確認します。",
+  flyai: "公開 ETH 報酬アドレスで fly.ai の月間計算ポイントとウォレットの割合を確認します。",
+  compute: "計算ポイント",
   open: "モニターを開く",
   training: "AI 学習",
   mining: "マイニング",
@@ -404,7 +418,8 @@ const ja: Copy = {
   remove: "削除",
   invalid: "アドレスとチェックサムを確認してください。公開メインネット報酬アドレスを使用します。",
   duplicate: "このアドレスは保存済みです。",
-  limit: "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
+  limit:
+    "無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。",
   storage: "ブラウザがアドレス一覧を保存できませんでした。保存権限を確認してください。",
   local: "プロジェクトごとにこのブラウザに保存されます。アカウントとは同期されません。",
   noSecrets: "公開アドレスのみ。シードフレーズ、秘密鍵、inner hash は入力しないでください。",

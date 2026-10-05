@@ -39,6 +39,7 @@ import { annualMonthlyEquivalent, annualSavingPercent, copyValues } from "@/lib/
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
   initialPaywallProject?: FleetProject | undefined;
+  initialProject?: FleetProject | undefined;
   initialTab?: "devices" | "plans";
   devices: FleetDevice[];
   plan: "free" | "pro";
@@ -66,7 +67,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const [tab, setTab] = useState<"devices" | "plans">(props.initialTab ?? "devices");
-  const [project, setProject] = useState<FleetProject | "all">("all");
+  const [project, setProject] = useState<FleetProject | "all">(props.initialProject ?? "all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
     "add" | "link" | "billing" | "edit" | "merge" | "remove" | "unlink" | null
@@ -74,7 +75,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [name, setName] = useState(""),
     [hardware, setHardware] = useState("");
-  const [selectedProject, setSelectedProject] = useState<FleetProject>("iota");
+  const [selectedProject, setSelectedProject] = useState<FleetProject>(
+    props.initialProject ?? "iota",
+  );
   const [identifier, setIdentifier] = useState(""),
     [worker, setWorker] = useState("");
   const [sourceId, setSourceId] = useState(""),
@@ -119,7 +122,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     setIdentifier("");
     setWorker("");
     setSelectedDevice(deviceId || props.devices[0]?.id || "");
-    setSelectedProject("iota");
+    setSelectedProject(project === "all" ? "iota" : project);
     setDialog(kind);
     setPaywallProject(null);
     setReturnToLink(false);
@@ -495,10 +498,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       {selectedProject === "iota"
                         ? "Miner ID"
                         : selectedProject === "flyai"
-                          ? "fly.ai · Wallet Address"
+                          ? `fly.ai · ${c.rewardAddress}`
                           : selectedProject === "quantus"
-                            ? "Wormhole Address"
-                            : "xCoin Address"}
+                            ? `Wormhole · ${c.rewardAddress}`
+                            : `xCoin · ${c.rewardAddress}`}
                       <input
                         autoFocus
                         required
@@ -513,7 +516,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                             : selectedProject === "xid"
                               ? "xpa1r…"
                               : selectedProject === "quantus"
-                                ? "Wormhole Address"
+                                ? `Wormhole · ${c.rewardAddress}`
                                 : "0x…"
                         }
                       />
@@ -634,10 +637,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   {selectedProject === "iota"
                     ? "Miner ID"
                     : selectedProject === "flyai"
-                      ? "fly.ai · Wallet Address"
+                      ? `fly.ai · ${c.rewardAddress}`
                       : selectedProject === "quantus"
-                        ? "Wormhole Address"
-                        : "xCoin Address"}
+                        ? `Wormhole · ${c.rewardAddress}`
+                        : `xCoin · ${c.rewardAddress}`}
                   <input
                     required
                     value={identifier}

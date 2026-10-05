@@ -132,7 +132,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           : page === "guide"
             ? `${copy.guideTitle} | IOTA Watch`
             : page === "faq"
-              ? `${copy.faqTitle}: IOTA / XID / Quantus | IOTA Watch`
+              ? `${copy.faqTitle}: IOTA / XID / Quantus / fly.ai | IOTA Watch`
               : page === "privacy"
                 ? `${copy.privacyTitle} | IOTA Watch`
                 : page === "learn"

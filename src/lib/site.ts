@@ -124,8 +124,8 @@ export function originFromRequest(request?: Request) {
 }
 
 export function swapLocalePath(pathname: string, next: SiteLocale) {
-  if (/^\/(zh-TW|en|zh|ko|ja)(?=\/|$)/.test(pathname)) {
-    return pathname.replace(/^\/(zh-TW|en|zh|ko|ja)(?=\/|$)/, `/${next}`);
+  if (/^\/(zh-TW|en|zh|ko|ja)(?=\/|[?#]|$)/.test(pathname)) {
+    return pathname.replace(/^\/(zh-TW|en|zh|ko|ja)(?=\/|[?#]|$)/, `/${next}`);
   }
   return `/${next}${pathname === "/" ? "" : pathname}`;
 }

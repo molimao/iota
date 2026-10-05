@@ -25,6 +25,10 @@ export function FleetPage() {
   const upgrade = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("upgrade"),
   });
+  const projectFilter = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("project"),
+  });
+  const initialProject = FLEET_PROJECTS.find((p) => p === projectFilter);
   const upgradeProject = FLEET_PROJECTS.find((p) => p === upgrade);
   const memberView = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
@@ -110,6 +114,7 @@ export function FleetPage() {
         )}
       </div>
       <FleetWorkspace
+        initialProject={initialProject}
         devices={fleet.devices}
         plan={fleet.plan}
         billing={fleet.billing}

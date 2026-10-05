@@ -45,7 +45,7 @@ export const projectGuides: Article[] = [
         "## 启动后，先看本机再看远端",
         "在 MMM 确认挖矿引擎、当前 Worker 名称和份额活动，再用浏览器查地址。给不同机器不同的 Worker 名称有助于辨认，但一个 Worker 名称不等于一台确定的物理设备。矿池记录出现时间也可能晚于本机变化。",
         "## 添加到网页监控",
-        "打开 [XID / MMM 监控](/projects/xid)，保存公开地址和名称。每个项目每个项目免费 5 台、Pro 50 台，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。",
+        "打开 [XID / MMM 监控](/projects/xid)，保存公开地址和名称。每个项目免费 5 台、Pro 50 台，在设备总览登录 Google 后可同步设备及关联项目；未登录时仅保存在当前浏览器，可导出备份。",
         "网页缺少 Worker 时，先核对所选矿池是否在来源名单的覆盖范围，再看最近获取时间。继续阅读 [算力与份额](/learn/xid-worker-hashrate-shares) 或 [余额与奖励成熟](/learn/xid-rewards-balance-maturity)。",
       ],
       "zh-TW": [
@@ -56,7 +56,7 @@ export const projectGuides: Article[] = [
         "## 啟動後，先看本機再看遠端",
         "在 MMM 確認挖礦引擎、目前 Worker 名稱和份額活動，再用瀏覽器查地址。為不同機器設定不同 Worker 名稱有助於辨認，但名稱不等於一台確定的實體設備。礦池紀錄可能晚於本機變化。",
         "## 新增至網頁監控",
-        "開啟 [XID / MMM 監控](/projects/xid)，儲存公開地址與名稱。每個專案每個項目免費 5 台、Pro 50 台，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。",
+        "開啟 [XID / MMM 監控](/projects/xid)，儲存公開地址與名稱。每個專案免費 5 台、Pro 50 台。在設備總覽登入 Google 後可同步設備與關聯專案；未登入時只儲存在目前瀏覽器，可匯出備份。",
         "網頁缺少 Worker 時，先核對所選礦池是否在來源名單涵蓋範圍，再看最近取得時間。繼續閱讀 [算力與份額](/learn/xid-worker-hashrate-shares) 或 [餘額與獎勵成熟](/learn/xid-rewards-balance-maturity)。",
       ],
       en: [
@@ -1441,7 +1441,7 @@ export const projectGuides: Article[] = [
   },
 ];
 
-export function guidesForProject(project?: "iota" | "xid" | "quantus") {
+export function guidesForProject(project?: "iota" | "xid" | "quantus" | "flyai") {
   return project
     ? projectGuides.filter((a) => a.project === project)
     : projectGuides.filter(

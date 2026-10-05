@@ -1,9 +1,10 @@
 import { bech32m } from "@scure/base";
 import { decodeSs58 } from "./ss58";
 
-export const PROJECT_IDS = ["iota", "xid", "quantus"] as const;
+export const PROJECT_IDS = ["iota", "xid", "quantus", "flyai"] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
-export type MiningProject = Exclude<ProjectId, "iota">;
+export type MiningProject = "xid" | "quantus";
+export type MonitorProject = Exclude<ProjectId, "iota">;
 export const PROJECTS = {
   iota: {
     name: "IOTA",
@@ -29,10 +30,22 @@ export const PROJECTS = {
     guide: "https://docs.quantus.com/guides/mining/",
     explorer: "https://explorer.quantus.com/",
   },
+  flyai: {
+    name: "fly.ai",
+    detail: "Compute",
+    token: "Points",
+    website: "https://www.flyaiworld.com/compute/",
+    guide: "https://www.flyaiworld.com/compute/",
+    explorer: "https://flyai-mine.fly.dev/api/month",
+  },
 } as const;
 
 export function isMiningProject(value: unknown): value is MiningProject {
   return value === "xid" || value === "quantus";
+}
+
+export function isMonitorProject(value: unknown): value is MonitorProject {
+  return isMiningProject(value) || value === "flyai";
 }
 
 export function projectPath(locale: string, project: ProjectId) {
@@ -48,13 +61,17 @@ export function projectEntity(project: ProjectId) {
         ? "IOTA Train at Home"
         : project === "xid"
           ? "xCoin (XID)"
-          : "Quantus (QTC)",
+          : project === "quantus"
+            ? "Quantus (QTC)"
+            : "fly.ai Compute",
     alternateName:
       project === "iota"
         ? ["Macrocosmos IOTA", "Train at Home"]
         : project === "xid"
           ? ["xCoin", "XID"]
-          : ["Quantus", "QTC"],
+          : project === "quantus"
+            ? ["Quantus", "QTC"]
+            : ["fly.ai", "FlyAI Compute"],
     sameAs: PROJECTS[project].website,
   };
 }

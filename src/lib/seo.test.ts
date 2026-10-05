@@ -45,7 +45,7 @@ describe("public guide indexing", () => {
         .slice(0, 5)
         .map(([, a]) => a)
         .join(" ");
-      for (const identifier of ["Train at Home", "XID", "Quantus", "xpa1r", "Wormhole", "10", "3"])
+      for (const identifier of ["Train at Home", "XID", "Quantus", "xpa1r", "Wormhole", "fly.ai", "50", "5"])
         expect(firstAnswers).toContain(identifier);
     }
   });

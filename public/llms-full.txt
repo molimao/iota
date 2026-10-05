@@ -28,6 +28,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
+- fly.ai Compute: https://iotahome.site/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: https://iotahome.site/en/devices?project=flyai.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
@@ -63,6 +64,11 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [XID / MMM (en)](https://iotahome.site/en/projects/xid)
 - [XID / MMM (ko)](https://iotahome.site/ko/projects/xid)
 - [XID / MMM (ja)](https://iotahome.site/ja/projects/xid)
+- [fly.ai Compute (zh)](https://iotahome.site/zh/projects/flyai)
+- [fly.ai Compute (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
+- [fly.ai Compute (en)](https://iotahome.site/en/projects/flyai)
+- [fly.ai Compute (ko)](https://iotahome.site/ko/projects/flyai)
+- [fly.ai Compute (ja)](https://iotahome.site/ja/projects/flyai)
 - [Quantus / QTC (zh)](https://iotahome.site/zh/projects/quantus)
 - [Quantus / QTC (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
 - [Quantus / QTC (en)](https://iotahome.site/en/projects/quantus)
@@ -230,23 +236,23 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - Canonical page: https://iotahome.site/zh/faq
 - Updated: 2026-10-03
 
-先确认项目、公开地址和数据范围。带 IOTA 标记的问题适用于 Train at Home，XID 和 Quantus 的记录分别查看。
+先确认项目、公开地址和数据范围。IOTA、XID、Quantus 与 fly.ai 的数据来源和收益口径分别展示。
 
 #### 这是 IOTA 公链或官方钱包吗？
 
-不是。IOTA Watch 是独立的只读监控工具，主要监控 Macrocosmos IOTA Train at Home（Bittensor SN9），另有 XID / MMM 和 Quantus 入口。它不是 IOTA Foundation 公链、Firefly 或任何项目的官方钱包。
+不是。IOTA Watch 是独立的只读监控工具，主要监控 Macrocosmos IOTA Train at Home（Bittensor SN9），另有 XID / MMM、Quantus 和 fly.ai 入口。它不是 IOTA Foundation 公链、Firefly 或任何项目的官方钱包。
 
 #### IOTA Watch 支持哪些项目？
 
-IOTA 页面查看 Train at Home 的设备状态和记账收益；XID 页面查看 xCoin / MMM 的矿池 Worker、算力和浏览器余额；Quantus 页面查看主网区块与公开地址的出块奖励。三种项目、币种与统计口径分别展示。
+IOTA 页面查看 Train at Home 的设备状态和记账收益；XID 页面查看 xCoin / MMM 的矿池 Worker、算力和浏览器余额；Quantus 页面查看主网区块与公开地址的出块奖励；fly.ai 页面查看月度公开钱包积分。fly.ai 积分不代表设备今日现金收益。
 
-#### 三个项目要填同一种地址吗？
+#### 各项目要填同一种地址吗？
 
-不用。IOTA 使用设备的公开 Miner ID / SS58 hotkey；XID 使用通过校验的 xpa1r 主网收益地址；Quantus 使用实际挖矿的 Wormhole 公开 Address。私钥、助记词和 inner hash 都不用于网页查询。
+不用。IOTA 使用公开 Miner ID / SS58 hotkey；XID 使用通过校验的 xpa1r 主网收益地址；Quantus 使用挖矿的 Wormhole 公开地址；fly.ai 使用 0x 开头的公开收益钱包地址。无需提供私钥、助记词或 inner hash。
 
-#### XID 和 Quantus 清单能用 Google 同步吗？
+#### 各项目清单能用 Google 同步吗？
 
-目前不能。Google 同步用于 IOTA 设备清单，每个账号最多 10 台；未登录 IOTA 最多 3 台。XID 和 Quantus 各最多保存 10 个公开地址，独立存于当前浏览器。
+可以。在设备总览登录 Google 后，可以同步 IOTA、XID、Quantus 和 fly.ai 的设备及关联项目。免费版每个项目 5 台，Pro 每个项目 50 台，设备总览没有额外总数限制。未登录时清单只保存在当前浏览器。
 
 #### Quantus 出块奖励能代表所有矿池付款吗？
 
@@ -300,23 +306,23 @@ SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha
 - Canonical page: https://iotahome.site/zh-TW/faq
 - Updated: 2026-10-03
 
-先確認專案、公開地址與資料範圍。標示 IOTA 的問題適用於 Train at Home，XID 與 Quantus 的紀錄分別查看。
+先確認專案、公開地址與資料範圍。IOTA、XID、Quantus 與 fly.ai 的資料來源和收益方式分別呈現。
 
 #### 這是 IOTA 公鏈或官方錢包嗎？
 
-不是。IOTA Watch 是獨立的唯讀監控工具，主要監控 Macrocosmos IOTA Train at Home（Bittensor SN9），另有 XID / MMM 與 Quantus 入口。它不是 IOTA Foundation 公鏈、Firefly 或任何專案的官方錢包。
+不是。IOTA Watch 是獨立的唯讀監控工具，主要監控 Macrocosmos IOTA Train at Home（Bittensor SN9），另有 XID / MMM、Quantus 與 fly.ai 入口。它不是 IOTA Foundation 公鏈、Firefly 或任何專案的官方錢包。
 
 #### IOTA Watch 支援哪些專案？
 
-IOTA 頁面查看 Train at Home 的設備狀態與記帳收益；XID 頁面查看 xCoin / MMM 的礦池 Worker、算力與瀏覽器餘額；Quantus 頁面查看主網區塊與公開地址的出塊獎勵。三個專案、幣種與統計方式分別呈現。
+IOTA 頁面查看 Train at Home 的設備狀態與記帳收益；XID 頁面查看 xCoin / MMM 的礦池 Worker、算力與瀏覽器餘額；Quantus 頁面查看主網區塊與公開地址的出塊獎勵；fly.ai 頁面查看月度公開錢包積分。fly.ai 積分不代表設備今日現金收益。
 
-#### 三個專案要填同一種地址嗎？
+#### 各專案要填同一種地址嗎？
 
-不用。IOTA 使用設備的公開 Miner ID / SS58 hotkey；XID 使用通過校驗的 xpa1r 主網收益地址；Quantus 使用實際挖礦的 Wormhole 公開 Address。私鑰、助記詞與 inner hash 都不需要提供給網頁。
+不用。IOTA 使用公開 Miner ID / SS58 hotkey；XID 使用通過校驗的 xpa1r 主網收益地址；Quantus 使用挖礦的 Wormhole 公開地址；fly.ai 使用 0x 開頭的公開收益錢包地址。無需提供私鑰、助記詞或 inner hash。
 
-#### XID 與 Quantus 清單能透過 Google 同步嗎？
+#### 各專案清單能透過 Google 同步嗎？
 
-目前不能。Google 同步用於 IOTA 設備清單，每個帳號最多 10 台；未登入 IOTA 最多 3 台。XID 與 Quantus 各最多儲存 10 個公開地址，獨立保存在目前瀏覽器。
+可以。在設備總覽登入 Google 後，可同步 IOTA、XID、Quantus 和 fly.ai 的設備及關聯專案。免費版每個專案 5 台，Pro 每個專案 50 台，設備總覽沒有額外總數限制。未登入時清單只儲存在目前瀏覽器。
 
 #### Quantus 出塊獎勵能代表所有礦池付款嗎？
 
@@ -370,23 +376,23 @@ SN9 是 Bittensor 子網路 9（IOTA Train at Home）。收益代幣是子網 al
 - Canonical page: https://iotahome.site/en/faq
 - Updated: 2026-10-03
 
-Check the project, public identifier and data coverage first. Questions labeled IOTA apply to Train at Home; XID and Quantus records stay separate.
+Check each project’s public identifier and data coverage. IOTA, XID, Quantus and fly.ai use separate sources and reward measures.
 
 #### Is this IOTA Layer 1 or an official wallet?
 
-No. IOTA Watch is an independent, read-only monitor, primarily for Macrocosmos IOTA Train at Home (Bittensor SN9), with separate XID / MMM and Quantus pages. It is not IOTA Foundation Layer 1, Firefly or an official wallet for any of these projects.
+No. IOTA Watch is an independent, read-only monitor, primarily for Macrocosmos IOTA Train at Home (Bittensor SN9), with separate XID / MMM, Quantus and fly.ai pages. It is not IOTA Foundation Layer 1, Firefly or an official wallet for any of these projects.
 
 #### Which projects does IOTA Watch support?
 
-IOTA pages show Train at Home device activity and accounted rewards. XID pages show xCoin / MMM pool workers, hashrate and explorer balance. Quantus pages show mainnet blocks and indexed block rewards for public addresses. Projects, currencies and accounting measures remain separate.
+IOTA shows Train at Home device activity and accounted rewards. XID shows xCoin / MMM pool workers, hashrate and explorer balance. Quantus shows mainnet blocks and indexed block rewards. fly.ai shows monthly public wallet points, which are not device-level daily cash earnings.
 
-#### Do all three projects use the same address?
+#### Do all projects use the same address?
 
-No. IOTA uses the device’s public Miner ID / SS58 hotkey; XID uses a checksum-valid xpa1r mainnet payout address; Quantus uses the public Wormhole Address actually used for mining. Private keys, seed phrases and inner hashes are not needed by this website.
+No. IOTA uses a public Miner ID / SS58 hotkey; XID uses a checksum-valid xpa1r mainnet payout address; Quantus uses the public Wormhole mining address; fly.ai uses a public payout wallet address beginning with 0x. Private keys, seed phrases and inner hashes are not required.
 
-#### Do XID and Quantus lists sync through Google?
+#### Do project lists sync through Google?
 
-Not currently. Google synchronization applies to IOTA lists, with up to 10 devices per account or 3 without signing in. XID and Quantus each keep up to 10 public addresses separately in the current browser.
+Yes. Sign in with Google in the device overview to sync devices and linked IOTA, XID, Quantus and fly.ai projects. Free supports 5 devices per project; Pro supports 50 per project. The overview has no additional total device limit. Signed-out lists remain in the current browser only.
 
 #### Do Quantus block rewards cover all pool payments?
 
@@ -440,23 +446,23 @@ SN9 is Bittensor subnet 9 (IOTA Train at Home). The reward token is the subnet a
 - Canonical page: https://iotahome.site/ko/faq
 - Updated: 2026-10-03
 
-프로젝트, 공개 식별자와 데이터 범위를 먼저 확인하세요. IOTA로 표시된 질문은 Train at Home에 해당하며 XID와 Quantus 기록은 별도로 조회합니다.
+프로젝트별 공개 식별자와 데이터 범위를 확인하세요. IOTA, XID, Quantus, fly.ai는 출처와 보상 집계 방식이 다릅니다.
 
 #### IOTA 레이어 1이나 공식 지갑인가요?
 
-아니요. IOTA Watch는 Macrocosmos IOTA Train at Home(Bittensor SN9)을 주로 조회하는 독립적인 읽기 전용 모니터이며 XID / MMM 및 Quantus 페이지도 제공합니다. IOTA Foundation 레이어 1, Firefly 또는 각 프로젝트의 공식 지갑이 아닙니다.
+아니요. IOTA Watch는 Macrocosmos IOTA Train at Home(Bittensor SN9)을 주로 조회하는 독립적인 읽기 전용 모니터이며 XID / MMM, Quantus 및 fly.ai 페이지도 제공합니다. IOTA Foundation 레이어 1, Firefly 또는 각 프로젝트의 공식 지갑이 아닙니다.
 
 #### 어떤 프로젝트를 지원하나요?
 
-IOTA 페이지는 Train at Home 기기 상태와 기록 보상을, XID 페이지는 xCoin / MMM 풀 워커·해시레이트·탐색기 잔액을 표시합니다. Quantus 페이지는 메인넷 블록과 공개 주소의 색인된 블록 보상을 조회합니다. 프로젝트, 통화와 집계 방식은 각각 구분합니다.
+IOTA는 Train at Home 기기 상태와 기록 보상을, XID는 xCoin / MMM 풀 워커·해시레이트·탐색기 잔액을 표시합니다. Quantus는 메인넷 블록과 색인된 블록 보상을 조회합니다. fly.ai는 공개 지갑의 월별 포인트를 표시하며, 이 포인트는 기기의 오늘 현금 수익을 의미하지 않습니다.
 
-#### 세 프로젝트에 같은 주소를 입력하나요?
+#### 모든 프로젝트에 같은 주소를 입력하나요?
 
-아니요. IOTA는 기기의 공개 Miner ID / SS58 hotkey, XID는 체크섬이 유효한 xpa1r 메인넷 보상 주소, Quantus는 실제 채굴에 사용하는 Wormhole 공개 Address를 사용합니다. 개인 키, 시드 문구와 inner hash는 웹 조회에 필요하지 않습니다.
+아니요. IOTA는 공개 Miner ID / SS58 hotkey, XID는 체크섬이 유효한 xpa1r 메인넷 보상 주소, Quantus는 채굴용 Wormhole 공개 주소, fly.ai는 0x로 시작하는 공개 보상 지갑 주소를 사용합니다. 개인 키, 시드 문구, inner hash는 필요하지 않습니다.
 
-#### XID와 Quantus 목록도 Google로 동기화되나요?
+#### 프로젝트 목록을 Google로 동기화할 수 있나요?
 
-현재는 아닙니다. Google 동기화는 계정당 최대 10대의 IOTA 기기 목록에 적용되며 비로그인 목록은 최대 3대입니다. XID와 Quantus는 각각 최대 10개의 공개 주소를 현재 브라우저에 별도로 저장합니다.
+네. 기기 개요에서 Google로 로그인하면 기기와 연결된 IOTA, XID, Quantus, fly.ai 프로젝트를 동기화할 수 있습니다. 무료는 프로젝트당 5대, Pro는 프로젝트당 50대이며 개요에 별도의 전체 기기 수 제한은 없습니다. 로그인하지 않은 목록은 현재 브라우저에만 저장됩니다.
 
 #### Quantus 블록 보상이 모든 풀 지급을 포함하나요?
 
@@ -476,11 +482,11 @@ Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이�
 
 #### IOTA · IOTA단위는 무엇을 의미하나요?
 
-여기서IOTA은 업스트림 보상 API에서 사용되는Train at Home서브넷 알파 토큰을 나타냅니다. 이는TAO금액도 아니고IOTA레이어 1도 아닙니다. 대시보드에는 공개 시장 가격SN9의 USD 추정치도 표시됩니다. 이는 공식적인 정산율이 아닙니다. 누적 보상은 총 획득 금액을 사용합니다. 결제된 금액은 다시 추가되지 않습니다.
+여기서 IOTA는 Train at Home 보상 API의 서브넷 알파 토큰입니다. TAO나 IOTA 레이어 1 코인이 아닙니다. 모니터의 USD 추정치는 SN9 공개 시장 가격을 기준으로 하며 공식 정산 가격은 아닙니다. 누적 보상에는 total earned를 사용하고 이미 지급된 금액을 다시 더하지 않습니다.
 
 #### IOTA · 숫자는 얼마나 최신입니까?
 
-장치 상태는 약 30초마다 확인됩니다. 약 2분마다 보상을 제공합니다. 공식 샘플 시간과 이 사이트에서 데이터를 가져온 시간은 다릅니다. 수동 새로고침의 재사용 대기시간은 15초입니다.
+기기 상태는 약 30초마다, 보상 데이터는 약 2분마다 확인합니다. 공식 샘플 시각과 사이트에서 데이터를 조회한 시각은 다릅니다. 수동 새로고침에는 15초 대기 시간이 있습니다.
 
 #### IOTA · 처리량이 0이라는 것은 장치가 오프라인 상태라는 것을 의미합니까?
 
@@ -492,7 +498,7 @@ Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이�
 
 #### IOTA · 전화기에서 동일한 목록을 사용할 수 있나요?
 
-동일한Google계정으로 로그인하거나 목록을 내보낸 후 다른 브라우저에서 가져오세요. 서명되지 않은 로컬 목록은 자체적으로 동기화되지 않습니다.
+같은 Google 계정으로 로그인하거나 목록을 내보내 다른 브라우저에서 가져오세요. 로그인하지 않은 로컬 목록은 자동으로 동기화되지 않습니다.
 
 #### IOTA · 보상 값이 누락된 이유는 무엇입니까?
 
@@ -500,7 +506,7 @@ Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이�
 
 #### IOTA · 새로고침이 중단되었다는 것은 무엇을 의미합니까?
 
-이 사이트는 5분 이상 공식 읽기를 성공적으로 완료하지 못했습니다. 마지막 좋은 숫자는 카드에 남아 있습니다. 이는 장치가 오프라인임을 증명하지 않습니다.
+5분 넘게 공식 데이터를 정상적으로 끝까지 조회하지 못한 상태입니다. 카드에는 마지막으로 정상 조회한 수치를 유지합니다. 기기가 오프라인이라는 뜻은 아닙니다.
 
 #### IOTA · SN9은 무엇입니까?
 
@@ -510,23 +516,23 @@ SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기
 - Canonical page: https://iotahome.site/ja/faq
 - Updated: 2026-10-03
 
-まずプロジェクト、公開ID、データ範囲を確認してください。IOTAと表示した質問はTrain at Home向けで、XIDとQuantusの記録は別々に確認します。
+各プロジェクトの公開IDとデータ範囲を確認してください。IOTA、XID、Quantus、fly.aiは出典と報酬の集計方法が異なります。
 
 #### IOTAレイヤー1や公式ウォレットですか？
 
-いいえ。IOTA Watchは主にMacrocosmos IOTA Train at Home（Bittensor SN9）を確認する独立した読み取り専用モニターで、XID / MMMとQuantusの専用ページもあります。IOTA Foundationレイヤー1、Firefly、各プロジェクトの公式ウォレットではありません。
+いいえ。IOTA Watchは主にMacrocosmos IOTA Train at Home（Bittensor SN9）を確認する独立した読み取り専用モニターで、XID / MMM、Quantus、fly.aiの専用ページもあります。IOTA Foundationレイヤー1、Firefly、各プロジェクトの公式ウォレットではありません。
 
 #### どのプロジェクトに対応していますか？
 
-IOTAページではTrain at Homeのデバイス状態と記帳報酬、XIDページではxCoin / MMMのプールワーカー、ハッシュレート、エクスプローラー残高を表示します。Quantusページではメインネットのブロックと公開アドレスの索引済みブロック報酬を確認します。通貨と集計方法は個別です。
+IOTAはTrain at Homeのデバイス状態と記帳報酬、XIDはxCoin / MMMのプールワーカー、ハッシュレート、エクスプローラー残高を表示します。Quantusはメインネットのブロックと索引済みブロック報酬、fly.aiは公開ウォレットの月次ポイントを表示します。fly.aiのポイントはデバイスの今日の現金収益ではありません。
 
-#### 3つとも同じアドレスを使いますか？
+#### 各プロジェクトで同じアドレスを使いますか？
 
-いいえ。IOTAはデバイスの公開Miner ID / SS58 hotkey、XIDはチェックサムが有効なxpa1rメインネット報酬アドレス、Quantusは実際の採掘で使うWormhole公開Addressです。秘密鍵、シードフレーズ、inner hashはサイトの照会に不要です。
+いいえ。IOTAは公開Miner ID / SS58 hotkey、XIDはチェックサムが有効なxpa1rメインネット報酬アドレス、Quantusは採掘用のWormhole公開アドレス、fly.aiは0xで始まる公開報酬ウォレットアドレスを使います。秘密鍵、シードフレーズ、inner hashは不要です。
 
-#### XIDやQuantusの一覧もGoogleで同期できますか？
+#### 各プロジェクトの一覧をGoogleで同期できますか？
 
-現在はできません。Google同期はIOTAのデバイス一覧に対応し、アカウントごとに最大10台、未ログインでは最大3台です。XIDとQuantusはそれぞれ最大10個の公開アドレスを現在のブラウザーに別々に保存します。
+はい。デバイス一覧でGoogleにログインすると、デバイスと関連付けたIOTA、XID、Quantus、fly.aiを同期できます。無料は各プロジェクト5台、Proは各50台で、一覧に別途の合計台数制限はありません。未ログインの一覧は現在のブラウザーにのみ保存されます。
 
 #### Quantusのブロック報酬には全プール支払いが含まれますか？
 
@@ -546,11 +552,11 @@ IOTAページではTrain at Homeのデバイス状態と記帳報酬、XIDペー
 
 #### IOTA · IOTAという単位は何を意味しますか?
 
-ここで、IOTAは、アップストリームの報酬 API によって使用されるTrain at Homeサブネット アルファ トークンを指します。これは、レイヤー 1 のTAOの金額でも、IOTAの金額でもありません。ダッシュボードには、公開市場価格SN9からの米ドルの推定値も表示されます。これは正式な決済レートではありません。累計報酬には獲得した合計額が使用されます。支払った金額が再度追加されることはありません。
+ここでのIOTAはTrain at Homeの報酬APIで使われるサブネットのアルファトークンです。TAOやIOTAレイヤー1のコインではありません。USD換算はSN9の公開市場価格による推定で、公式の決済価格ではありません。累計報酬はtotal earnedを使用し、支払い済み金額を重複加算しません。
 
 #### IOTA · 数字はどれくらい最新のものですか?
 
-デバイスのステータスは約 30 秒ごとにチェックされます。約2分ごとに報酬が与えられます。公式のサンプル時間と当サイトがデータを取得した時間は異なります。手動更新には 15 秒のクールダウンがあります。
+デバイス状態は約30秒ごと、報酬データは約2分ごとに確認します。公式の採取時刻と当サイトの取得時刻は異なります。手動更新には15秒の待機時間があります。
 
 #### IOTA · スループットがゼロということは、デバイスがオフラインであることを意味しますか?
 
@@ -562,7 +568,7 @@ IOTAページではTrain at Homeのデバイス状態と記帳報酬、XIDペー
 
 #### IOTA · 同じリストを電話でも使用できますか?
 
-同じGoogleアカウントでサインインするか、リストをエクスポートして他のブラウザーにインポートします。署名されていないローカル リストは、それ自体では同期しません。
+同じGoogleアカウントでログインするか、一覧をエクスポートして別のブラウザーにインポートしてください。未ログインのローカル一覧は自動同期されません。
 
 #### IOTA · 報酬値が欠落しているのはなぜですか?
 
@@ -570,7 +576,7 @@ IOTAページではTrain at Homeのデバイス状態と記帳報酬、XIDペー
 
 #### IOTA · リフレッシュの中断とはどういう意味ですか?
 
-このサイトは、5 分以上正常に公式読み取りを完了できませんでした。最後に良い数字がカードに残ります。デバイスがオフラインであることを証明するものではありません。
+5分以上、公式データの取得を正常に完了できていない状態です。カードには最後に正常取得した数値を残します。デバイスのオフラインを示すものではありません。
 
 #### IOTA · SN9とは何ですか？
 
@@ -1795,7 +1801,7 @@ IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這�
 
 公開的 SS58 hotkey、裝置名稱，以及新增時間。狀態和收益來自官方公開介面。詳見 [隱私權說明](https://iotahome.site/zh-TW/privacy)。
 
-> 登出登入不會刪除官方訓練記錄，僅使目前瀏覽器不再讀取已綁定的清單。
+> 登出不會刪除官方訓練記錄，僅使目前瀏覽器不再讀取已綁定的清單。
 
 取得 ID 請參閱 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。
 
@@ -2651,7 +2657,7 @@ XID 主网收益地址以 xpa1r 开头；退役测试网的 txa1r 地址不能�
 
 ## 添加到网页监控
 
-打开 [XID / MMM 监控](https://iotahome.site/zh/projects/xid)，保存公开地址和名称。每个项目每个项目免费 5 台、Pro 50 台，当前仅保存在此浏览器，可导出备份。Google 登录不会同步这份新项目清单。
+打开 [XID / MMM 监控](https://iotahome.site/zh/projects/xid)，保存公开地址和名称。每个项目免费 5 台、Pro 50 台，在设备总览登录 Google 后可同步设备及关联项目；未登录时仅保存在当前浏览器，可导出备份。
 
 网页缺少 Worker 时，先核对所选矿池是否在来源名单的覆盖范围，再看最近获取时间。继续阅读 [算力与份额](https://iotahome.site/zh/learn/xid-worker-hashrate-shares) 或 [余额与奖励成熟](https://iotahome.site/zh/learn/xid-rewards-balance-maturity)。
 
@@ -2685,7 +2691,7 @@ XID 主網收益地址以 xpa1r 開頭；退役測試網的 txa1r 地址不能�
 
 ## 新增至網頁監控
 
-開啟 [XID / MMM 監控](https://iotahome.site/zh-TW/projects/xid)，儲存公開地址與名稱。每個專案每個項目免費 5 台、Pro 50 台，目前只儲存在此瀏覽器，可匯出備份。Google 登入不會同步這份新專案清單。
+開啟 [XID / MMM 監控](https://iotahome.site/zh-TW/projects/xid)，儲存公開地址與名稱。每個專案免費 5 台、Pro 50 台。在設備總覽登入 Google 後可同步設備與關聯專案；未登入時只儲存在目前瀏覽器，可匯出備份。
 
 網頁缺少 Worker 時，先核對所選礦池是否在來源名單涵蓋範圍，再看最近取得時間。繼續閱讀 [算力與份額](https://iotahome.site/zh-TW/learn/xid-worker-hashrate-shares) 或 [餘額與獎勵成熟](https://iotahome.site/zh-TW/learn/xid-rewards-balance-maturity)。
 

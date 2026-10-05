@@ -1,14 +1,21 @@
 import { projectsCopy } from "./projects-copy";
-import { PROJECTS, projectEntity, type MiningProject } from "@/lib/projects";
+import { PROJECTS, projectEntity, type MonitorProject } from "@/lib/projects";
 import { guidesForProject } from "./site/project-guides";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, OG_LOCALE, type SiteLocale } from "@/lib/site";
 
-export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
+export function projectsSeo(locale: SiteLocale, project?: MonitorProject) {
   const c = projectsCopy[locale],
-    name = project === "xid" ? "XID / MMM" : project === "quantus" ? "Quantus / QTC" : c.projects;
+    name =
+      project === "xid"
+        ? "XID / MMM"
+        : project === "quantus"
+          ? "Quantus / QTC"
+          : project === "flyai"
+            ? "fly.ai Compute"
+            : c.projects;
   const path = `projects${project ? `/${project}` : ""}`,
     url = `${ORIGIN}/${locale}/${path}`;
-  const title = `${name} · ${project ? c.monitor : c.title} | IOTA Watch`;
+  const title = `${name} · ${project === "flyai" ? c.compute : project ? c.monitor : c.title} | IOTA Watch`;
   const description = project ? c[project] : c.intro;
   const robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
   const page = {
@@ -18,7 +25,7 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
     description,
     url,
     inLanguage: LANGUAGE_TAG[locale],
-    dateModified: "2026-10-03",
+    dateModified: "2026-10-06",
     isPartOf: { "@type": "WebSite", name: "IOTA Watch", url: ORIGIN },
     ...(project
       ? {
@@ -30,9 +37,9 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
           ],
         }
       : {
-          hasPart: ["xid", "quantus"].map((id) => ({
+          hasPart: ["xid", "quantus", "flyai"].map((id) => ({
             "@type": "WebPage",
-            name: PROJECTS[id as MiningProject].name,
+            name: PROJECTS[id as MonitorProject].name,
             url: `${ORIGIN}/${locale}/projects/${id}`,
           })),
         }),
@@ -71,7 +78,9 @@ export function projectsSeo(locale: SiteLocale, project?: MiningProject) {
             ? "XID, xCoin, MMM, Mac Metal Miner, MetalDAG, hashrate monitor"
             : project === "quantus"
               ? "Quantus, QTC, QPoW, wormhole, mining rewards"
-              : "IOTA Train at Home, XID, MMM, Quantus, QTC, mining monitor",
+              : project === "flyai"
+                ? "fly.ai, FlyAI Compute, compute points, ETH reward wallet"
+                : "IOTA Train at Home, XID, MMM, Quantus, QTC, fly.ai, mining monitor",
       },
       { property: "og:title", content: title },
       { property: "og:description", content: description },

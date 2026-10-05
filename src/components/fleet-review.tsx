@@ -14,7 +14,7 @@ export function FleetReview() {
     <>
       <div className="fleet-review-switch">
         <button className="fleet-outline" onClick={() => setPlan(plan === "pro" ? "free" : "pro")}>
-          {plan === "pro" ? "Preview Free" : "Preview Pro"}
+          {plan === "pro" ? c.previewFree : c.previewPro}
         </button>
       </div>
       <FleetWorkspace

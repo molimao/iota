@@ -318,7 +318,7 @@ it("roundtrips more than three public IDs and prevents duplicates", () => {
 describe("crawl assets for GSC", () => {
   it("lists every indexable locale URL and never includes the dashboard", () => {
     const xml = buildSitemapXml();
-    expect(crawlPages).toHaveLength(11 + articles.length + blogPosts.length);
+    expect(crawlPages).toHaveLength(12 + articles.length + blogPosts.length);
     expect(xml.match(/<url>/g)?.length).toBe(crawlPages.length * 5);
     expect(ORIGIN).toBe("https://iotahome.site");
     expect(xml).toContain(`${ORIGIN}/zh/learn/iota-train-at-home-vs-iota-coin`);

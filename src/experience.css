@@ -94,6 +94,27 @@ body:has(.site-shell) {
 .site-links {
   gap: 22px;
   font-size: 14px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.site-brand,
+.site-links > a,
+.site-links > button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.site-links > a:nth-child(n + 3):not(.site-button) {
+  display: none;
+}
+.site-links .account-trigger {
+  min-width: 0;
+}
+.site-links .account-trigger-name {
+  max-width: 100px;
+}
+.site-links .account-pro-badge,
+.site-links .account-trigger > svg {
+  flex-shrink: 0;
 }
 .site-links > a[aria-current="page"]:not(.site-button) {
   color: var(--watch-accent);
@@ -122,7 +143,8 @@ body:has(.site-shell) {
     color 0.15s;
 }
 .mobile-nav {
-  display: none;
+  display: block;
+  flex-shrink: 0;
 }
 /* Shared by every viewport where the compact navigation is visible. */
 .mobile-nav > summary {
@@ -1325,7 +1347,7 @@ body:has(.site-shell) {
 }
 .project-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 .project-card {
@@ -2326,3 +2348,14 @@ body:has(.site-shell) {
     font-size: 10px;
   }
 }
+
+.flyai-network .project-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.flyai-network > p, .flyai-panel > p { font-size: 14px; line-height: 1.8; color: var(--watch-muted); }
+.flyai-panel { margin-top: 24px; }
+.flyai-panel h3 { font-size: 15px; margin: 18px 0 10px; }
+.flyai-panel .site-button { margin-top: 18px; }
+@media (max-width: 720px) {
+  .flyai-network .project-stats { grid-template-columns: 1fr; }
+  .flyai-network .project-stat + .project-stat { border-left: 0; border-top: 1px solid var(--watch-border); }
+}
+.flyai-page .project-heading-links > a { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }

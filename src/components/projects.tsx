@@ -16,9 +16,10 @@ import { projectsCopy } from "./projects-copy";
 import {
   PROJECT_IDS,
   PROJECTS,
-    projectPath,
+  projectPath,
   validProjectAddress,
   type MiningProject,
+  type MonitorProject,
   type ProjectNetwork,
   type ProjectResult,
   type SavedProjectAddress,
@@ -37,9 +38,9 @@ export function ProjectSwitch() {
   const { locale } = useLocale();
   const path = useRouterState({ select: (s) => s.location.pathname });
   const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
-  const selected = (path.match(/\/projects\/(xid|quantus)(?:\/|$)/)?.[1] ??
+  const selected = (path.match(/\/projects\/(xid|quantus|flyai)(?:\/|$)/)?.[1] ??
     (articleProject === "xid" || articleProject === "quantus" ? articleProject : undefined)) as
-    MiningProject | undefined;
+    MonitorProject | undefined;
   const c = projectsCopy[locale];
   return (
     <details className="project-picker">
@@ -79,8 +80,12 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
       {PROJECT_IDS.map((id) => (
         <a className="project-card" key={id} href={projectPath(locale, id)}>
           <div className="project-card-top">
-            <span className="project-symbol">{id === "iota" ? <Cpu /> : <Pickaxe />}</span>
-            <span className="project-kind">{id === "iota" ? c.training : c.mining}</span>
+            <span className="project-symbol">
+              {id === "iota" || id === "flyai" ? <Cpu /> : <Pickaxe />}
+            </span>
+            <span className="project-kind">
+              {id === "iota" ? c.training : id === "flyai" ? c.compute : c.mining}
+            </span>
           </div>
           <h2>{PROJECTS[id].name}</h2>
           <small>{PROJECTS[id].detail}</small>
@@ -440,25 +445,47 @@ function AddressMonitor({
 }) {
   const { locale } = useLocale(),
     c = projectsCopy[locale];
-  const auth = useAuth(), fleet=useFleet(auth.userId,auth.ready), fc=fleetCopy(locale);
-  const saved=useMemo(()=>Array.from(new Map(fleet.devices.flatMap(d=>d.bindings.filter(b=>b.project===project).map(b=>[b.identifier,{address:b.identifier,name:d.name}] as const))).values()),[fleet.devices,project]);
-  const ready=fleet.ready;
+  const auth = useAuth(),
+    fleet = useFleet(auth.userId, auth.ready),
+    fc = fleetCopy(locale);
+  const saved = useMemo(
+    () =>
+      Array.from(
+        new Map(
+          fleet.devices.flatMap((d) =>
+            d.bindings
+              .filter((b) => b.project === project)
+              .map((b) => [b.identifier, { address: b.identifier, name: d.name }] as const),
+          ),
+        ).values(),
+      ),
+    [fleet.devices, project],
+  );
+  const ready = fleet.ready;
   const [address, setAddress] = useState(""),
     [name, setName] = useState(""),
-    [saving,setSaving] = useState(false),
+    [saving, setSaving] = useState(false),
     [error, setError] = useState<string | null>(null);
   useEffect(() => {
     setAddress("");
     setName("");
     setError(null);
   }, [project]);
-  async function removeAddress(address:string) {
+  async function removeAddress(address: string) {
     try {
-      for(const device of fleet.devices) {
-        const matching=device.bindings.filter(b=>b.project===project&&b.identifier===address);
-        if(!matching.length) continue;
-        if(matching.length===device.bindings.length) await fleet.mutate({action:"remove",payload:{id:device.id}});
-        else for(const binding of matching) await fleet.mutate({action:"unlink",payload:{id:device.id,bindingId:binding.id}});
+      for (const device of fleet.devices) {
+        const matching = device.bindings.filter(
+          (b) => b.project === project && b.identifier === address,
+        );
+        if (!matching.length) continue;
+        if (matching.length === device.bindings.length)
+          await fleet.mutate({ action: "remove", payload: { id: device.id } });
+        else
+          for (const binding of matching)
+            await fleet.mutate({
+              action: "unlink",
+              payload: { id: device.id, bindingId: binding.id },
+            });
       }
       setError(null);
     } catch {
@@ -470,8 +497,10 @@ function AddressMonitor({
       <div className="project-section-head">
         <div>
           <h2>{c.mine}</h2>
-          <p>{auth.userId?fc.savedAccount:fc.savedLocal} · {fc.perProject} · {fleet.limit}</p>
-          <a href={"/"+locale+"/devices"}>{fc.title} →</a>
+          <p>
+            {auth.userId ? fc.savedAccount : fc.savedLocal} · {fc.perProject} · {fleet.limit}
+          </p>
+          <a href={"/" + locale + "/devices"}>{fc.title} →</a>
         </div>
         {saved.length > 0 && (
           <button
@@ -509,12 +538,26 @@ function AddressMonitor({
           }
           setSaving(true);
           try {
-            await fleet.mutate({action:"create",payload:{name:name.trim()||PROJECTS[project].name,hardware:"",binding:{project,identifier:value,worker:""}}});
+            await fleet.mutate({
+              action: "create",
+              payload: {
+                name: name.trim() || PROJECTS[project].name,
+                hardware: "",
+                binding: { project, identifier: value, worker: "" },
+              },
+            });
             setAddress("");
             setName("");
             setError(null);
-          } catch(e) {setError(e instanceof Error&&e.message==="project_device_limit_reached"?fc.limit:c.storage);}
-          finally {setSaving(false);}
+          } catch (e) {
+            setError(
+              e instanceof Error && e.message === "project_device_limit_reached"
+                ? fc.limit
+                : c.storage,
+            );
+          } finally {
+            setSaving(false);
+          }
         }}
       >
         <label>
@@ -549,7 +592,10 @@ function AddressMonitor({
       <p className="project-footnote">{c.noSecrets}</p>
       {error && (
         <p className="project-warning" role="alert">
-          {error}{error===fc.limit&&<a href={"/"+locale+"/devices?upgrade="+project}> · {fc.viewPro} →</a>}
+          {error}
+          {error === fc.limit && (
+            <a href={"/" + locale + "/devices?upgrade=" + project}> · {fc.viewPro} →</a>
+          )}
         </p>
       )}
       {!saved.length ? (

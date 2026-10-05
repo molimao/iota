@@ -1,6 +1,21 @@
 import type { SiteLocale } from "@/lib/site";
 
 const labels = {
+  rewardAddress: [
+    "公开收益地址",
+    "Public reward address",
+    "公開收益地址",
+    "공개 보상 주소",
+    "公開報酬アドレス",
+  ],
+  previewFree: [
+    "预览免费版",
+    "Preview Free",
+    "預覽免費版",
+    "무료 버전 미리보기",
+    "無料版をプレビュー",
+  ],
+  previewPro: ["预览 Pro", "Preview Pro", "預覽 Pro", "Pro 미리보기", "Proをプレビュー"],
   partialTotal: ["部分收益", "Partial earnings", "部分收益", "일부 수익", "一部の収益"],
   deviceToday: [
     "今日总收益",

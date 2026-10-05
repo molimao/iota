@@ -2,6 +2,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { bech32m } from "@scure/base";
 import {
   PROJECT_IDS,
+  isMonitorProject,
+  isMiningProject,
+  projectPath,
   parseProjectList,
   parseQuantusAccount,
   parseQuantusNetwork,
@@ -19,6 +22,19 @@ const xid = bech32m.encode("xpa", [3, ...bech32m.toWords(new Uint8Array(32).fill
 afterEach(() => vi.useRealTimers());
 
 describe("separate project identities and currencies", () => {
+  it("routes fly.ai through compute monitoring and indexes every language", () => {
+    expect(isMonitorProject("flyai")).toBe(true);
+    expect(isMiningProject("flyai")).toBe(false);
+    for (const locale of LOCALES) {
+      const path = projectPath(locale, "flyai");
+      expect(path).toBe(`/${locale}/projects/flyai`);
+      expect(projectsSeo(locale, "flyai").links).toContainEqual({
+        rel: "canonical",
+        href: `https://iotahome.site${path}`,
+      });
+      expect(buildSitemapXml()).toContain(`https://iotahome.site${path}`);
+    }
+  });
   it("checks mainnet address checksums and rejects cross-project IDs and secrets", () => {
     expect(validProjectAddress("quantus", qtc)).toBe(true);
     expect(validProjectAddress("xid", xid)).toBe(true);
@@ -28,7 +44,7 @@ describe("separate project identities and currencies", () => {
     expect(validProjectAddress("quantus", qtc.slice(0, -1) + "a")).toBe(false);
     expect(validProjectAddress("quantus", "0x" + "ab".repeat(32))).toBe(false);
     expect(() => parseProjectList("quantus", [{ address: xid, name: "wrong project" }])).toThrow();
-    expect(PROJECT_IDS).toEqual(["iota", "xid", "quantus"]);
+    expect(PROJECT_IDS).toEqual(["iota", "xid", "quantus", "flyai"]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {
     expect(qtcAmount("123456789012345678901234")).toBe("123456789012.345678901234");

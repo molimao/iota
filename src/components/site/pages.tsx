@@ -21,7 +21,7 @@ import { ArticleBlocks } from "./rich-text";
 import { blogPosts } from "./blog-posts";
 import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
-import { isMiningProject, projectPath } from "@/lib/projects";
+import { isMonitorProject, projectPath } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
 import { ProjectLearning } from "./project-learning";
 
@@ -30,7 +30,12 @@ export { seo } from "./seo";
 
 export function LanguageSwitch() {
   const { locale, en } = useLocale();
-  const path = useRouterState({ select: (s) => s.location.pathname });
+  const path = useRouterState({
+    select: (s) =>
+      s.location.pathname +
+      s.location.searchStr +
+      (s.location.hash ? `#${s.location.hash.replace(/^#/, "")}` : ""),
+  });
   return (
     <details className="language-picker">
       <summary aria-label={localizeValue(en ? "Language" : "语言", locale)}>
@@ -66,7 +71,7 @@ export function SiteNav() {
   const projectId =
     pathname.match(/\/projects\/([^/]+)/)?.[1] ??
     getArticle(pathname.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
-  const project = isMiningProject(projectId) ? projectId : undefined;
+  const project = isMonitorProject(projectId) ? projectId : undefined;
   const projectCopy = projectsCopy[locale];
   const links: ReadonlyArray<readonly [string, string]> = project
     ? [
@@ -391,7 +396,7 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       )}
       {page === "privacy" && (
         <section className="article-tip">
-          <h2>{projectsCopy[locale].projects} · XID / MMM & Quantus</h2>
+          <h2>{projectsCopy[locale].projects} · XID / MMM · Quantus · fly.ai</h2>
           <p>{projectsCopy[locale].privacyData}</p>
         </section>
       )}
