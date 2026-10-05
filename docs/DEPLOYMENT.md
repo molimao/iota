@@ -93,6 +93,10 @@ npx wrangler deploy --config .output/server/wrangler.json --name my-iota-watch
 
 通知会重新向 Stripe 读取订阅状态；客户端不能直接写入付费额度。签名校验、账号关联和数据库事务失败时不授予新权益。
 
+服务器可使用受限正式密钥。所需权限为 Accounts、Products、Prices、Subscriptions、Events **读取**，Customers、Checkout Sessions、Customer Portal、Webhook Endpoints / Event Destinations **写入**；无需授予退款或提现权限。只能将私密字段写入服务器 Secrets，不得使用 `VITE_` 前缀，也不得放进聊天或公开配置。
+
+官网的正式目录核对记录位于 `docs/stripe-live-catalog.json`，仅记录公开对象 ID 和实际验证状态。维护者将正式密钥放在被 Git 忽略、权限为 0600 的 `.env.production.local` 后，可执行 `node scripts/stripe-live-config.mjs inspect` 核对商户收款状态与两个价格。`prepare --apply` 会创建本站客户门户及通知端点，并把签名密钥保存到同一私密文件；它不创建客户、订阅或付款。此命令属于正式配置操作，执行前仍需获得当次授权。将生成的服务端字段填入托管后台 Secrets 后，才能继续迁移和发布，并验证线上通知交付。
+
 本仓库此次验证：真实沙盒年付 Checkout 成功，已支付金额为 US$16.90；测试订阅设置到期取消后仍保持有效。真实 Stripe 事件经本地签名重放到临时 PostgreSQL，验证了每项目额度 5→50 与取消后的本期权益。此验证未向生产数据库写入数据，尚未验证托管网站的真实登录与通知投递。
 
 复测沙盒（只允许测试密钥，不接受正式密钥）：

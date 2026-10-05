@@ -1,0 +1,34 @@
+{
+  "verifiedOn": "2026-10-05",
+  "environment": "live",
+  "status": "live_backend_configuration_prepared; hosting_deployment_pending",
+  "accountId": "acct_1UNBA8AGaLryMglF",
+  "websitePaymentsEnabled": false,
+  "quotaScope": "per_project",
+  "deviceViewLimit": null,
+  "freeProjectDeviceLimit": 5,
+  "pro": {
+    "productId": "prod_VNx8PCG5ecwmQw",
+    "projectDeviceLimit": 50,
+    "currency": "usd",
+    "monthly": {
+      "unitAmount": 290,
+      "interval": "month",
+      "priceId": "price_1UNE8lAGaLryMglFxpjqdavw"
+    },
+    "annual": {
+      "unitAmount": 1690,
+      "interval": "year",
+      "priceId": "price_1UNE8kAGaLryMglFO1G9P2KC"
+    }
+  },
+  "validation": {
+    "liveModeDashboard": "verified",
+    "apiChargesEnabled": "verified",
+    "portalConfiguration": "verified",
+    "webhookDelivery": "pending",
+    "hostedCheckout": "pending"
+  },
+  "portalConfigurationId": "bpc_1UNEX7AGaLryMglFOq8RM0TO",
+  "webhookEndpointId": "we_1UNEXAAGaLryMglFc1G5Xbnq"
+}
