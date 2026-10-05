@@ -1,9 +1,9 @@
 {
-  "verifiedOn": "2026-10-05",
+  "verifiedOn": "2026-10-06",
   "environment": "live",
-  "status": "live_backend_configuration_prepared; hosting_deployment_pending",
+  "status": "production_published; live_checkout_verified",
   "accountId": "acct_1UNBA8AGaLryMglF",
-  "websitePaymentsEnabled": false,
+  "websitePaymentsEnabled": true,
   "quotaScope": "per_project",
   "deviceViewLimit": null,
   "freeProjectDeviceLimit": 5,
@@ -26,8 +26,11 @@
     "liveModeDashboard": "verified",
     "apiChargesEnabled": "verified",
     "portalConfiguration": "verified",
-    "webhookDelivery": "pending",
-    "hostedCheckout": "pending"
+    "webhookSignature": "verified with signed replay of existing non-financial live catalog event; unsigned requests rejected",
+    "webhookDelivery": "real payment notification pending; no real charge performed",
+    "hostedCheckout": "verified live monthly USD 2.90, quantity 1 and matching website account",
+    "deviceMigration": "55 legacy devices preserved with matching owners, names and IOTA identifiers; zero missing",
+    "realPaymentEntitlement": "not exercised; no real charge performed"
   },
   "portalConfigurationId": "bpc_1UNEX7AGaLryMglFOq8RM0TO",
   "webhookEndpointId": "we_1UNEXAAGaLryMglFc1G5Xbnq"
