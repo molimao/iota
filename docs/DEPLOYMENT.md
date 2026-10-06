@@ -124,10 +124,12 @@ Users connect their own io.net Explorer access token or Vast.ai API key while si
 
 Validate with `npx vitest run`, `npx tsc --noEmit`, and `npm run build`. Local `/zh/review?platform=vast` (also `ionet`, `akash`, `golem`) uses clearly labelled samples; the review route is disabled in production. io.net/Vast.ai currently have contract-level mocked verification, not real-account acceptance testing. Before presenting them as fully verified, test a consenting provider account, token expiry, disconnect, reward periods, and partial permissions. Golem Stats connectivity must be checked from the deployment environment; an upstream failure must remain unavailable, never zero.
 
-## 价格调整（2026-10-06，待发布）
+## 价格调整（2026-10-06，已发布）
 
 新订阅使用 US$2.99/月、US$16.99/年的新 Stripe Price ID。当前 `stripe-live-catalog.json` 与 `stripe-test-catalog.json` 保留已验证的旧价格记录，不能直接改写金额并继续使用旧 ID。
 
 获得当次生产配置与发布确认后，为同一产品创建两个新价格，更新服务器 `STRIPE_PRICE_MONTHLY`、`STRIPE_PRICE_ANNUAL`，并将旧月付、年付 Price ID 填入 `STRIPE_LEGACY_PRICE_IDS`。旧订阅继续原价续费和 Pro 权益；旧 ID 只用于订阅验证，新结账只选择新价格。同步更新目录核验记录并发布页面与服务器，避免展示价和结账价不同。
 
 `node scripts/stripe-price-change.mjs inspect` 只检查旧商户目录；`apply` 会创建新价格并将待切换的公开 ID 写入 `docs/stripe-price-change.json`，不会修改现有客户、订阅或价格。正式配置操作仍需当次确认；随后将该文件中的配置保存到托管服务端，再核验新价格结账金额。
+
+2026-10-06：正式新价格与网站展示已核对为 US$2.99/月、US$16.99/年；两份旧订阅通过新校验并保留原价。改价验证未发起新的付款。
