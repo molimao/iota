@@ -1,0 +1,18 @@
+{
+  "status": "prices_created_hosted_switch_pending",
+  "productId": "prod_VNx8PCG5ecwmQw",
+  "monthly": {
+    "unitAmount": 299,
+    "priceId": "price_1UNYQhAGaLryMglFKBazSBIG"
+  },
+  "annual": {
+    "unitAmount": 1699,
+    "priceId": "price_1UNYWGAGaLryMglFGGHIKWdo"
+  },
+  "serverConfig": {
+    "STRIPE_PRICE_MONTHLY": "price_1UNYQhAGaLryMglFKBazSBIG",
+    "STRIPE_PRICE_ANNUAL": "price_1UNYWGAGaLryMglFGGHIKWdo",
+    "STRIPE_LEGACY_PRICE_IDS": "price_1UNE8lAGaLryMglFxpjqdavw,price_1UNE8kAGaLryMglFO1G9P2KC"
+  },
+  "existingSubscriptions": "retain_existing_price"
+}

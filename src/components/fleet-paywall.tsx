@@ -6,7 +6,12 @@ import {
   type FleetDevice,
   type FleetProject,
 } from "@/lib/fleet";
-import { annualMonthlyEquivalent, annualSavingPercent, copyValues } from "@/lib/billing-display";
+import {
+  annualMonthlyEquivalent,
+  annualSavingPercent,
+  copyValues,
+  planAmount,
+} from "@/lib/billing-display";
 import { fleetCopy } from "./fleet-copy";
 import { useLocale } from "./site/locale";
 
@@ -15,7 +20,11 @@ export type PriceChoiceProps = {
   onChange: (interval: "month" | "year") => void;
   disabled?: boolean | undefined;
 };
-export function PriceChoices({ interval, onChange, disabled }: PriceChoiceProps) {
+export function PriceChoices({
+  interval,
+  onChange,
+  disabled,
+}: PriceChoiceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   return (
@@ -36,16 +45,20 @@ export function PriceChoices({ interval, onChange, disabled }: PriceChoiceProps)
             </span>
             <b>{value === "year" ? c.year : c.month}</b>
             {value === "year" && (
-              <small>{copyValues(c.annualSave, { percent: annualSavingPercent })}</small>
+              <small>
+                {copyValues(c.annualSave, { percent: annualSavingPercent })}
+              </small>
             )}
           </span>
           <span className="fleet-choice-amount">
-            US$<strong>{value === "year" ? "16.90" : "2.90"}</strong>
+            US$<strong>{planAmount(value)}</strong>
             <span>{value === "year" ? c.perYear : c.perMonth}</span>
           </span>
           <span className="fleet-choice-detail">
             {value === "year"
-              ? copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
+              ? copyValues(c.annualEquivalent, {
+                  amount: annualMonthlyEquivalent,
+                })
               : c.monthlyCharge}
           </span>
         </button>
@@ -60,7 +73,11 @@ export function PaywallBody({
   onChange,
   disabled,
   preview,
-}: PriceChoiceProps & { devices: FleetDevice[]; project: FleetProject | null; preview: boolean }) {
+}: PriceChoiceProps & {
+  devices: FleetDevice[];
+  project: FleetProject | null;
+  preview: boolean;
+}) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const used = project ? projectDeviceCount(devices, project) : null;
@@ -93,8 +110,14 @@ export function PaywallBody({
           {c.noFleetLimit}
         </p>
       </div>
-      <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
-      <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
+      <PriceChoices
+        interval={interval}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <p className="fleet-charge-note">
+        {interval === "year" ? c.annualCharge : c.monthlyCharge}
+      </p>
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>

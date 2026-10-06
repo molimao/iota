@@ -1,7 +1,7 @@
 {
   "verifiedOn": "2026-10-06",
   "environment": "live",
-  "status": "production_published; live_checkout_verified",
+  "status": "live_prices_verified_hosting_switch_pending",
   "accountId": "acct_1UNBA8AGaLryMglF",
   "websitePaymentsEnabled": true,
   "quotaScope": "per_project",
@@ -12,14 +12,14 @@
     "projectDeviceLimit": 50,
     "currency": "usd",
     "monthly": {
-      "unitAmount": 290,
+      "unitAmount": 299,
       "interval": "month",
-      "priceId": "price_1UNE8lAGaLryMglFxpjqdavw"
+      "priceId": "price_1UNYQhAGaLryMglFKBazSBIG"
     },
     "annual": {
-      "unitAmount": 1690,
+      "unitAmount": 1699,
       "interval": "year",
-      "priceId": "price_1UNE8kAGaLryMglFO1G9P2KC"
+      "priceId": "price_1UNYWGAGaLryMglFGGHIKWdo"
     }
   },
   "validation": {
@@ -28,10 +28,22 @@
     "portalConfiguration": "verified",
     "webhookSignature": "verified with signed replay of existing non-financial live catalog event; unsigned requests rejected",
     "webhookDelivery": "verified real customer payment notifications processed; one active Pro account",
-    "hostedCheckout": "verified live monthly USD 2.90, quantity 1 and matching website account",
+    "hostedCheckout": "Previous USD 2.90 monthly checkout verified; new 2.99/16.99 catalog verified through live API, hosted switch pending",
     "deviceMigration": "55 legacy devices preserved with matching owners, names and IOTA identifiers; zero missing",
     "realPaymentEntitlement": "verified user-completed payment: active subscription with future paid period and Pro account"
   },
   "portalConfigurationId": "bpc_1UNEX7AGaLryMglFOq8RM0TO",
-  "webhookEndpointId": "we_1UNEXAAGaLryMglFc1G5Xbnq"
+  "webhookEndpointId": "we_1UNEXAAGaLryMglFc1G5Xbnq",
+  "legacyPrices": [
+    {
+      "unitAmount": 290,
+      "interval": "month",
+      "priceId": "price_1UNE8lAGaLryMglFxpjqdavw"
+    },
+    {
+      "unitAmount": 1690,
+      "interval": "year",
+      "priceId": "price_1UNE8kAGaLryMglFO1G9P2KC"
+    }
+  ]
 }

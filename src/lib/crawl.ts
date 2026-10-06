@@ -1,5 +1,9 @@
 import { projectEditorial } from "../components/project-editorial";
-import { articles, articleDates, type Article } from "../components/site/articles";
+import {
+  articles,
+  articleDates,
+  type Article,
+} from "../components/site/articles";
 import { blogPosts } from "../components/site/blog-posts";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
 import { localizeText } from "../components/site/localization";
@@ -33,23 +37,75 @@ function articlePriority(slug: string) {
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
   { path: "", lastmod: "2026-10-03", changefreq: "weekly", priority: "1.0" },
-  ...["iota", "nosana", "gonka", "akash", "ionet", "vast", "golem"].map((id) => ({
-    path: `projects/${id}`,
+  ...["iota", "nosana", "gonka", "akash", "ionet", "vast", "golem"].map(
+    (id) => ({
+      path: `projects/${id}`,
+      lastmod: "2026-10-06",
+      changefreq: "weekly" as const,
+      priority: "0.8",
+    }),
+  ),
+  {
+    path: "projects",
     lastmod: "2026-10-06",
-    changefreq: "weekly" as const,
+    changefreq: "weekly",
     priority: "0.8",
-  })),
-  { path: "projects", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/xid", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/flyai", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/quantus", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "blog", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
-  { path: "learn", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
-  { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
-  { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
-  { path: "faq", lastmod: "2026-10-03", changefreq: "monthly", priority: "0.8" },
+  },
+  {
+    path: "projects/xid",
+    lastmod: "2026-10-06",
+    changefreq: "weekly",
+    priority: "0.8",
+  },
+  {
+    path: "projects/flyai",
+    lastmod: "2026-10-06",
+    changefreq: "weekly",
+    priority: "0.8",
+  },
+  {
+    path: "projects/quantus",
+    lastmod: "2026-10-06",
+    changefreq: "weekly",
+    priority: "0.8",
+  },
+  {
+    path: "blog",
+    lastmod: "2026-10-03",
+    changefreq: "weekly",
+    priority: "0.9",
+  },
+  {
+    path: "learn",
+    lastmod: "2026-10-03",
+    changefreq: "weekly",
+    priority: "0.9",
+  },
+  {
+    path: "network",
+    lastmod: "2026-10-01",
+    changefreq: "weekly",
+    priority: "0.8",
+  },
+  {
+    path: "downloads",
+    lastmod: "2026-10-01",
+    changefreq: "monthly",
+    priority: "0.8",
+  },
+  {
+    path: "faq",
+    lastmod: "2026-10-03",
+    changefreq: "monthly",
+    priority: "0.8",
+  },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
-  { path: "privacy", lastmod: "2026-10-03", changefreq: "yearly", priority: "0.3" },
+  {
+    path: "privacy",
+    lastmod: "2026-10-03",
+    changefreq: "yearly",
+    priority: "0.3",
+  },
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
     lastmod: articleDates(article).modified,
@@ -70,7 +126,9 @@ export function pageUrl(locale: string, path: string, origin = ORIGIN) {
 
 function pageLabel(locale: SiteLocale, path: string): string {
   if (path.startsWith("learn/"))
-    return articles.find((a) => path === `learn/${a.slug}`)?.title[locale] ?? path;
+    return (
+      articles.find((a) => path === `learn/${a.slug}`)?.title[locale] ?? path
+    );
   if (path === "learn") return learningCopy[locale].title;
   if (path === "projects") return projectsCopy[locale].projects;
   const project = PROJECT_IDS.find((id) => path === `projects/${id}`);
@@ -79,18 +137,27 @@ function pageLabel(locale: SiteLocale, path: string): string {
   if (path === "projects/xid") return "XID / MMM";
   if (path === "projects/quantus") return "Quantus / QTC";
   if (locale !== "zh" && locale !== "en")
-    return localizeText(pageLabel(locale === "zh-TW" ? "zh" : "en", path), locale);
+    return localizeText(
+      pageLabel(locale === "zh-TW" ? "zh" : "en", path),
+      locale,
+    );
   if (!path) return locale === "en" ? "Home" : "首页";
   if (path === "blog") return locale === "en" ? "Blog" : "博客";
   if (path.startsWith("blog/"))
-    return blogPosts.find((post) => path === `blog/${post.slug}`)?.title[locale] ?? path;
-  if (path === "network") return locale === "en" ? "Network status" : "全网训练现况";
+    return (
+      blogPosts.find((post) => path === `blog/${post.slug}`)?.title[locale] ??
+      path
+    );
+  if (path === "network")
+    return locale === "en" ? "Network status" : "全网训练现况";
   if (path === "downloads") return locale === "en" ? "Downloads" : "工具下载";
   if (path === "faq") return locale === "en" ? "FAQ" : "常见问题";
   if (path === "guide") return locale === "en" ? "Get started" : "使用指南";
   if (path === "privacy") return locale === "en" ? "Privacy" : "隐私说明";
   const slug = path.startsWith("learn/") ? path.slice("learn/".length) : "";
-  return articles.find((article) => article.slug === slug)?.title[locale] ?? path;
+  return (
+    articles.find((article) => article.slug === slug)?.title[locale] ?? path
+  );
 }
 
 export function buildSitemapXml(origin = ORIGIN) {
@@ -134,8 +201,9 @@ export function buildRobotsTxt(origin = ORIGIN) {
     "PerplexityBot",
   ];
   return (
-    agents.map((agent) => `User-agent: ${agent}\nAllow: /\nDisallow: /_serverFn/\n`).join("\n") +
-    `\nSitemap: ${origin}/sitemap.xml\n`
+    agents
+      .map((agent) => `User-agent: ${agent}\nAllow: /\nDisallow: /_serverFn/\n`)
+      .join("\n") + `\nSitemap: ${origin}/sitemap.xml\n`
   );
 }
 
@@ -153,7 +221,7 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
 > Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor subnet 9). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.90/month or US$16.90/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is \`iota-2\` (Train at Home SN9), not \`iota\` (IOTA Layer 1).
 
@@ -256,7 +324,11 @@ ${articleBlocks}
 `;
 }
 
-function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) {
+function absoluteArticleLinks(
+  text: string,
+  locale: SiteLocale,
+  origin: string,
+) {
   return text.replace(
     /\]\(\/(?!\/)([^)]+)\)/g,
     (_, path: string) =>
@@ -286,7 +358,10 @@ function readableArticleBlocks(article: Article, locale: SiteLocale) {
     ...(article.questions
       ? [
           `## ${c.questions}`,
-          ...article.questions[locale].flatMap((q) => [`### ${q.question}`, q.answer]),
+          ...article.questions[locale].flatMap((q) => [
+            `### ${q.question}`,
+            q.answer,
+          ]),
         ]
       : []),
   ];
