@@ -30,7 +30,7 @@ import {
 import { PLANS } from "@/lib/plans";
 import type { BillingSummary } from "@/lib/plans";
 import { FleetMembership } from "./fleet-membership";
-import { deviceTodayEarnings } from "@/lib/fleet-earnings";
+import { deviceTodayEarnings, deviceEarningsHeadline } from "@/lib/fleet-earnings";
 import { formatUsd } from "@/lib/earnings";
 import { PROJECTS, projectPath } from "@/lib/projects";
 import { shortId } from "@/lib/ss58";
@@ -753,6 +753,7 @@ function FleetCard({
     device.bindings.map((binding) => ({ binding, data: reading(binding) })),
   );
   const { locale } = useLocale();
+  const nativeHeadline = deviceEarningsHeadline(daily);
   return (
     <article className="fleet-device-card">
       <header>
@@ -771,19 +772,20 @@ function FleetCard({
         <div>
           <span>{c.deviceToday}</span>
           <strong>
-            {formatUsd(daily.usd)}
-            <small>{daily.usd !== null ? "USD" : ""}</small>
+            {nativeHeadline ? nativeHeadline.amount : formatUsd(daily.usd)}
+            <small>{nativeHeadline ? nativeHeadline.unit : daily.usd !== null ? "USD" : ""}</small>
           </strong>
         </div>
         <div className="fleet-device-earnings-detail">
-          {daily.native.map((value, index) => (
-            <span key={index}>
-              {value.amount} <b>{value.unit}</b>
-            </span>
-          ))}
+          {!nativeHeadline &&
+            daily.native.map((value, index) => (
+              <span key={index}>
+                {value.amount} <b>{value.unit}</b>
+              </span>
+            ))}
           <small>
             {daily.usd !== null
-              ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}`
+              ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
               : daily.known
                 ? c.noEarningsPrice
                 : c.noDeviceEarnings}
@@ -841,6 +843,7 @@ function FleetCard({
                       {data.todayUsd && (
                         <small className="fleet-usd-estimate">
                           ≈ ${data.todayUsd} USD · {c.usdEstimate}
+                          {data.priceStale ? " · " + c.quoteOlder : ""}
                         </small>
                       )}
                     </div>

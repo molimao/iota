@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { deviceTodayEarnings } from "./fleet-earnings";
+import { deviceTodayEarnings, deviceEarningsHeadline } from "./fleet-earnings";
 import type { FleetBinding } from "./fleet";
 const binding = (project: FleetBinding["project"], id: string): FleetBinding => ({
   id,
@@ -58,4 +58,19 @@ describe("device daily earnings summary", () => {
     expect(result.priced).toBe(1);
     expect(result.total).toBe(1);
   });
+});
+
+it("keeps unpriced token amounts prominent without inventing missing earnings", () => {
+  const result = deviceTodayEarnings([
+    { binding: binding("iota", "one"), data: daily("IOTA", null) },
+  ]);
+  expect(deviceEarningsHeadline(result)).toEqual({ amount: "0.12345678", unit: "IOTA" });
+  expect(deviceEarningsHeadline(deviceTodayEarnings([]))).toBeNull();
+});
+it("flags older quotes only when they contribute to the USD estimate", () => {
+  const result = deviceTodayEarnings([
+    { binding: binding("iota", "one"), data: { ...daily("IOTA", 1), priceStale: true } },
+  ]);
+  expect(result.priceStale).toBe(true);
+  expect(result.usd).toBe(1);
 });

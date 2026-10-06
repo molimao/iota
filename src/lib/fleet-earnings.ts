@@ -5,6 +5,7 @@ type DailyReading = {
   today: string | null;
   unit: string;
   todayUsdValue?: number | null;
+  priceStale?: boolean;
   todayUsable?: boolean;
   earningsPeriod?: "day" | "month";
 };
@@ -15,6 +16,7 @@ export function deviceTodayEarnings(entries: { binding: FleetBinding; data: Dail
   let usd = 0,
     priced = 0,
     known = 0;
+  let priceStale = false;
   const native: { amount: string; unit: string }[] = [];
   for (const { binding, data } of entries) {
     const key = bindingIdentity(binding);
@@ -36,14 +38,21 @@ export function deviceTodayEarnings(entries: { binding: FleetBinding; data: Dail
     ) {
       usd += data.todayUsdValue;
       priced++;
+      priceStale ||= data.priceStale === true;
     }
   }
   return {
     usd: priced > 0 && Number.isFinite(usd) ? usd : null,
     native,
+    priceStale,
     known,
     priced,
     total: seen.size,
     partial: priced < seen.size,
   };
+}
+
+/** Show known token earnings prominently when conversion is unavailable. */
+export function deviceEarningsHeadline(daily: ReturnType<typeof deviceTodayEarnings>) {
+  return daily.usd === null && daily.native.length === 1 ? daily.native[0]! : null;
 }

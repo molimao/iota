@@ -1,3 +1,4 @@
+import { fleetIotaStatus } from "@/lib/fleet-iota-status";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "./use-auth";
 import { getPublicPlatform, getPrivatePlatform } from "@/lib/platforms.functions";
@@ -211,20 +212,18 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         total = view.earnings?.totalEarnedUnits ?? null;
       return {
         ...base,
-        status:
-          !view.statusStale && view.status === "contributing"
-            ? "training"
-            : !view.statusStale && view.status === "waiting"
-              ? "waiting"
-              : "unavailable",
+        status: fleetIotaStatus(view.status, view.statusStale),
         activity: view.miner ? String(view.miner.throughput) + " tokens/s" : "—",
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
         unit: "IOTA",
         todayUsable: view.todayUsable,
         todayUsdValue:
-          view.todayUsable && !iota.priceStale ? iotaUnitsToUsd(today, iota.usdPerIota) : null,
-        ...(today !== null && !iota.priceStale && iota.usdPerIota
+          view.todayUsable && !iota.priceRefreshFailed
+            ? iotaUnitsToUsd(today, iota.usdPerIota)
+            : null,
+        priceStale: iota.priceStale,
+        ...(today !== null && !iota.priceRefreshFailed && iota.usdPerIota
           ? { todayUsd: formatUsd(iotaUnitsToUsd(today, iota.usdPerIota)).replace("$", "") }
           : {}),
         updated: clock(view.earnings?.fetchedAt),

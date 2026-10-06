@@ -1,8 +1,17 @@
 import type { SiteLocale } from "@/lib/site";
 
 const labels = {
- online:["报告在线","Reported online","回報在線","온라인 보고","オンラインと報告"],
- offline:["报告离线","Reported offline","回報離線","오프라인 보고","オフラインと報告"],
+  quoteOlder: ["报价较早", "Older quote", "報價較早", "이전 시세", "以前の価格"],
+  idle: ["暂未参与", "Not participating", "暫未參與", "참여하지 않음", "未参加"],
+  notFound: [
+    "名单中未找到",
+    "Not in roster",
+    "名單中未找到",
+    "목록에 없음",
+    "一覧に見つかりません",
+  ],
+  online: ["报告在线", "Reported online", "回報在線", "온라인 보고", "オンラインと報告"],
+  offline: ["报告离线", "Reported offline", "回報離線", "오프라인 보고", "オフラインと報告"],
   computing: ["执行任务", "Running jobs", "執行任務", "작업 실행 중", "ジョブ実行中"],
   participating: ["本轮参与", "In this epoch", "本輪參與", "현재 에포크 참여", "今期に参加"],
   rewardAddress: [

@@ -3,6 +3,8 @@ import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
   status:
+    | "idle"
+    | "notFound"
     | "online"
     | "offline"
     | "computing"
@@ -15,6 +17,7 @@ export type ProjectReading = {
   today: string | null;
   todayUsd?: string;
   todayUsdValue?: number | null;
+  priceStale?: boolean;
   todayUsable?: boolean;
   earningsPeriod?: "day" | "month";
   lifetime: string | null;
