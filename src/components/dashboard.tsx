@@ -1,3 +1,4 @@
+import { QuietDetails, simpleCopy } from "./simple-ui";
 import { monitorViewCopy } from "./monitor-views";
 import { fleetCopy } from "./fleet-copy";
 import { localizeValue } from "@/components/site/localization";
@@ -105,7 +106,7 @@ function Total({
       <div className="amount">
         <MoneyPair large units={units} usdPerIota={usdPerIota} />
       </div>
-      <p>{primary ? t("香港时间今日 00:00 起的已记账收益") : t("所有已添加设备的累计记账收益")}</p>
+      <p>{primary ? simpleCopy(locale).today : simpleCopy(locale).total}</p>
       {value.partial && (
         <p className="coverage-note" role="status">
           {value.known
@@ -258,9 +259,6 @@ export function Dashboard() {
             <Monitor size={22} />
           </span>
           <div>
-            <span className="eyebrow">
-              IOTA WATCH / {localizeValue(en ? "MONITOR" : "设备监控", locale)}
-            </span>
             <h1>{monitorViewCopy(locale).iotaMonitor}</h1>
           </div>
         </div>
@@ -293,16 +291,7 @@ export function Dashboard() {
       {watch.devices.length ? (
         <div className="page-title">
           <p>
-            {auth.userId ? (
-              <>
-                <a className="account-name-link" href={`/${locale}/account`}>
-                  {auth.name || auth.email || localizeValue(en ? "Signed in" : "已登录", locale)}
-                </a>
-                {` · ${watch.projectCount}/${watch.limit}`}
-              </>
-            ) : (
-              `${watch.projectCount}/${watch.limit} · ${localizeValue(en ? "Saved in this browser" : "保存在此浏览器", locale)}`
-            )}
+            {watch.devices.length} {t("设备")}
           </p>
           <span className="refresh-label">
             {dash.loading ? (
@@ -369,27 +358,31 @@ export function Dashboard() {
             />
           </div>
           {dash.usdPerIota ? (
-            <p className="fx-note">
-              1 IOTA ≈ {formatUsd(dash.usdPerIota)} · {t("美元按公开市场价格估算")} ·{" "}
-              {dash.priceSource === "taostats-sn9" ? (
-                <a href="https://taostats.io/subnets/9" target="_blank" rel="noopener noreferrer">
-                  Taostats · SN9 × TAO/USD
-                </a>
-              ) : (
-                dash.priceSource
-              )}{" "}
-              {dash.priceQuotedAt !== null && (
-                <>
-                  {" "}
-                  · {t("报价")} {formatAgo(dash.priceQuotedAt, dash.now, locale)}
-                </>
-              )}
-              {" · "}
-              {t("获取")} {formatAgo(dash.priceFetchedAt, dash.now, locale)}
-              {dash.priceStale
-                ? ` · ${t(dash.priceRefreshFailed ? "行情刷新失败" : "报价较早")}`
-                : ""}
-            </p>
+            <QuietDetails
+              title={`${simpleCopy(locale).pricing}${dash.priceStale ? ` · ${t(dash.priceRefreshFailed ? "行情刷新失败" : "报价较早")}` : ""}`}
+            >
+              <p className="fx-note">
+                1 IOTA ≈ {formatUsd(dash.usdPerIota)} · {t("美元按公开市场价格估算")} ·{" "}
+                {dash.priceSource === "taostats-sn9" ? (
+                  <a href="https://taostats.io/subnets/9" target="_blank" rel="noopener noreferrer">
+                    Taostats · SN9 × TAO/USD
+                  </a>
+                ) : (
+                  dash.priceSource
+                )}{" "}
+                {dash.priceQuotedAt !== null && (
+                  <>
+                    {" "}
+                    · {t("报价")} {formatAgo(dash.priceQuotedAt, dash.now, locale)}
+                  </>
+                )}
+                {" · "}
+                {t("获取")} {formatAgo(dash.priceFetchedAt, dash.now, locale)}
+                {dash.priceStale
+                  ? ` · ${t(dash.priceRefreshFailed ? "行情刷新失败" : "报价较早")}`
+                  : ""}
+              </p>
+            </QuietDetails>
           ) : (
             <p className="fx-note" role="status">
               {dash.priceLoading
@@ -587,7 +580,7 @@ export function Dashboard() {
           </>
         )}
       </section>
-      {watch.loaded && (
+      {watch.loaded && !watch.cloud && (
         <p className="storage-note">
           {watch.cloud
             ? localizeValue(

@@ -19,7 +19,16 @@ export type BillingRow = {
 type Table<R> = { Row: R; Insert: Partial<R>; Update: Partial<R>; Relationships: [] };
 export type WatchDatabase = Omit<Database, "public"> & {
   public: Omit<Database["public"], "Tables" | "Functions"> & {
-    Tables: Database["public"]["Tables"] & { watch_billing: Table<BillingRow> };
+    Tables: Database["public"]["Tables"] & {
+      watch_billing: Table<BillingRow>;
+      watch_connections: Table<{
+        user_id: string;
+        project: string;
+        ciphertext: string;
+        revision: string;
+        expires_at: string;
+      }>;
+    };
     Functions: {
       watch_list_devices: { Args: Record<string, never>; Returns: Json };
       watch_mutate_device: { Args: { p_action: string; p_payload: Json }; Returns: Json };

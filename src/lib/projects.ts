@@ -1,10 +1,25 @@
 import { bech32m } from "@scure/base";
 import { decodeSs58 } from "./ss58";
 
-export const PROJECT_IDS = ["iota", "xid", "quantus", "flyai"] as const;
+export const PROJECT_IDS = [
+  "iota",
+  "xid",
+  "quantus",
+  "flyai",
+  "nosana",
+  "gonka",
+  "akash",
+  "ionet",
+  "vast",
+  "golem",
+] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 export type MiningProject = "xid" | "quantus";
 export type MonitorProject = Exclude<ProjectId, "iota">;
+export type ComputeProject = "nosana" | "gonka";
+export function isComputeProject(value: unknown): value is ComputeProject {
+  return value === "nosana" || value === "gonka";
+}
 export const PROJECTS = {
   iota: {
     name: "IOTA",
@@ -38,6 +53,54 @@ export const PROJECTS = {
     guide: "https://www.flyaiworld.com/compute/",
     explorer: "https://flyai-mine.fly.dev/api/month",
   },
+  nosana: {
+    name: "Nosana",
+    detail: "GPU compute",
+    token: "NOS",
+    website: "https://nosana.com/",
+    guide: "https://learn.nosana.com/",
+    explorer: "https://dashboard.nosana.com/",
+  },
+  gonka: {
+    name: "Gonka",
+    detail: "AI inference",
+    token: "GNK",
+    website: "https://gonka.ai/",
+    guide: "https://gonka.ai/docs/host/quickstart/",
+    explorer: "https://gonka.ai/docs/host/network-node-api/",
+  },
+  akash: {
+    name: "Akash",
+    detail: "Cloud compute",
+    token: "AKT",
+    website: "https://akash.network/",
+    guide: "https://akash.network/docs/providers/getting-started/",
+    explorer: "https://console.akash.network/providers",
+  },
+  ionet: {
+    name: "io.net",
+    detail: "GPU compute",
+    token: "IO",
+    website: "https://io.net/",
+    guide: "https://io.net/docs/reference/io-explorer/get-device-details",
+    explorer: "https://explorer.io.net/",
+  },
+  vast: {
+    name: "Vast.ai",
+    detail: "GPU rental",
+    token: "USD",
+    website: "https://vast.ai/",
+    guide: "https://docs.vast.ai/host/hosting-overview",
+    explorer: "https://console.vast.ai/host/machines",
+  },
+  golem: {
+    name: "Golem",
+    detail: "Distributed compute",
+    token: "GLM",
+    website: "https://golem.network/",
+    guide: "https://docs.golem.network/docs/providers/quickstarts/provider-quickstart",
+    explorer: "https://stats.golem.network/",
+  },
 } as const;
 
 export function isMiningProject(value: unknown): value is MiningProject {
@@ -45,7 +108,15 @@ export function isMiningProject(value: unknown): value is MiningProject {
 }
 
 export function isMonitorProject(value: unknown): value is MonitorProject {
-  return isMiningProject(value) || value === "flyai";
+  return (
+    isMiningProject(value) ||
+    value === "flyai" ||
+    isComputeProject(value) ||
+    value === "akash" ||
+    value === "ionet" ||
+    value === "vast" ||
+    value === "golem"
+  );
 }
 
 export function projectPath(locale: string, project: ProjectId) {
@@ -63,7 +134,9 @@ export function projectEntity(project: ProjectId) {
           ? "xCoin (XID)"
           : project === "quantus"
             ? "Quantus (QTC)"
-            : "fly.ai Compute",
+            : project === "flyai"
+              ? "fly.ai Compute"
+              : PROJECTS[project].name,
     alternateName:
       project === "iota"
         ? ["Macrocosmos IOTA", "Train at Home"]
@@ -71,7 +144,9 @@ export function projectEntity(project: ProjectId) {
           ? ["xCoin", "XID"]
           : project === "quantus"
             ? ["Quantus", "QTC"]
-            : ["fly.ai", "FlyAI Compute"],
+            : project === "flyai"
+              ? ["fly.ai", "FlyAI Compute"]
+              : [PROJECTS[project].name, PROJECTS[project].token],
     sameAs: PROJECTS[project].website,
   };
 }

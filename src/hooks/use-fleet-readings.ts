@@ -1,9 +1,16 @@
+import { useServerFn } from "@tanstack/react-start";
+import { useAuth } from "./use-auth";
+import { getPublicPlatform, getPrivatePlatform } from "@/lib/platforms.functions";
+import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
+import { platformCopy } from "@/components/platform-copy";
+import { getComputeNetwork, getNosanaNode } from "@/lib/compute.functions";
+import { editorialCopy } from "@/components/project-editorial";
 import { useMemo } from "react";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useIotaDashboard } from "./use-iota-dashboard";
 import { getProjectNetwork, getQuantusAccount } from "@/lib/projects.functions";
 import { getFlyaiMonth } from "@/lib/flyai.functions";
-import { formatIota, formatUsd, iotaUnitsToUsd } from "@/lib/earnings";
+import { formatIota, formatUsd, iotaUnitsToUsd, hongKongDayStartSeconds } from "@/lib/earnings";
 import { LANGUAGE_TAG } from "@/lib/site";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 import { fleetCopy } from "@/components/fleet-copy";
@@ -13,6 +20,33 @@ import type { ProjectReading } from "@/components/fleet-review-data";
 export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
+  const auth = useAuth(),
+    privateRead = useServerFn(getPrivatePlatform),
+    pc = platformCopy(locale);
+  const platformBindings = [
+    ...new Map(
+      devices
+        .flatMap((d) => d.bindings)
+        .filter((b) => isPlatform(b.project))
+        .map((b) => [`${b.project}:${b.identifier}`, b]),
+    ).values(),
+  ];
+  const platformQueries = useQueries({
+    queries: platformBindings.map((b) => ({
+      queryKey: ["platform-node", auth.userId, b.project, b.identifier],
+      enabled: ready && isPlatform(b.project) && (!isPrivatePlatform(b.project) || !!auth.userId),
+      queryFn: () => {
+        const project = b.project;
+        if (!isPlatform(project)) throw new Error("invalid");
+        return isPrivatePlatform(project)
+          ? privateRead({ data: { project, id: b.identifier } })
+          : getPublicPlatform({ data: { project, id: b.identifier } });
+      },
+      staleTime: 300000,
+      refetchInterval: 300000,
+      retry: false,
+    })),
+  });
   const entries = useMemo(
     () =>
       devices.flatMap((d) =>
@@ -56,6 +90,28 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       retry: 1,
     })),
   });
+  const nosanaIds = [
+    ...new Set(bindings.filter((b) => b.project === "nosana").map((b) => b.identifier)),
+  ];
+  const nosana = useQueries({
+    queries: nosanaIds.map((address) => ({
+      queryKey: ["nosana", address],
+      queryFn: () => getNosanaNode({ data: { address } }),
+      enabled: ready,
+      staleTime: 45000,
+      refetchInterval: 60000,
+      retry: 1,
+    })),
+  });
+  const gonka = useQuery({
+    queryKey: ["compute", "gonka"],
+    queryFn: () => getComputeNetwork({ data: { project: "gonka" } }),
+    enabled: ready && bindings.some((b) => b.project === "gonka"),
+    staleTime: 45000,
+    refetchInterval: 60000,
+    retry: 1,
+  });
+  const ec = editorialCopy(locale);
   const clock = (value: number | null | undefined) =>
     value
       ? new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
@@ -88,6 +144,66 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : "fly.ai",
       updated: "—",
     };
+    if (isPlatform(binding.project)) {
+      const q =
+          platformQueries[
+            platformBindings.findIndex(
+              (b) => b.project === binding.project && b.identifier === binding.identifier,
+            )
+          ],
+        r = q?.data,
+        d = r?.data;
+      const current = !!r?.fetchedAt && iota.now - r.fetchedAt < 600000 && !r.error && !q?.isError;
+      const sourceFresh = !!d?.sourceUpdatedAt && iota.now - d.sourceUpdatedAt < 900000;
+      const daily =
+        current &&
+        d?.period === "hkDay" &&
+        d?.periodStart === hongKongDayStartSeconds(iota.now) * 1000 &&
+        d?.reward !== null;
+      return {
+        ...base,
+        source:
+          binding.project === "ionet"
+            ? "io.net"
+            : binding.project === "vast"
+              ? "Vast.ai"
+              : binding.project === "akash"
+                ? "Akash"
+                : "Golem Stats",
+        scope: d?.scope === "provider" ? "wallet" : "device",
+        status:
+          current && sourceFresh && d?.online === true
+            ? "online"
+            : current && sourceFresh && d?.online === false
+              ? "offline"
+              : "unavailable",
+        activity: d?.hardware ?? "—",
+        today: d?.reward === null || d?.reward === undefined ? null : String(d.reward),
+        ...(d?.period ? { todayLabel: pc[d.period] } : {}),
+        unit: d?.rewardUnit ?? "",
+        lifetime: d?.lifetime === null || d?.lifetime === undefined ? null : String(d.lifetime),
+        todayUsable: !!daily,
+        todayUsdValue: daily && d?.rewardUnit === "USD" ? d.reward : null,
+        updated: clock(r?.fetchedAt),
+        note:
+          (isPrivatePlatform(binding.project) && !auth.userId) || r?.error === "connect-required"
+            ? pc.needConnection
+            : r?.error === "expired"
+              ? pc.expired
+              : r?.error === "not-configured"
+                ? pc.notConfigured
+                : r?.error || q?.isError
+                  ? c.unavailable
+                  : d?.partial
+                    ? pc.partial
+                    : d &&
+                        (!current ||
+                          (d.sourceUpdatedAt !== null && !sourceFresh) ||
+                          (d.period === "hkDay" && !daily))
+                      ? c.stale
+                      : undefined,
+      };
+    }
     if (binding.project === "iota") {
       const view = iota.views.find((v) => v.entry.hotkey === binding.identifier);
       if (!view) return base;
@@ -165,6 +281,38 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
           result?.data && (!fresh(result.fetchedAt, result.stale) || query?.isError)
             ? c.stale
             : c.apiLimited,
+      };
+    }
+    if (binding.project === "nosana") {
+      const query = nosana[nosanaIds.indexOf(binding.identifier)],
+        r = query?.data,
+        d = r?.data;
+      const current = fresh(r?.fetchedAt, r?.stale) && !query?.isError;
+      return {
+        ...base,
+        source: "Nosana",
+        scope: "device",
+        status: current && d && d.running > 0 ? "computing" : "unavailable",
+        activity: d ? `${d.running} · ${ec.running}` : "—",
+        lifetime: d ? String(d.completed) : null,
+        totalLabel: ec.completed,
+        updated: clock(r?.fetchedAt),
+        note: !current ? c.stale : ec.noDaily,
+      };
+    }
+    if (binding.project === "gonka") {
+      const r = gonka.data,
+        h = r?.data?.participants.find((p) => p.address === binding.identifier),
+        current = fresh(r?.fetchedAt, r?.stale) && !gonka.isError;
+      return {
+        ...base,
+        source: "Gonka",
+        status: current && h ? "participating" : "unavailable",
+        activity: r?.data ? `${ec.epoch} ${r.data.epoch}` : "—",
+        lifetime: h?.weight ?? null,
+        totalLabel: ec.weight,
+        updated: clock(r?.fetchedAt),
+        note: !current ? c.stale : ec.noDaily,
       };
     }
     const result = flyai.data,

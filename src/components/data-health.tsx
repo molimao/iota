@@ -1,3 +1,4 @@
+import { QuietDetails, simpleCopy } from "./simple-ui";
 import { localizeValue } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
 import { formatAgo } from "@/lib/format";
@@ -54,7 +55,11 @@ export function DataHealth({
           );
         })}
       </div>
-      {note && <p>{note}</p>}
+      {note && (
+        <QuietDetails title={simpleCopy(locale).definitions}>
+          <p>{note}</p>
+        </QuietDetails>
+      )}
     </section>
   );
 }

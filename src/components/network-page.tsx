@@ -1,3 +1,4 @@
+import { QuietDetails, simpleCopy } from "./simple-ui";
 import { withLocales } from "@/components/site/localization";
 import { localizeValue } from "@/components/site/localization";
 import { FarmFull } from "@/components/farm-view";
@@ -45,17 +46,7 @@ export function NetworkPage() {
       <a className="back-link" href={`/${locale}`}>
         ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
-      <span className="eyebrow">IOTA WATCH / {localizeValue(en ? "NETWORK" : "全网", locale)}</span>
       <h1>{localizeValue(en ? "Network status" : "全网训练现况", locale)}</h1>
-      <p className="article-lead">
-        {localizeValue(
-          en
-            ? "Active training runs. Public data, updated about once a minute."
-            : "进行中的训练任务。公开数据，约每分钟更新。",
-          locale,
-        )}
-      </p>
-
       <div className="network-toolbar">
         <p>
           {localizeValue(
@@ -103,39 +94,29 @@ export function NetworkPage() {
         </p>
       )}
 
-      <div className="network-glossary">
-        <h2>{localizeValue(en ? "Numbers" : "数字含义", locale)}</h2>
-        <dl>
-          {GLOSSARY.map((item) => (
-            <div key={item.term.en}>
-              <dt>{item.term[locale]}</dt>
-              <dd>{item.body[locale]}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      <QuietDetails title={simpleCopy(locale).definitions}>
+        <div className="network-glossary">
+          <h2>{localizeValue(en ? "Numbers" : "数字含义", locale)}</h2>
+          <dl>
+            {GLOSSARY.map((item) => (
+              <div key={item.term.en}>
+                <dt>{item.term[locale]}</dt>
+                <dd>{item.body[locale]}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
 
-      <aside className="article-tip">
-        <h2>{localizeValue(en ? "Your devices" : "我的设备", locale)}</h2>
-        <p>
-          {localizeValue(
-            en
-              ? "This page shows the whole network. Add a Miner ID to see your devices and rewards."
-              : "此页为全网数据。添加 Miner ID 后可查看自己的设备与收益。",
-            locale,
-          )}
+        <p className="article-updated">
+          <a href={`/${locale}/learn/network-status-explained`}>
+            {localizeValue(en ? "How to read network status" : "全网数字怎么读", locale)}
+          </a>
+          {" · "}
+          <a href={`/${locale}/learn/data-sources-and-freshness`}>
+            {localizeValue(en ? "Data sources and freshness" : "数据来源与时效", locale)}
+          </a>
         </p>
-        <a href={`/${locale}/app`}>{localizeValue(en ? "My devices" : "我的设备", locale)} →</a>
-      </aside>
-      <p className="article-updated">
-        <a href={`/${locale}/learn/network-status-explained`}>
-          {localizeValue(en ? "How to read network status" : "全网数字怎么读", locale)}
-        </a>
-        {" · "}
-        <a href={`/${locale}/learn/data-sources-and-freshness`}>
-          {localizeValue(en ? "Data sources and freshness" : "数据来源与时效", locale)}
-        </a>
-      </p>
+      </QuietDetails>
     </article>
   );
 }

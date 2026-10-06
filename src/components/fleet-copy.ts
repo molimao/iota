@@ -1,6 +1,10 @@
 import type { SiteLocale } from "@/lib/site";
 
 const labels = {
+ online:["报告在线","Reported online","回報在線","온라인 보고","オンラインと報告"],
+ offline:["报告离线","Reported offline","回報離線","오프라인 보고","オフラインと報告"],
+  computing: ["执行任务", "Running jobs", "執行任務", "작업 실행 중", "ジョブ実行中"],
+  participating: ["本轮参与", "In this epoch", "本輪參與", "현재 에포크 참여", "今期に参加"],
   rewardAddress: [
     "公开收益地址",
     "Public reward address",

@@ -5,7 +5,7 @@ import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
 import localToolsRelease from "@/lib/local-tools-release.json";
-import { projectEntity } from "@/lib/projects";
+import { projectEntity, PROJECT_IDS } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
 import { projectsCopy } from "../projects-copy";
 
@@ -81,7 +81,7 @@ function websiteGraph() {
     url: ORIGIN,
     inLanguage: LOCALES.map((locale) => LANGUAGE_TAG[locale]),
     publisher: { "@id": ORG_ID },
-    about: [projectEntity("iota"), projectEntity("xid"), projectEntity("quantus")],
+    about: PROJECT_IDS.map(projectEntity),
   };
 }
 
@@ -297,7 +297,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
-        about: [projectEntity("iota"), projectEntity("xid"), projectEntity("quantus")],
+        about: PROJECT_IDS.map(projectEntity),
         license: "https://github.com/molimao/iota/blob/main/LICENSE",
       }),
     );

@@ -1,22 +1,16 @@
+import { projectEditorial, projectQuestions } from "./project-editorial";
 import { projectsCopy } from "./projects-copy";
-import { PROJECTS, projectEntity, type MonitorProject } from "@/lib/projects";
+import { PROJECTS, PROJECT_IDS, projectEntity, type ProjectId } from "@/lib/projects";
 import { guidesForProject } from "./site/project-guides";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, OG_LOCALE, type SiteLocale } from "@/lib/site";
 
-export function projectsSeo(locale: SiteLocale, project?: MonitorProject) {
+export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
   const c = projectsCopy[locale],
-    name =
-      project === "xid"
-        ? "XID / MMM"
-        : project === "quantus"
-          ? "Quantus / QTC"
-          : project === "flyai"
-            ? "fly.ai Compute"
-            : c.projects;
+    name = project ? PROJECTS[project].name : c.projects;
   const path = `projects${project ? `/${project}` : ""}`,
     url = `${ORIGIN}/${locale}/${path}`;
-  const title = `${name} · ${project === "flyai" ? c.compute : project ? c.monitor : c.title} | IOTA Watch`;
-  const description = project ? c[project] : c.intro;
+  const title = `${project ? projectEditorial[project].title[locale] : c.title} | IOTA Watch`;
+  const description = project ? projectEditorial[project].summary[locale] : c.intro;
   const robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
   const page = {
     "@context": "https://schema.org",
@@ -37,9 +31,9 @@ export function projectsSeo(locale: SiteLocale, project?: MonitorProject) {
           ],
         }
       : {
-          hasPart: ["xid", "quantus", "flyai"].map((id) => ({
+          hasPart: PROJECT_IDS.map((id) => ({
             "@type": "WebPage",
-            name: PROJECTS[id as MonitorProject].name,
+            name: PROJECTS[id as ProjectId].name,
             url: `${ORIGIN}/${locale}/projects/${id}`,
           })),
         }),
@@ -71,17 +65,6 @@ export function projectsSeo(locale: SiteLocale, project?: MonitorProject) {
       { name: "description", content: description },
       { name: "robots", content: robots },
       { name: "googlebot", content: robots },
-      {
-        name: "keywords",
-        content:
-          project === "xid"
-            ? "XID, xCoin, MMM, Mac Metal Miner, MetalDAG, hashrate monitor"
-            : project === "quantus"
-              ? "Quantus, QTC, QPoW, wormhole, mining rewards"
-              : project === "flyai"
-                ? "fly.ai, FlyAI Compute, compute points, ETH reward wallet"
-                : "IOTA Train at Home, XID, MMM, Quantus, QTC, fly.ai, mining monitor",
-      },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:url", content: url },
@@ -101,7 +84,24 @@ export function projectsSeo(locale: SiteLocale, project?: MonitorProject) {
       })),
       { rel: "alternate", hrefLang: "x-default", href: `${ORIGIN}/en/${path}` },
     ],
-    scripts: [page, breadcrumb, guideCollection].map((data) => ({
+    scripts: [
+      page,
+      breadcrumb,
+      ...(guides.length ? [guideCollection] : []),
+      ...(project
+        ? [
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: projectQuestions(project, locale).map((q) => ({
+                "@type": "Question",
+                name: q.question,
+                acceptedAnswer: { "@type": "Answer", text: q.answer },
+              })),
+            },
+          ]
+        : []),
+    ].map((data) => ({
       type: "application/ld+json" as const,
       children: JSON.stringify(data).replace(/</g, "\u003c"),
     })),

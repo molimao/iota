@@ -27,6 +27,8 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
+- Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
+- Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - fly.ai Compute: https://iotahome.site/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: https://iotahome.site/en/devices?project=flyai.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
@@ -54,26 +56,61 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [Home (en)](https://iotahome.site/en)
 - [홈 (ko)](https://iotahome.site/ko)
 - [ホーム (ja)](https://iotahome.site/ja)
+- [IOTA Train at Home 监控：Miner ID、训练状态与收益 (zh)](https://iotahome.site/zh/projects/iota)
+- [IOTA Train at Home 監控：Miner ID、訓練狀態與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/iota)
+- [IOTA Train at Home monitor: Miner ID, training and rewards (en)](https://iotahome.site/en/projects/iota)
+- [IOTA Train at Home 모니터: Miner ID, 학습과 보상 (ko)](https://iotahome.site/ko/projects/iota)
+- [IOTA Train at Home監視：Miner ID・学習状態・報酬 (ja)](https://iotahome.site/ja/projects/iota)
+- [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/projects/nosana)
+- [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/nosana)
+- [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/projects/nosana)
+- [Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)](https://iotahome.site/ko/projects/nosana)
+- [Nosana GPUノード監視：実行中ジョブと完了記録 (ja)](https://iotahome.site/ja/projects/nosana)
+- [Gonka 节点监控：轮次参与者、模型与权重 (zh)](https://iotahome.site/zh/projects/gonka)
+- [Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)](https://iotahome.site/zh-TW/projects/gonka)
+- [Gonka host monitor: epoch participation, models and weight (en)](https://iotahome.site/en/projects/gonka)
+- [Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)](https://iotahome.site/ko/projects/gonka)
+- [Gonkaホスト監視：エポック参加・モデル・重み (ja)](https://iotahome.site/ja/projects/gonka)
+- [Akash 提供商监控：GPU 容量与在线状态 (zh)](https://iotahome.site/zh/projects/akash)
+- [Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)](https://iotahome.site/zh-TW/projects/akash)
+- [Akash provider monitor: GPU capacity and status (en)](https://iotahome.site/en/projects/akash)
+- [Akash 공급자 모니터: GPU 용량과 상태 (ko)](https://iotahome.site/ko/projects/akash)
+- [Akashプロバイダー監視：GPU容量と状態 (ja)](https://iotahome.site/ja/projects/akash)
+- [io.net 设备监控：GPU 信息与区块奖励 (zh)](https://iotahome.site/zh/projects/ionet)
+- [io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/ionet)
+- [io.net device monitor: GPU details and block rewards (en)](https://iotahome.site/en/projects/ionet)
+- [io.net 기기 모니터: GPU 정보와 블록 보상 (ko)](https://iotahome.site/ko/projects/ionet)
+- [io.netデバイス監視：GPU情報とブロック報酬 (ja)](https://iotahome.site/ja/projects/ionet)
+- [Vast.ai 主机监控：GPU 设备与出租收入 (zh)](https://iotahome.site/zh/projects/vast)
+- [Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)](https://iotahome.site/zh-TW/projects/vast)
+- [Vast.ai host monitor: GPU machines and rental income (en)](https://iotahome.site/en/projects/vast)
+- [Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)](https://iotahome.site/ko/projects/vast)
+- [Vast.aiホスト監視：GPU機器とレンタル収入 (ja)](https://iotahome.site/ja/projects/vast)
+- [Golem 节点监控：运行状态与 GLM 收益 (zh)](https://iotahome.site/zh/projects/golem)
+- [Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)](https://iotahome.site/zh-TW/projects/golem)
+- [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/projects/golem)
+- [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/projects/golem)
+- [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/projects/golem)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
 - [프로젝트 (ko)](https://iotahome.site/ko/projects)
 - [プロジェクト (ja)](https://iotahome.site/ja/projects)
-- [XID / MMM (zh)](https://iotahome.site/zh/projects/xid)
-- [XID / MMM (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
-- [XID / MMM (en)](https://iotahome.site/en/projects/xid)
-- [XID / MMM (ko)](https://iotahome.site/ko/projects/xid)
-- [XID / MMM (ja)](https://iotahome.site/ja/projects/xid)
-- [fly.ai Compute (zh)](https://iotahome.site/zh/projects/flyai)
-- [fly.ai Compute (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
-- [fly.ai Compute (en)](https://iotahome.site/en/projects/flyai)
-- [fly.ai Compute (ko)](https://iotahome.site/ko/projects/flyai)
-- [fly.ai Compute (ja)](https://iotahome.site/ja/projects/flyai)
-- [Quantus / QTC (zh)](https://iotahome.site/zh/projects/quantus)
-- [Quantus / QTC (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
-- [Quantus / QTC (en)](https://iotahome.site/en/projects/quantus)
-- [Quantus / QTC (ko)](https://iotahome.site/ko/projects/quantus)
-- [Quantus / QTC (ja)](https://iotahome.site/ja/projects/quantus)
+- [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
+- [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
+- [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
+- [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
+- [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
+- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
+- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
+- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
+- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
+- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
+- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
+- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
+- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
+- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
+- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
 - [博客 (zh)](https://iotahome.site/zh/blog)
 - [部落格 (zh-TW)](https://iotahome.site/zh-TW/blog)
 - [Blog (en)](https://iotahome.site/en/blog)
@@ -214,6 +251,41 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
 - [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
 - [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
+- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
+- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
+- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
+- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/learn/flyai-monitor-guide)
+- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/learn/flyai-monitor-guide)
+- [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/learn/nosana-monitor-guide)
+- [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/learn/nosana-monitor-guide)
+- [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/learn/nosana-monitor-guide)
+- [Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)](https://iotahome.site/ko/learn/nosana-monitor-guide)
+- [Nosana GPUノード監視：実行中ジョブと完了記録 (ja)](https://iotahome.site/ja/learn/nosana-monitor-guide)
+- [Gonka 节点监控：轮次参与者、模型与权重 (zh)](https://iotahome.site/zh/learn/gonka-monitor-guide)
+- [Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)](https://iotahome.site/zh-TW/learn/gonka-monitor-guide)
+- [Gonka host monitor: epoch participation, models and weight (en)](https://iotahome.site/en/learn/gonka-monitor-guide)
+- [Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)](https://iotahome.site/ko/learn/gonka-monitor-guide)
+- [Gonkaホスト監視：エポック参加・モデル・重み (ja)](https://iotahome.site/ja/learn/gonka-monitor-guide)
+- [Akash 提供商监控：GPU 容量与在线状态 (zh)](https://iotahome.site/zh/learn/akash-monitor-guide)
+- [Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)](https://iotahome.site/zh-TW/learn/akash-monitor-guide)
+- [Akash provider monitor: GPU capacity and status (en)](https://iotahome.site/en/learn/akash-monitor-guide)
+- [Akash 공급자 모니터: GPU 용량과 상태 (ko)](https://iotahome.site/ko/learn/akash-monitor-guide)
+- [Akashプロバイダー監視：GPU容量と状態 (ja)](https://iotahome.site/ja/learn/akash-monitor-guide)
+- [io.net 设备监控：GPU 信息与区块奖励 (zh)](https://iotahome.site/zh/learn/ionet-monitor-guide)
+- [io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)](https://iotahome.site/zh-TW/learn/ionet-monitor-guide)
+- [io.net device monitor: GPU details and block rewards (en)](https://iotahome.site/en/learn/ionet-monitor-guide)
+- [io.net 기기 모니터: GPU 정보와 블록 보상 (ko)](https://iotahome.site/ko/learn/ionet-monitor-guide)
+- [io.netデバイス監視：GPU情報とブロック報酬 (ja)](https://iotahome.site/ja/learn/ionet-monitor-guide)
+- [Vast.ai 主机监控：GPU 设备与出租收入 (zh)](https://iotahome.site/zh/learn/vast-monitor-guide)
+- [Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)](https://iotahome.site/zh-TW/learn/vast-monitor-guide)
+- [Vast.ai host monitor: GPU machines and rental income (en)](https://iotahome.site/en/learn/vast-monitor-guide)
+- [Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)](https://iotahome.site/ko/learn/vast-monitor-guide)
+- [Vast.aiホスト監視：GPU機器とレンタル収入 (ja)](https://iotahome.site/ja/learn/vast-monitor-guide)
+- [Golem 节点监控：运行状态与 GLM 收益 (zh)](https://iotahome.site/zh/learn/golem-monitor-guide)
+- [Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)](https://iotahome.site/zh-TW/learn/golem-monitor-guide)
+- [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/learn/golem-monitor-guide)
+- [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
+- [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
@@ -230,6 +302,78 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [IOTA Train at Home 작업 대기와 처리량 0: 확인 방법 (ko)](https://iotahome.site/ko/blog/iota-waiting-for-tasks)
 - [IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)](https://iotahome.site/ja/blog/iota-waiting-for-tasks)
 
+
+## Project data coverage
+
+### IOTA
+Monitor Macrocosmos IOTA Train at Home training contribution, daily recorded rewards and lifetime rewards.
+Use the full Miner ID (SS58 hotkey) from the official Miner screen, not a seed phrase or payout address.
+IOTA here is Bittensor SN9 alpha, not IOTA Layer 1. Daily rewards use Hong Kong midnight; USD is a market estimate and reported samples are not live device heartbeats.
+Source: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+Monitor: https://iotahome.site/en/projects/iota
+
+### XID
+Look up MMM pool workers, reported hashrate and chain records with an xCoin mainnet address.
+Use the complete xCoin mainnet public payout address beginning xpa1r. A worker name can distinguish miners sharing an address.
+MMM is the Mac Metal Miner app; XID is the token. Visible workers cover the source pool only. Balance is not lifetime earnings, and a worker name does not prove hardware identity.
+Source: https://macmetalminer.com/
+Monitor: https://iotahome.site/en/projects/xid
+
+### Quantus
+View blocks and public-address QTC block rewards from the official Quantus mainnet index.
+Use the public Quantus mainnet mining Wormhole address (SS58 prefix 189), never the inner hash.
+Daily totals use Hong Kong time and indexed block rewards, not all pool transfers. Historically rewarded addresses are not online devices; missing data is not zero income.
+Source: https://docs.quantus.com/guides/mining/
+Monitor: https://iotahome.site/en/projects/quantus
+
+### fly.ai
+Look up fly.ai monthly compute points and share using a public ETH reward address.
+Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
+Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
+Source: https://www.flyaiworld.com/compute/
+Monitor: https://iotahome.site/en/projects/flyai
+
+### Nosana
+Query running and completed jobs by public Nosana node address and view GPU network job statistics.
+Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
+Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
+Source: https://learn.nosana.com/
+Monitor: https://iotahome.site/en/projects/nosana
+
+### Gonka
+Look up current Gonka epoch participants, public Host addresses, models and epoch weight.
+Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
+The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
+Source: https://gonka.ai/docs/host/quickstart/
+Monitor: https://iotahome.site/en/projects/gonka
+
+### Akash
+Provider status and GPU capacity
+Use the public provider address beginning akash1. One provider may manage multiple servers.
+Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
+Source: https://akash.network/docs/providers/getting-started/
+Monitor: https://iotahome.site/en/projects/akash
+
+### io.net
+GPU details and block rewards
+Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
+Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
+Source: https://io.net/docs/reference/io-explorer/get-device-details
+Monitor: https://iotahome.site/en/projects/ionet
+
+### Vast.ai
+Host details and rental income
+Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
+Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
+Source: https://docs.vast.ai/host/hosting-overview
+Monitor: https://iotahome.site/en/projects/vast
+
+### Golem
+Node status and last-24-hour earnings
+Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
+Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
+Source: https://docs.golem.network/docs/providers/quickstarts/provider-quickstart
+Monitor: https://iotahome.site/en/projects/golem
 ## Public project FAQ
 
 ### 常见问题 (zh-CN)
@@ -4048,6 +4192,995 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - Source: Quantus · official mainnet mining guide — https://docs.quantus.com/guides/mining/
 - Source: Quantus · official mainnet explorer — https://explorer.quantus.com/
 - Source: IOTA Watch · source and data rules — https://github.com/molimao/iota
+
+### fly.ai Compute points: ETH reward address and monthly totals
+- zh-CN: https://iotahome.site/zh/learn/flyai-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/flyai-monitor-guide
+- en: https://iotahome.site/en/learn/flyai-monitor-guide
+- ko: https://iotahome.site/ko/learn/flyai-monitor-guide
+- ja: https://iotahome.site/ja/learn/flyai-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh-CN)
+
+## 先看结论
+
+按公开 ETH 收益地址查看 fly.ai 月度算力积分及占比。
+
+填写 0x 开头的公开 ETH 收益地址。登录令牌、API 密钥和钱包私钥都不是查询标识。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+积分按钱包和月份汇总，不等于单台设备今日收益或可提现金额。同地址的多台设备不能重复计算这些积分。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[fly.ai](https://iotahome.site/zh/projects/flyai) · [监控指南](https://www.flyaiworld.com/compute/)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写 0x 开头的公开 ETH 收益地址。登录令牌、API 密钥和钱包私钥都不是查询标识。
+
+### 这些数据能说明什么？
+
+积分按钱包和月份汇总，不等于单台设备今日收益或可提现金额。同地址的多台设备不能重复计算这些积分。
+
+### fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)
+
+## 先看結論
+
+依公開 ETH 收益地址查看 fly.ai 月度算力積分與佔比。
+
+填寫 0x 開頭的公開 ETH 收益地址。登入權杖、API 金鑰與錢包私鑰都不是查詢識別碼。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+積分按錢包與月份彙總，不等於單台设备今日收益或可提領金額。同地址多台設備不能重複計算積分。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[fly.ai](https://iotahome.site/zh-TW/projects/flyai) · [監控指南](https://www.flyaiworld.com/compute/)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫 0x 開頭的公開 ETH 收益地址。登入權杖、API 金鑰與錢包私鑰都不是查詢識別碼。
+
+### 這些資料能說明什麼？
+
+積分按錢包與月份彙總，不等於單台设备今日收益或可提領金額。同地址多台設備不能重複計算積分。
+
+### fly.ai Compute points: ETH reward address and monthly totals (en)
+
+## At a glance
+
+Look up fly.ai monthly compute points and share using a public ETH reward address.
+
+Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[fly.ai](https://iotahome.site/en/projects/flyai) · [Monitoring guide](https://www.flyaiworld.com/compute/)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
+
+### What do these figures measure?
+
+Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
+
+### fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)
+
+## 핵심 내용
+
+공개 ETH 보상 주소로 fly.ai 월간 컴퓨팅 포인트와 비중을 확인합니다.
+
+0x로 시작하는 공개 ETH 보상 주소를 입력합니다. 로그인 토큰, API 키나 지갑 비밀키는 조회 식별자가 아닙니다.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+포인트는 지갑별 월간 합계로 기기 일일 수익이나 출금 가능 잔액이 아닙니다. 동일 지갑을 사용하는 기기마다 중복 집계하면 안 됩니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[fly.ai](https://iotahome.site/ko/projects/flyai) · [모니터링 가이드](https://www.flyaiworld.com/compute/)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+0x로 시작하는 공개 ETH 보상 주소를 입력합니다. 로그인 토큰, API 키나 지갑 비밀키는 조회 식별자가 아닙니다.
+
+### 이 데이터는 무엇을 의미하나요?
+
+포인트는 지갑별 월간 합계로 기기 일일 수익이나 출금 가능 잔액이 아닙니다. 동일 지갑을 사용하는 기기마다 중복 집계하면 안 됩니다.
+
+### fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)
+
+## 要点
+
+公開ETH報酬アドレスでfly.aiの月間計算ポイントと割合を確認します。
+
+0xから始まる公開ETH報酬アドレスを使います。ログイントークン、APIキー、秘密鍵は照会IDではありません。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+ポイントはウォレット単位の月間合計で、機器の日次収益や出金可能残高ではありません。同一ウォレットの機器ごとに重複集計できません。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[fly.ai](https://iotahome.site/ja/projects/flyai) · [監視ガイド](https://www.flyaiworld.com/compute/)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+0xから始まる公開ETH報酬アドレスを使います。ログイントークン、APIキー、秘密鍵は照会IDではありません。
+
+### このデータは何を表しますか？
+
+ポイントはウォレット単位の月間合計で、機器の日次収益や出金可能残高ではありません。同一ウォレットの機器ごとに重複集計できません。
+- Source: fly.ai — https://www.flyaiworld.com/compute/
+
+### Nosana GPU node monitor: running jobs and completed tasks
+- zh-CN: https://iotahome.site/zh/learn/nosana-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/nosana-monitor-guide
+- en: https://iotahome.site/en/learn/nosana-monitor-guide
+- ko: https://iotahome.site/ko/learn/nosana-monitor-guide
+- ja: https://iotahome.site/ja/learn/nosana-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### Nosana GPU 节点监控：任务状态与完成记录 (zh-CN)
+
+## 先看结论
+
+用 Nosana 节点公开地址查询运行中任务与已完成任务，查看 GPU 网络任务统计。
+
+填写 Nosana 节点的公开 Solana 地址，而不是任务地址或钱包私钥。一个钱包可能对应不同节点，请以官方节点信息核对。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+任务统计来自 Nosana 官方公开索引。运行中任务数不是 GPU 台数，没有任务也不等于离线。本次不将任务数量换算成 NOS 收益。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[Nosana](https://iotahome.site/zh/projects/nosana) · [监控指南](https://learn.nosana.com/)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写 Nosana 节点的公开 Solana 地址，而不是任务地址或钱包私钥。一个钱包可能对应不同节点，请以官方节点信息核对。
+
+### 这些数据能说明什么？
+
+任务统计来自 Nosana 官方公开索引。运行中任务数不是 GPU 台数，没有任务也不等于离线。本次不将任务数量换算成 NOS 收益。
+
+### Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)
+
+## 先看結論
+
+以 Nosana 節點公開地址查詢執行中與已完成任務，查看 GPU 網路任務統計。
+
+填寫 Nosana 節點的公開 Solana 地址，而非任務地址或錢包私鑰。請在官方頁核對節點身分，不假設一個錢包等於一個節點。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+任務統計來自 Nosana 官方公開索引。執行中任務數不是 GPU 台數，沒有任務不等於離線。本監控不將任務數量換算成 NOS 收益。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[Nosana](https://iotahome.site/zh-TW/projects/nosana) · [監控指南](https://learn.nosana.com/)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫 Nosana 節點的公開 Solana 地址，而非任務地址或錢包私鑰。請在官方頁核對節點身分，不假設一個錢包等於一個節點。
+
+### 這些資料能說明什麼？
+
+任務統計來自 Nosana 官方公開索引。執行中任務數不是 GPU 台數，沒有任務不等於離線。本監控不將任務數量換算成 NOS 收益。
+
+### Nosana GPU node monitor: running jobs and completed tasks (en)
+
+## At a glance
+
+Query running and completed jobs by public Nosana node address and view GPU network job statistics.
+
+Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[Nosana](https://iotahome.site/en/projects/nosana) · [Monitoring guide](https://learn.nosana.com/)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
+
+### What do these figures measure?
+
+Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
+
+### Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)
+
+## 핵심 내용
+
+Nosana 공개 노드 주소로 실행 중 및 완료 작업과 GPU 네트워크 작업 통계를 확인합니다.
+
+작업 주소나 비밀키가 아닌 Nosana 노드의 공개 Solana 주소를 사용합니다. 지갑 하나가 노드 하나라고 가정하지 말고 공식 대시보드에서 노드 정보를 확인하세요.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+작업 통계는 Nosana 공식 공개 인덱스에서 가져옵니다. 실행 작업 수는 GPU 수가 아니며 작업 없음은 오프라인을 뜻하지 않습니다. 작업 수를 NOS 수익으로 환산하지 않습니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[Nosana](https://iotahome.site/ko/projects/nosana) · [모니터링 가이드](https://learn.nosana.com/)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+작업 주소나 비밀키가 아닌 Nosana 노드의 공개 Solana 주소를 사용합니다. 지갑 하나가 노드 하나라고 가정하지 말고 공식 대시보드에서 노드 정보를 확인하세요.
+
+### 이 데이터는 무엇을 의미하나요?
+
+작업 통계는 Nosana 공식 공개 인덱스에서 가져옵니다. 실행 작업 수는 GPU 수가 아니며 작업 없음은 오프라인을 뜻하지 않습니다. 작업 수를 NOS 수익으로 환산하지 않습니다.
+
+### Nosana GPUノード監視：実行中ジョブと完了記録 (ja)
+
+## 要点
+
+Nosanaの公開ノードアドレスで実行中・完了ジョブとGPUネットワークの統計を確認します。
+
+ジョブのアドレスや秘密鍵ではなく、Nosanaノードの公開Solanaアドレスを使います。ウォレットとノードを同一視せず公式画面で確認してください。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+ジョブ統計はNosana公式公開インデックスが出典です。実行ジョブ数はGPU台数ではなく、ジョブなしはオフラインを意味しません。ジョブ数をNOS収益に換算しません。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[Nosana](https://iotahome.site/ja/projects/nosana) · [監視ガイド](https://learn.nosana.com/)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+ジョブのアドレスや秘密鍵ではなく、Nosanaノードの公開Solanaアドレスを使います。ウォレットとノードを同一視せず公式画面で確認してください。
+
+### このデータは何を表しますか？
+
+ジョブ統計はNosana公式公開インデックスが出典です。実行ジョブ数はGPU台数ではなく、ジョブなしはオフラインを意味しません。ジョブ数をNOS収益に換算しません。
+- Source: Nosana — https://learn.nosana.com/
+- Source: Nosana API — https://api.nosana.com/api/docs
+
+### Gonka host monitor: epoch participation, models and weight
+- zh-CN: https://iotahome.site/zh/learn/gonka-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/gonka-monitor-guide
+- en: https://iotahome.site/en/learn/gonka-monitor-guide
+- ko: https://iotahome.site/ko/learn/gonka-monitor-guide
+- ja: https://iotahome.site/ja/learn/gonka-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### Gonka 节点监控：轮次参与者、模型与权重 (zh-CN)
+
+## 先看结论
+
+查询 Gonka 当前轮次参与者、公开 Host 地址、模型与轮次权重。
+
+填写 gonka1 开头的 Host 公开账户地址，不要填写操作密钥或私钥。一个 Host 可管理多个 ML 节点。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+来源为官方文档列出的公开轮次接口。列入轮次不证明实时在线，权重不是 GNK 奖励；节点数也不是物理 GPU 台数。本页面不展示推测的日收益。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[Gonka](https://iotahome.site/zh/projects/gonka) · [监控指南](https://gonka.ai/docs/host/quickstart/)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写 gonka1 开头的 Host 公开账户地址，不要填写操作密钥或私钥。一个 Host 可管理多个 ML 节点。
+
+### 这些数据能说明什么？
+
+来源为官方文档列出的公开轮次接口。列入轮次不证明实时在线，权重不是 GNK 奖励；节点数也不是物理 GPU 台数。本页面不展示推测的日收益。
+
+### Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)
+
+## 先看結論
+
+查詢 Gonka 目前輪次參與者、公開 Host 地址、模型與輪次權重。
+
+填寫 gonka1 開頭的 Host 公開帳戶地址，不要填寫操作金鑰或私鑰。一個 Host 可管理多個 ML 節點。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+來源是官方文件列出的公開輪次介面。列入輪次不代表即時在線，權重不是 GNK 獎勵，ML 節點也不是實體 GPU。本頁不推算日收益。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[Gonka](https://iotahome.site/zh-TW/projects/gonka) · [監控指南](https://gonka.ai/docs/host/quickstart/)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫 gonka1 開頭的 Host 公開帳戶地址，不要填寫操作金鑰或私鑰。一個 Host 可管理多個 ML 節點。
+
+### 這些資料能說明什麼？
+
+來源是官方文件列出的公開輪次介面。列入輪次不代表即時在線，權重不是 GNK 獎勵，ML 節點也不是實體 GPU。本頁不推算日收益。
+
+### Gonka host monitor: epoch participation, models and weight (en)
+
+## At a glance
+
+Look up current Gonka epoch participants, public Host addresses, models and epoch weight.
+
+Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[Gonka](https://iotahome.site/en/projects/gonka) · [Monitoring guide](https://gonka.ai/docs/host/quickstart/)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
+
+### What do these figures measure?
+
+The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
+
+### Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)
+
+## 핵심 내용
+
+현재 Gonka 에포크 참여자, 공개 Host 주소, 모델과 에포크 가중치를 조회합니다.
+
+gonka1로 시작하는 Host 공개 계정 주소를 사용합니다. 운영 키나 비밀키를 입력하지 마세요. Host 하나가 여러 ML 노드를 관리할 수 있습니다.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+공식 문서의 공개 에포크 API를 사용합니다. 에포크 포함은 실시간 가동 확인이 아니고 가중치는 GNK 보상이 아니며 ML 노드는 물리 GPU 수가 아닙니다. 일일 수익을 추정하지 않습니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[Gonka](https://iotahome.site/ko/projects/gonka) · [모니터링 가이드](https://gonka.ai/docs/host/quickstart/)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+gonka1로 시작하는 Host 공개 계정 주소를 사용합니다. 운영 키나 비밀키를 입력하지 마세요. Host 하나가 여러 ML 노드를 관리할 수 있습니다.
+
+### 이 데이터는 무엇을 의미하나요?
+
+공식 문서의 공개 에포크 API를 사용합니다. 에포크 포함은 실시간 가동 확인이 아니고 가중치는 GNK 보상이 아니며 ML 노드는 물리 GPU 수가 아닙니다. 일일 수익을 추정하지 않습니다.
+
+### Gonkaホスト監視：エポック参加・モデル・重み (ja)
+
+## 要点
+
+Gonkaの現在のエポック参加者、公開Hostアドレス、モデルと重みを照会します。
+
+gonka1から始まるHost公開アカウントアドレスを使い、運用キーや秘密鍵は入力しません。1つのHostが複数のMLノードを管理できます。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+公式文書掲載の公開エポックAPIを使います。参加はリアルタイム稼働の証明ではなく、重みはGNK報酬ではなく、MLノード数はGPU台数ではありません。日次収益は推測しません。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[Gonka](https://iotahome.site/ja/projects/gonka) · [監視ガイド](https://gonka.ai/docs/host/quickstart/)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+gonka1から始まるHost公開アカウントアドレスを使い、運用キーや秘密鍵は入力しません。1つのHostが複数のMLノードを管理できます。
+
+### このデータは何を表しますか？
+
+公式文書掲載の公開エポックAPIを使います。参加はリアルタイム稼働の証明ではなく、重みはGNK報酬ではなく、MLノード数はGPU台数ではありません。日次収益は推測しません。
+- Source: Gonka — https://gonka.ai/docs/host/quickstart/
+- Source: Gonka Network Node API — https://gonka.ai/docs/host/network-node-api/
+
+### Akash provider monitor: GPU capacity and status
+- zh-CN: https://iotahome.site/zh/learn/akash-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/akash-monitor-guide
+- en: https://iotahome.site/en/learn/akash-monitor-guide
+- ko: https://iotahome.site/ko/learn/akash-monitor-guide
+- ja: https://iotahome.site/ja/learn/akash-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### Akash 提供商监控：GPU 容量与在线状态 (zh-CN)
+
+## 先看结论
+
+提供商状态与 GPU 容量
+
+填写 akash1 开头的公开提供商地址。一个提供商可能管理多台服务器。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+数据来自 Akash 官方索引，显示来源报告状态、GPU 容量和分配量。这是提供商范围，不等于单台设备。本次不从标价或容量推算收益。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[Akash](https://iotahome.site/zh/projects/akash) · [监控指南](https://akash.network/docs/providers/getting-started/)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写 akash1 开头的公开提供商地址。一个提供商可能管理多台服务器。
+
+### 这些数据能说明什么？
+
+数据来自 Akash 官方索引，显示来源报告状态、GPU 容量和分配量。这是提供商范围，不等于单台设备。本次不从标价或容量推算收益。
+
+### Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)
+
+## 先看結論
+
+供應商狀態與 GPU 容量
+
+填寫 akash1 開頭的公開供應商地址。一個供應商可能管理多台伺服器。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+資料來自 Akash 官方索引，呈現回報狀態、GPU 容量及分配量。這是供應商範圍，並非單台設備。本次不從標價或容量推算收益。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[Akash](https://iotahome.site/zh-TW/projects/akash) · [監控指南](https://akash.network/docs/providers/getting-started/)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫 akash1 開頭的公開供應商地址。一個供應商可能管理多台伺服器。
+
+### 這些資料能說明什麼？
+
+資料來自 Akash 官方索引，呈現回報狀態、GPU 容量及分配量。這是供應商範圍，並非單台設備。本次不從標價或容量推算收益。
+
+### Akash provider monitor: GPU capacity and status (en)
+
+## At a glance
+
+Provider status and GPU capacity
+
+Use the public provider address beginning akash1. One provider may manage multiple servers.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[Akash](https://iotahome.site/en/projects/akash) · [Monitoring guide](https://akash.network/docs/providers/getting-started/)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the public provider address beginning akash1. One provider may manage multiple servers.
+
+### What do these figures measure?
+
+Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
+
+### Akash 공급자 모니터: GPU 용량과 상태 (ko)
+
+## 핵심 내용
+
+공급자 상태와 GPU 용량
+
+akash1로 시작하는 공개 공급자 주소를 입력하세요. 공급자 하나가 여러 서버를 관리할 수 있습니다.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+Akash 공식 인덱스의 보고 상태, GPU 용량과 할당량입니다. 단일 기기가 아닌 공급자 전체 수치이며 가격이나 용량으로 수익을 추정하지 않습니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[Akash](https://iotahome.site/ko/projects/akash) · [모니터링 가이드](https://akash.network/docs/providers/getting-started/)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+akash1로 시작하는 공개 공급자 주소를 입력하세요. 공급자 하나가 여러 서버를 관리할 수 있습니다.
+
+### 이 데이터는 무엇을 의미하나요?
+
+Akash 공식 인덱스의 보고 상태, GPU 용량과 할당량입니다. 단일 기기가 아닌 공급자 전체 수치이며 가격이나 용량으로 수익을 추정하지 않습니다.
+
+### Akashプロバイダー監視：GPU容量と状態 (ja)
+
+## 要点
+
+プロバイダーの状態とGPU容量
+
+akash1で始まる公開プロバイダーアドレスを入力します。1つのプロバイダーが複数サーバーを管理する場合があります。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+Akash公式インデックスの報告状態、GPU容量、割り当て量です。単一機器ではなくプロバイダー全体の値で、価格や容量から収益を推定しません。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[Akash](https://iotahome.site/ja/projects/akash) · [監視ガイド](https://akash.network/docs/providers/getting-started/)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+akash1で始まる公開プロバイダーアドレスを入力します。1つのプロバイダーが複数サーバーを管理する場合があります。
+
+### このデータは何を表しますか？
+
+Akash公式インデックスの報告状態、GPU容量、割り当て量です。単一機器ではなくプロバイダー全体の値で、価格や容量から収益を推定しません。
+- Source: Akash — https://akash.network/docs/providers/getting-started/
+
+### io.net device monitor: GPU details and block rewards
+- zh-CN: https://iotahome.site/zh/learn/ionet-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/ionet-monitor-guide
+- en: https://iotahome.site/en/learn/ionet-monitor-guide
+- ko: https://iotahome.site/ko/learn/ionet-monitor-guide
+- ja: https://iotahome.site/ja/learn/ionet-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### io.net 设备监控：GPU 信息与区块奖励 (zh-CN)
+
+## 先看结论
+
+GPU 信息与区块奖励
+
+填写官方 Device ID，并连接 IO Explorer 的访问令牌。不要填写钱包私钥。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+查询硬件信息和当日 UTC 区块奖励。区块奖励不包含所有租用收入；过去在线率和任务记录不能证明实时在线。令牌过期后需重新连接。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[io.net](https://iotahome.site/zh/projects/ionet) · [监控指南](https://io.net/docs/reference/io-explorer/get-device-details)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写官方 Device ID，并连接 IO Explorer 的访问令牌。不要填写钱包私钥。
+
+### 这些数据能说明什么？
+
+查询硬件信息和当日 UTC 区块奖励。区块奖励不包含所有租用收入；过去在线率和任务记录不能证明实时在线。令牌过期后需重新连接。
+
+### io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)
+
+## 先看結論
+
+GPU 資訊與區塊獎勵
+
+填寫官方 Device ID，並連接 IO Explorer 存取權杖。不要填寫錢包私鑰。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+查詢硬體資訊與 UTC 當日區塊獎勵。區塊獎勵不包含所有租用收入；歷史在線率及任務不證明即時在線。權杖失效後需重新連接。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[io.net](https://iotahome.site/zh-TW/projects/ionet) · [監控指南](https://io.net/docs/reference/io-explorer/get-device-details)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫官方 Device ID，並連接 IO Explorer 存取權杖。不要填寫錢包私鑰。
+
+### 這些資料能說明什麼？
+
+查詢硬體資訊與 UTC 當日區塊獎勵。區塊獎勵不包含所有租用收入；歷史在線率及任務不證明即時在線。權杖失效後需重新連接。
+
+### io.net device monitor: GPU details and block rewards (en)
+
+## At a glance
+
+GPU details and block rewards
+
+Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[io.net](https://iotahome.site/en/projects/ionet) · [Monitoring guide](https://io.net/docs/reference/io-explorer/get-device-details)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
+
+### What do these figures measure?
+
+Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
+
+### io.net 기기 모니터: GPU 정보와 블록 보상 (ko)
+
+## 핵심 내용
+
+GPU 정보와 블록 보상
+
+공식 Device ID와 IO Explorer 액세스 토큰을 사용합니다. 지갑 비밀키는 입력하지 마세요.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+하드웨어와 UTC 당일 블록 보상을 조회합니다. 블록 보상이 모든 임대 수입을 포함하지는 않습니다. 과거 가동률과 작업 기록은 현재 연결 상태의 증거가 아닙니다. 토큰 만료 시 다시 연결하세요.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[io.net](https://iotahome.site/ko/projects/ionet) · [모니터링 가이드](https://io.net/docs/reference/io-explorer/get-device-details)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+공식 Device ID와 IO Explorer 액세스 토큰을 사용합니다. 지갑 비밀키는 입력하지 마세요.
+
+### 이 데이터는 무엇을 의미하나요?
+
+하드웨어와 UTC 당일 블록 보상을 조회합니다. 블록 보상이 모든 임대 수입을 포함하지는 않습니다. 과거 가동률과 작업 기록은 현재 연결 상태의 증거가 아닙니다. 토큰 만료 시 다시 연결하세요.
+
+### io.netデバイス監視：GPU情報とブロック報酬 (ja)
+
+## 要点
+
+GPU情報とブロック報酬
+
+公式Device IDとIO Explorerアクセストークンを使います。ウォレットの秘密鍵は入力しません。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+ハードウェアとUTC当日のブロック報酬を照会します。全レンタル収入は含まれません。過去の稼働率やジョブは現在の接続状態を証明しません。トークン失効時は再接続が必要です。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[io.net](https://iotahome.site/ja/projects/ionet) · [監視ガイド](https://io.net/docs/reference/io-explorer/get-device-details)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+公式Device IDとIO Explorerアクセストークンを使います。ウォレットの秘密鍵は入力しません。
+
+### このデータは何を表しますか？
+
+ハードウェアとUTC当日のブロック報酬を照会します。全レンタル収入は含まれません。過去の稼働率やジョブは現在の接続状態を証明しません。トークン失効時は再接続が必要です。
+- Source: io.net — https://io.net/docs/reference/io-explorer/get-device-details
+
+### Vast.ai host monitor: GPU machines and rental income
+- zh-CN: https://iotahome.site/zh/learn/vast-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/vast-monitor-guide
+- en: https://iotahome.site/en/learn/vast-monitor-guide
+- ko: https://iotahome.site/ko/learn/vast-monitor-guide
+- ja: https://iotahome.site/ja/learn/vast-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### Vast.ai 主机监控：GPU 设备与出租收入 (zh-CN)
+
+## 先看结论
+
+主机信息与出租收入
+
+填写数字 Machine ID，连接仅有 machine_read 和 billing_read 权限的 API Key。无需授予交易或机器管理权限。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+按机器查询香港时间今日的出租收入，汇总接口返回的 GPU、存储和带宽收入。它是收入记录，不扣除电费和硬件成本；账户余额不作为设备收益。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[Vast.ai](https://iotahome.site/zh/projects/vast) · [监控指南](https://docs.vast.ai/host/hosting-overview)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写数字 Machine ID，连接仅有 machine_read 和 billing_read 权限的 API Key。无需授予交易或机器管理权限。
+
+### 这些数据能说明什么？
+
+按机器查询香港时间今日的出租收入，汇总接口返回的 GPU、存储和带宽收入。它是收入记录，不扣除电费和硬件成本；账户余额不作为设备收益。
+
+### Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)
+
+## 先看結論
+
+主機資訊與出租收入
+
+填寫數字 Machine ID，連接只有 machine_read 與 billing_read 權限的 API Key。無需交易或機器管理權限。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+依機器查詢香港時間今日出租收入，彙總介面回傳的 GPU、儲存與頻寬收入。此為未扣電費和硬體成本的收入，帳戶餘額不視為設備收益。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[Vast.ai](https://iotahome.site/zh-TW/projects/vast) · [監控指南](https://docs.vast.ai/host/hosting-overview)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫數字 Machine ID，連接只有 machine_read 與 billing_read 權限的 API Key。無需交易或機器管理權限。
+
+### 這些資料能說明什麼？
+
+依機器查詢香港時間今日出租收入，彙總介面回傳的 GPU、儲存與頻寬收入。此為未扣電費和硬體成本的收入，帳戶餘額不視為設備收益。
+
+### Vast.ai host monitor: GPU machines and rental income (en)
+
+## At a glance
+
+Host details and rental income
+
+Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[Vast.ai](https://iotahome.site/en/projects/vast) · [Monitoring guide](https://docs.vast.ai/host/hosting-overview)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
+
+### What do these figures measure?
+
+Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
+
+### Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)
+
+## 핵심 내용
+
+호스트 정보와 임대 수입
+
+숫자 Machine ID와 machine_read, billing_read 권한만 있는 API 키를 사용합니다. 거래나 기기 관리 권한은 필요하지 않습니다.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+홍콩 자정 이후 기기별 GPU·스토리지·대역폭 수입을 합산합니다. 전기료와 하드웨어 비용 차감 전 수입이며 계정 잔액을 기기 수익으로 취급하지 않습니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[Vast.ai](https://iotahome.site/ko/projects/vast) · [모니터링 가이드](https://docs.vast.ai/host/hosting-overview)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+숫자 Machine ID와 machine_read, billing_read 권한만 있는 API 키를 사용합니다. 거래나 기기 관리 권한은 필요하지 않습니다.
+
+### 이 데이터는 무엇을 의미하나요?
+
+홍콩 자정 이후 기기별 GPU·스토리지·대역폭 수입을 합산합니다. 전기료와 하드웨어 비용 차감 전 수입이며 계정 잔액을 기기 수익으로 취급하지 않습니다.
+
+### Vast.aiホスト監視：GPU機器とレンタル収入 (ja)
+
+## 要点
+
+ホスト情報とレンタル収入
+
+数値のMachine IDとmachine_read・billing_readのみを許可したAPIキーを使います。取引や機器管理の権限は不要です。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+香港の午前0時以降の機器別GPU・ストレージ・帯域収入を合計します。電気代や機器費用控除前の収入であり、口座残高を機器収益には含めません。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[Vast.ai](https://iotahome.site/ja/projects/vast) · [監視ガイド](https://docs.vast.ai/host/hosting-overview)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+数値のMachine IDとmachine_read・billing_readのみを許可したAPIキーを使います。取引や機器管理の権限は不要です。
+
+### このデータは何を表しますか？
+
+香港の午前0時以降の機器別GPU・ストレージ・帯域収入を合計します。電気代や機器費用控除前の収入であり、口座残高を機器収益には含めません。
+- Source: Vast.ai — https://docs.vast.ai/host/hosting-overview
+
+### Golem provider monitor: status and GLM earnings
+- zh-CN: https://iotahome.site/zh/learn/golem-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/golem-monitor-guide
+- en: https://iotahome.site/en/learn/golem-monitor-guide
+- ko: https://iotahome.site/ko/learn/golem-monitor-guide
+- ja: https://iotahome.site/ja/learn/golem-monitor-guide
+- Published: 2026-10-06
+- Updated: 2026-10-06
+- Publisher: IOTA Watch (independent monitor)
+
+### Golem 节点监控：运行状态与 GLM 收益 (zh-CN)
+
+## 先看结论
+
+节点状态与近 24 小时收益
+
+填写 yagna id show 显示的节点 ID（0x 开头），不要用收款钱包地址替代。
+
+先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+
+来自 Golem Stats 的节点状态、硬件与 GLM 记录。近 24 小时为滚动周期，不等于香港时间今日，设备今日合计不累加这项。接口失败显示不可用，不记为零。
+
+查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+
+[Golem](https://iotahome.site/zh/projects/golem) · [监控指南](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+
+## 常见问题
+
+### 应该填写哪个公开标识？
+
+填写 yagna id show 显示的节点 ID（0x 开头），不要用收款钱包地址替代。
+
+### 这些数据能说明什么？
+
+来自 Golem Stats 的节点状态、硬件与 GLM 记录。近 24 小时为滚动周期，不等于香港时间今日，设备今日合计不累加这项。接口失败显示不可用，不记为零。
+
+### Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)
+
+## 先看結論
+
+節點狀態與近 24 小時收益
+
+填寫 yagna id show 顯示的節點 ID（0x 開頭），不要以收款錢包地址代替。
+
+先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+
+節點狀態、硬體及 GLM 紀錄來自 Golem Stats。近 24 小時是滾動區間，不等於香港今日，不列入設備今日合計。介面失敗顯示不可用，不視為零。
+
+查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+
+[Golem](https://iotahome.site/zh-TW/projects/golem) · [監控指南](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+
+## 常見問題
+
+### 應填寫哪個公開識別碼？
+
+填寫 yagna id show 顯示的節點 ID（0x 開頭），不要以收款錢包地址代替。
+
+### 這些資料能說明什麼？
+
+節點狀態、硬體及 GLM 紀錄來自 Golem Stats。近 24 小時是滾動區間，不等於香港今日，不列入設備今日合計。介面失敗顯示不可用，不視為零。
+
+### Golem provider monitor: status and GLM earnings (en)
+
+## At a glance
+
+Node status and last-24-hour earnings
+
+Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
+
+Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
+
+Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
+
+If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+
+[Golem](https://iotahome.site/en/projects/golem) · [Monitoring guide](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+
+## Common questions
+
+### Which public identifier should I use?
+
+Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
+
+### What do these figures measure?
+
+Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
+
+### Golem 노드 모니터: 상태와 GLM 수익 (ko)
+
+## 핵심 내용
+
+노드 상태와 최근 24시간 수익
+
+yagna id show의 0x로 시작하는 노드 ID를 사용합니다. 지급 지갑 주소로 대체하지 마세요.
+
+공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
+
+상태·하드웨어·GLM 기록은 Golem Stats에서 가져옵니다. 최근 24시간은 홍콩의 오늘과 다르므로 기기 일일 합계에서 제외합니다. API 실패는 0이 아닌 사용 불가로 표시합니다.
+
+데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+
+[Golem](https://iotahome.site/ko/projects/golem) · [모니터링 가이드](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+
+## 자주 묻는 질문
+
+### 어떤 공개 식별자를 입력하나요?
+
+yagna id show의 0x로 시작하는 노드 ID를 사용합니다. 지급 지갑 주소로 대체하지 마세요.
+
+### 이 데이터는 무엇을 의미하나요?
+
+상태·하드웨어·GLM 기록은 Golem Stats에서 가져옵니다. 최근 24시간은 홍콩의 오늘과 다르므로 기기 일일 합계에서 제외합니다. API 실패는 0이 아닌 사용 불가로 표시합니다.
+
+### Golemノード監視：状態とGLM収益 (ja)
+
+## 要点
+
+ノード状態と直近24時間の収益
+
+yagna id showに表示される0xで始まるノードIDを使います。受取ウォレットアドレスで代用しないでください。
+
+公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
+
+状態・ハードウェア・GLM記録はGolem Statsが出典です。直近24時間は香港の暦日と異なり、機器の日次合計から除外します。APIエラーはゼロではなく取得不可と表示します。
+
+データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+
+[Golem](https://iotahome.site/ja/projects/golem) · [監視ガイド](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+
+## よくある質問
+
+### どの公開IDを入力しますか？
+
+yagna id showに表示される0xで始まるノードIDを使います。受取ウォレットアドレスで代用しないでください。
+
+### このデータは何を表しますか？
+
+状態・ハードウェア・GLM記録はGolem Statsが出典です。直近24時間は香港の暦日と異なり、機器の日次合計から除外します。APIエラーはゼロではなく取得不可と表示します。
+- Source: Golem — https://docs.golem.network/docs/providers/quickstarts/provider-quickstart
 
 ### How to monitor multiple IOTA Train at Home devices from one browser
 - zh-CN: https://iotahome.site/zh/blog/monitor-multiple-iota-devices

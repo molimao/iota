@@ -1,3 +1,4 @@
+import { computeGuides } from "./compute-guides";
 import type { Article } from "./articles";
 
 /** Native editorial copy; never pass through the legacy two-language expander. */
@@ -1441,9 +1442,9 @@ export const projectGuides: Article[] = [
   },
 ];
 
-export function guidesForProject(project?: "iota" | "xid" | "quantus" | "flyai") {
+export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
   return project
-    ? projectGuides.filter((a) => a.project === project)
+    ? [...projectGuides, ...computeGuides].filter((a) => a.project === project)
     : projectGuides.filter(
         (a) =>
           a.project === "all" ||

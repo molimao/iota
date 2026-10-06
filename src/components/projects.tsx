@@ -1,3 +1,8 @@
+import { isPlatform } from "@/lib/platforms";
+import { platformCopy, platformEditorial } from "./platform-copy";
+import { ProjectAbout } from "./project-about";
+import { editorialCopy } from "./project-editorial";
+import { QuietDetails, simpleCopy } from "./simple-ui";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -38,9 +43,12 @@ export function ProjectSwitch() {
   const { locale } = useLocale();
   const path = useRouterState({ select: (s) => s.location.pathname });
   const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
-  const selected = (path.match(/\/projects\/(xid|quantus|flyai)(?:\/|$)/)?.[1] ??
-    (articleProject === "xid" || articleProject === "quantus" ? articleProject : undefined)) as
-    MonitorProject | undefined;
+  const selected = (path.match(
+    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem)(?:\/|$)/,
+  )?.[1] ??
+    (articleProject && articleProject !== "iota" && articleProject !== "all"
+      ? articleProject
+      : undefined)) as MonitorProject | undefined;
   const c = projectsCopy[locale];
   return (
     <details className="project-picker">
@@ -78,18 +86,37 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
   return (
     <div className={`project-cards${compact ? " compact" : ""}`}>
       {PROJECT_IDS.map((id) => (
-        <a className="project-card" key={id} href={projectPath(locale, id)}>
+        <a className="project-card" key={id} href={`/${locale}/projects/${id}`}>
           <div className="project-card-top">
             <span className="project-symbol">
-              {id === "iota" || id === "flyai" ? <Cpu /> : <Pickaxe />}
+              {id !== "xid" && id !== "quantus" ? <Cpu /> : <Pickaxe />}
             </span>
             <span className="project-kind">
-              {id === "iota" ? c.training : id === "flyai" ? c.compute : c.mining}
+              {id === "akash"
+                ? platformCopy(locale).cloud
+                : id === "vast"
+                  ? platformCopy(locale).rental
+                  : id === "golem"
+                    ? platformCopy(locale).distributed
+                    : id === "ionet"
+                      ? editorialCopy(locale).gpu
+                      : id === "nosana"
+                        ? editorialCopy(locale).gpu
+                        : id === "gonka"
+                          ? editorialCopy(locale).inference
+                          : id === "iota"
+                            ? c.training
+                            : id === "flyai"
+                              ? c.compute
+                              : c.mining}
             </span>
           </div>
           <h2>{PROJECTS[id].name}</h2>
-          <small>{PROJECTS[id].detail}</small>
-          <p>{c[id]}</p>
+          <p>
+            {isPlatform(id)
+              ? platformEditorial[id].summary[locale]
+              : simpleCopy(locale).projectSummary[id]}
+          </p>
           <span className="project-card-link">
             {c.open}
             <ArrowUpRight size={18} />
@@ -107,14 +134,15 @@ export function ProjectsHub() {
     <main className="projects-page">
       <header className="project-heading">
         <div>
-          <span className="eyebrow">IOTA Watch · {c.projects}</span>
-          <h1>{c.title}</h1>
-          <p>{c.intro}</p>
+          <h1>{c.projects}</h1>
+          <p>{simpleCopy(locale).chooseProject}</p>
         </div>
       </header>
       <ProjectCards />
-      <ProjectLearning />
-      <p className="project-footnote">{c.noSecrets}</p>
+      <a className="simple-help-link" href={`/${locale}/learn`}>
+        {simpleCopy(locale).help}
+        <ArrowUpRight size={15} />
+      </a>
     </main>
   );
 }
@@ -497,10 +525,6 @@ function AddressMonitor({
       <div className="project-section-head">
         <div>
           <h2>{c.mine}</h2>
-          <p>
-            {auth.userId ? fc.savedAccount : fc.savedLocal} · {fc.perProject} · {fleet.limit}
-          </p>
-          <a href={"/" + locale + "/devices"}>{fc.title} →</a>
         </div>
         {saved.length > 0 && (
           <button
@@ -682,7 +706,7 @@ export function MiningProjectPage({
             {c.mining} · {c.mainnet} · {p.token}
           </span>
           <h1>{project === "xid" ? "XID / MMM" : "Quantus"}</h1>
-          <p>{c[project]}</p>
+          <p>{simpleCopy(locale).projectSummary[project]}</p>
         </div>
         <div className="project-heading-links">
           <a className="site-button" href="#addresses">
@@ -695,6 +719,7 @@ export function MiningProjectPage({
           </a>
         </div>
       </header>
+      <AddressMonitor key={project} project={project} network={n} />
       <section className="project-network" id="network">
         <div className="project-section-head">
           <h2>{c.network}</h2>
@@ -747,56 +772,60 @@ export function MiningProjectPage({
           </div>
         )}
       </section>
-      <AddressMonitor key={project} project={project} network={n} />
-      <ProjectLearning project={project} />
-      <section id="setup" className="project-panel project-setup">
-        <h2>{c.setup}</h2>
-        <ol>
-          {[
-            [c.first, project === "xid" ? c.xidStep : c.quantusStep],
-            [c.second, c.publicStep],
-            [c.third, c.monitorStep],
-          ].map(([title, body], i) => (
-            <li key={title}>
-              <span>0{i + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section className="project-panel project-sources">
-        <h2>{c.sources}</h2>
-        <p>{project === "xid" ? c.poolScope : c.quantusScope}</p>
-        <div>
-          <a href={p.website} target="_blank" rel="noreferrer">
-            {c.website}
-            <ArrowUpRight size={14} />
-          </a>
-          <a href={p.explorer} target="_blank" rel="noreferrer">
-            {c.explorer}
-            <ArrowUpRight size={14} />
-          </a>
-          <a href={p.guide} target="_blank" rel="noreferrer">
-            {c.guide}
-            <ArrowUpRight size={14} />
-          </a>
-          <a
-            href={
-              project === "xid"
-                ? "https://github.com/SystemThreat/MMM"
-                : "https://github.com/Quantus-Network/quantus-miner/releases"
-            }
-            target="_blank"
-            rel="noreferrer"
-          >
-            {c.download}
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-      </section>
+      <QuietDetails title={simpleCopy(locale).help}>
+        <ProjectLearning project={project} />
+        <section id="setup" className="project-panel project-setup">
+          <h2>{c.setup}</h2>
+          <ol>
+            {[
+              [c.first, project === "xid" ? c.xidStep : c.quantusStep],
+              [c.second, c.publicStep],
+              [c.third, c.monitorStep],
+            ].map(([title, body], i) => (
+              <li key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </QuietDetails>
+      <QuietDetails title={c.sources}>
+        <section className="project-panel project-sources">
+          <h2>{c.sources}</h2>
+          <p>{project === "xid" ? c.poolScope : c.quantusScope}</p>
+          <div>
+            <a href={p.website} target="_blank" rel="noreferrer">
+              {c.website}
+              <ArrowUpRight size={14} />
+            </a>
+            <a href={p.explorer} target="_blank" rel="noreferrer">
+              {c.explorer}
+              <ArrowUpRight size={14} />
+            </a>
+            <a href={p.guide} target="_blank" rel="noreferrer">
+              {c.guide}
+              <ArrowUpRight size={14} />
+            </a>
+            <a
+              href={
+                project === "xid"
+                  ? "https://github.com/SystemThreat/MMM"
+                  : "https://github.com/Quantus-Network/quantus-miner/releases"
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              {c.download}
+              <ArrowUpRight size={14} />
+            </a>
+          </div>
+        </section>
+      </QuietDetails>
+      <ProjectAbout project={project} />
     </main>
   );
 }

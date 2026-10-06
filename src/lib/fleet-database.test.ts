@@ -42,6 +42,8 @@ beforeAll(async () => {
       "Old device " + i,
     ]);
   await db.exec(readFileSync("supabase/migrations/20261005130000_fleet_and_billing.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261006190000_compute_projects.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261006200000_platform_connections.sql", "utf8"));
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -159,4 +161,41 @@ describe("real PostgreSQL quota and subscription enforcement", () => {
       mutate("create", { name: "More", binding: { project: "flyai", identifier: wallet(8) } }),
     ).rejects.toThrow("project_device_limit_reached");
   });
+});
+
+it("gives each new compute project an independent free quota", async () => {
+  const id = "44444444-4444-4444-8444-444444444444";
+  await db.exec("RESET ROLE");
+  await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
+  await asUser(id);
+  for (let i = 0; i < 5; i++)
+    await mutate("create", {
+      name: `Compute ${i}`,
+      binding: { project: "nosana", identifier: "1".repeat(31) + String(i + 2) },
+    });
+  await expect(
+    mutate("create", {
+      name: "Sixth",
+      binding: { project: "nosana", identifier: "1".repeat(31) + "7" },
+    }),
+  ).rejects.toThrow();
+  const data = await mutate("create", {
+    name: "Gonka",
+    binding: { project: "gonka", identifier: "gonka1346p2h8dn4kp98c5e93k5q64g0h7vxjxnd55fh" },
+  });
+  expect(data.projectCounts["nosana"]).toBe(5);
+  expect(data.projectCounts["gonka"]).toBe(1);
+});
+
+it("applies independent quotas to the four new platforms and denies browser credential access",async()=>{
+ const id="55555555-5555-4555-8555-555555555555";
+ await db.exec("RESET ROLE");await db.query("INSERT INTO auth.users(id) VALUES($1)",[id]);await asUser(id);
+ for(const project of ["akash","ionet","vast","golem"]){
+  const identifier=(i:number)=>project==="vast"?String(i+1):project==="golem"?"0x"+String(i+1).padStart(40,"0"):project==="ionet"?`00000000-0000-4000-8000-${String(i+1).padStart(12,"0")}`:`akash1${"q".repeat(37)}${["p","z","r","y","9","x"][i]}`;
+  for(let i=0;i<5;i++)await mutate("create",{name:`${project}-${i}`,binding:{project,identifier:identifier(i)}});
+  await expect(mutate("create",{name:"Sixth",binding:{project,identifier:identifier(5)}})).rejects.toThrow(/project_device_limit_reached/);
+ }
+ await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
+ await expect(db.query("INSERT INTO watch_connections(user_id,project,ciphertext,expires_at) VALUES($1,'vast','fake',now())",[id])).rejects.toThrow(/permission denied/);
+ await db.exec("RESET ROLE; SET ROLE anon;");await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
 });

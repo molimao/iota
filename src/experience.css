@@ -2391,3 +2391,91 @@ body:has(.site-shell) {
 .site-menu-group a svg { color: #777; }
 .site-menu-language { display: none; }
 @media(max-width:800px) { .site-menu-language { display: block; border-top: 1px solid #333; margin-top: 12px; padding: 12px 10px 2px; } }
+
+/* Daily use: prioritize data, then reveal supporting context on demand. */
+.quiet-details { border-top:1px solid #303030; margin:24px 0; }
+.quiet-details > summary { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 0; color:#aaa; font-size:13px; }
+.quiet-details > summary::-webkit-details-marker { display:none; }
+.quiet-details > summary:hover { color:#f3f3f3; }
+.quiet-details > summary:focus-visible { outline:2px solid #ddd; outline-offset:4px; }
+.quiet-details[open] > summary svg { transform:rotate(180deg); }
+.quiet-details-content { padding-bottom:18px; }
+.quiet-details-content > :first-child { margin-top:0; }
+.quiet-details-content p { color:#aaa; line-height:1.8; }
+.data-health .quiet-details { margin:6px 0 0; border:0; }
+.data-health .quiet-details > summary { padding:4px 0; justify-content:flex-start; font-size:12px; }
+.dashboard > .quiet-details, .dashboard .totals + .quiet-details { margin:8px 0 16px; border:0; }
+.dashboard .quiet-details > summary { justify-content:flex-start; }
+.projects-page { padding-top:40px; }
+.project-heading h1 { font-size:36px; margin:0 0 12px; }
+.project-heading p { font-size:14px; margin:0; }
+.project-card, .compact .project-card { padding:24px; border-radius:12px; background:#161616; }
+.project-card:hover { transform:none; background:#1b1b1b; }
+.project-card-top, .compact .project-card-top { margin-bottom:22px; }
+.project-card h2, .compact .project-card h2 { font-size:25px; }
+.project-card p, .compact .project-card p { margin:10px 0 22px; font-size:13px; min-height:0; }
+.project-card-link { font-size:12px; border-top:0; padding:0; color:#bbb; }
+.simple-help-link { display:inline-flex; align-items:center; gap:8px; margin-top:24px; color:#aaa; font-size:13px; }
+.simple-home-links { max-width:1060px; margin:32px auto 70px; display:flex; gap:24px; padding:0 30px; }
+.simple-home-links a { display:inline-flex; gap:8px; align-items:center; color:#aaa; font-size:13px; }
+.site-footer { padding-top:30px; padding-bottom:30px; }
+.site-footer > div > p { font-size:12px; max-width:400px; }
+.fleet-heading h1 { margin:0 0 8px; font-size:30px; }
+.fleet-heading .fleet-count-line { color:#999; font-size:13px; }
+.fleet-heading + #fleet-devices-panel { margin-top:24px; }
+.fleet-device-card > header { background:#191919; padding:18px 20px; }
+.fleet-device-card header p { font-size:12px; }
+.fleet-machine-icon { width:36px; height:36px; }
+.fleet-device-card h2 { font-size:17px; }
+.fleet-device-earnings { background:none; }
+.fleet-project-reading { padding-top:12px; padding-bottom:12px; }
+.fleet-reading-heading { margin-bottom:0; }
+.fleet-project-toggle[aria-expanded="true"] { margin-bottom:18px; }
+.fleet-device-card > footer { background:transparent; }
+.project-detail > .project-monitor { margin-top:0; }
+.project-detail > .project-network { margin-top:36px; padding-top:28px; border-top:1px solid #303030; }
+.network-page > h1 { font-size:36px; }
+.network-page .network-glossary { margin:0; }
+@media(max-width:640px) {
+ .project-heading h1,.network-page > h1 { font-size:28px; }
+ .projects-page { padding-top:28px; }
+ .project-cards { gap:12px; }
+ .project-card,.compact .project-card { padding:20px; }
+ .fleet-heading > .site-button { margin-top:0; }
+ .fleet-heading h1 { font-size:26px; }
+ .simple-home-links { flex-wrap:wrap; gap:18px; }
+ .site-footer { gap:24px; }
+}
+.fleet-review-switch { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:16px; padding-bottom:0; }
+.fleet-review-switch > span { font-size:11px; color:#888; }
+.fleet-review-switch > button { font-size:11px; padding:6px 10px; }
+
+/* Public compute monitors share the restrained project layout. */
+.compute-panel { border:1px solid var(--watch-border, #333); border-radius:16px; padding:24px; margin:24px 0; }
+.compute-caption { color:var(--watch-muted, #999); font-size:13px; margin:0 0 18px; }
+.compute-metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin:16px 0; }
+.compute-metric { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.compute-metric span { font-size:13px; opacity:.65; }
+.compute-metric strong { font-size:clamp(24px,4vw,36px); overflow-wrap:anywhere; font-variant-numeric:tabular-nums; }
+.compute-lookup label { display:block; margin-bottom:12px; }
+.compute-lookup > div { display:flex; gap:12px; }
+.compute-lookup input { flex:1; min-width:0; background:transparent; border:1px solid #555; border-radius:8px; padding:12px; }
+.compute-lookup button { border:1px solid #777; border-radius:8px; padding:10px 20px; }
+.compute-lookup button:disabled { opacity:.4; }
+.project-editorial { max-width:780px; padding:8px 0 20px; line-height:1.8; }
+.project-editorial h3 { font-size:15px; margin-top:22px; }
+.project-editorial p { opacity:.7; font-size:14px; }
+.fleet-status-computing { color:#85cda8; background:#203127; }
+.fleet-status-participating { color:#92b4dd; background:#202c3a; }
+.platform-connect {margin-top:20px; padding:10px 14px; border:1px solid var(--watch-border);border-radius:8px;}
+.platform-connection,.platform-result-head {display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.platform-connection {margin-top:20px;font-size:13px;}
+.platform-connection button {text-decoration:underline;}
+.platform-authorization {display:grid;gap:12px;margin-top:24px;max-width:640px;}
+.platform-authorization input {background:transparent;border:1px solid var(--watch-border);border-radius:8px;padding:12px;min-width:0;}
+.platform-authorization p,.platform-authorization a {font-size:13px;color:var(--watch-muted);line-height:1.7;}
+.platform-authorization button {justify-self:start;padding:10px 20px;border:1px solid var(--watch-border);border-radius:8px;}
+.platform-authorization button:disabled {opacity:.4;}
+.platform-result-head h2 {font-size:20px;margin:0;}
+.platform-result-head span {font-size:13px;color:var(--watch-muted);}
+.platform-public-id {overflow-wrap:anywhere;}

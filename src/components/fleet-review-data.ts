@@ -1,7 +1,16 @@
+import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
-  status: "training" | "mining" | "waiting" | "unavailable";
+  status:
+    | "online"
+    | "offline"
+    | "computing"
+    | "participating"
+    | "training"
+    | "mining"
+    | "waiting"
+    | "unavailable";
   activity: string;
   today: string | null;
   todayUsd?: string;
@@ -97,15 +106,21 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
         source: "Quantus Explorer",
         updated: "20:55:04 UTC+8",
       };
+    case "akash":
+    case "ionet":
+    case "vast":
+    case "golem":
+    case "nosana":
+    case "gonka":
     case "flyai":
       return {
         status: "unavailable",
         activity: "—",
         today: null,
         lifetime: null,
-        unit: "FLYAI",
+        unit: PROJECTS[binding.project].token,
         scope: "wallet",
-        source: "fly.ai",
+        source: PROJECTS[binding.project].name,
         updated: "—",
       };
   }

@@ -1,3 +1,6 @@
+import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
+import { platformCopy } from "./platform-copy";
+import { editorialCopy } from "./project-editorial";
 import { monitorViewCopy } from "./monitor-views";
 import { useMemo, useState } from "react";
 import {
@@ -5,7 +8,6 @@ import {
   Check,
   ChevronDown,
   Cpu,
-  Layers,
   Monitor,
   Plus,
   Search,
@@ -205,10 +207,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       <header className="fleet-heading">
         <div>
-          <span className="eyebrow">IOTA WATCH / DEVICES</span>
           <h1>{tab === "plans" ? (props.plan === "pro" ? c.membership : c.plans) : c.title}</h1>
-          {(tab === "devices" || props.plan === "pro") && (
-            <p>{tab === "plans" ? c.memberIntro : monitorViewCopy(locale).deviceWorkflow}</p>
+          {tab === "devices" && (
+            <p className="fleet-count-line">
+              {props.devices.length} {c.devices} · {activeProjects} {c.projects}
+            </p>
           )}
         </div>
         {tab === "devices" ? (
@@ -230,48 +233,6 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
-          <div className="fleet-overview">
-            <div className="fleet-total">
-              <Monitor size={23} />
-              <div>
-                <strong>{props.devices.length}</strong>
-                <span>{c.devices}</span>
-              </div>
-              <small>{c.noFleetLimit}</small>
-            </div>
-            <div className="fleet-total">
-              <Layers size={23} />
-              <div>
-                <strong>{activeProjects}</strong>
-                <span>{c.projects}</span>
-              </div>
-              <small>{c.perProject}</small>
-            </div>
-            <div className="fleet-quota-summary">
-              <div>
-                <b>{c.quotas}</b>
-                <span className="fleet-current-plan">{props.plan === "pro" ? "Pro" : c.free}</span>
-              </div>
-              <div className="fleet-quota-grid">
-                {FLEET_PROJECTS.map((p) => {
-                  const count = projectDeviceCount(props.devices, p);
-                  return (
-                    <div key={p}>
-                      <span>{FLEET_NAMES[p]}</span>
-                      <b>
-                        {count}
-                        <small> / {limit}</small>
-                      </b>
-                      <div className="fleet-quota-track">
-                        <i style={{ width: `${Math.min(100, (count / limit) * 100)}%` }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <p className="fleet-filter-caption">{monitorViewCopy(locale).filter}</p>
           <div className="fleet-toolbar">
             <div className="fleet-filters">
               {["all", ...FLEET_PROJECTS].map((p) => (
@@ -299,11 +260,6 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               />
             </label>
           </div>
-          {project !== "all" && (
-            <p className="fleet-filter-hint">
-              {monitorViewCopy(locale).filterHint.replace("{project}", FLEET_NAMES[project])}
-            </p>
-          )}
           <div className="fleet-cards">
             {visible.map((device) => (
               <FleetCard
@@ -477,13 +433,23 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       </select>
                     </label>
                     <label>
-                      {selectedProject === "iota"
-                        ? "Miner ID"
-                        : selectedProject === "flyai"
-                          ? `fly.ai · ${c.rewardAddress}`
-                          : selectedProject === "quantus"
-                            ? `Wormhole · ${c.rewardAddress}`
-                            : `xCoin · ${c.rewardAddress}`}
+                      {isPlatform(selectedProject)
+                        ? selectedProject === "ionet"
+                          ? "Device ID"
+                          : selectedProject === "vast"
+                            ? "Machine ID"
+                            : platformCopy(locale).identifier
+                        : selectedProject === "nosana"
+                          ? editorialCopy(locale).nodeId
+                          : selectedProject === "gonka"
+                            ? editorialCopy(locale).hostId
+                            : selectedProject === "iota"
+                              ? "Miner ID"
+                              : selectedProject === "flyai"
+                                ? `fly.ai · ${c.rewardAddress}`
+                                : selectedProject === "quantus"
+                                  ? `Wormhole · ${c.rewardAddress}`
+                                  : `xCoin · ${c.rewardAddress}`}
                       <input
                         autoFocus
                         required
@@ -493,13 +459,25 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
                         placeholder={
-                          selectedProject === "iota"
-                            ? "5…"
-                            : selectedProject === "xid"
-                              ? "xpa1r…"
-                              : selectedProject === "quantus"
-                                ? `Wormhole · ${c.rewardAddress}`
-                                : "0x…"
+                          isPlatform(selectedProject)
+                            ? selectedProject === "akash"
+                              ? "akash1…"
+                              : selectedProject === "golem"
+                                ? "0x…"
+                                : selectedProject === "ionet"
+                                  ? "Device ID"
+                                  : "Machine ID"
+                            : selectedProject === "nosana"
+                              ? "Solana…"
+                              : selectedProject === "gonka"
+                                ? "gonka1…"
+                                : selectedProject === "iota"
+                                  ? "5…"
+                                  : selectedProject === "xid"
+                                    ? "xpa1r…"
+                                    : selectedProject === "quantus"
+                                      ? `Wormhole · ${c.rewardAddress}`
+                                      : "0x…"
                         }
                       />
                     </label>
@@ -616,13 +594,23 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   </div>
                 )}
                 <label>
-                  {selectedProject === "iota"
-                    ? "Miner ID"
-                    : selectedProject === "flyai"
-                      ? `fly.ai · ${c.rewardAddress}`
-                      : selectedProject === "quantus"
-                        ? `Wormhole · ${c.rewardAddress}`
-                        : `xCoin · ${c.rewardAddress}`}
+                  {isPlatform(selectedProject)
+                    ? selectedProject === "ionet"
+                      ? "Device ID"
+                      : selectedProject === "vast"
+                        ? "Machine ID"
+                        : platformCopy(locale).identifier
+                    : selectedProject === "nosana"
+                      ? editorialCopy(locale).nodeId
+                      : selectedProject === "gonka"
+                        ? editorialCopy(locale).hostId
+                        : selectedProject === "iota"
+                          ? "Miner ID"
+                          : selectedProject === "flyai"
+                            ? `fly.ai · ${c.rewardAddress}`
+                            : selectedProject === "quantus"
+                              ? `Wormhole · ${c.rewardAddress}`
+                              : `xCoin · ${c.rewardAddress}`}
                   <input
                     required
                     value={identifier}
@@ -760,9 +748,7 @@ function FleetCard({
   onEdit: (() => void) | undefined;
   onUnlink: ((id: string) => void) | undefined;
 }) {
-  const [expandedBinding, setExpandedBinding] = useState<string | null>(
-    device.bindings[0]?.id ?? null,
-  );
+  const [expandedBinding, setExpandedBinding] = useState<string | null>(null);
   const daily = deviceTodayEarnings(
     device.bindings.map((binding) => ({ binding, data: reading(binding) })),
   );
@@ -835,6 +821,11 @@ function FleetCard({
                 <small>{data.activity}</small>
                 <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>
+              {data.note === c.stale && (
+                <p className="fleet-reading-note" role="status">
+                  {data.note}
+                </p>
+              )}
               {expanded && (
                 <div id={`fleet-reading-${binding.id}`}>
                   <div className="fleet-reading-metrics">
@@ -864,7 +855,9 @@ function FleetCard({
                       </strong>
                     </div>
                   </div>
-                  {data.note && <p className="fleet-reading-note">{data.note}</p>}
+                  {data.note && data.note !== c.stale && (
+                    <p className="fleet-reading-note">{data.note}</p>
+                  )}
                   <a className="fleet-project-link" href={projectPath(locale, binding.project)}>
                     {monitorViewCopy(locale).projectRecords.replace(
                       "{project}",
@@ -898,7 +891,9 @@ function FleetCard({
                         </dd>
                       </div>
                     </dl>
-                    {data.scope === "wallet" && <p>{c.walletNote}</p>}
+                    {data.scope === "wallet" &&
+                      binding.project !== "gonka" &&
+                      binding.project !== "akash" && <p>{c.walletNote}</p>}
                     <a
                       href={
                         binding.project === "flyai"
@@ -911,6 +906,11 @@ function FleetCard({
                       {data.source}
                       <ArrowUpRight size={13} />
                     </a>
+                    {isPrivatePlatform(binding.project) && (
+                      <a href={`/${locale}/projects/${binding.project}`}>
+                        {platformCopy(locale).connect} →
+                      </a>
+                    )}
                     {onUnlink && (
                       <button
                         type="button"

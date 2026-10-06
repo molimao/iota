@@ -1,4 +1,6 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { PlatformPage } from "@/components/platform-page";
+import { isPlatform } from "@/lib/platforms";
+import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { isLocale } from "@/lib/site";
 import { FleetReview } from "@/components/fleet-review";
 
@@ -22,5 +24,12 @@ export const Route = createFileRoute("/$locale/review")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  component: FleetReview,
+  component: Review,
 });
+
+function Review() {
+  const p = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("platform"),
+  });
+  return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;
+}

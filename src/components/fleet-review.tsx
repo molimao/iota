@@ -17,6 +17,7 @@ export function FleetReview() {
   return (
     <>
       <div className="fleet-review-switch">
+        <span>{c.preview}</span>
         <button className="fleet-outline" onClick={() => setPlan(plan === "pro" ? "free" : "pro")}>
           {plan === "pro" ? c.previewFree : c.previewPro}
         </button>
@@ -35,7 +36,6 @@ export function FleetReview() {
           cancelAtPeriodEnd: false,
           hasCustomer: false,
         }}
-        preview
         reading={(binding) => {
           const data = reviewReading(binding);
           return binding.project === "xid"

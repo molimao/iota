@@ -112,3 +112,14 @@ STRIPE_SANDBOX_CHECK=1 npx vitest run src/lib/billing-sandbox.live.test.ts
 `prepare` 会创建一个虚拟测试客户、结账会话及测试门户配置。临时状态保存在本机 `/private/tmp/iota-stripe-sandbox.json`，不要提交或公开其中的会话链接。`cancel-test` 只会将该测试订阅设为本期结束时取消。默认测试套件跳过需访问 Stripe 的检查。
 
 接口和虚拟卡说明参见 [Stripe 沙盒测试](https://docs.stripe.com/testing)、[签名通知](https://docs.stripe.com/webhooks) 与 [客户门户](https://docs.stripe.com/customer-management/activate-no-code-customer-portal)。
+
+
+## Optional io.net / Vast.ai connections
+
+Apply `20261006190000_compute_projects.sql` after the fleet/billing migration, then `20261006200000_platform_connections.sql`. These migrations extend project quotas and create a server-only encrypted credential table. They preserve existing device records. Production changes require the owner's release approval.
+
+Set `WATCH_CONNECTION_ENCRYPTION_KEY` in the **server secret store**, using an independently generated 32-byte base64 key (`openssl rand -base64 32`). Do not put this value in `VITE_*`, source control, or client configuration. Missing configuration disables account connections; public Akash/Golem lookups do not require this secret. Losing or rotating this key requires users to disconnect and reconnect their platform accounts.
+
+Users connect their own io.net Explorer access token or Vast.ai API key while signed in. For Vast.ai use only `machine_read` and `billing_read`. Credential ciphertext is bound to the owner and project with AES-GCM and expires for use after seven days. The browser cannot read the credential table. Disconnect deletes the stored credential and clears that user's server cache; revoke the key at the platform to revoke it everywhere. The integration makes fixed-origin GET requests only and returns a reduced device/reward response, excluding profile, tax, and address fields.
+
+Validate with `npx vitest run`, `npx tsc --noEmit`, and `npm run build`. Local `/zh/review?platform=vast` (also `ionet`, `akash`, `golem`) uses clearly labelled samples; the review route is disabled in production. io.net/Vast.ai currently have contract-level mocked verification, not real-account acceptance testing. Before presenting them as fully verified, test a consenting provider account, token expiry, disconnect, reward periods, and partial permissions. Golem Stats connectivity must be checked from the deployment environment; an upstream failure must remain unavailable, never zero.

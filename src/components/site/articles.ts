@@ -1,3 +1,4 @@
+import { computeGuides } from "./compute-guides";
 import { withLocales } from "@/components/site/localization";
 import { dataGuides } from "./data-guides";
 import type { Locale } from "./locale";
@@ -458,6 +459,7 @@ const iotaArticles = withLocales([
 export const articles: Article[] = [
   ...iotaArticles.map((article) => ({ ...article, ...iotaGuideAnswers[article.slug] })),
   ...projectGuides,
+  ...computeGuides,
 ];
 
 export function articleDates(article: Article) {
@@ -467,12 +469,13 @@ export function articleDates(article: Article) {
   };
 }
 
-export type ArticleCluster = "understand" | "start" | "read" | "xid" | "quantus" | "compare";
+export type ArticleCluster = "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute";
 
 export const articleClusterMeta: Record<
   ArticleCluster,
   { title: Record<Locale, string>; slugs: string[] }
 > = {
+  compute: {title:{zh:"算力与推理",en:"Compute and inference","zh-TW":"算力與推理",ko:"컴퓨팅과 추론",ja:"計算と推論"},slugs:computeGuides.map(a=>a.slug)},
   ...withLocales({
     understand: {
       title: { en: "Product differences", zh: "产品区分" },

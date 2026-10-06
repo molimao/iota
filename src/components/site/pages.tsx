@@ -1,9 +1,10 @@
+import { simpleCopy } from "../simple-ui";
 import { PROJECT_IDS, PROJECTS, isMonitorProject, projectPath } from "@/lib/projects";
 import { MonitoringViews, monitorViewCopy } from "../monitor-views";
 import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Layers, LogIn, Monitor, Menu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Layers, LogIn, Menu } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath, LOCALES, LANGUAGE_TAG, LANGUAGE_NAME } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
@@ -20,7 +21,6 @@ import {
 import { content } from "./content";
 import { localizeMessage, useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
-import { blogPosts } from "./blog-posts";
 import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
 import { learningCopy } from "./guide-copy";
@@ -73,7 +73,6 @@ export function SiteNav() {
     pathname.match(/\/projects\/([^/]+)/)?.[1] ??
     getArticle(pathname.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const project = isMonitorProject(projectId) ? projectId : undefined;
-  const projectCopy = projectsCopy[locale];
   const views = monitorViewCopy(locale);
   const filteredProject = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("project"),
@@ -83,8 +82,7 @@ export function SiteNav() {
     (filteredProject === "iota" || isMonitorProject(filteredProject) ? filteredProject : undefined);
   const deviceView = /\/(devices|review)$/.test(pathname);
   const links: ReadonlyArray<readonly [string, string]> = [
-    [`/${locale}/guide`, copy.nav[0]],
-    [`/${locale}/learn`, views.allGuides],
+    [`/${locale}/learn`, simpleCopy(locale).help],
     [`/${locale}/faq`, copy.nav[1]],
     [`/${locale}/downloads`, localizeValue(en ? "Downloads" : "工具下载", locale)],
     [`/${locale}/blog`, localizeValue(en ? "Blog" : "博客", locale)],
@@ -105,18 +103,9 @@ export function SiteNav() {
           IOTA <b>Watch</b>
         </a>
         <MonitoringViews current={deviceView ? "devices" : "projects"} project={viewProject} />
-        {!deviceView && <ProjectSwitch />}
+        {!deviceView && !pathname.endsWith("/projects") && <ProjectSwitch />}
       </div>
       <div className="site-links">
-        {!deviceView && !pathname.endsWith("/projects") && (
-          <a
-            className="site-button small"
-            href={project ? `/${locale}/projects/${project}#addresses` : `/${locale}/app`}
-            aria-current={project ? undefined : navCurrent(pathname, `/${locale}/app`)}
-          >
-            {project ? projectCopy.mine : views.iotaMonitor}
-          </a>
-        )}
         <LanguageSwitch />
         <AccountMenu />
         <details className="mobile-nav">
@@ -159,13 +148,11 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <b>IOTA Watch</b>
-        <p>{projectsCopy[locale].independent}</p>
+        <p>{simpleCopy(locale).independent}</p>
       </div>
       <div>
         <a href={`/${locale}/projects`}>{projectsCopy[locale].projects}</a>
         <a href={`/${locale}/network`}>{copy.nav[5]}</a>
-        <a href={`/${locale}/guide`}>{copy.nav[0]}</a>
-        <a href={`/${locale}/faq`}>{copy.nav[1]}</a>
         <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
         <a href={`/${locale}/blog`}>{localizeValue(en ? "Blog" : "博客", locale)}</a>
         <a href={`/${locale}/downloads`}>{localizeValue(en ? "Downloads" : "工具下载", locale)}</a>
@@ -174,7 +161,6 @@ export function SiteFooter() {
           GitHub
         </a>
       </div>
-      <small>{localizeValue(en ? "Read-only public data." : "只读监控公开数据。", locale)}</small>
     </footer>
   );
 }
@@ -261,19 +247,7 @@ export function Landing() {
             <ArrowRight size={16} />
           </a>
         </div>
-        <ul className="hero-chips">
-          {copy.notes.map((note) => (
-            <li key={note}>{note}</li>
-          ))}
-        </ul>
       </section>
-      <aside className="disambiguation">
-        <strong>{copy.disambiguationTitle}</strong>
-        <p>{copy.disambiguation}</p>
-        <a href={`/${locale}/learn/what-is-iota-watch`}>
-          {localizeValue(en ? "About this site" : "本站说明", locale)} <ArrowRight size={15} />
-        </a>
-      </aside>
       <section className="landing-projects">
         <div className="project-section-head">
           <h2>{projectsCopy[locale].other}</h2>
@@ -284,84 +258,20 @@ export function Landing() {
         </div>
         <ProjectCards compact />
       </section>
-      <section className="purpose-section">
-        <div>
-          <span className="eyebrow">{copy.jobsEyebrow}</span>
-          <h2>{copy.jobsTitle}</h2>
-          <p>{copy.jobsIntro}</p>
-        </div>
-        <div className="purpose-list">
-          {copy.jobs.map(([title, body], i) => (
-            <article key={title}>
-              <span>0{i + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-                <a href={`/${locale}${copy.jobsLinks[i]}`}>
-                  {copy.jobsCta[i]} <ArrowRight size={14} />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="start-section">
-        <div>
-          <span className="eyebrow">{localizeValue(en ? "GET STARTED" : "开始使用", locale)}</span>
-          <h2>{copy.stepsTitle}</h2>
-          <p>{copy.bottom}</p>
-          <a className="site-button" href={`/${locale}/app`}>
-            {copy.cta}
-            <ArrowUpRight size={18} />
-          </a>
-        </div>
-        <ol>
-          {copy.steps.map(([title, body], i) => (
-            <li key={title}>
-              <span>{i + 1}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section className="learn-index landing-learn">
-        <div className="learn-index-head">
-          <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
-          <h2>{copy.learnTitle}</h2>
-          <p>{copy.learnIntro}</p>
-        </div>
-        <LearnGrid locale={locale} />
-      </section>
-      <section className="ecosystem">
-        <span className="eyebrow">{copy.ecosystemTitle}</span>
-        <div className="ecosystem-grid">
-          {copy.ecosystem.map(([label, href, note]) => (
-            <a key={href} href={href} rel="noreferrer" target="_blank">
-              <h3>
-                {label}
-                <ArrowUpRight size={16} />
-              </h3>
-              <p>{note}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-      <section className="blog-entry">
-        <h2>{localizeValue(en ? "Practical monitoring articles" : "监控使用文章", locale)}</h2>
-        <ul>
-          {blogPosts.map((post) => (
-            <li key={post.slug}>
-              <a href={`/${locale}/blog/${post.slug}`}>{post.title[locale]} →</a>
-            </li>
-          ))}
-        </ul>
-        <a href={`/${locale}/blog`}>
-          {localizeValue(en ? "All blog articles" : "查看全部博客文章", locale)} →
+      <div className="simple-home-links">
+        <a href={`/${locale}/learn`}>
+          {simpleCopy(locale).help}
+          <ArrowUpRight size={16} />
         </a>
-      </section>
+        <a href={`/${locale}/downloads`}>
+          {localizeValue(en ? "Downloads" : "工具下载", locale)}
+          <ArrowUpRight size={16} />
+        </a>
+        <a href={`/${locale}/blog`}>
+          {localizeValue(en ? "Blog" : "博客", locale)}
+          <ArrowUpRight size={16} />
+        </a>
+      </div>
     </div>
   );
 }
@@ -411,8 +321,20 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       )}
       {page === "privacy" && (
         <section className="article-tip">
-          <h2>{projectsCopy[locale].projects} · XID / MMM · Quantus · fly.ai</h2>
+          <h2>{projectsCopy[locale].projects}</h2>
           <p>{projectsCopy[locale].privacyData}</p>
+          <p>
+            {
+              {
+                zh: "连接 io.net 或 Vast.ai 时，凭据会加密保存并仅用于读取对应平台的数据，最长有效期为 7 天。断开连接会删除本站保存的凭据；你也可以在原平台撤销授权。",
+                en: "When you connect io.net or Vast.ai, credentials are encrypted and used only to read data from that platform, for up to 7 days. Disconnecting deletes the credentials stored here; you can also revoke access on the original platform.",
+                "zh-TW":
+                  "連接 io.net 或 Vast.ai 時，憑證會加密儲存，僅用於讀取對應平台的資料，最長有效期為 7 天。中斷連接會刪除本站儲存的憑證；你也可以在原平台撤銷授權。",
+                ko: "io.net 또는 Vast.ai 연결 시 인증 정보는 암호화되어 최대 7일 동안 해당 플랫폼의 데이터 조회에만 사용됩니다. 연결을 해제하면 이 사이트에 저장된 인증 정보가 삭제됩니다. 원래 플랫폼에서도 접근 권한을 취소할 수 있습니다.",
+                ja: "io.net または Vast.ai の接続情報は暗号化され、最大7日間、対象プラットフォームのデータ取得にのみ使用されます。接続を解除すると当サイトの接続情報は削除されます。元のプラットフォームでもアクセスを取り消せます。",
+              }[locale]
+            }
+          </p>
         </section>
       )}
       {page === "faq" && <ProjectLearning />}

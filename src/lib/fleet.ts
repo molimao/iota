@@ -1,15 +1,34 @@
+import { isPlatform, validPlatformId } from "./platforms";
 import { z } from "zod";
 import { isValidMinerId } from "./ss58";
 import { validProjectAddress } from "./projects";
+import { validComputeId } from "./compute";
 import { quotaState } from "./plans";
 
-export const FLEET_PROJECTS = ["iota", "xid", "quantus", "flyai"] as const;
+export const FLEET_PROJECTS = [
+  "iota",
+  "xid",
+  "quantus",
+  "flyai",
+  "nosana",
+  "gonka",
+  "akash",
+  "ionet",
+  "vast",
+  "golem",
+] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
   iota: "IOTA",
   xid: "XID / MMM",
   quantus: "Quantus",
   flyai: "fly.ai",
+  nosana: "Nosana",
+  gonka: "Gonka",
+  akash: "Akash",
+  ionet: "io.net",
+  vast: "Vast.ai",
+  golem: "Golem",
 };
 export const bindingSchema = z.object({
   id: z.string().min(1).max(120),
@@ -29,9 +48,11 @@ export type FleetDevice = z.infer<typeof fleetDeviceSchema>;
 export const FLEET_KEY = "watch:fleet:v1";
 
 export function validBinding(project: FleetProject, identifier: string) {
+  if (isPlatform(project)) return validPlatformId(project, identifier);
   if (project === "iota") return isValidMinerId(identifier);
   // Only public payout wallet addresses, never the fly.ai miner bearer token.
   if (project === "flyai") return /^0x[0-9a-fA-F]{40}$/.test(identifier);
+  if (project === "nosana" || project === "gonka") return validComputeId(project, identifier);
   return validProjectAddress(project, identifier);
 }
 

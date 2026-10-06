@@ -1,3 +1,5 @@
+import { ProjectAbout } from "./project-about";
+import { QuietDetails, simpleCopy } from "./simple-ui";
 import { useQuery } from "@tanstack/react-query";
 import { Cpu, ArrowUpRight } from "lucide-react";
 import { getFlyaiMonth } from "@/lib/flyai.functions";
@@ -81,9 +83,8 @@ export function FlyaiPage() {
           <a className="project-back" href={`/${locale}/projects`}>
             ← {c.back}
           </a>
-          <span className="eyebrow">{c.compute} · fly.ai</span>
           <h1>fly.ai Compute</h1>
-          <p>{c.flyai}</p>
+          <p>{simpleCopy(locale).projectSummary.flyai}</p>
         </div>
         <div className="project-heading-links">
           <a className="site-button" href={`/${locale}/devices?project=flyai`}>
@@ -138,27 +139,31 @@ export function FlyaiPage() {
         </div>
         <p>{t.scope}</p>
       </section>
-      <section className="project-panel flyai-panel" id="setup">
-        <h2>{c.setup}</h2>
-        <h3 id="addresses">{t.wallet}</h3>
-        <p>{t.step}</p>
-        <a className="site-button" href={`/${locale}/devices?project=flyai`}>
-          {c.open}
-          <ArrowUpRight size={16} />
-        </a>
-      </section>
-      <section className="project-panel flyai-panel">
-        <h2>{c.sources}</h2>
-        <p>{t.scope}</p>
-        <div className="project-sources">
-          <a href={PROJECTS.flyai.website} target="_blank" rel="noreferrer">
-            {c.website}
+      <QuietDetails title={c.setup}>
+        <section className="project-panel flyai-panel" id="setup">
+          <h2>{c.setup}</h2>
+          <h3 id="addresses">{t.wallet}</h3>
+          <p>{t.step}</p>
+          <a className="site-button" href={`/${locale}/devices?project=flyai`}>
+            {c.open}
+            <ArrowUpRight size={16} />
           </a>
-          <a href={PROJECTS.flyai.explorer} target="_blank" rel="noreferrer">
-            fly.ai · /api/month
-          </a>
-        </div>
-      </section>
+        </section>
+      </QuietDetails>
+      <QuietDetails title={c.sources}>
+        <section className="project-panel flyai-panel">
+          <h2>{c.sources}</h2>
+          <div className="project-sources">
+            <a href={PROJECTS.flyai.website} target="_blank" rel="noreferrer">
+              {c.website}
+            </a>
+            <a href={PROJECTS.flyai.explorer} target="_blank" rel="noreferrer">
+              fly.ai · /api/month
+            </a>
+          </div>
+        </section>
+      </QuietDetails>
+      <ProjectAbout project="flyai" />
     </main>
   );
 }

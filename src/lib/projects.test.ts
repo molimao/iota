@@ -44,7 +44,7 @@ describe("separate project identities and currencies", () => {
     expect(validProjectAddress("quantus", qtc.slice(0, -1) + "a")).toBe(false);
     expect(validProjectAddress("quantus", "0x" + "ab".repeat(32))).toBe(false);
     expect(() => parseProjectList("quantus", [{ address: xid, name: "wrong project" }])).toThrow();
-    expect(PROJECT_IDS).toEqual(["iota", "xid", "quantus", "flyai"]);
+    expect(PROJECT_IDS).toEqual(["iota", "xid", "quantus", "flyai", "nosana", "gonka", "akash", "ionet", "vast", "golem"]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {
     expect(qtcAmount("123456789012345678901234")).toBe("123456789012.345678901234");
