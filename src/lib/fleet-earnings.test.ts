@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { deviceTodayEarnings, deviceEarningsHeadline } from "./fleet-earnings";
+import {
+  deviceTodayEarnings,
+  deviceEarningsHeadline,
+  singleAccountSummary,
+} from "./fleet-earnings";
 import type { FleetBinding } from "./fleet";
 const binding = (project: FleetBinding["project"], id: string): FleetBinding => ({
   id,
@@ -73,4 +77,14 @@ it("flags older quotes only when they contribute to the USD estimate", () => {
   ]);
   expect(result.priceStale).toBe(true);
   expect(result.usd).toBe(1);
+});
+
+it("shows single account metrics without merging wallets or inventing daily revenue", () => {
+  const monthly = { accountSummary: { kind: "month" as const, amount: "607905", unit: "" } };
+  const wallet = { accountSummary: { kind: "balance" as const, amount: "143.75", unit: "XID" } };
+  expect(singleAccountSummary([monthly])).toEqual(monthly.accountSummary);
+  expect(singleAccountSummary([wallet])).toEqual(wallet.accountSummary);
+  expect(singleAccountSummary([monthly, wallet])).toBeNull();
+  expect(singleAccountSummary([{}])).toBeNull();
+  expect(singleAccountSummary([])).toBeNull();
 });

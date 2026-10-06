@@ -30,7 +30,11 @@ import {
 import { PLANS } from "@/lib/plans";
 import type { BillingSummary } from "@/lib/plans";
 import { FleetMembership } from "./fleet-membership";
-import { deviceTodayEarnings, deviceEarningsHeadline } from "@/lib/fleet-earnings";
+import {
+  deviceTodayEarnings,
+  deviceEarningsHeadline,
+  singleAccountSummary,
+} from "@/lib/fleet-earnings";
 import { formatUsd } from "@/lib/earnings";
 import { PROJECTS, projectPath } from "@/lib/projects";
 import { shortId } from "@/lib/ss58";
@@ -754,6 +758,12 @@ function FleetCard({
   );
   const { locale } = useLocale();
   const nativeHeadline = deviceEarningsHeadline(daily);
+  const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
+  const headlineLabel = account
+    ? account.kind === "month"
+      ? c.monthPoints
+      : c.balance
+    : c.deviceToday;
   return (
     <article className="fleet-device-card">
       <header>
@@ -768,12 +778,24 @@ function FleetCard({
           {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
         </span>
       </header>
-      <section className="fleet-device-earnings" aria-label={c.deviceToday}>
+      <section className="fleet-device-earnings" aria-label={headlineLabel}>
         <div>
-          <span>{c.deviceToday}</span>
+          <span>{headlineLabel}</span>
           <strong>
-            {nativeHeadline ? nativeHeadline.amount : formatUsd(daily.usd)}
-            <small>{nativeHeadline ? nativeHeadline.unit : daily.usd !== null ? "USD" : ""}</small>
+            {account
+              ? account.amount
+              : nativeHeadline
+                ? nativeHeadline.amount
+                : formatUsd(daily.usd)}
+            <small>
+              {account
+                ? account.unit
+                : nativeHeadline
+                  ? nativeHeadline.unit
+                  : daily.usd !== null
+                    ? "USD"
+                    : ""}
+            </small>
           </strong>
         </div>
         <div className="fleet-device-earnings-detail">
@@ -784,11 +806,13 @@ function FleetCard({
               </span>
             ))}
           <small>
-            {daily.usd !== null
-              ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
-              : daily.known
-                ? c.noEarningsPrice
-                : c.noDeviceEarnings}
+            {account
+              ? c.wallet
+              : daily.usd !== null
+                ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
+                : daily.known
+                  ? c.noEarningsPrice
+                  : c.noDeviceEarnings}
           </small>
         </div>
       </section>

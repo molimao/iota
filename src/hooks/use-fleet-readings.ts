@@ -252,8 +252,32 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         !xid.isError;
       return {
         ...base,
-        status: mining ? "mining" : "unavailable",
-        activity: worker && speed != null ? String(speed) + " MH/s" : "—",
+        status: mining
+          ? "mining"
+          : !binding.worker &&
+              fresh(result?.fetchedAt, result?.stale) &&
+              !xid.isError &&
+              n?.balances[binding.identifier] != null
+            ? "wallet"
+            : "unavailable",
+        ...(!binding.worker &&
+        fresh(result?.fetchedAt, result?.stale) &&
+        !xid.isError &&
+        n?.balances[binding.identifier] != null
+          ? {
+              accountSummary: {
+                kind: "balance" as const,
+                amount: String(n.balances[binding.identifier]),
+                unit: "XID",
+              },
+            }
+          : {}),
+        activity:
+          worker && speed != null
+            ? String(speed) + " MH/s"
+            : !binding.worker && n
+              ? `${workers.length} Worker`
+              : "—",
         unit: "XID",
         lifetime:
           n?.balances[binding.identifier] != null ? String(n.balances[binding.identifier]) : null,
@@ -320,6 +344,23 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     const sameMonth = month?.month === new Date(iota.now).toISOString().slice(0, 7);
     return {
       ...base,
+      status:
+        sameMonth && wallet && fresh(result?.fetchedAt, result?.stale) && !flyai.isError
+          ? "wallet"
+          : "unavailable",
+      activity:
+        sameMonth && wallet
+          ? `${new Intl.NumberFormat(LANGUAGE_TAG[locale]).format(wallet.points)} · ${c.monthPoints}`
+          : "—",
+      ...(sameMonth && wallet && fresh(result?.fetchedAt, result?.stale) && !flyai.isError
+        ? {
+            accountSummary: {
+              kind: "month" as const,
+              amount: new Intl.NumberFormat(LANGUAGE_TAG[locale]).format(wallet.points),
+              unit: "",
+            },
+          }
+        : {}),
       today: sameMonth && wallet ? String(wallet.points) : null,
       lifetime: sameMonth && wallet ? String((wallet.share * 100).toFixed(2)) + "%" : null,
       todayLabel: c.monthPoints,

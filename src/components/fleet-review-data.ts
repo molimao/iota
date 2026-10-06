@@ -2,7 +2,9 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
   status:
+    | "wallet"
     | "idle"
     | "notFound"
     | "online"

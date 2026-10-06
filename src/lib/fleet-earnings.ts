@@ -56,3 +56,10 @@ export function deviceTodayEarnings(entries: { binding: FleetBinding; data: Dail
 export function deviceEarningsHeadline(daily: ReturnType<typeof deviceTodayEarnings>) {
   return daily.usd === null && daily.native.length === 1 ? daily.native[0]! : null;
 }
+
+/** A single wallet metric is an alternative display, never device daily earnings. */
+export function singleAccountSummary(
+  readings: { accountSummary?: { kind: "month" | "balance"; amount: string; unit: string } }[],
+) {
+  return readings.length === 1 ? (readings[0]?.accountSummary ?? null) : null;
+}
