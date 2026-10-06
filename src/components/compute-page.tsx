@@ -1,6 +1,7 @@
+import { readQuery } from "@/lib/read-query";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocale } from "./site/locale";
 import { editorialCopy, projectEditorial } from "./project-editorial";
 import { ProjectAbout } from "./project-about";
@@ -20,17 +21,16 @@ export function ComputeProjectPage({
     f = fleetCopy(locale);
   const [input, setInput] = useState(""),
     [address, setAddress] = useState("");
+  const client = useQueryClient();
   const network = useQuery({
-    queryKey: ["compute", project],
-    queryFn: () => getComputeNetwork({ data: { project } }),
+    ...readQuery(client, ["compute", project], () => getComputeNetwork({ data: { project } })),
     initialData: initial ?? undefined,
     staleTime: 45000,
     refetchInterval: 60000,
     retry: 1,
   });
   const node = useQuery({
-    queryKey: ["nosana", address],
-    queryFn: () => getNosanaNode({ data: { address } }),
+    ...readQuery(client, ["nosana", address], () => getNosanaNode({ data: { address } })),
     enabled: project === "nosana" && validComputeId(project, address),
     staleTime: 45000,
     refetchInterval: 60000,
@@ -56,13 +56,22 @@ export function ComputeProjectPage({
           <h1>{PROJECTS[project].name}</h1>
           <p>{projectEditorial[project].summary[locale]}</p>
         </div>
-        <a href={`/${locale}/devices?project=${project}`}>{f.add} →</a>
+        <div className="fleet-heading-actions">
+          <button
+            className="fleet-outline"
+            disabled={network.isFetching}
+            onClick={() => void network.refetch()}
+          >
+            {network.isFetching ? f.refreshingData : f.refreshData}
+          </button>
+          <a href={`/${locale}/devices?project=${project}`}>{f.add} →</a>
+        </div>
       </header>
       <section className="compute-panel">
         <p className="compute-caption">
           {project === "nosana" ? c.networkScope : c.epoch}
           {network.data?.fetchedAt
-            ? ` · ${new Date(network.data.fetchedAt).toLocaleTimeString(LANGUAGE_TAG[locale])}`
+            ? ` · ${new Date(network.data.fetchedAt).toLocaleTimeString(LANGUAGE_TAG[locale], { timeZone: "Asia/Hong_Kong", hour12: false })}`
             : ""}
           {bad ? ` · ${n ? f.stale : f.unavailable}` : ""}
         </p>
@@ -79,7 +88,11 @@ export function ComputeProjectPage({
           className="compute-lookup"
           onSubmit={(e) => {
             e.preventDefault();
-            if (validComputeId(project, input.trim())) setAddress(input.trim());
+            if (validComputeId(project, input.trim())) {
+              if (address === input.trim())
+                void (project === "nosana" ? node.refetch() : network.refetch());
+              else setAddress(input.trim());
+            }
           }}
         >
           <label htmlFor="compute-address">{project === "nosana" ? c.nodeId : c.hostId}</label>

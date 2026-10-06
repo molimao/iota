@@ -100,7 +100,7 @@ describe("platform adapters", () => {
       calls.every(
         (c) =>
           c.init?.method === "GET" &&
-          c.init.redirect === "error" &&
+          c.init.redirect === "manual" &&
           !c.url.includes("test-only-token"),
       ),
     ).toBe(true);
@@ -109,7 +109,7 @@ describe("platform adapters", () => {
       Date.parse("2026-10-05T16:00:00Z"),
       0,
     );
-    expect(calls[0]!.init?.headers).toEqual({ Authorization: "Bearer test-only-token" });
+    expect(calls[0]!.init?.headers).toMatchObject({ Authorization: "Bearer test-only-token" });
   });
   it("returns partial data if an earnings scope is unavailable", async () => {
     const fetcher = vi.fn(async (input: RequestInfo | URL) =>

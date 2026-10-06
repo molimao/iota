@@ -1,3 +1,4 @@
+import { ProjectAbout } from "./project-about";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { monitorViewCopy } from "./monitor-views";
 import { fleetCopy } from "./fleet-copy";
@@ -671,6 +672,7 @@ export function Dashboard() {
           )}
         </DialogContent>
       </Dialog>
+      <ProjectAbout project="iota" />
     </main>
   );
 }

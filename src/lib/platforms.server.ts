@@ -1,9 +1,10 @@
+import { ReadCache } from "./read-cache";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { watchDb } from "./watch-db";
 import { openCredential, sealCredential } from "./connection-crypto.server";
 import { readPrivatePlatform, readPublicPlatform } from "./platforms-upstream.server";
 import type { PlatformResult, PrivatePlatform } from "./platforms";
-const cache = new Map<string, { at: number; pending: Promise<PlatformResult> }>();
+const cache = new ReadCache();
 function safeError(e: unknown): NonNullable<PlatformResult["error"]> {
   const code = e instanceof Error ? e.message : "";
   return ["not-found", "invalid-data", "expired", "connect-required", "not-configured"].includes(
@@ -14,18 +15,9 @@ function safeError(e: unknown): NonNullable<PlatformResult["error"]> {
 }
 async function cached(
   key: string,
-  read: () => Promise<PlatformResult["data"]>,
+  read: () => Promise<NonNullable<PlatformResult["data"]>>,
 ): Promise<PlatformResult> {
-  const old = cache.get(key);
-  if (old && Date.now() - old.at < 300000) return old.pending;
-  if (cache.size >= 300) cache.delete(cache.keys().next().value!);
-  const pending = read()
-    .then((data) => ({ data, fetchedAt: Date.now(), error: null }))
-    .catch((e: unknown) => ({ data: null, fetchedAt: null, error: safeError(e) }));
-  cache.set(key, { at: Date.now(), pending });
-  const result = await pending;
-  if (result.error) cache.delete(key);
-  return result;
+  return (await cache.read(key, read, { ttl: 300000, classify: safeError })) as PlatformResult;
 }
 export const publicPlatform = (project: "akash" | "golem", id: string) =>
   cached(`public:${project}:${id}`, () => readPublicPlatform(project, id));
@@ -84,7 +76,7 @@ export async function saveConnection(
   }
 }
 function clearUser(user: string, project: PrivatePlatform) {
-  for (const key of cache.keys()) if (key.startsWith(`${user}:${project}:`)) cache.delete(key);
+  cache.clearPrefix(`${user}:${project}:`);
 }
 export async function removeConnection(user: string, project: PrivatePlatform) {
   const r = await db()
@@ -106,7 +98,13 @@ export async function privatePlatform(
     if (!row) return { data: null, fetchedAt: null, error: "connect-required" };
     if (Date.parse(row.expires_at) <= Date.now())
       return { data: null, fetchedAt: null, error: "expired" };
-    const token = await openCredential(row.ciphertext, user, project, encryptionKey());
+    const secret = encryptionKey();
+    let token: string;
+    try {
+      token = await openCredential(row.ciphertext, user, project, secret);
+    } catch {
+      throw new Error("expired");
+    }
     return await cached(
       `${user}:${project}:${row.revision}:${id}:${Math.floor(Date.now() / 86400000)}:${Math.floor((Date.now() + 28800000) / 86400000)}`,
       () => readPrivatePlatform(project, id, token),

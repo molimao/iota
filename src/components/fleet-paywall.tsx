@@ -20,11 +20,7 @@ export type PriceChoiceProps = {
   onChange: (interval: "month" | "year") => void;
   disabled?: boolean | undefined;
 };
-export function PriceChoices({
-  interval,
-  onChange,
-  disabled,
-}: PriceChoiceProps) {
+export function PriceChoices({ interval, onChange, disabled }: PriceChoiceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   return (
@@ -45,9 +41,7 @@ export function PriceChoices({
             </span>
             <b>{value === "year" ? c.year : c.month}</b>
             {value === "year" && (
-              <small>
-                {copyValues(c.annualSave, { percent: annualSavingPercent })}
-              </small>
+              <small>{copyValues(c.annualSave, { percent: annualSavingPercent })}</small>
             )}
           </span>
           <span className="fleet-choice-amount">
@@ -56,9 +50,7 @@ export function PriceChoices({
           </span>
           <span className="fleet-choice-detail">
             {value === "year"
-              ? copyValues(c.annualEquivalent, {
-                  amount: annualMonthlyEquivalent,
-                })
+              ? copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
               : c.monthlyCharge}
           </span>
         </button>
@@ -73,11 +65,7 @@ export function PaywallBody({
   onChange,
   disabled,
   preview,
-}: PriceChoiceProps & {
-  devices: FleetDevice[];
-  project: FleetProject | null;
-  preview: boolean;
-}) {
+}: PriceChoiceProps & { devices: FleetDevice[]; project: FleetProject | null; preview: boolean }) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const used = project ? projectDeviceCount(devices, project) : null;
@@ -110,14 +98,8 @@ export function PaywallBody({
           {c.noFleetLimit}
         </p>
       </div>
-      <PriceChoices
-        interval={interval}
-        onChange={onChange}
-        disabled={disabled}
-      />
-      <p className="fleet-charge-note">
-        {interval === "year" ? c.annualCharge : c.monthlyCharge}
-      </p>
+      <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
+      <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>

@@ -102,6 +102,8 @@ export function FleetPage() {
         initialTab={memberView ? "plans" : "devices"}
         initialPaywallProject={upgradeProject}
         reading={reading}
+        onRefresh={reading.refresh}
+        refreshing={reading.refreshing}
         onAdd={async (name, hardware, binding) => {
           try {
             await fleet.mutate({

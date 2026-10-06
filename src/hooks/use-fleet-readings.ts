@@ -1,3 +1,4 @@
+import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { fleetIotaStatus } from "@/lib/fleet-iota-status";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "./use-auth";
@@ -7,7 +8,7 @@ import { platformCopy } from "@/components/platform-copy";
 import { getComputeNetwork, getNosanaNode } from "@/lib/compute.functions";
 import { editorialCopy } from "@/components/project-editorial";
 import { useMemo } from "react";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useIotaDashboard } from "./use-iota-dashboard";
 import { getProjectNetwork, getQuantusAccount } from "@/lib/projects.functions";
 import { getFlyaiMonth } from "@/lib/flyai.functions";
@@ -21,6 +22,7 @@ import type { ProjectReading } from "@/components/fleet-review-data";
 export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
+  const client = useQueryClient();
   const auth = useAuth(),
     privateRead = useServerFn(getPrivatePlatform),
     pc = platformCopy(locale);
@@ -34,15 +36,19 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   ];
   const platformQueries = useQueries({
     queries: platformBindings.map((b) => ({
-      queryKey: ["platform-node", auth.userId, b.project, b.identifier],
+      ...readQuery(
+        client,
+        ["platform-node", auth.userId, b.project, b.identifier],
+        () => {
+          const project = b.project;
+          if (!isPlatform(project)) throw new Error("invalid");
+          return isPrivatePlatform(project)
+            ? privateRead({ data: { project, id: b.identifier } })
+            : getPublicPlatform({ data: { project, id: b.identifier } });
+        },
+        { private: isPrivatePlatform(b.project) },
+      ),
       enabled: ready && isPlatform(b.project) && (!isPrivatePlatform(b.project) || !!auth.userId),
-      queryFn: () => {
-        const project = b.project;
-        if (!isPlatform(project)) throw new Error("invalid");
-        return isPrivatePlatform(project)
-          ? privateRead({ data: { project, id: b.identifier } })
-          : getPublicPlatform({ data: { project, id: b.identifier } });
-      },
       staleTime: 300000,
       refetchInterval: 300000,
       retry: false,
@@ -57,11 +63,12 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       ),
     [devices],
   );
-  const iota = useIotaDashboard(entries, ready);
+  const iota = useIotaDashboard(entries, ready && entries.length > 0);
   const bindings = devices.flatMap((d) => d.bindings);
   const xid = useQuery({
-    queryKey: ["projects", "xid", "network"],
-    queryFn: () => getProjectNetwork({ data: { project: "xid" } }),
+    ...readQuery(client, ["projects", "xid", "network"], () =>
+      getProjectNetwork({ data: { project: "xid" } }),
+    ),
     enabled: ready && bindings.some((b) => b.project === "xid"),
     staleTime: 45000,
     refetchInterval: 60000,
@@ -69,8 +76,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     retry: 1,
   });
   const flyai = useQuery({
-    queryKey: ["flyai", "month"],
-    queryFn: () => getFlyaiMonth(),
+    ...readQuery(client, ["flyai", "month"], () => getFlyaiMonth()),
     enabled: ready && bindings.some((b) => b.project === "flyai"),
     staleTime: 45000,
     refetchInterval: 60000,
@@ -82,8 +88,11 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   ];
   const quantus = useQueries({
     queries: qtcAddresses.map((address) => ({
-      queryKey: ["projects", "quantus", "account", address],
-      queryFn: () => getQuantusAccount({ data: { address } }),
+      ...readQuery(
+        client,
+        ["projects", "quantus", "account", address, hongKongDayStartSeconds()],
+        () => getQuantusAccount({ data: { address } }),
+      ),
       enabled: ready,
       staleTime: 45000,
       refetchInterval: 60000,
@@ -96,8 +105,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   ];
   const nosana = useQueries({
     queries: nosanaIds.map((address) => ({
-      queryKey: ["nosana", address],
-      queryFn: () => getNosanaNode({ data: { address } }),
+      ...readQuery(client, ["nosana", address], () => getNosanaNode({ data: { address } })),
       enabled: ready,
       staleTime: 45000,
       refetchInterval: 60000,
@@ -105,8 +113,9 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     })),
   });
   const gonka = useQuery({
-    queryKey: ["compute", "gonka"],
-    queryFn: () => getComputeNetwork({ data: { project: "gonka" } }),
+    ...readQuery(client, ["compute", "gonka"], () =>
+      getComputeNetwork({ data: { project: "gonka" } }),
+    ),
     enabled: ready && bindings.some((b) => b.project === "gonka"),
     staleTime: 45000,
     refetchInterval: 60000,
@@ -127,7 +136,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       : "—";
   const fresh = (fetched: number | null | undefined, stale: boolean | undefined) =>
     !!fetched && !stale && iota.now - fetched < 180000;
-  return (binding: FleetBinding): ProjectReading => {
+  const read = (binding: FleetBinding): ProjectReading => {
     const base: ProjectReading = {
       status: "unavailable",
       activity: "—",
@@ -184,6 +193,8 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         unit: d?.rewardUnit ?? "",
         lifetime: d?.lifetime === null || d?.lifetime === undefined ? null : String(d.lifetime),
         todayUsable: !!daily,
+        todaySameDay:
+          d?.period === "hkDay" && d.periodStart === hongKongDayStartSeconds(iota.now) * 1000,
         todayUsdValue: daily && d?.rewardUnit === "USD" ? d.reward : null,
         updated: clock(r?.fetchedAt),
         note:
@@ -218,6 +229,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         lifetime: total === null ? null : formatIota(total, 8, locale),
         unit: "IOTA",
         todayUsable: view.todayUsable,
+        todaySameDay: today !== null,
         todayUsdValue:
           view.todayUsable && !iota.priceRefreshFailed
             ? iotaUnitsToUsd(today, iota.usdPerIota)
@@ -260,10 +272,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               n?.balances[binding.identifier] != null
             ? "wallet"
             : "unavailable",
-        ...(!binding.worker &&
-        fresh(result?.fetchedAt, result?.stale) &&
-        !xid.isError &&
-        n?.balances[binding.identifier] != null
+        ...(!binding.worker && n?.balances[binding.identifier] != null
           ? {
               accountSummary: {
                 kind: "balance" as const,
@@ -296,6 +305,12 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         result = query?.data;
       return {
         ...base,
+        status:
+          fresh(result?.fetchedAt, result?.stale) && result?.data
+            ? result.data.found
+              ? "wallet"
+              : "notFound"
+            : "unavailable",
         today: result?.data?.today ?? null,
         lifetime: result?.data?.lifetime ?? null,
         unit: "QTC",
@@ -315,7 +330,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         ...base,
         source: "Nosana",
         scope: "device",
-        status: current && d && d.running > 0 ? "computing" : "unavailable",
+        status: current && d ? (d.running > 0 ? "computing" : "waiting") : "unavailable",
         activity: d ? `${d.running} · ${ec.running}` : "—",
         lifetime: d ? String(d.completed) : null,
         totalLabel: ec.completed,
@@ -330,7 +345,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         source: "Gonka",
-        status: current && h ? "participating" : "unavailable",
+        status: current && r?.data ? (h ? "participating" : "notFound") : "unavailable",
         activity: r?.data ? `${ec.epoch} ${r.data.epoch}` : "—",
         lifetime: h?.weight ?? null,
         totalLabel: ec.weight,
@@ -341,7 +356,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     const result = flyai.data,
       month = result?.data,
       wallet = month?.wallets.find((w) => w.wallet === binding.identifier.toLowerCase());
-    const sameMonth = month?.month === new Date(iota.now).toISOString().slice(0, 7);
+    const sameMonth = month?.month === hongKongMonth(iota.now);
     return {
       ...base,
       status:
@@ -352,7 +367,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         sameMonth && wallet
           ? `${new Intl.NumberFormat(LANGUAGE_TAG[locale]).format(wallet.points)} · ${c.monthPoints}`
           : "—",
-      ...(sameMonth && wallet && fresh(result?.fetchedAt, result?.stale) && !flyai.isError
+      ...(sameMonth && wallet
         ? {
             accountSummary: {
               kind: "month" as const,
@@ -373,4 +388,82 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
           : c.apiLimited,
     };
   };
+  const reading = (binding: FleetBinding): ProjectReading => {
+    const value = read(binding);
+    const query =
+      binding.project === "xid"
+        ? xid
+        : binding.project === "flyai"
+          ? flyai
+          : binding.project === "gonka"
+            ? gonka
+            : binding.project === "nosana"
+              ? nosana[nosanaIds.indexOf(binding.identifier)]
+              : binding.project === "quantus"
+                ? quantus[qtcAddresses.indexOf(binding.identifier)]
+                : isPlatform(binding.project)
+                  ? platformQueries[
+                      platformBindings.findIndex(
+                        (b) => b.project === binding.project && b.identifier === binding.identifier,
+                      )
+                    ]
+                  : undefined;
+    if (!query) {
+      if (binding.project === "iota")
+        return {
+          ...value,
+          health: iota.loading ? "loading" : value.note === c.stale ? "stale" : "fresh",
+          status:
+            iota.loading && value.today === null
+              ? "loading"
+              : value.note === c.stale
+                ? "staleData"
+                : value.status,
+        };
+      return value;
+    }
+    const result = query.data;
+    const hardError =
+      result?.error && ["expired", "connect-required", "not-configured"].includes(result.error);
+    if (hardError) return { ...value, health: "unavailable" };
+    const hasData = result?.data != null;
+    const old =
+      hasData &&
+      (result?.stale ||
+        result?.error ||
+        query.isError ||
+        !result?.fetchedAt ||
+        iota.now - result.fetchedAt > (isPlatform(binding.project) ? 600000 : 180000));
+    const health = old ? "stale" : hasData ? "fresh" : query.isFetching ? "loading" : "unavailable";
+    const status =
+      health === "loading"
+        ? "loading"
+        : old
+          ? result?.error || query.isError
+            ? "refreshFailed"
+            : "staleData"
+          : value.status === "unavailable" && hasData
+            ? "notReported"
+            : value.status;
+    return { ...value, status, health, note: old ? c.stale : value.note };
+  };
+  const queries = [xid, flyai, gonka, ...quantus, ...nosana, ...platformQueries];
+  const activeProjects = new Set(bindings.map((b) => b.project));
+  const refresh = async () => {
+    await Promise.allSettled([
+      ...(activeProjects.has("iota") ? [iota.refresh()] : []),
+      ...(activeProjects.has("xid") ? [xid.refetch()] : []),
+      ...(activeProjects.has("flyai") ? [flyai.refetch()] : []),
+      ...(activeProjects.has("gonka") ? [gonka.refetch()] : []),
+      ...quantus.map((q) => q.refetch()),
+      ...nosana.map((q) => q.refetch()),
+      ...platformQueries
+        .filter((_, i) => !isPrivatePlatform(platformBindings[i]!.project) || !!auth.userId)
+        .map((q) => q.refetch()),
+    ]);
+  };
+  return Object.assign(reading, {
+    refresh,
+    refreshing: iota.manual.running || queries.some((q) => q.isFetching),
+  });
 }

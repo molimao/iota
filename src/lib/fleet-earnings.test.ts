@@ -3,6 +3,7 @@ import {
   deviceTodayEarnings,
   deviceEarningsHeadline,
   singleAccountSummary,
+  retainedDeviceDaily,
 } from "./fleet-earnings";
 import type { FleetBinding } from "./fleet";
 const binding = (project: FleetBinding["project"], id: string): FleetBinding => ({
@@ -87,4 +88,18 @@ it("shows single account metrics without merging wallets or inventing daily reve
   expect(singleAccountSummary([monthly, wallet])).toBeNull();
   expect(singleAccountSummary([{}])).toBeNull();
   expect(singleAccountSummary([])).toBeNull();
+});
+
+it("labels retained same-day earnings without allowing old or wallet totals into current revenue", () => {
+  const one = {
+    scope: "device" as const,
+    health: "stale",
+    today: "1.23",
+    todaySameDay: true,
+    unit: "IOTA",
+  };
+  expect(retainedDeviceDaily([one])).toEqual({ amount: "1.23", unit: "IOTA" });
+  expect(retainedDeviceDaily([{ ...one, todaySameDay: false }])).toBeNull();
+  expect(retainedDeviceDaily([{ ...one, scope: "wallet" }])).toBeNull();
+  expect(retainedDeviceDaily([one, one])).toBeNull();
 });

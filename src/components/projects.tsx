@@ -1,3 +1,5 @@
+import { readQuery } from "@/lib/read-query";
+import { hongKongDayStartSeconds } from "@/lib/earnings";
 import { isPlatform } from "@/lib/platforms";
 import { platformCopy, platformEditorial } from "./platform-copy";
 import { ProjectAbout } from "./project-about";
@@ -86,7 +88,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
   return (
     <div className={`project-cards${compact ? " compact" : ""}`}>
       {PROJECT_IDS.map((id) => (
-        <a className="project-card" key={id} href={`/${locale}/projects/${id}`}>
+        <a className="project-card" key={id} href={projectPath(locale, id)}>
           <div className="project-card-top">
             <span className="project-symbol">
               {id !== "xid" && id !== "quantus" ? <Cpu /> : <Pickaxe />}
@@ -349,9 +351,13 @@ function BlockTable({
 function QuantusAddress({ saved, onRemove }: { saved: SavedProjectAddress; onRemove: () => void }) {
   const { locale } = useLocale(),
     c = projectsCopy[locale];
+  const client = useQueryClient();
   const query = useQuery({
-    queryKey: ["projects", "quantus", "account", saved.address],
-    queryFn: () => getQuantusAccount({ data: { address: saved.address } }),
+    ...readQuery(
+      client,
+      ["projects", "quantus", "account", saved.address, hongKongDayStartSeconds()],
+      () => getQuantusAccount({ data: { address: saved.address } }),
+    ),
     refetchInterval: 60000,
     refetchIntervalInBackground: false,
     retry: 1,
@@ -659,9 +665,11 @@ export function MiningProjectPage({
   const { locale } = useLocale(),
     c = projectsCopy[locale],
     p = PROJECTS[project];
+  const client = useQueryClient();
   const query = useQuery({
-    queryKey: ["projects", project, "network"],
-    queryFn: () => getProjectNetwork({ data: { project } }),
+    ...readQuery(client, ["projects", project, "network"], () =>
+      getProjectNetwork({ data: { project } }),
+    ),
     initialData: initial ?? undefined,
     initialDataUpdatedAt: initial?.fetchedAt ?? 0,
     refetchInterval: 60000,
@@ -671,7 +679,6 @@ export function MiningProjectPage({
   });
   const n = query.data?.data;
   const [refreshing, setRefreshing] = useState(false);
-  const client = useQueryClient();
   async function refresh() {
     setRefreshing(true);
     try {

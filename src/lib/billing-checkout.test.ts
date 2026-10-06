@@ -7,20 +7,13 @@ const store = vi.hoisted(() => ({
 vi.mock("@/integrations/supabase/client.server", () => ({
   supabaseAdmin: {
     rpc: store.rpc,
-    from: () => ({
-      select: () => ({ eq: () => ({ maybeSingle: store.query }) }),
-    }),
+    from: () => ({ select: () => ({ eq: () => ({ maybeSingle: store.query }) }) }),
   },
 }));
 import { checkout } from "./billing.server";
 const user = "11111111-1111-4111-8111-111111111111";
 const token = "22222222-2222-4222-8222-222222222222";
-let calls: {
-  path: string;
-  method: string;
-  body: URLSearchParams;
-  key: string | null;
-}[];
+let calls: { path: string; method: string; body: URLSearchParams; key: string | null }[];
 let subscription: Record<string, unknown> | null;
 let wrongPrice: boolean;
 let allowQuantity: boolean;
@@ -41,9 +34,7 @@ beforeEach(() => {
     SITE_ORIGIN: "http://127.0.0.1:8080",
   }))
     vi.stubEnv(key, value);
-  store.query
-    .mockReset()
-    .mockImplementation(async () => ({ data: store.row, error: null }));
+  store.query.mockReset().mockImplementation(async () => ({ data: store.row, error: null }));
   store.rpc.mockReset().mockImplementation(async (name, args) => {
     if (name === "watch_reserve_checkout")
       return {
@@ -56,11 +47,7 @@ beforeEach(() => {
         error: null,
       };
     if (name === "watch_release_checkout")
-      store.row = {
-        ...store.row,
-        checkout_session: null,
-        checkout_token: null,
-      };
+      store.row = { ...store.row, checkout_session: null, checkout_token: null };
     return { data: null, error: null };
   });
   vi.stubGlobal(
@@ -75,8 +62,7 @@ beforeEach(() => {
         key: headers.get("idempotency-key"),
       });
       let data: unknown;
-      if (url.pathname === "/v1/account")
-        data = { id: "acct_fixture", charges_enabled: false };
+      if (url.pathname === "/v1/account") data = { id: "acct_fixture", charges_enabled: false };
       else if (url.pathname.startsWith("/v1/prices/")) {
         const yearly = url.pathname.endsWith("price_year");
         data = {
@@ -93,9 +79,7 @@ beforeEach(() => {
             usage_type: "licensed",
           },
         };
-      } else if (
-        url.pathname === "/v1/billing_portal/configurations/bpc_fixture"
-      )
+      } else if (url.pathname === "/v1/billing_portal/configurations/bpc_fixture")
         data = {
           active: true,
           features: {
@@ -109,12 +93,10 @@ beforeEach(() => {
       else if (url.pathname === "/v1/customers") data = { id: "cus_fixture" };
       else if (url.pathname === "/v1/subscriptions")
         data = { data: subscription ? [subscription] : [], has_more: false };
-      else if (url.pathname === "/v1/subscriptions/sub_fixture")
-        data = subscription;
+      else if (url.pathname === "/v1/subscriptions/sub_fixture") data = subscription;
       else if (url.pathname === "/v1/billing_portal/sessions")
         data = { url: "https://billing.stripe.com/p/session/fixture" };
-      else if (url.pathname.endsWith("/expire"))
-        data = { id: "cs_previous", status: "expired" };
+      else if (url.pathname.endsWith("/expire")) data = { id: "cs_previous", status: "expired" };
       else if (url.pathname.startsWith("/v1/checkout/sessions/"))
         data = {
           id: "cs_previous",
@@ -122,10 +104,7 @@ beforeEach(() => {
           url: "https://checkout.stripe.com/c/pay/cs_previous",
         };
       else if (url.pathname === "/v1/checkout/sessions")
-        data = {
-          id: "cs_fixture",
-          url: "https://checkout.stripe.com/c/pay/cs_fixture",
-        };
+        data = { id: "cs_fixture", url: "https://checkout.stripe.com/c/pay/cs_fixture" };
       else throw new Error("Unexpected Stripe endpoint: " + url.pathname);
       return new Response(JSON.stringify(data), {
         headers: { "content-type": "application/json" },
@@ -139,9 +118,7 @@ afterEach(() => {
 });
 describe("Stripe SDK checkout orchestration (simulated network)", () => {
   it("uses the confirmed annual price, authenticated user and fixed return origin", async () => {
-    expect((await checkout(user, "year", "zh")).url).toContain(
-      "checkout.stripe.com",
-    );
+    expect((await checkout(user, "year", "zh")).url).toContain("checkout.stripe.com");
     const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
     expect(request.body.get("line_items[0][price]")).toBe("price_year");
     expect(request.body.get("line_items[0][quantity]")).toBe("1");
@@ -150,9 +127,7 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       "http://127.0.0.1:8080/zh/devices?billing=success",
     );
     expect(request.key).toBe("watch-checkout:" + token);
-    expect(calls.find((c) => c.path === "/v1/customers")?.key).toBe(
-      "watch-customer:" + user,
-    );
+    expect(calls.find((c) => c.path === "/v1/customers")?.key).toBe("watch-customer:" + user);
     expect(store.rpc).toHaveBeenCalledWith("watch_finish_checkout", {
       p_user: user,
       p_token: token,
@@ -169,9 +144,7 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       checkout_expires_at: new Date(Date.now() + 3600000).toISOString(),
     };
     expect((await checkout(user, "month", "en")).url).toContain("cs_previous");
-    expect(
-      calls.filter((c) => c.path === "/v1/checkout/sessions"),
-    ).toHaveLength(0);
+    expect(calls.filter((c) => c.path === "/v1/checkout/sessions")).toHaveLength(0);
   });
   it("expires a previous unpaid session before switching month to year", async () => {
     store.row = {
@@ -202,30 +175,18 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       status: "active",
       cancel_at_period_end: false,
       items: {
-        data: [
-          {
-            quantity: 1,
-            price: { id: "price_month" },
-            current_period_end: 1800000000,
-          },
-        ],
+        data: [{ quantity: 1, price: { id: "price_month" }, current_period_end: 1800000000 }],
       },
     };
-    expect((await checkout(user, "year", "zh")).url).toContain(
-      "billing.stripe.com",
-    );
+    expect((await checkout(user, "year", "zh")).url).toContain("billing.stripe.com");
     expect(calls.some((c) => c.path === "/v1/checkout/sessions")).toBe(false);
   });
   it("stops checkout if the price changed or the portal can add subscription quantities", async () => {
     wrongPrice = true;
-    await expect(checkout(user, "month", "zh")).rejects.toThrow(
-      "billing_price_mismatch",
-    );
+    await expect(checkout(user, "month", "zh")).rejects.toThrow("billing_price_mismatch");
     wrongPrice = false;
     allowQuantity = true;
-    await expect(checkout(user, "month", "zh")).rejects.toThrow(
-      "billing_account_not_ready",
-    );
+    await expect(checkout(user, "month", "zh")).rejects.toThrow("billing_account_not_ready");
     expect(calls.some((c) => c.path === "/v1/customers")).toBe(false);
   });
 });

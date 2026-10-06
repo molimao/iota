@@ -1,3 +1,5 @@
+import { ReadCache } from "./read-cache";
+import { upstreamJson } from "./upstream-json.server";
 import {
   parseQuantusAccount,
   parseQuantusNetwork,
@@ -21,68 +23,15 @@ export const QUANTUS_ACCOUNT_QUERY = `query WatchRewards($id:String!,$since:time
   recent:miner_reward(limit:12,order_by:{timestamp:desc},where:{miner_id:{_eq:$id}}){reward timestamp block{height}}
 }`;
 
-type Entry<T> = {
-  result: ProjectResult<T>;
-  attemptedAt: number;
-  pending?: Promise<ProjectResult<T>> | undefined;
-};
-const cache = new Map<string, Entry<unknown>>();
-
-/** Coalesced reads, minimum refresh interval, bounded cache; errors keep the original clock. */
-export async function cachedProjectRead<T>(
+const cache = new ReadCache(300);
+export function cachedProjectRead<T>(
   key: string,
   read: () => Promise<T>,
   force = false,
 ): Promise<ProjectResult<T>> {
-  let entry = cache.get(key) as Entry<T> | undefined;
-  if (entry?.pending) return entry.pending;
-  if (entry && Date.now() - entry.attemptedAt < (force ? 5000 : entry.result.error ? 15000 : 60000))
-    return entry.result;
-  if (!entry) {
-    if (cache.size >= 200) cache.delete(cache.keys().next().value!);
-    entry = { result: { data: null, fetchedAt: null, stale: false, error: null }, attemptedAt: 0 };
-    cache.set(key, entry as Entry<unknown>);
-  }
-  const target = entry;
-  target.attemptedAt = Date.now();
-  target.pending = (async () => {
-    try {
-      const data = await read();
-      target.result = { data, fetchedAt: Date.now(), stale: false, error: null };
-    } catch (error) {
-      target.result = {
-        ...target.result,
-        stale: target.result["data"] !== null,
-        error:
-          error instanceof Error && error.message === "invalid-data"
-            ? "invalid-data"
-            : "unavailable",
-      };
-    } finally {
-      target.pending = undefined;
-    }
-    return target.result;
-  })();
-  return target.pending;
+  return cache.read(key, read, { force }) as Promise<ProjectResult<T>>;
 }
-
-async function json(url: string, body?: object): Promise<unknown> {
-  const response = await fetch(url, {
-    method: body ? "POST" : "GET",
-    ...(body
-      ? { headers: { "content-type": "application/json" }, body: JSON.stringify(body) }
-      : {}),
-    signal: AbortSignal.timeout(9000),
-  });
-  if (!response.ok) throw new Error("unavailable");
-  const text = await response.text();
-  if (text.length > 2_000_000) throw new Error("invalid-data");
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error("invalid-data");
-  }
-}
+const json = (url: string, body?: object) => upstreamJson(url, { body });
 
 async function graph(query: string, variables?: object) {
   const result = record(await json(QUANTUS_MAINNET, { query, variables }));

@@ -1,3 +1,5 @@
+import { projectRequestCopy } from "../project-request-copy";
+import { ProjectRequest } from "../project-request";
 import { simpleCopy } from "../simple-ui";
 import { PROJECT_IDS, PROJECTS, isMonitorProject, projectPath } from "@/lib/projects";
 import { MonitoringViews, monitorViewCopy } from "../monitor-views";
@@ -160,6 +162,7 @@ export function SiteFooter() {
         <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
           GitHub
         </a>
+        <ProjectRequest />
       </div>
     </footer>
   );
@@ -323,6 +326,7 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
         <section className="article-tip">
           <h2>{projectsCopy[locale].projects}</h2>
           <p>{projectsCopy[locale].privacyData}</p>
+          <p>{projectRequestCopy(locale).privacy}</p>
           <p>
             {
               {

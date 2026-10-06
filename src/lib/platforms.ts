@@ -42,6 +42,7 @@ export type PlatformNode = {
   scope: "provider" | "device";
 };
 export type PlatformResult = {
+  stale?: boolean;
   data: PlatformNode | null;
   fetchedAt: number | null;
   error:

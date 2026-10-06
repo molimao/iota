@@ -2,8 +2,14 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  health?: "loading" | "fresh" | "stale" | "unavailable";
   accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
+  todaySameDay?: boolean;
   status:
+    | "refreshFailed"
+    | "staleData"
+    | "loading"
+    | "notReported"
     | "wallet"
     | "idle"
     | "notFound"
@@ -36,7 +42,7 @@ const machines = [
   ["studio", "Mac Studio", "Apple M4 Max · 128 GB", ["iota", "xid", "flyai"]],
   ["gpu", "GPU Workstation", "RTX 4090 · 24 GB", ["iota", "quantus"]],
   ["mini", "Mac mini", "Apple M4 Pro · 64 GB", ["xid"]],
-  ["laptop", "MacBook Pro", "Apple M2 Max · 32 GB", ["iota", "xid"]],
+  ["laptop", "MacBook Pro", "Apple M2 Max · 32 GB", ["iota"]],
   ["node", "Quantus Node", "Ryzen 9 7950X · 64 GB", ["quantus"]],
   ["browser", "Browser Compute", "Intel i7 · 32 GB", ["flyai"]],
 ] as const;
@@ -91,8 +97,9 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
       };
     case "xid":
       return {
-        status: "mining",
-        activity: "384.2 MH/s",
+        status: "wallet",
+        activity: "2 Worker",
+        accountSummary: { kind: "balance", amount: "28.16", unit: "XID" },
         today: null,
         lifetime: "28.16",
         unit: "XID",
@@ -111,13 +118,25 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
         source: "Quantus Explorer",
         updated: "20:55:04 UTC+8",
       };
+    case "flyai":
+      return {
+        status: "wallet",
+        activity: "624,000",
+        today: "624000",
+        lifetime: "0.06%",
+        unit: "",
+        scope: "wallet",
+        source: "fly.ai",
+        updated: "20:55:04 UTC+8",
+        earningsPeriod: "month",
+        accountSummary: { kind: "month", amount: "624,000", unit: "" },
+      };
     case "akash":
     case "ionet":
     case "vast":
     case "golem":
     case "nosana":
     case "gonka":
-    case "flyai":
       return {
         status: "unavailable",
         activity: "—",

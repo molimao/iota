@@ -10,6 +10,10 @@ export function FleetReview() {
   const membershipView = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
   });
+  const scenario = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
+  });
+  const [recovered, setRecovered] = useState(false);
   const [devices, setDevices] = useState(reviewDevices);
   const [plan, setPlan] = useState<"free" | "pro">("pro");
   const { locale } = useLocale(),
@@ -36,8 +40,33 @@ export function FleetReview() {
           cancelAtPeriodEnd: false,
           hasCustomer: false,
         }}
+        onRefresh={async () => setRecovered(true)}
         reading={(binding) => {
           const data = reviewReading(binding);
+          if (!recovered && scenario === "loading") {
+            const { accountSummary: _summary, ...placeholder } = data;
+            return {
+              ...placeholder,
+              status: "loading",
+              health: "loading",
+              today: null,
+              lifetime: null,
+              activity: "—",
+              updated: "—",
+              todayUsdValue: null,
+              todayUsable: false,
+            };
+          }
+          if (!recovered && scenario === "stale")
+            return {
+              ...data,
+              status: "refreshFailed",
+              health: "stale",
+              todaySameDay: binding.project === "iota",
+              todayUsable: false,
+              todayUsdValue: null,
+              note: c.stale,
+            };
           return binding.project === "xid"
             ? { ...data, totalLabel: c.balance }
             : binding.project === "flyai"

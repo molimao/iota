@@ -1,3 +1,4 @@
+import { upstreamJson } from "./upstream-json.server";
 import {
   parseAkash,
   parseGolem,
@@ -8,49 +9,8 @@ import {
   type PlatformNode,
 } from "./platforms";
 import { hongKongDayStartSeconds } from "./earnings";
-export async function platformJson(
-  url: string,
-  token?: string,
-  fetcher: typeof fetch = fetch,
-): Promise<unknown> {
-  const response = await fetcher(url, {
-    method: "GET",
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-    signal: AbortSignal.timeout(12000),
-    redirect: "error",
-  });
-  if (response.status === 401 || response.status === 403) throw new Error("expired");
-  if (response.status === 404) throw new Error("not-found");
-  if (!response.ok) throw new Error("unavailable");
-  const reader = response.body?.getReader();
-  if (!reader) throw new Error("invalid-data");
-  let size = 0;
-  const parts: Uint8Array[] = [];
-  try {
-    for (;;) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      size += value.length;
-      if (size > 1_000_000) {
-        await reader.cancel();
-        throw new Error("invalid-data");
-      }
-      parts.push(value);
-    }
-  } finally {
-    reader.releaseLock();
-  }
-  const body = new Uint8Array(size);
-  let offset = 0;
-  for (const part of parts) {
-    body.set(part, offset);
-    offset += part.length;
-  }
-  try {
-    return JSON.parse(new TextDecoder().decode(body));
-  } catch {
-    throw new Error("invalid-data");
-  }
+export function platformJson(url: string, token?: string, fetcher: typeof fetch = fetch) {
+  return upstreamJson(url, { token, authErrors: !!token, maxBytes: 1000000 }, fetcher);
 }
 export async function readPublicPlatform(
   project: "akash" | "golem",

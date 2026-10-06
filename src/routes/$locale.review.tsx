@@ -1,3 +1,4 @@
+import { ProjectRequest } from "@/components/project-request";
 import { PlatformPage } from "@/components/platform-page";
 import { isPlatform } from "@/lib/platforms";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
@@ -28,8 +29,12 @@ export const Route = createFileRoute("/$locale/review")({
 });
 
 function Review() {
+  const request = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("request") === "1",
+  });
   const p = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("platform"),
   });
+  if (request) return <ProjectRequest preview defaultOpen />;
   return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;
 }

@@ -63,3 +63,22 @@ export function singleAccountSummary(
 ) {
   return readings.length === 1 ? (readings[0]?.accountSummary ?? null) : null;
 }
+
+/** Retained daily records are displayed separately and never enter the current total. */
+export function retainedDeviceDaily(
+  readings: {
+    scope: "device" | "wallet";
+    health?: string;
+    today: string | null;
+    todaySameDay?: boolean;
+    unit: string;
+  }[],
+) {
+  const one = readings.length === 1 ? readings[0] : undefined;
+  return one?.scope === "device" &&
+    one.health === "stale" &&
+    one.todaySameDay === true &&
+    one.today !== null
+    ? { amount: one.today, unit: one.unit }
+    : null;
+}

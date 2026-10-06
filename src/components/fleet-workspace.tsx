@@ -5,6 +5,7 @@ import { monitorViewCopy } from "./monitor-views";
 import { useMemo, useState } from "react";
 import {
   ArrowUpRight,
+  RefreshCw,
   Check,
   ChevronDown,
   Cpu,
@@ -15,12 +16,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "./site/locale";
 import { fleetCopy } from "./fleet-copy";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "./ui/dialog";
 import {
   FLEET_NAMES,
   FLEET_PROJECTS,
@@ -39,6 +35,7 @@ import {
   deviceTodayEarnings,
   deviceEarningsHeadline,
   singleAccountSummary,
+  retainedDeviceDaily,
 } from "@/lib/fleet-earnings";
 import { formatUsd } from "@/lib/earnings";
 import { PROJECTS, projectPath } from "@/lib/projects";
@@ -62,6 +59,8 @@ export type FleetWorkspaceProps = {
   plan: "free" | "pro";
   billing?: BillingSummary | undefined;
   preview?: boolean;
+  onRefresh?: (() => Promise<void>) | undefined;
+  refreshing?: boolean | undefined;
   reading: (binding: FleetBinding) => ProjectReading;
   onAdd: (
     name: string,
@@ -84,9 +83,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const tab = props.initialTab ?? "devices";
-  const [project, setProject] = useState<FleetProject | "all">(
-    props.initialProject ?? "all",
-  );
+  const [project, setProject] = useState<FleetProject | "all">(props.initialProject ?? "all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
     "add" | "link" | "billing" | "edit" | "merge" | "remove" | "unlink" | null
@@ -115,8 +112,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         const text =
           `${d.name} ${d.hardware} ${d.bindings.map((b) => FLEET_NAMES[b.project]).join(" ")}`.toLowerCase();
         return (
-          (project === "all" ||
-            d.bindings.some((b) => b.project === project)) &&
+          (project === "all" || d.bindings.some((b) => b.project === project)) &&
           text.includes(search.trim().toLowerCase())
         );
       }),
@@ -160,18 +156,13 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     setBusy(true);
     try {
       if (dialog === "add") {
-        if (!validBinding(selectedProject, identifier.trim()))
-          throw new Error(c.invalidId);
+        if (!validBinding(selectedProject, identifier.trim())) throw new Error(c.invalidId);
         const key = bindingIdentity({
           project: selectedProject,
           identifier: identifier.trim(),
           worker: selectedProject === "xid" ? worker.trim() : "",
         });
-        if (
-          props.devices.some((d) =>
-            d.bindings.some((b) => bindingIdentity(b) === key),
-          )
-        )
+        if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
           throw new Error(c.duplicate);
         if (projectDeviceCount(props.devices, selectedProject) >= limit) {
           throw new Error(c.limit);
@@ -182,61 +173,35 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           worker: selectedProject === "xid" ? worker.trim() : "",
         });
       } else if (dialog === "link") {
-        if (!validBinding(selectedProject, identifier.trim()))
-          throw new Error(c.invalidId);
+        if (!validBinding(selectedProject, identifier.trim())) throw new Error(c.invalidId);
         const key = bindingIdentity({
           project: selectedProject,
           identifier: identifier.trim(),
           worker: selectedProject === "xid" ? worker.trim() : "",
         });
-        if (
-          props.devices.some((d) =>
-            d.bindings.some((b) => bindingIdentity(b) === key),
-          )
-        )
+        if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
           throw new Error(c.duplicate);
-        if (
-          !canLinkProject(props.devices, selectedDevice, selectedProject, limit)
-        ) {
+        if (!canLinkProject(props.devices, selectedDevice, selectedProject, limit)) {
           if (props.plan === "free") {
             showPaywall(selectedProject, true);
             return;
           }
           throw new Error(c.limit);
         }
-        await props.onLink(
-          selectedDevice,
-          selectedProject,
-          identifier.trim(),
-          worker.trim(),
-        );
-      } else if (dialog === "billing" && props.onSubscribe)
-        await props.onSubscribe(interval);
+        await props.onLink(selectedDevice, selectedProject, identifier.trim(), worker.trim());
+      } else if (dialog === "billing" && props.onSubscribe) await props.onSubscribe(interval);
       else if (props.onMutation) {
         if (dialog === "edit")
           await props.onMutation({
             action: "rename",
-            payload: {
-              id: selectedDevice,
-              name: name.trim(),
-              hardware: hardware.trim(),
-            },
+            payload: { id: selectedDevice, name: name.trim(), hardware: hardware.trim() },
           });
         if (dialog === "merge")
-          await props.onMutation({
-            action: "merge",
-            payload: { id: selectedDevice, sourceId },
-          });
+          await props.onMutation({ action: "merge", payload: { id: selectedDevice, sourceId } });
         if (dialog === "remove")
-          await props.onMutation({
-            action: "remove",
-            payload: { id: selectedDevice },
-          });
+          await props.onMutation({ action: "remove", payload: { id: selectedDevice } });
         if (dialog === "unlink")
-          await props.onMutation({
-            action: "unlink",
-            payload: { id: selectedDevice, bindingId },
-          });
+          await props.onMutation({ action: "unlink", payload: { id: selectedDevice, bindingId } });
       }
       setDialog(null);
     } catch (e) {
@@ -255,13 +220,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       <header className="fleet-heading">
         <div>
-          <h1>
-            {tab === "plans"
-              ? props.plan === "pro"
-                ? c.membership
-                : c.plans
-              : c.title}
-          </h1>
+          <h1>{tab === "plans" ? (props.plan === "pro" ? c.membership : c.plans) : c.title}</h1>
           {tab === "devices" && (
             <p className="fleet-count-line">
               {props.devices.length} {c.devices} · {activeProjects} {c.projects}
@@ -269,10 +228,22 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           )}
         </div>
         {tab === "devices" ? (
-          <button className="site-button" onClick={() => open("add")}>
-            <Plus size={17} />
-            {c.add}
-          </button>
+          <div className="fleet-heading-actions">
+            {props.onRefresh && (
+              <button
+                className="fleet-outline"
+                onClick={() => void props.onRefresh?.()}
+                disabled={props.refreshing}
+              >
+                <RefreshCw size={15} className={props.refreshing ? "reading-spin" : ""} />
+                {props.refreshing ? c.refreshingData : c.refreshData}
+              </button>
+            )}
+            <button className="site-button" onClick={() => open("add")}>
+              <Plus size={17} />
+              {c.add}
+            </button>
+          </div>
         ) : (
           <a className="fleet-outline" href={`/${locale}/devices`}>
             {c.devices}
@@ -289,7 +260,12 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         <section id="fleet-devices-panel" aria-label={c.devices}>
           <div className="fleet-toolbar">
             <div className="fleet-filters">
-              {["all", ...FLEET_PROJECTS].map((p) => (
+              {[
+                "all",
+                ...FLEET_PROJECTS.filter(
+                  (p) => projectDeviceCount(props.devices, p) > 0 || p === project,
+                ),
+              ].map((p) => (
                 <button
                   key={p}
                   aria-pressed={project === p}
@@ -299,9 +275,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     ? monitorViewCopy(locale).allDevices
                     : FLEET_NAMES[p as FleetProject]}
                   {p !== "all" && (
-                    <span>
-                      {projectDeviceCount(props.devices, p as FleetProject)}
-                    </span>
+                    <span>{projectDeviceCount(props.devices, p as FleetProject)}</span>
                   )}
                 </button>
               ))}
@@ -324,13 +298,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 c={c}
                 reading={props.reading}
                 onLink={() => open("link", device.id)}
-                onEdit={
-                  props.onMutation ? () => open("edit", device.id) : undefined
-                }
+                onEdit={props.onMutation ? () => open("edit", device.id) : undefined}
                 onUnlink={
-                  props.onMutation
-                    ? (binding) => open("unlink", device.id, binding)
-                    : undefined
+                  props.onMutation ? (binding) => open("unlink", device.id, binding) : undefined
                 }
               />
             ))}
@@ -342,9 +312,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               <button
                 className="site-button"
                 onClick={() =>
-                  props.devices.length
-                    ? (setProject("all"), setSearch(""))
-                    : open("add")
+                  props.devices.length ? (setProject("all"), setSearch("")) : open("add")
                 }
               >
                 {props.devices.length ? c.clearFilters : c.add}
@@ -390,39 +358,26 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 <article className="fleet-plan-card fleet-pro-card">
                   <span className="eyebrow">PRO</span>
                   <h3>Pro</h3>
-                  <div
-                    className="fleet-billing-switch"
-                    role="group"
-                    aria-label={c.plans}
-                  >
+                  <div className="fleet-billing-switch" role="group" aria-label={c.plans}>
                     <button
                       aria-pressed={interval === "month"}
                       onClick={() => setInterval("month")}
                     >
                       {c.month}
                     </button>
-                    <button
-                      aria-pressed={interval === "year"}
-                      onClick={() => setInterval("year")}
-                    >
+                    <button aria-pressed={interval === "year"} onClick={() => setInterval("year")}>
                       {c.year}
                     </button>
                   </div>
                   <div className="fleet-price">
                     ${planAmount(interval)}
-                    <small>
-                      {interval === "month" ? c.perMonth : c.perYear}
-                    </small>
+                    <small>{interval === "month" ? c.perMonth : c.perYear}</small>
                   </div>
                   <p className="fleet-plan-saving">
                     {interval === "year"
-                      ? copyValues(c.annualSave, {
-                          percent: annualSavingPercent,
-                        }) +
+                      ? copyValues(c.annualSave, { percent: annualSavingPercent }) +
                         " · " +
-                        copyValues(c.annualEquivalent, {
-                          amount: annualMonthlyEquivalent,
-                        })
+                        copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
                       : c.monthlyCharge}
                   </p>
                   <p>
@@ -430,20 +385,14 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   </p>
                   <ProjectAllowances devices={props.devices} limit={50} c={c} />
                   <p className="fleet-plan-features">{c.sameFeatures}</p>
-                  <button
-                    className="site-button"
-                    onClick={() => open("billing")}
-                  >
+                  <button className="site-button" onClick={() => open("billing")}>
                     {c.choosePlan}
                     <ArrowUpRight size={16} />
                   </button>
                 </article>
               </div>
               {props.preview && (
-                <button
-                  className="fleet-preview-wall"
-                  onClick={() => showPaywall("iota")}
-                >
+                <button className="fleet-preview-wall" onClick={() => showPaywall("iota")}>
                   {c.previewWall} · IOTA
                 </button>
               )}
@@ -460,11 +409,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         }}
       >
         <DialogContent
-          className={
-            dialog === "billing"
-              ? "fleet-dialog fleet-paywall-dialog"
-              : "fleet-dialog"
-          }
+          className={dialog === "billing" ? "fleet-dialog fleet-paywall-dialog" : "fleet-dialog"}
         >
           <DialogTitle>
             {dialog === "add"
@@ -479,12 +424,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       ? c.remove
                       : dialog === "unlink"
                         ? c.unlink
-                        : paywallProject &&
-                            projectDeviceCount(props.devices, paywallProject) >=
-                              5
-                          ? copyValues(c.quotaFull, {
-                              project: FLEET_NAMES[paywallProject],
-                            })
+                        : paywallProject && projectDeviceCount(props.devices, paywallProject) >= 5
+                          ? copyValues(c.quotaFull, { project: FLEET_NAMES[paywallProject] })
                           : c.expand}
           </DialogTitle>
           <DialogDescription>
@@ -498,9 +439,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     ? c.removeNote
                     : c.mapping}
           </DialogDescription>
-          {dialog === "billing" && (
-            <span className="fleet-paywall-brand">IOTA WATCH / PRO</span>
-          )}
+          {dialog === "billing" && <span className="fleet-paywall-brand">IOTA WATCH / PRO</span>}
           <form onSubmit={(e) => void save(e)}>
             {dialog === "add" || dialog === "edit" ? (
               <>
@@ -518,8 +457,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       >
                         {FLEET_PROJECTS.map((p) => (
                           <option key={p} value={p}>
-                            {FLEET_NAMES[p]} ·{" "}
-                            {projectDeviceCount(props.devices, p)} / {limit}
+                            {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
                           </option>
                         ))}
                       </select>
@@ -585,8 +523,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                         />
                       </label>
                     )}
-                    {projectDeviceCount(props.devices, selectedProject) >=
-                      limit && (
+                    {projectDeviceCount(props.devices, selectedProject) >= limit && (
                       <div className="fleet-quota-warning">
                         <p>{c.limit}</p>
                         {props.plan === "free" && (
@@ -612,10 +549,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </label>
-                <details
-                  className="fleet-optional-fields"
-                  open={dialog === "edit"}
-                >
+                <details className="fleet-optional-fields" open={dialog === "edit"}>
                   <summary>{c.optionalDetails}</summary>
                   <label>
                     {c.hardware}
@@ -666,24 +600,16 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   {c.projects}
                   <select
                     value={selectedProject}
-                    onChange={(e) =>
-                      setSelectedProject(e.target.value as FleetProject)
-                    }
+                    onChange={(e) => setSelectedProject(e.target.value as FleetProject)}
                   >
                     {FLEET_PROJECTS.map((p) => (
                       <option key={p} value={p}>
-                        {FLEET_NAMES[p]} ·{" "}
-                        {projectDeviceCount(props.devices, p)} / {limit}
+                        {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
                       </option>
                     ))}
                   </select>
                 </label>
-                {!canLinkProject(
-                  props.devices,
-                  selectedDevice,
-                  selectedProject,
-                  limit,
-                ) && (
+                {!canLinkProject(props.devices, selectedDevice, selectedProject, limit) && (
                   <div className="fleet-quota-warning">
                     <p>{c.limit}</p>
                     {props.plan === "free" && (
@@ -740,11 +666,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
             ) : dialog === "merge" ? (
               <label>
                 {c.choose}
-                <select
-                  required
-                  value={sourceId}
-                  onChange={(e) => setSourceId(e.target.value)}
-                >
+                <select required value={sourceId} onChange={(e) => setSourceId(e.target.value)}>
                   {props.devices
                     .filter((d) => d.id !== selectedDevice)
                     .map((d) => (
@@ -772,12 +694,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               </p>
             )}
             <div className="fleet-dialog-actions">
-              <button
-                className="fleet-outline"
-                type="button"
-                onClick={closeDialog}
-                disabled={busy}
-              >
+              <button className="fleet-outline" type="button" onClick={closeDialog} disabled={busy}>
                 {dialog === "billing" ? c.continueFree : c.cancel}
               </button>
               <button
@@ -785,10 +702,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 disabled={
                   busy ||
                   (dialog === "add" &&
-                    projectDeviceCount(props.devices, selectedProject) >=
-                      limit) ||
-                  (dialog === "billing" &&
-                    (props.preview || !props.onSubscribe))
+                    projectDeviceCount(props.devices, selectedProject) >= limit) ||
+                  (dialog === "billing" && (props.preview || !props.onSubscribe))
                 }
                 type="submit"
               >
@@ -796,8 +711,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   <>
                     {c.checkout}
                     <span>
-                      US${planAmount(interval)}{" "}
-                      {interval === "year" ? c.perYear : c.perMonth}
+                      US${planAmount(interval)} {interval === "year" ? c.perYear : c.perMonth}
                     </span>
                   </>
                 ) : busy ? (
@@ -840,8 +754,7 @@ function ProjectAllowances({
             {FLEET_NAMES[p]}
           </span>
           <b>
-            {projectDeviceCount(devices, p)} / {limit}{" "}
-            <small>{c.devices}</small>
+            {projectDeviceCount(devices, p)} / {limit} <small>{c.devices}</small>
           </b>
         </li>
       ))}
@@ -870,15 +783,17 @@ function FleetCard({
   );
   const { locale } = useLocale();
   const nativeHeadline = deviceEarningsHeadline(daily);
-  const account =
-    daily.known === 0
-      ? singleAccountSummary(device.bindings.map(reading))
-      : null;
-  const headlineLabel = account
-    ? account.kind === "month"
-      ? c.monthPoints
-      : c.balance
-    : c.deviceToday;
+  const initialLoading = device.bindings.some((b) => reading(b).health === "loading");
+  const accountStale = device.bindings.some((b) => reading(b).health === "stale");
+  const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
+  const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
+  const headlineLabel = retained
+    ? c.lastDaily
+    : account
+      ? account.kind === "month"
+        ? c.monthPoints
+        : c.balance
+      : c.deviceToday;
   return (
     <article className="fleet-device-card">
       <header>
@@ -897,19 +812,23 @@ function FleetCard({
         <div>
           <span>{headlineLabel}</span>
           <strong>
-            {account
-              ? account.amount
-              : nativeHeadline
-                ? nativeHeadline.amount
-                : formatUsd(daily.usd)}
-            <small>
-              {account
-                ? account.unit
+            {retained
+              ? retained.amount
+              : account
+                ? account.amount
                 : nativeHeadline
-                  ? nativeHeadline.unit
-                  : daily.usd !== null
-                    ? "USD"
-                    : ""}
+                  ? nativeHeadline.amount
+                  : formatUsd(daily.usd)}
+            <small>
+              {retained
+                ? retained.unit
+                : account
+                  ? account.unit
+                  : nativeHeadline
+                    ? nativeHeadline.unit
+                    : daily.usd !== null
+                      ? "USD"
+                      : ""}
             </small>
           </strong>
         </div>
@@ -921,13 +840,17 @@ function FleetCard({
               </span>
             ))}
           <small>
-            {account
-              ? c.wallet
-              : daily.usd !== null
-                ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
-                : daily.known
-                  ? c.noEarningsPrice
-                  : c.noDeviceEarnings}
+            {retained
+              ? c.stale
+              : account
+                ? `${c.wallet}${accountStale ? " · " + c.stale : ""}`
+                : daily.usd !== null
+                  ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
+                  : daily.known
+                    ? c.noEarningsPrice
+                    : initialLoading
+                      ? c.loading
+                      : c.noDeviceEarnings}
           </small>
         </div>
       </section>
@@ -960,14 +883,20 @@ function FleetCard({
                   {c[data.status]}
                 </span>
                 <small>{data.activity}</small>
-                <ChevronDown
-                  size={14}
-                  className={expanded ? "is-expanded" : ""}
-                />
+                <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>
-              {data.note === c.stale && (
+              {(data.health === "stale" ||
+                data.health === "unavailable" ||
+                data.note === c.stale) && (
                 <p className="fleet-reading-note" role="status">
-                  {data.note}
+                  {data.health === "stale" ? c.stale : (data.note ?? c.unavailable)}
+                  {data.updated !== "—" && <span> · {data.updated}</span>}
+                  {data.health === "unavailable" && isPrivatePlatform(binding.project) && (
+                    <a href={projectPath(locale, binding.project)}>
+                      {" "}
+                      · {platformCopy(locale).connect}
+                    </a>
+                  )}
                 </p>
               )}
               {expanded && (
@@ -1000,13 +929,10 @@ function FleetCard({
                       </strong>
                     </div>
                   </div>
-                  {data.note && data.note !== c.stale && (
-                    <p className="fleet-reading-note">{data.note}</p>
-                  )}
-                  <a
-                    className="fleet-project-link"
-                    href={projectPath(locale, binding.project)}
-                  >
+                  {data.note &&
+                    !["stale", "unavailable"].includes(data.health ?? "") &&
+                    data.note !== c.stale && <p className="fleet-reading-note">{data.note}</p>}
+                  <a className="fleet-project-link" href={projectPath(locale, binding.project)}>
                     {monitorViewCopy(locale).projectRecords.replace(
                       "{project}",
                       FLEET_NAMES[binding.project],
@@ -1024,9 +950,7 @@ function FleetCard({
                     <dl>
                       <div>
                         <dt>{c.identifier}</dt>
-                        <dd title={binding.identifier}>
-                          {shortId(binding.identifier, 12, 8)}
-                        </dd>
+                        <dd title={binding.identifier}>{shortId(binding.identifier, 12, 8)}</dd>
                       </div>
                       {binding.worker && (
                         <div>

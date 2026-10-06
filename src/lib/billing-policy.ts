@@ -14,9 +14,7 @@ export type BillingConfig = {
   portal: string;
   origin: string;
 };
-export function billingConfig(
-  env: Record<string, string | undefined>,
-): BillingConfig | null {
+export function billingConfig(env: Record<string, string | undefined>): BillingConfig | null {
   const mode = env["STRIPE_MODE"];
   if (mode !== "test" && mode !== "live") return null;
   if (mode === "live" && env["STRIPE_LIVE_ENABLED"] !== "true") return null;
@@ -30,15 +28,15 @@ export function billingConfig(
     env["SITE_ORIGIN"],
   ];
   if (values.some((value) => !value)) return null;
-  const [
-    secret,
-    webhookSecret,
-    account,
-    monthPrice,
-    yearPrice,
-    portal,
-    origin,
-  ] = values as [string, string, string, string, string, string, string];
+  const [secret, webhookSecret, account, monthPrice, yearPrice, portal, origin] = values as [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
   if (
     !(secret.startsWith(`sk_${mode}_`) || secret.startsWith(`rk_${mode}_`)) ||
     !webhookSecret.startsWith("whsec_") ||
@@ -50,10 +48,7 @@ export function billingConfig(
     .split(",")
     .map((p) => p.trim())
     .filter(Boolean);
-  if (
-    legacyPrices.length > 10 ||
-    legacyPrices.some((p) => !/^price_[A-Za-z0-9_]+$/.test(p))
-  )
+  if (legacyPrices.length > 10 || legacyPrices.some((p) => !/^price_[A-Za-z0-9_]+$/.test(p)))
     return null;
   try {
     const url = new URL(origin);
@@ -96,39 +91,30 @@ export function assertPrice(
     price.livemode !== (config.mode === "live") ||
     price.currency !== PLANS.pro.currency ||
     price.type !== "recurring" ||
-    price.unit_amount !==
-      (interval === "month" ? PLANS.pro.monthlyCents : PLANS.pro.annualCents) ||
+    price.unit_amount !== (interval === "month" ? PLANS.pro.monthlyCents : PLANS.pro.annualCents) ||
     price.recurring?.interval !== interval ||
     price.recurring.interval_count !== 1 ||
     price.recurring.usage_type !== "licensed"
   )
     throw new Error("billing_price_mismatch");
 }
-export function subscriptionSnapshot(
-  subscription: Stripe.Subscription,
-  config: BillingConfig,
-) {
+export function subscriptionSnapshot(subscription: Stripe.Subscription, config: BillingConfig) {
   const customer =
-    typeof subscription.customer === "string"
-      ? subscription.customer
-      : subscription.customer.id;
+    typeof subscription.customer === "string" ? subscription.customer : subscription.customer.id;
   const items = subscription.items.data;
   if (
     subscription.livemode !== (config.mode === "live") ||
     subscription.metadata["product"] !== "iota_watch_pro" ||
     items.length !== 1 ||
     items[0]?.quantity !== 1 ||
-    ![
-      config.monthPrice,
-      config.yearPrice,
-      ...(config.legacyPrices ?? []),
-    ].includes(items[0].price.id)
+    ![config.monthPrice, config.yearPrice, ...(config.legacyPrices ?? [])].includes(
+      items[0].price.id,
+    )
   )
     throw new Error("billing_subscription_mismatch");
   const user = z.string().uuid().parse(subscription.metadata["user_id"]);
   const end = items[0].current_period_end;
-  if (!Number.isSafeInteger(end) || end <= 0)
-    throw new Error("billing_period_invalid");
+  if (!Number.isSafeInteger(end) || end <= 0) throw new Error("billing_period_invalid");
   return {
     user,
     customer,

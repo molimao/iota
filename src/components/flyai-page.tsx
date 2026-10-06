@@ -1,6 +1,7 @@
+import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { ProjectAbout } from "./project-about";
 import { QuietDetails, simpleCopy } from "./simple-ui";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Cpu, ArrowUpRight } from "lucide-react";
 import { getFlyaiMonth } from "@/lib/flyai.functions";
 import { PROJECTS } from "@/lib/projects";
@@ -60,21 +61,16 @@ export function FlyaiPage() {
     c = projectsCopy[locale],
     f = fleetCopy(locale),
     t = text[locale];
+  const client = useQueryClient();
   const query = useQuery({
-    queryKey: ["fleet", "flyai", "month"],
-    queryFn: () => getFlyaiMonth(),
+    ...readQuery(client, ["flyai", "month"], () => getFlyaiMonth()),
     staleTime: 60000,
     refetchInterval: 60000,
     retry: 1,
   });
   const result = query.data,
     data = result?.data;
-  const now = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Hong_Kong",
-    year: "numeric",
-    month: "2-digit",
-  }).formatToParts(new Date());
-  const month = `${now.find((p) => p.type === "year")?.value}-${now.find((p) => p.type === "month")?.value}`;
+  const month = hongKongMonth();
   const stale = result?.stale || (data && data.month !== month);
   return (
     <main className="projects-page flyai-page">

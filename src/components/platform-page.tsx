@@ -1,3 +1,4 @@
+import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -50,15 +51,19 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
     retry: false,
   });
   const lookup = useQuery({
-    queryKey: ["platform-node", auth.userId, project, id],
     enabled:
       !demo &&
       validPlatformId(project, id) &&
       (!secured || (!!auth.userId && !!status.data?.connected)),
-    queryFn: () =>
-      isPrivatePlatform(project)
-        ? privateRead({ data: { project, id } })
-        : getPublicPlatform({ data: { project, id } }),
+    ...readQuery(
+      client,
+      ["platform-node", auth.userId, project, id],
+      () =>
+        isPrivatePlatform(project)
+          ? privateRead({ data: { project, id } })
+          : getPublicPlatform({ data: { project, id } }),
+      { private: secured },
+    ),
     refetchInterval: 300000,
     staleTime: 300000,
     retry: false,
@@ -69,7 +74,8 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
   const data = result?.data;
   const sourceStale =
     !demo && data?.sourceUpdatedAt != null && Date.now() - data.sourceUpdatedAt > 900000;
-  const online = sourceStale ? null : data?.online;
+  const online =
+    sourceStale || result?.stale || result?.error || lookup.isError ? null : data?.online;
   const periodStale =
     !demo &&
     data?.periodStart != null &&
@@ -155,7 +161,8 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             onSubmit={(e) => {
               e.preventDefault();
               if (validPlatformId(project, input.trim())) {
-                setId(input.trim());
+                if (id === input.trim()) void lookup.refetch();
+                else setId(input.trim());
                 setMessage(null);
               }
             }}
@@ -249,7 +256,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           {message && <p role="alert">{message}</p>}
         </section>
       )}
-      {!demo && id && lookup.isFetching && !data && <p role="status">…</p>}
+      {!demo && id && lookup.isFetching && !data && <p role="status">{f.loading}</p>}
       {(result?.error || lookup.isError) && <p role="alert">{errorText(result?.error)}</p>}
       {data && (
         <section className="compute-panel" aria-live="polite">
@@ -282,7 +289,9 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
               </>
             )}
           </div>
-          {(sourceStale || periodStale) && <p role="status">{f.stale}</p>}
+          {(sourceStale || periodStale || result?.stale || (lookup.isError && data)) && (
+            <p role="status">{f.stale}</p>
+          )}
           {data.hardware && (
             <p>
               {c.hardware}: {data.hardware}

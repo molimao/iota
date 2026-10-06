@@ -1,9 +1,8 @@
 import { guidesForProject } from "./site/project-guides";
 import { QuietDetails } from "./simple-ui";
 import { useLocale } from "./site/locale";
-import { editorialCopy, projectQuestions, projectEditorial } from "./project-editorial";
+import { editorialCopy, projectQuestions } from "./project-editorial";
 import { PROJECTS, type ProjectId } from "@/lib/projects";
-import { projectsCopy } from "./projects-copy";
 export function ProjectAbout({ project }: { project: ProjectId }) {
   const { locale } = useLocale(),
     c = editorialCopy(locale);
@@ -26,24 +25,5 @@ export function ProjectAbout({ project }: { project: ProjectId }) {
         </a>
       </div>
     </QuietDetails>
-  );
-}
-export function IotaProjectPage() {
-  const { locale } = useLocale(),
-    p = projectEditorial.iota,
-    c = projectsCopy[locale];
-  return (
-    <main id="main" className="projects-page">
-      <header className="project-heading">
-        <div>
-          <h1>IOTA · Train at Home</h1>
-          <p>{p.summary[locale]}</p>
-        </div>
-      </header>
-      <a className="button primary" href={`/${locale}/app`}>
-        {c.open} →
-      </a>
-      <ProjectAbout project="iota" />
-    </main>
   );
 }

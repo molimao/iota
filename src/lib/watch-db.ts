@@ -30,6 +30,17 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_project_request_status: { Args: Record<string, never>; Returns: Json };
+      watch_submit_project_request: {
+        Args: {
+          p_request: string;
+          p_name: string;
+          p_url: string;
+          p_description: string;
+          p_locale: string;
+        };
+        Returns: Json;
+      };
       watch_list_devices: { Args: Record<string, never>; Returns: Json };
       watch_mutate_device: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_reserve_checkout: {

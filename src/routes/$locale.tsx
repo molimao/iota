@@ -1,3 +1,4 @@
+import { ProjectRequestFooter } from "@/components/project-request";
 import { useEffect } from "react";
 import { createFileRoute, Outlet, notFound, useMatchRoute } from "@tanstack/react-router";
 import { LocaleContext, type Locale } from "@/components/site/locale";
@@ -32,7 +33,7 @@ function Layout() {
         <div id="main">
           <Outlet />
         </div>
-        {isMonitor ? null : <SiteFooter />}
+        {isMonitor ? <ProjectRequestFooter /> : <SiteFooter />}
       </div>
     </LocaleContext.Provider>
   );
