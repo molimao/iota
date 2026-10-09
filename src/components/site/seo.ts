@@ -1,3 +1,4 @@
+import { onboardingCopy } from "@/lib/onboarding";
 import { discoveryCopy, productQuestions, DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { planAmount } from "@/lib/billing-display";
 import { localizeValue } from "@/components/site/localization";
@@ -138,10 +139,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                             : "全网训练现况｜IOTA Watch",
                           locale,
                         )
-                      : localizeValue(
-                          en ? "My devices | IOTA Watch" : "我的设备｜IOTA Watch",
-                          locale,
-                        );
+                      : `${onboardingCopy.lookup[locale]} | IOTA Watch`;
 
   const description = article
     ? article.description[locale]

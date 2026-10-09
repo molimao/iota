@@ -48,7 +48,11 @@ export type DeviceView = {
   diagnosis: Diagnosis;
 };
 
-export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
+export function useIotaDashboard(
+  entries: WatchEntry[],
+  ready: boolean,
+  { persistTelemetry = true }: { persistTelemetry?: boolean } = {},
+) {
   const hotkeys = useMemo(() => entries.map((entry) => entry.hotkey), [entries]);
   const hotkeyKey = useMemo(() => [...hotkeys].sort().join(","), [hotkeys]);
 
@@ -67,6 +71,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   }>({ running: false, lastAt: null, error: null });
   const [now, setNow] = useState(() => Date.now());
   const [cached, setCached] = useState<{ savedAt: number; payload: Snapshot } | null>(() => {
+    if (!persistTelemetry) return null;
     const candidate = readTelemetryCache<Snapshot>();
     if (
       candidate &&
@@ -218,19 +223,19 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
   }, [discovery?.devices, watched]);
 
   const farmState = useFarm({
-    enabled: ready,
+    enabled: ready && persistTelemetry,
     mineCounts,
     fallbackRuns: discovery?.runs ?? null,
   });
 
   useEffect(() => {
-    if (discovery && earningsQuery.data) {
+    if (persistTelemetry && discovery && earningsQuery.data) {
       writeTelemetryCache<Snapshot>({
         discovery,
         earnings: earnings ?? [],
       });
     }
-  }, [discovery, earnings, earningsQuery.data]);
+  }, [discovery, earnings, earningsQuery.data, persistTelemetry]);
 
   const refresh = useCallback(async () => {
     if (!enabled || manualBusy.current) return;
@@ -245,7 +250,7 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
           discoveryQuery.refetch({ cancelRefetch: false }),
           earningsQuery.refetch({ cancelRefetch: false }),
           priceQuery.refetch({ cancelRefetch: false }),
-          farmState.refresh(),
+          persistTelemetry ? farmState.refresh() : Promise.resolve(),
         ]),
         REFRESH_CLIENT_MS,
         "刷新超时，已停止等待。请稍后再试。",
@@ -273,7 +278,15 @@ export function useIotaDashboard(entries: WatchEntry[], ready: boolean) {
       forceRef.current = false;
       manualBusy.current = false;
     }
-  }, [enabled, manualState.lastAt, discoveryQuery, earningsQuery, priceQuery, farmState]);
+  }, [
+    enabled,
+    manualState.lastAt,
+    discoveryQuery,
+    earningsQuery,
+    priceQuery,
+    farmState,
+    persistTelemetry,
+  ]);
 
   const cooldownRemaining = manualState.lastAt
     ? Math.max(0, MANUAL_COOLDOWN_MS - (now - manualState.lastAt))

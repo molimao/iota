@@ -1,3 +1,5 @@
+import { MonitoringExample } from "../onboarding";
+import { onboardingCopy } from "@/lib/onboarding";
 import { DiscoveryQuestions } from "../discovery-questions";
 import { discoveryCopy, DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { projectRequestCopy } from "../project-request-copy";
@@ -171,8 +173,7 @@ export function SiteFooter() {
 }
 
 /**
- * The whole product is "paste one ID", so the first screen is that box.
- * A valid ID goes straight to the dashboard with the add form prefilled.
+ * Public lookup is separate from saving a device to the user's fleet.
  */
 function StartForm() {
   const { locale, en } = useLocale();
@@ -184,22 +185,19 @@ function StartForm() {
       onSubmit={(event) => {
         event.preventDefault();
         const id = value.trim();
-        if (!id) {
-          window.location.href = `/${locale}/app`;
-          return;
-        }
         const reason = minerIdError(id);
         if (reason) {
           setError(localizeMessage(reason, locale));
           return;
         }
-        window.location.href = `/${locale}/app?add=${encodeURIComponent(id)}`;
+        window.location.href = `/${locale}/app?lookup=${encodeURIComponent(id)}`;
       }}
     >
       <label>
         <span className="sr-only">Miner ID</span>
         <input
           value={value}
+          maxLength={64}
           spellCheck={false}
           autoComplete="off"
           onChange={(event) => {
@@ -214,9 +212,7 @@ function StartForm() {
         />
       </label>
       <button className="site-button" type="submit">
-        {value.trim()
-          ? localizeValue(en ? "Add this device" : "添加此设备", locale)
-          : content[locale].cta}
+        {onboardingCopy.lookup[locale]}
         <ArrowUpRight size={19} />
       </button>
       {error ? (
@@ -235,23 +231,30 @@ export function Landing() {
   return (
     <div className="landing-v2">
       <section className="opening">
-        <div className="opening-label">
-          <span />
-          {copy.eyebrow}
+        <div className="opening-copy">
+          <div className="opening-label">
+            <span />
+            {copy.eyebrow}
+          </div>
+          <h1>
+            {lead}
+            <br />
+            <em>{accent}</em>
+          </h1>
+          <p>{copy.intro}</p>
+          <StartForm />
+          <div className="opening-actions">
+            <a className="text-link" href={`/${locale}/learn/find-miner-id`}>
+              {copy.secondary}
+              <ArrowRight size={16} />
+            </a>
+            <a className="text-link" href={`/${locale}/devices`}>
+              {onboardingCopy.devices[locale]}
+              <ArrowRight size={16} />
+            </a>
+          </div>
         </div>
-        <h1>
-          {lead}
-          <br />
-          <em>{accent}</em>
-        </h1>
-        <p>{copy.intro}</p>
-        <StartForm />
-        <div className="opening-actions">
-          <a className="text-link" href={`/${locale}/learn/find-miner-id`}>
-            {copy.secondary}
-            <ArrowRight size={16} />
-          </a>
-        </div>
+        <MonitoringExample />
       </section>
       <section className="landing-projects">
         <div className="project-section-head">

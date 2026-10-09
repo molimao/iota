@@ -14,7 +14,7 @@ export function FleetReview() {
     select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
   });
   const [recovered, setRecovered] = useState(false);
-  const [devices, setDevices] = useState(reviewDevices);
+  const [devices, setDevices] = useState(() => (scenario === "empty" ? [] : reviewDevices()));
   const [plan, setPlan] = useState<"free" | "pro">("pro");
   const { locale } = useLocale(),
     c = fleetCopy(locale);

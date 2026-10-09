@@ -7,18 +7,18 @@ export const localized = <T>(items: readonly [T, T, T, T, T]) =>
 export const discoveryCopy = {
   steps: localized(["查看步骤", "查看步驟", "Read the steps", "단계 보기", "手順を見る"]),
   title: localized([
-    "多台 IOTA 设备，\n状态和收益一起看。",
-    "多台 IOTA 設備，\n狀態與收益一起看。",
-    "Multiple IOTA devices,\nstatus and rewards together.",
-    "여러 IOTA 기기의\n상태와 수익을 한곳에서.",
-    "複数のIOTAデバイスの\n状態と収益を一か所で。",
+    "IOTA 与更多项目，\n状态和收益一起看。",
+    "IOTA 與更多專案，\n狀態與收益一起看。",
+    "IOTA and more projects,\nstatus and rewards together.",
+    "IOTA와 다양한 프로젝트의\n상태와 수익을 한곳에서.",
+    "IOTAと他のプロジェクト\n状態と収益をまとめて。",
   ]),
   intro: localized([
-    "IOTA Watch 用公开 Miner ID 集中查看 IOTA Train at Home 的训练状态、今日记账收益和累计收益。也可为同一台机器关联其他挖矿或算力项目。",
-    "IOTA Watch 使用公開 Miner ID，集中查看 IOTA Train at Home 的訓練狀態、今日記帳收益與累計收益，也可為同一台機器關聯其他挖礦或算力專案。",
-    "IOTA Watch brings together reported IOTA Train at Home activity, today's accounted rewards and lifetime rewards using public Miner IDs. You can also link other mining or compute projects to the same device.",
-    "IOTA Watch는 공개 Miner ID로 IOTA Train at Home의 학습 상태, 오늘 기록된 보상과 누적 보상을 모아 보여줍니다. 같은 기기에 다른 채굴 또는 컴퓨팅 프로젝트도 연결할 수 있습니다.",
-    "IOTA Watchでは公開Miner IDを使い、IOTA Train at Homeの学習状態、本日の記帳報酬、累計報酬をまとめて確認できます。同じ機器に他の採掘・計算プロジェクトも紐付けられます。",
+    "以 IOTA Train at Home 为核心的多项目监控工具。查训练状态和记账收益，也可为同一台设备关联其他挖矿或算力项目。",
+    "以 IOTA Train at Home 為核心的多專案監控工具。查看訓練狀態與記帳收益，也可為同一台設備關聯其他挖礦或算力專案。",
+    "Multi-project monitoring built around IOTA Train at Home. Check reported training and recorded rewards, and link other mining or compute projects to the same device.",
+    "IOTA Train at Home을 중심으로 여러 프로젝트를 모니터링하세요. 학습 상태와 기록된 보상을 확인하고 같은 기기에 다른 채굴·컴퓨팅 프로젝트도 연결할 수 있습니다.",
+    "IOTA Train at Homeを中心とした複数プロジェクトの監視ツール。学習状態と記帳報酬を確認し、同じデバイスに他の採掘・計算プロジェクトも関連付けられます。",
   ]),
   metaDescription: localized([
     "用公开 Miner ID 集中查看多台 IOTA Train at Home Mac 的训练状态和记账收益，按设备整理多个挖矿项目；每个项目免费 5 台。",

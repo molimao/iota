@@ -1,3 +1,4 @@
+import { IotaAdditionHelp } from "./onboarding";
 import { localizeValue } from "@/components/site/localization";
 import { useRef, useState } from "react";
 import { LoaderCircle } from "lucide-react";
@@ -10,6 +11,7 @@ export function DeviceForm({
   initialLabel = "",
   initialHotkey = "",
   rename = false,
+  limit = 5,
   duplicateIds = [],
   onSave,
   onCancel,
@@ -17,6 +19,7 @@ export function DeviceForm({
   initialLabel?: string;
   initialHotkey?: string;
   rename?: boolean;
+  limit?: number;
   duplicateIds?: string[];
   onSave: (input: { label: string; hotkey: string }) => Promise<WatchlistResult>;
   onCancel: () => void;
@@ -120,6 +123,7 @@ export function DeviceForm({
               {t(errors.hotkey)}
             </p>
           )}
+          <IotaAdditionHelp limit={limit} />
           <p id="device-id-help" className="form-help">
             {t("填写公开的 Miner ID，不需要私钥或助记词。")}
           </p>

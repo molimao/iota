@@ -122,11 +122,11 @@ const labels = {
     "決済確認済み · Pro が有効",
   ],
   addGuide: [
-    "选择项目、填写公开 ID，一次完成添加。",
-    "Choose a project and enter its public ID to start monitoring.",
-    "選擇項目、填寫公開 ID，一次完成新增。",
-    "프로젝트와 공개 ID를 입력하여 모니터링을 시작하세요.",
-    "プロジェクトと公開 ID を入力して監視を開始。",
+    "选择项目，填写设备标识并命名。",
+    "Choose a project, enter its device identifier and give it a name.",
+    "選擇專案，填寫設備識別碼並命名。",
+    "프로젝트를 선택하고 기기 식별자와 이름을 입력하세요.",
+    "プロジェクトを選び、デバイスIDと名前を入力します。",
   ],
   optionalDetails: [
     "设备型号等更多信息（可选）",
@@ -357,7 +357,7 @@ const labels = {
     "공개 API는 기기의 실시간 상태를 제공하지 않습니다",
     "公開 API はデバイスのリアルタイム状態を提供していません",
   ],
-  title: ["设备总览", "Device overview", "設備總覽", "기기 개요", "デバイス一覧"],
+  title: ["我的设备", "My devices", "我的設備", "내 기기", "マイデバイス"],
   intro: [
     "在一张卡片里查看同一台设备的所有项目。",
     "All projects on the same machine, together in one card.",

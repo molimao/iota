@@ -1,3 +1,4 @@
+import { ProjectAccessLabel } from "./onboarding";
 import { DiscoveryQuestions } from "./discovery-questions";
 import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
@@ -120,6 +121,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
               ? platformEditorial[id].summary[locale]
               : simpleCopy(locale).projectSummary[id]}
           </p>
+          <ProjectAccessLabel project={id} />
           <span className="project-card-link">
             {c.open}
             <ArrowUpRight size={18} />

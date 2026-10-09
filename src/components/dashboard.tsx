@@ -1,3 +1,7 @@
+import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
+import { minerIdError, shortId } from "@/lib/ss58";
+import { useRouterState } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { ProjectAbout } from "./project-about";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { monitorViewCopy } from "./monitor-views";
@@ -199,7 +203,7 @@ function AttentionBanner({
   );
 }
 
-export function Dashboard() {
+function SavedIotaDashboard() {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
   const watch = useWatchlist(auth.userId, auth.ready);
@@ -487,6 +491,12 @@ export function Dashboard() {
               <Plus size={16} />
               {t("添加设备")}
             </button>
+            <a className="text-link" href={projectHelpPath(locale, "iota")}>
+              {onboardingCopy.idHelp[locale]} <ArrowUpRight size={14} />
+            </a>
+            <a className="text-link" href={`/${locale}/devices`}>
+              {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
+            </a>
           </div>
         ) : (
           <>
@@ -616,6 +626,7 @@ export function Dashboard() {
             )}
           </DialogDescription>
           <DeviceForm
+            limit={watch.limit}
             initialHotkey={hotkey}
             duplicateIds={watch.devices.map((device) => device.hotkey)}
             onCancel={() => setAdding(false)}
@@ -891,5 +902,86 @@ function DeviceDetail({
         )}
       </div>
     </>
+  );
+}
+
+export function Dashboard() {
+  const lookup = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("lookup"),
+  });
+  const { locale } = useLocale();
+  if (lookup !== null)
+    return minerIdError(lookup) ? (
+      <main className="dashboard">
+        <p role="alert">{onboardingCopy.invalid[locale]}</p>
+        <a className="text-link" href={`/${locale}`}>
+          {onboardingCopy.lookup[locale]}
+        </a>
+      </main>
+    ) : (
+      <IotaLookup key={lookup} id={lookup} />
+    );
+  return <SavedIotaDashboard />;
+}
+function IotaLookup({ id }: { id: string }) {
+  const { locale, t } = useLocale();
+  const entries = useMemo(() => [{ hotkey: id, label: shortId(id), addedAt: 0 }], [id]);
+  const dash = useIotaDashboard(entries, true, { persistTelemetry: false });
+  const view = dash.views[0];
+  return (
+    <main className="dashboard public-lookup">
+      <header className="topbar">
+        <h1>{onboardingCopy.lookup[locale]}</h1>
+        <a className="text-link" href={`/${locale}/devices`}>
+          {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
+        </a>
+      </header>
+      <p className="lookup-note">{onboardingCopy.lookupNote[locale]}</p>
+      <article className="device">
+        <h2>{shortId(id)}</h2>
+        <code className="lookup-id">{id}</code>
+        {view && (
+          <>
+            <p>
+              {dash.fetching && !view.miner
+                ? fleetCopy(locale).loading
+                : t(STATUS_META[view.status].label)}
+              {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
+              {view.miner ? ` · ${view.miner.throughput} tokens/s` : ""}
+            </p>
+            <div className="device-earnings">
+              <div>
+                <span>
+                  {view.earnings && !view.todayUsable ? fleetCopy(locale).lastDaily : t("今日收益")}
+                </span>
+                <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
+              </div>
+              <div>
+                <span>{t("累计收益")}</span>
+                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={dash.usdPerIota} />
+              </div>
+            </div>
+            {view.earnings && !view.earningsUsable && <p>{t("收益为旧数据")}</p>}
+            <p>
+              {formatAgo(view.statusFetchedAt, dash.now, locale)}
+              {dash.usdPerIota && dash.priceStale ? ` · ${fleetCopy(locale).quoteOlder}` : ""}
+            </p>
+          </>
+        )}
+        {dash.statusError && <p role="status">{fleetCopy(locale).refreshFailed}</p>}
+      </article>
+      <div className="lookup-actions">
+        <a className="site-button" href={`/${locale}/app?add=${encodeURIComponent(id)}`}>
+          {onboardingCopy.save[locale]}
+        </a>
+        <button
+          className="fleet-outline"
+          disabled={dash.fetching || dash.manual.running || dash.manual.cooldownRemaining > 0}
+          onClick={() => void dash.refresh()}
+        >
+          {fleetCopy(locale).refreshData}
+        </button>
+      </div>
+    </main>
   );
 }

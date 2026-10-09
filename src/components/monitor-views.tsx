@@ -1,3 +1,4 @@
+import { onboardingCopy } from "@/lib/onboarding";
 import { Layers, Monitor } from "lucide-react";
 import type { SiteLocale } from "@/lib/site";
 import { projectPath, type ProjectId } from "@/lib/projects";
@@ -80,7 +81,7 @@ export function MonitoringViews({
         title={c.deviceDescription}
       >
         <Monitor size={15} />
-        <span>{c.devices}</span>
+        <span>{onboardingCopy.devices[locale]}</span>
       </a>
     </div>
   );

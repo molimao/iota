@@ -1,3 +1,5 @@
+import { AdditionHelp } from "./onboarding";
+import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
 import { platformCopy } from "./platform-copy";
 import { editorialCopy } from "./project-editorial";
@@ -220,7 +222,13 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       <header className="fleet-heading">
         <div>
-          <h1>{tab === "plans" ? (props.plan === "pro" ? c.membership : c.plans) : c.title}</h1>
+          <h1>
+            {tab === "plans"
+              ? props.plan === "pro"
+                ? c.membership
+                : c.plans
+              : onboardingCopy.devices[locale]}
+          </h1>
           {tab === "devices" && (
             <p className="fleet-count-line">
               {props.devices.length} {c.devices} · {activeProjects} {c.projects}
@@ -228,22 +236,24 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           )}
         </div>
         {tab === "devices" ? (
-          <div className="fleet-heading-actions">
-            {props.onRefresh && (
-              <button
-                className="fleet-outline"
-                onClick={() => void props.onRefresh?.()}
-                disabled={props.refreshing}
-              >
-                <RefreshCw size={15} className={props.refreshing ? "reading-spin" : ""} />
-                {props.refreshing ? c.refreshingData : c.refreshData}
+          props.devices.length > 0 && (
+            <div className="fleet-heading-actions">
+              {props.onRefresh && (
+                <button
+                  className="fleet-outline"
+                  onClick={() => void props.onRefresh?.()}
+                  disabled={props.refreshing}
+                >
+                  <RefreshCw size={15} className={props.refreshing ? "reading-spin" : ""} />
+                  {props.refreshing ? c.refreshingData : c.refreshData}
+                </button>
+              )}
+              <button className="site-button" onClick={() => open("add")}>
+                <Plus size={17} />
+                {c.add}
               </button>
-            )}
-            <button className="site-button" onClick={() => open("add")}>
-              <Plus size={17} />
-              {c.add}
-            </button>
-          </div>
+            </div>
+          )
         ) : (
           <a className="fleet-outline" href={`/${locale}/devices`}>
             {c.devices}
@@ -258,38 +268,40 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
-          <div className="fleet-toolbar">
-            <div className="fleet-filters">
-              {[
-                "all",
-                ...FLEET_PROJECTS.filter(
-                  (p) => projectDeviceCount(props.devices, p) > 0 || p === project,
-                ),
-              ].map((p) => (
-                <button
-                  key={p}
-                  aria-pressed={project === p}
-                  onClick={() => setProject(p as FleetProject | "all")}
-                >
-                  {p === "all"
-                    ? monitorViewCopy(locale).allDevices
-                    : FLEET_NAMES[p as FleetProject]}
-                  {p !== "all" && (
-                    <span>{projectDeviceCount(props.devices, p as FleetProject)}</span>
-                  )}
-                </button>
-              ))}
+          {props.devices.length > 0 && (
+            <div className="fleet-toolbar">
+              <div className="fleet-filters">
+                {[
+                  "all",
+                  ...FLEET_PROJECTS.filter(
+                    (p) => projectDeviceCount(props.devices, p) > 0 || p === project,
+                  ),
+                ].map((p) => (
+                  <button
+                    key={p}
+                    aria-pressed={project === p}
+                    onClick={() => setProject(p as FleetProject | "all")}
+                  >
+                    {p === "all"
+                      ? monitorViewCopy(locale).allDevices
+                      : FLEET_NAMES[p as FleetProject]}
+                    {p !== "all" && (
+                      <span>{projectDeviceCount(props.devices, p as FleetProject)}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <label className="fleet-search">
+                <Search size={16} />
+                <input
+                  aria-label={c.search}
+                  placeholder={c.search}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </label>
             </div>
-            <label className="fleet-search">
-              <Search size={16} />
-              <input
-                aria-label={c.search}
-                placeholder={c.search}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </label>
-          </div>
+          )}
           <div className="fleet-cards">
             {visible.map((device) => (
               <FleetCard
@@ -317,6 +329,17 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               >
                 {props.devices.length ? c.clearFilters : c.add}
               </button>
+              {!props.devices.length && (
+                <>
+                  <a
+                    className="text-link"
+                    href={projectHelpPath(locale, props.initialProject ?? "iota")}
+                  >
+                    {onboardingCopy.idHelp[locale]} <ArrowUpRight size={14} />
+                  </a>
+                  <p className="fleet-empty-help">{monitorViewCopy(locale).deviceWorkflow}</p>
+                </>
+              )}
             </div>
           )}
         </section>
@@ -511,7 +534,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                         }
                       />
                     </label>
-                    <p className="fleet-input-note">{c.publicOnly}</p>
+                    <AdditionHelp project={selectedProject} plan={props.plan} />
+                    {!isPrivatePlatform(selectedProject) && (
+                      <p className="fleet-input-note">{c.publicOnly}</p>
+                    )}
                     {selectedProject === "xid" && (
                       <label>
                         {c.worker}
@@ -661,7 +687,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     />
                   </label>
                 )}
-                <p className="fleet-input-note">{c.publicOnly}</p>
+                <AdditionHelp project={selectedProject} plan={props.plan} />
+                {!isPrivatePlatform(selectedProject) && (
+                  <p className="fleet-input-note">{c.publicOnly}</p>
+                )}
               </>
             ) : dialog === "merge" ? (
               <label>
