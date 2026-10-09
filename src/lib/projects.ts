@@ -98,7 +98,7 @@ export const PROJECTS = {
     detail: "Distributed compute",
     token: "GLM",
     website: "https://golem.network/",
-    guide: "https://docs.golem.network/docs/providers/quickstarts/provider-quickstart",
+    guide: "https://docs.golem.network/docs/providers/provider-installation",
     explorer: "https://stats.golem.network/",
   },
 } as const;

@@ -1,0 +1,40 @@
+{
+  "apiReadAt": "2026-10-09T19:45:46.272044+08:00",
+  "source": [
+    "http://node2.gonka.ai:8000/v1/epochs/current/participants"
+  ],
+  "epoch_id": 419,
+  "participantCount": 22,
+  "participant": {
+    "index": "gonka1346p2h8dn4kp98c5e93k5q64g0h7vxjxnd55fh",
+    "weight": 1633,
+    "models": [
+      "MiniMaxAI/MiniMax-M2.7"
+    ],
+    "ml_nodes": [
+      {
+        "ml_nodes": [
+          {
+            "node_id": "node-mm",
+            "poc_weight": 2686,
+            "timeslot_allocation": [
+              true,
+              false
+            ]
+          },
+          {
+            "node_id": "node2",
+            "poc_weight": 2715,
+            "timeslot_allocation": [
+              true,
+              false
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "screenshotCapturedAt": "2026-10-09T19:49:13+08:00",
+  "sampleType": "Public network record, not a website customer record",
+  "snapshotDate": "2026-10-09"
+}

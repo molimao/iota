@@ -85,8 +85,8 @@ describe("public guide indexing", () => {
           .find((item) => item["@type"] === (section === "blog" ? "BlogPosting" : "Article"));
         expect(schema.mainEntityOfPage).toBe(url);
         expect(schema.inLanguage).toBe(LANGUAGE_TAG[locale]);
-        expect(schema.datePublished).toBe(articleDates(article).published);
-        expect(schema.dateModified).toBe(articleDates(article).modified);
+        expect(schema.datePublished).toBe(articleDates(article, locale).published);
+        expect(schema.dateModified).toBe(articleDates(article, locale).modified);
       }
     }
   });

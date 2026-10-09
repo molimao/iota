@@ -118,7 +118,7 @@ describe("multi-project content and discovery", () => {
           );
         }
         if (a.comparison) {
-          expect(article.about).toHaveLength(3);
+          expect(article.about).toHaveLength(a.slug === 'iota-xid-quantus-compared' ? 3 : 10);
           for (const row of a.comparison[locale].rows)
             for (const cell of row) expect(md).toContain(cell);
         }

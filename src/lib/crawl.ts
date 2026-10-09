@@ -1,6 +1,9 @@
 import { DISCOVERY_UPDATED, problemLinks, productQuestions } from "./product-discovery";
 import { projectEditorial } from "../components/project-editorial";
-import { articles, articleDates, type Article } from "../components/site/articles";
+import { articles, articleDates, articleProjects, type Article } from "../components/site/articles";
+import { PROJECT_CONTENT_DATES, PROJECT_INDEX_UPDATED, editionDate } from "./content-dates";
+import { discoveryCopy } from "./product-discovery";
+import { evidenceLabels } from "../components/site/core-evidence";
 import { blogPosts } from "../components/site/blog-posts";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
 import { localizeText } from "../components/site/localization";
@@ -14,6 +17,7 @@ export const LASTMOD = "2026-09-12";
 export type CrawlPage = {
   path: string;
   lastmod?: string;
+  lastmodByLocale?: Record<SiteLocale, string>;
   changefreq: "weekly" | "monthly" | "yearly";
   priority: string;
 };
@@ -34,16 +38,13 @@ function articlePriority(slug: string) {
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
   { path: "", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "1.0" },
-  ...["iota", "nosana", "gonka", "akash", "ionet", "vast", "golem"].map((id) => ({
+  ...PROJECT_IDS.map((id) => ({
     path: `projects/${id}`,
-    lastmod: DISCOVERY_UPDATED,
+    lastmod: PROJECT_CONTENT_DATES[id],
     changefreq: "weekly" as const,
     priority: "0.8",
   })),
-  { path: "projects", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
-  { path: "projects/xid", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
-  { path: "projects/flyai", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
-  { path: "projects/quantus", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
+  { path: "projects", lastmod: PROJECT_INDEX_UPDATED, changefreq: "weekly", priority: "0.8" },
   { path: "blog", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
   { path: "learn", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
@@ -54,12 +55,18 @@ export const crawlPages: CrawlPage[] = [
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
     lastmod: articleDates(article).modified,
+    lastmodByLocale: Object.fromEntries(
+      LOCALES.map((locale) => [locale, articleDates(article, locale).modified]),
+    ) as Record<SiteLocale, string>,
     changefreq: "monthly" as const,
     priority: articlePriority(article.slug),
   })),
   ...blogPosts.map((post) => ({
     path: `blog/${post.slug}`,
     lastmod: articleDates(post).modified,
+    lastmodByLocale: Object.fromEntries(
+      LOCALES.map((locale) => [locale, articleDates(post, locale).modified]),
+    ) as Record<SiteLocale, string>,
     changefreq: "monthly" as const,
     priority: "0.8",
   })),
@@ -103,7 +110,7 @@ export function buildSitemapXml(origin = ORIGIN) {
     <loc>${loc}</loc>
 ${LOCALES.map((language) => `    <xhtml:link rel="alternate" hreflang="${LANGUAGE_TAG[language]}" href="${pageUrl(language, page.path, origin)}"/>`).join("\n")}
     <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>
-    <lastmod>${locale === "zh" || locale === "en" ? (page.lastmod ?? LASTMOD) : [page.lastmod ?? LASTMOD, "2026-10-02"].sort().at(-1)}</lastmod>
+    <lastmod>${page.lastmodByLocale?.[locale] ?? editionDate(page.lastmod ?? LASTMOD, locale)}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`;
@@ -152,7 +159,9 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
   return `# IOTA Watch
 
-> IOTA Watch is an independent browser monitor for people checking multiple IOTA Train at Home devices and organizing mining or compute projects on the same machine. IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is not an IOTA Foundation Layer 1 wallet.
+> ${discoveryCopy.intro.en}
+
+IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
 IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
@@ -177,7 +186,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at ${origin}/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: ${PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ")} at ${origin}/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: ${origin}/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: ${origin}/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -185,6 +194,10 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - fly.ai Compute: ${origin}/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: ${origin}/en/devices?project=flyai.
 - Quantus / QTC: ${origin}/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Akash: ${origin}/en/projects/akash — public provider directory, lease and capacity indicators; listed GPU capacity is not lease income.
+- Golem: ${origin}/en/projects/golem — public node records and source-defined last-24-hour GLM earnings; this period is not the Hong Kong calendar day.
+- io.net: ${origin}/en/projects/ionet — sign in and connect read credentials for device details and block rewards. Real-account validation is pending.
+- Vast.ai: ${origin}/en/projects/vast — sign in and connect read credentials for host information and rental income. Real-account validation is pending.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
 - Different native currencies are not added together. Missing values remain unavailable. Unsupported prices are not invented. Wallet private keys, seed phrases and Quantus inner hashes are not inputs. Private io.net and Vast.ai lookups use encrypted read credentials tied to the account; these integrations have mocked validation, with real-account checks still pending.
 
@@ -229,10 +242,13 @@ ${LOCALES.map((locale) => `- ${LANGUAGE_TAG[locale]}: ${pageUrl(locale, `${secti
 - Published: ${dates.published}
 - Updated: ${dates.modified}
 - Publisher: IOTA Watch (independent monitor)
+- Topics: ${articleProjects(article)
+        .map((id) => PROJECTS[id].name)
+        .join(", ")}
 
 ${LOCALES.map(
   (locale) =>
-    `### ${article.title[locale]} (${LANGUAGE_TAG[locale]})\n\n${readableArticleBlocks(
+    `### ${article.title[locale]} (${LANGUAGE_TAG[locale]})\nPublished: ${articleDates(article, locale).published}\nUpdated: ${articleDates(article, locale).modified}\n\n${readableArticleBlocks(
       article,
       locale,
     )
@@ -245,9 +261,13 @@ ${article.sources?.map((source) => `- Source: ${source.name} — ${source.url}`)
 
   return `${buildLlmsTxt(origin)}
 
+## Product definitions
+
+${LOCALES.map((locale) => `### ${LANGUAGE_TAG[locale]}\n${discoveryCopy.intro[locale]}\nHome: ${pageUrl(locale, "", origin)}`).join("\n\n")}
+
 ## Project data coverage
 
-${PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\nSource: ${PROJECTS[id].guide}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
+${PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\nContent updated: ${PROJECT_CONTENT_DATES[id]}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\nSource: ${PROJECTS[id].guide}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
 ## Public project FAQ
 
 ${LOCALES.map((locale) => {
@@ -271,7 +291,7 @@ function absoluteArticleLinks(text: string, locale: SiteLocale, origin: string) 
   return text.replace(
     /\]\(\/(?!\/)([^)]+)\)/g,
     (_, path: string) =>
-      `](${origin}/${/^(zh-TW|en|zh|ko|ja)(\/|$)/.test(path) ? path : `${locale}/${path}`})`,
+      `](${origin}/${/^(zh-TW|en|zh|ko|ja|images|evidence)(\/|$)/.test(path) ? path : `${locale}/${path}`})`,
   );
 }
 
@@ -294,6 +314,21 @@ function readableArticleBlocks(article: Article, locale: SiteLocale) {
         ]
       : []),
     ...article.body[locale],
+    ...(article.evidence
+      ? [
+          "## " + evidenceLabels.heading[locale],
+          article.evidence.method[locale],
+          `![${article.evidence.caption[locale]}](${article.evidence.image})`,
+          `${article.evidence.caption[locale]} · ${article.evidence.capturedAt}`,
+          [
+            tableRow(article.evidence.headers[locale]),
+            tableRow(article.evidence.headers[locale].map(() => "---")),
+            ...article.evidence.rows[locale].map(tableRow),
+          ].join("\n"),
+          article.evidence.result[locale],
+          `[${evidenceLabels.excerpt[locale]}](${article.evidence.source})`,
+        ]
+      : []),
     ...(article.questions
       ? [
           `## ${c.questions}`,
@@ -309,7 +344,7 @@ export function buildArticleMarkdown(
   origin = ORIGIN,
   section: "learn" | "blog" = "learn",
 ) {
-  const dates = articleDates(article);
+  const dates = articleDates(article, locale);
   const url = pageUrl(locale, `${section}/${article.slug}`, origin);
   return `# ${article.title[locale]}
 
@@ -317,6 +352,9 @@ ${article.description[locale]}
 
 - Canonical: ${url}
 - Publisher: IOTA Watch
+- Topics: ${articleProjects(article)
+    .map((id) => PROJECTS[id].name)
+    .join(", ")}
 - Published: ${dates.published}
 - Updated: ${dates.modified}
 

@@ -3,6 +3,8 @@ import { QuietDetails } from "./simple-ui";
 import { useLocale } from "./site/locale";
 import { editorialCopy, projectQuestions } from "./project-editorial";
 import { PROJECTS, type ProjectId } from "@/lib/projects";
+import { PROJECT_CONTENT_DATES } from "@/lib/content-dates";
+import { evidenceLabels } from "./site/core-evidence";
 export function ProjectAbout({ project }: { project: ProjectId }) {
   const { locale } = useLocale(),
     c = editorialCopy(locale);
@@ -23,6 +25,10 @@ export function ProjectAbout({ project }: { project: ProjectId }) {
         <a href={PROJECTS[project].guide} target="_blank" rel="noreferrer">
           {c.guide} ↗
         </a>
+        <p className="article-scope">
+          {evidenceLabels.updated[locale]} ·{" "}
+          <time dateTime={PROJECT_CONTENT_DATES[project]}>{PROJECT_CONTENT_DATES[project]}</time>
+        </p>
       </div>
     </QuietDetails>
   );

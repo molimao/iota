@@ -1185,6 +1185,7 @@ export const projectGuides: Article[] = [
   {
     slug: "iota-xid-quantus-compared",
     project: "all",
+    subjects: ["iota", "xid", "quantus"],
     published: "2026-10-03",
     modified: "2026-10-03",
     title: {

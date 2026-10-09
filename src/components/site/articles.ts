@@ -4,8 +4,12 @@ import { withLocales } from "@/components/site/localization";
 import { dataGuides } from "./data-guides";
 import type { Locale } from "./locale";
 import type { ProjectId } from "@/lib/projects";
+import { PROJECT_IDS } from "@/lib/projects";
 import { projectGuides } from "./project-guides";
 import { iotaGuideAnswers } from "./iota-guide-answers";
+import { iotaEvidence, rewardChecks } from "./core-evidence";
+import { LOCALES } from "@/lib/site";
+import { editionDate } from "@/lib/content-dates";
 
 export type Article = {
   slug: string;
@@ -13,6 +17,17 @@ export type Article = {
   modified?: string;
   sources?: Array<{ name: string; url: string }>;
   project?: ProjectId | "all";
+  subjects?: ProjectId[];
+  evidence?: {
+    capturedAt: string;
+    image: string;
+    caption: Record<Locale, string>;
+    method: Record<Locale, string>;
+    headers: Record<Locale, string[]>;
+    rows: Record<Locale, string[][]>;
+    result: Record<Locale, string>;
+    source: string;
+  };
   summary?: Record<Locale, string>;
   questions?: Record<Locale, Array<{ question: string; answer: string }>>;
   keywords?: Record<Locale, string[]>;
@@ -458,17 +473,41 @@ const iotaArticles = withLocales([
 ]);
 
 export const articles: Article[] = [
-  ...iotaArticles.map((article) => ({ ...article, ...iotaGuideAnswers[article.slug] })),
+  ...iotaArticles.map((article) => ({
+    ...article,
+    ...iotaGuideAnswers[article.slug],
+    ...(article.slug === "how-rewards-work"
+      ? {
+          modified: "2026-10-09",
+          evidence: iotaEvidence,
+          body: Object.fromEntries(
+            LOCALES.map((locale) => [locale, [...article.body[locale], ...rewardChecks[locale]]]),
+          ) as Article["body"],
+        }
+      : {}),
+  })),
   ...projectGuides,
   ...computeGuides,
   ...problemGuides,
 ];
 
-export function articleDates(article: Article) {
+export function articleDates(article: Article, locale?: Locale) {
+  const published = editionDate(article.published ?? "2026-09-12", locale);
   return {
-    published: article.published ?? "2026-09-12",
-    modified: article.modified ?? "2026-09-12",
+    published,
+    modified: [
+      published,
+      editionDate(article.modified ?? article.published ?? "2026-09-12", locale),
+    ]
+      .sort()
+      .at(-1)!,
   };
+}
+
+export function articleProjects(article: Article): readonly ProjectId[] {
+  return (
+    article.subjects ?? (article.project === "all" ? PROJECT_IDS : [article.project ?? "iota"])
+  );
 }
 
 export type ArticleCluster =

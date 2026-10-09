@@ -1,0 +1,27 @@
+{
+  "apiReadAt": "2026-10-09T19:49:12.398856+08:00",
+  "source": [
+    "https://iota-web.api.macrocosmos.ai/mainnet/miners?run_id=4.12.16.15-tah",
+    "https://iota-web.api.macrocosmos.ai/mainnet/v1/entitlements/history/hotkey/5FPEE6T1TRuR88eLKePtiGuwtQDWBSWPtFuoxBniVNAspTGq",
+    "https://iota-web.api.macrocosmos.ai/mainnet/v1/entitlements/totals/hotkey/5FPEE6T1TRuR88eLKePtiGuwtQDWBSWPtFuoxBniVNAspTGq"
+  ],
+  "publicHotkey": "5FPEE6T1TRuR88eLKePtiGuwtQDWBSWPtFuoxBniVNAspTGq",
+  "accountingDayStart": 1791475200,
+  "todayRows": [
+    {
+      "alpha_amount": 6.64217856,
+      "timestamp": 1791504325,
+      "status": "settled"
+    }
+  ],
+  "totals": {
+    "total_amount_earned": 111.16934253,
+    "total_amount_paid": 111.16934253,
+    "total_amount_pending": 0,
+    "total_amount_frozen": 0,
+    "minimum_payout_amount": 0.4
+  },
+  "screenshotCapturedAt": "2026-10-09T19:55:04+08:00",
+  "sampleType": "Public network record, not a website customer record",
+  "snapshotDate": "2026-10-09"
+}

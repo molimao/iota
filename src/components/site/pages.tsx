@@ -1,4 +1,5 @@
 import { MonitoringExample } from "../onboarding";
+import { evidenceLabels } from "./core-evidence";
 import { onboardingCopy } from "@/lib/onboarding";
 import { DiscoveryQuestions } from "../discovery-questions";
 import { discoveryCopy, DISCOVERY_UPDATED } from "@/lib/product-discovery";
@@ -20,6 +21,7 @@ import { AccountAvatar, AccountMenu } from "./account-menu";
 import {
   articleClusterMeta,
   articleDates,
+  articleProjects,
   getArticle,
   relatedArticles,
   type Article,
@@ -448,7 +450,7 @@ export function ArticleView({
   related: Article[];
 }) {
   const { locale, en } = useLocale();
-  const dates = articleDates(article);
+  const dates = articleDates(article, locale);
   const guideCopy = learningCopy[locale];
   const sections = article.body[locale].flatMap((block, i) =>
     block.startsWith("## ") ? [{ title: block.slice(3), id: `section-${i}` }] : [],
@@ -464,6 +466,12 @@ export function ArticleView({
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
       <p className="article-lead">{article.description[locale]}</p>
+      <p className="article-scope">
+        {evidenceLabels.scope[locale]} ·{" "}
+        {articleProjects(article)
+          .map((id) => PROJECTS[id].name)
+          .join(" · ")}
+      </p>
       <p className="article-updated article-byline">
         IOTA Watch · {localizeValue(en ? "Published" : "发布", locale)}{" "}
         <time dateTime={dates.published}>{dates.published}</time>
@@ -531,12 +539,75 @@ export function ArticleView({
                 <a href={`#${section.id}`}>{section.title}</a>
               </li>
             ))}
+            {article.evidence && (
+              <li>
+                <a href="#observed-example">{evidenceLabels.heading[locale]}</a>
+              </li>
+            )}
           </ul>
         </nav>
       )}
       <div className="learn-body">
         <ArticleBlocks blocks={article.body[locale]} locale={locale} />
       </div>
+      {article.evidence && (
+        <section id="observed-example" className="article-evidence">
+          <h2>{evidenceLabels.heading[locale]}</h2>
+          <p>{article.evidence.method[locale]}</p>
+          <figure>
+            <a href={article.evidence.image} target="_blank" rel="noreferrer">
+              <img
+                src={article.evidence.image}
+                alt={article.evidence.caption[locale]}
+                loading="lazy"
+                width="1280"
+                height="720"
+              />
+            </a>
+            <figcaption>
+              {article.evidence.caption[locale]} ·{" "}
+              <time dateTime={article.evidence.capturedAt}>{article.evidence.capturedAt}</time>
+            </figcaption>
+          </figure>
+          <div
+            className="article-comparison"
+            role="region"
+            aria-label={article.evidence.caption[locale]}
+            tabIndex={0}
+          >
+            <table>
+              <thead>
+                <tr>
+                  {article.evidence.headers[locale].map((h) => (
+                    <th key={h} scope="col">
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {article.evidence.rows[locale].map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((v, i) =>
+                      i === 0 ? (
+                        <th scope="row" key={i}>
+                          {v}
+                        </th>
+                      ) : (
+                        <td key={i}>{v}</td>
+                      ),
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p>{article.evidence.result[locale]}</p>
+          <a className="text-link" href={article.evidence.source}>
+            {evidenceLabels.excerpt[locale]}
+          </a>
+        </section>
+      )}
       {article.questions && (
         <section id="questions" className="article-questions">
           <h2>{guideCopy.questions}</h2>

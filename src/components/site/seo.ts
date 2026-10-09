@@ -3,12 +3,12 @@ import { discoveryCopy, productQuestions, DISCOVERY_UPDATED } from "@/lib/produc
 import { planAmount } from "@/lib/billing-display";
 import { localizeValue } from "@/components/site/localization";
 import { ORIGIN, sitePath, LOCALES, LANGUAGE_TAG, OG_LOCALE } from "@/lib/site";
-import { articles, articleDates, getArticle } from "./articles";
+import { articles, articleDates, articleProjects, getArticle } from "./articles";
 import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
 import localToolsRelease from "@/lib/local-tools-release.json";
-import { projectEntity, PROJECT_IDS } from "@/lib/projects";
+import { projectEntity, PROJECT_IDS, PROJECTS } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
 import { projectsCopy } from "../projects-copy";
 
@@ -63,7 +63,7 @@ function breadcrumbs(locale: Locale, items: { name: string; path: string }[]) {
   });
 }
 
-function organizationGraph() {
+function organizationGraph(locale: Locale) {
   return {
     "@type": "Organization",
     "@id": ORG_ID,
@@ -71,8 +71,7 @@ function organizationGraph() {
     url: ORIGIN,
     logo: `${ORIGIN}/favicon.svg`,
     sameAs: ["https://github.com/molimao/iota"],
-    description:
-      "Independent read-only monitor for IOTA Train at Home, with separate xCoin (XID / MMM) and Quantus (QTC) monitors. Not an official app or wallet.",
+    description: discoveryCopy.intro[locale],
   };
 }
 
@@ -186,14 +185,13 @@ export function seo(locale: Locale, page: Page, slug?: string) {
   const keywords = article?.keywords
     ? article.keywords[locale].join(", ")
     : page === "learn" && !article
-      ? "IOTA Train at Home, xCoin XID, MMM Mac Metal Miner, Quantus QTC, project guides"
+      ? PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ") + ", project guides"
       : article
-        ? localizeValue(
-            en
-              ? `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, not IOTA cryptocurrency`
-              : `${article.title[locale]}, IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, 不是IOTA公链`,
-            locale,
-          )
+        ? [
+            article.title[locale],
+            "IOTA Watch",
+            ...articleProjects(article).map((id) => PROJECTS[id].name),
+          ].join(", ")
         : localizeValue(
             en
               ? "IOTA Train at Home, IOTA Watch, Macrocosmos, Miner ID, SN9, device monitor, not IOTA cryptocurrency, Firefly"
@@ -204,7 +202,10 @@ export function seo(locale: Locale, page: Page, slug?: string) {
   const scripts = [];
   if (page !== "app" && page !== "account") {
     scripts.push(
-      jsonLd({ "@context": "https://schema.org", "@graph": [organizationGraph(), websiteGraph()] }),
+      jsonLd({
+        "@context": "https://schema.org",
+        "@graph": [organizationGraph(locale), websiteGraph()],
+      }),
     );
   }
   scripts.push(
@@ -398,19 +399,19 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         ...(article.summary ? { abstract: article.summary[locale] } : {}),
         keywords,
         description: article.description[locale],
-        datePublished: articleDates(article).published,
-        dateModified: articleDates(article).modified,
+        datePublished: articleDates(article, locale).published,
+        dateModified: articleDates(article, locale).modified,
         ...(article.sources ? { citation: article.sources.map((source) => source.url) } : {}),
-        image: OG_IMAGE,
+        image: article.evidence ? ORIGIN + article.evidence.image : OG_IMAGE,
         inLanguage: language(locale),
         mainEntityOfPage: url,
         author: { "@id": ORG_ID },
         publisher: { "@id": ORG_ID },
         isPartOf: { "@id": WEBSITE_ID },
         about:
-          article.project === "all"
-            ? ["iota", "xid", "quantus"].map((p) => projectEntity(p as "iota" | "xid" | "quantus"))
-            : projectEntity(article.project ?? "iota"),
+          articleProjects(article).length === 1
+            ? projectEntity(articleProjects(article)[0]!)
+            : articleProjects(article).map(projectEntity),
       }),
     );
   }

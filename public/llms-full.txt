@@ -1,6 +1,8 @@
 # IOTA Watch
 
-> IOTA Watch is an independent browser monitor for people checking multiple IOTA Train at Home devices and organizing mining or compute projects on the same machine. IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is not an IOTA Foundation Layer 1 wallet.
+> Multi-project monitoring built around IOTA Train at Home. Check reported training and recorded rewards, and link other mining or compute projects to the same device.
+
+IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
 IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
@@ -25,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -33,6 +35,10 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - fly.ai Compute: https://iotahome.site/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: https://iotahome.site/en/devices?project=flyai.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Akash: https://iotahome.site/en/projects/akash — public provider directory, lease and capacity indicators; listed GPU capacity is not lease income.
+- Golem: https://iotahome.site/en/projects/golem — public node records and source-defined last-24-hour GLM earnings; this period is not the Hong Kong calendar day.
+- io.net: https://iotahome.site/en/projects/ionet — sign in and connect read credentials for device details and block rewards. Real-account validation is pending.
+- Vast.ai: https://iotahome.site/en/projects/vast — sign in and connect read credentials for host information and rental income. Real-account validation is pending.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
 - Different native currencies are not added together. Missing values remain unavailable. Unsupported prices are not invented. Wallet private keys, seed phrases and Quantus inner hashes are not inputs. Private io.net and Vast.ai lookups use encrypted read credentials tied to the account; these integrations have mocked validation, with real-account checks still pending.
 
@@ -91,6 +97,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA Train at Home monitor: Miner ID, training and rewards (en)](https://iotahome.site/en/projects/iota)
 - [IOTA Train at Home 모니터: Miner ID, 학습과 보상 (ko)](https://iotahome.site/ko/projects/iota)
 - [IOTA Train at Home監視：Miner ID・学習状態・報酬 (ja)](https://iotahome.site/ja/projects/iota)
+- [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
+- [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
+- [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
+- [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
+- [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
+- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
+- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
+- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
+- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
+- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
+- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
+- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
+- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
+- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
+- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
 - [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/projects/nosana)
 - [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/nosana)
 - [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/projects/nosana)
@@ -126,21 +147,6 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Projects (en)](https://iotahome.site/en/projects)
 - [프로젝트 (ko)](https://iotahome.site/ko/projects)
 - [プロジェクト (ja)](https://iotahome.site/ja/projects)
-- [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
-- [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
-- [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
-- [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
-- [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
-- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
-- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
-- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
-- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
-- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
-- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
-- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
-- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
-- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
-- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
 - [博客 (zh)](https://iotahome.site/zh/blog)
 - [部落格 (zh-TW)](https://iotahome.site/zh-TW/blog)
 - [Blog (en)](https://iotahome.site/en/blog)
@@ -281,41 +287,41 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
 - [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
 - [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
-- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
-- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
-- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
-- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/learn/flyai-monitor-guide)
-- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/learn/flyai-monitor-guide)
-- [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/learn/nosana-monitor-guide)
-- [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/learn/nosana-monitor-guide)
-- [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/learn/nosana-monitor-guide)
-- [Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)](https://iotahome.site/ko/learn/nosana-monitor-guide)
-- [Nosana GPUノード監視：実行中ジョブと完了記録 (ja)](https://iotahome.site/ja/learn/nosana-monitor-guide)
-- [Gonka 节点监控：轮次参与者、模型与权重 (zh)](https://iotahome.site/zh/learn/gonka-monitor-guide)
-- [Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)](https://iotahome.site/zh-TW/learn/gonka-monitor-guide)
-- [Gonka host monitor: epoch participation, models and weight (en)](https://iotahome.site/en/learn/gonka-monitor-guide)
-- [Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)](https://iotahome.site/ko/learn/gonka-monitor-guide)
-- [Gonkaホスト監視：エポック参加・モデル・重み (ja)](https://iotahome.site/ja/learn/gonka-monitor-guide)
-- [Akash 提供商监控：GPU 容量与在线状态 (zh)](https://iotahome.site/zh/learn/akash-monitor-guide)
-- [Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)](https://iotahome.site/zh-TW/learn/akash-monitor-guide)
-- [Akash provider monitor: GPU capacity and status (en)](https://iotahome.site/en/learn/akash-monitor-guide)
-- [Akash 공급자 모니터: GPU 용량과 상태 (ko)](https://iotahome.site/ko/learn/akash-monitor-guide)
-- [Akashプロバイダー監視：GPU容量と状態 (ja)](https://iotahome.site/ja/learn/akash-monitor-guide)
-- [io.net 设备监控：GPU 信息与区块奖励 (zh)](https://iotahome.site/zh/learn/ionet-monitor-guide)
-- [io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)](https://iotahome.site/zh-TW/learn/ionet-monitor-guide)
-- [io.net device monitor: GPU details and block rewards (en)](https://iotahome.site/en/learn/ionet-monitor-guide)
-- [io.net 기기 모니터: GPU 정보와 블록 보상 (ko)](https://iotahome.site/ko/learn/ionet-monitor-guide)
-- [io.netデバイス監視：GPU情報とブロック報酬 (ja)](https://iotahome.site/ja/learn/ionet-monitor-guide)
-- [Vast.ai 主机监控：GPU 设备与出租收入 (zh)](https://iotahome.site/zh/learn/vast-monitor-guide)
-- [Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)](https://iotahome.site/zh-TW/learn/vast-monitor-guide)
-- [Vast.ai host monitor: GPU machines and rental income (en)](https://iotahome.site/en/learn/vast-monitor-guide)
-- [Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)](https://iotahome.site/ko/learn/vast-monitor-guide)
-- [Vast.aiホスト監視：GPU機器とレンタル収入 (ja)](https://iotahome.site/ja/learn/vast-monitor-guide)
-- [Golem 节点监控：运行状态与 GLM 收益 (zh)](https://iotahome.site/zh/learn/golem-monitor-guide)
-- [Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)](https://iotahome.site/zh-TW/learn/golem-monitor-guide)
-- [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/learn/golem-monitor-guide)
-- [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
-- [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
+- [fly.ai 算力积分怎么看：地址、月份与份额 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
+- [fly.ai 算力積分怎麼看：地址、月份與份額 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
+- [How to read fly.ai compute points: address, month and share (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
+- [fly.ai 컴퓨팅 포인트 읽기: 주소·월·비율 (ko)](https://iotahome.site/ko/learn/flyai-monitor-guide)
+- [fly.ai計算ポイントの読み方：アドレス・月・割合 (ja)](https://iotahome.site/ja/learn/flyai-monitor-guide)
+- [Nosana 节点没有任务怎么办：地址核对与任务字段 (zh)](https://iotahome.site/zh/learn/nosana-monitor-guide)
+- [Nosana 節點沒有任務怎麼辦：地址核對與任務欄位 (zh-TW)](https://iotahome.site/zh-TW/learn/nosana-monitor-guide)
+- [Why does my Nosana node have no jobs? Address and job checks (en)](https://iotahome.site/en/learn/nosana-monitor-guide)
+- [Nosana 노드에 작업이 없는 이유: 주소와 작업 필드 확인 (ko)](https://iotahome.site/ko/learn/nosana-monitor-guide)
+- [Nosanaノードにジョブがない時：アドレスと項目を確認 (ja)](https://iotahome.site/ja/learn/nosana-monitor-guide)
+- [Gonka Host 是否参与本轮：地址、模型和权重怎么核对 (zh)](https://iotahome.site/zh/learn/gonka-monitor-guide)
+- [Gonka Host 是否參與本輪：地址、模型和權重怎麼核對 (zh-TW)](https://iotahome.site/zh-TW/learn/gonka-monitor-guide)
+- [Is my Gonka Host in this epoch? Check address, models and weight (en)](https://iotahome.site/en/learn/gonka-monitor-guide)
+- [Gonka Host가 이번 에포크에 있나요? 주소·모델·가중치 확인 (ko)](https://iotahome.site/ko/learn/gonka-monitor-guide)
+- [Gonka Hostは今期に参加している？アドレス・モデル・重みの確認 (ja)](https://iotahome.site/ja/learn/gonka-monitor-guide)
+- [Akash 提供商怎么查：地址、租约和 GPU 容量的区别 (zh)](https://iotahome.site/zh/learn/akash-monitor-guide)
+- [Akash 提供商怎麼查：地址、租約和 GPU 容量的差別 (zh-TW)](https://iotahome.site/zh-TW/learn/akash-monitor-guide)
+- [How to check an Akash provider: address, leases and GPU capacity (en)](https://iotahome.site/en/learn/akash-monitor-guide)
+- [Akash 공급자 확인: 주소·리스·GPU 용량의 차이 (ko)](https://iotahome.site/ko/learn/akash-monitor-guide)
+- [Akashプロバイダーの確認：アドレス・リース・GPU容量の違い (ja)](https://iotahome.site/ja/learn/akash-monitor-guide)
+- [io.net 设备如何连接监控：设备 ID、读取凭据与奖励 (zh)](https://iotahome.site/zh/learn/ionet-monitor-guide)
+- [io.net 設備如何連接監控：設備 ID、讀取憑證與獎勵 (zh-TW)](https://iotahome.site/zh-TW/learn/ionet-monitor-guide)
+- [How to connect an io.net device: ID, read credentials and rewards (en)](https://iotahome.site/en/learn/ionet-monitor-guide)
+- [io.net 기기 연결: ID·읽기 자격 증명·보상 확인 (ko)](https://iotahome.site/ko/learn/ionet-monitor-guide)
+- [io.netデバイスの接続：ID・読取認証・報酬の確認 (ja)](https://iotahome.site/ja/learn/ionet-monitor-guide)
+- [Vast.ai Host 收入怎么核对：Machine ID、连接与期间 (zh)](https://iotahome.site/zh/learn/vast-monitor-guide)
+- [Vast.ai Host 收入怎麼核對：Machine ID、連接與期間 (zh-TW)](https://iotahome.site/zh-TW/learn/vast-monitor-guide)
+- [How to verify Vast.ai host income: Machine ID, connection and period (en)](https://iotahome.site/en/learn/vast-monitor-guide)
+- [Vast.ai 호스트 수익 확인: Machine ID·연결·기간 (ko)](https://iotahome.site/ko/learn/vast-monitor-guide)
+- [Vast.aiホスト収入の確認：Machine ID・接続・期間 (ja)](https://iotahome.site/ja/learn/vast-monitor-guide)
+- [Golem 收益为什么对不上：节点地址与近 24 小时口径 (zh)](https://iotahome.site/zh/learn/golem-monitor-guide)
+- [Golem 收益為什麼對不上：節點地址與近 24 小時口徑 (zh-TW)](https://iotahome.site/zh-TW/learn/golem-monitor-guide)
+- [Why do Golem earnings differ? Node address and last-24-hour scope (en)](https://iotahome.site/en/learn/golem-monitor-guide)
+- [Golem 수익이 다른 이유: 노드 주소와 최근 24시간 기준 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
+- [Golem収益が合わない時：ノードアドレスと直近24時間 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
 - [多台 Mac 跑 IOTA，在哪里一起看状态和收益？ (zh)](https://iotahome.site/zh/learn/mining-monitor-for-multiple-devices)
 - [多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/mining-monitor-for-multiple-devices)
 - [Where can I check multiple Macs running IOTA together? (en)](https://iotahome.site/en/learn/mining-monitor-for-multiple-devices)
@@ -353,9 +359,32 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)](https://iotahome.site/ja/blog/iota-waiting-for-tasks)
 
 
+## Product definitions
+
+### zh-CN
+以 IOTA Train at Home 为核心的多项目监控工具。查训练状态和记账收益，也可为同一台设备关联其他挖矿或算力项目。
+Home: https://iotahome.site/zh
+
+### zh-TW
+以 IOTA Train at Home 為核心的多專案監控工具。查看訓練狀態與記帳收益，也可為同一台設備關聯其他挖礦或算力專案。
+Home: https://iotahome.site/zh-TW
+
+### en
+Multi-project monitoring built around IOTA Train at Home. Check reported training and recorded rewards, and link other mining or compute projects to the same device.
+Home: https://iotahome.site/en
+
+### ko
+IOTA Train at Home을 중심으로 여러 프로젝트를 모니터링하세요. 학습 상태와 기록된 보상을 확인하고 같은 기기에 다른 채굴·컴퓨팅 프로젝트도 연결할 수 있습니다.
+Home: https://iotahome.site/ko
+
+### ja
+IOTA Train at Homeを中心とした複数プロジェクトの監視ツール。学習状態と記帳報酬を確認し、同じデバイスに他の採掘・計算プロジェクトも関連付けられます。
+Home: https://iotahome.site/ja
+
 ## Project data coverage
 
 ### IOTA
+Content updated: 2026-10-09
 Monitor Macrocosmos IOTA Train at Home training contribution, daily recorded rewards and lifetime rewards.
 Use the full Miner ID (SS58 hotkey) from the official Miner screen, not a seed phrase or payout address.
 IOTA here is Bittensor SN9 alpha, not IOTA Layer 1. Daily rewards use Hong Kong midnight; USD is a market estimate and reported samples are not live device heartbeats.
@@ -363,6 +392,7 @@ Source: https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 Monitor: https://iotahome.site/en/projects/iota
 
 ### XID
+Content updated: 2026-10-09
 Look up MMM pool workers, reported hashrate and chain records with an xCoin mainnet address.
 Use the complete xCoin mainnet public payout address beginning xpa1r. A worker name can distinguish miners sharing an address.
 MMM is the Mac Metal Miner app; XID is the token. Visible workers cover the source pool only. Balance is not lifetime earnings, and a worker name does not prove hardware identity.
@@ -370,6 +400,7 @@ Source: https://macmetalminer.com/
 Monitor: https://iotahome.site/en/projects/xid
 
 ### Quantus
+Content updated: 2026-10-09
 View blocks and public-address QTC block rewards from the official Quantus mainnet index.
 Use the public Quantus mainnet mining Wormhole address (SS58 prefix 189), never the inner hash.
 Daily totals use Hong Kong time and indexed block rewards, not all pool transfers. Historically rewarded addresses are not online devices; missing data is not zero income.
@@ -377,6 +408,7 @@ Source: https://docs.quantus.com/guides/mining/
 Monitor: https://iotahome.site/en/projects/quantus
 
 ### fly.ai
+Content updated: 2026-10-09
 Look up fly.ai monthly compute points and share using a public ETH reward address.
 Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
 Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
@@ -384,6 +416,7 @@ Source: https://www.flyaiworld.com/compute/
 Monitor: https://iotahome.site/en/projects/flyai
 
 ### Nosana
+Content updated: 2026-10-09
 Query running and completed jobs by public Nosana node address and view GPU network job statistics.
 Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
 Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
@@ -391,6 +424,7 @@ Source: https://learn.nosana.com/
 Monitor: https://iotahome.site/en/projects/nosana
 
 ### Gonka
+Content updated: 2026-10-09
 Look up current Gonka epoch participants, public Host addresses, models and epoch weight.
 Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
 The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
@@ -398,6 +432,7 @@ Source: https://gonka.ai/docs/host/quickstart/
 Monitor: https://iotahome.site/en/projects/gonka
 
 ### Akash
+Content updated: 2026-10-09
 Provider status and GPU capacity
 Use the public provider address beginning akash1. One provider may manage multiple servers.
 Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
@@ -405,6 +440,7 @@ Source: https://akash.network/docs/providers/getting-started/
 Monitor: https://iotahome.site/en/projects/akash
 
 ### io.net
+Content updated: 2026-10-09
 GPU details and block rewards
 Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
 Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
@@ -412,6 +448,7 @@ Source: https://io.net/docs/reference/io-explorer/get-device-details
 Monitor: https://iotahome.site/en/projects/ionet
 
 ### Vast.ai
+Content updated: 2026-10-09
 Host details and rental income
 Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
 Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
@@ -419,10 +456,11 @@ Source: https://docs.vast.ai/host/hosting-overview
 Monitor: https://iotahome.site/en/projects/vast
 
 ### Golem
+Content updated: 2026-10-09
 Node status and last-24-hour earnings
 Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
 Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
-Source: https://docs.golem.network/docs/providers/quickstarts/provider-quickstart
+Source: https://docs.golem.network/docs/providers/provider-installation
 Monitor: https://iotahome.site/en/projects/golem
 ## Public project FAQ
 
@@ -927,8 +965,11 @@ SN9はBittensorサブネット 9 (IOTA Train at Home) です。報酬トーク�
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Watch 是什么？它不是 IOTA 公链钱包 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独立网页监控工具。添加公开 Miner ID 后，可在同一页面查看上报的训练状态、今日记账收益和累计收益。
 
@@ -961,6 +1002,8 @@ IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独�
 下一步：[获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)，然后打开 [我的设备](https://iotahome.site/zh/app)。
 
 ### IOTA Watch 是什麼？它不是 IOTA 公鏈錢包 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch 是針對 [IOTA Train at Home](https://iota.macrocosmos.ai/)的獨立網頁監控工具。新增公開 Miner ID 後，可在同一頁面查看上報的訓練狀態、今日記帳收益和累積收益。
 
@@ -993,6 +1036,8 @@ IOTA Watch 是針對 [IOTA Train at Home](https://iota.macrocosmos.ai/)的獨立
 下一步：[取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)，然後開啟 [我的裝置](https://iotahome.site/zh-TW/app)。
 
 ### What IOTA Watch is — not the IOTA cryptocurrency (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 IOTA Watch is an independent browser dashboard for [IOTA Train at Home](https://iota.macrocosmos.ai/). Add a public Miner ID to view reported training status, today’s accounted rewards, and lifetime rewards.
 
@@ -1025,6 +1070,8 @@ A search for “IOTA” usually means the IOTA Foundation chain. IOTA Train at H
 Next: [find your Miner ID](https://iotahome.site/en/learn/find-miner-id), then open [My devices](https://iotahome.site/en/app).
 
 ### IOTA Watch란? IOTA 암호화폐와의 차이 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch는 [IOTA Train at Home](https://iota.macrocosmos.ai/)을 위한 독립적인 웹 대시보드입니다. 공개 Miner ID를 추가하면 공식 데이터에 보고된 훈련 상태, 오늘의 기록된 보상, 누적 보상을 확인할 수 있습니다.
 
@@ -1057,6 +1104,8 @@ IOTA Foundation의 Layer 1 네트워크, IOTA 코인 지갑, Firefly와는 **다
 다음: [Miner ID](https://iotahome.site/ko/learn/find-miner-id)을 찾은 다음 [내 장치](https://iotahome.site/ko/app)를 엽니다.
 
 ### IOTA Watchとは？IOTA暗号資産との違い (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watchは[IOTA Train at Home](https://iota.macrocosmos.ai/)向けの独立したウェブダッシュボードです。公開Miner IDを追加すると、公式データに記録された学習状態、本日の報酬、累計報酬を確認できます。
 
@@ -1098,8 +1147,11 @@ IOTA FoundationのLayer 1ネットワーク、IOTAコインのウォレット、
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### 如何找到 IOTA Train at Home 的 Miner ID (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开 SS58 hotkey。它不是私钥、助记词、coldkey，也不是本站设备清单的行号。
 
@@ -1130,6 +1182,8 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开
 保存之后，可查看 [设备状态](https://iotahome.site/zh/learn/device-status) 与 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
 ### 如何找到 IOTA Train at Home 的 Miner ID (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的公開 SS58 hotkey。它不是私鑰、助記詞、coldkey，也不是本站設備清單的行號。
 
@@ -1160,6 +1214,8 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的
 儲存後，可查看 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)與 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
 ### How to find your IOTA Train at Home Miner ID (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 The Miner ID used by IOTA Watch is the public SS58 hotkey shown in the official Train at Home app. It is not a private key, seed phrase, coldkey, or a row number on this website.
 
@@ -1190,6 +1246,8 @@ Without signing in, the list stays in this browser (up to 5 devices per project 
 After it is saved, see [device statuses](https://iotahome.site/en/learn/device-status) and [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
 
 ### IOTA Train at Home의 Miner ID 찾는 방법 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개SS58hotkey입니다. 이는 개인 키, 시드 문구,coldkey또는 이 웹사이트의 행 번호가 아닙니다.
 
@@ -1220,6 +1278,8 @@ IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개
 저장한 후 [기기 상태](https://iotahome.site/ko/learn/device-status) 및 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 확인하세요.
 
 ### IOTA Train at HomeのMiner IDを確認する方法 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示される公開SS58hotkeyです。これは、秘密キー、シード フレーズ、coldkey、またはこの Web サイトの行番号ではありません。
 
@@ -1257,10 +1317,13 @@ IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示�
 - ko: https://iotahome.site/ko/learn/how-rewards-work
 - ja: https://iotahome.site/ja/learn/how-rewards-work
 - Published: 2026-09-12
-- Updated: 2026-10-03
+- Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 今日收益和累计收益怎么算 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-10-09
 
 ## 先看结论
 
@@ -1296,6 +1359,34 @@ IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出�
 
 若设备显示未在训练，请先查看 [状态含义](https://iotahome.site/zh/learn/device-status)，不宜直接视为离线。
 
+## 怎样复核同一笔收益？
+
+先从官方应用获取公开 Miner ID，在首页直接查询。读取 /v1/entitlements/history/hotkey/公开ID 的 alpha_amounts、timestamps、statuses，按同一位置组成一条记录；与当前香港自然日比较后求和。再用 totals 接口的 total_amount_earned 核对累计。
+
+## 今日为零时怎么排查？
+
+成功读到空数组或窗口内没有 pending、settled 记录，可以是零；超时、缺字段或数组长度不一致是未知。冻结记录、前一天记录和未来时间不能计入今日。状态采样、收益记账和美元报价有不同时间，先比较各自时效，再决定是否回本机检查。
+
+## 实测案例
+
+2026-10-09 从官方 /miners 的公开名单选择一个 Miner ID，分别读取 history 与 totals，再与本站公开查询页对照。只使用公开网络记录，没有使用本站账号或客户设备资料。响应读取时间与截图时间分别保存在摘录中。
+
+![IOTA 官方公开名单样本的查询结果；截图为简体中文，历史快照而非实时行情。](https://iotahome.site/images/tutorials/iota-rewards-2026-10-09.png)
+
+IOTA 官方公开名单样本的查询结果；截图为简体中文，历史快照而非实时行情。 · 2026-10-09T19:55:04+08:00
+
+| 字段 | 实测值 | 怎样解释 |
+| --- | --- | --- |
+| history.alpha_amounts | 6.64217856 IOTA | 今日窗口内的一条记录，不是每秒收益。 |
+| history.timestamps | 1791504325 | Unix 秒；在香港时间 2026-10-09 当天窗口内。 |
+| history.statuses | settled | 计入今日；pending 也计入，frozen 不计。 |
+| totals.total_amount_earned | 111.16934253 IOTA | 累计记账总额。 |
+| totals.total_amount_paid | 111.16934253 IOTA | 已支付部分，不再叠加到累计。 |
+
+该次读取的今日合计是 6.64217856 IOTA，累计仍是 111.16934253 IOTA。把 Total Paid 再加一次会重复计数。截图的“报价较早”只针对美元报价，不会把已读取的 IOTA 原币记录变成零；这里只核对账本，不推断设备硬件或后续收益。
+
+[查看响应摘录](https://iotahome.site/evidence/iota-2026-10-09.json)
+
 ## 常见问题
 
 ### 累计是否要加上已支付？
@@ -1307,6 +1398,8 @@ IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出�
 可以，新的一天使用新时间窗口；累计不会因此被清空。
 
 ### IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-09
 
 ## 先看結論
 
@@ -1342,6 +1435,34 @@ IOTA Watch 不會估算收益。它讀取官方 entitlements 記錄，並給出�
 
 若設備顯示未在訓練，請先查看 [狀態意義](https://iotahome.site/zh-TW/learn/device-status)，不宜直接視為離線。
 
+## 如何複核同一筆收益？
+
+先從官方應用取得公開 Miner ID，在首頁直接查詢。讀取 history 的 alpha_amounts、timestamps、statuses，同位置組成一筆紀錄；按香港自然日求和，再用 totals 的 total_amount_earned 核對累計。
+
+## 今日為零如何排查？
+
+成功讀到空陣列或期間沒有 pending、settled 紀錄，可以為零；逾時、缺欄位或陣列長度不同是未知。凍結、前一天和未來紀錄不計入今日。先核對狀態、記帳和美元報價各自時間，再回本機檢查。
+
+## 實測案例
+
+2026-10-09 從官方 /miners 公開名單選一個 Miner ID，讀取 history、totals 並與公開查詢頁對照。未使用本站帳戶或客戶設備資料。摘錄分別保留回應讀取及截圖時間。
+
+![IOTA 官方公開名單樣本查詢結果；截圖為簡體中文，是歷史快照而非即時行情。](https://iotahome.site/images/tutorials/iota-rewards-2026-10-09.png)
+
+IOTA 官方公開名單樣本查詢結果；截圖為簡體中文，是歷史快照而非即時行情。 · 2026-10-09T19:55:04+08:00
+
+| 欄位 | 實測值 | 如何解讀 |
+| --- | --- | --- |
+| history.alpha_amounts | 6.64217856 IOTA | 今日期間的一筆紀錄，不是每秒收益。 |
+| history.timestamps | 1791504325 | Unix 秒，位於香港時間 2026-10-09 期間。 |
+| history.statuses | settled | 計入今日；pending 也計入，frozen 不計。 |
+| totals.total_amount_earned | 111.16934253 IOTA | 累計記帳總額。 |
+| totals.total_amount_paid | 111.16934253 IOTA | 已支付部分，不再加至累計。 |
+
+此次今日合計 6.64217856 IOTA，累計仍是 111.16934253 IOTA。再加 Total Paid 會重複計數。「報價較早」只描述美元報價，不會把 IOTA 紀錄變成零；不推斷硬體或後續收益。
+
+[查看回應摘錄](https://iotahome.site/evidence/iota-2026-10-09.json)
+
 ## 常見問題
 
 ### 累計是否要加上已支付？
@@ -1353,6 +1474,8 @@ IOTA Watch 不會估算收益。它讀取官方 entitlements 記錄，並給出�
 可以，新的一天使用新的時間範圍；累計不會因此清空。
 
 ### How IOTA Train at Home daily and lifetime rewards are counted (en)
+Published: 2026-09-12
+Updated: 2026-10-09
 
 ## At a glance
 
@@ -1388,6 +1511,34 @@ If a request fails or the payload is unusable, the dashboard shows unknown — n
 
 If a device appears idle, see [status meanings](https://iotahome.site/en/learn/device-status) before treating it as offline.
 
+## Reproduce the accounting check
+
+Copy the public Miner ID from the official app and query it on the home page. Read alpha_amounts, timestamps and statuses from /v1/entitlements/history/hotkey/public-ID; positions identify each record. Sum eligible entries in the same Hong Kong day, then compare total_amount_earned from totals for lifetime.
+
+## Diagnose zero or missing daily rewards
+
+A successfully read empty array or a day with no pending/settled entries can legitimately be zero. Timeouts, missing fields or unequal array lengths are unknown. Frozen, previous-day and future records do not count today. Check the independent activity, accounting and quote clocks before inspecting the machine.
+
+## Observed example
+
+On 2026-10-09, we selected a Miner ID from the official public /miners roster, read history and totals, and compared the public lookup screen. No website customer records were used. API and screenshot timestamps are stored separately in the excerpt.
+
+![Public IOTA roster sample queried in the monitor. Screenshot in Simplified Chinese; historical snapshot, not a live quote.](https://iotahome.site/images/tutorials/iota-rewards-2026-10-09.png)
+
+Public IOTA roster sample queried in the monitor. Screenshot in Simplified Chinese; historical snapshot, not a live quote. · 2026-10-09T19:55:04+08:00
+
+| Field | Observed value | Interpretation |
+| --- | --- | --- |
+| history.alpha_amounts | 6.64217856 IOTA | One record within today’s window, not earnings per second. |
+| history.timestamps | 1791504325 | Unix seconds, inside the 2026-10-09 Hong Kong day. |
+| history.statuses | settled | Counted today; pending also counts, frozen does not. |
+| totals.total_amount_earned | 111.16934253 IOTA | Lifetime accounted total. |
+| totals.total_amount_paid | 111.16934253 IOTA | Paid portion; do not add it to earned again. |
+
+This read produced 6.64217856 IOTA for today and 111.16934253 IOTA lifetime. Adding Total Paid again would double count. The screenshot’s older-quote label concerns USD, not the recorded token amount. This ledger comparison does not establish hardware or future earnings.
+
+[Captured source excerpt](https://iotahome.site/evidence/iota-2026-10-09.json)
+
 ## Common questions
 
 ### Should paid rewards be added to lifetime earned?
@@ -1399,6 +1550,8 @@ No. Total Earned already includes completed and pending income; adding paid dupl
 Yes. A new day starts a new accounting window; this does not clear lifetime rewards.
 
 ### IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)
+Published: 2026-10-02
+Updated: 2026-10-09
 
 ## 핵심 내용
 
@@ -1434,6 +1587,34 @@ IOTA Watch는 보상을 임의로 계산하거나 예측하지 않습니다. 공
 
 기기가 유휴 상태로 보인다면 오프라인으로 판단하기 전에 [상태의 의미](https://iotahome.site/ko/learn/device-status)를 확인하세요.
 
+## 같은 보상을 재확인하기
+
+공식 앱에서 공개 Miner ID를 복사해 홈페이지에서 조회합니다. history의 alpha_amounts·timestamps·statuses에서 같은 위치를 하나의 기록으로 읽고 홍콩 일자에 맞는 항목을 합산합니다. 누적은 totals의 total_amount_earned와 비교합니다.
+
+## 오늘 0 또는 누락 확인하기
+
+성공한 빈 배열이나 오늘 pending·settled 기록 없음은 0일 수 있습니다. 시간 초과·필드 누락·배열 길이 불일치는 알 수 없음입니다. frozen·전일·미래 기록은 제외합니다. 상태·기록·가격의 개별 시각을 확인한 뒤 실기기를 점검하세요.
+
+## 실측 사례
+
+2026-10-09 공식 공개 /miners 목록의 Miner ID를 선택해 history·totals와 공개 조회 화면을 비교했습니다. 사이트 고객 기록은 사용하지 않았고 API 조회와 캡처 시각은 별도로 보관했습니다.
+
+![공식 IOTA 공개 명단 샘플의 조회 결과입니다. 화면은 간체 중국어이며 실시간 가격이 아닌 과거 스냅샷입니다.](https://iotahome.site/images/tutorials/iota-rewards-2026-10-09.png)
+
+공식 IOTA 공개 명단 샘플의 조회 결과입니다. 화면은 간체 중국어이며 실시간 가격이 아닌 과거 스냅샷입니다. · 2026-10-09T19:55:04+08:00
+
+| 필드 | 관측 값 | 해석 |
+| --- | --- | --- |
+| history.alpha_amounts | 6.64217856 IOTA | 오늘 기간의 기록 하나이며 초당 수익이 아닙니다. |
+| history.timestamps | 1791504325 | Unix 초이며 홍콩 2026-10-09 일자에 속합니다. |
+| history.statuses | settled | 오늘 합산. pending도 포함, frozen은 제외합니다. |
+| totals.total_amount_earned | 111.16934253 IOTA | 누적 기록 총액. |
+| totals.total_amount_paid | 111.16934253 IOTA | 지급 부분이며 누적에 다시 더하지 않습니다. |
+
+조회 결과 오늘은 6.64217856 IOTA, 누적은 111.16934253 IOTA입니다. Total Paid를 다시 더하면 중복됩니다. 오래된 가격 표시는 USD에 해당하며 기록된 토큰을 0으로 바꾸지 않습니다. 하드웨어나 미래 수익을 추론하지 않습니다.
+
+[응답 발췌 보기](https://iotahome.site/evidence/iota-2026-10-09.json)
+
 ## 자주 묻는 질문
 
 ### 누적 수입에 지급액을 더해야 하나요?
@@ -1445,6 +1626,8 @@ IOTA Watch는 보상을 임의로 계산하거나 예측하지 않습니다. 공
 네. 새 날짜는 새 집계 구간을 사용하며 누적 보상을 지우지는 않습니다.
 
 ### IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)
+Published: 2026-10-02
+Updated: 2026-10-09
 
 ## 要点
 
@@ -1480,6 +1663,34 @@ IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得�
 
 デバイスが待機中に見える場合は、オフラインと判断する前に[状態の見方](https://iotahome.site/ja/learn/device-status)をご確認ください。
 
+## 同じ報酬を再確認する
+
+公式アプリの公開Miner IDをホームで照会します。historyのalpha_amounts・timestamps・statusesの同じ位置を1件として読み、香港の同日内の対象記録を合算します。累計はtotalsのtotal_amount_earnedと比較します。
+
+## 今日がゼロ・未取得の場合
+
+取得成功の空配列や当日にpending・settledがない場合はゼロになり得ます。タイムアウト・項目不足・配列長の不一致は不明です。frozen・前日・未来の記録は除外します。状態・記帳・価格の別々の時刻を確認してから実機を調べます。
+
+## 実測例
+
+2026-10-09に公式公開/minersリストからMiner IDを選び、history・totalsと公開照会画面を比較しました。サイトの顧客データは使っていません。応答取得と撮影の時刻は別に記録しています。
+
+![公式IOTA公開リストのサンプル照会。画面は簡体字中国語で、ライブ価格ではなく履歴の記録です。](https://iotahome.site/images/tutorials/iota-rewards-2026-10-09.png)
+
+公式IOTA公開リストのサンプル照会。画面は簡体字中国語で、ライブ価格ではなく履歴の記録です。 · 2026-10-09T19:55:04+08:00
+
+| 項目 | 観測値 | 読み方 |
+| --- | --- | --- |
+| history.alpha_amounts | 6.64217856 IOTA | 今日の期間内の1件で、秒当たり収益ではありません。 |
+| history.timestamps | 1791504325 | Unix秒で、香港の2026-10-09の期間内です。 |
+| history.statuses | settled | 今日に算入。pendingも算入、frozenは除外します。 |
+| totals.total_amount_earned | 111.16934253 IOTA | 累計の記帳総額。 |
+| totals.total_amount_paid | 111.16934253 IOTA | 支払済み部分で、累計へ再加算しません。 |
+
+この取得では今日6.64217856 IOTA、累計111.16934253 IOTAです。Total Paidを再加算すると重複します。古い価格の表示はUSDについてで、記帳数量をゼロにするものではありません。機器仕様や将来の収益は推測しません。
+
+[取得応答の抜粋](https://iotahome.site/evidence/iota-2026-10-09.json)
+
 ## よくある質問
 
 ### 累計収入に支払済み額を足しますか？
@@ -1502,8 +1713,11 @@ IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得�
 - Published: 2026-09-12
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-10-03
 
 IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官方的**统计采样时间**，不是设备心跳，也不是本站最近一次拉取数据的时间。
 
@@ -1528,6 +1742,8 @@ IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官�
 添加设备见 [如何获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)。状态旁的数字见 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
 ### IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是官方的**統計採樣時間**，不是設備心跳，也不是本站最近一次拉取資料的時間。
 
@@ -1552,6 +1768,8 @@ IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是�
 新增設備見 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。狀態旁的數字請參考 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
 ### What IOTA Train at Home device statuses mean (en)
+Published: 2026-09-12
+Updated: 2026-10-03
 
 IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from the device, and it is not the time this website last fetched data.
 
@@ -1576,6 +1794,8 @@ If this website cannot refresh official data for more than five minutes, the das
 To add a device, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id). For the numbers beside the status, see [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
 
 ### IOTA Train at Home 기기 상태의 의미 (ko)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채굴자 타임스탬프는 공식 **통계 샘플 시간**입니다. 이는 장치의 하트비트가 아니며 이 웹사이트가 마지막으로 데이터를 가져온 시간도 아닙니다.
 
@@ -1600,6 +1820,8 @@ IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채�
 장치를 추가하려면 [Miner ID찾는 방법](https://iotahome.site/ko/learn/find-miner-id)을 참조하세요. 상태 옆의 숫자는 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 참조하세요.
 
 ### IOTA Train at Homeのデバイス状態の見方 (ja)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 IOTA Watchは、公式マイナー記録を短いステータスにマッピングします。マイナーのタイムスタンプは、公式の **統計サンプル時間** です。これはデバイスからのハートビートではなく、この Web サイトが最後にデータを取得した時間でもありません。
 
@@ -1633,8 +1855,11 @@ IOTA Watchは、公式マイナー記録を短いステータスにマッピン�
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 和 IOTA 公链有什么区别 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 搜索「IOTA」时，结果多半是 IOTA Foundation 的 Layer 1 公链。**IOTA Train at Home** 是另一项产品：Macrocosmos 在 Bittensor 生态中的训练网络。IOTA Watch 只监控后者。
 
@@ -1655,6 +1880,8 @@ IOTA Watchは、公式マイナー記録を短いステータスにマッピン�
 下一步：[获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)，了解 [SN9 / IOTA](https://iotahome.site/zh/learn/what-is-sn9-iota)，然后查看 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
 ### IOTA Train at Home 和 IOTA 公鏈有什麼區別 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 搜尋「IOTA」時，結果多半是 IOTA Foundation 的 Layer 1 公鏈。**IOTA Train at Home**是另一個產品：Macrocosmos 在 Bittensor 生態中的訓練網絡。 IOTA Watch 只監控後者。
 
@@ -1675,6 +1902,8 @@ IOTA Watchは、公式マイナー記録を短いステータスにマッピン�
 下一步：[取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)，了解 [SN9 / IOTA](https://iotahome.site/zh-TW/learn/what-is-sn9-iota)，然後查看 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
 ### IOTA Train at Home vs the IOTA cryptocurrency (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 People searching for “IOTA” usually land on the IOTA Foundation Layer 1 cryptocurrency. **IOTA Train at Home** is a different product: a Macrocosmos training network in the Bittensor ecosystem. IOTA Watch only monitors the second one.
 
@@ -1695,6 +1924,8 @@ To see whether a device is contributing and what it earned today, use [IOTA Watc
 Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what SN9 / IOTA means here](https://iotahome.site/en/learn/what-is-sn9-iota), then [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
 
 ### IOTA Train at Home과 IOTA 암호화폐의 차이 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 “IOTA”을 검색하는 사람들은 일반적으로IOTAFoundation Layer 1 암호화폐에 도달합니다. **IOTA Train at Home**는 다른 제품입니다. 즉,Bittensor생태계의Macrocosmos훈련 네트워크입니다.IOTA Watch는 두 번째 항목만 모니터링합니다.
 
@@ -1715,6 +1946,8 @@ Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what S
 다음: [Miner ID찾기](https://iotahome.site/ko/learn/find-miner-id), [여기서SN9/IOTA의 의미](https://iotahome.site/ko/learn/what-is-sn9-iota), [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work).
 
 ### IOTA Train at HomeとIOTA暗号資産の違い (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 「IOTA」を検索すると、通常、IOTAFoundation Layer 1 暗号通貨にたどり着きます。 **IOTA Train at Home** は別の製品です。Bittensorエコシステム内のMacrocosmosトレーニング ネットワークです。IOTA Watchは 2 番目のみを監視します。
 
@@ -1744,8 +1977,11 @@ Next: [find the Miner ID](https://iotahome.site/en/learn/find-miner-id), [what S
 - Published: 2026-09-12
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 收益怎么同时显示美元 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -1780,6 +2016,8 @@ IOTA Watch 的美元数字是 SN9 子网 IOTA 的公开市场估价，不是官�
 不能，它与 Train at Home 的 SN9 子网代币是不同资产。
 
 ### IOTA Train at Home 收益怎麼同時顯示美元 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -1814,6 +2052,8 @@ IOTA Watch 的美元數字是 SN9 子網 IOTA 的公開市場估價，不是官�
 不能，它與 Train at Home 的 SN9 子網代幣是不同資產。
 
 ### How IOTA Train at Home rewards are shown in USD (en)
+Published: 2026-09-12
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -1848,6 +2088,8 @@ Rewards and prices use different sources; an unavailable quote prevents a reliab
 No. It is a different asset from Train at Home’s SN9 subnet token.
 
 ### IOTA Train at Home 보상의 USD 환산 방식 (ko)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -1882,6 +2124,8 @@ USD 라인은 해당IOTA금액에Train at Home서브넷 토큰의 공개 시장 
 아니요. Train at Home의 SN9 서브넷 토큰과 다른 자산입니다.
 
 ### IOTA Train at Homeの報酬を米ドルで表示する仕組み (ja)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 ## 要点
 
@@ -1927,8 +2171,11 @@ USD 行は、そのIOTAの金額に、Train at Homeサブネット トークン�
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Watch「刷新中断」是什么意思 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 **刷新中断**出现在本站超过 5 分钟都没能成功读完官方 Train at Home 数据时。卡片会保留上一次已经拿到的数字。
 
@@ -1957,6 +2204,8 @@ USD 行は、そのIOTAの金額に、Train at Homeサブネット トークン�
 > 获取成功后，徽章应回到有贡献、等待任务或暂未参与。对照见 [设备状态含义](https://iotahome.site/zh/learn/device-status)。
 
 ### IOTA Watch「刷新中斷」是什麼意思 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 **刷新中斷**出現在本站超過 5 分鐘都沒能成功讀完官方 Train at Home 資料時。卡片會保留上一次已經拿到的數字。
 
@@ -1985,6 +2234,8 @@ USD 行は、そのIOTAの金額に、Train at Homeサブネット トークン�
 > 取得成功後，徽章應回到有貢獻、等待任務或暫未參與。對照見 [設備狀態意義](https://iotahome.site/zh-TW/learn/device-status)。
 
 ### What “refresh interrupted” means on IOTA Watch (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 **Refresh interrupted** appears when this website cannot complete a successful read of official Train at Home data for more than five minutes. The cards keep the last values that did arrive.
 
@@ -2013,6 +2264,8 @@ IOTA amounts that already loaded are the last official entitlements this site re
 > After a successful fetch, the badge should return to contributing, waiting, or not participating. Read those here: [device statuses](https://iotahome.site/en/learn/device-status).
 
 ### IOTA Watch의 새로고침 중단은 무슨 뜻인가요? (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 **새로고침이 중단되었습니다**는 이 웹사이트가 5분 이상 공식Train at Home데이터 읽기를 성공적으로 완료할 수 없을 때 나타납니다. 카드는 마지막으로 도착한 값을 유지합니다.
 
@@ -2041,6 +2294,8 @@ IOTA amounts that already loaded are the last official entitlements this site re
 > 가져오기가 성공적으로 완료되면 배지는 참여, 대기 또는 참여하지 않음 상태로 돌아가야 합니다. 여기에서 읽어보세요: [기기 상태](https://iotahome.site/ko/learn/device-status).
 
 ### IOTA Watchの「更新中断」とは？ (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 この Web サイトが公式Train at Homeデータの読み取りを 5 分以上正常に完了できない場合、**更新が中断されました** が表示されます。カードには、最後に到着した値が保持されます。
 
@@ -2078,8 +2333,11 @@ IOTA amounts that already loaded are the last official entitlements this site re
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Watch 用 Google 登录后，设备清单怎么同步 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这不是钱包登录，不需要密码、私钥或助记词。
 
@@ -2110,6 +2368,8 @@ IOTA Watch 的 Google 登录只绑定**公开 Miner ID 和设备名称**。这�
 获取 ID 见 [如何获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)。
 
 ### IOTA Watch 用 Google 登入後，裝置清單怎麼同步 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這不是錢包登錄，不需要密碼、私鑰或助記詞。
 
@@ -2140,6 +2400,8 @@ IOTA Watch 的 Google 登入只綁定**公開 Miner ID 和裝置名稱**。這�
 取得 ID 請參閱 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。
 
 ### How Google sign-in stores your IOTA Watch device list (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 Google sign-in on IOTA Watch only binds a **list of public Miner IDs and labels**. It is not a wallet login and never asks for a password, private key, or seed phrase.
 
@@ -2170,6 +2432,8 @@ Public SS58 hotkeys, labels you typed, and when you added them. Telemetry is fet
 To obtain an ID, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id).
 
 ### Google 로그인으로 IOTA Watch 기기 목록 동기화하기 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 GoogleIOTA Watch에 로그인하면 **공개Miner ID및 레이블 목록**만 바인딩됩니다. 지갑 로그인이 아니며 비밀번호, 개인 키 또는 시드 문구를 요구하지 않습니다.
 
@@ -2200,6 +2464,8 @@ GoogleIOTA Watch에 로그인하면 **공개Miner ID및 레이블 목록**만 �
 ID를 얻으려면 [Miner ID찾는 방법](https://iotahome.site/ko/learn/find-miner-id)을 참조하세요.
 
 ### GoogleログインでIOTA Watchのデバイス一覧を同期する方法 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA WatchでのGoogleサインインは、**パブリックMiner IDとラベルのリスト**のみをバインドします。これはウォレットへのログインではなく、パスワード、秘密キー、シード フレーズを要求されることはありません。
 
@@ -2239,8 +2505,11 @@ ID を取得するには、[Miner IDを検索する方法](https://iotahome.site
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### Train at Home 的 SN9 / IOTA 是什么代币 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 Train at Home 的收益单位是子网 **alpha 代币**，通常称为 IOTA 或 **SN9**。IOTA Watch 使用官方 entitlements 接口返回的同一单位。
 
@@ -2265,6 +2534,8 @@ SN9 是 Bittensor 子网 9，即 Macrocosmos 的 IOTA Train at Home。该代币�
 > IOTA Watch 不能发送、兑换或托管这种代币，只展示官方记账数量。
 
 ### Train at Home 的 SN9 / IOTA 是什麼代幣 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 Train at Home 的收益單位是子網**alpha 代幣**，通常稱為 IOTA 或**SN9**。 IOTA Watch 使用官方 entitlements 介面返回的相同單位。
 
@@ -2289,6 +2560,8 @@ SN9 是 Bittensor 子網路 9，即 Macrocosmos 的 IOTA Train at Home。該代�
 > IOTA Watch 不能發送、兌換或託管這種代幣，只展示官方記帳數量。
 
 ### What SN9 / IOTA means on Train at Home (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 Train at Home rewards are denominated in the subnet’s **alpha token**. People call it IOTA or **SN9**. IOTA Watch uses the same unit the official entitlements API returns.
 
@@ -2313,6 +2586,8 @@ Today and lifetime figures stay in official IOTA amounts. The USD line multiplie
 > IOTA Watch cannot send, swap, or custody this token. It only displays official accounted amounts.
 
 ### Train at Home의 SN9 / IOTA 토큰이란? (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 Train at Home보상은 서브넷의 **알파 토큰**으로 표시됩니다. 사람들은 그것을IOTA또는 **SN9**라고 부릅니다.IOTA Watch은 공식 자격 API가 반환하는 것과 동일한 단위를 사용합니다.
 
@@ -2337,6 +2612,8 @@ SN9은Bittensor서브넷 9 —MacrocosmosIOTA Train at Home입니다. 해당 토
 > IOTA Watch은 이 토큰을 보내거나 교환하거나 보관할 수 없습니다. 공식적으로 계산된 금액만 표시됩니다.
 
 ### Train at HomeのSN9 / IOTAトークンとは？ (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 Train at Homeの報酬は、サブネットの **アルファ トークン**で指定されます。人々はそれをIOTAまたは **SN9** と呼びます。IOTA Watchは、公式資格 API が返すのと同じ単位を使用します。
 
@@ -2370,8 +2647,11 @@ SN9は、Bittensorサブネット 9 —MacrocosmosIOTA Train at Homeです。こ
 - Published: 2026-09-12
 - Updated: 2026-09-12
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Watch 显示「尚未找到」 (zh-CN)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 **尚未找到**只会在 IOTA Watch 已经成功读完所有进行中的 Train at Home 任务名单，而且里面仍然没有这个 Miner ID 时出现。
 
@@ -2400,6 +2680,8 @@ SN9は、Bittensorサブネット 9 —MacrocosmosIOTA Train at Homeです。こ
 ID 正确且获取成功后，卡片应变成有贡献、等待任务或暂未参与。含义见 [设备状态](https://iotahome.site/zh/learn/device-status)。
 
 ### IOTA Watch 顯示“尚未找到” (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 **尚未找到**只會在 IOTA Watch 已經成功讀完所有進行中的 Train at Home 任務名單，而且裡面仍然沒有這個 Miner ID 時出現。
 
@@ -2428,6 +2710,8 @@ ID 正确且获取成功后，卡片应变成有贡献、等待任务或暂未�
 ID 正確且取得成功後，卡片應變成有貢獻、等待任務或暫未參與。意義請參閱 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)。
 
 ### IOTA Watch says the Miner ID was not found (en)
+Published: 2026-09-12
+Updated: 2026-09-12
 
 **Not found** is only used after IOTA Watch successfully reads every active Train at Home run list and still does not see this Miner ID.
 
@@ -2456,6 +2740,8 @@ Steps: [how to find your Miner ID](https://iotahome.site/en/learn/find-miner-id)
 If the ID is correct and a fetch succeeds, the card should move to contributing, waiting, or not participating. Those meanings: [device statuses](https://iotahome.site/en/learn/device-status).
 
 ### IOTA Watch에서 Miner ID를 찾을 수 없을 때 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 **찾을 수 없음**은IOTA Watch이 모든 활성Train at Home실행 목록을 성공적으로 읽은 후에만 사용되며 여전히 이Miner ID를 볼 수 없습니다.
 
@@ -2484,6 +2770,8 @@ If the ID is correct and a fetch succeeds, the card should move to contributing,
 ID가 정확하고 가져오기에 성공하면 카드는 기여, 대기 또는 참여하지 않음으로 이동해야 합니다. 해당 의미: [장치 상태](https://iotahome.site/ko/learn/device-status).
 
 ### IOTA WatchでMiner IDが見つからない場合 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 **Not found** は、IOTA WatchがすべてのアクティブなTrain at Home実行リストを正常に読み取り、それでもこのMiner IDを認識しない場合にのみ使用されます。
 
@@ -2521,8 +2809,11 @@ ID が正しく、フェッチが成功した場合、カードは貢献、待�
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Watch 数据来自哪里，多久更新一次？ (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 IOTA Watch 读取 Macrocosmos 的公开主网 API。设备状态、收益与训练统计分别记录更新时间；某一项刷新成功，不会让其他项目自动变成最新。
 
@@ -2555,6 +2846,8 @@ API 基础地址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.m
 设备数据超过 5 分钟没能成功更新，会提示读取中断。详见 [刷新中断说明](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。[全网数据不完整](https://iotahome.site/zh/learn/network-status-explained) 时会注明成功读取了多少份名单。
 
 ### IOTA Watch 數據來自哪裡，多久更新一次？ (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch 讀取 Macrocosmos 的公開主網 API。設備狀態、效益與訓練統計分別記錄更新時間；某一項刷新成功，不會讓其他項目自動變成最新。
 
@@ -2587,6 +2880,8 @@ API 基礎位址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.m
 設備資料超過 5 分鐘沒能成功更新，會提示讀取中斷。詳見 [刷新中斷說明](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)。 [全網資料不完整](https://iotahome.site/zh-TW/learn/network-status-explained)時會註明成功讀取了多少份名單。
 
 ### Where IOTA Watch data comes from and how often it refreshes (en)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 IOTA Watch reads the public Macrocosmos mainnet API. Device status, rewards and training statistics have separate update clocks; refreshing one does not make the others current.
 
@@ -2619,6 +2914,8 @@ Previous successful values remain visible with a warning and their original fetc
 A device refresh interrupted for more than five minutes is a data-read warning. See [refresh interrupted](https://iotahome.site/en/learn/what-refresh-interrupted-means). A [partial network view](https://iotahome.site/en/learn/network-status-explained) reports the number of rosters successfully read.
 
 ### IOTA Watch 데이터 출처와 갱신 주기 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watch은 공개Macrocosmos메인넷 API를 읽습니다. 장치 상태, 보상 및 훈련 통계에는 별도의 업데이트 시계가 있습니다. 하나를 새로 고쳐도 다른 것이 최신 상태가 되지는 않습니다.
 
@@ -2651,6 +2948,8 @@ API 기반은 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macroco
 5분 이상 장치 새로고침이 중단되면 데이터 읽기 경고가 나타납니다. [새로고침 중단됨](https://iotahome.site/ko/learn/what-refresh-interrupted-means)을 참조하세요. [부분 네트워크 보기](https://iotahome.site/ko/learn/network-status-explained)는 성공적으로 읽은 명단 수를 보고합니다.
 
 ### IOTA Watchのデータ取得元と更新頻度 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 IOTA Watchは、パブリックMacrocosmosメインネット API を読み取ります。デバイスのステータス、報酬、トレーニング統計には個別の更新クロックがあります。 1 つを更新しても、他のものは最新になりません。
 
@@ -2694,8 +2993,11 @@ API ベースは [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macr
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 训练历史、吞吐量与贡献率怎么看？ (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 打开已保存设备的详情，选择训练任务，再切换日、周或月。趋势图和表格展示所选范围内的官方历史采样。训练量不是代币到账金额，也不是未来收益预测。
 
@@ -2724,6 +3026,8 @@ API ベースは [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macr
 当前活动看 [设备状态](https://iotahome.site/zh/learn/device-status)，记账代币看 [收益口径](https://iotahome.site/zh/learn/how-rewards-work)。[数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness) 解释了为什么刚拉取的数据仍可能包含旧采样。
 
 ### IOTA Train at Home 訓練歷史、吞吐量與貢獻率怎麼看？ (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 開啟已儲存裝置的詳情，選擇訓練任務，再切換日、週或月。趨勢圖和表格顯示所選範圍內的官方歷史採樣。訓練量不是代幣到帳金額，也不是未來收益預測。
 
@@ -2752,6 +3056,8 @@ API ベースは [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macr
 目前活動看 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)，記帳代幣看 [收益口徑](https://iotahome.site/zh-TW/learn/how-rewards-work)。 [資料時效說明](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)解釋了為何剛拉取的資料仍可能包含舊取樣。
 
 ### How to read IOTA Train at Home training history and throughput (en)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 Open a saved device’s details, select a training run, then choose day, week or month. The chart and table show official historical samples for that selection. Training volume is not a token payout or a reward forecast.
 
@@ -2780,6 +3086,8 @@ The official API may have no samples for this Miner ID in the chosen run or peri
 For current activity, read [device status](https://iotahome.site/en/learn/device-status). For accounted tokens, read [how rewards work](https://iotahome.site/en/learn/how-rewards-work). [Data freshness](https://iotahome.site/en/learn/data-sources-and-freshness) explains why recent retrieval can still contain older samples.
 
 ### IOTA Train at Home 훈련 기록과 처리량 확인하기 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 저장된 장치의 세부 정보를 열고 훈련 실행을 선택한 다음 일, 주 또는 월을 선택하세요. 차트와 표는 해당 선택 항목에 대한 공식적인 과거 샘플을 보여줍니다. 훈련량은 토큰 지급이나 보상 예측이 아닙니다.
 
@@ -2808,6 +3116,8 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 현재 활동을 보려면 [기기 상태](https://iotahome.site/ko/learn/device-status)를 읽어보세요. 계정형 토큰의 경우 [보상 작동 방식](https://iotahome.site/ko/learn/how-rewards-work)을 읽어보세요. [데이터 최신성](https://iotahome.site/ko/learn/data-sources-and-freshness)은 최근 검색에 여전히 오래된 샘플이 포함될 수 있는 이유를 설명합니다.
 
 ### IOTA Train at Homeの学習履歴と処理量の見方 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 保存されたデバイスの詳細を開き、トレーニング実行を選択して、日、週、または月を選択します。チャートと表は、その選択の公式履歴サンプルを示しています。トレーニング量はトークンの支払いや報酬の予測ではありません。
 
@@ -2847,8 +3157,11 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 - Published: 2026-10-01
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 全网状态：名额、名单矿工与训练进度 (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-03
 
 [全网页面](https://iotahome.site/zh/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。
 
@@ -2871,6 +3184,8 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
 
 ### IOTA Train at Home 全網狀態：名額、名單礦工與訓練進度 (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 [全網頁面](https://iotahome.site/zh-TW/network)無需 Miner ID 或登錄，即可查看 IOTA Train at Home 的公開任務。它提供設備狀態的背景：有哪些任務、還剩多少名額，以及網路上報的活動狀況。
 
@@ -2893,6 +3208,8 @@ For current activity, read [device status](https://iotahome.site/en/learn/device
 在 [我的設備](https://iotahome.site/zh-TW/app)添加公開 Miner ID。設備缺失時，按 [尚未找到設備的檢查步驟](https://iotahome.site/zh-TW/learn/device-not-found)檢查。本地錯誤請開啟官方應用，全網頁面無法讀取 Mac 的本地狀態。
 
 ### IOTA Train at Home network status: slots, roster miners and training progress (en)
+Published: 2026-10-01
+Updated: 2026-10-03
 
 The [network page](https://iotahome.site/en/network) shows public IOTA Train at Home runs without requiring a Miner ID or sign-in. It gives context for your device: which runs exist, their available slots and the activity reported by the network.
 
@@ -2915,6 +3232,8 @@ Each source has its own retrieval time. Inspect [source freshness](https://iotah
 Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missing devices, follow [device not found](https://iotahome.site/en/learn/device-not-found). Open the official app for local errors; the network page cannot inspect your Mac.
 
 ### IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 [네트워크 페이지](https://iotahome.site/ko/network)에는 공개IOTA Train at Home이Miner ID또는 로그인 없이 실행되는 것으로 표시됩니다. 이는 실행 중인 장치, 사용 가능한 슬롯 및 네트워크에서 보고된 활동에 대한 컨텍스트를 제공합니다.
 
@@ -2937,6 +3256,8 @@ Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missi
 [내 장치](https://iotahome.site/ko/app)에 공개Miner ID을 추가하세요. 분실된 기기의 경우 [기기를 찾을 수 없음](https://iotahome.site/ko/learn/device-not-found)을 따르세요. 로컬 오류가 있는 경우 공식 앱을 엽니다. 네트워크 페이지에서는 Mac을 검사할 수 없습니다.
 
 ### IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)
+Published: 2026-10-02
+Updated: 2026-10-03
 
 [ネットワーク ページ](https://iotahome.site/ja/network) は、Miner IDやサインインを必要とせずにパブリックIOTA Train at Homeが実行されることを示しています。これは、デバイスのコンテキスト (どの実行が存在するか、使用可能なスロット、ネットワークによって報告されるアクティビティ) を提供します。
 
@@ -2970,8 +3291,11 @@ Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missi
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: XID
 
 ### XID / MMM 主网挖矿：Mac 设置与地址监控 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3006,6 +3330,8 @@ XID 主网收益地址以 xpa1r 开头；退役测试网的 txa1r 地址不能�
 不是。此处 MMM 是 xCoin 的矿工应用，XID 是所挖代币。
 
 ### XID / MMM 主網挖礦：Mac 設定與地址監控 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3040,6 +3366,8 @@ XID 主網收益地址以 xpa1r 開頭；退役測試網的 txa1r 地址不能�
 不是。此處 MMM 是 xCoin 的礦工應用，XID 是所挖代幣。
 
 ### XID mining with MMM: Mac mainnet setup and monitoring (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3074,6 +3402,8 @@ No. MMM mines locally; the website only reads public records.
 No. Here MMM is the xCoin miner application and XID is the token being mined.
 
 ### XID / MMM 채굴: Mac 메인넷 설정과 주소 모니터링 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3108,6 +3438,8 @@ XID 메인넷 보상 주소는 xpa1r로 시작하고 txa1r는 종료된 테스�
 아니요. 여기서 MMM은 xCoin 채굴 앱이고 XID는 채굴되는 토큰입니다.
 
 ### XID / MMMのマイニング：Macのメインネット設定と監視 (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -3154,8 +3486,11 @@ XIDメインネットの報酬アドレスはxpa1r、終了したテストネッ
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: XID
 
 ### XID / MMM 算力怎么看：Worker、份额与最近活动 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3186,6 +3521,8 @@ Worker 是来源中地址下的工作名称；份额是矿池接受的工作记�
 不能确定。Worker 是工作名称，不是硬件资产标识。
 
 ### XID / MMM 算力怎麼看：Worker、份額與最近活動 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3216,6 +3553,8 @@ Worker 是來源中地址下的工作名稱；份額是礦池接受的工作紀�
 不能確定。Worker 是工作名稱，不是硬體資產識別碼。
 
 ### XID / MMM hashrate: workers, shares and last activity (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3246,6 +3585,8 @@ Not necessarily. Check units, source time, estimation window and share activity.
 No. Workers are work labels, not hardware inventory identifiers.
 
 ### XID / MMM 해시레이트: 워커, 셰어, 최근 활동 읽기 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3276,6 +3617,8 @@ No. Workers are work labels, not hardware inventory identifiers.
 확정할 수 없습니다. 워커는 작업 이름이지 하드웨어 식별자가 아닙니다.
 
 ### XID / MMMのハッシュレート：ワーカー、シェア、最終活動 (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -3317,8 +3660,11 @@ No. Workers are work labels, not hardware inventory identifiers.
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: XID
 
 ### XID 挖矿收益与余额：奖励成熟和出块如何区分 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3353,6 +3699,8 @@ No. Workers are work labels, not hardware inventory identifiers.
 不是。条件是确认数；时间取决于实际出块速度。
 
 ### XID 挖礦收益與餘額：獎勵成熟和出塊如何區分 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3387,6 +3735,8 @@ No. Workers are work labels, not hardware inventory identifiers.
 不是。條件是確認數；時間取決於實際出塊速度。
 
 ### XID mining rewards vs balance: blocks and maturity (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3421,6 +3771,8 @@ No. Current balance and historical income are different measures.
 No. The condition is confirmations; elapsed time depends on actual block production.
 
 ### XID 채굴 보상과 잔액: 블록과 보상 성숙 구분 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3455,6 +3807,8 @@ XID 주소 카드는 원본이 제공하는 탐색기 잔액과 귀속 블록을
 아니요. 조건은 확인 수이고 시간은 실제 블록 생성 속도에 달려 있습니다.
 
 ### XIDのマイニング報酬と残高：ブロックと成熟の違い (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -3501,8 +3855,11 @@ XIDアドレスカードは元データの残高と帰属ブロックを表示�
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Quantus
 
 ### Quantus QTC 主网挖矿：Mac 节点同步与监控 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3535,6 +3892,8 @@ Quantus QTC 是工作量证明挖矿，不是 AI 训练。自建挖矿需要同�
 不会，本站只读取 Quantus 主网。
 
 ### Quantus QTC 主網挖礦：Mac 節點同步與監控 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3567,6 +3926,8 @@ Quantus QTC 是工作量證明挖礦，不是 AI 訓練。自建挖礦需要同�
 不會，本站只讀取 Quantus 主網。
 
 ### Quantus QTC mining on Mac: mainnet sync and monitoring (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3599,6 +3960,8 @@ No. Confirm mainnet sync, miner connectivity and accepted chain reward records.
 No. This monitor reads Quantus mainnet only.
 
 ### Mac에서 Quantus QTC 채굴: 메인넷 동기화와 모니터링 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3631,6 +3994,8 @@ Quantus QTC는 AI 학습이 아닌 작업증명 채굴입니다. 직접 운영�
 아니요. Quantus 메인넷만 조회합니다.
 
 ### MacでQuantus QTCをマイニング：メインネット同期と監視 (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -3675,8 +4040,11 @@ Quantus QTCはAI学習ではなくPoWマイニングです。自己運用には�
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Quantus
 
 ### Quantus Wormhole 地址：今日与累计 QTC 收益怎么查 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3709,6 +4077,8 @@ Quantus QTCはAI学習ではなくPoWマイニングです。自己運用には�
 累计统计已索引挖矿奖励，钱包余额还受到转入转出等影响。
 
 ### Quantus Wormhole 地址：今日與累計 QTC 收益怎麼查 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3741,6 +4111,8 @@ Quantus QTCはAI学習ではなくPoWマイニングです。自己運用には�
 累計統計已索引挖礦獎勵，錢包餘額還受轉入轉出等影響。
 
 ### Quantus wormhole address: check daily and lifetime QTC rewards (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3773,6 +4145,8 @@ No. Only the public reward address is used for lookup; keep the inner hash local
 Lifetime counts indexed mining rewards; wallet balance also reflects transfers and other state.
 
 ### Quantus 웜홀 주소: 오늘과 누적 QTC 보상 조회 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3805,6 +4179,8 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 누적은 인덱싱된 채굴 보상이고 지갑 잔액은 입출금 등에도 영향을 받습니다.
 
 ### Quantus Wormholeアドレス：今日と累計QTC報酬の確認 (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -3848,8 +4224,11 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Quantus
 
 ### Quantus 挖矿没有收益？先查地址、同步和奖励记录 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -3882,6 +4261,8 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 不会。本站查询出块奖励索引，矿池转账需要另查。
 
 ### Quantus 挖礦沒有收益？先查地址、同步和獎勵紀錄 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -3914,6 +4295,8 @@ Lifetime counts indexed mining rewards; wallet balance also reflects transfers a
 不會。本站查詢出塊獎勵索引，礦池轉帳需另外查詢。
 
 ### Quantus mining with no rewards: address, sync and index checks (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -3946,6 +4329,8 @@ No. Zero rewards, index delay, pool settlement and device connectivity are diffe
 No. This queries the block-reward index; pool transfers require a separate check.
 
 ### Quantus 채굴 보상이 없나요? 주소·동기화·기록 점검 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -3978,6 +4363,8 @@ No. This queries the block-reward index; pool transfers require a separate check
 아니요. 블록 보상 인덱스를 조회하므로 풀 송금은 별도로 확인해야 합니다.
 
 ### Quantusのマイニング報酬がない：アドレス・同期・記録の確認 (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -4022,8 +4409,11 @@ No. This queries the block-reward index; pool transfers require a separate check
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home：Miner ID 与收款 coldkey 的区别 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -4054,6 +4444,8 @@ IOTA Watch 监控的是每台 Train at Home 设备的公开 Miner ID（hotkey）
 不会。登录用于设备清单同步，收款在官方应用设置。
 
 ### IOTA Train at Home：Miner ID 與收款 coldkey 的差異 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -4084,6 +4476,8 @@ IOTA Watch 監控每台 Train at Home 設備的公開 Miner ID（hotkey），不
 不會。登入用於設備清單同步，收款在官方應用設定。
 
 ### IOTA Train at Home: Miner ID vs payout coldkey (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -4114,6 +4508,8 @@ The official FAQ permits the same payout address but requires distinct device ho
 No. Sign-in synchronizes the list; payouts are configured in the official app.
 
 ### IOTA Train at Home: Miner ID와 지급 coldkey 차이 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -4144,6 +4540,8 @@ IOTA 목록은 [내 기기](https://iotahome.site/ko/app)에서 확인하세요.
 아니요. 로그인은 목록 동기화에 사용하고 지급은 공식 앱에서 설정합니다.
 
 ### IOTA Train at Home：Miner IDと受取coldkeyの違い (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -4185,8 +4583,11 @@ IOTA一覧は[自分の機器](https://iotahome.site/ja/app)で確認します�
 - Published: 2026-10-03
 - Updated: 2026-10-03
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA, XID, Quantus
 
 ### Mac 上的 IOTA、XID / MMM、Quantus：训练与挖矿有什么区别 (zh-CN)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看结论
 
@@ -4225,6 +4626,8 @@ IOTA 的子网 alpha、XID 和 QTC 是不同单位。XID 浏览器余额、Quant
 不能作为同一收益单位比较。币种与统计口径不同，需要分别核对。
 
 ### Mac 上的 IOTA、XID / MMM、Quantus：訓練與挖礦有何差異 (zh-TW)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 先看結論
 
@@ -4263,6 +4666,8 @@ IOTA 子網 alpha、XID 與 QTC 是不同單位。XID 瀏覽器餘額、Quantus 
 不能當同一收益單位比較。幣種與統計口徑不同，須分別核對。
 
 ### IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## At a glance
 
@@ -4301,6 +4706,8 @@ No. Here IOTA is AI training; XID and Quantus are proof-of-work mining.
 Not as the same income unit. Currencies and accounting measures differ.
 
 ### Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 핵심 내용
 
@@ -4339,6 +4746,8 @@ Train at Home은 IOTA, xCoin MMM은 XID, Quantus 노드와 채굴기는 Quantus 
 같은 수입 단위로 비교할 수 없습니다. 통화와 집계 방식이 다릅니다.
 
 ### MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)
+Published: 2026-10-03
+Updated: 2026-10-03
 
 ## 要点
 
@@ -4383,7 +4792,7 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - Source: Quantus · official mainnet explorer — https://explorer.quantus.com/
 - Source: IOTA Watch · source and data rules — https://github.com/molimao/iota
 
-### fly.ai Compute points: ETH reward address and monthly totals
+### How to read fly.ai compute points: address, month and share
 - zh-CN: https://iotahome.site/zh/learn/flyai-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/flyai-monitor-guide
 - en: https://iotahome.site/en/learn/flyai-monitor-guide
@@ -4392,209 +4801,101 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: fly.ai
 
-### fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh-CN)
+### fly.ai 算力积分怎么看：地址、月份与份额 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-按公开 ETH 收益地址查看 fly.ai 月度算力积分及占比。
+从 fly.ai 官方算力页面复制 ETH 公开收益地址。在工具页查询后，核对来源返回的积分月份；本工具不提供历史月份切换。同一地址的多台机器共享钱包统计，不能把同一笔月度积分复制成每台机器的今日收益。
 
-按公开 ETH 收益地址查看 fly.ai 月度算力积分及占比。
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 fly.ai 数据？
+积分是来源返回月份的算力记账量；份额是该地址在来源统计中的占比。两者都不是可提现金额。成功读取时间只说明本站何时拿到数据，不是設備心跳。
 
-填写 0x 开头的公开 ETH 收益地址。登录令牌、API 密钥和钱包私钥都不是查询标识。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## fly.ai 的哪些状态和收益能查到？
-
-积分按钱包和月份汇总，不等于单台设备今日收益或可提现金额。同地址的多台设备不能重复计算这些积分。
-
-## 怎样保存多个 fly.ai 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+没有记录时，先检查地址和月份；不要據此判断设备离线。若需要单机排错，回到官方应用。
 
 [fly.ai](https://iotahome.site/zh/projects/flyai) · [监控指南](https://www.flyaiworld.com/compute/)
 
-## 常见问题
+### fly.ai 算力積分怎麼看：地址、月份與份額 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 怎样用 IOTA Watch 查看 fly.ai 数据？
+## 如何找到並查詢正確標識？
 
-填写 0x 开头的公开 ETH 收益地址。登录令牌、API 密钥和钱包私钥都不是查询标识。
+從 fly.ai 官方算力頁面複製 ETH 公開收益地址。在工具頁查詢後核對來源返回的積分月份；本工具不提供歷史月份切換。同地址多台機器共用錢包統計，不能把月度積分複製成每台設備的今日收益。
 
-### fly.ai 的哪些状态和收益能查到？
+## 結果欄位怎麼讀？
 
-积分按钱包和月份汇总，不等于单台设备今日收益或可提现金额。同地址的多台设备不能重复计算这些积分。
+積分是來源返回月份的算力記帳量；份額是該地址在來源統計中的占比。兩者都不是可提領金額，成功讀取時間也不是設備心跳。
 
-### 怎样保存多个 fly.ai 标识，方便以后查看？
+## 查不到或不一致，先檢查什麼？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-### fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)
-
-## 先看結論
-
-依公開 ETH 收益地址查看 fly.ai 月度算力積分與佔比。
-
-依公開 ETH 收益地址查看 fly.ai 月度算力積分與佔比。
-
-## 如何使用 IOTA Watch 查看 fly.ai 資料？
-
-填寫 0x 開頭的公開 ETH 收益地址。登入權杖、API 金鑰與錢包私鑰都不是查詢識別碼。
-
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## fly.ai 的哪些狀態與收益可以查詢？
-
-積分按錢包與月份彙總，不等於單台设备今日收益或可提領金額。同地址多台設備不能重複計算積分。
-
-## 如何儲存多個 fly.ai 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+沒有紀錄時先檢查地址與月份，不要據此判斷設備離線。單機排錯請回官方應用。
 
 [fly.ai](https://iotahome.site/zh-TW/projects/flyai) · [監控指南](https://www.flyaiworld.com/compute/)
 
-## 常見問題
+### How to read fly.ai compute points: address, month and share (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 如何使用 IOTA Watch 查看 fly.ai 資料？
+## Find and query the correct identifier
 
-填寫 0x 開頭的公開 ETH 收益地址。登入權杖、API 金鑰與錢包私鑰都不是查詢識別碼。
+Copy the public ETH payout address from the official compute page, query it in the tool and check the returned month. The tool has no historical-month selector. Machines sharing an address share the wallet total; do not assign that monthly total to every device as daily income.
 
-### fly.ai 的哪些狀態與收益可以查詢？
+## Read the result fields
 
-積分按錢包與月份彙總，不等於單台设备今日收益或可提領金額。同地址多台設備不能重複計算積分。
+Points describe the source’s returned month; share describes the address’s fraction in that source. Neither is withdrawable cash. Fetch time says when the website read the record, not when a machine last ran.
 
-### 如何儲存多個 fly.ai 識別碼，方便日後查看？
+## Check missing or mismatched results
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### fly.ai Compute points: ETH reward address and monthly totals (en)
-
-## At a glance
-
-Look up fly.ai monthly compute points and share using a public ETH reward address.
-
-Look up fly.ai monthly compute points and share using a public ETH reward address.
-
-## How do I check fly.ai data in IOTA Watch?
-
-Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which fly.ai activity and reward records are available?
-
-Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
-
-## How can I save several fly.ai identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+If no record appears, check both address and month before judging uptime. Use the official application for machine-level troubleshooting.
 
 [fly.ai](https://iotahome.site/en/projects/flyai) · [Monitoring guide](https://www.flyaiworld.com/compute/)
 
-## Common questions
+### fly.ai 컴퓨팅 포인트 읽기: 주소·월·비율 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### How do I check fly.ai data in IOTA Watch?
+## 올바른 식별자로 조회하기
 
-Use your public 0x ETH reward address. Login tokens, API keys and wallet private keys are not lookup identifiers.
+공식 컴퓨팅 페이지의 공개 ETH 수령 주소를 복사하고 도구에서 조회하고 반환된 월을 확인합니다. 과거 월 선택은 지원하지 않습니다. 같은 주소의 기기들은 지갑 총계를 공유하므로 월별 총계를 각 기기의 오늘 수익으로 복제하면 안 됩니다.
 
-### Which fly.ai activity and reward records are available?
+## 결과 필드 읽기
 
-Points are wallet-level monthly totals, not device daily earnings or a withdrawable balance. Do not count them again for each device sharing the wallet.
+포인트는 반환된 월의 기록이고 비율은 소스 내 주소의 점유율입니다. 둘 다 출금 가능한 현금이 아닙니다. 조회 시각은 기록을 읽은 시각이며 기기 가동 시각이 아닙니다.
 
-### How can I save several fly.ai identifiers for later?
+## 누락·불일치 확인하기
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)
-
-## 핵심 내용
-
-공개 ETH 보상 주소로 fly.ai 월간 컴퓨팅 포인트와 비중을 확인합니다.
-
-공개 ETH 보상 주소로 fly.ai 월간 컴퓨팅 포인트와 비중을 확인합니다.
-
-## IOTA Watch에서 fly.ai 데이터를 어떻게 확인하나요?
-
-0x로 시작하는 공개 ETH 보상 주소를 입력합니다. 로그인 토큰, API 키나 지갑 비밀키는 조회 식별자가 아닙니다.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## fly.ai의 어떤 상태와 보상을 조회할 수 있나요?
-
-포인트는 지갑별 월간 합계로 기기 일일 수익이나 출금 가능 잔액이 아닙니다. 동일 지갑을 사용하는 기기마다 중복 집계하면 안 됩니다.
-
-## fly.ai 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+기록이 없으면 주소와 월을 먼저 확인하세요. 기기 문제는 공식 앱에서 점검합니다.
 
 [fly.ai](https://iotahome.site/ko/projects/flyai) · [모니터링 가이드](https://www.flyaiworld.com/compute/)
 
-## 자주 묻는 질문
+### fly.ai計算ポイントの読み方：アドレス・月・割合 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### IOTA Watch에서 fly.ai 데이터를 어떻게 확인하나요?
+## 正しいIDで照会する
 
-0x로 시작하는 공개 ETH 보상 주소를 입력합니다. 로그인 토큰, API 키나 지갑 비밀키는 조회 식별자가 아닙니다.
+公式計算ページの公開ETH受取アドレスをコピーし、ツールで照会し、返された月を確認します。過去の月を選ぶ機能はありません。同じアドレスの機器はウォレット集計を共有します。月次合計を各機器の日次収益に割り当てないでください。
 
-### fly.ai의 어떤 상태와 보상을 조회할 수 있나요?
+## 結果項目を読む
 
-포인트는 지갑별 월간 합계로 기기 일일 수익이나 출금 가능 잔액이 아닙니다. 동일 지갑을 사용하는 기기마다 중복 집계하면 안 됩니다.
+ポイントは返された月の記録、割合は取得元でのアドレスの比率です。出金可能な現金ではありません。取得時刻は記録を読んだ時刻で、機器の稼働時刻ではありません。
 
-### fly.ai 식별자 여러 개를 저장하려면 어떻게 하나요?
+## 未取得・不一致を確認する
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)
-
-## 要点
-
-公開ETH報酬アドレスでfly.aiの月間計算ポイントと割合を確認します。
-
-公開ETH報酬アドレスでfly.aiの月間計算ポイントと割合を確認します。
-
-## IOTA Watchでfly.aiのデータを確認するには？
-
-0xから始まる公開ETH報酬アドレスを使います。ログイントークン、APIキー、秘密鍵は照会IDではありません。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## fly.aiのどの状態・報酬を確認できますか？
-
-ポイントはウォレット単位の月間合計で、機器の日次収益や出金可能残高ではありません。同一ウォレットの機器ごとに重複集計できません。
-
-## fly.aiの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+記録がなければアドレスと月を先に確認します。実機の調査は公式アプリで行います。
 
 [fly.ai](https://iotahome.site/ja/projects/flyai) · [監視ガイド](https://www.flyaiworld.com/compute/)
-
-## よくある質問
-
-### IOTA Watchでfly.aiのデータを確認するには？
-
-0xから始まる公開ETH報酬アドレスを使います。ログイントークン、APIキー、秘密鍵は照会IDではありません。
-
-### fly.aiのどの状態・報酬を確認できますか？
-
-ポイントはウォレット単位の月間合計で、機器の日次収益や出金可能残高ではありません。同一ウォレットの機器ごとに重複集計できません。
-
-### fly.aiの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
 - Source: fly.ai — https://www.flyaiworld.com/compute/
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 
-### Nosana GPU node monitor: running jobs and completed tasks
+### Why does my Nosana node have no jobs? Address and job checks
 - zh-CN: https://iotahome.site/zh/learn/nosana-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/nosana-monitor-guide
 - en: https://iotahome.site/en/learn/nosana-monitor-guide
@@ -4603,210 +4904,102 @@ Add a device and link the project identifier in Devices. Names organize the list
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Nosana
 
-### Nosana GPU 节点监控：任务状态与完成记录 (zh-CN)
+### Nosana 节点没有任务怎么办：地址核对与任务字段 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-用 Nosana 节点公开地址查询运行中任务与已完成任务，查看 GPU 网络任务统计。
+在官方节点页面确认节点的 Solana 公开地址，不要复制任务地址。将节点地址粘贴到 Nosana 工具页，查询后对照官方同一节点的任务记录；全网统计不能替代节点查询。
 
-用 Nosana 节点公开地址查询运行中任务与已完成任务，查看 GPU 网络任务统计。
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 Nosana 数据？
+running 是索引返回的运行中任务数；completed 是该节点的完成任务计数。任务可能跨越多个 GPU；任务数不能证明 GPU 台数，更不能换算 NOS 收益。
 
-填写 Nosana 节点的公开 Solana 地址，而不是任务地址或钱包私钥。一个钱包可能对应不同节点，请以官方节点信息核对。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## Nosana 的哪些状态和收益能查到？
-
-任务统计来自 Nosana 官方公开索引。运行中任务数不是 GPU 台数，没有任务也不等于离线。本次不将任务数量换算成 NOS 收益。
-
-## 怎样保存多个 Nosana 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+running 为 0 且查询成功，只说明索引没有运行中的任务；先在官方节点页面检查资格、连接和任务分配。请求失败显示未知，不能按 0 处理。
 
 [Nosana](https://iotahome.site/zh/projects/nosana) · [监控指南](https://learn.nosana.com/)
 
-## 常见问题
+### Nosana 節點沒有任務怎麼辦：地址核對與任務欄位 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 怎样用 IOTA Watch 查看 Nosana 数据？
+## 如何找到並查詢正確標識？
 
-填写 Nosana 节点的公开 Solana 地址，而不是任务地址或钱包私钥。一个钱包可能对应不同节点，请以官方节点信息核对。
+在官方節點頁確認 Solana 公開地址，不要複製任務地址。貼至 Nosana 工具頁，與官方同一節點任務紀錄對照；全網統計不能替代節點查詢。
 
-### Nosana 的哪些状态和收益能查到？
+## 結果欄位怎麼讀？
 
-任务统计来自 Nosana 官方公开索引。运行中任务数不是 GPU 台数，没有任务也不等于离线。本次不将任务数量换算成 NOS 收益。
+running 是索引返回的執行中任務數；completed 是節點完成任務計數。任務可跨多個 GPU，任務數不能證明 GPU 台數或換算 NOS 收益。
 
-### 怎样保存多个 Nosana 标识，方便以后查看？
+## 查不到或不一致，先檢查什麼？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-### Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)
-
-## 先看結論
-
-以 Nosana 節點公開地址查詢執行中與已完成任務，查看 GPU 網路任務統計。
-
-以 Nosana 節點公開地址查詢執行中與已完成任務，查看 GPU 網路任務統計。
-
-## 如何使用 IOTA Watch 查看 Nosana 資料？
-
-填寫 Nosana 節點的公開 Solana 地址，而非任務地址或錢包私鑰。請在官方頁核對節點身分，不假設一個錢包等於一個節點。
-
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## Nosana 的哪些狀態與收益可以查詢？
-
-任務統計來自 Nosana 官方公開索引。執行中任務數不是 GPU 台數，沒有任務不等於離線。本監控不將任務數量換算成 NOS 收益。
-
-## 如何儲存多個 Nosana 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+running 為 0 且查詢成功，只說明索引沒有執行中任務；到官方頁檢查資格、連線和分配。請求失敗是未知，不作 0 處理。
 
 [Nosana](https://iotahome.site/zh-TW/projects/nosana) · [監控指南](https://learn.nosana.com/)
 
-## 常見問題
+### Why does my Nosana node have no jobs? Address and job checks (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 如何使用 IOTA Watch 查看 Nosana 資料？
+## Find and query the correct identifier
 
-填寫 Nosana 節點的公開 Solana 地址，而非任務地址或錢包私鑰。請在官方頁核對節點身分，不假設一個錢包等於一個節點。
+Confirm the node’s public Solana address in the official node page, not a job address. Query it in the tool and compare jobs for the same node. Network-wide totals are not this node’s results.
 
-### Nosana 的哪些狀態與收益可以查詢？
+## Read the result fields
 
-任務統計來自 Nosana 官方公開索引。執行中任務數不是 GPU 台數，沒有任務不等於離線。本監控不將任務數量換算成 NOS 收益。
+running is the index’s current job count; completed is its completed-job count for the node. Jobs may span GPUs, so neither field is a hardware count or a NOS earnings amount.
 
-### 如何儲存多個 Nosana 識別碼，方便日後查看？
+## Check missing or mismatched results
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### Nosana GPU node monitor: running jobs and completed tasks (en)
-
-## At a glance
-
-Query running and completed jobs by public Nosana node address and view GPU network job statistics.
-
-Query running and completed jobs by public Nosana node address and view GPU network job statistics.
-
-## How do I check Nosana data in IOTA Watch?
-
-Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which Nosana activity and reward records are available?
-
-Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
-
-## How can I save several Nosana identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+A successful running=0 result means no indexed running jobs. Check eligibility, connection and assignment in the official node page. A failed request is unknown, not zero.
 
 [Nosana](https://iotahome.site/en/projects/nosana) · [Monitoring guide](https://learn.nosana.com/)
 
-## Common questions
+### Nosana 노드에 작업이 없는 이유: 주소와 작업 필드 확인 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### How do I check Nosana data in IOTA Watch?
+## 올바른 식별자로 조회하기
 
-Use the public Solana address of the Nosana node, not a job address or private key. Check the node identity in the official dashboard instead of assuming a wallet represents one node.
+공식 노드 페이지에서 작업 주소가 아닌 노드의 공개 Solana 주소를 확인합니다. 도구의 결과와 같은 노드의 공식 작업 기록을 비교하세요. 전체 네트워크 집계는 해당 노드의 결과가 아닙니다.
 
-### Which Nosana activity and reward records are available?
+## 결과 필드 읽기
 
-Job statistics come from the official Nosana public index. Running jobs are not a GPU count; no jobs does not mean offline. This monitor does not convert job counts into NOS earnings.
+running은 인덱스의 실행 작업 수이고 completed는 노드의 완료 작업 수입니다. 작업은 여러 GPU에 걸칠 수 있으므로 GPU 수나 NOS 수익으로 환산하지 않습니다.
 
-### How can I save several Nosana identifiers for later?
+## 누락·불일치 확인하기
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)
-
-## 핵심 내용
-
-Nosana 공개 노드 주소로 실행 중 및 완료 작업과 GPU 네트워크 작업 통계를 확인합니다.
-
-Nosana 공개 노드 주소로 실행 중 및 완료 작업과 GPU 네트워크 작업 통계를 확인합니다.
-
-## IOTA Watch에서 Nosana 데이터를 어떻게 확인하나요?
-
-작업 주소나 비밀키가 아닌 Nosana 노드의 공개 Solana 주소를 사용합니다. 지갑 하나가 노드 하나라고 가정하지 말고 공식 대시보드에서 노드 정보를 확인하세요.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## Nosana의 어떤 상태와 보상을 조회할 수 있나요?
-
-작업 통계는 Nosana 공식 공개 인덱스에서 가져옵니다. 실행 작업 수는 GPU 수가 아니며 작업 없음은 오프라인을 뜻하지 않습니다. 작업 수를 NOS 수익으로 환산하지 않습니다.
-
-## Nosana 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+성공한 running=0은 인덱스상 실행 작업이 없다는 뜻입니다. 공식 페이지에서 자격·연결·배정을 확인하세요. 요청 실패는 0이 아니라 알 수 없음입니다.
 
 [Nosana](https://iotahome.site/ko/projects/nosana) · [모니터링 가이드](https://learn.nosana.com/)
 
-## 자주 묻는 질문
+### Nosanaノードにジョブがない時：アドレスと項目を確認 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### IOTA Watch에서 Nosana 데이터를 어떻게 확인하나요?
+## 正しいIDで照会する
 
-작업 주소나 비밀키가 아닌 Nosana 노드의 공개 Solana 주소를 사용합니다. 지갑 하나가 노드 하나라고 가정하지 말고 공식 대시보드에서 노드 정보를 확인하세요.
+公式ノード画面でジョブではなくノードの公開Solanaアドレスを確認します。同じノードの公式ジョブ記録とツールを照合します。全網合計をそのノードの結果として読まないでください。
 
-### Nosana의 어떤 상태와 보상을 조회할 수 있나요?
+## 結果項目を読む
 
-작업 통계는 Nosana 공식 공개 인덱스에서 가져옵니다. 실행 작업 수는 GPU 수가 아니며 작업 없음은 오프라인을 뜻하지 않습니다. 작업 수를 NOS 수익으로 환산하지 않습니다.
+runningはインデックスの実行中ジョブ数、completedはノードの完了数です。ジョブは複数GPUを使う場合があります。GPU台数やNOS収益への換算はできません。
 
-### Nosana 식별자 여러 개를 저장하려면 어떻게 하나요?
+## 未取得・不一致を確認する
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### Nosana GPUノード監視：実行中ジョブと完了記録 (ja)
-
-## 要点
-
-Nosanaの公開ノードアドレスで実行中・完了ジョブとGPUネットワークの統計を確認します。
-
-Nosanaの公開ノードアドレスで実行中・完了ジョブとGPUネットワークの統計を確認します。
-
-## IOTA WatchでNosanaのデータを確認するには？
-
-ジョブのアドレスや秘密鍵ではなく、Nosanaノードの公開Solanaアドレスを使います。ウォレットとノードを同一視せず公式画面で確認してください。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## Nosanaのどの状態・報酬を確認できますか？
-
-ジョブ統計はNosana公式公開インデックスが出典です。実行ジョブ数はGPU台数ではなく、ジョブなしはオフラインを意味しません。ジョブ数をNOS収益に換算しません。
-
-## Nosanaの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+取得成功でrunning=0なら、索引上の実行ジョブがありません。資格・接続・割り当ては公式画面で確認します。取得失敗はゼロではなく不明です。
 
 [Nosana](https://iotahome.site/ja/projects/nosana) · [監視ガイド](https://learn.nosana.com/)
-
-## よくある質問
-
-### IOTA WatchでNosanaのデータを確認するには？
-
-ジョブのアドレスや秘密鍵ではなく、Nosanaノードの公開Solanaアドレスを使います。ウォレットとノードを同一視せず公式画面で確認してください。
-
-### Nosanaのどの状態・報酬を確認できますか？
-
-ジョブ統計はNosana公式公開インデックスが出典です。実行ジョブ数はGPU台数ではなく、ジョブなしはオフラインを意味しません。ジョブ数をNOS収益に換算しません。
-
-### Nosanaの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
 - Source: Nosana — https://learn.nosana.com/
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 - Source: Nosana API — https://api.nosana.com/api/docs
 
-### Gonka host monitor: epoch participation, models and weight
+### Is my Gonka Host in this epoch? Check address, models and weight
 - zh-CN: https://iotahome.site/zh/learn/gonka-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/gonka-monitor-guide
 - en: https://iotahome.site/en/learn/gonka-monitor-guide
@@ -4815,210 +5008,202 @@ Nosanaの公開ノードアドレスで実行中・完了ジョブとGPUネッ�
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Gonka
 
-### Gonka 节点监控：轮次参与者、模型与权重 (zh-CN)
+### Gonka Host 是否参与本轮：地址、模型和权重怎么核对 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-查询 Gonka 当前轮次参与者、公开 Host 地址、模型与轮次权重。
+在官方 Host 配置中核对 gonka1 开头的账户地址。工具页先读取 current/participants，再以完整 index 精确匹配。不要用 inference_url、validator_key 或某个 ML node 的名称替代 Host 地址。
 
-查询 Gonka 当前轮次参与者、公开 Host 地址、模型与轮次权重。
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 Gonka 数据？
+epoch_id 标识本次轮次；index 是 Host 公开地址；models 是此记录列出的模型；weight 是本轮权重。ml_nodes 中按 node_id 去重得到逻辑节点数。它们都不直接表示美元、GNK 入账或物理 GPU 台数。
 
-填写 gonka1 开头的 Host 公开账户地址，不要填写操作密钥或私钥。一个 Host 可管理多个 ML 节点。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## Gonka 的哪些状态和收益能查到？
-
-来源为官方文档列出的公开轮次接口。列入轮次不证明实时在线，权重不是 GNK 奖励；节点数也不是物理 GPU 台数。本页面不展示推测的日收益。
-
-## 怎样保存多个 Gonka 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+未列入本轮时，先核对地址，再检查官网该轮记录；这不能证明服务器实时离线。若官方接口读取失败，页面应显示未获取或旧数据。入账问题要查官方账本，不能把 weight 直接乘以代币价格。
 
 [Gonka](https://iotahome.site/zh/projects/gonka) · [监控指南](https://gonka.ai/docs/host/quickstart/)
 
-## 常见问题
+## 实测案例
 
-### 怎样用 IOTA Watch 查看 Gonka 数据？
+2026-10-09 读取官方公共节点 current/participants，从名单选取 gonka1346p…nd55fh，并在本站粘贴完整公开地址查询。截图中的轮次、权重和模型与响应一致。这是公开 Host 样本，不是本站用户的设备测试，也未测量本地 GPU。
 
-填写 gonka1 开头的 Host 公开账户地址，不要填写操作密钥或私钥。一个 Host 可管理多个 ML 节点。
+![Gonka 第 419 轮公开 Host 查询；简体中文截图，历史快照。](https://iotahome.site/images/tutorials/gonka-epoch-2026-10-09.png)
 
-### Gonka 的哪些状态和收益能查到？
+Gonka 第 419 轮公开 Host 查询；简体中文截图，历史快照。 · 2026-10-09T19:49:13+08:00
 
-来源为官方文档列出的公开轮次接口。列入轮次不证明实时在线，权重不是 GNK 奖励；节点数也不是物理 GPU 台数。本页面不展示推测的日收益。
+| 字段 | 实测值 | 怎样解释 |
+| --- | --- | --- |
+| active_participants.epoch_id | 419 | 读取时的轮次，不是固定当前值。 |
+| participants | 22 | 该轮名单中的 Host 数，不是 GPU 台数。 |
+| weight | 1633 | 该 Host 的轮次权重，不是 1633 GNK。 |
+| models | MiniMaxAI/MiniMax-M2.7 | 该记录公布的模型名。 |
+| ml_nodes → unique node_id | 2 | 两条不同逻辑节点记录，不证明两台物理设备。 |
 
-### 怎样保存多个 Gonka 标识，方便以后查看？
+该地址当时列入本轮，页面显示“本轮参与”。接口没有提供设备今日收益，所以工具保持该项不可用，没有把 1633 当作 GNK 奖励。未列入另一轮时应先核对同一轮和同一地址，再回官方节点检查。
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
+[查看响应摘录](https://iotahome.site/evidence/gonka-2026-10-09.json)
 
-### Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)
+### Gonka Host 是否參與本輪：地址、模型和權重怎麼核對 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看結論
+## 如何找到並查詢正確標識？
 
-查詢 Gonka 目前輪次參與者、公開 Host 地址、模型與輪次權重。
+在官方 Host 設定核對 gonka1 帳戶地址。工具先讀取 current/participants，再精確比對完整 index。不要用 inference_url、validator_key 或 ML node 名稱代替。
 
-查詢 Gonka 目前輪次參與者、公開 Host 地址、模型與輪次權重。
+## 結果欄位怎麼讀？
 
-## 如何使用 IOTA Watch 查看 Gonka 資料？
+epoch_id 標識輪次；index 是 Host 公開地址；models 為紀錄中的模型；weight 為本輪權重。ml_nodes 依 node_id 去重是邏輯節點數，不能直接表示美元、GNK 入帳或 GPU 台數。
 
-填寫 gonka1 開頭的 Host 公開帳戶地址，不要填寫操作金鑰或私鑰。一個 Host 可管理多個 ML 節點。
+## 查不到或不一致，先檢查什麼？
 
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## Gonka 的哪些狀態與收益可以查詢？
-
-來源是官方文件列出的公開輪次介面。列入輪次不代表即時在線，權重不是 GNK 獎勵，ML 節點也不是實體 GPU。本頁不推算日收益。
-
-## 如何儲存多個 Gonka 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+未列入本輪時先核對地址及官方輪次紀錄，不能推斷伺服器即時離線。讀取失敗是未取得或舊資料。入帳要查官方帳本，不能將 weight 乘以幣價。
 
 [Gonka](https://iotahome.site/zh-TW/projects/gonka) · [監控指南](https://gonka.ai/docs/host/quickstart/)
 
-## 常見問題
+## 實測案例
 
-### 如何使用 IOTA Watch 查看 Gonka 資料？
+2026-10-09 讀取官方公共節點 current/participants，選取 gonka1346p…nd55fh 並在本站查完整地址。輪次、權重與模型一致。這是公開 Host 樣本，不是客戶設備測試，沒有測量本機 GPU。
 
-填寫 gonka1 開頭的 Host 公開帳戶地址，不要填寫操作金鑰或私鑰。一個 Host 可管理多個 ML 節點。
+![Gonka 第 419 輪公開 Host 查詢；簡體中文截圖，歷史快照。](https://iotahome.site/images/tutorials/gonka-epoch-2026-10-09.png)
 
-### Gonka 的哪些狀態與收益可以查詢？
+Gonka 第 419 輪公開 Host 查詢；簡體中文截圖，歷史快照。 · 2026-10-09T19:49:13+08:00
 
-來源是官方文件列出的公開輪次介面。列入輪次不代表即時在線，權重不是 GNK 獎勵，ML 節點也不是實體 GPU。本頁不推算日收益。
+| 欄位 | 實測值 | 如何解讀 |
+| --- | --- | --- |
+| active_participants.epoch_id | 419 | 讀取時輪次，不是固定當前值。 |
+| participants | 22 | 本輪名單 Host 數，不是 GPU 台數。 |
+| weight | 1633 | Host 輪次權重，不是 1633 GNK。 |
+| models | MiniMaxAI/MiniMax-M2.7 | 該紀錄公布的模型名。 |
+| ml_nodes → unique node_id | 2 | 兩個不同邏輯節點，不證明兩台實體設備。 |
 
-### 如何儲存多個 Gonka 識別碼，方便日後查看？
+該地址當時列入本輪，頁面顯示「本輪參與」。介面不提供設備今日收益，因此沒有將 1633 當作 GNK 獎勵。不同輪次請先對照同輪同地址。
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
+[查看回應摘錄](https://iotahome.site/evidence/gonka-2026-10-09.json)
 
-### Gonka host monitor: epoch participation, models and weight (en)
+### Is my Gonka Host in this epoch? Check address, models and weight (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## At a glance
+## Find and query the correct identifier
 
-Look up current Gonka epoch participants, public Host addresses, models and epoch weight.
+Confirm the gonka1 Host account address in your official configuration. The tool reads current/participants and matches the complete index. An inference_url, validator_key or ML node name is not a substitute for the Host address.
 
-Look up current Gonka epoch participants, public Host addresses, models and epoch weight.
+## Read the result fields
 
-## How do I check Gonka data in IOTA Watch?
+epoch_id identifies the epoch; index is the Host public address; models lists the record’s models; weight is its epoch weight. Deduplicated node_id values in ml_nodes count logical nodes, not physical GPUs. None is a USD or credited-GNK amount.
 
-Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
+## Check missing or mismatched results
 
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which Gonka activity and reward records are available?
-
-The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
-
-## How can I save several Gonka identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+If absent, check the address and the same epoch in the official record; absence is not live-uptime evidence. A failed read is unavailable or stale. Check the official ledger for credited rewards rather than multiplying weight by a token price.
 
 [Gonka](https://iotahome.site/en/projects/gonka) · [Monitoring guide](https://gonka.ai/docs/host/quickstart/)
 
-## Common questions
+## Observed example
 
-### How do I check Gonka data in IOTA Watch?
+On 2026-10-09 we read the official public node’s current/participants, selected gonka1346p…nd55fh, and queried its full address in the monitor. Epoch, weight and models matched. This is a public Host record, not a customer device or a local GPU benchmark.
 
-Use the public Host account address beginning gonka1, never an operational or private key. One Host may manage several ML nodes.
+![Public Gonka Host lookup in epoch 419. Simplified Chinese screenshot; historical snapshot.](https://iotahome.site/images/tutorials/gonka-epoch-2026-10-09.png)
 
-### Which Gonka activity and reward records are available?
+Public Gonka Host lookup in epoch 419. Simplified Chinese screenshot; historical snapshot. · 2026-10-09T19:49:13+08:00
 
-The source is the public epoch API listed in official documentation. Epoch membership is not live uptime; weight is not a GNK reward and ML nodes are not physical GPUs. No daily earnings are inferred.
+| Field | Observed value | Interpretation |
+| --- | --- | --- |
+| active_participants.epoch_id | 419 | Epoch at capture, not a permanently current value. |
+| participants | 22 | Hosts in that epoch’s roster, not GPU count. |
+| weight | 1633 | This Host’s epoch weight, not 1633 GNK. |
+| models | MiniMaxAI/MiniMax-M2.7 | Model name published in the record. |
+| ml_nodes → unique node_id | 2 | Two distinct logical nodes, not proof of two physical devices. |
 
-### How can I save several Gonka identifiers for later?
+The address was listed, so the monitor showed participation. This endpoint has no device daily-earnings field; the tool did not treat 1633 as GNK rewards. For a missing result, compare the same address and epoch before checking the official node.
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
+[Captured source excerpt](https://iotahome.site/evidence/gonka-2026-10-09.json)
 
-### Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)
+### Gonka Host가 이번 에포크에 있나요? 주소·모델·가중치 확인 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 핵심 내용
+## 올바른 식별자로 조회하기
 
-현재 Gonka 에포크 참여자, 공개 Host 주소, 모델과 에포크 가중치를 조회합니다.
+공식 설정에서 gonka1 Host 계정 주소를 확인합니다. 도구는 current/participants의 전체 index를 정확히 비교합니다. inference_url, validator_key, ML node 이름은 Host 주소가 아닙니다.
 
-현재 Gonka 에포크 참여자, 공개 Host 주소, 모델과 에포크 가중치를 조회합니다.
+## 결과 필드 읽기
 
-## IOTA Watch에서 Gonka 데이터를 어떻게 확인하나요?
+epoch_id는 에포크, index는 Host 공개 주소, models는 등록 모델, weight는 에포크 가중치입니다. ml_nodes의 고유 node_id는 논리 노드 수이며 물리 GPU 수가 아닙니다. USD나 입금 GNK 금액도 아닙니다.
 
-gonka1로 시작하는 Host 공개 계정 주소를 사용합니다. 운영 키나 비밀키를 입력하지 마세요. Host 하나가 여러 ML 노드를 관리할 수 있습니다.
+## 누락·불일치 확인하기
 
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## Gonka의 어떤 상태와 보상을 조회할 수 있나요?
-
-공식 문서의 공개 에포크 API를 사용합니다. 에포크 포함은 실시간 가동 확인이 아니고 가중치는 GNK 보상이 아니며 ML 노드는 물리 GPU 수가 아닙니다. 일일 수익을 추정하지 않습니다.
-
-## Gonka 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+목록에 없으면 주소와 같은 에포크의 공식 기록을 확인하세요. 실시간 오프라인 증거는 아닙니다. 읽기 실패는 미조회 또는 오래된 데이터입니다. 입금은 공식 원장을 확인하며 weight에 토큰 가격을 곱하지 않습니다.
 
 [Gonka](https://iotahome.site/ko/projects/gonka) · [모니터링 가이드](https://gonka.ai/docs/host/quickstart/)
 
-## 자주 묻는 질문
+## 실측 사례
 
-### IOTA Watch에서 Gonka 데이터를 어떻게 확인하나요?
+2026-10-09 공식 공개 노드의 current/participants에서 gonka1346p…nd55fh를 선택해 전체 주소로 조회했습니다. 에포크·가중치·모델이 일치했습니다. 고객 기기나 로컬 GPU 벤치마크가 아닌 공개 Host 기록입니다.
 
-gonka1로 시작하는 Host 공개 계정 주소를 사용합니다. 운영 키나 비밀키를 입력하지 마세요. Host 하나가 여러 ML 노드를 관리할 수 있습니다.
+![Gonka 에포크 419의 공개 Host 조회. 간체 중국어 화면의 과거 스냅샷입니다.](https://iotahome.site/images/tutorials/gonka-epoch-2026-10-09.png)
 
-### Gonka의 어떤 상태와 보상을 조회할 수 있나요?
+Gonka 에포크 419의 공개 Host 조회. 간체 중국어 화면의 과거 스냅샷입니다. · 2026-10-09T19:49:13+08:00
 
-공식 문서의 공개 에포크 API를 사용합니다. 에포크 포함은 실시간 가동 확인이 아니고 가중치는 GNK 보상이 아니며 ML 노드는 물리 GPU 수가 아닙니다. 일일 수익을 추정하지 않습니다.
+| 필드 | 관측 값 | 해석 |
+| --- | --- | --- |
+| active_participants.epoch_id | 419 | 캡처 당시 에포크이며 영구적인 현재 값이 아닙니다. |
+| participants | 22 | 에포크 Host 명단 수이며 GPU 수가 아닙니다. |
+| weight | 1633 | Host 에포크 가중치이며 1633 GNK가 아닙니다. |
+| models | MiniMaxAI/MiniMax-M2.7 | 기록에 공개된 모델 이름. |
+| ml_nodes → unique node_id | 2 | 서로 다른 논리 노드 2개이며 물리 기기 2대의 증거가 아닙니다. |
 
-### Gonka 식별자 여러 개를 저장하려면 어떻게 하나요?
+주소가 명단에 있어 참여로 표시됐습니다. 이 API에는 기기 일일 수익이 없어 1633을 GNK 보상으로 사용하지 않았습니다. 누락 시 같은 주소와 에포크를 먼저 비교하세요.
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
+[응답 발췌 보기](https://iotahome.site/evidence/gonka-2026-10-09.json)
 
-### Gonkaホスト監視：エポック参加・モデル・重み (ja)
+### Gonka Hostは今期に参加している？アドレス・モデル・重みの確認 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 要点
+## 正しいIDで照会する
 
-Gonkaの現在のエポック参加者、公開Hostアドレス、モデルと重みを照会します。
+公式設定のgonka1 Hostアドレスを確認します。ツールはcurrent/participantsの完全なindexを照合します。inference_url、validator_key、ML node名はHostアドレスの代わりにはなりません。
 
-Gonkaの現在のエポック参加者、公開Hostアドレス、モデルと重みを照会します。
+## 結果項目を読む
 
-## IOTA WatchでGonkaのデータを確認するには？
+epoch_idは期、indexはHost公開アドレス、modelsは登録モデル、weightは期の重みです。ml_nodesの重複を除いたnode_idは論理ノード数で、GPU台数ではありません。USDや入金GNKの額でもありません。
 
-gonka1から始まるHost公開アカウントアドレスを使い、運用キーや秘密鍵は入力しません。1つのHostが複数のMLノードを管理できます。
+## 未取得・不一致を確認する
 
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## Gonkaのどの状態・報酬を確認できますか？
-
-公式文書掲載の公開エポックAPIを使います。参加はリアルタイム稼働の証明ではなく、重みはGNK報酬ではなく、MLノード数はGPU台数ではありません。日次収益は推測しません。
-
-## Gonkaの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+記載がなければアドレスと公式の同じ期を確認します。リアルタイムのオフライン判定にはなりません。取得失敗は不明か古いデータです。入金は公式台帳で確認し、weightにトークン価格を掛けないでください。
 
 [Gonka](https://iotahome.site/ja/projects/gonka) · [監視ガイド](https://gonka.ai/docs/host/quickstart/)
 
-## よくある質問
+## 実測例
 
-### IOTA WatchでGonkaのデータを確認するには？
+2026-10-09に公式公開ノードのcurrent/participantsからgonka1346p…nd55fhを選び、完全なアドレスで照会しました。期・重み・モデルが一致しました。顧客機器や実機GPUの測定ではなく、公開Host記録です。
 
-gonka1から始まるHost公開アカウントアドレスを使い、運用キーや秘密鍵は入力しません。1つのHostが複数のMLノードを管理できます。
+![Gonka第419期の公開Host照会。簡体字中国語の履歴スクリーンショットです。](https://iotahome.site/images/tutorials/gonka-epoch-2026-10-09.png)
 
-### Gonkaのどの状態・報酬を確認できますか？
+Gonka第419期の公開Host照会。簡体字中国語の履歴スクリーンショットです。 · 2026-10-09T19:49:13+08:00
 
-公式文書掲載の公開エポックAPIを使います。参加はリアルタイム稼働の証明ではなく、重みはGNK報酬ではなく、MLノード数はGPU台数ではありません。日次収益は推測しません。
+| 項目 | 観測値 | 読み方 |
+| --- | --- | --- |
+| active_participants.epoch_id | 419 | 取得時の期で、現在値として固定しません。 |
+| participants | 22 | その期のHost数で、GPU台数ではありません。 |
+| weight | 1633 | Hostの期の重みで、1633 GNKではありません。 |
+| models | MiniMaxAI/MiniMax-M2.7 | 記録で公開されたモデル名。 |
+| ml_nodes → unique node_id | 2 | 論理ノード2つで、実機2台の証明ではありません。 |
 
-### Gonkaの複数のIDを保存するには？
+アドレスが名簿にあり参加と表示されました。APIに機器の日次収益はなく、1633をGNK報酬には使いません。記載がなければ同じアドレス・期を先に比較します。
 
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
+[取得応答の抜粋](https://iotahome.site/evidence/gonka-2026-10-09.json)
 - Source: Gonka — https://gonka.ai/docs/host/quickstart/
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 - Source: Gonka Network Node API — https://gonka.ai/docs/host/network-node-api/
 
-### Akash provider monitor: GPU capacity and status
+### How to check an Akash provider: address, leases and GPU capacity
 - zh-CN: https://iotahome.site/zh/learn/akash-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/akash-monitor-guide
 - en: https://iotahome.site/en/learn/akash-monitor-guide
@@ -5027,209 +5212,101 @@ gonka1から始まるHost公開アカウントアドレスを使い、運用キ�
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Akash
 
-### Akash 提供商监控：GPU 容量与在线状态 (zh-CN)
+### Akash 提供商怎么查：地址、租约和 GPU 容量的区别 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-提供商状态与 GPU 容量
+从 Akash 官方提供商目录复制完整公开地址。在工具页查询同一地址，并回到官方 Console 核对提供商与租约。租用者的钱包、部署编号和提供商地址不是同一种标识。
 
-提供商状态与 GPU 容量
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 Akash 数据？
+目录状态反映来源记录；租约指标表示服务活动；GPU 容量描述上报资源。容量不能证明实时利用率，租约数量也不能换算成 AKT 或美元收入。
 
-填写 akash1 开头的公开提供商地址。一个提供商可能管理多台服务器。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## Akash 的哪些状态和收益能查到？
-
-数据来自 Akash 官方索引，显示来源报告状态、GPU 容量和分配量。这是提供商范围，不等于单台设备。本次不从标价或容量推算收益。
-
-## 怎样保存多个 Akash 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+查不到时确认是提供商地址，检查官方目录是否覆盖该提供商；要查实际结算收入，使用官方租约与付款记录。
 
 [Akash](https://iotahome.site/zh/projects/akash) · [监控指南](https://akash.network/docs/providers/getting-started/)
 
-## 常见问题
+### Akash 提供商怎麼查：地址、租約和 GPU 容量的差別 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 怎样用 IOTA Watch 查看 Akash 数据？
+## 如何找到並查詢正確標識？
 
-填写 akash1 开头的公开提供商地址。一个提供商可能管理多台服务器。
+由 Akash 官方提供商目錄複製完整公開地址，查詢後回 Console 對照提供商與租約。租用者錢包、部署編號和提供商地址並非同一標識。
 
-### Akash 的哪些状态和收益能查到？
+## 結果欄位怎麼讀？
 
-数据来自 Akash 官方索引，显示来源报告状态、GPU 容量和分配量。这是提供商范围，不等于单台设备。本次不从标价或容量推算收益。
+目錄狀態反映來源紀錄；租約指標是服務活動；GPU 容量描述上報資源。容量不證明即時使用率，租約數不能換算 AKT 或美元收入。
 
-### 怎样保存多个 Akash 标识，方便以后查看？
+## 查不到或不一致，先檢查什麼？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-### Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)
-
-## 先看結論
-
-供應商狀態與 GPU 容量
-
-供應商狀態與 GPU 容量
-
-## 如何使用 IOTA Watch 查看 Akash 資料？
-
-填寫 akash1 開頭的公開供應商地址。一個供應商可能管理多台伺服器。
-
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## Akash 的哪些狀態與收益可以查詢？
-
-資料來自 Akash 官方索引，呈現回報狀態、GPU 容量及分配量。這是供應商範圍，並非單台設備。本次不從標價或容量推算收益。
-
-## 如何儲存多個 Akash 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+查不到時確認提供商地址與官方目錄覆蓋範圍；實際結算收入請查官方租約和付款紀錄。
 
 [Akash](https://iotahome.site/zh-TW/projects/akash) · [監控指南](https://akash.network/docs/providers/getting-started/)
 
-## 常見問題
+### How to check an Akash provider: address, leases and GPU capacity (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 如何使用 IOTA Watch 查看 Akash 資料？
+## Find and query the correct identifier
 
-填寫 akash1 開頭的公開供應商地址。一個供應商可能管理多台伺服器。
+Copy the complete provider public address from the official directory. Query the same address and compare the provider and leases in Console. Tenant wallets and deployment IDs are different identifiers.
 
-### Akash 的哪些狀態與收益可以查詢？
+## Read the result fields
 
-資料來自 Akash 官方索引，呈現回報狀態、GPU 容量及分配量。這是供應商範圍，並非單台設備。本次不從標價或容量推算收益。
+Directory status describes the source record, lease indicators describe service activity and GPU capacity describes reported resources. Capacity is not utilization, and a lease count is not an AKT or USD amount.
 
-### 如何儲存多個 Akash 識別碼，方便日後查看？
+## Check missing or mismatched results
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### Akash provider monitor: GPU capacity and status (en)
-
-## At a glance
-
-Provider status and GPU capacity
-
-Provider status and GPU capacity
-
-## How do I check Akash data in IOTA Watch?
-
-Use the public provider address beginning akash1. One provider may manage multiple servers.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which Akash activity and reward records are available?
-
-Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
-
-## How can I save several Akash identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+If missing, confirm the provider address and directory coverage. Use official lease and payment records for settled income.
 
 [Akash](https://iotahome.site/en/projects/akash) · [Monitoring guide](https://akash.network/docs/providers/getting-started/)
 
-## Common questions
+### Akash 공급자 확인: 주소·리스·GPU 용량의 차이 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### How do I check Akash data in IOTA Watch?
+## 올바른 식별자로 조회하기
 
-Use the public provider address beginning akash1. One provider may manage multiple servers.
+공식 디렉터리의 공급자 공개 주소를 복사합니다. Console에서 같은 공급자와 리스를 비교하세요. 임차인 지갑이나 배포 ID와 공급자 주소는 다릅니다.
 
-### Which Akash activity and reward records are available?
+## 결과 필드 읽기
 
-Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.
+디렉터리 상태는 소스 기록, 리스는 서비스 활동, GPU 용량은 보고된 자원입니다. 용량은 가동률이 아니며 리스 수를 AKT나 USD로 환산할 수 없습니다.
 
-### How can I save several Akash identifiers for later?
+## 누락·불일치 확인하기
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### Akash 공급자 모니터: GPU 용량과 상태 (ko)
-
-## 핵심 내용
-
-공급자 상태와 GPU 용량
-
-공급자 상태와 GPU 용량
-
-## IOTA Watch에서 Akash 데이터를 어떻게 확인하나요?
-
-akash1로 시작하는 공개 공급자 주소를 입력하세요. 공급자 하나가 여러 서버를 관리할 수 있습니다.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## Akash의 어떤 상태와 보상을 조회할 수 있나요?
-
-Akash 공식 인덱스의 보고 상태, GPU 용량과 할당량입니다. 단일 기기가 아닌 공급자 전체 수치이며 가격이나 용량으로 수익을 추정하지 않습니다.
-
-## Akash 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+없으면 공급자 주소와 디렉터리 범위를 확인하세요. 정산 수익은 공식 리스·결제 기록에서 확인합니다.
 
 [Akash](https://iotahome.site/ko/projects/akash) · [모니터링 가이드](https://akash.network/docs/providers/getting-started/)
 
-## 자주 묻는 질문
+### Akashプロバイダーの確認：アドレス・リース・GPU容量の違い (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### IOTA Watch에서 Akash 데이터를 어떻게 확인하나요?
+## 正しいIDで照会する
 
-akash1로 시작하는 공개 공급자 주소를 입력하세요. 공급자 하나가 여러 서버를 관리할 수 있습니다.
+公式ディレクトリのプロバイダー公開アドレスをコピーします。Consoleの同じプロバイダーとリースを照合します。借り手のウォレットやデプロイIDとは別の識別子です。
 
-### Akash의 어떤 상태와 보상을 조회할 수 있나요?
+## 結果項目を読む
 
-Akash 공식 인덱스의 보고 상태, GPU 용량과 할당량입니다. 단일 기기가 아닌 공급자 전체 수치이며 가격이나 용량으로 수익을 추정하지 않습니다.
+ディレクトリ状態は取得元の記録、リースはサービス活動、GPU容量は報告リソースです。容量は利用率ではなく、リース数はAKTやUSDの金額ではありません。
 
-### Akash 식별자 여러 개를 저장하려면 어떻게 하나요?
+## 未取得・不一致を確認する
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### Akashプロバイダー監視：GPU容量と状態 (ja)
-
-## 要点
-
-プロバイダーの状態とGPU容量
-
-プロバイダーの状態とGPU容量
-
-## IOTA WatchでAkashのデータを確認するには？
-
-akash1で始まる公開プロバイダーアドレスを入力します。1つのプロバイダーが複数サーバーを管理する場合があります。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## Akashのどの状態・報酬を確認できますか？
-
-Akash公式インデックスの報告状態、GPU容量、割り当て量です。単一機器ではなくプロバイダー全体の値で、価格や容量から収益を推定しません。
-
-## Akashの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+見つからなければ提供者アドレスとディレクトリ範囲を確認します。確定収益は公式リース・決済記録を参照します。
 
 [Akash](https://iotahome.site/ja/projects/akash) · [監視ガイド](https://akash.network/docs/providers/getting-started/)
-
-## よくある質問
-
-### IOTA WatchでAkashのデータを確認するには？
-
-akash1で始まる公開プロバイダーアドレスを入力します。1つのプロバイダーが複数サーバーを管理する場合があります。
-
-### Akashのどの状態・報酬を確認できますか？
-
-Akash公式インデックスの報告状態、GPU容量、割り当て量です。単一機器ではなくプロバイダー全体の値で、価格や容量から収益を推定しません。
-
-### Akashの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
 - Source: Akash — https://akash.network/docs/providers/getting-started/
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 
-### io.net device monitor: GPU details and block rewards
+### How to connect an io.net device: ID, read credentials and rewards
 - zh-CN: https://iotahome.site/zh/learn/ionet-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/ionet-monitor-guide
 - en: https://iotahome.site/en/learn/ionet-monitor-guide
@@ -5238,209 +5315,101 @@ Akash公式インデックスの報告状態、GPU容量、割り当て量です
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: io.net
 
-### io.net 设备监控：GPU 信息与区块奖励 (zh-CN)
+### io.net 设备如何连接监控：设备 ID、读取凭据与奖励 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-GPU 信息与区块奖励
+先登录 IOTA Watch，在项目页填写官方控制台的设备 ID，再通过下方连接表单验证并保存平台读取凭据。设备 ID 本身不授予私有数据访问；不要在项目申请表、评论或公开地址输入框提交密钥。
 
-GPU 信息与区块奖励
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 io.net 数据？
+设备信息描述平台记录的硬件和状态；奖励有自己的区块与周期。状态成功不代表奖励读取也成功。未连接或授权失败时显示未获取；模拟通过不等于已验证真实收益。
 
-填写官方 Device ID，并连接 IO Explorer 的访问令牌。不要填写钱包私钥。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## io.net 的哪些状态和收益能查到？
-
-查询硬件信息和当日 UTC 区块奖励。区块奖励不包含所有租用收入；过去在线率和任务记录不能证明实时在线。令牌过期后需重新连接。
-
-## 怎样保存多个 io.net 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+若连接失败，到官方账户核对凭据权限与设备归属；不尝试扩大读取权限来掩盖缺失。本站目前缺少真实账户验证样本，不承诺已完成真实收益联调。
 
 [io.net](https://iotahome.site/zh/projects/ionet) · [监控指南](https://io.net/docs/reference/io-explorer/get-device-details)
 
-## 常见问题
+### io.net 設備如何連接監控：設備 ID、讀取憑證與獎勵 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 怎样用 IOTA Watch 查看 io.net 数据？
+## 如何找到並查詢正確標識？
 
-填写官方 Device ID，并连接 IO Explorer 的访问令牌。不要填写钱包私钥。
+先登入 IOTA Watch，在專案頁填官方控制台的設備 ID，再以下方連接表單驗證並儲存讀取憑證。ID 本身不授予私有資料存取，不要把密鑰貼到申請表或公開地址欄位。
 
-### io.net 的哪些状态和收益能查到？
+## 結果欄位怎麼讀？
 
-查询硬件信息和当日 UTC 区块奖励。区块奖励不包含所有租用收入；过去在线率和任务记录不能证明实时在线。令牌过期后需重新连接。
+設備資料描述平台硬體與狀態，獎勵有各自區塊和期間。狀態成功不代表獎勵也成功。未連接或授權失敗是未取得，模擬通過不代表實際收益已驗證。
 
-### 怎样保存多个 io.net 标识，方便以后查看？
+## 查不到或不一致，先檢查什麼？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-### io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)
-
-## 先看結論
-
-GPU 資訊與區塊獎勵
-
-GPU 資訊與區塊獎勵
-
-## 如何使用 IOTA Watch 查看 io.net 資料？
-
-填寫官方 Device ID，並連接 IO Explorer 存取權杖。不要填寫錢包私鑰。
-
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## io.net 的哪些狀態與收益可以查詢？
-
-查詢硬體資訊與 UTC 當日區塊獎勵。區塊獎勵不包含所有租用收入；歷史在線率及任務不證明即時在線。權杖失效後需重新連接。
-
-## 如何儲存多個 io.net 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+連接失敗時到官方帳戶核對權限與設備歸屬。本站沒有真實帳戶驗證樣本，不能宣稱已完成真實收益聯調。
 
 [io.net](https://iotahome.site/zh-TW/projects/ionet) · [監控指南](https://io.net/docs/reference/io-explorer/get-device-details)
 
-## 常見問題
+### How to connect an io.net device: ID, read credentials and rewards (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 如何使用 IOTA Watch 查看 io.net 資料？
+## Find and query the correct identifier
 
-填寫官方 Device ID，並連接 IO Explorer 存取權杖。不要填寫錢包私鑰。
+Sign in to IOTA Watch, enter the official device ID on the project page, then validate and save read credentials through its connection form. A device ID alone does not authorize private data. Do not put credentials in requests, comments or public-address fields.
 
-### io.net 的哪些狀態與收益可以查詢？
+## Read the result fields
 
-查詢硬體資訊與 UTC 當日區塊獎勵。區塊獎勵不包含所有租用收入；歷史在線率及任務不證明即時在線。權杖失效後需重新連接。
+Device details describe the platform’s hardware and status; rewards have their own block and period. A successful status read does not prove a reward read succeeded. Missing authorization is unavailable. Mock checks do not verify actual earnings.
 
-### 如何儲存多個 io.net 識別碼，方便日後查看？
+## Check missing or mismatched results
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### io.net device monitor: GPU details and block rewards (en)
-
-## At a glance
-
-GPU details and block rewards
-
-GPU details and block rewards
-
-## How do I check io.net data in IOTA Watch?
-
-Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which io.net activity and reward records are available?
-
-Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
-
-## How can I save several io.net identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+Check credential permissions and device ownership in the official account after a connection failure. There is currently no real-account validation sample for this integration.
 
 [io.net](https://iotahome.site/en/projects/ionet) · [Monitoring guide](https://io.net/docs/reference/io-explorer/get-device-details)
 
-## Common questions
+### io.net 기기 연결: ID·읽기 자격 증명·보상 확인 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### How do I check io.net data in IOTA Watch?
+## 올바른 식별자로 조회하기
 
-Use the official Device ID and connect an IO Explorer access token. Never use a wallet private key.
+IOTA Watch에 로그인하고 프로젝트 페이지에 공식 기기 ID를 입력한 후 아래 연결 양식에서 읽기 자격 증명을 검증하고 저장하세요. ID만으로 비공개 데이터 권한이 생기지 않습니다. 키를 요청 양식·댓글·공개 주소란에 입력하지 마세요.
 
-### Which io.net activity and reward records are available?
+## 결과 필드 읽기
 
-Queries hardware and UTC-day block rewards. Block rewards do not include all rental income. Historical uptime and jobs do not prove current connectivity. Reconnect when the token expires.
+기기 정보는 플랫폼의 하드웨어·상태이며 보상은 별도의 블록·기간 데이터입니다. 상태 조회 성공이 보상 조회 성공을 보장하지 않습니다. 미연결·권한 실패는 미조회이며 모의 검증은 실제 수익 검증이 아닙니다.
 
-### How can I save several io.net identifiers for later?
+## 누락·불일치 확인하기
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### io.net 기기 모니터: GPU 정보와 블록 보상 (ko)
-
-## 핵심 내용
-
-GPU 정보와 블록 보상
-
-GPU 정보와 블록 보상
-
-## IOTA Watch에서 io.net 데이터를 어떻게 확인하나요?
-
-공식 Device ID와 IO Explorer 액세스 토큰을 사용합니다. 지갑 비밀키는 입력하지 마세요.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## io.net의 어떤 상태와 보상을 조회할 수 있나요?
-
-하드웨어와 UTC 당일 블록 보상을 조회합니다. 블록 보상이 모든 임대 수입을 포함하지는 않습니다. 과거 가동률과 작업 기록은 현재 연결 상태의 증거가 아닙니다. 토큰 만료 시 다시 연결하세요.
-
-## io.net 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+연결 실패 시 공식 계정에서 권한과 기기 소유를 확인하세요. 현재 이 연결의 실제 계정 검증 샘플은 없습니다.
 
 [io.net](https://iotahome.site/ko/projects/ionet) · [모니터링 가이드](https://io.net/docs/reference/io-explorer/get-device-details)
 
-## 자주 묻는 질문
+### io.netデバイスの接続：ID・読取認証・報酬の確認 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### IOTA Watch에서 io.net 데이터를 어떻게 확인하나요?
+## 正しいIDで照会する
 
-공식 Device ID와 IO Explorer 액세스 토큰을 사용합니다. 지갑 비밀키는 입력하지 마세요.
+IOTA Watchにログインし、プロジェクト画面に公式デバイスIDを入力し、下の接続フォームで読取認証を検証・保存します。IDだけでは非公開データへの権限は得られません。キーを要望欄や公開アドレス欄に入力しないでください。
 
-### io.net의 어떤 상태와 보상을 조회할 수 있나요?
+## 結果項目を読む
 
-하드웨어와 UTC 당일 블록 보상을 조회합니다. 블록 보상이 모든 임대 수입을 포함하지는 않습니다. 과거 가동률과 작업 기록은 현재 연결 상태의 증거가 아닙니다. 토큰 만료 시 다시 연결하세요.
+デバイス情報は登録ハードウェア・状態、報酬は別のブロック・期間のデータです。状態の取得成功は報酬の成功を保証しません。未接続・認証失敗は未取得です。模擬検証で実収益を検証したことにはなりません。
 
-### io.net 식별자 여러 개를 저장하려면 어떻게 하나요?
+## 未取得・不一致を確認する
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### io.netデバイス監視：GPU情報とブロック報酬 (ja)
-
-## 要点
-
-GPU情報とブロック報酬
-
-GPU情報とブロック報酬
-
-## IOTA Watchでio.netのデータを確認するには？
-
-公式Device IDとIO Explorerアクセストークンを使います。ウォレットの秘密鍵は入力しません。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## io.netのどの状態・報酬を確認できますか？
-
-ハードウェアとUTC当日のブロック報酬を照会します。全レンタル収入は含まれません。過去の稼働率やジョブは現在の接続状態を証明しません。トークン失効時は再接続が必要です。
-
-## io.netの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+接続失敗時は公式アカウントで権限と機器の所有を確認します。この連携には現時点で実アカウントの検証サンプルがありません。
 
 [io.net](https://iotahome.site/ja/projects/ionet) · [監視ガイド](https://io.net/docs/reference/io-explorer/get-device-details)
-
-## よくある質問
-
-### IOTA Watchでio.netのデータを確認するには？
-
-公式Device IDとIO Explorerアクセストークンを使います。ウォレットの秘密鍵は入力しません。
-
-### io.netのどの状態・報酬を確認できますか？
-
-ハードウェアとUTC当日のブロック報酬を照会します。全レンタル収入は含まれません。過去の稼働率やジョブは現在の接続状態を証明しません。トークン失効時は再接続が必要です。
-
-### io.netの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
 - Source: io.net — https://io.net/docs/reference/io-explorer/get-device-details
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 
-### Vast.ai host monitor: GPU machines and rental income
+### How to verify Vast.ai host income: Machine ID, connection and period
 - zh-CN: https://iotahome.site/zh/learn/vast-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/vast-monitor-guide
 - en: https://iotahome.site/en/learn/vast-monitor-guide
@@ -5449,209 +5418,101 @@ GPU情報とブロック報酬
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Vast.ai
 
-### Vast.ai 主机监控：GPU 设备与出租收入 (zh-CN)
+### Vast.ai Host 收入怎么核对：Machine ID、连接与期间 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-主机信息与出租收入
+登录后从 Host 机器页面复制 Machine ID，在项目页填写，再通过下方表单验证读取凭据并连接。不要用租客 Instance ID 代替。将查询结果与官方同机器、同期间的出租记录比较。
 
-主机信息与出租收入
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 Vast.ai 数据？
+硬件与出租状态属于机器记录；收入必须同时看币种和期间。账户余额、小时报价和已确认出租收入不是同一项指标。缺少某项读取权限时保持未知，不用余额推算今日收入。
 
-填写数字 Machine ID，连接仅有 machine_read 和 billing_read 权限的 API Key。无需授予交易或机器管理权限。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
-
-## Vast.ai 的哪些状态和收益能查到？
-
-按机器查询香港时间今日的出租收入，汇总接口返回的 GPU、存储和带宽收入。它是收入记录，不扣除电费和硬件成本；账户余额不作为设备收益。
-
-## 怎样保存多个 Vast.ai 标识，方便以后查看？
-
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+真实 Host 账户联调尚未完成；目前验证的是模拟响应与异常处理。发现数据差异时保留官方期间和金额截图，先比较范围，再检查连接权限。
 
 [Vast.ai](https://iotahome.site/zh/projects/vast) · [监控指南](https://docs.vast.ai/host/hosting-overview)
 
-## 常见问题
+### Vast.ai Host 收入怎麼核對：Machine ID、連接與期間 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 怎样用 IOTA Watch 查看 Vast.ai 数据？
+## 如何找到並查詢正確標識？
 
-填写数字 Machine ID，连接仅有 machine_read 和 billing_read 权限的 API Key。无需授予交易或机器管理权限。
+登入後從 Host 機器頁複製 Machine ID，填至專案頁，再以下方表單驗證讀取憑證，不要用租客 Instance ID。與官方同機器、同期間出租紀錄比較。
 
-### Vast.ai 的哪些状态和收益能查到？
+## 結果欄位怎麼讀？
 
-按机器查询香港时间今日的出租收入，汇总接口返回的 GPU、存储和带宽收入。它是收入记录，不扣除电费和硬件成本；账户余额不作为设备收益。
+硬體和出租狀態屬於機器紀錄；收入必須核對幣種及期間。帳戶餘額、時租報價與確認收入不同，缺權限時保持未知，不用餘額推算今日收入。
 
-### 怎样保存多个 Vast.ai 标识，方便以后查看？
+## 查不到或不一致，先檢查什麼？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
-
-### Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)
-
-## 先看結論
-
-主機資訊與出租收入
-
-主機資訊與出租收入
-
-## 如何使用 IOTA Watch 查看 Vast.ai 資料？
-
-填寫數字 Machine ID，連接只有 machine_read 與 billing_read 權限的 API Key。無需交易或機器管理權限。
-
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
-
-## Vast.ai 的哪些狀態與收益可以查詢？
-
-依機器查詢香港時間今日出租收入，彙總介面回傳的 GPU、儲存與頻寬收入。此為未扣電費和硬體成本的收入，帳戶餘額不視為設備收益。
-
-## 如何儲存多個 Vast.ai 識別碼，方便日後查看？
-
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+真實 Host 帳戶聯調未完成，目前只驗證模擬回應與異常處理。差異請保留官方期間和金額截圖，先比對範圍再查權限。
 
 [Vast.ai](https://iotahome.site/zh-TW/projects/vast) · [監控指南](https://docs.vast.ai/host/hosting-overview)
 
-## 常見問題
+### How to verify Vast.ai host income: Machine ID, connection and period (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### 如何使用 IOTA Watch 查看 Vast.ai 資料？
+## Find and query the correct identifier
 
-填寫數字 Machine ID，連接只有 machine_read 與 billing_read 權限的 API Key。無需交易或機器管理權限。
+Sign in, copy Machine ID from the official Host machines page and enter it in the project page. Validate read credentials in the connection form below. Do not substitute a tenant Instance ID. Compare the same machine and period with official rental records.
 
-### Vast.ai 的哪些狀態與收益可以查詢？
+## Read the result fields
 
-依機器查詢香港時間今日出租收入，彙總介面回傳的 GPU、儲存與頻寬收入。此為未扣電費和硬體成本的收入，帳戶餘額不視為設備收益。
+Hardware and rental status belong to the machine record. Read currency and period alongside income. Account balance, hourly asking price and confirmed rental income are different metrics; do not infer today’s income from a balance.
 
-### 如何儲存多個 Vast.ai 識別碼，方便日後查看？
+## Check missing or mismatched results
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### Vast.ai host monitor: GPU machines and rental income (en)
-
-## At a glance
-
-Host details and rental income
-
-Host details and rental income
-
-## How do I check Vast.ai data in IOTA Watch?
-
-Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which Vast.ai activity and reward records are available?
-
-Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
-
-## How can I save several Vast.ai identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
+Real Host account validation is pending; current checks cover mocked responses and failure handling. When figures differ, retain the official period and amount, compare scope and then check permissions.
 
 [Vast.ai](https://iotahome.site/en/projects/vast) · [Monitoring guide](https://docs.vast.ai/host/hosting-overview)
 
-## Common questions
+### Vast.ai 호스트 수익 확인: Machine ID·연결·기간 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### How do I check Vast.ai data in IOTA Watch?
+## 올바른 식별자로 조회하기
 
-Use the numeric Machine ID and an API key with machine_read and billing_read only. Trading and machine-management permissions are unnecessary.
+로그인 후 공식 Host 기기 페이지의 Machine ID를 입력하고 아래 연결 양식에서 읽기 자격 증명을 검증하세요. 임차인 Instance ID는 다릅니다. 같은 기기·기간의 공식 대여 기록과 비교합니다.
 
-### Which Vast.ai activity and reward records are available?
+## 결과 필드 읽기
 
-Reads today’s per-machine rental income since Hong Kong midnight, summing reported GPU, storage and bandwidth earnings. This is revenue before electricity and hardware costs. Account balance is not treated as device earnings.
+하드웨어·대여 상태는 기기 기록입니다. 수익은 통화와 기간을 함께 읽습니다. 계정 잔액·시간당 가격·확정 대여 수익은 다르며 잔액으로 오늘 수익을 추정하지 않습니다.
 
-### How can I save several Vast.ai identifiers for later?
+## 누락·불일치 확인하기
 
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)
-
-## 핵심 내용
-
-호스트 정보와 임대 수입
-
-호스트 정보와 임대 수입
-
-## IOTA Watch에서 Vast.ai 데이터를 어떻게 확인하나요?
-
-숫자 Machine ID와 machine_read, billing_read 권한만 있는 API 키를 사용합니다. 거래나 기기 관리 권한은 필요하지 않습니다.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## Vast.ai의 어떤 상태와 보상을 조회할 수 있나요?
-
-홍콩 자정 이후 기기별 GPU·스토리지·대역폭 수입을 합산합니다. 전기료와 하드웨어 비용 차감 전 수입이며 계정 잔액을 기기 수익으로 취급하지 않습니다.
-
-## Vast.ai 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
+실제 Host 계정 검증은 대기 중이며 현재는 모의 응답과 오류 처리 검증입니다. 차이가 나면 공식 기간·금액을 기록하고 범위를 비교한 뒤 권한을 확인하세요.
 
 [Vast.ai](https://iotahome.site/ko/projects/vast) · [모니터링 가이드](https://docs.vast.ai/host/hosting-overview)
 
-## 자주 묻는 질문
+### Vast.aiホスト収入の確認：Machine ID・接続・期間 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-### IOTA Watch에서 Vast.ai 데이터를 어떻게 확인하나요?
+## 正しいIDで照会する
 
-숫자 Machine ID와 machine_read, billing_read 권한만 있는 API 키를 사용합니다. 거래나 기기 관리 권한은 필요하지 않습니다.
+ログインして公式Host machinesのMachine IDを入力し、下の接続フォームで読取認証を検証します。借り手のInstance IDとは別です。同じ機器・期間の公式貸出記録と比較します。
 
-### Vast.ai의 어떤 상태와 보상을 조회할 수 있나요?
+## 結果項目を読む
 
-홍콩 자정 이후 기기별 GPU·스토리지·대역폭 수입을 합산합니다. 전기료와 하드웨어 비용 차감 전 수입이며 계정 잔액을 기기 수익으로 취급하지 않습니다.
+ハードウェア・貸出状態は機器の記録です。収入には通貨と期間が必要です。残高・時間単価・確定貸出収入は別の指標で、残高から今日の収入を推測しません。
 
-### Vast.ai 식별자 여러 개를 저장하려면 어떻게 하나요?
+## 未取得・不一致を確認する
 
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### Vast.aiホスト監視：GPU機器とレンタル収入 (ja)
-
-## 要点
-
-ホスト情報とレンタル収入
-
-ホスト情報とレンタル収入
-
-## IOTA WatchでVast.aiのデータを確認するには？
-
-数値のMachine IDとmachine_read・billing_readのみを許可したAPIキーを使います。取引や機器管理の権限は不要です。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## Vast.aiのどの状態・報酬を確認できますか？
-
-香港の午前0時以降の機器別GPU・ストレージ・帯域収入を合計します。電気代や機器費用控除前の収入であり、口座残高を機器収益には含めません。
-
-## Vast.aiの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
+実Hostアカウントの検証は未完了です。現在は模擬応答と異常処理を検証しています。差があれば公式の期間・金額を残し、範囲と権限を確認します。
 
 [Vast.ai](https://iotahome.site/ja/projects/vast) · [監視ガイド](https://docs.vast.ai/host/hosting-overview)
-
-## よくある質問
-
-### IOTA WatchでVast.aiのデータを確認するには？
-
-数値のMachine IDとmachine_read・billing_readのみを許可したAPIキーを使います。取引や機器管理の権限は不要です。
-
-### Vast.aiのどの状態・報酬を確認できますか？
-
-香港の午前0時以降の機器別GPU・ストレージ・帯域収入を合計します。電気代や機器費用控除前の収入であり、口座残高を機器収益には含めません。
-
-### Vast.aiの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
 - Source: Vast.ai — https://docs.vast.ai/host/hosting-overview
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 
-### Golem provider monitor: status and GLM earnings
+### Why do Golem earnings differ? Node address and last-24-hour scope
 - zh-CN: https://iotahome.site/zh/learn/golem-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/golem-monitor-guide
 - en: https://iotahome.site/en/learn/golem-monitor-guide
@@ -5660,207 +5521,99 @@ Add a device and link the project identifier in Devices. Names organize the list
 - Published: 2026-10-06
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: Golem
 
-### Golem 节点监控：运行状态与 GLM 收益 (zh-CN)
+### Golem 收益为什么对不上：节点地址与近 24 小时口径 (zh-CN)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 先看结论
+## 怎样找到并查询正确标识？
 
-节点状态与近 24 小时收益
+从 Golem 官方节点统计确认 Node ID 的公开地址，再到工具页查询。不要只凭地址外观认定收款钱包就是节点。比较数据时，使用同一 Node ID 与相同读取时刻附近的记录。
 
-节点状态与近 24 小时收益
+## 结果字段怎么读？
 
-## 怎样用 IOTA Watch 查看 Golem 数据？
+近 24 小时是来源定义的滚动窗口，币种是 GLM。它不等于香港时间今日 00:00 起的 IOTA 记账。钱包转账或余额也不是这一窗口的计算收益。
 
-填写 yagna id show 显示的节点 ID（0x 开头），不要用收款钱包地址替代。
+## 查不到或对不上，先检查什么？
 
-先在官方页面核对公开标识，再到项目页查询。需要持续查看时，在设备总览中添加设备并关联该项目。设备名称只用于整理列表，不会证明不同项目中的标识属于同一台物理设备。
+若金额不同，先比较期间和刷新时刻，再检查是否使用了正确 Node ID。缺记录显示未知；不能把 GLM 原币数量直接加到 IOTA 今日原币收益中。
 
-## Golem 的哪些状态和收益能查到？
+[Golem](https://iotahome.site/zh/projects/golem) · [监控指南](https://docs.golem.network/docs/providers/provider-installation)
 
-来自 Golem Stats 的节点状态、硬件与 GLM 记录。近 24 小时为滚动周期，不等于香港时间今日，设备今日合计不累加这项。接口失败显示不可用，不记为零。
+### Golem 收益為什麼對不上：節點地址與近 24 小時口徑 (zh-TW)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 怎样保存多个 Golem 标识，方便以后查看？
+## 如何找到並查詢正確標識？
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
+由 Golem 官方節點統計確認 Node ID 公開地址，再到工具查詢。不要憑外觀認定收款錢包就是節點。對照同一 ID 及相近讀取時刻。
 
-查不到数据时，先检查标识类型和拼写，再比较官方页面的数据覆盖范围。查询失败或旧数据不等于零收益，也不等于设备离线。这里不能启动任务、修改官方账户或保证接到工作。
+## 結果欄位怎麼讀？
 
-[Golem](https://iotahome.site/zh/projects/golem) · [监控指南](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+近 24 小時是來源定義的滾動期間，單位 GLM；不是香港今日 00:00 起的 IOTA 記帳。錢包轉帳或餘額也不是此期間計算收益。
 
-## 常见问题
+## 查不到或不一致，先檢查什麼？
 
-### 怎样用 IOTA Watch 查看 Golem 数据？
+金額不同先比對期間與刷新時刻，再核對 Node ID。缺紀錄是未知，不能將 GLM 數量直接加至 IOTA 今日原幣收益。
 
-填写 yagna id show 显示的节点 ID（0x 开头），不要用收款钱包地址替代。
+[Golem](https://iotahome.site/zh-TW/projects/golem) · [監控指南](https://docs.golem.network/docs/providers/provider-installation)
 
-### Golem 的哪些状态和收益能查到？
+### Why do Golem earnings differ? Node address and last-24-hour scope (en)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-来自 Golem Stats 的节点状态、硬件与 GLM 记录。近 24 小时为滚动周期，不等于香港时间今日，设备今日合计不累加这项。接口失败显示不可用，不记为零。
+## Find and query the correct identifier
 
-### 怎样保存多个 Golem 标识，方便以后查看？
+Confirm the public Node ID in official statistics, then query it in the tool. An address looking like a wallet does not establish node identity. Compare the same ID and records fetched around the same time.
 
-在设备总览添加设备并关联项目标识；名称用于整理清单，标识对应的数据范围仍按原项目保留。未登录时保存于当前浏览器，Google 登录后可同步清单。免费版每个项目 5 台，Pro 每个项目 50 台。
+## Read the result fields
 
-### Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)
+The source defines a rolling last-24-hour GLM window. It is different from IOTA’s Hong Kong-midnight accounting day. Wallet transfers and balances are not that window’s compute earnings.
 
-## 先看結論
+## Check missing or mismatched results
 
-節點狀態與近 24 小時收益
+Compare period and fetch time before investigating the Node ID. Missing records are unknown. GLM token amounts cannot be added directly to IOTA token amounts.
 
-節點狀態與近 24 小時收益
+[Golem](https://iotahome.site/en/projects/golem) · [Monitoring guide](https://docs.golem.network/docs/providers/provider-installation)
 
-## 如何使用 IOTA Watch 查看 Golem 資料？
+### Golem 수익이 다른 이유: 노드 주소와 최근 24시간 기준 (ko)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-填寫 yagna id show 顯示的節點 ID（0x 開頭），不要以收款錢包地址代替。
+## 올바른 식별자로 조회하기
 
-先在官方頁面核對公開標識，再到專案頁查詢。需要持續查看時，在設備總覽新增設備並關聯專案。設備名稱只用來整理清單，不代表不同專案的標識屬於同一台實體設備。
+공식 통계에서 공개 Node ID를 확인하고 조회하세요. 지갑처럼 보이는 주소만으로 노드 ID라고 판단하지 않습니다. 같은 ID와 비슷한 조회 시각을 비교하세요.
 
-## Golem 的哪些狀態與收益可以查詢？
+## 결과 필드 읽기
 
-節點狀態、硬體及 GLM 紀錄來自 Golem Stats。近 24 小時是滾動區間，不等於香港今日，不列入設備今日合計。介面失敗顯示不可用，不視為零。
+소스는 최근 24시간의 GLM 이동 구간을 사용합니다. 홍콩 자정부터의 IOTA 기록과 다릅니다. 지갑 송금·잔액도 그 기간의 계산 수익이 아닙니다.
 
-## 如何儲存多個 Golem 識別碼，方便日後查看？
+## 누락·불일치 확인하기
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
+금액이 다르면 기간·조회 시각을 먼저 비교한 후 Node ID를 확인하세요. 기록 없음은 알 수 없음이며 GLM 수량을 IOTA 수량에 직접 더하지 않습니다.
 
-查不到資料時，先檢查標識類型和拼寫，再比較官方頁面的資料範圍。查詢失敗或舊資料不等於零收益，也不等於設備離線。本站無法啟動任務、修改官方帳戶或保證工作分配。
+[Golem](https://iotahome.site/ko/projects/golem) · [모니터링 가이드](https://docs.golem.network/docs/providers/provider-installation)
 
-[Golem](https://iotahome.site/zh-TW/projects/golem) · [監控指南](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
+### Golem収益が合わない時：ノードアドレスと直近24時間 (ja)
+Published: 2026-10-06
+Updated: 2026-10-09
 
-## 常見問題
+## 正しいIDで照会する
 
-### 如何使用 IOTA Watch 查看 Golem 資料？
+公式統計で公開Node IDを確認してから照会します。アドレスの見た目だけでウォレットとノードを同一視しません。同じIDと近い取得時刻で比較します。
 
-填寫 yagna id show 顯示的節點 ID（0x 開頭），不要以收款錢包地址代替。
+## 結果項目を読む
 
-### Golem 的哪些狀態與收益可以查詢？
+取得元はGLMの直近24時間という移動期間を使います。香港午前0時からのIOTA記帳とは異なります。ウォレットの送金や残高もこの期間の計算収益ではありません。
 
-節點狀態、硬體及 GLM 紀錄來自 Golem Stats。近 24 小時是滾動區間，不等於香港今日，不列入設備今日合計。介面失敗顯示不可用，不視為零。
+## 未取得・不一致を確認する
 
-### 如何儲存多個 Golem 識別碼，方便日後查看？
+金額が違えば期間と取得時刻を先に比較し、Node IDを確認します。記録なしは不明です。GLM数量をIOTA数量に直接加算できません。
 
-在設備總覽新增設備並關聯專案識別碼；名稱只用於整理清單，資料範圍仍依原專案保留。未登入時儲存在目前瀏覽器，Google 登入後可同步清單。免費版每個專案 5 台，Pro 每個專案 50 台。
-
-### Golem provider monitor: status and GLM earnings (en)
-
-## At a glance
-
-Node status and last-24-hour earnings
-
-Node status and last-24-hour earnings
-
-## How do I check Golem data in IOTA Watch?
-
-Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
-
-Verify the public identifier in the official dashboard, then look it up on the project page. To follow it regularly, add a device in Devices and link the project. A device name organizes your list; it does not prove that identifiers from different projects belong to one physical machine.
-
-## Which Golem activity and reward records are available?
-
-Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
-
-## How can I save several Golem identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-If a lookup has no data, check the identifier type and spelling, then compare coverage with the official dashboard. A failed request or stale data means neither zero earnings nor an offline device. This monitor cannot start jobs, change your official account, or guarantee work.
-
-[Golem](https://iotahome.site/en/projects/golem) · [Monitoring guide](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
-
-## Common questions
-
-### How do I check Golem data in IOTA Watch?
-
-Use the node ID from yagna id show, beginning 0x. Do not substitute the payout wallet address.
-
-### Which Golem activity and reward records are available?
-
-Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
-
-### How can I save several Golem identifiers for later?
-
-Add a device and link the project identifier in Devices. Names organize the list; each identifier keeps its original project-level or device-level scope. Lists stay in the current browser without sign-in and can sync with Google sign-in. Free supports 5 devices per project and Pro supports 50.
-
-### Golem 노드 모니터: 상태와 GLM 수익 (ko)
-
-## 핵심 내용
-
-노드 상태와 최근 24시간 수익
-
-노드 상태와 최근 24시간 수익
-
-## IOTA Watch에서 Golem 데이터를 어떻게 확인하나요?
-
-yagna id show의 0x로 시작하는 노드 ID를 사용합니다. 지급 지갑 주소로 대체하지 마세요.
-
-공식 화면에서 공개 식별자를 확인한 후 프로젝트 페이지에서 조회하세요. 계속 확인하려면 기기 목록에 기기를 추가하고 프로젝트를 연결하세요. 기기 이름은 목록 정리용이며 서로 다른 프로젝트의 식별자가 같은 물리 기기에 속한다는 증거가 아닙니다.
-
-## Golem의 어떤 상태와 보상을 조회할 수 있나요?
-
-상태·하드웨어·GLM 기록은 Golem Stats에서 가져옵니다. 최근 24시간은 홍콩의 오늘과 다르므로 기기 일일 합계에서 제외합니다. API 실패는 0이 아닌 사용 불가로 표시합니다.
-
-## Golem 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-데이터가 없으면 식별자 종류와 철자를 확인하고 공식 화면의 조회 범위와 비교하세요. 요청 실패나 오래된 데이터가 수익 0 또는 기기 오프라인을 뜻하지는 않습니다. 이 서비스는 작업 시작, 공식 계정 변경, 작업 배정을 보장하지 않습니다.
-
-[Golem](https://iotahome.site/ko/projects/golem) · [모니터링 가이드](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
-
-## 자주 묻는 질문
-
-### IOTA Watch에서 Golem 데이터를 어떻게 확인하나요?
-
-yagna id show의 0x로 시작하는 노드 ID를 사용합니다. 지급 지갑 주소로 대체하지 마세요.
-
-### Golem의 어떤 상태와 보상을 조회할 수 있나요?
-
-상태·하드웨어·GLM 기록은 Golem Stats에서 가져옵니다. 최근 24시간은 홍콩의 오늘과 다르므로 기기 일일 합계에서 제외합니다. API 실패는 0이 아닌 사용 불가로 표시합니다.
-
-### Golem 식별자 여러 개를 저장하려면 어떻게 하나요?
-
-기기 목록에 기기를 추가하고 프로젝트 식별자를 연결하세요. 이름은 정리용이며 각 식별자의 프로젝트·기기 단위 범위를 유지합니다. 비로그인 목록은 현재 브라우저에 저장되고 Google 로그인 후 동기화할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다.
-
-### Golemノード監視：状態とGLM収益 (ja)
-
-## 要点
-
-ノード状態と直近24時間の収益
-
-ノード状態と直近24時間の収益
-
-## IOTA WatchでGolemのデータを確認するには？
-
-yagna id showに表示される0xで始まるノードIDを使います。受取ウォレットアドレスで代用しないでください。
-
-公式画面で公開IDを確認し、プロジェクトページで照会します。継続して確認する場合はデバイス一覧に追加し、プロジェクトを紐付けます。デバイス名は整理用であり、複数プロジェクトのIDが同じ実機に属する証明にはなりません。
-
-## Golemのどの状態・報酬を確認できますか？
-
-状態・ハードウェア・GLM記録はGolem Statsが出典です。直近24時間は香港の暦日と異なり、機器の日次合計から除外します。APIエラーはゼロではなく取得不可と表示します。
-
-## Golemの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-
-データがない場合はIDの種類と綴りを確認し、公式画面の対象範囲と比べます。取得失敗や古いデータは収益ゼロやオフラインを意味しません。このサービスからジョブを開始したり、公式アカウントを変更したり、仕事の割り当てを保証することはできません。
-
-[Golem](https://iotahome.site/ja/projects/golem) · [監視ガイド](https://docs.golem.network/docs/providers/quickstarts/provider-quickstart)
-
-## よくある質問
-
-### IOTA WatchでGolemのデータを確認するには？
-
-yagna id showに表示される0xで始まるノードIDを使います。受取ウォレットアドレスで代用しないでください。
-
-### Golemのどの状態・報酬を確認できますか？
-
-状態・ハードウェア・GLM記録はGolem Statsが出典です。直近24時間は香港の暦日と異なり、機器の日次合計から除外します。APIエラーはゼロではなく取得不可と表示します。
-
-### Golemの複数のIDを保存するには？
-
-デバイスを追加してプロジェクトのIDを紐付けます。名前は整理用で、各IDのプロジェクト・デバイス単位の範囲は維持します。未ログイン時は現在のブラウザに保存し、Googleログインで同期できます。無料は各プロジェクト5台、Proは50台です。
-- Source: Golem — https://docs.golem.network/docs/providers/quickstarts/provider-quickstart
+[Golem](https://iotahome.site/ja/projects/golem) · [監視ガイド](https://docs.golem.network/docs/providers/provider-installation)
+- Source: Golem — https://docs.golem.network/docs/providers/provider-installation
+- Source: IOTA Watch · read adapters — https://github.com/molimao/iota/tree/main/src/lib
 
 ### Where can I check multiple Macs running IOTA together?
 - zh-CN: https://iotahome.site/zh/learn/mining-monitor-for-multiple-devices
@@ -5871,8 +5624,11 @@ yagna id showに表示される0xで始まるノードIDを使います。受取
 - Published: 2026-10-09
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### 多台 Mac 跑 IOTA，在哪里一起看状态和收益？ (zh-CN)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看结论
 
@@ -5905,6 +5661,8 @@ yagna id showに表示される0xで始まるノードIDを使います。受取
 先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
 
 ### 多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？ (zh-TW)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看結論
 
@@ -5937,6 +5695,8 @@ yagna id showに表示される0xで始まるノードIDを使います。受取
 先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
 
 ### Where can I check multiple Macs running IOTA together? (en)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## At a glance
 
@@ -5969,6 +5729,8 @@ Public lookups and a local device list can be used without private keys or seed 
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
 
 ### IOTA를 실행하는 여러 Mac의 상태와 수익을 어디서 함께 확인하나요? (ko)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 핵심 내용
 
@@ -6001,6 +5763,8 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 최근 성공한 조회 시각과 출처를 먼저 확인하세요. 갱신 실패 시 이전 결과를 보존하고 누락된 값을 0으로 채우지 않습니다. 유효한 IOTA 일일 합계 0은 해당 기록이 아직 없다는 뜻일 수 있습니다. 오래된 표본이나 처리량 0만으로 오프라인을 판단할 수 없으며 실행 로그는 해당 기기의 공식 앱에서 확인해야 합니다.
 
 ### IOTAを動かす複数のMacの状態と収益をまとめて確認できますか？ (ja)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 要点
 
@@ -6043,8 +5807,11 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 - Published: 2026-10-09
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem
 
 ### 同一台机器运行多个项目，怎样集中查看？ (zh-CN)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看结论
 
@@ -6077,6 +5844,8 @@ XID 钱包余额与 fly.ai 本月积分不是单台设备当天的记账收益�
 公开标识查询和本地设备清单可直接使用，无需私钥或助记词。Google 登录用于同步清单；每个项目免费 5 台，Pro 50 台，新订阅 US$2.99/月或 US$16.99/年。io.net 和 Vast.ai 的私有数据需要登录并连接相应的查询凭据，真实账户接入仍待进一步验证。
 
 ### 同一台機器執行多個專案，如何集中查看？ (zh-TW)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看結論
 
@@ -6109,6 +5878,8 @@ XID 錢包餘額及 fly.ai 本月積分不是單台設備當天的記帳收益�
 公開識別碼查詢與本地設備清單可直接使用，不需要私鑰或助記詞。Google 登入可同步清單；每個專案免費 5 台、Pro 50 台，新訂閱 US$2.99/月或 US$16.99/年。io.net 與 Vast.ai 私有資料需要登入及連接查詢憑證，真實帳戶接入仍待進一步驗證。
 
 ### How can I track several projects on one machine? (en)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## At a glance
 
@@ -6141,6 +5912,8 @@ Check the currency, reporting period and device attribution first. IOTA uses the
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### 한 기기에서 여러 프로젝트를 실행하면 어떻게 모아 보나요? (ko)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 핵심 내용
 
@@ -6173,6 +5946,8 @@ XID 지갑 잔액과 fly.ai 월간 포인트는 기기 일일 정산 수익이 �
 공개 조회와 로컬 기기 목록은 개인 키나 시드 문구 없이 사용할 수 있습니다. Google 로그인으로 목록을 동기화합니다. 프로젝트당 무료 5대, Pro 50대이며 새 구독은 월 US$2.99 또는 연 US$16.99입니다. io.net·Vast.ai 비공개 데이터는 로그인과 플랫폼 조회 인증 정보가 필요하며 실제 계정 연동은 추가 검증이 필요합니다.
 
 ### 1台で複数のプロジェクトを動かす場合はどう確認しますか？ (ja)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 要点
 
@@ -6215,8 +5990,11 @@ XIDの残高とfly.aiの月間ポイントは実機の日次記帳収益では�
 - Published: 2026-10-09
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem
 
 ### IOTA Watch 和官方面板，应该用哪个？ (zh-CN)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看结论
 
@@ -6258,6 +6036,8 @@ XIDの残高とfly.aiの月間ポイントは実機の日次記帳収益では�
 项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 和 Golem，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 ### IOTA Watch 與官方面板，應該使用哪個？ (zh-TW)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看結論
 
@@ -6299,6 +6079,8 @@ XIDの残高とfly.aiの月間ポイントは実機の日次記帳収益では�
 專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 與 Golem，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 ### When should I use IOTA Watch or an official dashboard? (en)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## At a glance
 
@@ -6340,6 +6122,8 @@ Public lookups and a local device list can be used without private keys or seed 
 Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### IOTA Watch와 공식 대시보드는 언제 사용하나요? (ko)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 핵심 내용
 
@@ -6381,6 +6165,8 @@ Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonk
 IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai와 Golem 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 ### IOTA Watchと公式ダッシュボードはどう使い分けますか？ (ja)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 要点
 
@@ -6432,8 +6218,11 @@ IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.
 - Published: 2026-10-09
 - Updated: 2026-10-09
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem
 
 ### 不同项目的收益可以直接加在一起吗？ (zh-CN)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看结论
 
@@ -6466,6 +6255,8 @@ IOTA 的美元金額按 SN9 市场报价估算，并保留报价时间提示。�
 先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
 
 ### 不同專案的收益可以直接相加嗎？ (zh-TW)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 先看結論
 
@@ -6498,6 +6289,8 @@ IOTA 美元金額依 SN9 市場報價估算並標明時間。其他代幣沒有�
 先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
 
 ### Can rewards from different projects be added together? (en)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## At a glance
 
@@ -6530,6 +6323,8 @@ Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other 
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
 
 ### 서로 다른 프로젝트의 수익을 합산할 수 있나요? (ko)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 핵심 내용
 
@@ -6562,6 +6357,8 @@ IOTA USD 금액은 SN9 시세로 추정하고 시각을 표시합니다. 지원�
 최근 성공한 조회 시각과 출처를 먼저 확인하세요. 갱신 실패 시 이전 결과를 보존하고 누락된 값을 0으로 채우지 않습니다. 유효한 IOTA 일일 합계 0은 해당 기록이 아직 없다는 뜻일 수 있습니다. 오래된 표본이나 처리량 0만으로 오프라인을 판단할 수 없으며 실행 로그는 해당 기기의 공식 앱에서 확인해야 합니다.
 
 ### 異なるプロジェクトの収益は合算できますか？ (ja)
+Published: 2026-10-09
+Updated: 2026-10-09
 
 ## 要点
 
@@ -6604,8 +6401,11 @@ IOTAのUSD額はSN9市場価格で推計し時刻を示します。対応する�
 - Published: 2026-10-01
 - Updated: 2026-10-05
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-05
 
 多台 Mac 同时运行 IOTA Train at Home 时，逐台打开官方应用适合检查本地问题，却不方便快速了解全局。IOTA Watch 把设备的公开上报状态、收益与训练历史集中到一个浏览器中。训练仍在每台 Mac 的官方应用里运行，网页提供监控，不提供远程控制。
 
@@ -6646,6 +6446,8 @@ IOTAのUSD額はSN9市場価格で推計し時刻を示します。対応する�
 日常检查可以按同一顺序完成：确认数据时效、查看需要关注的设备、核对收益覆盖率，最后对确有本地问题的机器打开官方应用。初次使用可先读 [Miner ID 获取步骤](https://iotahome.site/zh/learn/find-miner-id) 和 [数据时效说明](https://iotahome.site/zh/learn/data-sources-and-freshness)。
 
 ### 多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-05
 
 多台 Mac 同時運行 IOTA Train at Home 時，逐台開啟官方應用程式適合檢查本地問題，卻不方便快速了解全局。 IOTA Watch 把設備的公開回報狀態、效益與訓練歷史集中到一個瀏覽器。訓練仍在每台 Mac 的官方應用程式中運行，網頁提供監控，不提供遠端控制。
 
@@ -6686,6 +6488,8 @@ IOTAのUSD額はSN9市場価格で推計し時刻を示します。対応する�
 日常檢查可以按同一順序完成：確認資料時效、查看需要注意的設備、核對收益覆蓋率，最後對確有本地問題的機器開啟官方應用。初次使用可先讀 [Miner ID 取得步驟](https://iotahome.site/zh-TW/learn/find-miner-id)和 [資料時效說明](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)。
 
 ### How to monitor multiple IOTA Train at Home devices from one browser (en)
+Published: 2026-10-01
+Updated: 2026-10-05
 
 When several Macs run IOTA Train at Home, opening each machine’s app is useful for local checks but inconvenient for a quick overview. IOTA Watch brings public device readings into one browser: reported activity, reward totals and training history. Training continues in the official app on each Mac; the browser is a monitor, not a remote control.
 
@@ -6726,6 +6530,8 @@ Export the device list as JSON before changing browsers or clearing site data. I
 A useful routine is simple: check freshness, review exceptions, inspect reward coverage, then open the official app only where a local check is needed. Start with [finding a Miner ID](https://iotahome.site/en/learn/find-miner-id) and the [data freshness guide](https://iotahome.site/en/learn/data-sources-and-freshness).
 
 ### 여러 IOTA Train at Home 기기를 한 브라우저에서 확인하기 (ko)
+Published: 2026-10-02
+Updated: 2026-10-05
 
 여러 Mac에서IOTA Train at Home을 실행하는 경우 각 컴퓨터의 앱을 여는 것은 로컬 확인에는 유용하지만 빠른 개요에는 불편합니다.IOTA Watch은 보고된 활동, 보상 합계, 훈련 내역 등 공개 장치 판독값을 하나의 브라우저에 제공합니다. 훈련은 각 Mac의 공식 앱에서 계속됩니다. 브라우저는 리모콘이 아니라 모니터입니다.
 
@@ -6766,6 +6572,8 @@ A useful routine is simple: check freshness, review exceptions, inspect reward c
 유용한 루틴은 간단합니다. 최신 상태를 확인하고, 예외 사항을 검토하고, 보상 범위를 검사한 다음, 로컬 확인이 필요한 경우에만 공식 앱을 엽니다. [Miner ID찾기](https://iotahome.site/ko/learn/find-miner-id) 및 [데이터 최신성 가이드](https://iotahome.site/ko/learn/data-sources-and-freshness)부터 시작하세요.
 
 ### 複数のIOTA Train at Homeデバイスを1つのブラウザーで確認する方法 (ja)
+Published: 2026-10-02
+Updated: 2026-10-05
 
 複数の Mac がIOTA Train at Homeを実行している場合、各マシンのアプリを開くことはローカル チェックには便利ですが、簡単に概要を確認するには不便です。IOTA Watchは、報告されたアクティビティ、報酬の合計、トレーニング履歴など、デバイスの公開測定値を 1 つのブラウザーにまとめます。トレーニングは各 Mac の公式アプリで継続します。ブラウザはモニターであり、リモコンではありません。
 
@@ -6817,8 +6625,11 @@ A useful routine is simple: check freshness, review exceptions, inspect reward c
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 收益为零或没到账，先检查什么？ (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 监控页显示 0 与钱包没有收到代币，是两个不同的问题。前者涉及网页读到了哪些记录，后者涉及官方支付流程。重启训练或判断收益丢失前，先确认变化的是哪个字段，以及对应数据源是否成功更新。
 
@@ -6857,6 +6668,8 @@ IOTA Watch 只有在可用的官方响应支持零值时才显示已知的 0。�
 IOTA Watch 不配置官方应用的收款地址，不转移代币，也不验证钱包交易。Google 账号用于同步设备清单，不会改变收款地址。若设备有上报状态却没有近期训练量，可继续查看 [等待任务的排查步骤](https://iotahome.site/zh/blog/iota-waiting-for-tasks)。
 
 ### IOTA Train at Home 收益為零或沒到賬，先檢查什麼？ (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 監視器頁顯示 0 與錢包沒有收到代幣，是兩個不同的問題。前者涉及網頁讀到了哪些記錄，後者涉及官方支付流程。重啟訓練或判斷收益遺失前，先確認變化的是哪個字段，以及對應資料來源是否成功更新。
 
@@ -6895,6 +6708,8 @@ IOTA Watch 只有在可用的官方回應支援零值時才顯示已知的 0。�
 IOTA Watch 不配置官方應用的收款地址，不轉移代幣，也不驗證錢包交易。 Google 帳號用於同步裝置清單，不會改變收款地址。若設備有回報狀態卻沒有近期訓練量，可繼續查看 [等待任務的檢驗步驟](https://iotahome.site/zh-TW/blog/iota-waiting-for-tasks)。
 
 ### IOTA Train at Home rewards are zero or unpaid: what to check first (en)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 A zero on the dashboard and a missing wallet payout are different questions. The first concerns the records the monitor can read; the second concerns official payout processing. Before restarting training or assuming rewards were lost, identify which field changed and whether its data source succeeded.
 
@@ -6933,6 +6748,8 @@ If one device has no usable history, a fleet’s today total is incomplete even 
 IOTA Watch does not configure where the official app pays rewards, move tokens or verify a wallet transaction. A Google account synchronizes a device list; it does not change a payout address. For reported activity with no recent training volume, continue with [waiting-for-task checks](https://iotahome.site/en/blog/iota-waiting-for-tasks).
 
 ### IOTA Train at Home 보상이 0이거나 미지급일 때 확인할 사항 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 대시보드의 0과 지갑 지불금 누락은 다른 질문입니다. 첫 번째는 모니터가 읽을 수 있는 기록에 관한 것입니다. 두 번째는 공식적인 지급 처리에 관한 것입니다. 훈련을 다시 시작하거나 보상이 손실되었다고 가정하기 전에 어떤 필드가 변경되었는지, 해당 데이터 소스가 성공했는지 확인하세요.
 
@@ -6971,6 +6788,8 @@ IOTA Watch의 오늘 보상은 00:00 Asia/Hong_Kong부터 홍콩 역일을 사�
 IOTA Watch은 공식 앱이 보상을 지불하고 토큰을 이동하거나 지갑 거래를 확인하는 위치를 구성하지 않습니다.Google계정은 장치 목록을 동기화합니다. 지급 주소는 변경되지 않습니다. 최근 훈련량이 없는 보고된 활동의 경우 [작업 대기 확인](https://iotahome.site/ko/blog/iota-waiting-for-tasks)을 계속 진행하세요.
 
 ### IOTA Train at Homeの報酬がゼロ・未払いの場合に確認すること (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 ダッシュボードにゼロがあることと、ウォレットへの支払いが不足していることは別の問題です。 1 つ目は、モニターが読み取ることができるレコードに関するものです。 2 つ目は、公式の支払い処理に関するものです。トレーニングを再開する前、または報酬が失われたと想定する前に、どのフィールドが変化したか、そのデータ ソースが成功したかどうかを特定します。
 
@@ -7020,8 +6839,11 @@ IOTA Watchは、公式アプリが報酬を支払う場所、トークンを移�
 - Published: 2026-10-01
 - Updated: 2026-10-01
 - Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
 
 ### IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh-CN)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 设备可能仍出现在官方矿工名单中，但最近一次上报的吞吐量为零。单凭这一张快照，无法确认硬件故障或连接中断。排查时可以分开看三件事：网页有没有成功刷新、官方网络上报了什么，以及本地训练应用正在做什么。
 
@@ -7064,6 +6886,8 @@ IOTA Watchは、公式アプリが報酬を支払う場所、トークンを移�
 描述问题时，使用「最近一次采样上报吞吐量为零」比直接判断机器离线更准确。若活动状态与收益看起来不一致，可继续读 [收益为零或未到账的检查步骤](https://iotahome.site/zh/blog/iota-rewards-zero-or-not-paid)。
 
 ### IOTA Train at Home 一直等待任務、吞吐量為零，怎麼檢查？ (zh-TW)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 設備可能仍出現在官方礦工名單中，但最近一次上報的吞吐量為零。單憑這張快照，無法確認硬體故障或連線中斷。排查時可以分開看三件事：網頁有沒有成功刷新、官方網路上報了什麼，以及本地訓練應用程式正在做什麼。
 
@@ -7106,6 +6930,8 @@ IOTA Watchは、公式アプリが報酬を支払う場所、トークンを移�
 描述問題時，使用「最近一次採樣上報吞吐量為零」比直接判斷機器離線更準確。若活動狀態與收益看起來不一致，可繼續讀取 [收益為零或未到帳的檢查步驟](https://iotahome.site/zh-TW/blog/iota-rewards-zero-or-not-paid)。
 
 ### IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)
+Published: 2026-10-01
+Updated: 2026-10-01
 
 A device can appear in the official miner list while its latest reported throughput is zero. That snapshot is not enough to identify a hardware failure or a lost connection. A useful investigation separates three things: whether the website refreshed, what the official network reported, and what the local training app is doing.
 
@@ -7148,6 +6974,8 @@ The [official user guide](https://docs.macrocosmos.ai/product-and-services/tah/t
 Keep the observation precise: “the current sample reports zero throughput” is more useful than assuming the machine is offline. For rewards that look inconsistent with activity, read [zero or unpaid rewards](https://iotahome.site/en/blog/iota-rewards-zero-or-not-paid).
 
 ### IOTA Train at Home 작업 대기와 처리량 0: 확인 방법 (ko)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 장치는 최근 보고된 처리량이 0인 동안에도 공식 채굴자 목록에 나타날 수 있습니다. 해당 스냅샷은 하드웨어 오류나 연결 끊김을 식별하는 데 충분하지 않습니다. 유용한 조사는 웹사이트가 새로 고쳐졌는지 여부, 공식 네트워크에서 보고한 내용, 지역 훈련 앱이 수행하는 작업의 세 가지 항목을 구분합니다.
 
@@ -7190,6 +7018,8 @@ IOTA Watch은 공식 채굴자 데이터를 사용하여 보고된 기여, 대�
 관찰을 정확하게 유지하십시오. "현재 샘플은 처리량이 0이라고 보고합니다"는 기계가 오프라인이라고 가정하는 것보다 더 유용합니다. 활동과 일치하지 않는 보상에 대해서는 [0 또는 미지급 보상](https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid)을 읽어보세요.
 
 ### IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)
+Published: 2026-10-02
+Updated: 2026-10-02
 
 デバイスは、最新に報告されたスループットがゼロであっても、公式マイナー リストに表示されることがあります。このスナップショットは、ハードウェアの障害や接続の切断を特定するには十分ではありません。有益な調査は、Web サイトが更新されたかどうか、公式ネットワークが報告したこと、ローカル トレーニング アプリが何を行っているかという 3 つのことを分離します。
 

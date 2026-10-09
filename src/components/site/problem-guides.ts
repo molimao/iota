@@ -1,10 +1,5 @@
 import type { Article } from "./articles";
-import {
-  problemLinks,
-  localized,
-  DISCOVERY_UPDATED,
-  productQuestions,
-} from "@/lib/product-discovery";
+import { problemLinks, localized, productQuestions } from "@/lib/product-discovery";
 import { LOCALES } from "@/lib/site";
 const bodies = [
   localized([
@@ -248,9 +243,9 @@ const descriptions = [
 ];
 export const problemGuides: Article[] = problemLinks.map((p, i) => ({
   slug: p.path.slice("learn/".length),
-  project: "all",
-  published: DISCOVERY_UPDATED,
-  modified: DISCOVERY_UPDATED,
+  project: i === 0 ? "iota" : "all",
+  published: "2026-10-09",
+  modified: "2026-10-09",
   title: p.q,
   description: descriptions[i]!,
   summary: p.a,

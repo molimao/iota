@@ -1,10 +1,10 @@
 # IOTA Watch
 
-开源的五语言监控面板，以 **IOTA Train at Home** 为主，并提供独立的 **XID / MMM** 与 **Quantus QTC** 页面。在浏览器中查看公开状态、收益记录和网络数据。
+开源的五语言多项目监控面板，以 **IOTA Train at Home** 为核心。支持 IOTA、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 和 Golem；各项目的输入、周期与数据覆盖范围分别说明。
 
-**[官网](https://iotahome.site) · [我的设备](https://iotahome.site/zh/app) · [全网现况](https://iotahome.site/zh/network) · [博客](https://iotahome.site/zh/blog) · [English](https://iotahome.site/en)**
+**[官网](https://iotahome.site) · [我的设备](https://iotahome.site/zh/devices) · [IOTA 查询](https://iotahome.site/zh/app) · [全网现况](https://iotahome.site/zh/network) · [博客](https://iotahome.site/zh/blog) · [English](https://iotahome.site/en)**
 
-IOTA Watch is an MIT-licensed dashboard in English, Simplified Chinese, Traditional Chinese, Korean and Japanese. It monitors Macrocosmos IOTA Train at Home (Bittensor SN9), with separate xCoin XID / MMM and Quantus QTC pages. It is an independent, read-only community tool; projects, currencies and data coverage remain separate.
+IOTA Watch is an independent MIT-licensed monitor in English, Simplified Chinese, Traditional Chinese, Korean and Japanese. IOTA Train at Home (Macrocosmos / Bittensor SN9) is the core project, with ten project pages covering training, mining and compute. Tool pages query records; separate tutorials explain identifiers, fields and troubleshooting. Public projects use public identifiers; io.net and Vast.ai require account connections with read credentials. Those two integrations have mocked validation; real-account validation remains pending.
 
 ![矿工分布与网络容量](docs/images/network-overview.jpg)
 
@@ -21,17 +21,22 @@ IOTA Watch is an MIT-licensed dashboard in English, Simplified Chinese, Traditio
 - **五种语言**：简体中文、繁体中文、英文、韩语、日语；使用说明与博客，包含文章目录、官方资料来源及 AI 可读取的 Markdown 版本。
 - **手机适配**：响应式卡片、图表和导航菜单。
 
-网页读取公开数据，不控制训练应用，不配置收款地址，也不需要私钥或助记词。
+网页读取项目数据，不控制训练应用，不配置收款地址，也不接收钱包私钥或助记词。io.net 和 Vast.ai 的可选账户连接使用加密保存的平台读取凭据。
 
-设备聚合、fly.ai 接入与订阅为当前待发布改动；正式收款尚未开启。设备聚合只展示用户明确关联的项目，不按名称或钱包自动判断为同一台机器。
+官网已启用设备聚合、fly.ai 接入与正式 Stripe 订阅。设备聚合只展示用户明确关联的项目，不按名称或钱包自动判断为同一台机器。各项目有独立额度，设备总览不另设总量限制。
 
 ## 新增项目监控
 
-IOTA 保持主入口和既有网址；[项目中心](https://iotahome.site/zh/projects)提供独立的 XID / MMM 与 Quantus 页面。
+IOTA 保持既有网址；[项目中心](https://iotahome.site/zh/projects)直接进入对应监控。十个项目的读取范围不同，不把有项目入口当作已经验证过所有收益接口。
 
 - **XID / MMM**：SuperKnet 公开网络与矿池 Worker 数据、算力、份额、活动时间和浏览器余额。矿池名单不代表全网设备数量，余额不等于累计收益。
 - **fly.ai**：公开钱包的本月积分和份额。官方接口没有提供设备心跳，页面不会据此显示设备在线。
 - **Quantus**：官方主网索引的区块、出块间隔，以及公开 Wormhole 地址的今日和累计 QTC 挖矿奖励。主网与 Planck 测试网分开，QTC 按 12 位小数精度转换。
+- **Nosana**：公开节点任务索引；任务数不等于 GPU 台数或 NOS 收益。
+- **Gonka**：公开 Host 轮次参与、模型与权重；权重不等于 GNK 收益，逻辑节点数不等于物理 GPU 台数。
+- **Akash**：提供商目录与容量记录；容量和租约指标不能换算为已结算收入。
+- **Golem**：节点状态与来源定义的近 24 小时 GLM；不同于香港自然日 IOTA 记账。
+- **io.net / Vast.ai**：登录后连接账户读取设备与奖励/出租记录；真实账户联调尚未完成，当前验证覆盖模拟响应和异常处理。
 - 免费版每个项目最多关联 5 台设备，Pro 每个项目最多 50 台；支持命名和账号同步。设备视角用于聚合展示，不另设跨项目总量限制。不要输入私钥、助记词或 inner hash。
 - 公开网络数据无需额外密钥；账号设备聚合和订阅需要执行新增迁移及服务端配置（见部署指南）。服务端需要访问 `superknet.com` 和 `sqm.quantus.com`，请求有超时、缓存和旧数据提示。
 
@@ -42,6 +47,13 @@ IOTA 保持主入口和既有网址；[项目中心](https://iotahome.site/zh/pr
 | IOTA Train at Home | [设备与收益](https://iotahome.site/en/app)              | [Miner ID 与收款地址](https://iotahome.site/en/learn/iota-miner-id-vs-payout-address)                                                        |
 | xCoin XID / MMM    | [Worker 与算力](https://iotahome.site/en/projects/xid)  | [主网设置](https://iotahome.site/en/learn/xid-mmm-mainnet-setup) · [奖励成熟](https://iotahome.site/en/learn/xid-rewards-balance-maturity)   |
 | Quantus QTC        | [主网与奖励](https://iotahome.site/en/projects/quantus) | [节点同步](https://iotahome.site/en/learn/quantus-mainnet-mining-mac) · [奖励排查](https://iotahome.site/en/learn/quantus-mining-no-rewards) |
+| fly.ai | [钱包积分](https://iotahome.site/en/projects/flyai) | [月份与份额](https://iotahome.site/en/learn/flyai-monitor-guide) |
+| Nosana | [节点任务](https://iotahome.site/en/projects/nosana) | [任务为空时排查](https://iotahome.site/en/learn/nosana-monitor-guide) |
+| Gonka | [Host 轮次](https://iotahome.site/en/projects/gonka) | [地址、模型与权重](https://iotahome.site/en/learn/gonka-monitor-guide) |
+| Akash | [提供商](https://iotahome.site/en/projects/akash) | [地址、租约与容量](https://iotahome.site/en/learn/akash-monitor-guide) |
+| io.net | [设备与奖励](https://iotahome.site/en/projects/ionet) | [ID 与账户连接](https://iotahome.site/en/learn/ionet-monitor-guide) |
+| Vast.ai | [Host 机器](https://iotahome.site/en/projects/vast) | [Machine ID 与收入期间](https://iotahome.site/en/learn/vast-monitor-guide) |
+| Golem | [节点记录](https://iotahome.site/en/projects/golem) | [近 24 小时收益口径](https://iotahome.site/en/learn/golem-monitor-guide) |
 
 [项目对比](https://iotahome.site/en/learn/iota-xid-quantus-compared) · [五语言指南库](https://iotahome.site/en/learn) · [Mac 本地工具](https://iotahome.site/en/downloads)
 
@@ -155,8 +167,10 @@ Google Search Console 使用 `https://iotahome.site/sitemap.xml`；新增的重�
 
 公开页面有独立 canonical、相互对应的五语言 hreflang、x-default 和本地化结构化数据；个人设备与账号页面不参与搜索收录。发布后可运行 `npm run seo:submit` 提交公开网址给 IndexNow。
 
-## 订阅功能（本地开发，尚未上线）
+## 订阅功能
 
 Pro 为 US$2.99/月或 US$16.99/年，每个项目最多 50 台。免费版每个项目 5 台；设备总览不另设总配额。到期后保留已有设备，只限制新增项目关联。
 
 Stripe 参数见 .env.example，全部为服务端变量。先使用测试模式，配置测试价格、账户、客户门户和签名 Webhook，再完成沙盒端到端付款验证。未配置 Stripe 时不会发起付款。生产发布、数据库迁移和生产 Stripe 配置均须当次用户确认。
+
+官网已启用正式订阅；自行部署实例需要自己的 Stripe 配置。既有订阅可保留旧价格，不因展示新价格而自动改价。

@@ -1,6 +1,8 @@
 # IOTA Watch
 
-> IOTA Watch is an independent browser monitor for people checking multiple IOTA Train at Home devices and organizing mining or compute projects on the same machine. IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is not an IOTA Foundation Layer 1 wallet.
+> Multi-project monitoring built around IOTA Train at Home. Check reported training and recorded rewards, and link other mining or compute projects to the same device.
+
+IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
 IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
@@ -25,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project and existing IOTA URLs keep their meaning. The project selector also offers separate XID / MMM and Quantus monitors at https://iotahome.site/en/projects. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -33,6 +35,10 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - fly.ai Compute: https://iotahome.site/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: https://iotahome.site/en/devices?project=flyai.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Akash: https://iotahome.site/en/projects/akash — public provider directory, lease and capacity indicators; listed GPU capacity is not lease income.
+- Golem: https://iotahome.site/en/projects/golem — public node records and source-defined last-24-hour GLM earnings; this period is not the Hong Kong calendar day.
+- io.net: https://iotahome.site/en/projects/ionet — sign in and connect read credentials for device details and block rewards. Real-account validation is pending.
+- Vast.ai: https://iotahome.site/en/projects/vast — sign in and connect read credentials for host information and rental income. Real-account validation is pending.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
 - Different native currencies are not added together. Missing values remain unavailable. Unsupported prices are not invented. Wallet private keys, seed phrases and Quantus inner hashes are not inputs. Private io.net and Vast.ai lookups use encrypted read credentials tied to the account; these integrations have mocked validation, with real-account checks still pending.
 
@@ -91,6 +97,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA Train at Home monitor: Miner ID, training and rewards (en)](https://iotahome.site/en/projects/iota)
 - [IOTA Train at Home 모니터: Miner ID, 학습과 보상 (ko)](https://iotahome.site/ko/projects/iota)
 - [IOTA Train at Home監視：Miner ID・学習状態・報酬 (ja)](https://iotahome.site/ja/projects/iota)
+- [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
+- [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
+- [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
+- [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
+- [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
+- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
+- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
+- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
+- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
+- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
+- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
+- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
+- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
+- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
+- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
 - [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/projects/nosana)
 - [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/nosana)
 - [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/projects/nosana)
@@ -126,21 +147,6 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Projects (en)](https://iotahome.site/en/projects)
 - [프로젝트 (ko)](https://iotahome.site/ko/projects)
 - [プロジェクト (ja)](https://iotahome.site/ja/projects)
-- [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
-- [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
-- [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
-- [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
-- [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
-- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
-- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
-- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
-- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
-- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
-- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
-- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
-- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
-- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
-- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
 - [博客 (zh)](https://iotahome.site/zh/blog)
 - [部落格 (zh-TW)](https://iotahome.site/zh-TW/blog)
 - [Blog (en)](https://iotahome.site/en/blog)
@@ -281,41 +287,41 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
 - [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
 - [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
-- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
-- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
-- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
-- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/learn/flyai-monitor-guide)
-- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/learn/flyai-monitor-guide)
-- [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/learn/nosana-monitor-guide)
-- [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/learn/nosana-monitor-guide)
-- [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/learn/nosana-monitor-guide)
-- [Nosana GPU 노드 모니터: 실행 작업과 완료 기록 (ko)](https://iotahome.site/ko/learn/nosana-monitor-guide)
-- [Nosana GPUノード監視：実行中ジョブと完了記録 (ja)](https://iotahome.site/ja/learn/nosana-monitor-guide)
-- [Gonka 节点监控：轮次参与者、模型与权重 (zh)](https://iotahome.site/zh/learn/gonka-monitor-guide)
-- [Gonka 節點監控：輪次參與者、模型與權重 (zh-TW)](https://iotahome.site/zh-TW/learn/gonka-monitor-guide)
-- [Gonka host monitor: epoch participation, models and weight (en)](https://iotahome.site/en/learn/gonka-monitor-guide)
-- [Gonka 호스트 모니터: 에포크 참여·모델·가중치 (ko)](https://iotahome.site/ko/learn/gonka-monitor-guide)
-- [Gonkaホスト監視：エポック参加・モデル・重み (ja)](https://iotahome.site/ja/learn/gonka-monitor-guide)
-- [Akash 提供商监控：GPU 容量与在线状态 (zh)](https://iotahome.site/zh/learn/akash-monitor-guide)
-- [Akash 供應商監控：GPU 容量與在線狀態 (zh-TW)](https://iotahome.site/zh-TW/learn/akash-monitor-guide)
-- [Akash provider monitor: GPU capacity and status (en)](https://iotahome.site/en/learn/akash-monitor-guide)
-- [Akash 공급자 모니터: GPU 용량과 상태 (ko)](https://iotahome.site/ko/learn/akash-monitor-guide)
-- [Akashプロバイダー監視：GPU容量と状態 (ja)](https://iotahome.site/ja/learn/akash-monitor-guide)
-- [io.net 设备监控：GPU 信息与区块奖励 (zh)](https://iotahome.site/zh/learn/ionet-monitor-guide)
-- [io.net 設備監控：GPU 資訊與區塊獎勵 (zh-TW)](https://iotahome.site/zh-TW/learn/ionet-monitor-guide)
-- [io.net device monitor: GPU details and block rewards (en)](https://iotahome.site/en/learn/ionet-monitor-guide)
-- [io.net 기기 모니터: GPU 정보와 블록 보상 (ko)](https://iotahome.site/ko/learn/ionet-monitor-guide)
-- [io.netデバイス監視：GPU情報とブロック報酬 (ja)](https://iotahome.site/ja/learn/ionet-monitor-guide)
-- [Vast.ai 主机监控：GPU 设备与出租收入 (zh)](https://iotahome.site/zh/learn/vast-monitor-guide)
-- [Vast.ai 主機監控：GPU 設備與出租收入 (zh-TW)](https://iotahome.site/zh-TW/learn/vast-monitor-guide)
-- [Vast.ai host monitor: GPU machines and rental income (en)](https://iotahome.site/en/learn/vast-monitor-guide)
-- [Vast.ai 호스트 모니터: GPU 기기와 임대 수입 (ko)](https://iotahome.site/ko/learn/vast-monitor-guide)
-- [Vast.aiホスト監視：GPU機器とレンタル収入 (ja)](https://iotahome.site/ja/learn/vast-monitor-guide)
-- [Golem 节点监控：运行状态与 GLM 收益 (zh)](https://iotahome.site/zh/learn/golem-monitor-guide)
-- [Golem 節點監控：運行狀態與 GLM 收益 (zh-TW)](https://iotahome.site/zh-TW/learn/golem-monitor-guide)
-- [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/learn/golem-monitor-guide)
-- [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
-- [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
+- [fly.ai 算力积分怎么看：地址、月份与份额 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
+- [fly.ai 算力積分怎麼看：地址、月份與份額 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
+- [How to read fly.ai compute points: address, month and share (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
+- [fly.ai 컴퓨팅 포인트 읽기: 주소·월·비율 (ko)](https://iotahome.site/ko/learn/flyai-monitor-guide)
+- [fly.ai計算ポイントの読み方：アドレス・月・割合 (ja)](https://iotahome.site/ja/learn/flyai-monitor-guide)
+- [Nosana 节点没有任务怎么办：地址核对与任务字段 (zh)](https://iotahome.site/zh/learn/nosana-monitor-guide)
+- [Nosana 節點沒有任務怎麼辦：地址核對與任務欄位 (zh-TW)](https://iotahome.site/zh-TW/learn/nosana-monitor-guide)
+- [Why does my Nosana node have no jobs? Address and job checks (en)](https://iotahome.site/en/learn/nosana-monitor-guide)
+- [Nosana 노드에 작업이 없는 이유: 주소와 작업 필드 확인 (ko)](https://iotahome.site/ko/learn/nosana-monitor-guide)
+- [Nosanaノードにジョブがない時：アドレスと項目を確認 (ja)](https://iotahome.site/ja/learn/nosana-monitor-guide)
+- [Gonka Host 是否参与本轮：地址、模型和权重怎么核对 (zh)](https://iotahome.site/zh/learn/gonka-monitor-guide)
+- [Gonka Host 是否參與本輪：地址、模型和權重怎麼核對 (zh-TW)](https://iotahome.site/zh-TW/learn/gonka-monitor-guide)
+- [Is my Gonka Host in this epoch? Check address, models and weight (en)](https://iotahome.site/en/learn/gonka-monitor-guide)
+- [Gonka Host가 이번 에포크에 있나요? 주소·모델·가중치 확인 (ko)](https://iotahome.site/ko/learn/gonka-monitor-guide)
+- [Gonka Hostは今期に参加している？アドレス・モデル・重みの確認 (ja)](https://iotahome.site/ja/learn/gonka-monitor-guide)
+- [Akash 提供商怎么查：地址、租约和 GPU 容量的区别 (zh)](https://iotahome.site/zh/learn/akash-monitor-guide)
+- [Akash 提供商怎麼查：地址、租約和 GPU 容量的差別 (zh-TW)](https://iotahome.site/zh-TW/learn/akash-monitor-guide)
+- [How to check an Akash provider: address, leases and GPU capacity (en)](https://iotahome.site/en/learn/akash-monitor-guide)
+- [Akash 공급자 확인: 주소·리스·GPU 용량의 차이 (ko)](https://iotahome.site/ko/learn/akash-monitor-guide)
+- [Akashプロバイダーの確認：アドレス・リース・GPU容量の違い (ja)](https://iotahome.site/ja/learn/akash-monitor-guide)
+- [io.net 设备如何连接监控：设备 ID、读取凭据与奖励 (zh)](https://iotahome.site/zh/learn/ionet-monitor-guide)
+- [io.net 設備如何連接監控：設備 ID、讀取憑證與獎勵 (zh-TW)](https://iotahome.site/zh-TW/learn/ionet-monitor-guide)
+- [How to connect an io.net device: ID, read credentials and rewards (en)](https://iotahome.site/en/learn/ionet-monitor-guide)
+- [io.net 기기 연결: ID·읽기 자격 증명·보상 확인 (ko)](https://iotahome.site/ko/learn/ionet-monitor-guide)
+- [io.netデバイスの接続：ID・読取認証・報酬の確認 (ja)](https://iotahome.site/ja/learn/ionet-monitor-guide)
+- [Vast.ai Host 收入怎么核对：Machine ID、连接与期间 (zh)](https://iotahome.site/zh/learn/vast-monitor-guide)
+- [Vast.ai Host 收入怎麼核對：Machine ID、連接與期間 (zh-TW)](https://iotahome.site/zh-TW/learn/vast-monitor-guide)
+- [How to verify Vast.ai host income: Machine ID, connection and period (en)](https://iotahome.site/en/learn/vast-monitor-guide)
+- [Vast.ai 호스트 수익 확인: Machine ID·연결·기간 (ko)](https://iotahome.site/ko/learn/vast-monitor-guide)
+- [Vast.aiホスト収入の確認：Machine ID・接続・期間 (ja)](https://iotahome.site/ja/learn/vast-monitor-guide)
+- [Golem 收益为什么对不上：节点地址与近 24 小时口径 (zh)](https://iotahome.site/zh/learn/golem-monitor-guide)
+- [Golem 收益為什麼對不上：節點地址與近 24 小時口徑 (zh-TW)](https://iotahome.site/zh-TW/learn/golem-monitor-guide)
+- [Why do Golem earnings differ? Node address and last-24-hour scope (en)](https://iotahome.site/en/learn/golem-monitor-guide)
+- [Golem 수익이 다른 이유: 노드 주소와 최근 24시간 기준 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
+- [Golem収益が合わない時：ノードアドレスと直近24時間 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
 - [多台 Mac 跑 IOTA，在哪里一起看状态和收益？ (zh)](https://iotahome.site/zh/learn/mining-monitor-for-multiple-devices)
 - [多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/mining-monitor-for-multiple-devices)
 - [Where can I check multiple Macs running IOTA together? (en)](https://iotahome.site/en/learn/mining-monitor-for-multiple-devices)
