@@ -1,3 +1,5 @@
+import { discoveryCopy, productQuestions, DISCOVERY_UPDATED } from "@/lib/product-discovery";
+import { planAmount } from "@/lib/billing-display";
 import { localizeValue } from "@/components/site/localization";
 import { ORIGIN, sitePath, LOCALES, LANGUAGE_TAG, OG_LOCALE } from "@/lib/site";
 import { articles, articleDates, getArticle } from "./articles";
@@ -116,27 +118,17 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           locale,
         )
       : page === "blog"
-        ? localizeValue(
-            en
-              ? "IOTA Train at Home monitoring blog | IOTA Watch"
-              : "IOTA Train at Home 监控博客｜IOTA Watch",
-            locale,
-          )
+        ? discoveryCopy.blogTitle[locale] + " | IOTA Watch"
         : page === "home"
-          ? localizeValue(
-              en
-                ? "IOTA Train at Home Device Monitor | IOTA Watch"
-                : "IOTA Train at Home 设备监控｜IOTA Watch",
-              locale,
-            )
+          ? discoveryCopy.metaTitle[locale]
           : page === "guide"
             ? `${copy.guideTitle} | IOTA Watch`
             : page === "faq"
-              ? `${copy.faqTitle}: IOTA / XID / Quantus / fly.ai | IOTA Watch`
+              ? `${copy.faqTitle} | IOTA Watch`
               : page === "privacy"
                 ? `${copy.privacyTitle} | IOTA Watch`
                 : page === "learn"
-                  ? `${learningCopy[locale].title}: IOTA / XID / Quantus | IOTA Watch`
+                  ? `${discoveryCopy.guidesTitle[locale]} | IOTA Watch`
                   : page === "account"
                     ? localizeValue(en ? "Account | IOTA Watch" : "账号｜IOTA Watch", locale)
                     : page === "network"
@@ -161,19 +153,9 @@ export function seo(locale: Locale, page: Page, slug?: string) {
           locale,
         )
       : page === "blog"
-        ? localizeValue(
-            en
-              ? "Practical IOTA Train at Home articles on multi-device monitoring, zero rewards and waiting for tasks, with official sources and clear data checks."
-              : "IOTA Train at Home 多设备监控、收益为零与等待任务的实用文章，结合官方资料与清晰的数据排查步骤。",
-            locale,
-          )
+        ? discoveryCopy.guideIntro[locale]
         : page === "home"
-          ? localizeValue(
-              en
-                ? "Monitor IOTA Train at Home devices with a public Miner ID. See reported status, today’s rewards and lifetime rewards in IOTA and USD. Not the IOTA Layer 1 wallet."
-                : "用公开 Miner ID 监控 IOTA Train at Home 设备：查看上报状态、今日和累计收益（IOTA 与美元估价）。独立工具，不是 IOTA 公链钱包。",
-              locale,
-            )
+          ? discoveryCopy.metaDescription[locale]
           : page === "guide"
             ? copy.guideIntro
             : page === "faq"
@@ -181,7 +163,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
               : page === "privacy"
                 ? copy.privacyIntro
                 : page === "learn"
-                  ? learningCopy[locale].intro
+                  ? discoveryCopy.guideIntro[locale]
                   : page === "account"
                     ? localizeValue(
                         en
@@ -294,11 +276,43 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         inLanguage: language(locale),
         isAccessibleForFree: true,
         image: OG_IMAGE,
-        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        "@id": `${ORIGIN}/#application`,
+        offers: [
+          { "@type": "Offer", name: "Free", price: "0", priceCurrency: "USD" },
+          ...(["month", "year"] as const).map((period) => ({
+            "@type": "Offer",
+            name: period === "month" ? "Pro monthly" : "Pro annual",
+            price: planAmount(period),
+            priceCurrency: "USD",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: planAmount(period),
+              priceCurrency: "USD",
+              billingDuration: period === "month" ? "P1M" : "P1Y",
+            },
+          })),
+        ],
+        featureList: [
+          "Saved public identifiers",
+          "Device and project views",
+          "Source timestamps",
+          "Per-project device quotas",
+        ],
         publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
         about: PROJECT_IDS.map(projectEntity),
         license: "https://github.com/molimao/iota/blob/main/LICENSE",
+      }),
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        url,
+        inLanguage: language(locale),
+        mainEntity: productQuestions(locale).map((q) => ({
+          "@type": "Question",
+          name: q.question,
+          acceptedAnswer: { "@type": "Answer", text: q.answer },
+        })),
       }),
     );
   }
@@ -309,7 +323,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         url,
-        dateModified: "2026-10-03",
+        dateModified: DISCOVERY_UPDATED,
         inLanguage: language(locale),
         mainEntity: copy.faq.map(([question, answer]) => ({
           "@type": "Question",

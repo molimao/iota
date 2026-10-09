@@ -1,3 +1,5 @@
+import { DiscoveryQuestions } from "../discovery-questions";
+import { discoveryCopy, DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { projectRequestCopy } from "../project-request-copy";
 import { ProjectRequest } from "../project-request";
 import { simpleCopy } from "../simple-ui";
@@ -261,6 +263,7 @@ export function Landing() {
         </div>
         <ProjectCards compact />
       </section>
+      <DiscoveryQuestions answers />
       <div className="simple-home-links">
         <a href={`/${locale}/learn`}>
           {simpleCopy(locale).help}
@@ -344,7 +347,9 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       {page === "faq" && <ProjectLearning />}
       <p className="article-updated">
         {page === "privacy" || page === "faq" ? (
-          <time dateTime="2026-10-03">2026-10-03</time>
+          <time dateTime={page === "faq" ? DISCOVERY_UPDATED : "2026-10-03"}>
+            {page === "faq" ? DISCOVERY_UPDATED : "2026-10-03"}
+          </time>
         ) : (
           copy.updated
         )}
@@ -400,8 +405,8 @@ export function LearnIndex() {
         ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
       <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
-      <h1>{learningCopy[locale].title}</h1>
-      <p className="article-lead">{learningCopy[locale].intro}</p>
+      <h1>{discoveryCopy.guidesTitle[locale]}</h1>
+      <p className="article-lead">{discoveryCopy.guideIntro[locale]}</p>
       <nav className="guide-jump-links" aria-label={learningCopy[locale].title}>
         <a href="#start">IOTA</a>
         <a href="#xid">XID / MMM</a>

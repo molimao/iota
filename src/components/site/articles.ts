@@ -1,3 +1,4 @@
+import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import { withLocales } from "@/components/site/localization";
 import { dataGuides } from "./data-guides";
@@ -460,6 +461,7 @@ export const articles: Article[] = [
   ...iotaArticles.map((article) => ({ ...article, ...iotaGuideAnswers[article.slug] })),
   ...projectGuides,
   ...computeGuides,
+  ...problemGuides,
 ];
 
 export function articleDates(article: Article) {
@@ -469,13 +471,33 @@ export function articleDates(article: Article) {
   };
 }
 
-export type ArticleCluster = "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute";
+export type ArticleCluster =
+  "use" | "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute";
 
 export const articleClusterMeta: Record<
   ArticleCluster,
   { title: Record<Locale, string>; slugs: string[] }
 > = {
-  compute: {title:{zh:"算力与推理",en:"Compute and inference","zh-TW":"算力與推理",ko:"컴퓨팅과 추론",ja:"計算と推論"},slugs:computeGuides.map(a=>a.slug)},
+  use: {
+    title: {
+      zh: "使用场景与选择",
+      "zh-TW": "使用情境與選擇",
+      en: "Use cases and tool choice",
+      ko: "사용 사례와 도구 선택",
+      ja: "用途とツールの選び方",
+    },
+    slugs: problemGuides.map((a) => a.slug),
+  },
+  compute: {
+    title: {
+      zh: "算力与推理",
+      en: "Compute and inference",
+      "zh-TW": "算力與推理",
+      ko: "컴퓨팅과 추론",
+      ja: "計算と推論",
+    },
+    slugs: computeGuides.map((a) => a.slug),
+  },
   ...withLocales({
     understand: {
       title: { en: "Product differences", zh: "产品区分" },

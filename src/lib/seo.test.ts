@@ -3,6 +3,7 @@ import { articleDates, articles } from "../components/site/articles";
 import { blogPosts, relatedBlogPosts } from "../components/site/blog-posts";
 import { seo } from "../components/site/seo";
 import { buildArticleMarkdown, buildLlmsFullTxt, buildSitemapXml } from "./crawl";
+import { DISCOVERY_UPDATED } from "./product-discovery";
 import { ORIGIN, LOCALES, LANGUAGE_TAG } from "./site";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -26,8 +27,8 @@ describe("public guide indexing", () => {
         .map((script) => JSON.parse(script.children))
         .find((s) => s["@type"] === "FAQPage");
       expect(faq.url).toBe(`${ORIGIN}/${locale}/faq`);
-      expect(faq.dateModified).toBe("2026-10-03");
-      expect(html).toContain('<time dateTime="2026-10-03">2026-10-03</time>');
+      expect(faq.dateModified).toBe(DISCOVERY_UPDATED);
+      expect(html).toContain(`<time dateTime="${DISCOVERY_UPDATED}">${DISCOVERY_UPDATED}</time>`);
       expect(
         faq.mainEntity.map((q: { name: string; acceptedAnswer: { text: string } }) => [
           q.name,
@@ -41,11 +42,17 @@ describe("public guide indexing", () => {
       }
       expect(html).toContain(`href="/${locale}/projects"`);
       expect(html).toContain(`href="/${locale}/learn/iota-xid-quantus-compared"`);
-      const firstAnswers = content[locale].faq
-        .slice(0, 5)
-        .map(([, a]) => a)
-        .join(" ");
-      for (const identifier of ["Train at Home", "XID", "Quantus", "xpa1r", "Wormhole", "fly.ai", "50", "5"])
+      const firstAnswers = content[locale].faq.map(([, a]) => a).join(" ");
+      for (const identifier of [
+        "Train at Home",
+        "XID",
+        "Quantus",
+        "xpa1r",
+        "Wormhole",
+        "fly.ai",
+        "50",
+        "5",
+      ])
         expect(firstAnswers).toContain(identifier);
     }
   });

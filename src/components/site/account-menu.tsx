@@ -59,28 +59,29 @@ export function AccountMenu() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const onApp = pathname === `/${locale}/app` || pathname.startsWith(`/${locale}/app/`);
   const onAccount = pathname === `/${locale}/account` || pathname.startsWith(`/${locale}/account/`);
   const label = auth.name || auth.email || localizeValue(en ? "Account" : "账号", locale);
 
-  if (!mounted) {
-    return null;
-  }
-
   if (!auth.userId) {
-    if (onApp || onAccount || pathname.endsWith("/devices")) {
-      return (
-        <button
-          type="button"
-          className="site-button small"
-          onClick={() => void auth.signInWithGoogle()}
-          disabled={auth.signingIn}
-        >
-          {auth.signingIn ? t("正在登录") : t("用 Google 登录")}
-        </button>
-      );
-    }
-    return null;
+    const signInLabel = {
+      zh: "登录",
+      "zh-TW": "登入",
+      en: "Sign in",
+      ko: "로그인",
+      ja: "ログイン",
+    }[locale];
+    return (
+      <button
+        type="button"
+        className="site-button small account-login"
+        aria-label={t("用 Google 登录")}
+        title={t("用 Google 登录")}
+        onClick={() => void auth.signInWithGoogle()}
+        disabled={!mounted || auth.signingIn}
+      >
+        {auth.signingIn ? t("正在登录") : signInLabel}
+      </button>
+    );
   }
 
   return (

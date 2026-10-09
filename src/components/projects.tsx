@@ -1,3 +1,4 @@
+import { DiscoveryQuestions } from "./discovery-questions";
 import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
 import { isPlatform } from "@/lib/platforms";
@@ -141,6 +142,7 @@ export function ProjectsHub() {
         </div>
       </header>
       <ProjectCards />
+      <DiscoveryQuestions />
       <a className="simple-help-link" href={`/${locale}/learn`}>
         {simpleCopy(locale).help}
         <ArrowUpRight size={15} />

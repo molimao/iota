@@ -1,3 +1,4 @@
+import { DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { projectEditorial, projectQuestions } from "./project-editorial";
 import { projectsCopy } from "./projects-copy";
 import { PROJECTS, PROJECT_IDS, projectEntity, type ProjectId } from "@/lib/projects";
@@ -19,7 +20,7 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
     description,
     url,
     inLanguage: LANGUAGE_TAG[locale],
-    dateModified: "2026-10-06",
+    dateModified: DISCOVERY_UPDATED,
     isPartOf: { "@type": "WebSite", name: "IOTA Watch", url: ORIGIN },
     ...(project
       ? {

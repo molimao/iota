@@ -1,3 +1,5 @@
+import { projectDiscoveryQuestions } from "@/lib/product-discovery";
+import { PROJECTS } from "@/lib/projects";
 import { platformEditorial } from "./platform-copy";
 import type { SiteLocale } from "@/lib/site";
 import type { ProjectId } from "@/lib/projects";
@@ -341,10 +343,11 @@ export const editorialCopy = (locale: SiteLocale) =>
     [K in keyof typeof labels]: string;
   };
 export function projectQuestions(project: ProjectId, locale: SiteLocale) {
-  const c = editorialCopy(locale),
-    p = projectEditorial[project];
-  return [
-    { question: c.identityQ, answer: p.identity[locale] },
-    { question: c.coverageQ, answer: p.coverage[locale] },
-  ];
+  const p = projectEditorial[project];
+  return projectDiscoveryQuestions(
+    PROJECTS[project].name,
+    locale,
+    p.identity[locale],
+    p.coverage[locale],
+  );
 }

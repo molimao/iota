@@ -1,3 +1,4 @@
+import { discoveryCopy, productQuestions } from "@/lib/product-discovery";
 import { withLocales } from "@/components/site/localization";
 import { projectFaq } from "./project-faq";
 import type { SiteLocale } from "@/lib/site";
@@ -159,7 +160,7 @@ const legacyContent = withLocales({
     privacy: [
       [
         "Device grouping and subscriptions",
-        "Device names, optional hardware labels, public project identifiers and worker names are saved locally or to the signed-in account. Stripe handles subscription payments; card details are not stored by this site. The server keeps Stripe customer and subscription IDs, payment status, and the paid period to verify Pro access. Device grouping does not change project quotas or merge devices automatically."
+        "Device names, optional hardware labels, public project identifiers and worker names are saved locally or to the signed-in account. Stripe handles subscription payments; card details are not stored by this site. The server keeps Stripe customer and subscription IDs, payment status, and the paid period to verify Pro access. Device grouping does not change project quotas or merge devices automatically.",
       ],
       [
         "What is stored locally",
@@ -246,7 +247,10 @@ const legacyContent = withLocales({
     steps: [
       ["复制 Miner ID", "在设备上打开 IOTA Train at Home 应用，于 Miner 页面复制完整 Miner ID。"],
       ["添加设备", "在监控页填写 ID 与设备名称。其余设备按同样方式添加。"],
-      ["同步清单", "使用 Google 登录后每个项目免费 5 台、Pro 50 台，可在其他设备查看；也可导出 JSON 备份。"],
+      [
+        "同步清单",
+        "使用 Google 登录后每个项目免费 5 台、Pro 50 台，可在其他设备查看；也可导出 JSON 备份。",
+      ],
     ],
     bottomTitle: "可继续添加设备。",
     bottom: "先添加一台设备，再按需补充。",
@@ -315,7 +319,7 @@ const legacyContent = withLocales({
     privacy: [
       [
         "设备聚合与订阅",
-        "设备名称、选填的型号、项目公开标识和 Worker 名称会保存在本地或登录账号。订阅付款由 Stripe 处理，本站不保存银行卡信息。服务端保存 Stripe 客户与订阅标识、付款状态和已付费周期，用于核验 Pro 权益。设备聚合不改变各项目名额，也不会自动合并设备。"
+        "设备名称、选填的型号、项目公开标识和 Worker 名称会保存在本地或登录账号。订阅付款由 Stripe 处理，本站不保存银行卡信息。服务端保存 Stripe 客户与订阅标识、付款状态和已付费周期，用于核验 Pro 权益。设备聚合不改变各项目名额，也不会自动合并设备。",
       ],
       [
         "本地存储内容",
@@ -346,8 +350,12 @@ function contentWithProjectFaq(locale: SiteLocale) {
   const legacy = legacyContent[locale];
   return {
     ...legacy,
-    faqIntro: projectFaq[locale].intro,
+    title: discoveryCopy.title[locale],
+    intro: discoveryCopy.intro[locale],
+    faqTitle: discoveryCopy.faq[locale],
+    faqIntro: discoveryCopy.guideIntro[locale],
     faq: [
+      ...productQuestions(locale).map((q) => [q.question, q.answer] as [string, string]),
       ...projectFaq[locale].questions,
       ...legacy.faq
         .slice(2)

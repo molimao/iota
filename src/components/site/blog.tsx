@@ -1,3 +1,5 @@
+import { DiscoveryQuestions } from "../discovery-questions";
+import { discoveryCopy } from "@/lib/product-discovery";
 import { localizeValue } from "@/components/site/localization";
 import { ArrowUpRight } from "lucide-react";
 import { useLocale } from "./locale";
@@ -15,12 +17,7 @@ export function BlogIndex() {
         ← {localizeValue(en ? "Home" : "首页", locale)}
       </a>
       <span className="eyebrow">IOTA WATCH / {localizeValue(en ? "BLOG" : "博客", locale)}</span>
-      <h1>
-        {localizeValue(
-          en ? "IOTA Train at Home monitoring blog" : "IOTA Train at Home 监控博客",
-          locale,
-        )}
-      </h1>
+      <h1>{discoveryCopy.blogTitle[locale]}</h1>
       <p className="article-lead">
         {localizeValue(
           en
@@ -29,6 +26,7 @@ export function BlogIndex() {
           locale,
         )}
       </p>
+      <DiscoveryQuestions />
       <div className="blog-grid">
         {blogPosts.map((post) => (
           <article key={post.slug}>

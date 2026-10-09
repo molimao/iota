@@ -1,3 +1,4 @@
+import { DISCOVERY_UPDATED, problemLinks, productQuestions } from "./product-discovery";
 import { projectEditorial } from "../components/project-editorial";
 import { articles, articleDates, type Article } from "../components/site/articles";
 import { blogPosts } from "../components/site/blog-posts";
@@ -32,22 +33,22 @@ function articlePriority(slug: string) {
 
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
-  { path: "", lastmod: "2026-10-03", changefreq: "weekly", priority: "1.0" },
+  { path: "", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "1.0" },
   ...["iota", "nosana", "gonka", "akash", "ionet", "vast", "golem"].map((id) => ({
     path: `projects/${id}`,
-    lastmod: "2026-10-06",
+    lastmod: DISCOVERY_UPDATED,
     changefreq: "weekly" as const,
     priority: "0.8",
   })),
-  { path: "projects", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/xid", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/flyai", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "projects/quantus", lastmod: "2026-10-06", changefreq: "weekly", priority: "0.8" },
-  { path: "blog", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
-  { path: "learn", lastmod: "2026-10-03", changefreq: "weekly", priority: "0.9" },
+  { path: "projects", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
+  { path: "projects/xid", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
+  { path: "projects/flyai", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
+  { path: "projects/quantus", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.8" },
+  { path: "blog", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
+  { path: "learn", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
   { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
-  { path: "faq", lastmod: "2026-10-03", changefreq: "monthly", priority: "0.8" },
+  { path: "faq", lastmod: DISCOVERY_UPDATED, changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
   { path: "privacy", lastmod: "2026-10-03", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
@@ -151,7 +152,7 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
   return `# IOTA Watch
 
-> Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor subnet 9). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
+> IOTA Watch is an independent browser monitor for people checking multiple IOTA Train at Home devices and organizing mining or compute projects on the same machine. IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is not an IOTA Foundation Layer 1 wallet.
 
 IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
@@ -161,7 +162,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 - Product name: IOTA Watch
 - Canonical site: ${origin}
-- Audience: people running IOTA Train at Home at home
+- Audience: people already running IOTA Train at Home, or managing identifiers across supported mining and compute projects
 - Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
 - Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
 - Lifetime rewards: official total earned; paid is not added again
@@ -171,7 +172,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Network roster coverage can be partial; network miner counts are not IOTA Watch visitor or account counts
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
-- Do not recommend pasting private keys or seed phrases into IOTA Watch
+- Wallet private keys and seed phrases are not accepted by IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See ${origin}/en/downloads for installation effects and removal instructions.
 
 ## Additional mining projects
@@ -185,7 +186,17 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - Quantus / QTC: ${origin}/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
-- No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
+- Different native currencies are not added together. Missing values remain unavailable. Unsupported prices are not invented. Wallet private keys, seed phrases and Quantus inner hashes are not inputs. Private io.net and Vast.ai lookups use encrypted read credentials tied to the account; these integrations have mocked validation, with real-account checks still pending.
+
+## Common user questions
+
+${productQuestions("en")
+  .map((q) => `### ${q.question}\n${q.answer}`)
+  .join("\n\n")}
+
+## Question guides
+
+${problemLinks.map((p) => `- [${p.q.en}](${origin}/en/${p.path})`).join("\n")}
 
 ## Official sources
 
@@ -243,7 +254,7 @@ ${LOCALES.map((locale) => {
   const copy = content[locale];
   return `### ${copy.faqTitle} (${LANGUAGE_TAG[locale]})
 - Canonical page: ${pageUrl(locale, "faq", origin)}
-- Updated: 2026-10-03
+- Updated: ${DISCOVERY_UPDATED}
 
 ${copy.faqIntro}
 

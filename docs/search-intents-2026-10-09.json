@@ -1,0 +1,308 @@
+{
+  "date": "2026-10-09",
+  "status": "local_prepared_not_published",
+  "strategy": "Question-led visible answers, source citations, language-specific canonical pages and truthful product scope",
+  "questionIntents": [
+    {
+      "path": "/learn/mining-monitor-for-multiple-devices",
+      "queries": {
+        "zh": "多台 Mac 跑 IOTA，在哪里一起看状态和收益？",
+        "zh-TW": "多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？",
+        "en": "Where can I check multiple Macs running IOTA together?",
+        "ko": "IOTA를 실행하는 여러 Mac의 상태와 수익을 어디서 함께 확인하나요?",
+        "ja": "IOTAを動かす複数のMacの状態と収益をまとめて確認できますか？"
+      },
+      "topics": {
+        "zh": [
+          "挖矿监控",
+          "多设备收益",
+          "IOTA Watch"
+        ],
+        "zh-TW": [
+          "挖礦監控",
+          "多設備收益",
+          "IOTA Watch"
+        ],
+        "en": [
+          "mining monitoring",
+          "multi-device rewards",
+          "IOTA Watch"
+        ],
+        "ko": [
+          "채굴 모니터링",
+          "여러 기기 수익",
+          "IOTA Watch"
+        ],
+        "ja": [
+          "採掘の監視",
+          "複数デバイスの収益",
+          "IOTA Watch"
+        ]
+      },
+      "sources": [
+        {
+          "name": "IOTA Watch source and deployment",
+          "url": "https://github.com/molimao/iota"
+        },
+        {
+          "name": "IOTA Train at Home official guide",
+          "url": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+        }
+      ]
+    },
+    {
+      "path": "/learn/monitor-one-device-across-projects",
+      "queries": {
+        "zh": "同一台机器运行多个项目，怎样集中查看？",
+        "zh-TW": "同一台機器執行多個專案，如何集中查看？",
+        "en": "How can I track several projects on one machine?",
+        "ko": "한 기기에서 여러 프로젝트를 실행하면 어떻게 모아 보나요?",
+        "ja": "1台で複数のプロジェクトを動かす場合はどう確認しますか？"
+      },
+      "topics": {
+        "zh": [
+          "挖矿监控",
+          "多设备收益",
+          "IOTA Watch"
+        ],
+        "zh-TW": [
+          "挖礦監控",
+          "多設備收益",
+          "IOTA Watch"
+        ],
+        "en": [
+          "mining monitoring",
+          "multi-device rewards",
+          "IOTA Watch"
+        ],
+        "ko": [
+          "채굴 모니터링",
+          "여러 기기 수익",
+          "IOTA Watch"
+        ],
+        "ja": [
+          "採掘の監視",
+          "複数デバイスの収益",
+          "IOTA Watch"
+        ]
+      },
+      "sources": [
+        {
+          "name": "IOTA Watch source and deployment",
+          "url": "https://github.com/molimao/iota"
+        },
+        {
+          "name": "IOTA Train at Home official guide",
+          "url": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+        }
+      ]
+    },
+    {
+      "path": "/learn/mining-dashboard-vs-official-dashboards",
+      "queries": {
+        "zh": "IOTA Watch 和官方面板，应该用哪个？",
+        "zh-TW": "IOTA Watch 與官方面板，應該使用哪個？",
+        "en": "When should I use IOTA Watch or an official dashboard?",
+        "ko": "IOTA Watch와 공식 대시보드는 언제 사용하나요?",
+        "ja": "IOTA Watchと公式ダッシュボードはどう使い分けますか？"
+      },
+      "topics": {
+        "zh": [
+          "挖矿监控",
+          "多设备收益",
+          "IOTA Watch"
+        ],
+        "zh-TW": [
+          "挖礦監控",
+          "多設備收益",
+          "IOTA Watch"
+        ],
+        "en": [
+          "mining monitoring",
+          "multi-device rewards",
+          "IOTA Watch"
+        ],
+        "ko": [
+          "채굴 모니터링",
+          "여러 기기 수익",
+          "IOTA Watch"
+        ],
+        "ja": [
+          "採掘の監視",
+          "複数デバイスの収益",
+          "IOTA Watch"
+        ]
+      },
+      "sources": [
+        {
+          "name": "IOTA Watch source and deployment",
+          "url": "https://github.com/molimao/iota"
+        },
+        {
+          "name": "IOTA Train at Home official guide",
+          "url": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+        }
+      ]
+    },
+    {
+      "path": "/learn/compare-mining-rewards-across-projects",
+      "queries": {
+        "zh": "不同项目的收益可以直接加在一起吗？",
+        "zh-TW": "不同專案的收益可以直接相加嗎？",
+        "en": "Can rewards from different projects be added together?",
+        "ko": "서로 다른 프로젝트의 수익을 합산할 수 있나요?",
+        "ja": "異なるプロジェクトの収益は合算できますか？"
+      },
+      "topics": {
+        "zh": [
+          "挖矿监控",
+          "多设备收益",
+          "IOTA Watch"
+        ],
+        "zh-TW": [
+          "挖礦監控",
+          "多設備收益",
+          "IOTA Watch"
+        ],
+        "en": [
+          "mining monitoring",
+          "multi-device rewards",
+          "IOTA Watch"
+        ],
+        "ko": [
+          "채굴 모니터링",
+          "여러 기기 수익",
+          "IOTA Watch"
+        ],
+        "ja": [
+          "採掘の監視",
+          "複数デバイスの収益",
+          "IOTA Watch"
+        ]
+      },
+      "sources": [
+        {
+          "name": "IOTA Watch source and deployment",
+          "url": "https://github.com/molimao/iota"
+        },
+        {
+          "name": "IOTA Train at Home official guide",
+          "url": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+        }
+      ]
+    }
+  ],
+  "projectIntents": [
+    {
+      "project": "iota",
+      "questions": [
+        "怎样用 IOTA Watch 查看 IOTA 数据？",
+        "IOTA 的哪些状态和收益能查到？",
+        "怎样保存多个 IOTA 标识，方便以后查看？"
+      ],
+      "path": "/projects/iota"
+    },
+    {
+      "project": "xid",
+      "questions": [
+        "怎样用 IOTA Watch 查看 XID 数据？",
+        "XID 的哪些状态和收益能查到？",
+        "怎样保存多个 XID 标识，方便以后查看？"
+      ],
+      "path": "/projects/xid"
+    },
+    {
+      "project": "quantus",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Quantus 数据？",
+        "Quantus 的哪些状态和收益能查到？",
+        "怎样保存多个 Quantus 标识，方便以后查看？"
+      ],
+      "path": "/projects/quantus"
+    },
+    {
+      "project": "flyai",
+      "questions": [
+        "怎样用 IOTA Watch 查看 fly.ai 数据？",
+        "fly.ai 的哪些状态和收益能查到？",
+        "怎样保存多个 fly.ai 标识，方便以后查看？"
+      ],
+      "path": "/projects/flyai"
+    },
+    {
+      "project": "nosana",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Nosana 数据？",
+        "Nosana 的哪些状态和收益能查到？",
+        "怎样保存多个 Nosana 标识，方便以后查看？"
+      ],
+      "path": "/projects/nosana"
+    },
+    {
+      "project": "gonka",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Gonka 数据？",
+        "Gonka 的哪些状态和收益能查到？",
+        "怎样保存多个 Gonka 标识，方便以后查看？"
+      ],
+      "path": "/projects/gonka"
+    },
+    {
+      "project": "akash",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Akash 数据？",
+        "Akash 的哪些状态和收益能查到？",
+        "怎样保存多个 Akash 标识，方便以后查看？"
+      ],
+      "path": "/projects/akash"
+    },
+    {
+      "project": "ionet",
+      "questions": [
+        "怎样用 IOTA Watch 查看 io.net 数据？",
+        "io.net 的哪些状态和收益能查到？",
+        "怎样保存多个 io.net 标识，方便以后查看？"
+      ],
+      "path": "/projects/ionet"
+    },
+    {
+      "project": "vast",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Vast.ai 数据？",
+        "Vast.ai 的哪些状态和收益能查到？",
+        "怎样保存多个 Vast.ai 标识，方便以后查看？"
+      ],
+      "path": "/projects/vast"
+    },
+    {
+      "project": "golem",
+      "questions": [
+        "怎样用 IOTA Watch 查看 Golem 数据？",
+        "Golem 的哪些状态和收益能查到？",
+        "怎样保存多个 Golem 标识，方便以后查看？"
+      ],
+      "path": "/projects/golem"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Google AI features",
+      "url": "https://developers.google.com/search/docs/appearance/ai-features"
+    },
+    {
+      "name": "OpenAI publishers FAQ",
+      "url": "https://help.openai.com/en/articles/12627856-publishers-and-developers-faq"
+    },
+    {
+      "name": "Bing webmaster guidelines",
+      "url": "https://www.bing.com/webmasters/help/bing-webmaster-guidelines-30fba23a"
+    }
+  ],
+  "verification": {
+    "searchVolumes": "not claimed",
+    "aiRecommendations": "not guaranteed",
+    "publicPathsAdded": 4,
+    "languages": 5,
+    "liveAccountDataPublished": false
+  }
+}

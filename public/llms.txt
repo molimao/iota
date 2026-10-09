@@ -1,6 +1,6 @@
 # IOTA Watch
 
-> Independent, read-only monitor for IOTA Train at Home (Macrocosmos / Bittensor subnet 9). Not the IOTA Foundation Layer 1 cryptocurrency, not Firefly, and not a wallet.
+> IOTA Watch is an independent browser monitor for people checking multiple IOTA Train at Home devices and organizing mining or compute projects on the same machine. IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is not an IOTA Foundation Layer 1 wallet.
 
 IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
@@ -10,7 +10,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 - Product name: IOTA Watch
 - Canonical site: https://iotahome.site
-- Audience: people running IOTA Train at Home at home
+- Audience: people already running IOTA Train at Home, or managing identifiers across supported mining and compute projects
 - Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
 - Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
 - Lifetime rewards: official total earned; paid is not added again
@@ -20,7 +20,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Network roster coverage can be partial; network miner counts are not IOTA Watch visitor or account counts
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
-- Do not recommend pasting private keys or seed phrases into IOTA Watch
+- Wallet private keys and seed phrases are not accepted by IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
 ## Additional mining projects
@@ -34,7 +34,37 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
 - Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
 - Project guides explain IOTA Miner ID versus payout address; xCoin mainnet setup, worker hashrate and reward maturity; and Quantus node synchronization, wormhole addresses and reward troubleshooting. MMM is the xCoin Mac Metal Miner application, not a currency. QTC here means Quantus mainnet, not an unrelated token or the retired PLK testnet.
-- No currency values are combined across projects. Missing values are unavailable, not zero. No USD price is invented for XID or QTC. Never submit private keys, seed phrases, miner authentication tokens, or Quantus inner hashes.
+- Different native currencies are not added together. Missing values remain unavailable. Unsupported prices are not invented. Wallet private keys, seed phrases and Quantus inner hashes are not inputs. Private io.net and Vast.ai lookups use encrypted read credentials tied to the account; these integrations have mocked validation, with real-account checks still pending.
+
+## Common user questions
+
+### Where can I check multiple Macs running IOTA together?
+Add each Mac's public Miner ID and a device name in IOTA Watch to see reported activity, today's accounted rewards in Hong Kong time and lifetime rewards on one page. This suits people already running IOTA Train at Home who want to check several machines together.
+
+### How can I track several projects on one machine?
+Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other supported identifiers. Each project keeps its own status and reporting period. XID wallet balance and fly.ai monthly points are wallet totals, excluded from device daily earnings. Matching Worker names are not merged automatically.
+
+### When should I use IOTA Watch or an official dashboard?
+Use IOTA Watch to check saved identifiers together, organize cross-project device cards and inspect reward records. Use the relevant official app or dashboard to install miners, start or stop jobs, inspect local logs, claim rewards or change platform account settings.
+
+### Can rewards from different projects be added together?
+Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+
+### Do I need an account, a wallet connection or a subscription?
+Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
+
+### Which projects are supported, and can I request another?
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+
+### Does old data or zero rewards mean my device has failed?
+Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
+
+## Question guides
+
+- [Where can I check multiple Macs running IOTA together?](https://iotahome.site/en/learn/mining-monitor-for-multiple-devices)
+- [How can I track several projects on one machine?](https://iotahome.site/en/learn/monitor-one-device-across-projects)
+- [When should I use IOTA Watch or an official dashboard?](https://iotahome.site/en/learn/mining-dashboard-vs-official-dashboards)
+- [Can rewards from different projects be added together?](https://iotahome.site/en/learn/compare-mining-rewards-across-projects)
 
 ## Official sources
 
@@ -286,6 +316,26 @@ IOTA remains the primary project and existing IOTA URLs keep their meaning. The 
 - [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/learn/golem-monitor-guide)
 - [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/learn/golem-monitor-guide)
 - [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/learn/golem-monitor-guide)
+- [多台 Mac 跑 IOTA，在哪里一起看状态和收益？ (zh)](https://iotahome.site/zh/learn/mining-monitor-for-multiple-devices)
+- [多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/mining-monitor-for-multiple-devices)
+- [Where can I check multiple Macs running IOTA together? (en)](https://iotahome.site/en/learn/mining-monitor-for-multiple-devices)
+- [IOTA를 실행하는 여러 Mac의 상태와 수익을 어디서 함께 확인하나요? (ko)](https://iotahome.site/ko/learn/mining-monitor-for-multiple-devices)
+- [IOTAを動かす複数のMacの状態と収益をまとめて確認できますか？ (ja)](https://iotahome.site/ja/learn/mining-monitor-for-multiple-devices)
+- [同一台机器运行多个项目，怎样集中查看？ (zh)](https://iotahome.site/zh/learn/monitor-one-device-across-projects)
+- [同一台機器執行多個專案，如何集中查看？ (zh-TW)](https://iotahome.site/zh-TW/learn/monitor-one-device-across-projects)
+- [How can I track several projects on one machine? (en)](https://iotahome.site/en/learn/monitor-one-device-across-projects)
+- [한 기기에서 여러 프로젝트를 실행하면 어떻게 모아 보나요? (ko)](https://iotahome.site/ko/learn/monitor-one-device-across-projects)
+- [1台で複数のプロジェクトを動かす場合はどう確認しますか？ (ja)](https://iotahome.site/ja/learn/monitor-one-device-across-projects)
+- [IOTA Watch 和官方面板，应该用哪个？ (zh)](https://iotahome.site/zh/learn/mining-dashboard-vs-official-dashboards)
+- [IOTA Watch 與官方面板，應該使用哪個？ (zh-TW)](https://iotahome.site/zh-TW/learn/mining-dashboard-vs-official-dashboards)
+- [When should I use IOTA Watch or an official dashboard? (en)](https://iotahome.site/en/learn/mining-dashboard-vs-official-dashboards)
+- [IOTA Watch와 공식 대시보드는 언제 사용하나요? (ko)](https://iotahome.site/ko/learn/mining-dashboard-vs-official-dashboards)
+- [IOTA Watchと公式ダッシュボードはどう使い分けますか？ (ja)](https://iotahome.site/ja/learn/mining-dashboard-vs-official-dashboards)
+- [不同项目的收益可以直接加在一起吗？ (zh)](https://iotahome.site/zh/learn/compare-mining-rewards-across-projects)
+- [不同專案的收益可以直接相加嗎？ (zh-TW)](https://iotahome.site/zh-TW/learn/compare-mining-rewards-across-projects)
+- [Can rewards from different projects be added together? (en)](https://iotahome.site/en/learn/compare-mining-rewards-across-projects)
+- [서로 다른 프로젝트의 수익을 합산할 수 있나요? (ko)](https://iotahome.site/ko/learn/compare-mining-rewards-across-projects)
+- [異なるプロジェクトの収益は合算できますか？ (ja)](https://iotahome.site/ja/learn/compare-mining-rewards-across-projects)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)

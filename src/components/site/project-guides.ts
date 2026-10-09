@@ -1,3 +1,4 @@
+import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import type { Article } from "./articles";
 
@@ -1444,7 +1445,9 @@ export const projectGuides: Article[] = [
 
 export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
   return project
-    ? [...projectGuides, ...computeGuides].filter((a) => a.project === project)
+    ? [...projectGuides, ...computeGuides, ...problemGuides].filter(
+        (a) => a.project === project || a.project === "all",
+      )
     : projectGuides.filter(
         (a) =>
           a.project === "all" ||
