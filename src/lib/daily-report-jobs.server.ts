@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { authenticateCronRequest } from "@/integrations/supabase/cron-auth";
+import { authenticateReportCron } from "./daily-report-cron-auth.server";
 import { watchDb } from "./watch-db";
 import { PROJECT_IDS, PROJECTS } from "./projects";
 import { ORIGIN, LOCALES } from "./site";
@@ -210,7 +210,7 @@ async function deliver(j: Job, config: NonNullable<ReturnType<typeof reportEmail
 }
 export async function reportCron(request: Request) {
   if (request.method !== "POST") return json({ error: "method_not_allowed" }, 405);
-  const rejected = await authenticateCronRequest(request);
+  const rejected = await authenticateReportCron(request);
   if (rejected) return rejected;
   const config = reportEmailConfig(process.env);
   if (!config) return json({ error: "reports_not_configured" }, 503);

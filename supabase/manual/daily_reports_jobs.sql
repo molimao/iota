@@ -1,5 +1,5 @@
 -- Operator-only setup after approved production configuration and migration.
--- The server's LOVABLE_CRON_SECRET must match the Vault secret below.
+-- The server's DAILY_REPORTS_CRON_SECRET must match the Vault secret below.
 -- Store it securely as Vault name 'watch_daily_reports_cron'; never put the
 -- actual value in a repository migration or expose it to a client.
 -- Do not run until the digest-capable mail provider and sender domain work.

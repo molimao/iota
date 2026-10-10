@@ -154,7 +154,7 @@ Validate with `npx vitest run`, `npx tsc --noEmit`, and `npm run build`. Local `
 2. 将 `RESEND_API_KEY`、`DAILY_REPORTS_FROM` 配置为服务端密钥。先保持 `DAILY_REPORTS_ENABLED=false`。密钥不得带 `VITE_` 前缀或提交到 Git。
 3. 应用 `20261010180000_daily_reports.sql`，现有用户、设备和 Stripe 记录不会被修改。新偏好、报表队列仅开放所需 RPC；快照仅保留 7 天。
 4. 部署已验证的代码。在配置正确后，用所有者授权的一个真实邮箱验证一封日报；测试预览的示例地址不能用于真实发送。检查单次接收、HTML/文本、退订和收件结果。
-5. 当前服务端 `LOVABLE_CRON_SECRET` 与 Vault 中 `watch_daily_reports_cron` 的值必须一致。安全配置该密钥后执行 `supabase/manual/daily_reports_jobs.sql`。SQL 中只存 Vault 引用，不存明文密钥。
+5. 配置日报专用 `DAILY_REPORTS_CRON_SECRET`（至少 32 个字符）并将同一值加密保存在 Vault 的 `watch_daily_reports_cron`。托管的 `LOVABLE_CRON_SECRET` 不可从后台读取，无须替换。安全配置专用密钥后执行 `supabase/manual/daily_reports_jobs.sql`；SQL 中只存 Vault 引用，不存明文密钥。专用密钥一经配置，日报端点仅接受它和可选轮换前值 `DAILY_REPORTS_CRON_SECRET_PREVIOUS`。
 6. 最后开启 `DAILY_REPORTS_ENABLED=true`，核对 Cloud Jobs 的准备/恢复任务和 09:30 UTC+8 发送任务。准备每次仅处理有限读取；到了发送时刻未完成的来源显示部分数据，不用旧的今日余额填充昨日收益。
 
 每个用户每天只有一个持久任务，模板与接收地址在首次发送前冻结。重试使用相同 provider idempotency key；发送前再次验证订阅、Pro、邮箱及退订状态。Google 邮箱变更须重新开启。GET 退订页仅展示确认，避免邮件安全扫描器自动退订；POST 支持明确确认及邮件客户端 one-click 请求。邮件接受不等于已送达；运营者应检查发送服务日志中的投递或退信结果。
