@@ -51,7 +51,7 @@ export const crawlPages: CrawlPage[] = [
   { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
   { path: "faq", lastmod: DISCOVERY_UPDATED, changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
-  { path: "privacy", lastmod: "2026-10-03", changefreq: "yearly", priority: "0.3" },
+  { path: "privacy", lastmod: "2026-10-10", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
     lastmod: articleDates(article).modified,

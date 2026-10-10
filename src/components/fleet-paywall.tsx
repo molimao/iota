@@ -13,6 +13,8 @@ import {
   planAmount,
 } from "@/lib/billing-display";
 import { fleetCopy } from "./fleet-copy";
+import { ReportBenefit } from "./daily-report-discovery";
+import { reportCopy } from "./daily-report-copy";
 import { useLocale } from "./site/locale";
 
 export type PriceChoiceProps = {
@@ -87,7 +89,7 @@ export function PaywallBody({
           <p>{c.upTo}</p>
         </div>
       </div>
-      <p className="fleet-paywall-additional">{c.additional}</p>
+      <ReportBenefit />
       <div className="fleet-paywall-policy">
         <p>
           <Layers size={15} />
@@ -100,6 +102,7 @@ export function PaywallBody({
       </div>
       <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
       <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
+      <p className="fleet-paywall-report-guide">{reportCopy.afterPayment[locale]}</p>
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>

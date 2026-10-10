@@ -1,4 +1,5 @@
 import { MonitoringExample } from "../onboarding";
+import { reportCopy } from "../daily-report-copy";
 import { evidenceLabels } from "./core-evidence";
 import { onboardingCopy } from "@/lib/onboarding";
 import { DiscoveryQuestions } from "../discovery-questions";
@@ -335,6 +336,8 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           <h2>{projectsCopy[locale].projects}</h2>
           <p>{projectsCopy[locale].privacyData}</p>
           <p>{projectRequestCopy(locale).privacy}</p>
+          <h3>{reportCopy.title[locale]}</h3>
+          <p>{reportCopy.privacy[locale]}</p>
           <p>
             {
               {

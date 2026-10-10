@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { DailyReportSettings } from "./daily-report-settings";
 import { useRouterState } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
@@ -99,6 +100,7 @@ export function FleetPage() {
         devices={fleet.devices}
         plan={fleet.plan}
         billing={fleet.billing}
+        reportSettings={<DailyReportSettings userId={auth.userId} />}
         initialTab={memberView ? "plans" : "devices"}
         initialPaywallProject={upgradeProject}
         reading={reading}

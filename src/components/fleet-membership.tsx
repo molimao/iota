@@ -1,5 +1,6 @@
 import { ArrowUpRight, Check, Layers } from "lucide-react";
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { FLEET_NAMES, FLEET_PROJECTS, projectDeviceCount, type FleetDevice } from "@/lib/fleet";
 import type { BillingSummary } from "@/lib/plans";
 import { fleetCopy } from "./fleet-copy";
@@ -11,12 +12,14 @@ export function FleetMembership({
   onManage,
   onAdd,
   compact = false,
+  reportSettings,
 }: {
   devices: FleetDevice[];
   billing?: BillingSummary | undefined;
   onManage?: (() => Promise<void>) | undefined;
   onAdd: () => void;
   compact?: boolean;
+  reportSettings?: ReactNode;
 }) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
@@ -65,6 +68,7 @@ export function FleetMembership({
           </button>
         </div>
       </header>
+      {!compact && reportSettings}
       {!compact && (
         <>
           <div className="fleet-member-section">

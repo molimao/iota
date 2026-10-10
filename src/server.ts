@@ -179,6 +179,14 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (new URL(request.url).pathname === "/api/reports/cron") {
+        const { reportCron } = await import("./lib/daily-report-jobs.server");
+        return reportCron(request);
+      }
+      if (new URL(request.url).pathname === "/api/reports/unsubscribe") {
+        const { reportUnsubscribe } = await import("./lib/daily-report-unsubscribe.server");
+        return reportUnsubscribe(request);
+      }
       if (new URL(request.url).pathname === "/api/stripe/webhook") {
         const { stripeWebhook } = await import("./lib/billing.server");
         return stripeWebhook(request);

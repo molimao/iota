@@ -1,10 +1,13 @@
 import { AdditionHelp } from "./onboarding";
+import { reportCopy } from "./daily-report-copy";
+import { ReportBenefit, ReportEntry } from "./daily-report-discovery";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
 import { platformCopy } from "./platform-copy";
 import { editorialCopy } from "./project-editorial";
 import { monitorViewCopy } from "./monitor-views";
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
   ArrowUpRight,
   RefreshCw,
@@ -14,7 +17,6 @@ import {
   Monitor,
   Plus,
   Search,
-  SlidersHorizontal,
 } from "lucide-react";
 import { useLocale } from "./site/locale";
 import { fleetCopy } from "./fleet-copy";
@@ -60,6 +62,7 @@ export type FleetWorkspaceProps = {
   devices: FleetDevice[];
   plan: "free" | "pro";
   billing?: BillingSummary | undefined;
+  reportSettings?: ReactNode;
   preview?: boolean;
   onRefresh?: (() => Promise<void>) | undefined;
   refreshing?: boolean | undefined;
@@ -214,12 +217,6 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   }
   return (
     <main className="fleet-workspace">
-      {props.preview && (
-        <div className="fleet-preview-banner">
-          <SlidersHorizontal size={14} />
-          {c.preview}
-        </div>
-      )}
       <header className="fleet-heading">
         <div>
           <h1>
@@ -268,6 +265,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
+          {props.devices.length > 0 && (
+            <ReportEntry plan={props.plan} preview={props.preview ?? false} />
+          )}
           {props.devices.length > 0 && (
             <div className="fleet-toolbar">
               <div className="fleet-filters">
@@ -351,6 +351,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         >
           {props.plan === "pro" ? (
             <FleetMembership
+              reportSettings={props.reportSettings}
               devices={props.devices}
               billing={props.billing}
               onManage={props.onManage}
@@ -359,7 +360,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           ) : (
             <>
               <div className="fleet-plan-intro">
-                <h2>{c.quotas}</h2>
+                <h2>{reportCopy.paywallIntro[locale]}</h2>
                 <p>
                   {c.perProject} · {c.noFleetLimit}
                 </p>
@@ -372,13 +373,16 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   <p>
                     {c.upTo} <strong>5</strong> {c.devices}
                   </p>
-                  <ProjectAllowances devices={props.devices} limit={5} c={c} />
+                  <details className="fleet-plan-allowances">
+                    <summary>{c.quotas}</summary>
+                    <ProjectAllowances devices={props.devices} limit={5} c={c} />
+                  </details>
                   <p className="fleet-plan-features">{c.sameFeatures}</p>
                   <button className="fleet-outline" disabled>
                     {props.plan === "free" ? c.current : c.free}
                   </button>
                 </article>
-                <article className="fleet-plan-card fleet-pro-card">
+                <article id="pro-plan" className="fleet-plan-card fleet-pro-card">
                   <span className="eyebrow">PRO</span>
                   <h3>Pro</h3>
                   <div className="fleet-billing-switch" role="group" aria-label={c.plans}>
@@ -406,12 +410,17 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   <p>
                     {c.upTo} <strong>50</strong> {c.devices}
                   </p>
-                  <ProjectAllowances devices={props.devices} limit={50} c={c} />
+                  <details className="fleet-plan-allowances">
+                    <summary>{c.quotas}</summary>
+                    <ProjectAllowances devices={props.devices} limit={50} c={c} />
+                  </details>
                   <p className="fleet-plan-features">{c.sameFeatures}</p>
+                  <ReportBenefit />
                   <button className="site-button" onClick={() => open("billing")}>
                     {c.choosePlan}
                     <ArrowUpRight size={16} />
                   </button>
+                  <p className="fleet-plan-features">{reportCopy.afterPayment[locale]}</p>
                 </article>
               </div>
               {props.preview && (
@@ -421,6 +430,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               )}
               <p className="fleet-plan-note">{c.renewal}</p>
               <p className="fleet-plan-note">{c.downgrade}</p>
+              {props.reportSettings}
             </>
           )}
         </section>
@@ -453,7 +463,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           </DialogTitle>
           <DialogDescription>
             {dialog === "billing"
-              ? c.sameMonitoring
+              ? reportCopy.paywallIntro[locale]
               : dialog === "add"
                 ? c.addGuide
                 : dialog === "merge"

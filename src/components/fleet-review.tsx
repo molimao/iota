@@ -1,4 +1,5 @@
 import { useRouterState } from "@tanstack/react-router";
+import { ReportSettings } from "./daily-report-settings";
 import { useState } from "react";
 import { FleetWorkspace } from "./fleet-workspace";
 import { reviewDevices, reviewReading } from "./fleet-review-data";
@@ -16,8 +17,10 @@ export function FleetReview() {
   const [recovered, setRecovered] = useState(false);
   const [devices, setDevices] = useState(() => (scenario === "empty" ? [] : reviewDevices()));
   const [plan, setPlan] = useState<"free" | "pro">("pro");
+  const [emailEnabled, setEmailEnabled] = useState(false);
   const { locale } = useLocale(),
     c = fleetCopy(locale);
+  const [emailLocale, setEmailLocale] = useState(locale);
   return (
     <>
       <div className="fleet-review-switch">
@@ -27,9 +30,30 @@ export function FleetReview() {
         </button>
       </div>
       <FleetWorkspace
+        preview
         initialTab={membershipView ? "plans" : "devices"}
         devices={devices}
         plan={plan}
+        reportSettings={
+          <ReportSettings
+            value={{
+              enabled: emailEnabled,
+              recipient: "reader@example.invalid",
+              eligible: plan === "pro",
+              emailChanged: false,
+              configured: true,
+              locale: emailLocale,
+              nextAt: Date.parse("2026-10-11T09:30:00+08:00"),
+              lastSentAt: null,
+            }}
+            busy={false}
+            error={false}
+            onSave={async (enabled, language) => {
+              setEmailEnabled(enabled);
+              setEmailLocale(language);
+            }}
+          />
+        }
         billing={{
           plan,
           quotaScope: "per_project",

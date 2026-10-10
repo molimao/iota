@@ -113,3 +113,12 @@ export async function privatePlatform(
     return { data: null, fetchedAt: null, error: safeError(e) };
   }
 }
+
+/** A report must read the requested historical Beijing day, never today's cache. */
+export async function vastReportDay(user: string, id: string, dayEnd: number) {
+  const row = await connection(user, "vast");
+  if (!row) throw new Error("connect-required");
+  if (Date.parse(row.expires_at) <= Date.now()) throw new Error("expired");
+  const token = await openCredential(row.ciphertext, user, "vast", encryptionKey());
+  return readPrivatePlatform("vast", id, token, fetch, dayEnd - 1);
+}

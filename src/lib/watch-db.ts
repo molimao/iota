@@ -30,6 +30,32 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_report_status: { Args: Record<string, never>; Returns: Json };
+      watch_set_report_preferences: {
+        Args: { p_enabled: boolean; p_locale: string };
+        Returns: Json;
+      };
+      watch_enqueue_reports: { Args: { p_now: string }; Returns: number };
+      watch_claim_report: { Args: { p_phase: string; p_now: string }; Returns: Json };
+      watch_update_report: {
+        Args: {
+          p_id: string;
+          p_lease: string;
+          p_cursor: number;
+          p_readings: Json;
+          p_payload: Json;
+          p_status: string;
+          p_provider: string | null;
+          p_error: string | null;
+          p_retry_at: string | null;
+        };
+        Returns: boolean;
+      };
+      watch_report_can_send: {
+        Args: { p_id: string; p_lease: string; p_now: string };
+        Returns: boolean;
+      };
+      watch_report_unsubscribe: { Args: { p_token: string }; Returns: boolean };
       watch_project_request_status: { Args: Record<string, never>; Returns: Json };
       watch_submit_project_request: {
         Args: {
