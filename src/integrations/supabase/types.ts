@@ -38,12 +38,240 @@ export type Database = {
         }
         Relationships: []
       }
+      watch_billing: {
+        Row: {
+          cancel_at_period_end: boolean
+          checkout_expires_at: string | null
+          checkout_interval: string | null
+          checkout_locale: string | null
+          checkout_session: string | null
+          checkout_token: string | null
+          period_end: string | null
+          status: string | null
+          stripe_customer: string | null
+          stripe_event_created: number
+          stripe_subscription: string | null
+          synced_at: string | null
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          checkout_expires_at?: string | null
+          checkout_interval?: string | null
+          checkout_locale?: string | null
+          checkout_session?: string | null
+          checkout_token?: string | null
+          period_end?: string | null
+          status?: string | null
+          stripe_customer?: string | null
+          stripe_event_created?: number
+          stripe_subscription?: string | null
+          synced_at?: string | null
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          checkout_expires_at?: string | null
+          checkout_interval?: string | null
+          checkout_locale?: string | null
+          checkout_session?: string | null
+          checkout_token?: string | null
+          period_end?: string | null
+          status?: string | null
+          stripe_customer?: string | null
+          stripe_event_created?: number
+          stripe_subscription?: string | null
+          synced_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watch_bindings: {
+        Row: {
+          device_id: string
+          id: string
+          identifier: string
+          project: string
+          user_id: string
+          worker: string
+        }
+        Insert: {
+          device_id: string
+          id?: string
+          identifier: string
+          project: string
+          user_id: string
+          worker?: string
+        }
+        Update: {
+          device_id?: string
+          id?: string
+          identifier?: string
+          project?: string
+          user_id?: string
+          worker?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watch_bindings_device_id_user_id_fkey"
+            columns: ["device_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "watch_devices"
+            referencedColumns: ["id", "user_id"]
+          },
+        ]
+      }
+      watch_connections: {
+        Row: {
+          ciphertext: string
+          expires_at: string
+          project: string
+          revision: string
+          user_id: string
+        }
+        Insert: {
+          ciphertext: string
+          expires_at: string
+          project: string
+          revision?: string
+          user_id: string
+        }
+        Update: {
+          ciphertext?: string
+          expires_at?: string
+          project?: string
+          revision?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watch_devices: {
+        Row: {
+          created_at: string
+          hardware: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          hardware?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          hardware?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watch_project_requests: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          locale: string
+          official_url: string
+          project_name: string
+          request_id: string
+          submitted_day: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          locale: string
+          official_url: string
+          project_name: string
+          request_id: string
+          submitted_day?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          locale?: string
+          official_url?: string
+          project_name?: string
+          request_id?: string
+          submitted_day?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watch_stripe_events: {
+        Row: {
+          id: string
+          received_at: string
+        }
+        Insert: {
+          id: string
+          received_at?: string
+        }
+        Update: {
+          id?: string
+          received_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      watch_finish_checkout: {
+        Args: { p_session: string; p_token: string; p_user: string }
+        Returns: undefined
+      }
+      watch_list_devices: { Args: never; Returns: Json }
+      watch_mutate_device: {
+        Args: { p_action: string; p_payload: Json }
+        Returns: Json
+      }
+      watch_project_device_limit: { Args: { p_user: string }; Returns: number }
+      watch_project_request_status: { Args: never; Returns: Json }
+      watch_release_checkout: {
+        Args: { p_token: string; p_user: string }
+        Returns: undefined
+      }
+      watch_reserve_checkout: {
+        Args: {
+          p_customer: string
+          p_interval: string
+          p_locale: string
+          p_user: string
+        }
+        Returns: Json
+      }
+      watch_submit_project_request: {
+        Args: {
+          p_description: string
+          p_locale: string
+          p_name: string
+          p_request: string
+          p_url: string
+        }
+        Returns: Json
+      }
+      watch_sync_subscription: {
+        Args: {
+          p_cancel: boolean
+          p_created: number
+          p_customer: string
+          p_end: string
+          p_event: string
+          p_status: string
+          p_subscription: string
+          p_user: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
