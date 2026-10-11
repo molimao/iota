@@ -1,3 +1,6 @@
+import { DeviceEarningsTrend } from "./device-earnings-trend";
+import { ProTools } from "./pro-tools";
+import { ProNotificationSettings } from "./pro-notification-settings";
 import { useState } from "react";
 import { DailyReportSettings } from "./daily-report-settings";
 import { useRouterState } from "@tanstack/react-router";
@@ -100,7 +103,16 @@ export function FleetPage() {
         devices={fleet.devices}
         plan={fleet.plan}
         billing={fleet.billing}
-        reportSettings={<DailyReportSettings userId={auth.userId} />}
+        reportSettings={
+          <>
+            <DailyReportSettings userId={auth.userId} />
+            {fleet.plan === "pro" && <ProNotificationSettings userId={auth.userId} />}
+          </>
+        }
+        deviceTrend={(device) => (
+          <DeviceEarningsTrend userId={auth.userId} device={device} plan={fleet.plan} />
+        )}
+        proTools={<ProTools userId={auth.userId} plan={fleet.plan} devices={fleet.devices} />}
         initialTab={memberView ? "plans" : "devices"}
         initialPaywallProject={upgradeProject}
         reading={reading}

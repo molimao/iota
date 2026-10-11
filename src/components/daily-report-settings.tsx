@@ -29,8 +29,7 @@ export function ReportSettings({
   error: boolean;
   onSave: (enabled: boolean, locale: SiteLocale) => Promise<void>;
 }) {
-  const { locale } = useLocale(),
-    [preview, setPreview] = useState(false);
+  const { locale } = useLocale();
   return (
     <section id="daily-reports" className="daily-report-settings">
       <header>
@@ -43,9 +42,6 @@ export function ReportSettings({
           </h2>
           <p>{c.schedule[locale]}</p>
         </div>
-        <button className="text-link" onClick={() => setPreview(true)}>
-          {c.preview[locale]} <ArrowUpRight size={13} />
-        </button>
       </header>
       <p className="daily-report-intro">{c.intro[locale]}</p>
       {value && !value.eligible && !value.enabled ? (
@@ -140,7 +136,7 @@ export function ReportSettings({
               ? c.setup[locale]
               : c.first[locale]}
       </p>
-      <ReportEmailPreview open={preview} onOpenChange={setPreview} />
+      <ReportEmailPreview emailLocale={value?.locale} />
     </section>
   );
 }

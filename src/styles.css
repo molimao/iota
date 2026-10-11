@@ -662,7 +662,7 @@ button:disabled {
   border-radius: 14px;
   color: #787878;
 }
-.empty svg {
+.empty > svg {
   margin: auto;
 }
 .empty h2 {
@@ -971,12 +971,16 @@ th {
   margin-top: 32px;
 }
 .text-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   font-weight: 600;
   color: #424242;
+}
+.text-link > svg {
+  flex: 0 0 auto;
+  margin: 0;
 }
 .trust-notes {
   display: flex;

@@ -1,3 +1,4 @@
+import { proCopy } from "./pro-tools-copy";
 import { ArrowRight, Check, Layers, Monitor } from "lucide-react";
 import {
   FLEET_NAMES,
@@ -90,6 +91,14 @@ export function PaywallBody({
         </div>
       </div>
       <ReportBenefit />
+      <ul className="pro-paywall-benefits">
+        {(["alerts", "monthlyEmail", "bulk"] as const).map((key) => (
+          <li key={key}>
+            <Check size={14} />
+            {proCopy[key][locale]}
+          </li>
+        ))}
+      </ul>
       <div className="fleet-paywall-policy">
         <p>
           <Layers size={15} />

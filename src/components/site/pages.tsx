@@ -1,3 +1,4 @@
+import { proCopy } from "../pro-tools-copy";
 import { MonitoringExample } from "../onboarding";
 import { reportCopy } from "../daily-report-copy";
 import { evidenceLabels } from "./core-evidence";
@@ -240,8 +241,7 @@ export function Landing() {
             {copy.eyebrow}
           </div>
           <h1>
-            {lead}
-            <br />
+            <span>{lead}</span>
             <em>{accent}</em>
           </h1>
           <p>{copy.intro}</p>
@@ -338,6 +338,12 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           <p>{projectRequestCopy(locale).privacy}</p>
           <h3>{reportCopy.title[locale]}</h3>
           <p>{reportCopy.privacy[locale]}</p>
+          <h3>
+            {proCopy.trends[locale]} · {proCopy.more[locale]}
+          </h3>
+          <p>{proCopy.privacy[locale]}</p>
+          <p>{proCopy.alertsNote[locale]}</p>
+          <p>{proCopy.monthlyNote[locale]}</p>
           <p>
             {
               {
@@ -355,8 +361,8 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       {page === "faq" && <ProjectLearning />}
       <p className="article-updated">
         {page === "privacy" || page === "faq" ? (
-          <time dateTime={page === "faq" ? DISCOVERY_UPDATED : "2026-10-03"}>
-            {page === "faq" ? DISCOVERY_UPDATED : "2026-10-03"}
+          <time dateTime={page === "faq" ? DISCOVERY_UPDATED : "2026-10-11"}>
+            {page === "faq" ? DISCOVERY_UPDATED : "2026-10-11"}
           </time>
         ) : (
           copy.updated

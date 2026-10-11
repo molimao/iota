@@ -14,6 +14,13 @@ export const reportCopy = {
     "일일 이메일 설정",
     "日次メールを設定",
   ]),
+  options: l([
+    "邮件设置与预览",
+    "郵件設定與預覽",
+    "Email settings and preview",
+    "이메일 설정 및 미리보기",
+    "メール設定とプレビュー",
+  ]),
   viewPro: l(["查看 Pro", "查看 Pro", "View Pro", "Pro 보기", "Proを見る"]),
   included: l([
     "Pro 订阅包含收益日报",

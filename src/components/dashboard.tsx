@@ -491,12 +491,14 @@ function SavedIotaDashboard() {
               <Plus size={16} />
               {t("添加设备")}
             </button>
-            <a className="text-link" href={projectHelpPath(locale, "iota")}>
-              {onboardingCopy.idHelp[locale]} <ArrowUpRight size={14} />
-            </a>
-            <a className="text-link" href={`/${locale}/devices`}>
-              {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
-            </a>
+            <div className="empty-help-links">
+              <a className="text-link" href={projectHelpPath(locale, "iota")}>
+                {onboardingCopy.idHelp[locale]} <ArrowUpRight size={14} />
+              </a>
+              <a className="text-link" href={`/${locale}/devices`}>
+                {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
+              </a>
+            </div>
           </div>
         ) : (
           <>

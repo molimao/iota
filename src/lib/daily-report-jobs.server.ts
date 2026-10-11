@@ -12,6 +12,7 @@ import {
   type ReportReading,
 } from "./daily-report";
 import { collectReportBinding } from "./daily-report-collect.server";
+import { dailySnapshotSchema } from "./pro-tools";
 import { renderDailyReport } from "./daily-report-email";
 import { fetchIotaUsdPrice } from "./iota-price.server";
 import {
@@ -151,10 +152,23 @@ async function deliver(j: Job, config: NonNullable<ReturnType<typeof reportEmail
     );
     if (validPrice && quote.fetchedAt)
       report.valuationAt = new Date(quote.quotedAt ?? quote.fetchedAt).toISOString();
+    // Reuse the durable Pro snapshot so the daily mail, chart, monthly summary
+    // and CSV share one valuation. Older installations fall back to the ledger.
+    const saved = await db()
+      .from("watch_pro_history")
+      .select("report")
+      .eq("user_id", j.user_id)
+      .eq("day", j.report_day)
+      .maybeSingle();
+    const stored = dailySnapshotSchema.safeParse(saved.data?.report);
+    const canonical =
+      !saved.error && stored.success && stored.data.day === j.report_day
+        ? { ...stored.data, locale: j.locale }
+        : report;
     const unsub = new URL("/api/reports/unsubscribe", ORIGIN);
     unsub.searchParams.set("token", j.unsubscribe_token);
     unsub.searchParams.set("locale", j.locale);
-    payload = { ...renderDailyReport(report, unsub.toString()), unsubscribe: unsub.toString() };
+    payload = { ...renderDailyReport(canonical, unsub.toString()), unsubscribe: unsub.toString() };
     const r = await db().rpc("watch_update_report", {
       p_id: j.id,
       p_lease: j.lease_token,

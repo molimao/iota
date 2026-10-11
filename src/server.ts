@@ -179,6 +179,14 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (new URL(request.url).pathname === "/api/pro/cron") {
+        const { proToolsCron } = await import("./lib/pro-tools-worker.server");
+        return proToolsCron(request);
+      }
+      if (new URL(request.url).pathname === "/api/pro/unsubscribe") {
+        const { proUnsubscribe } = await import("./lib/pro-unsubscribe.server");
+        return proUnsubscribe(request);
+      }
       if (new URL(request.url).pathname === "/api/reports/cron") {
         const { reportCron } = await import("./lib/daily-report-jobs.server");
         return reportCron(request);

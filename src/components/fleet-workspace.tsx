@@ -1,6 +1,7 @@
 import { AdditionHelp } from "./onboarding";
 import { reportCopy } from "./daily-report-copy";
-import { ReportBenefit, ReportEntry } from "./daily-report-discovery";
+import { ReportEntry } from "./daily-report-discovery";
+import { FleetPricing } from "./fleet-pricing";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
 import { platformCopy } from "./platform-copy";
@@ -47,12 +48,7 @@ import { shortId } from "@/lib/ss58";
 import type { ProjectReading } from "./fleet-review-data";
 import type { FleetMutation } from "@/lib/fleet-policy";
 import { PaywallBody } from "./fleet-paywall";
-import {
-  annualMonthlyEquivalent,
-  annualSavingPercent,
-  copyValues,
-  planAmount,
-} from "@/lib/billing-display";
+import { copyValues, planAmount } from "@/lib/billing-display";
 
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
@@ -63,6 +59,8 @@ export type FleetWorkspaceProps = {
   plan: "free" | "pro";
   billing?: BillingSummary | undefined;
   reportSettings?: ReactNode;
+  proTools?: ReactNode;
+  deviceTrend?: (device: FleetDevice) => ReactNode;
   preview?: boolean;
   onRefresh?: (() => Promise<void>) | undefined;
   refreshing?: boolean | undefined;
@@ -265,6 +263,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
+          {props.proTools}
           {props.devices.length > 0 && (
             <ReportEntry plan={props.plan} preview={props.preview ?? false} />
           )}
@@ -309,6 +308,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 device={device}
                 c={c}
                 reading={props.reading}
+                trend={props.deviceTrend?.(device)}
                 onLink={() => open("link", device.id)}
                 onEdit={props.onMutation ? () => open("edit", device.id) : undefined}
                 onUnlink={
@@ -351,6 +351,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         >
           {props.plan === "pro" ? (
             <FleetMembership
+              preview={props.preview ?? false}
               reportSettings={props.reportSettings}
               devices={props.devices}
               billing={props.billing}
@@ -359,70 +360,14 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
             />
           ) : (
             <>
-              <div className="fleet-plan-intro">
-                <h2>{reportCopy.paywallIntro[locale]}</h2>
-                <p>
-                  {c.perProject} · {c.noFleetLimit}
-                </p>
-              </div>
-              <div className="fleet-pricing-grid">
-                <article className="fleet-plan-card">
-                  <span className="eyebrow">FREE</span>
-                  <h3>{c.free}</h3>
-                  <div className="fleet-price">$0</div>
-                  <p>
-                    {c.upTo} <strong>5</strong> {c.devices}
-                  </p>
-                  <details className="fleet-plan-allowances">
-                    <summary>{c.quotas}</summary>
-                    <ProjectAllowances devices={props.devices} limit={5} c={c} />
-                  </details>
-                  <p className="fleet-plan-features">{c.sameFeatures}</p>
-                  <button className="fleet-outline" disabled>
-                    {props.plan === "free" ? c.current : c.free}
-                  </button>
-                </article>
-                <article id="pro-plan" className="fleet-plan-card fleet-pro-card">
-                  <span className="eyebrow">PRO</span>
-                  <h3>Pro</h3>
-                  <div className="fleet-billing-switch" role="group" aria-label={c.plans}>
-                    <button
-                      aria-pressed={interval === "month"}
-                      onClick={() => setInterval("month")}
-                    >
-                      {c.month}
-                    </button>
-                    <button aria-pressed={interval === "year"} onClick={() => setInterval("year")}>
-                      {c.year}
-                    </button>
-                  </div>
-                  <div className="fleet-price">
-                    ${planAmount(interval)}
-                    <small>{interval === "month" ? c.perMonth : c.perYear}</small>
-                  </div>
-                  <p className="fleet-plan-saving">
-                    {interval === "year"
-                      ? copyValues(c.annualSave, { percent: annualSavingPercent }) +
-                        " · " +
-                        copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
-                      : c.monthlyCharge}
-                  </p>
-                  <p>
-                    {c.upTo} <strong>50</strong> {c.devices}
-                  </p>
-                  <details className="fleet-plan-allowances">
-                    <summary>{c.quotas}</summary>
-                    <ProjectAllowances devices={props.devices} limit={50} c={c} />
-                  </details>
-                  <p className="fleet-plan-features">{c.sameFeatures}</p>
-                  <ReportBenefit />
-                  <button className="site-button" onClick={() => open("billing")}>
-                    {c.choosePlan}
-                    <ArrowUpRight size={16} />
-                  </button>
-                  <p className="fleet-plan-features">{reportCopy.afterPayment[locale]}</p>
-                </article>
-              </div>
+              <FleetPricing
+                interval={interval}
+                onIntervalChange={setInterval}
+                onChoose={() => open("billing")}
+                allowances={(limit) => (
+                  <ProjectAllowances devices={props.devices} limit={limit} c={c} />
+                )}
+              />
               {props.preview && (
                 <button className="fleet-preview-wall" onClick={() => showPaywall("iota")}>
                   {c.previewWall} · IOTA
@@ -430,7 +375,12 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               )}
               <p className="fleet-plan-note">{c.renewal}</p>
               <p className="fleet-plan-note">{c.downgrade}</p>
-              {props.reportSettings}
+              {props.reportSettings && (
+                <details className="fleet-plan-report-options">
+                  <summary>{reportCopy.options[locale]}</summary>
+                  {props.reportSettings}
+                </details>
+              )}
             </>
           )}
         </section>
@@ -805,6 +755,7 @@ function FleetCard({
   device,
   c,
   reading,
+  trend,
   onLink,
   onEdit,
   onUnlink,
@@ -812,6 +763,7 @@ function FleetCard({
   device: FleetDevice;
   c: Copy;
   reading: FleetWorkspaceProps["reading"];
+  trend?: ReactNode;
   onLink: () => void;
   onEdit: (() => void) | undefined;
   onUnlink: ((id: string) => void) | undefined;
@@ -893,6 +845,7 @@ function FleetCard({
           </small>
         </div>
       </section>
+      {trend}
       <div className="fleet-project-readings">
         {!device.bindings.length && (
           <div className="fleet-no-projects">

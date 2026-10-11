@@ -1,11 +1,12 @@
 import { reportCopy } from "./daily-report-copy";
 import { useLocale } from "./site/locale";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { aggregateDailyReport, reportDayWindow } from "@/lib/daily-report";
 import { renderDailyReport } from "@/lib/daily-report-email";
-import { ORIGIN, type SiteLocale } from "@/lib/site";
-export function sampleReportEmail(locale: SiteLocale) {
-  const r = aggregateDailyReport(
+import { ORIGIN, LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
+function sampleReport(locale: SiteLocale) {
+  return aggregateDailyReport(
     reportDayWindow("2026-10-09"),
     [
       {
@@ -46,30 +47,66 @@ export function sampleReportEmail(locale: SiteLocale) {
     3,
     Date.parse("2026-10-10T09:25:00+08:00"),
   );
+}
+export function sampleReportEmail(locale: SiteLocale) {
   return renderDailyReport(
-    r,
+    sampleReport(locale),
     `${ORIGIN}/api/reports/unsubscribe?token=11111111-1111-4111-8111-111111111111&locale=${locale}`,
   );
 }
-export function ReportEmailPreview({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (v: boolean) => void;
-}) {
+export function ReportEmailPreview({ emailLocale }: { emailLocale?: SiteLocale | undefined }) {
   const { locale } = useLocale();
+  const [open, setOpen] = useState(false);
+  const report = sampleReport(emailLocale ?? locale);
+  const language = report.locale;
+  const money = (value: number | null) => (value === null ? "—" : `$${value.toFixed(2)}`);
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="report-email-preview">
-        <DialogTitle>{reportCopy.demo[locale]}</DialogTitle>
-        <DialogDescription>{reportCopy.intro[locale]}</DialogDescription>
-        <iframe
-          title={reportCopy.demo[locale]}
-          srcDoc={sampleReportEmail(locale).html}
-          sandbox=""
-        />
-      </DialogContent>
-    </Dialog>
+    <details className="report-email-preview" onToggle={(e) => setOpen(e.currentTarget.open)}>
+      <summary>
+        {reportCopy.preview[locale]} <ChevronDown size={15} aria-hidden="true" />
+      </summary>
+      {open && (
+        <div className="report-email-example">
+          <p>{reportCopy.demo[locale]}</p>
+          <div className="report-email-paper" lang={LANGUAGE_TAG[language]}>
+            <div className="report-email-paper-heading">
+              <b>IOTA Watch</b>
+              <span>{report.day}</span>
+            </div>
+            <h3>{reportCopy.yesterday[language]}</h3>
+            <div className="report-email-total">
+              <span>
+                {reportCopy.estimate[language]} · {reportCopy.partial[language]}
+              </span>
+              <strong>
+                {money(report.usdSubtotal)} <small>USD</small>
+              </strong>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>{reportCopy.project[language]}</th>
+                  <th>{reportCopy.amount[language]}</th>
+                  <th>{reportCopy.usd[language]}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.projects.map((project) => (
+                  <tr key={project.project}>
+                    <th scope="row">{project.name}</th>
+                    <td>
+                      {project.amount === null ? "—" : `${project.amount} ${project.currency}`}
+                    </td>
+                    <td>{money(project.usd)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p>{reportCopy.estimateNote[language]}</p>
+            <p>{reportCopy.differentPeriod[language]} · fly.ai</p>
+          </div>
+        </div>
+      )}
+    </details>
   );
 }

@@ -1,3 +1,4 @@
+import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check, Layers } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
@@ -13,6 +14,7 @@ export function FleetMembership({
   onAdd,
   compact = false,
   reportSettings,
+  preview = false,
 }: {
   devices: FleetDevice[];
   billing?: BillingSummary | undefined;
@@ -20,6 +22,7 @@ export function FleetMembership({
   onAdd: () => void;
   compact?: boolean;
   reportSettings?: ReactNode;
+  preview?: boolean;
 }) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
@@ -49,7 +52,7 @@ export function FleetMembership({
         </span>
         <div>
           <h2>{c.memberActive}</h2>
-          <p>{c.memberIntro}</p>
+          <p>{proCopy.memberSummary[locale]}</p>
         </div>
         <div className="fleet-member-date">
           {date && (
@@ -68,36 +71,56 @@ export function FleetMembership({
           </button>
         </div>
       </header>
+      {!compact && (
+        <nav className="pro-member-tools">
+          {(["bulk"] as const).map((key) => (
+            <a
+              key={key}
+              className="fleet-outline"
+              href={`/${locale}/${preview ? "review" : "devices"}?tool=${key}#pro-tools`}
+            >
+              {proCopy[key][locale]} →
+            </a>
+          ))}
+        </nav>
+      )}
       {!compact && reportSettings}
       {!compact && (
         <>
-          <div className="fleet-member-section">
-            <Layers size={17} />
-            <div>
-              <h3>{c.memberCapacity}</h3>
+          <details className="pro-member-capacity">
+            <summary>{c.memberCapacity}</summary>
+            <div className="fleet-member-section">
+              <Layers size={17} />
+              <div>
+                <h3>{c.memberCapacity}</h3>
+              </div>
             </div>
-          </div>
-          <div className="fleet-member-quotas">
-            {FLEET_PROJECTS.map((project) => {
-              const used = projectDeviceCount(devices, project);
-              return (
-                <article key={project}>
-                  <b>{FLEET_NAMES[project]}</b>
-                  <div>
-                    <strong>50</strong>
-                    <span>{c.devices}</span>
-                  </div>
-                  <p>
-                    {c.used} <b>{used}</b>
-                  </p>
-                  <progress max={50} value={Math.min(used, 50)} aria-label={FLEET_NAMES[project]} />
-                  <p>
-                    {c.remaining} <b>{Math.max(0, 50 - used)}</b>
-                  </p>
-                </article>
-              );
-            })}
-          </div>
+            <div className="fleet-member-quotas">
+              {FLEET_PROJECTS.map((project) => {
+                const used = projectDeviceCount(devices, project);
+                return (
+                  <article key={project}>
+                    <b>{FLEET_NAMES[project]}</b>
+                    <div>
+                      <strong>50</strong>
+                      <span>{c.devices}</span>
+                    </div>
+                    <p>
+                      {c.used} <b>{used}</b>
+                    </p>
+                    <progress
+                      max={50}
+                      value={Math.min(used, 50)}
+                      aria-label={FLEET_NAMES[project]}
+                    />
+                    <p>
+                      {c.remaining} <b>{Math.max(0, 50 - used)}</b>
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+          </details>
           <div className="fleet-member-actions">
             <button className="site-button" onClick={onAdd}>
               {c.add}

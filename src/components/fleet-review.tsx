@@ -1,3 +1,7 @@
+import { DeviceEarningsTrend } from "./device-earnings-trend";
+import { ProTools } from "./pro-tools";
+import { ProNotificationControls } from "./pro-notification-settings";
+import { reviewProHistory, reviewDeviceHistory, applyReviewBulk } from "./pro-tools-review";
 import { useRouterState } from "@tanstack/react-router";
 import { ReportSettings } from "./daily-report-settings";
 import { useState } from "react";
@@ -15,12 +19,20 @@ export function FleetReview() {
     select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
   });
   const [recovered, setRecovered] = useState(false);
-  const [devices, setDevices] = useState(() => (scenario === "empty" ? [] : reviewDevices()));
+  const [devices, setDevices] = useState(() =>
+    scenario === "empty"
+      ? []
+      : reviewDevices().map((d, i) => ({
+          ...d,
+          id: `00000000-0000-4000-8000-${String(i + 1).padStart(12, "0")}`,
+        })),
+  );
   const [plan, setPlan] = useState<"free" | "pro">("pro");
   const [emailEnabled, setEmailEnabled] = useState(false);
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const [emailLocale, setEmailLocale] = useState(locale);
+  const [proPreferences, setProPreferences] = useState({ alerts: false, monthly: false, locale });
   return (
     <>
       <div className="fleet-review-switch">
@@ -34,25 +46,60 @@ export function FleetReview() {
         initialTab={membershipView ? "plans" : "devices"}
         devices={devices}
         plan={plan}
-        reportSettings={
-          <ReportSettings
-            value={{
-              enabled: emailEnabled,
-              recipient: "reader@example.invalid",
-              eligible: plan === "pro",
-              emailChanged: false,
-              configured: true,
-              locale: emailLocale,
-              nextAt: Date.parse("2026-10-11T09:30:00+08:00"),
-              lastSentAt: null,
-            }}
-            busy={false}
-            error={false}
-            onSave={async (enabled, language) => {
-              setEmailEnabled(enabled);
-              setEmailLocale(language);
+        deviceTrend={(device) => (
+          <DeviceEarningsTrend
+            userId={null}
+            plan={plan}
+            device={device}
+            previewHistory={reviewDeviceHistory(locale, device)}
+          />
+        )}
+        proTools={
+          <ProTools
+            userId={null}
+            plan={plan}
+            devices={devices}
+            previewHistory={reviewProHistory(locale)}
+            previewDeviceHistory={(device) => reviewDeviceHistory(locale, device)}
+            onPreviewBulk={async (rows) => {
+              setDevices(applyReviewBulk(rows, devices));
             }}
           />
+        }
+        reportSettings={
+          <>
+            <ReportSettings
+              value={{
+                enabled: emailEnabled,
+                recipient: "reader@example.invalid",
+                eligible: plan === "pro",
+                emailChanged: false,
+                configured: true,
+                locale: emailLocale,
+                nextAt: Date.parse("2026-10-11T09:30:00+08:00"),
+                lastSentAt: null,
+              }}
+              busy={false}
+              error={false}
+              onSave={async (enabled, language) => {
+                setEmailEnabled(enabled);
+                setEmailLocale(language);
+              }}
+            />
+            {plan === "pro" && (
+              <ProNotificationControls
+                value={{
+                  ...proPreferences,
+                  recipient: "reader@example.invalid",
+                  eligible: true,
+                  configured: true,
+                }}
+                busy={false}
+                error={false}
+                onSave={async (v) => setProPreferences(v)}
+              />
+            )}
+          </>
         }
         billing={{
           plan,

@@ -21,6 +21,13 @@ export type WatchDatabase = Omit<Database, "public"> & {
   public: Omit<Database["public"], "Tables" | "Functions"> & {
     Tables: Database["public"]["Tables"] & {
       watch_billing: Table<BillingRow>;
+      watch_pro_history: Table<{
+        user_id: string;
+        day: string;
+        report: Json;
+        device_reports: Json;
+        created_at: string;
+      }>;
       watch_connections: Table<{
         user_id: string;
         project: string;
@@ -30,6 +37,16 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_pro_status: { Args: Record<string, never>; Returns: Json };
+      watch_set_pro_preferences: {
+        Args: { p_alerts: boolean; p_monthly: boolean; p_locale: string };
+        Returns: Json;
+      };
+      watch_history_read: { Args: Record<string, never>; Returns: Json };
+      watch_export_history_read: { Args: { p_device: string | null }; Returns: Json };
+      watch_device_history_read: { Args: { p_device: string }; Returns: Json };
+      watch_bulk_devices: { Args: { p_request: string; p_rows: Json }; Returns: Json };
+      watch_pro_worker: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_report_status: { Args: Record<string, never>; Returns: Json };
       watch_set_report_preferences: {
         Args: { p_enabled: boolean; p_locale: string };
