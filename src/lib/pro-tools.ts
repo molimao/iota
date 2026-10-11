@@ -54,6 +54,9 @@ export type ProPreferences = {
   eligible: boolean;
   configured: boolean;
 };
+export function proPreferencePayload(value: Pick<ProPreferences, "alerts" | "monthly" | "locale">) {
+  return { alerts: value.alerts, monthly: value.monthly, locale: value.locale };
+}
 export const projectReportSchema = z.object({
   project: z.enum(FLEET_PROJECTS),
   name: clean(80),

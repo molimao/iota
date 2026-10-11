@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getProPreferences, saveProPreferences } from "@/lib/pro-tools.functions";
-import type { ProPreferences } from "@/lib/pro-tools";
+import { proPreferencePayload, type ProPreferences } from "@/lib/pro-tools";
 import { LOCALES, LANGUAGE_NAME, type SiteLocale } from "@/lib/site";
 import { useLocale } from "./site/locale";
 import { proCopy as c } from "./pro-tools-copy";
@@ -21,8 +21,13 @@ export function ProNotificationControls({
   const [saved, setSaved] = useState(false);
   async function change(v: { alerts: boolean; monthly: boolean; locale: SiteLocale }) {
     setSaved(false);
-    await onSave(v);
-    setSaved(true);
+    try {
+      await onSave(proPreferencePayload(v));
+      setSaved(true);
+    } catch {
+      // The parent renders the save error; do not show a successful save.
+      setSaved(false);
+    }
   }
   return (
     <section className="pro-notification-settings" id="pro-notifications">
@@ -110,8 +115,9 @@ export function ProNotificationSettings({ userId }: { userId: string | null }) {
         try {
           await save({ data: v });
           await client.invalidateQueries({ queryKey: ["pro-notifications", userId] });
-        } catch {
+        } catch (e) {
           setError(true);
+          throw e;
         } finally {
           setBusy(false);
         }

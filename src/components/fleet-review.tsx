@@ -5,6 +5,7 @@ import { reviewProHistory, reviewDeviceHistory, applyReviewBulk } from "./pro-to
 import { useRouterState } from "@tanstack/react-router";
 import { ReportSettings } from "./daily-report-settings";
 import { useState } from "react";
+import { proPreferencesInput } from "@/lib/pro-tools";
 import { FleetWorkspace } from "./fleet-workspace";
 import { reviewDevices, reviewReading } from "./fleet-review-data";
 import { fleetCopy } from "./fleet-copy";
@@ -96,7 +97,7 @@ export function FleetReview() {
                 }}
                 busy={false}
                 error={false}
-                onSave={async (v) => setProPreferences(v)}
+                onSave={async (v) => setProPreferences(proPreferencesInput.parse(v))}
               />
             )}
           </>

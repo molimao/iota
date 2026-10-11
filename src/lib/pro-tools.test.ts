@@ -9,9 +9,35 @@ import {
   summarizeMonth,
   previousMonth,
   bulkTemplate,
+  proPreferencePayload,
+  proPreferencesInput,
 } from "./pro-tools";
 import { renderMonthlyReport, renderStatusAlert } from "./pro-email";
 import { aggregateDailyReport, reportDayWindow } from "./daily-report";
+it("submits notification changes without the read-only fields returned by the server", () => {
+  const read = {
+    alerts: false,
+    monthly: false,
+    locale: "zh" as const,
+    recipient: "member@example.invalid",
+    eligible: true,
+    configured: true,
+  };
+  for (const edit of [
+    { alerts: true, monthly: false, locale: "zh" as const },
+    { alerts: false, monthly: true, locale: "zh" as const },
+    { alerts: true, monthly: true, locale: "ja" as const },
+    { alerts: false, monthly: false, locale: "en" as const },
+  ]) {
+    const controlValue = { ...read, ...edit };
+    expect(proPreferencesInput.safeParse(controlValue).success).toBe(false);
+    expect(proPreferencesInput.parse(proPreferencePayload(controlValue))).toEqual(edit);
+  }
+  expect(read.recipient).toBe("member@example.invalid");
+  expect(
+    proPreferencesInput.safeParse({ alerts: "true", monthly: false, locale: "zh" }).success,
+  ).toBe(false);
+});
 const report = aggregateDailyReport(
   reportDayWindow("2026-09-01"),
   [
