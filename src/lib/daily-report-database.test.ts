@@ -27,10 +27,11 @@ beforeAll(async () => {
     "20260912082005_6a930f9e-e1ba-4207-ab6f-856139f2ec92.sql",
     "20261005130000_fleet_and_billing.sql",
     "20261010180000_daily_reports.sql",
+    "20261012120000_pro_trials.sql",
   ])
     await db.exec(readFileSync("supabase/migrations/" + f, "utf8"));
   await db.query(
-    "INSERT INTO watch_billing(user_id,status,period_end) VALUES($1,'active',now()+interval '30 days')",
+    "INSERT INTO watch_billing(user_id,status,period_end) VALUES($1,'trialing',now()+interval '7 days')",
     [user],
   );
   const id = await rpc<string>(

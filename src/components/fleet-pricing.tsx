@@ -1,3 +1,4 @@
+import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { ReactNode } from "react";
@@ -8,6 +9,20 @@ import { reportCopy } from "./daily-report-copy";
 import { useLocale } from "./site/locale";
 
 const pricingCopy = {
+  freeIntro: localized([
+    "查看设备状态与收益",
+    "查看設備狀態與收益",
+    "Check device status and earnings",
+    "기기 상태와 수익 확인",
+    "デバイスの状態と収益を確認",
+  ]),
+  proIntro: localized([
+    "自动收报表，异常时收提醒",
+    "自動收報表，異常時收提醒",
+    "Earnings reports and issue alerts by email",
+    "수익 보고서와 이상 알림을 이메일로",
+    "収益レポートと異常通知をメールで",
+  ]),
   capacity: localized([
     "每项目最多 {limit} 台设备",
     "每專案最多 {limit} 台設備",
@@ -23,13 +38,6 @@ const pricingCopy = {
     "デバイスとプロジェクトの監視",
   ]),
   start: localized(["开通 Pro", "開通 Pro", "Get Pro", "Pro 시작", "Proを始める"]),
-  activation: localized([
-    "付款后可在「我的 Pro」开启日报",
-    "付款後可在「我的 Pro」開啟日報",
-    "Enable daily emails in My Pro after payment",
-    "결제 후 내 Pro에서 일일 이메일을 켜세요",
-    "支払い後、マイProで日次メールを有効にできます",
-  ]),
 };
 
 export function FleetPricing({
@@ -53,12 +61,10 @@ export function FleetPricing({
           <h3>{c.free}</h3>
           <span className="fleet-plan-current">{c.current}</span>
         </header>
+        <p className="fleet-plan-purpose">{pricingCopy.freeIntro[locale]}</p>
         <div className="fleet-price">$0</div>
+        <p className="fleet-plan-saving">{capacity(5)}</p>
         <ul className="fleet-plan-benefits">
-          <li>
-            <Check size={17} aria-hidden="true" />
-            <b>{capacity(5)}</b>
-          </li>
           <li>
             <Check size={17} aria-hidden="true" />
             <span>{pricingCopy.monitoring[locale]}</span>
@@ -89,6 +95,7 @@ export function FleetPricing({
             </button>
           </div>
         </header>
+        <p className="fleet-plan-purpose">{pricingCopy.proIntro[locale]}</p>
         <div className="fleet-price">
           ${planAmount(interval)}
           <small>{interval === "month" ? c.perMonth : c.perYear}</small>
@@ -101,15 +108,9 @@ export function FleetPricing({
         <ul className="fleet-plan-benefits">
           <li>
             <Check size={18} aria-hidden="true" />
-            <b>{capacity(50)}</b>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
             <div>
               <b>{reportCopy.title[locale]}</b>
-              <span>
-                {reportCopy.schedule[locale]} · {reportCopy.intro[locale]}
-              </span>
+              <span>{reportCopy.schedule[locale]}</span>
             </div>
           </li>
           <li>
@@ -127,13 +128,19 @@ export function FleetPricing({
             <Check size={18} aria-hidden="true" />
             <b>{proCopy.bulk[locale]}</b>
           </li>
+          <li>
+            <Check size={18} aria-hidden="true" />
+            <b>{capacity(50)}</b>
+          </li>
         </ul>
+        <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>
         <p className="fleet-free-included">{proCopy.freeIncluded[locale]}</p>
         <button className="fleet-plan-primary" onClick={onChoose}>
           {pricingCopy.start[locale]}
           <ArrowUpRight size={17} aria-hidden="true" />
         </button>
-        <p className="fleet-plan-activation">{pricingCopy.activation[locale]}</p>
+        <p className="fleet-plan-activation">{trialCopy.activation[locale]}</p>
+        <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>
         <details className="fleet-plan-allowances">
           <summary>{c.quotas}</summary>
           {allowances(50)}

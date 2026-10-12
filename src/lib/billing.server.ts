@@ -151,12 +151,19 @@ export async function checkout(userId: string, interval: "month" | "year", local
   if (
     row?.checkout_token &&
     row.checkout_session &&
-    row.checkout_interval !== interval &&
     row.checkout_expires_at &&
     Date.parse(row.checkout_expires_at) > Date.now()
   ) {
     const previous = await stripe.checkout.sessions.retrieve(row.checkout_session);
     if (previous.status === "complete") throw new Error("checkout_processing");
+    if (
+      previous.status === "open" &&
+      row.checkout_interval === interval &&
+      previous.metadata?.["trial_policy"] === "v1"
+    ) {
+      if (previous.url) return { url: previous.url };
+      throw new Error("checkout_processing");
+    }
     if (previous.status === "open") await stripe.checkout.sessions.expire(previous.id);
     const released = await db().rpc("watch_release_checkout", {
       p_user: userId,
@@ -202,6 +209,9 @@ export async function checkout(userId: string, interval: "month" | "year", local
     if (session.status === "open" && session.url) return { url: session.url };
     throw new Error("checkout_processing");
   }
+  // Stripe history is authoritative even when the local webhook has not arrived.
+  const trialEligible =
+    !row?.stripe_subscription && (await appSubscriptions(stripe, customer)).length === 0;
   const session = await stripe.checkout.sessions.create(
     {
       mode: "subscription",
@@ -210,8 +220,17 @@ export async function checkout(userId: string, interval: "month" | "year", local
         { price: interval === "month" ? config.monthPrice : config.yearPrice, quantity: 1 },
       ],
       client_reference_id: userId,
-      metadata: { user_id: userId, product: "iota_watch_pro" },
-      subscription_data: { metadata: { user_id: userId, product: "iota_watch_pro" } },
+      metadata: { user_id: userId, product: "iota_watch_pro", trial_policy: "v1" },
+      payment_method_collection: "always",
+      subscription_data: {
+        metadata: { user_id: userId, product: "iota_watch_pro" },
+        ...(trialEligible
+          ? {
+              trial_period_days: 7,
+              trial_settings: { end_behavior: { missing_payment_method: "cancel" as const } },
+            }
+          : {}),
+      },
       expires_at: expiresAt,
       success_url: billingReturnUrl(config, reservedLocale, "success"),
       cancel_url: billingReturnUrl(config, reservedLocale, "cancel"),

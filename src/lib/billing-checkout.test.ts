@@ -17,11 +17,13 @@ let calls: { path: string; method: string; body: URLSearchParams; key: string | 
 let subscription: Record<string, unknown> | null;
 let wrongPrice: boolean;
 let allowQuantity: boolean;
+let oldSession: boolean;
 beforeEach(() => {
   store.row = null;
   subscription = null;
   wrongPrice = false;
   allowQuantity = false;
+  oldSession = false;
   calls = [];
   for (const [key, value] of Object.entries({
     STRIPE_MODE: "test",
@@ -100,6 +102,7 @@ beforeEach(() => {
       else if (url.pathname.startsWith("/v1/checkout/sessions/"))
         data = {
           id: "cs_previous",
+          metadata: oldSession ? {} : { trial_policy: "v1" },
           status: "open",
           url: "https://checkout.stripe.com/c/pay/cs_previous",
         };
@@ -122,6 +125,8 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
     const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
     expect(request.body.get("line_items[0][price]")).toBe("price_year");
     expect(request.body.get("line_items[0][quantity]")).toBe("1");
+    expect(request.body.get("subscription_data[trial_period_days]")).toBe("7");
+    expect(request.body.get("payment_method_collection")).toBe("always");
     expect(request.body.get("subscription_data[metadata][user_id]")).toBe(user);
     expect(request.body.get("success_url")).toBe(
       "http://127.0.0.1:8080/zh/devices?billing=success",
@@ -134,6 +139,16 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       p_session: "cs_fixture",
     });
   });
+  it("does not grant another trial after a previous subscription", async () => {
+    store.row = {
+      stripe_customer: "cus_fixture",
+      stripe_subscription: "sub_old",
+      status: "canceled",
+    };
+    await checkout(user, "month", "en");
+    const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
+    expect(request.body.has("subscription_data[trial_period_days]")).toBe(false);
+  });
   it("reuses an open checkout across retries instead of creating a second payment", async () => {
     store.row = {
       stripe_customer: "cus_fixture",
@@ -145,6 +160,23 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
     };
     expect((await checkout(user, "month", "en")).url).toContain("cs_previous");
     expect(calls.filter((c) => c.path === "/v1/checkout/sessions")).toHaveLength(0);
+  });
+  it("replaces an old non-trial checkout even with the same billing interval", async () => {
+    oldSession = true;
+    store.row = {
+      stripe_customer: "cus_fixture",
+      checkout_session: "cs_previous",
+      checkout_token: token,
+      checkout_interval: "month",
+      checkout_expires_at: new Date(Date.now() + 3600000).toISOString(),
+    };
+    await checkout(user, "month", "en");
+    expect(calls.some((c) => c.path === "/v1/checkout/sessions/cs_previous/expire")).toBe(true);
+    expect(
+      calls
+        .find((c) => c.path === "/v1/checkout/sessions")!
+        .body.get("subscription_data[trial_period_days]"),
+    ).toBe("7");
   });
   it("expires a previous unpaid session before switching month to year", async () => {
     store.row = {

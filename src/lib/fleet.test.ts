@@ -72,6 +72,8 @@ describe("independent project quotas", () => {
   it("sets Pro to 50 per project without granting access to unpaid or expired subscriptions", () => {
     expect(PLANS.pro.projectDeviceLimit).toBe(50);
     expect(paidAccess("active", 200, 100)).toBe(true);
+    expect(paidAccess("trialing", 200, 100)).toBe(true);
+    expect(paidAccess("trialing", 100, 200)).toBe(false);
     expect(paidAccess("active", 100, 200)).toBe(false);
     expect(paidAccess("incomplete", 200, 100)).toBe(false);
     expect(paidAccess("past_due", 200, 100)).toBe(false);

@@ -16,7 +16,7 @@ export type BillingSummary = {
 };
 
 export function paidAccess(status: string | null, periodEnd: number | null, now = Date.now()) {
-  return status === "active" && periodEnd !== null && periodEnd > now;
+  return (status === "active" || status === "trialing") && periodEnd !== null && periodEnd > now;
 }
 
 export function quotaState(count: number, limit: number) {

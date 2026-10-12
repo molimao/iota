@@ -1,3 +1,4 @@
+import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check, Layers } from "lucide-react";
 import { useState } from "react";
@@ -51,13 +52,19 @@ export function FleetMembership({
           PRO <Check size={14} />
         </span>
         <div>
-          <h2>{c.memberActive}</h2>
+          <h2>{billing?.status === "trialing" ? trialCopy.active[locale] : c.memberActive}</h2>
           <p>{proCopy.memberSummary[locale]}</p>
         </div>
         <div className="fleet-member-date">
           {date && (
             <>
-              <span>{billing?.cancelAtPeriodEnd ? c.validUntil : c.renewsOn}</span>
+              <span>
+                {billing?.cancelAtPeriodEnd
+                  ? c.validUntil
+                  : billing?.status === "trialing"
+                    ? trialCopy.ends[locale]
+                    : c.renewsOn}
+              </span>
               <b>{date}</b>
             </>
           )}

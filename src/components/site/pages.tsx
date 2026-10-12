@@ -475,26 +475,28 @@ export function ArticleView({
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
       <p className="article-lead">{article.description[locale]}</p>
-      <p className="article-scope">
-        {evidenceLabels.scope[locale]} ·{" "}
-        {articleProjects(article)
-          .map((id) => PROJECTS[id].name)
-          .join(" · ")}
-      </p>
-      <p className="article-updated article-byline">
-        IOTA Watch · {localizeValue(en ? "Published" : "发布", locale)}{" "}
-        <time dateTime={dates.published}>{dates.published}</time>
-        {dates.modified !== dates.published && (
-          <>
-            {" "}
-            · {localizeValue(en ? "Updated" : "更新", locale)}{" "}
-            <time dateTime={dates.modified}>{dates.modified}</time>
-          </>
-        )}
-      </p>
-      <a className="article-text-version" href={`/${locale}/${section}/${article.slug}.md`}>
-        {localizeValue(en ? "Plain text version" : "纯文本版本", locale)}
-      </a>
+      <div className="article-meta">
+        <p className="article-scope">
+          {evidenceLabels.scope[locale]} ·{" "}
+          {articleProjects(article)
+            .map((id) => PROJECTS[id].name)
+            .join(" · ")}
+        </p>
+        <p className="article-updated article-byline">
+          IOTA Watch · {localizeValue(en ? "Published" : "发布", locale)}{" "}
+          <time dateTime={dates.published}>{dates.published}</time>
+          {dates.modified !== dates.published && (
+            <>
+              {" "}
+              · {localizeValue(en ? "Updated" : "更新", locale)}{" "}
+              <time dateTime={dates.modified}>{dates.modified}</time>
+            </>
+          )}
+        </p>
+        <a className="article-text-version" href={`/${locale}/${section}/${article.slug}.md`}>
+          {localizeValue(en ? "Plain text version" : "纯文本版本", locale)}
+        </a>
+      </div>
       {article.summary && (
         <aside className="article-answer">
           <h2>{guideCopy.answer}</h2>

@@ -113,8 +113,10 @@ export function subscriptionSnapshot(subscription: Stripe.Subscription, config: 
   )
     throw new Error("billing_subscription_mismatch");
   const user = z.string().uuid().parse(subscription.metadata["user_id"]);
-  const end = items[0].current_period_end;
-  if (!Number.isSafeInteger(end) || end <= 0) throw new Error("billing_period_invalid");
+  const end =
+    subscription.status === "trialing" ? subscription.trial_end : items[0].current_period_end;
+  if (end === null || !Number.isSafeInteger(end) || end <= 0)
+    throw new Error("billing_period_invalid");
   return {
     user,
     customer,

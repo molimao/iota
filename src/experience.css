@@ -2671,7 +2671,7 @@ body:has(.site-shell) {
 .fleet-plan-benefits b {
   font-weight: 600;
 }
-.fleet-plan-benefits span {
+.fleet-plan-benefits div > span {
   display: block;
   margin-top: 5px;
   font-size: 12px;
@@ -5769,4 +5769,97 @@ body:has(.site-shell) {
   .export-filters {
     grid-template-columns: 1fr;
   }
+}
+
+/* Keep plan comparisons and guide introductions easy to scan. */
+.fleet-pricing-focused .fleet-plan-card .fleet-plan-purpose {
+  margin: 0 0 22px;
+  min-height: 44px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: inherit;
+}
+.fleet-pricing-focused .fleet-plan-heading {
+  min-height: 36px;
+  margin-bottom: 14px;
+}
+.fleet-pricing-focused .fleet-plan-card .fleet-price {
+  font-size: 52px;
+  min-height: 60px;
+}
+.fleet-pricing-focused .fleet-plan-card p.fleet-plan-saving {
+  margin: 8px 0 0;
+  min-height: 38px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.fleet-pricing-focused .fleet-plan-benefits {
+  margin-top: 18px;
+}
+.fleet-pricing-focused .fleet-free-card .fleet-plan-benefits li,
+.fleet-pricing-focused .fleet-free-card .fleet-plan-benefits span {
+  font-size: 14px;
+}
+.fleet-paywall-body .fleet-paywall-report-guide {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 20px;
+  margin: 20px 0 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--watch-border);
+}
+.article-page .article-meta > * {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--watch-muted);
+}
+.article-page .article-meta .article-scope {
+  flex-basis: 100%;
+}
+.article-page .article-meta a {
+  text-underline-offset: 4px;
+}
+.learn-article .article-lead {
+  max-width: 65ch;
+  line-height: 1.75;
+}
+.learn-article .learn-body p {
+  line-height: 1.85;
+}
+.daily-report-entry {
+  gap: 16px;
+}
+.daily-report-entry > div {
+  min-width: 0;
+}
+@media (max-width: 650px) {
+  .fleet-pricing-focused .fleet-plan-card .fleet-plan-purpose {
+    min-height: 0;
+  }
+  .article-meta {
+    gap: 8px 14px;
+  }
+}
+
+.fleet-plan-card p.fleet-trial-offer,
+.fleet-trial-offer {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: inherit;
+}
+.fleet-plan-card p.fleet-trial-terms {
+  font-size: 12px;
+  line-height: 1.75;
+  color: #666;
+  margin: 0 0 20px;
 }

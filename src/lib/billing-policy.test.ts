@@ -71,6 +71,12 @@ describe("billing boundaries", () => {
       cancel: true,
       end: "2027-01-15T08:00:00.000Z",
     });
+    expect(
+      subscriptionSnapshot({ ...sub, status: "trialing", trial_end: 1790000000 }, config).end,
+    ).toBe(new Date(1790000000 * 1000).toISOString());
+    expect(() =>
+      subscriptionSnapshot({ ...sub, status: "trialing", trial_end: null }, config),
+    ).toThrow("billing_period_invalid");
     expect(() => subscriptionSnapshot({ ...sub, livemode: true }, config)).toThrow();
     expect(() =>
       subscriptionSnapshot({ ...sub, metadata: { product: "iota_watch_pro" } }, config),

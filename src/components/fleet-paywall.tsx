@@ -1,5 +1,6 @@
+import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
-import { ArrowRight, Check, Layers, Monitor } from "lucide-react";
+import { ArrowRight, Check, Layers } from "lucide-react";
 import {
   FLEET_NAMES,
   FLEET_PROJECTS,
@@ -15,7 +16,6 @@ import {
 } from "@/lib/billing-display";
 import { fleetCopy } from "./fleet-copy";
 import { ReportBenefit } from "./daily-report-discovery";
-import { reportCopy } from "./daily-report-copy";
 import { useLocale } from "./site/locale";
 
 export type PriceChoiceProps = {
@@ -74,22 +74,24 @@ export function PaywallBody({
   const used = project ? projectDeviceCount(devices, project) : null;
   return (
     <div className="fleet-paywall-body">
-      <div className="fleet-paywall-capacity">
-        <div>
-          <span>{project ? FLEET_NAMES[project] : c.free}</span>
-          <strong>
-            {used ?? 5}
-            <small>{used === null ? " " + c.devices : " / 5"}</small>
-          </strong>
-          <p>{project ? c.used : c.quotas}</p>
+      {project && (
+        <div className="fleet-paywall-capacity">
+          <div>
+            <span>{project ? FLEET_NAMES[project] : c.free}</span>
+            <strong>
+              {used ?? 5}
+              <small>{used === null ? " " + c.devices : " / 5"}</small>
+            </strong>
+            <p>{project ? c.used : c.quotas}</p>
+          </div>
+          <ArrowRight size={22} />
+          <div>
+            <span>PRO</span>
+            <strong>50</strong>
+            <p>{c.upTo}</p>
+          </div>
         </div>
-        <ArrowRight size={22} />
-        <div>
-          <span>PRO</span>
-          <strong>50</strong>
-          <p>{c.upTo}</p>
-        </div>
-      </div>
+      )}
       <ReportBenefit />
       <ul className="pro-paywall-benefits">
         {(["alerts", "monthlyEmail", "bulk"] as const).map((key) => (
@@ -104,14 +106,11 @@ export function PaywallBody({
           <Layers size={15} />
           {c.perProject}
         </p>
-        <p>
-          <Monitor size={15} />
-          {c.noFleetLimit}
-        </p>
       </div>
+      <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>
       <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
       <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
-      <p className="fleet-paywall-report-guide">{reportCopy.afterPayment[locale]}</p>
+      <p className="fleet-paywall-report-guide">{trialCopy.terms[locale]}</p>
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>

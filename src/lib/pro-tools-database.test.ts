@@ -41,6 +41,7 @@ beforeAll(async () => {
     "20261010180000_daily_reports.sql",
     "20261011120000_pro_tools.sql",
     "20261011235900_history_backfill.sql",
+    "20261012120000_pro_trials.sql",
   ])
     await db.exec(readFileSync("supabase/migrations/" + file, "utf8"));
   await db.query(
@@ -399,4 +400,26 @@ it("captures free users earnings for exports without granting them any automatic
       [other],
     ),
   ).toBe(0);
+});
+
+it("grants trial Pro access only until its expiration", async () => {
+  await role("service_role");
+  await db.query(
+    "UPDATE watch_billing SET status='trialing',period_end=now()+interval '7 days' WHERE user_id=$1",
+    [user],
+  );
+  await role("authenticated");
+  expect(await value("SELECT (watch_list_devices()->>'projectDeviceLimit')::integer AS v")).toBe(
+    50,
+  );
+  await value("SELECT watch_set_pro_preferences(true,true,'en') AS v");
+  await role("service_role");
+  await db.query("UPDATE watch_billing SET period_end=now()-interval '1 second' WHERE user_id=$1", [
+    user,
+  ]);
+  await role("authenticated");
+  expect(await value("SELECT (watch_list_devices()->>'projectDeviceLimit')::integer AS v")).toBe(5);
+  await expect(value("SELECT watch_set_pro_preferences(true,true,'en') AS v")).rejects.toThrow(
+    "pro_required",
+  );
 });

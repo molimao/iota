@@ -46,15 +46,13 @@ beforeEach(() => {
   rpc.mockReset().mockResolvedValue({ data: null, error: null });
   vi.stubGlobal(
     "fetch",
-    vi
-      .fn()
-      .mockImplementation(
-        async () =>
-          new Response(JSON.stringify(subscription), {
-            status: 200,
-            headers: { "content-type": "application/json" },
-          }),
-      ),
+    vi.fn().mockImplementation(
+      async () =>
+        new Response(JSON.stringify(subscription), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    ),
   );
 });
 afterEach(() => {
@@ -101,6 +99,26 @@ describe("raw signed webhook", () => {
         p_status: "active",
         p_cancel: true,
         p_end: "2027-01-15T08:00:00.000Z",
+      }),
+    );
+  });
+  it("syncs trial access to the actual trial end even before any payment", async () => {
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          ...subscription,
+          status: "trialing",
+          trial_end: 1792000000,
+        }),
+        { headers: { "content-type": "application/json" } },
+      ),
+    );
+    expect((await stripeWebhook(signed("customer.subscription.created"))).status).toBe(200);
+    expect(rpc).toHaveBeenCalledWith(
+      "watch_sync_subscription",
+      expect.objectContaining({
+        p_status: "trialing",
+        p_end: new Date(1792000000 * 1000).toISOString(),
       }),
     );
   });
