@@ -1,3 +1,4 @@
+import { SiteAd } from "@/components/site-ad";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -119,6 +120,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <SiteAd />
       <Outlet />
     </QueryClientProvider>
   );

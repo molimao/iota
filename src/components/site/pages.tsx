@@ -1,5 +1,4 @@
 import { adPrivacy, adLabels } from "@/lib/ads";
-import { SiteAd } from "../site-ad";
 import { analyticsPrivacy } from "@/lib/analytics-privacy";
 import { proCopy } from "../pro-tools-copy";
 import { MonitoringExample } from "../onboarding";
@@ -159,7 +158,6 @@ export function SiteFooter() {
   const copy = content[locale];
   return (
     <>
-      <SiteAd />
       <footer className="site-footer">
         <div>
           <b>IOTA Watch</b>

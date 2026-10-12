@@ -6,25 +6,17 @@ const input = {
   hostname: "iotahome.site",
   pathname: "/zh/learn/find-miner-id",
   client: "ca-pub-5017554552450609",
-  slot: "1234567890",
   authReady: true,
   userId: null as string | null,
   billingReady: false,
   privacyBlocked: false,
 };
-it("allows configured public articles but excludes monitoring and private pages", () => {
+it("allows all localized public product pages but excludes local previews", () => {
   expect(adEligible(input)).toBe(true);
-  for (const pathname of [
-    "/zh/devices",
-    "/zh/app",
-    "/zh/privacy",
-    "/zh/review",
-    "/zh/blog",
-    "/zh/projects/iota",
-  ])
-    expect(adEligible({ ...input, pathname })).toBe(false);
+  for (const pathname of ["/zh/devices", "/zh/app", "/zh/privacy", "/zh/blog", "/zh/projects/iota"])
+    expect(adEligible({ ...input, pathname })).toBe(true);
   expect(adEligible({ ...input, enabled: false })).toBe(false);
-  expect(adEligible({ ...input, slot: "" })).toBe(false);
+  expect(adEligible({ ...input, pathname: "/zh/review" })).toBe(false);
   expect(adEligible({ ...input, hostname: "localhost" })).toBe(false);
 });
 it("fails closed until auth and membership resolve; Pro including trialing gets no ads", () => {
