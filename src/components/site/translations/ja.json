@@ -453,7 +453,7 @@
   "What is sent to the server": "サーバーに送信されるもの",
   "To look up devices, the browser sends public Miner IDs to this site’s read-only service. The service requests public telemetry and reward records from iota-web.api.macrocosmos.ai. Local list storage does not mean IDs never leave the browser.": "デバイスを検索するために、ブラウザはパブリックMiner IDをこのサイトの読み取り専用サービスに送信します。このサービスは、公開テレメトリと報酬レコードを iota-web.api.macrocosmos.ai に要求します。ローカル リスト ストレージは、ID がブラウザーから出ないことを意味するものではありません。",
   "Hosting and technical logs": "ホスティングおよび技術ログ",
-  "Lovable hosts this site. The hosting provider may process IP addresses, request metadata and technical error reports. Do not put passwords or other secrets in device labels.": "当サイトはLovableでホスティングしています。ホスティング事業者はIPアドレス、リクエストのメタデータ、技術的なエラー報告を処理する場合があります。デバイス名にパスワードなどの秘密情報を入力しないでください。",
+  "The hosting provider may process IP addresses, request metadata and technical error reports. Do not put passwords or other secrets in device labels.": "ホスティング事業者はIPアドレス、リクエストのメタデータ、技術的なエラー報告を処理する場合があります。デバイス名にパスワードなどの秘密情報を入力しないでください。",
   "Accounts and removing the list": "アカウントとリストの削除",
   "Google sign-in is optional. After sign-in, the list is stored on the account (up to 5 devices per project on Free, or 50 per project on Pro) so it can be opened elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices on the dashboard, or clear this site’s browser storage to erase the local copy.": "Googleログインは任意です。ログイン後は一覧をアカウントに保存し、別のデバイスからも開けます（無料は各プロジェクト5台、Proは50台）。エクスポートでは公開IDとデバイス名を含むJSONファイルを作成します。監視ページでデバイスを削除するか、当サイトのブラウザー保存領域を消去するとローカルのコピーを削除できます。",
   "Independent, read-only access": "独立した読み取り専用アクセス",

@@ -1,3 +1,6 @@
+import { adPrivacy, adLabels } from "@/lib/ads";
+import { SiteAd } from "../site-ad";
+import { analyticsPrivacy } from "@/lib/analytics-privacy";
 import { proCopy } from "../pro-tools-copy";
 import { MonitoringExample } from "../onboarding";
 import { reportCopy } from "../daily-report-copy";
@@ -155,24 +158,29 @@ export function SiteFooter() {
   const { locale, en } = useLocale();
   const copy = content[locale];
   return (
-    <footer className="site-footer">
-      <div>
-        <b>IOTA Watch</b>
-        <p>{simpleCopy(locale).independent}</p>
-      </div>
-      <div>
-        <a href={`/${locale}/projects`}>{projectsCopy[locale].projects}</a>
-        <a href={`/${locale}/network`}>{copy.nav[5]}</a>
-        <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
-        <a href={`/${locale}/blog`}>{localizeValue(en ? "Blog" : "博客", locale)}</a>
-        <a href={`/${locale}/downloads`}>{localizeValue(en ? "Downloads" : "工具下载", locale)}</a>
-        <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
-        <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
-          GitHub
-        </a>
-        <ProjectRequest />
-      </div>
-    </footer>
+    <>
+      <SiteAd />
+      <footer className="site-footer">
+        <div>
+          <b>IOTA Watch</b>
+          <p>{simpleCopy(locale).independent}</p>
+        </div>
+        <div>
+          <a href={`/${locale}/projects`}>{projectsCopy[locale].projects}</a>
+          <a href={`/${locale}/network`}>{copy.nav[5]}</a>
+          <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
+          <a href={`/${locale}/blog`}>{localizeValue(en ? "Blog" : "博客", locale)}</a>
+          <a href={`/${locale}/downloads`}>
+            {localizeValue(en ? "Downloads" : "工具下载", locale)}
+          </a>
+          <a href={`/${locale}/privacy`}>{copy.nav[3]}</a>
+          <a href="https://github.com/molimao/iota" rel="noreferrer" target="_blank">
+            GitHub
+          </a>
+          <ProjectRequest />
+        </div>
+      </footer>
+    </>
   );
 }
 
@@ -335,6 +343,13 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
         <section className="article-tip">
           <h2>{projectsCopy[locale].projects}</h2>
           <p>{projectsCopy[locale].privacyData}</p>
+          <h3>{analyticsPrivacy[locale][0]}</h3>
+          <p>{analyticsPrivacy[locale][1]}</p>
+          <h3>{adLabels[locale][0]}</h3>
+          <p>{adPrivacy[locale]}</p>
+          <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer">
+            Google · {adLabels[locale][0]} ↗
+          </a>
           <p>{projectRequestCopy(locale).privacy}</p>
           <h3>{reportCopy.title[locale]}</h3>
           <p>{reportCopy.privacy[locale]}</p>

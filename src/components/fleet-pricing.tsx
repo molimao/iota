@@ -1,3 +1,4 @@
+import { adLabels } from "@/lib/ads";
 import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check } from "lucide-react";
@@ -131,6 +132,10 @@ export function FleetPricing({
           <li>
             <Check size={18} aria-hidden="true" />
             <b>{capacity(50)}</b>
+          </li>
+          <li>
+            <Check size={18} aria-hidden="true" />
+            <b>{adLabels[locale][1]}</b>
           </li>
         </ul>
         <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>

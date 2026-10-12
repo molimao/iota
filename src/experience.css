@@ -5863,3 +5863,16 @@ body:has(.site-shell) {
   color: #666;
   margin: 0 0 20px;
 }
+
+.site-content-ad {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 24px;
+  min-height: 120px;
+}
+.site-content-ad > small {
+  display: block;
+  color: #888;
+  font-size: 11px;
+  margin-bottom: 12px;
+}

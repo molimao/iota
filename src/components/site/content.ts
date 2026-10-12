@@ -172,7 +172,7 @@ const legacyContent = withLocales({
       ],
       [
         "Hosting and technical logs",
-        "Lovable hosts this site. The hosting provider may process IP addresses, request metadata and technical error reports. Do not put passwords or other secrets in device labels.",
+        "The hosting provider may process IP addresses, request metadata and technical error reports. Do not put passwords or other secrets in device labels.",
       ],
       [
         "Accounts and removing the list",
@@ -331,7 +331,7 @@ const legacyContent = withLocales({
       ],
       [
         "托管与技术日志",
-        "本站由 Lovable 托管。托管方可能处理 IP 地址、请求信息和技术错误报告。请勿在设备名称中填写密码或其他秘密。",
+        "托管服务提供方可能处理 IP 地址、请求信息和技术错误报告。请勿在设备名称中填写密码或其他秘密。",
       ],
       [
         "账号、导出与删除",

@@ -94,7 +94,8 @@ describe("localization regressions", () => {
       const privacy = content[locale].privacy.map(([, answer]) => answer).join(" ");
       expect(privacy).toContain("24");
       expect(privacy).toContain("JSON");
-      expect(privacy).toContain("Lovable");
+      expect(privacy).toContain("IP");
+      expect(privacy).not.toContain("Lovable");
     }
     expect(
       japanese[
