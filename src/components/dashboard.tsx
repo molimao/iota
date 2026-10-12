@@ -17,7 +17,6 @@ import {
   Upload,
   Monitor,
   ArrowUpRight,
-  Stethoscope,
   X,
   LoaderCircle,
 } from "lucide-react";
@@ -165,40 +164,6 @@ function DiagnosisBlock({ diagnosis: originalDiagnosis }: { diagnosis: Diagnosis
           ))}
         </dl>
       </details>
-    </div>
-  );
-}
-
-/** Only appears when something is actually wrong. Silent on a healthy list. */
-function AttentionBanner({
-  views,
-  onOpen,
-}: {
-  views: DeviceView[];
-  onOpen: (hotkey: string) => void;
-}) {
-  const { locale, en } = useLocale();
-  if (!views.length) return null;
-  return (
-    <div className="attention" role="status">
-      <Stethoscope size={17} />
-      <div>
-        {views.slice(0, 3).map((view) => (
-          <button key={view.entry.hotkey} onClick={() => onOpen(view.entry.hotkey)}>
-            <b>{view.entry.label}</b>
-            <span>{withLocales(view.diagnosis.primary.title)[locale]}</span>
-            <ArrowUpRight size={14} />
-          </button>
-        ))}
-        {views.length > 3 ? (
-          <p>
-            {localizeValue(
-              en ? `And ${views.length - 3} more.` : `还有 ${views.length - 3} 台。`,
-              locale,
-            )}
-          </p>
-        ) : null}
-      </div>
     </div>
   );
 }
@@ -395,45 +360,44 @@ function SavedIotaDashboard() {
                 : t("美元行情暂不可用，收益仍按官方 IOTA 记账。")}
             </p>
           )}
-          <AttentionBanner
-            views={dash.needsAttention}
-            onOpen={(hotkey) => openDevice(hotkey, "diagnose")}
-          />
         </>
       ) : null}
-      {watch.devices.length > 0 && (
-        <DataHealth
-          now={dash.now}
-          sources={[
-            {
-              label: "设备状态",
-              fetchedAt: dash.fetchedAt,
-              error: dash.statusError,
-              partial: dash.statusPartial,
-              loading: dash.fetching,
-            },
-            {
-              label: "收益记账",
-              fetchedAt: dash.earningsFetchedAt,
-              error: dash.views.some((view) => !view.earningsUsable) ? "partial" : null,
-              loading: dash.earningsFetching,
-              maxAgeMs: 15 * 60_000,
-            },
-          ]}
-          note={localizeValue(
-            en
-              ? "Official cache: status 1 min, rewards 5 min. Sample time is not a device heartbeat."
-              : "官方接口缓存：状态 1 分钟，收益 5 分钟。采样时间不代表设备心跳。",
-            locale,
-          )}
-        />
-      )}
       <section>
         <div className="section-heading">
-          <h2>
-            {t("设备")}
-            <span>{watch.devices.length}</span>
-          </h2>
+          <div className="device-heading-status">
+            <h2>
+              {t("设备")}
+              <span>{watch.devices.length}</span>
+            </h2>
+            {watch.devices.length > 0 && (
+              <DataHealth
+                compact
+                now={dash.now}
+                sources={[
+                  {
+                    label: "设备状态",
+                    fetchedAt: dash.fetchedAt,
+                    error: dash.statusError,
+                    partial: dash.statusPartial,
+                    loading: dash.fetching,
+                  },
+                  {
+                    label: "收益记账",
+                    fetchedAt: dash.earningsFetchedAt,
+                    error: dash.views.some((view) => !view.earningsUsable) ? "partial" : null,
+                    loading: dash.earningsFetching,
+                    maxAgeMs: 15 * 60_000,
+                  },
+                ]}
+                note={localizeValue(
+                  en
+                    ? "Official cache: status 1 min, rewards 5 min. Sample time is not a device heartbeat."
+                    : "官方接口缓存：状态 1 分钟，收益 5 分钟。采样时间不代表设备心跳。",
+                  locale,
+                )}
+              />
+            )}
+          </div>
           <div className="actions">
             <button disabled={!watch.loaded || importing} onClick={() => file.current?.click()}>
               {importing ? <LoaderCircle size={15} className="spin" /> : <Upload size={15} />}

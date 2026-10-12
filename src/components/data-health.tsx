@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { localizeValue } from "@/components/site/localization";
 import { useLocale } from "@/components/site/locale";
@@ -17,15 +18,17 @@ export function DataHealth({
   sources,
   now,
   note,
+  compact = false,
 }: {
   sources: DataSourceState[];
   now: number;
   note?: string;
+  compact?: boolean;
 }) {
   const { t, en, locale } = useLocale();
   return (
     <section
-      className="data-health"
+      className={compact ? "data-health data-health-compact" : "data-health"}
       aria-label={localizeValue(en ? "Data freshness" : "数据时效", locale)}
     >
       <div className="data-sources">
@@ -55,11 +58,21 @@ export function DataHealth({
           );
         })}
       </div>
-      {note && (
+      {note && compact ? (
+        <details className="data-health-help">
+          <summary
+            aria-label={simpleCopy(locale).definitions}
+            title={simpleCopy(locale).definitions}
+          >
+            <Info size={15} aria-hidden="true" />
+          </summary>
+          <p>{note}</p>
+        </details>
+      ) : note ? (
         <QuietDetails title={simpleCopy(locale).definitions}>
           <p>{note}</p>
         </QuietDetails>
-      )}
+      ) : null}
     </section>
   );
 }
