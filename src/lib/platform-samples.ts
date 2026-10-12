@@ -2,6 +2,20 @@ import { emptyNode, type Platform, type PlatformNode } from "./platforms";
 /** Review-only samples. Never returned by an upstream adapter or persisted as device data. */
 export function platformSample(project: Platform): PlatformNode {
   const base = emptyNode("sample-device");
+  if (project === "noid")
+    return {
+      ...base,
+      scope: "provider",
+      activity: "1.70 MH/s",
+      online: true,
+      reward: 0.12,
+      rewardUnit: "NOID",
+      period: "rolling24h",
+      balance: 0.28,
+      balanceUnit: "NOID",
+      lifetime: 3.68,
+    };
+  if (project === "acurast") return { ...base, hardware: "Android · Core", partial: false };
   if (project === "akash")
     return {
       ...base,

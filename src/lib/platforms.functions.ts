@@ -9,7 +9,7 @@ const node = z
 export const getPublicPlatform = createServerFn({ method: "POST" })
   .inputValidator(
     z
-      .object({ project: z.enum(["akash", "golem"]), id: z.string().max(100) })
+      .object({ project: z.enum(["akash", "golem", "noid", "acurast"]), id: z.string().max(100) })
       .refine((v) => validPlatformId(v.project, v.id)),
   )
   .handler(async ({ data }) => {

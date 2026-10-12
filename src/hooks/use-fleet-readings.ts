@@ -1,3 +1,4 @@
+import { additionalMetricCopy } from "@/components/additional-platform-copy";
 import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { fleetIotaStatus } from "@/lib/fleet-iota-status";
 import { useServerFn } from "@tanstack/react-start";
@@ -164,7 +165,10 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         r = q?.data,
         d = r?.data;
       const current = !!r?.fetchedAt && iota.now - r.fetchedAt < 600000 && !r.error && !q?.isError;
-      const sourceFresh = !!d?.sourceUpdatedAt && iota.now - d.sourceUpdatedAt < 900000;
+      const sourceFresh =
+        binding.project === "noid"
+          ? current && d?.sourceUpdatedAt != null
+          : !!d?.sourceUpdatedAt && iota.now - d.sourceUpdatedAt < 900000;
       const daily =
         current &&
         d?.period === "hkDay" &&
@@ -179,7 +183,11 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               ? "Vast.ai"
               : binding.project === "akash"
                 ? "Akash"
-                : "Golem Stats",
+                : binding.project === "noid"
+                  ? "Parano1d Pool"
+                  : binding.project === "acurast"
+                    ? "Acurast Mainnet Indexer"
+                    : "Golem Stats",
         scope: d?.scope === "provider" ? "wallet" : "device",
         status:
           current && sourceFresh && d?.online === true
@@ -187,9 +195,14 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
             : current && sourceFresh && d?.online === false
               ? "offline"
               : "unavailable",
-        activity: d?.hardware ?? "—",
+        activity: d?.activity ?? d?.hardware ?? "—",
         today: d?.reward === null || d?.reward === undefined ? null : String(d.reward),
-        ...(d?.period ? { todayLabel: pc[d.period] } : {}),
+        ...(d?.period
+          ? {
+              todayLabel:
+                binding.project === "noid" ? additionalMetricCopy.payouts24[locale] : pc[d.period],
+            }
+          : {}),
         unit: d?.rewardUnit ?? "",
         lifetime: d?.lifetime === null || d?.lifetime === undefined ? null : String(d.lifetime),
         todayUsable: !!daily,

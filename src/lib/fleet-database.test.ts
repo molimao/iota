@@ -43,7 +43,10 @@ beforeAll(async () => {
     ]);
   await db.exec(readFileSync("supabase/migrations/20261005130000_fleet_and_billing.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261006190000_compute_projects.sql", "utf8"));
-  await db.exec(readFileSync("supabase/migrations/20261006200000_platform_connections.sql", "utf8"));
+  await db.exec(
+    readFileSync("supabase/migrations/20261006200000_platform_connections.sql", "utf8"),
+  );
+  await db.exec(readFileSync("supabase/migrations/20261012213000_noid_acurast.sql", "utf8"));
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -187,15 +190,63 @@ it("gives each new compute project an independent free quota", async () => {
   expect(data.projectCounts["gonka"]).toBe(1);
 });
 
-it("applies independent quotas to the four new platforms and denies browser credential access",async()=>{
- const id="55555555-5555-4555-8555-555555555555";
- await db.exec("RESET ROLE");await db.query("INSERT INTO auth.users(id) VALUES($1)",[id]);await asUser(id);
- for(const project of ["akash","ionet","vast","golem"]){
-  const identifier=(i:number)=>project==="vast"?String(i+1):project==="golem"?"0x"+String(i+1).padStart(40,"0"):project==="ionet"?`00000000-0000-4000-8000-${String(i+1).padStart(12,"0")}`:`akash1${"q".repeat(37)}${["p","z","r","y","9","x"][i]}`;
-  for(let i=0;i<5;i++)await mutate("create",{name:`${project}-${i}`,binding:{project,identifier:identifier(i)}});
-  await expect(mutate("create",{name:"Sixth",binding:{project,identifier:identifier(5)}})).rejects.toThrow(/project_device_limit_reached/);
- }
- await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
- await expect(db.query("INSERT INTO watch_connections(user_id,project,ciphertext,expires_at) VALUES($1,'vast','fake',now())",[id])).rejects.toThrow(/permission denied/);
- await db.exec("RESET ROLE; SET ROLE anon;");await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
+it("applies independent quotas to the four new platforms and denies browser credential access", async () => {
+  const id = "55555555-5555-4555-8555-555555555555";
+  await db.exec("RESET ROLE");
+  await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
+  await asUser(id);
+  for (const project of ["akash", "ionet", "vast", "golem"]) {
+    const identifier = (i: number) =>
+      project === "vast"
+        ? String(i + 1)
+        : project === "golem"
+          ? "0x" + String(i + 1).padStart(40, "0")
+          : project === "ionet"
+            ? `00000000-0000-4000-8000-${String(i + 1).padStart(12, "0")}`
+            : `akash1${"q".repeat(37)}${["p", "z", "r", "y", "9", "x"][i]}`;
+    for (let i = 0; i < 5; i++)
+      await mutate("create", {
+        name: `${project}-${i}`,
+        binding: { project, identifier: identifier(i) },
+      });
+    await expect(
+      mutate("create", { name: "Sixth", binding: { project, identifier: identifier(5) } }),
+    ).rejects.toThrow(/project_device_limit_reached/);
+  }
+  await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
+  await expect(
+    db.query(
+      "INSERT INTO watch_connections(user_id,project,ciphertext,expires_at) VALUES($1,'vast','fake',now())",
+      [id],
+    ),
+  ).rejects.toThrow(/permission denied/);
+  await db.exec("RESET ROLE; SET ROLE anon;");
+  await expect(db.query("SELECT * FROM watch_connections")).rejects.toThrow(/permission denied/);
+});
+
+it("applies independent NOID and Acurast quotas and retains existing fleets", async () => {
+  const id = "66666666-6666-4666-8666-666666666666";
+  await db.exec("RESET ROLE");
+  await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
+  await asUser(id);
+  await expect(
+    mutate("create", {
+      name: "Invalid",
+      binding: { project: "acurast", identifier: "https://evil.invalid" },
+    }),
+  ).rejects.toThrow(/invalid_binding/);
+  for (const project of ["noid", "acurast"]) {
+    const identifier = (i: number) =>
+      project === "noid"
+        ? "o1" + "q".repeat(57) + ["p", "z", "r", "y", "9", "x"][i]
+        : "0x" + String(i + 1).padStart(64, "0");
+    for (let i = 0; i < 5; i++)
+      await mutate("create", {
+        name: `${project}-${i}`,
+        binding: { project, identifier: identifier(i) },
+      });
+    await expect(
+      mutate("create", { name: "Sixth", binding: { project, identifier: identifier(5) } }),
+    ).rejects.toThrow(/project_device_limit_reached/);
+  }
 });

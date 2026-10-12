@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -60,7 +60,7 @@ Check the currency, reporting period and device attribution first. IOTA uses the
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
@@ -142,6 +142,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/projects/golem)
 - [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/projects/golem)
 - [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/projects/golem)
+- [NOID 矿池监控：算力与结算记录 (zh)](https://iotahome.site/zh/projects/noid)
+- [NOID 礦池監控：算力與結算紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/noid)
+- [NOID pool monitor: hashrate and payouts (en)](https://iotahome.site/en/projects/noid)
+- [NOID 풀 모니터: 해시레이트와 지급 기록 (ko)](https://iotahome.site/ko/projects/noid)
+- [NOIDプール監視：ハッシュレートと支払記録 (ja)](https://iotahome.site/ja/projects/noid)
+- [Acurast 处理器查询：主网登记与设备类型 (zh)](https://iotahome.site/zh/projects/acurast)
+- [Acurast 處理器查詢：主網登記與設備類型 (zh-TW)](https://iotahome.site/zh-TW/projects/acurast)
+- [Acurast processor lookup: mainnet registration and device type (en)](https://iotahome.site/en/projects/acurast)
+- [Acurast 프로세서 조회: 메인넷 등록과 기기 유형 (ko)](https://iotahome.site/ko/projects/acurast)
+- [Acurastプロセッサ照会：メインネット登録と機器種別 (ja)](https://iotahome.site/ja/projects/acurast)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -287,6 +297,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
 - [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
 - [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
+- [NOID 付款为什么不等于今日收益？ (zh)](https://iotahome.site/zh/learn/noid-monitor-guide)
+- [NOID 付款為什麼不等於今日收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/noid-monitor-guide)
+- [Why NOID payouts differ from daily earnings (en)](https://iotahome.site/en/learn/noid-monitor-guide)
+- [NOID 지급액과 오늘 수익이 다른 이유 (ko)](https://iotahome.site/ko/learn/noid-monitor-guide)
+- [NOIDの支払と当日収益が異なる理由 (ja)](https://iotahome.site/ja/learn/noid-monitor-guide)
+- [Acurast 应该填管理者钱包还是处理器地址？ (zh)](https://iotahome.site/zh/learn/acurast-monitor-guide)
+- [Acurast 應填管理者錢包還是處理器地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/acurast-monitor-guide)
+- [Which Acurast address belongs to your processor? (en)](https://iotahome.site/en/learn/acurast-monitor-guide)
+- [Acurast에서 관리자와 프로세서 주소 구분하기 (ko)](https://iotahome.site/ko/learn/acurast-monitor-guide)
+- [Acurastの管理者とプロセッサのアドレスを区別する (ja)](https://iotahome.site/ja/learn/acurast-monitor-guide)
 - [fly.ai 算力积分怎么看：地址、月份与份额 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
 - [fly.ai 算力積分怎麼看：地址、月份與份額 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
 - [How to read fly.ai compute points: address, month and share (en)](https://iotahome.site/en/learn/flyai-monitor-guide)

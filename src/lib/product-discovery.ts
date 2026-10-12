@@ -1,6 +1,6 @@
 import { type SiteLocale, LOCALES } from "./site";
 import { planAmount } from "./billing-display";
-export const DISCOVERY_UPDATED = "2026-10-09";
+export const DISCOVERY_UPDATED = "2026-10-12";
 export const localized = <T>(items: readonly [T, T, T, T, T]) =>
   Object.fromEntries(LOCALES.map((l, i) => [l, items[i]])) as Record<SiteLocale, T>;
 // Order follows LOCALES: zh, zh-TW, en, ko, ja. Shared by HTML, schema and readable exports.
@@ -173,11 +173,11 @@ export function productQuestions(locale: SiteLocale) {
         "対応プロジェクトと追加申請の方法は？",
       ])[locale],
       answer: localized([
-        "项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 和 Golem，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。",
-        "專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 與 Golem，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。",
-        "Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.",
-        "IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai와 Golem 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.",
-        "IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golemの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。",
+        "项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。",
+        "專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。",
+        "Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.",
+        "IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.",
+        "IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。",
       ])[locale],
     },
     {

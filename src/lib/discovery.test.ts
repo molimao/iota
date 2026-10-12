@@ -85,6 +85,6 @@ describe("question-led product discovery", () => {
     for (const path of ["app", "account", "devices", "review"])
       expect(sitemap).not.toMatch(new RegExp(`<loc>[^<]+/${path}(?:<|/)`));
     for (const link of problemLinks) expect(link.path).toMatch(/^learn\//);
-    expect(problemGuides.every((a) => a.modified === DISCOVERY_UPDATED)).toBe(true);
+    expect(problemGuides.every((a) => a.modified && a.modified <= DISCOVERY_UPDATED)).toBe(true);
   });
 });

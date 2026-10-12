@@ -22,9 +22,9 @@ export async function collectReportBinding(
     usd: null,
   };
   if (!validBinding(b.project, b.identifier)) return { ...base, reason: "unavailable" };
-  if (["xid", "nosana", "gonka", "akash"].includes(b.project))
+  if (["xid", "nosana", "gonka", "akash", "acurast"].includes(b.project))
     return { ...base, reason: "unsupported" };
-  if (["flyai", "golem", "ionet"].includes(b.project))
+  if (["flyai", "golem", "ionet", "noid"].includes(b.project))
     return { ...base, reason: "different_period" };
   try {
     if (b.project === "iota") {

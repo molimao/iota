@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -60,7 +60,7 @@ Check the currency, reporting period and device attribution first. IOTA uses the
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
@@ -142,6 +142,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Golem provider monitor: status and GLM earnings (en)](https://iotahome.site/en/projects/golem)
 - [Golem 노드 모니터: 상태와 GLM 수익 (ko)](https://iotahome.site/ko/projects/golem)
 - [Golemノード監視：状態とGLM収益 (ja)](https://iotahome.site/ja/projects/golem)
+- [NOID 矿池监控：算力与结算记录 (zh)](https://iotahome.site/zh/projects/noid)
+- [NOID 礦池監控：算力與結算紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/noid)
+- [NOID pool monitor: hashrate and payouts (en)](https://iotahome.site/en/projects/noid)
+- [NOID 풀 모니터: 해시레이트와 지급 기록 (ko)](https://iotahome.site/ko/projects/noid)
+- [NOIDプール監視：ハッシュレートと支払記録 (ja)](https://iotahome.site/ja/projects/noid)
+- [Acurast 处理器查询：主网登记与设备类型 (zh)](https://iotahome.site/zh/projects/acurast)
+- [Acurast 處理器查詢：主網登記與設備類型 (zh-TW)](https://iotahome.site/zh-TW/projects/acurast)
+- [Acurast processor lookup: mainnet registration and device type (en)](https://iotahome.site/en/projects/acurast)
+- [Acurast 프로세서 조회: 메인넷 등록과 기기 유형 (ko)](https://iotahome.site/ko/projects/acurast)
+- [Acurastプロセッサ照会：メインネット登録と機器種別 (ja)](https://iotahome.site/ja/projects/acurast)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -287,6 +297,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA vs XID / MMM vs Quantus on Mac: training and mining (en)](https://iotahome.site/en/learn/iota-xid-quantus-compared)
 - [Mac의 IOTA·XID / MMM·Quantus 비교: 학습과 채굴 차이 (ko)](https://iotahome.site/ko/learn/iota-xid-quantus-compared)
 - [MacのIOTA・XID / MMM・Quantus比較：学習とマイニングの違い (ja)](https://iotahome.site/ja/learn/iota-xid-quantus-compared)
+- [NOID 付款为什么不等于今日收益？ (zh)](https://iotahome.site/zh/learn/noid-monitor-guide)
+- [NOID 付款為什麼不等於今日收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/noid-monitor-guide)
+- [Why NOID payouts differ from daily earnings (en)](https://iotahome.site/en/learn/noid-monitor-guide)
+- [NOID 지급액과 오늘 수익이 다른 이유 (ko)](https://iotahome.site/ko/learn/noid-monitor-guide)
+- [NOIDの支払と当日収益が異なる理由 (ja)](https://iotahome.site/ja/learn/noid-monitor-guide)
+- [Acurast 应该填管理者钱包还是处理器地址？ (zh)](https://iotahome.site/zh/learn/acurast-monitor-guide)
+- [Acurast 應填管理者錢包還是處理器地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/acurast-monitor-guide)
+- [Which Acurast address belongs to your processor? (en)](https://iotahome.site/en/learn/acurast-monitor-guide)
+- [Acurast에서 관리자와 프로세서 주소 구분하기 (ko)](https://iotahome.site/ko/learn/acurast-monitor-guide)
+- [Acurastの管理者とプロセッサのアドレスを区別する (ja)](https://iotahome.site/ja/learn/acurast-monitor-guide)
 - [fly.ai 算力积分怎么看：地址、月份与份额 (zh)](https://iotahome.site/zh/learn/flyai-monitor-guide)
 - [fly.ai 算力積分怎麼看：地址、月份與份額 (zh-TW)](https://iotahome.site/zh-TW/learn/flyai-monitor-guide)
 - [How to read fly.ai compute points: address, month and share (en)](https://iotahome.site/en/learn/flyai-monitor-guide)
@@ -462,11 +482,27 @@ Use the node ID from yagna id show, beginning 0x. Do not substitute the payout w
 Node status, hardware and GLM records come from Golem Stats. The rolling 24-hour window is not the Hong Kong calendar day and is excluded from device daily totals. API failures remain unavailable, not zero.
 Source: https://docs.golem.network/docs/providers/provider-installation
 Monitor: https://iotahome.site/en/projects/golem
+
+### NOID
+Content updated: 2026-10-12
+Address hashrate, last-24-hour payouts and unpaid balance from Parano1d Pool.
+Enter the public o1… payout address from the Parano1d wallet. This integration covers Parano1d Pool; other pools and solo mining require their own source.
+Reads the pool’s public page every 5 minutes. Online means address activity within 20 minutes, not every machine being online. Rolling payouts and unpaid balance are not today’s earnings and are excluded from device daily totals. A failed source remains unavailable.
+Source: https://docs.parano1d.org/reference/rpc
+Monitor: https://iotahome.site/en/projects/noid
+
+### Acurast
+Content updated: 2026-10-12
+Look up Acurast mainnet processor registration, Core/Lite and Android/iOS classification.
+Copy the Processor address from device details in Acurast Hub: SS58 or a 0x-prefixed 32-byte public key. Do not substitute the manager wallet.
+Uses the official mainnet indexer for registration and classification only. Registration does not prove live connectivity. Heartbeats, daily or staking rewards and balance valuation are not yet covered. Mainnet ACU is separate from Canary cACU. Failed reads stay unavailable, never zero earnings.
+Source: https://docs.acurast.com/processors/
+Monitor: https://iotahome.site/en/projects/acurast
 ## Public project FAQ
 
 ### 开始前的几个问题 (zh-CN)
 - Canonical page: https://iotahome.site/zh/faq
-- Updated: 2026-10-09
+- Updated: 2026-10-12
 
 按你遇到的问题选择教程：添加公开标识、整理多项目设备、核对收益周期，或排查刷新失败。
 
@@ -492,7 +528,7 @@ Monitor: https://iotahome.site/en/projects/golem
 
 #### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 和 Golem，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 #### 显示旧数据或零收益，设备一定有问题吗？
 
@@ -564,7 +600,7 @@ SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha
 
 ### 開始前的幾個問題 (zh-TW)
 - Canonical page: https://iotahome.site/zh-TW/faq
-- Updated: 2026-10-09
+- Updated: 2026-10-12
 
 依照你遇到的問題選擇教學：新增公開識別碼、整理多專案設備、核對收益週期，或排查更新失敗。
 
@@ -590,7 +626,7 @@ SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha
 
 #### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 與 Golem，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 #### 顯示舊資料或零收益，設備一定有問題嗎？
 
@@ -662,7 +698,7 @@ SN9 是 Bittensor 子網路 9（IOTA Train at Home）。收益代幣是子網 al
 
 ### Before you start (en)
 - Canonical page: https://iotahome.site/en/faq
-- Updated: 2026-10-09
+- Updated: 2026-10-12
 
 Choose a guide for your question: adding public identifiers, organizing devices across projects, checking reward periods or investigating failed refreshes.
 
@@ -688,7 +724,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 #### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 #### Does old data or zero rewards mean my device has failed?
 
@@ -760,7 +796,7 @@ SN9 is Bittensor subnet 9 (IOTA Train at Home). The reward token is the subnet a
 
 ### 시작 전 확인 사항 (ko)
 - Canonical page: https://iotahome.site/ko/faq
-- Updated: 2026-10-09
+- Updated: 2026-10-12
 
 공개 식별자 추가, 여러 프로젝트의 기기 정리, 보상 기간 확인, 새로고침 실패 등 필요한 안내를 선택하세요.
 
@@ -786,7 +822,7 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 
 #### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai와 Golem 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 #### 이전 데이터나 수익 0이면 기기에 문제가 있나요?
 
@@ -858,7 +894,7 @@ SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기
 
 ### 始める前の確認事項 (ja)
 - Canonical page: https://iotahome.site/ja/faq
-- Updated: 2026-10-09
+- Updated: 2026-10-12
 
 公開IDの追加、複数プロジェクトの整理、報酬期間の確認、更新失敗の対処など、必要な案内を選べます。
 
@@ -884,7 +920,7 @@ SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기
 
 #### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golemの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 
 #### 古いデータや報酬ゼロは故障を意味しますか？
 
@@ -4792,6 +4828,213 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - Source: Quantus · official mainnet explorer — https://explorer.quantus.com/
 - Source: IOTA Watch · source and data rules — https://github.com/molimao/iota
 
+### Why NOID payouts differ from daily earnings
+- zh-CN: https://iotahome.site/zh/learn/noid-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/noid-monitor-guide
+- en: https://iotahome.site/en/learn/noid-monitor-guide
+- ko: https://iotahome.site/ko/learn/noid-monitor-guide
+- ja: https://iotahome.site/ja/learn/noid-monitor-guide
+- Published: 2026-10-12
+- Updated: 2026-10-12
+- Publisher: IOTA Watch (independent monitor)
+- Topics: NOID
+
+### NOID 付款为什么不等于今日收益？ (zh-CN)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 地址与网络
+
+打开 Parano1d 钱包，复制收款地址（o1 开头），并确认矿工的 payout 地址一致。在 NOID 查询页粘贴完整地址。当前来源为 Parano1d Pool；若你使用其他矿池或 solo，这里没有记录是正常的，先回到该来源核对。
+
+## 字段怎么读
+
+例如待付款为 0.287310 NOID、近 24 小时付款为 0：表示池内还有未付款，最近窗口没有付款，不表示你今天没挖。累计付款也不是钱包余额。测得算力按矿池收到的份额估算，会与矿工本地显示不同；同一地址的机器共享地址统计。
+
+## 没有记录时
+
+先确认地址和矿池，再检查矿工是否提交有效份额。页面每 5 分钟读取；最近提交超过 20 分钟才显示地址离线。不要用“累计付款”推断某台机器在线，也不要把滚动 24 小时付款加入北京时间今日收益。
+
+[NOID](https://iotahome.site/zh/projects/noid)
+
+### NOID 付款為什麼不等於今日收益？ (zh-TW)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 地址與網路
+
+開啟 Parano1d 錢包並複製 o1 收款地址，確認與礦工 payout 地址一致，再貼到 NOID 查詢頁。目前來源是 Parano1d Pool；其他礦池或 solo 沒有紀錄時，先回原來源核對。
+
+## 欄位怎麼讀
+
+例如待付款0.287310 NOID、近24小時付款0，表示池內仍有待付款且近期未付款，不表示今天沒有挖。累計付款不是錢包餘額。測得算力按礦池份額估算，會與本機不同；同地址機器共用地址統計。
+
+## 沒有紀錄時
+
+先核對地址與礦池，再查看有效份額。页面每5分鐘讀取，最後提交超過20分鐘顯示地址離線。不要用累計付款判斷單機在線，或將滾動24小時付款計入北京時間今日收益。
+
+[NOID](https://iotahome.site/zh-TW/projects/noid)
+
+### Why NOID payouts differ from daily earnings (en)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## Address and network
+
+Copy the o1 payout address from your Parano1d wallet and match it against the miner configuration. Paste the full address into the NOID tool. It queries Parano1d Pool. If you mine elsewhere or solo, a missing record here does not diagnose your miner; check that source first.
+
+## Reading the fields
+
+For example, 0.287310 NOID unpaid and zero paid over 24 hours means funds remain in the pool without a recent payout, not that you earned nothing today. Total payouts are not wallet balance. Pool hashrate is estimated from submitted shares and can differ from local miner reports. Machines sharing an address share these totals.
+
+## Missing records
+
+Check the address and pool, then look for valid share submissions. The page reads every 5 minutes and treats activity older than 20 minutes as address offline. Neither lifetime payouts nor a successful website fetch prove a specific machine is online. Rolling 24-hour payouts are excluded from Beijing-day earnings.
+
+[NOID](https://iotahome.site/en/projects/noid)
+
+### NOID 지급액과 오늘 수익이 다른 이유 (ko)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 주소와 네트워크
+
+Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하는지 확인하고 NOID 도구에 붙여넣으세요. Parano1d Pool을 조회합니다. 다른 풀·단독 채굴 기록이 여기 없다고 기기 오류는 아니므로 원래 소스를 먼저 확인하세요.
+
+## 필드 읽기
+
+미지급 0.287310 NOID, 24시간 지급 0은 풀에 미지급액이 남고 최근 지급이 없다는 뜻이지 오늘 채굴하지 않았다는 뜻이 아닙니다. 누적 지급은 지갑 잔액이 아닙니다. 풀 해시레이트는 제출된 share 기준 추정치이며 같은 주소 기기는 집계를 공유합니다.
+
+## 기록이 없을 때
+
+주소와 풀을 확인한 뒤 유효 share 제출을 확인하세요. 5분마다 조회하며 마지막 제출 후 20분이 지나면 주소 오프라인으로 표시합니다. 누적 지급·조회 성공은 단일 기기 연결 증거가 아닙니다. 24시간 지급은 베이징 기준 일일 수익에서 제외합니다.
+
+[NOID](https://iotahome.site/ko/projects/noid)
+
+### NOIDの支払と当日収益が異なる理由 (ja)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## アドレスとネットワーク
+
+Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOIDツールに完全なアドレスを入力します。対象はParano1d Poolです。別プールやソロの記録がない場合、ここで機器故障と判断せず各取得元を確認してください。
+
+## 項目の読み方
+
+未払0.287310 NOID、24時間支払ゼロなら、プール内に未払額があり最近の支払がないという意味で、当日採掘ゼロではありません。累計支払はウォレット残高ではありません。プール算力はshareから推定され、同じアドレスの機器で集計を共有します。
+
+## 記録がない場合
+
+住所とプールを確認し、有効shareの提出を確認します。取得は5分ごとで、提出が20分以上前ならアドレスをオフラインと表示します。累計支払や取得成功は単一機器の接続を証明しません。24時間支払は北京時間の日次収益から除外します。
+
+[NOID](https://iotahome.site/ja/projects/noid)
+- Source: Parano1d address / RPC conventions — https://docs.parano1d.org/reference/rpc
+- Source: Parano1d Pool — https://www.parano1d-pool.fun/
+
+### Which Acurast address belongs to your processor?
+- zh-CN: https://iotahome.site/zh/learn/acurast-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/acurast-monitor-guide
+- en: https://iotahome.site/en/learn/acurast-monitor-guide
+- ko: https://iotahome.site/ko/learn/acurast-monitor-guide
+- ja: https://iotahome.site/ja/learn/acurast-monitor-guide
+- Published: 2026-10-12
+- Updated: 2026-10-12
+- Publisher: IOTA Watch (independent monitor)
+- Topics: Acurast
+
+### Acurast 应该填管理者钱包还是处理器地址？ (zh-CN)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 地址与网络
+
+进入 Acurast Hub，先确认选中 Mainnet，再打开具体设备的详情，复制 Processor 地址。管理者钱包可能管理多台手机，不能替代单个 Processor。本站接收带校验的 SS58 地址或 0x 加 64 个十六进制字符的公钥，不接收二维码中的秘密、私钥或助记词。
+
+## 字段怎么读
+
+查询成功表示主网索引中有该处理器登记。Core / Lite 是处理器模式，Android / iOS 是来源的设备分类；未知类型保持空缺。登记可能长期存在，不能证明这台手机此刻运行。当前工具不读取心跳、奖励或质押记录，也不把账户余额当收益。
+
+## 没有记录时
+
+找不到记录时，先检查是否误用了管理者地址、Canary 或 Devnet。官方主网币为 ACU，Canary 为 cACU，两者不可混加。官方索引器不可用时保留未知状态；若要核对奖励，回到 Hub 和官方奖励说明，单独查看基础奖励与质押奖励。
+
+[Acurast](https://iotahome.site/zh/projects/acurast)
+
+### Acurast 應填管理者錢包還是處理器地址？ (zh-TW)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 地址與網路
+
+進入 Acurast Hub 並選擇Mainnet，在具體設備詳情複製Processor地址。管理者錢包可管理多台手機，不能代替單個Processor。本站接受有校驗的SS58或0x加64個十六進位字元的公鑰，不接受秘密、私鑰或助記詞。
+
+## 欄位怎麼讀
+
+成功查詢表示主網索引有處理器登記。Core/Lite是模式，Android/iOS是來源分類，未知保持空缺。登記可長期存在，不證明手機此刻執行。工具目前不讀心跳、獎勵或質押，餘額不視為收益。
+
+## 沒有紀錄時
+
+沒有紀錄先檢查管理者地址、Canary或Devnet。主網ACU和Canary cACU不可混加。官方索引器不可用時保持未知；核對獎勵請回Hub和官方獎勵說明，分開查看基礎與質押獎勵。
+
+[Acurast](https://iotahome.site/zh-TW/projects/acurast)
+
+### Which Acurast address belongs to your processor? (en)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## Address and network
+
+Select Mainnet in Acurast Hub, open a specific device and copy its Processor address. A manager wallet can control multiple phones and is not that processor. The tool accepts checksummed SS58 or a 0x-prefixed 64-hex-character public key. Never paste QR secrets, private keys or seed words.
+
+## Reading the fields
+
+A successful lookup proves processor registration in the mainnet index. Core/Lite describes its mode; Android/iOS is the source classification. Unknown classifications stay blank. Registration can persist after a phone stops. This tool does not yet read heartbeats, rewards or staking and never treats account balance as earnings.
+
+## Missing records
+
+For missing records, check for a manager address, Canary or Devnet selection. Mainnet ACU and Canary cACU must not be combined. Indexer outages remain unknown. To verify rewards, return to Hub and the official rewards guide, distinguishing base benchmark rewards from staking rewards.
+
+[Acurast](https://iotahome.site/en/projects/acurast)
+
+### Acurast에서 관리자와 프로세서 주소 구분하기 (ko)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## 주소와 네트워크
+
+Acurast Hub에서 Mainnet을 선택하고 특정 기기 상세의 Processor 주소를 복사하세요. 관리 지갑은 여러 휴대폰을 관리할 수 있어 해당 프로세서 주소가 아닙니다. 체크섬 SS58 또는 0x 뒤 64자리 공개키를 사용하고 QR 비밀값·비밀키·시드 문구를 입력하지 마세요.
+
+## 필드 읽기
+
+조회 성공은 메인넷 등록을 뜻합니다. Core/Lite는 모드, Android/iOS는 소스 분류이며 미확인 값은 비워둡니다. 휴대폰이 중지돼도 등록은 남을 수 있습니다. 현재 심박·보상·스테이킹은 조회하지 않으며 잔액을 수익으로 취급하지 않습니다.
+
+## 기록이 없을 때
+
+기록이 없으면 관리 주소, Canary, Devnet 여부를 확인하세요. 메인넷 ACU와 Canary cACU는 합산하지 않습니다. 인덱서 장애는 미확인 상태로 유지합니다. 보상은 Hub와 공식 문서에서 기본 벤치마크 보상과 스테이킹 보상을 구분해 확인하세요.
+
+[Acurast](https://iotahome.site/ko/projects/acurast)
+
+### Acurastの管理者とプロセッサのアドレスを区別する (ja)
+Published: 2026-10-12
+Updated: 2026-10-12
+
+## アドレスとネットワーク
+
+HubでMainnetを選び、個別機器の詳細からProcessorアドレスをコピーします。管理者ウォレットは複数の電話を管理でき、個別プロセッサのアドレスではありません。チェックサム付きSS58か0xと64桁の公開鍵を使い、QRの秘密・秘密鍵・シードを入力しないでください。
+
+## 項目の読み方
+
+照会成功はメインネット索引での登録を示します。Core/Liteはモード、Android/iOSは取得元の分類で、未知の値は空欄です。機器停止後も登録は残りえます。現時点で心拍・報酬・ステーキングは取得せず、残高を収益と見なしません。
+
+## 記録がない場合
+
+記録がなければ管理者アドレスやCanary・Devnet選択を確認します。ACUとcACUを合算しません。索引の障害は未知の状態を保持します。報酬はHubと公式ガイドに戻り、基本ベンチマーク報酬とステーキング報酬を分けて確認します。
+
+[Acurast](https://iotahome.site/ja/projects/acurast)
+- Source: Acurast Compute Providers — https://docs.acurast.com/processors/
+- Source: Acurast Rewards — https://docs.acurast.com/processors/rewards/
+- Source: Official mainnet indexer — https://github.com/Acurast/acurast-indexer
+
 ### How to read fly.ai compute points: address, month and share
 - zh-CN: https://iotahome.site/zh/learn/flyai-monitor-guide
 - zh-TW: https://iotahome.site/zh-TW/learn/flyai-monitor-guide
@@ -6033,7 +6276,7 @@ Updated: 2026-10-09
 
 ### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 和 Golem，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 ### IOTA Watch 與官方面板，應該使用哪個？ (zh-TW)
 Published: 2026-10-09
@@ -6076,7 +6319,7 @@ Updated: 2026-10-09
 
 ### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai 與 Golem，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 ### When should I use IOTA Watch or an official dashboard? (en)
 Published: 2026-10-09
@@ -6119,7 +6362,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 ### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai and Golem, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### IOTA Watch와 공식 대시보드는 언제 사용하나요? (ko)
 Published: 2026-10-09
@@ -6162,7 +6405,7 @@ Updated: 2026-10-09
 
 ### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai와 Golem 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 ### IOTA Watchと公式ダッシュボードはどう使い分けますか？ (ja)
 Published: 2026-10-09
@@ -6205,7 +6448,7 @@ Mac、プロジェクト、公開IDを頻繁に切り替えて確認する場合
 
 ### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golemの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 - Source: IOTA Watch source and deployment — https://github.com/molimao/iota
 - Source: IOTA Train at Home official guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 

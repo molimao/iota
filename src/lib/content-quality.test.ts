@@ -16,7 +16,7 @@ const schemas = (a: ReturnType<typeof seo>) => a.scripts.map((s) => JSON.parse(s
 it("gives each localized tool and tutorial a distinct title and task", () => {
   for (const locale of LOCALES) {
     const titles = computeGuides.map((a) => a.title[locale]);
-    expect(new Set(titles).size).toBe(7);
+    expect(new Set(titles).size).toBe(9);
     for (const a of computeGuides) {
       const tool = projectsSeo(locale, a.project as Exclude<typeof a.project, "all" | undefined>);
       expect(seo(locale, "learn", a.slug).meta[0]).not.toEqual(tool.meta[0]);

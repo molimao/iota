@@ -15,6 +15,8 @@ export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
   akash: "2026-10-09",
   ionet: "2026-10-09",
   vast: "2026-10-09",
+  noid: "2026-10-12",
+  acurast: "2026-10-12",
   golem: "2026-10-09",
 };
-export const PROJECT_INDEX_UPDATED = "2026-10-09";
+export const PROJECT_INDEX_UPDATED = "2026-10-12";

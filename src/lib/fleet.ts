@@ -1,3 +1,4 @@
+import { acurastPublicKey } from "./additional-platforms";
 import { isPlatform, validPlatformId } from "./platforms";
 import { z } from "zod";
 import { isValidMinerId } from "./ss58";
@@ -16,6 +17,8 @@ export const FLEET_PROJECTS = [
   "ionet",
   "vast",
   "golem",
+  "noid",
+  "acurast",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -29,13 +32,21 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   ionet: "io.net",
   vast: "Vast.ai",
   golem: "Golem",
+  noid: "NOID",
+  acurast: "Acurast",
 };
-export const bindingSchema = z.object({
-  id: z.string().min(1).max(120),
-  project: z.enum(FLEET_PROJECTS),
-  identifier: z.string().trim().min(1).max(100),
-  worker: z.string().trim().max(80).default(""),
-});
+export const bindingSchema = z
+  .object({
+    id: z.string().min(1).max(120),
+    project: z.enum(FLEET_PROJECTS),
+    identifier: z.string().trim().min(1).max(100),
+    worker: z.string().trim().max(80).default(""),
+  })
+  .transform((b) =>
+    b.project === "acurast" && acurastPublicKey(b.identifier)
+      ? { ...b, identifier: "0x" + acurastPublicKey(b.identifier) }
+      : b,
+  );
 export const fleetDeviceSchema = z.object({
   id: z.string().min(1).max(120),
   name: z.string().trim().min(1).max(40),
@@ -58,7 +69,11 @@ export function validBinding(project: FleetProject, identifier: string) {
 
 export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identifier" | "worker">) {
   const identifier =
-    binding.project === "flyai" ? binding.identifier.toLowerCase() : binding.identifier;
+    binding.project === "acurast"
+      ? "0x" + acurastPublicKey(binding.identifier)
+      : binding.project === "flyai"
+        ? binding.identifier.toLowerCase()
+        : binding.identifier;
   return `${binding.project}:${identifier}:${binding.worker}`;
 }
 

@@ -1,3 +1,4 @@
+import { additionalMetricCopy as extra } from "./additional-platform-copy";
 import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
 import { useState } from "react";
@@ -73,7 +74,10 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
     : lookup.data;
   const data = result?.data;
   const sourceStale =
-    !demo && data?.sourceUpdatedAt != null && Date.now() - data.sourceUpdatedAt > 900000;
+    !demo &&
+    project !== "noid" &&
+    data?.sourceUpdatedAt != null &&
+    Date.now() - data.sourceUpdatedAt > 900000;
   const online =
     sourceStale || result?.stale || result?.error || lookup.isError ? null : data?.online;
   const periodStale =
@@ -174,7 +178,11 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
                   ? "Machine ID"
                   : project === "akash"
                     ? `${c.provider} · akash1…`
-                    : `Golem Node ID · 0x…`}
+                    : project === "noid"
+                      ? "NOID · o1…"
+                      : project === "acurast"
+                        ? "Acurast Processor · SS58 / 0x…"
+                        : `Golem Node ID · 0x…`}
             </label>
             <div>
               <input
@@ -262,10 +270,39 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
         <section className="compute-panel" aria-live="polite">
           <div className="platform-result-head">
             <h2>{data.name || `${data.id.slice(0, 12)}${data.id.length > 12 ? "…" : ""}`}</h2>
-            <span>{online === true ? c.online : online === false ? c.offline : c.unknown}</span>
+            <span>
+              {project === "acurast"
+                ? extra.registered[locale]
+                : online === true
+                  ? c.online
+                  : online === false
+                    ? c.offline
+                    : c.unknown}
+            </span>
           </div>
           <div className="compute-metrics">
-            {project === "akash" ? (
+            {project === "acurast" ? (
+              <>
+                {metric(extra.registration[locale], extra.registered[locale])}
+                {metric(extra.classification[locale], data.hardware)}
+              </>
+            ) : project === "noid" ? (
+              <>
+                {metric(extra.hashrate[locale], data.activity)}
+                {metric(
+                  extra.payouts24[locale],
+                  data.reward === null ? null : `${data.reward} NOID`,
+                )}
+                {metric(
+                  extra.balance[locale],
+                  data.balance == null ? null : `${data.balance} NOID`,
+                )}
+                {metric(
+                  extra.paid[locale],
+                  data.lifetime === null ? null : `${data.lifetime} NOID`,
+                )}
+              </>
+            ) : project === "akash" ? (
               <>
                 {metric(c.gpu, data.gpuCount)}
                 {metric(c.activeGpu, data.activeGpu)}
@@ -292,7 +329,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           {(sourceStale || periodStale || result?.stale || (lookup.isError && data)) && (
             <p role="status">{f.stale}</p>
           )}
-          {data.hardware && (
+          {data.hardware && project !== "acurast" && (
             <p>
               {c.hardware}: {data.hardware}
             </p>

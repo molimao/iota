@@ -19,7 +19,7 @@ async function cached(
 ): Promise<PlatformResult> {
   return (await cache.read(key, read, { ttl: 300000, classify: safeError })) as PlatformResult;
 }
-export const publicPlatform = (project: "akash" | "golem", id: string) =>
+export const publicPlatform = (project: "akash" | "golem" | "noid" | "acurast", id: string) =>
   cached(`public:${project}:${id}`, () => readPublicPlatform(project, id));
 function encryptionKey() {
   const key = process.env["WATCH_CONNECTION_ENCRYPTION_KEY"];

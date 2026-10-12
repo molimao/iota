@@ -1,3 +1,4 @@
+import { acurastPublicKey } from "./additional-platforms";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { validBinding } from "./fleet";
@@ -23,6 +24,8 @@ export const mutateFleet = createServerFn({ method: "POST" })
       !validBinding(value.payload.binding.project, value.payload.binding.identifier)
     )
       throw new Error("invalid_binding");
+    if ("binding" in value.payload && value.payload.binding?.project === "acurast")
+      value.payload.binding.identifier = "0x" + acurastPublicKey(value.payload.binding.identifier);
     return value;
   })
   .handler(async ({ context, data }) => {

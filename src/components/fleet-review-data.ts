@@ -135,6 +135,8 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
     case "ionet":
     case "vast":
     case "golem":
+    case "noid":
+    case "acurast":
     case "nosana":
     case "gonka":
       return {

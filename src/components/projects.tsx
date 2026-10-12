@@ -48,7 +48,7 @@ export function ProjectSwitch() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const selected = (path.match(
-    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem)(?:\/|$)/,
+    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem|noid|acurast)(?:\/|$)/,
   )?.[1] ??
     (articleProject && articleProject !== "iota" && articleProject !== "all"
       ? articleProject
@@ -93,7 +93,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
         <a className="project-card" key={id} href={projectPath(locale, id)}>
           <div className="project-card-top">
             <span className="project-symbol">
-              {id !== "xid" && id !== "quantus" ? <Cpu /> : <Pickaxe />}
+              {id !== "xid" && id !== "quantus" && id !== "noid" ? <Cpu /> : <Pickaxe />}
             </span>
             <span className="project-kind">
               {id === "akash"

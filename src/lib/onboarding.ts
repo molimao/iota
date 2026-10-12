@@ -1,6 +1,6 @@
 import { localized } from "./product-discovery";
 import { isPrivatePlatform } from "./platforms";
-import type { ProjectId } from "./projects";
+import { type ProjectId } from "./projects";
 export const onboardingCopy = {
   lookup: localized([
     "查看 IOTA 状态",

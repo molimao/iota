@@ -12,6 +12,8 @@ export const PROJECT_IDS = [
   "ionet",
   "vast",
   "golem",
+  "noid",
+  "acurast",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 export type MiningProject = "xid" | "quantus";
@@ -101,6 +103,22 @@ export const PROJECTS = {
     guide: "https://docs.golem.network/docs/providers/provider-installation",
     explorer: "https://stats.golem.network/",
   },
+  noid: {
+    name: "NOID",
+    detail: "Parano1d",
+    token: "NOID",
+    website: "https://parano1d.org/",
+    guide: "https://docs.parano1d.org/reference/rpc",
+    explorer: "https://www.parano1d-pool.fun/",
+  },
+  acurast: {
+    name: "Acurast",
+    detail: "Phone compute",
+    token: "ACU",
+    website: "https://acurast.com/",
+    guide: "https://docs.acurast.com/processors/",
+    explorer: "https://hub.acurast.com/",
+  },
 } as const;
 
 export function isMiningProject(value: unknown): value is MiningProject {
@@ -115,7 +133,9 @@ export function isMonitorProject(value: unknown): value is MonitorProject {
     value === "akash" ||
     value === "ionet" ||
     value === "vast" ||
-    value === "golem"
+    value === "golem" ||
+    value === "noid" ||
+    value === "acurast"
   );
 }
 

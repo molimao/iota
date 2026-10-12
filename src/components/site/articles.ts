@@ -506,7 +506,10 @@ export function articleDates(article: Article, locale?: Locale) {
 
 export function articleProjects(article: Article): readonly ProjectId[] {
   return (
-    article.subjects ?? (article.project === "all" ? PROJECT_IDS : [article.project ?? "iota"])
+    article.subjects ??
+    (article.project === "all"
+      ? PROJECT_IDS.filter((id) => id !== "noid" && id !== "acurast")
+      : [article.project ?? "iota"])
   );
 }
 

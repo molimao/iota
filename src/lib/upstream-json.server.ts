@@ -15,6 +15,7 @@ export async function upstreamJson(
     body?: object | undefined;
     maxBytes?: number;
     authErrors?: boolean;
+    responseType?: "text";
   } = {},
   fetcher: typeof fetch = fetch,
 ): Promise<unknown> {
@@ -76,6 +77,7 @@ export async function upstreamJson(
       body.set(part, offset);
       offset += part.length;
     }
+    if (options.responseType === "text") return new TextDecoder().decode(body);
     try {
       return JSON.parse(new TextDecoder().decode(body));
     } catch {

@@ -57,13 +57,13 @@ describe("public guide indexing", () => {
     }
   });
 
-  it("describes the homepage's ten distinct projects and its public source license", () => {
+  it("describes the homepage's twelve distinct projects and its public source license", () => {
     for (const locale of LOCALES) {
       const app = seo(locale, "home")
         .scripts.map((script) => JSON.parse(script.children))
         .find((s) => s["@type"] === "WebApplication");
-      expect(app.about).toHaveLength(10);
-      expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(10);
+      expect(app.about).toHaveLength(12);
+      expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(12);
       expect(app.sameAs).toContain("https://github.com/molimao/iota");
       expect(app.license).toBe("https://github.com/molimao/iota/blob/main/LICENSE");
     }

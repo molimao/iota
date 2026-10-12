@@ -1,3 +1,4 @@
+import { additionalPlatformEditorial } from "./additional-platform-copy";
 import type { SiteLocale } from "@/lib/site";
 const labels = {
   identifier: {
@@ -224,6 +225,7 @@ export const platformCopy = (locale: SiteLocale) =>
     [K in keyof typeof labels]: string;
   };
 export const platformEditorial = {
+  ...additionalPlatformEditorial,
   akash: {
     title: {
       zh: "Akash 提供商监控：GPU 容量与在线状态",
