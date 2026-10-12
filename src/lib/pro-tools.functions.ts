@@ -1,4 +1,5 @@
 import { deviceHistorySchema, deviceEarningsCsv } from "./device-history";
+import { backfillStatusSchema } from "./history-backfill";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -72,6 +73,13 @@ export const getEarningsHistory = createServerFn({ method: "POST" })
     const r = await watchDb(context.supabase).rpc("watch_history_read");
     if (r.error) throw safeError(r.error.message);
     return historySchema.parse(r.data);
+  });
+export const getHistoryBackfillStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const r = await watchDb(context.supabase).rpc("watch_history_backfill_status");
+    if (r.error) throw safeError(r.error.message);
+    return backfillStatusSchema.parse(r.data);
   });
 export const getDeviceEarningsHistory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

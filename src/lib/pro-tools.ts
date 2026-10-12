@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { FLEET_PROJECTS, bindingIdentity, validBinding, type FleetDevice } from "./fleet";
+import {
+  FLEET_PROJECTS,
+  bindingIdentity,
+  validBinding,
+  type FleetDevice,
+  type FleetProject,
+} from "./fleet";
 import { LOCALES } from "./site";
 import { reportDayWindow, type DailyReport } from "./daily-report";
 
@@ -57,6 +63,57 @@ export type ProPreferences = {
 export function proPreferencePayload(value: Pick<ProPreferences, "alerts" | "monthly" | "locale">) {
   return { alerts: value.alerts, monthly: value.monthly, locale: value.locale };
 }
+export function earningsTrendValue(
+  report: DailyReport | undefined,
+  native: boolean,
+): number | null {
+  const value = native ? report?.projects[0]?.amount : report?.usdSubtotal;
+  return value !== null && value !== undefined && Number.isFinite(Number(value))
+    ? Number(value)
+    : null;
+}
+/** Prefer an explicitly labeled native project when historical USD prices are
+ * absent; never replace old prices with the current market quote. */
+export function preferredEarningsProject(history: DailyReport[]): FleetProject | "all" {
+  const usdDays = new Set(history.filter((r) => r.usdSubtotal !== null).map((r) => r.day)).size;
+  const candidates = FLEET_PROJECTS.map((project) => ({
+    project,
+    days: new Set(
+      history
+        .filter((r) => r.projects.some((p) => p.project === project && p.amount !== null))
+        .map((r) => r.day),
+    ).size,
+  })).sort((a, b) => b.days - a.days);
+  const best = candidates[0];
+  return best && best.days > 1 && best.days > usdDays ? best.project : "all";
+}
+export function preferredEarningsDays(
+  history: DailyReport[],
+  project: FleetProject | "all",
+  now = Date.now(),
+) {
+  const end = new Date(now + 28800000).toISOString().slice(0, 10),
+    endMs = Date.parse(end + "T00:00:00Z");
+  const count = (days: number) =>
+    new Set(
+      history
+        .filter((r) => {
+          const value =
+            project === "all"
+              ? r.usdSubtotal
+              : r.projects.find((p) => p.project === project)?.amount;
+          return (
+            r.day < end &&
+            Date.parse(r.day + "T00:00:00Z") >= endMs - days * 86400000 &&
+            value !== null &&
+            value !== undefined &&
+            Number.isFinite(Number(value))
+          );
+        })
+        .map((r) => r.day),
+    ).size;
+  return count(30) < 2 && count(90) >= 2 ? 90 : 30;
+}
 export const projectReportSchema = z.object({
   project: z.enum(FLEET_PROJECTS),
   name: clean(80),
@@ -74,6 +131,7 @@ export const projectReportSchema = z.object({
 });
 export const dailySnapshotSchema = z
   .object({
+    source: z.literal("backfill").optional(),
     day: z.string().refine((v) => {
       try {
         reportDayWindow(v);

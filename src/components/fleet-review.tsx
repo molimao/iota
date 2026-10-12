@@ -10,7 +10,7 @@ import { FleetWorkspace } from "./fleet-workspace";
 import { reviewDevices, reviewReading } from "./fleet-review-data";
 import { fleetCopy } from "./fleet-copy";
 import { useLocale } from "./site/locale";
-import { bindingIdentity, validBinding } from "@/lib/fleet";
+import { bindingIdentity, validBinding, type FleetDevice } from "@/lib/fleet";
 
 export function FleetReview() {
   const membershipView = useRouterState({
@@ -34,6 +34,40 @@ export function FleetReview() {
     c = fleetCopy(locale);
   const [emailLocale, setEmailLocale] = useState(locale);
   const [proPreferences, setProPreferences] = useState({ alerts: false, monthly: false, locale });
+  const historyPreview = (history: ReturnType<typeof reviewProHistory>) =>
+    scenario === "history-backfill"
+      ? history.map((r, i) =>
+          i === history.length - 1
+            ? r
+            : {
+                ...r,
+                source: "backfill" as const,
+                usdSubtotal: null,
+                partial: true,
+                projects: r.projects.map((p) => ({ ...p, usd: null, priced: 0 })),
+              },
+        )
+      : scenario === "history-single" || scenario === "history-no-usd"
+        ? history.slice(-1).map((r) => ({
+            ...r,
+            usdSubtotal: scenario === "history-no-usd" ? null : 0,
+            projects: r.projects.map((p) => ({
+              ...p,
+              amount: p.amount === null ? null : "0",
+              usd: scenario === "history-no-usd" || p.amount === null ? null : 0,
+            })),
+          }))
+        : history;
+  const deviceHistoryPreview = (device: FleetDevice) => {
+    const original = reviewDeviceHistory(locale, device);
+    const days =
+      scenario === "history-single" || scenario === "history-no-usd"
+        ? original.slice(-1)
+        : original;
+    const linked = historyPreview(days.map((d) => d.report)),
+      own = historyPreview(days.map((d) => d.deviceReport));
+    return days.map((d, i) => ({ ...d, report: linked[i]!, deviceReport: own[i]! }));
+  };
   return (
     <>
       <div className="fleet-review-switch">
@@ -52,7 +86,7 @@ export function FleetReview() {
             userId={null}
             plan={plan}
             device={device}
-            previewHistory={reviewDeviceHistory(locale, device)}
+            previewHistory={deviceHistoryPreview(device)}
           />
         )}
         proTools={
@@ -60,8 +94,8 @@ export function FleetReview() {
             userId={null}
             plan={plan}
             devices={devices}
-            previewHistory={reviewProHistory(locale)}
-            previewDeviceHistory={(device) => reviewDeviceHistory(locale, device)}
+            previewHistory={historyPreview(reviewProHistory(locale))}
+            previewDeviceHistory={deviceHistoryPreview}
             onPreviewBulk={async (rows) => {
               setDevices(applyReviewBulk(rows, devices));
             }}

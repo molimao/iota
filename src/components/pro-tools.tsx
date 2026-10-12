@@ -6,7 +6,12 @@ import { useId, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { TrendingUp, Download, ListChecks, ChevronDown } from "lucide-react";
-import { getEarningsHistory, applyBulkDevices, exportReportCsv } from "@/lib/pro-tools.functions";
+import {
+  getEarningsHistory,
+  getHistoryBackfillStatus,
+  applyBulkDevices,
+  exportReportCsv,
+} from "@/lib/pro-tools.functions";
 import {
   parseBulkCsv,
   filterReportProject,
@@ -18,10 +23,13 @@ import {
   monthlyCsv,
   sumNativeAmounts,
   previousMonth,
+  earningsTrendValue,
+  preferredEarningsProject,
+  preferredEarningsDays,
   type BulkRow,
 } from "@/lib/pro-tools";
 import type { DailyReport } from "@/lib/daily-report";
-import { FLEET_NAMES, FLEET_PROJECTS, type FleetDevice } from "@/lib/fleet";
+import { FLEET_NAMES, FLEET_PROJECTS, type FleetDevice, type FleetProject } from "@/lib/fleet";
 import { useLocale } from "./site/locale";
 import { proCopy as c } from "./pro-tools-copy";
 const money = (v: number | null) =>
@@ -56,6 +64,16 @@ export function ProTools({
   const { locale } = useLocale();
   const preview = previewHistory !== undefined;
   const auth = useAuth();
+  const statusRead = useServerFn(getHistoryBackfillStatus);
+  const backfill = useQuery({
+    queryKey: ["history-backfill-status", userId],
+    enabled: !!userId && !preview,
+    queryFn: () => statusRead(),
+    staleTime: 30000,
+    refetchInterval: (q) =>
+      !q.state.data || ["none", "pending"].includes(q.state.data.state) ? 60000 : false,
+    retry: 1,
+  });
   const [exportDevice, setExportDevice] = useState("");
   const [exportProject, setExportProject] = useState("all");
   const [exportMonth, setExportMonth] = useState("");
@@ -80,7 +98,8 @@ export function ProTools({
     enabled: !!userId && tab === "trends" && !preview,
     queryFn: () => read(),
     staleTime: 60000,
-    refetchInterval: 5 * 60000,
+    refetchInterval: (query) =>
+      backfill.data?.state === "pending" || (query.state.data?.length ?? 0) < 2 ? 60000 : 5 * 60000,
     refetchIntervalInBackground: false,
     retry: 1,
   });
@@ -163,6 +182,18 @@ export function ProTools({
           );
         })}
       </div>
+      {backfill.data?.state === "pending" && (
+        <p role="status" className="pro-tools-note">
+          {c.backfillProgress[locale]
+            .replace("{done}", String(backfill.data.completed))
+            .replace("{total}", String(backfill.data.total))}
+        </p>
+      )}
+      {backfill.data?.state === "failed" && (
+        <p role="status" className="pro-tools-note">
+          {c.backfillFailed[locale]}
+        </p>
+      )}
       {tab && (
         <div className="pro-tools-panel">
           {plan !== "pro" && tab === "bulk" ? (
@@ -326,10 +357,21 @@ export function EarningsTrends({
   busy: boolean;
 }) {
   const { locale } = useLocale();
-  const [days, setDays] = useState(30),
-    [project, setProject] = useState("all"),
+  const [selectedDays, setDays] = useState<number | null>(null),
+    [selectedProject, setProject] = useState<string | null>(null),
     [mode, setMode] = useState<"trend" | "month">("trend"),
     [month, setMonth] = useState(previousMonth());
+  const project =
+    selectedProject ??
+    preferredEarningsProject(deviceHistory ? deviceReports(deviceHistory) : history);
+  const days =
+    selectedDays ??
+    preferredEarningsDays(
+      deviceHistory
+        ? deviceReports(deviceHistory, project === "all" ? undefined : (project as FleetProject))
+        : history,
+      project as FleetProject | "all",
+    );
   const months = Array.from(new Set([previousMonth(), ...history.map((d) => d.day.slice(0, 7))]))
     .sort()
     .reverse();
@@ -352,6 +394,14 @@ export function EarningsTrends({
     .toISOString()
     .slice(0, 10);
   const visible = filtered.filter((r) => r.day >= start && r.day < end);
+  const knownDays = visible.filter((r) => earningsTrendValue(r, project !== "all") !== null);
+  const nativeOnly =
+    project === "all" && visible.some((r) => r.projects.some((p) => p.amount !== null));
+  const missingHistoricalUsd =
+    project === "all" &&
+    visible.some(
+      (r) => r.source === "backfill" && r.projects.some((p) => p.amount !== null && p.usd === null),
+    );
   const currency =
     project === "all"
       ? "USD"
@@ -436,6 +486,11 @@ export function EarningsTrends({
               <strong>
                 {project === "all" ? money(total) : `${nativeTotal ?? "—"} ${currency}`}
               </strong>
+              <span className="pro-history-coverage">
+                {c.recordedDays[locale]
+                  .replace("{count}", String(visible.length))
+                  .replace("{days}", String(days))}
+              </span>
             </div>
             <div className="pro-segment">
               {[7, 30, 90].map((n) => (
@@ -445,8 +500,25 @@ export function EarningsTrends({
               ))}
             </div>
           </div>
-          {history.length ? (
+          {!history.length ? (
+            <p>{c.noHistory[locale]}</p>
+          ) : !knownDays.length ? (
+            <p className="pro-tools-note" role="status">
+              {nativeOnly ? c.noUsdHistory[locale] : c.noDailyValues[locale]}
+            </p>
+          ) : (
             <>
+              {missingHistoricalUsd ? (
+                <p className="pro-history-progress" role="status">
+                  {c.partialUsdHistory[locale]}
+                </p>
+              ) : (
+                knownDays.length === 1 && (
+                  <p className="pro-history-progress" role="status">
+                    {c.singleDay[locale].replace("{date}", knownDays[0]!.day)}
+                  </p>
+                )
+              )}
               <TrendChart
                 key={`${project}-${days}`}
                 history={visible}
@@ -483,8 +555,6 @@ export function EarningsTrends({
                 </div>
               </details>
             </>
-          ) : (
-            <p>{c.noHistory[locale]}</p>
           )}
         </>
       ) : (
@@ -560,10 +630,7 @@ function TrendChart({
   currency: string;
 }) {
   const { locale } = useLocale();
-  const metric = (d: DailyReport | undefined) => {
-    const n = native ? d?.projects[0]?.amount : d?.usdSubtotal;
-    return n !== null && n !== undefined && Number.isFinite(Number(n)) ? Number(n) : null;
-  };
+  const metric = (d: DailyReport | undefined) => earningsTrendValue(d, native);
   const hintId = useId();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const max = Math.max(1, ...history.map((d) => metric(d) ?? 0));
@@ -574,6 +641,7 @@ function TrendChart({
       .slice(0, 10);
     return { day, value: metric(byDay.get(day)), report: byDay.get(day) };
   });
+  const singlePoint = series.filter((r) => r.value !== null).length === 1;
   let path = "",
     pen = false;
   for (let i = 0; i < series.length; i++) {
@@ -587,7 +655,11 @@ function TrendChart({
     path += (pen ? " L" : " M") + x.toFixed(2) + "," + y.toFixed(2);
     pen = true;
   }
-  const selectedIndex = Math.min(activeIndex ?? days - 1, days - 1);
+  const latestKnownIndex = series.reduce(
+    (latest, row, index) => (row.value === null ? latest : index),
+    days - 1,
+  );
+  const selectedIndex = Math.min(activeIndex ?? latestKnownIndex, days - 1);
   const selected = series[selectedIndex]!;
   const selectedAmount = native ? selected.report?.projects[0]?.amount : null;
   const selectedLabel = native ? `${selectedAmount ?? "—"} ${currency}` : money(selected.value);
@@ -667,7 +739,7 @@ function TrendChart({
               key={r.day}
               cx={48 + (i / Math.max(1, days - 1)) * 650}
               cy={170 - (r.value / max) * 140}
-              r="2.5"
+              r={singlePoint ? 5 : 2.5}
               fill="currentColor"
             >
               <title>{r.day + " · " + (native ? `${r.value} ${currency}` : money(r.value))}</title>

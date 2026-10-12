@@ -179,6 +179,10 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (new URL(request.url).pathname === "/api/history/backfill") {
+        const { historyBackfillCron } = await import("./lib/history-backfill-worker.server");
+        return historyBackfillCron(request);
+      }
       if (new URL(request.url).pathname === "/api/pro/cron") {
         const { proToolsCron } = await import("./lib/pro-tools-worker.server");
         return proToolsCron(request);

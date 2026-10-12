@@ -1,5 +1,54 @@
 import { localized } from "@/lib/product-discovery";
 export const proCopy = {
+  partialUsdHistory: localized([
+    "历史美元估值不完整，可按项目查看原币收益。",
+    "歷史美元估值不完整，可按專案查看原幣收益。",
+    "Historical USD estimates are incomplete. Select a project for native earnings.",
+    "과거 USD 평가액이 불완전합니다. 프로젝트별 원래 통화 수익을 확인하세요.",
+    "過去のUSD評価額は不完全です。プロジェクト別の元通貨収益を確認できます。",
+  ]),
+  backfillProgress: localized([
+    "官方历史回补中 · {done} / {total}",
+    "官方歷史回補中 · {done} / {total}",
+    "Importing official history · {done} / {total}",
+    "공식 이력 가져오는 중 · {done} / {total}",
+    "公式履歴を取り込み中 · {done} / {total}",
+  ]),
+  backfillFailed: localized([
+    "历史回补暂未完成，已有记录仍可查看。",
+    "歷史回補暫未完成，已有紀錄仍可查看。",
+    "History import is incomplete. Existing records remain available.",
+    "이력 가져오기가 완료되지 않았습니다. 기존 기록은 확인할 수 있습니다.",
+    "履歴の取り込みは未完了です。既存の記録は引き続き確認できます。",
+  ]),
+  recordedDays: localized([
+    "已记录 {count} / {days} 天",
+    "已記錄 {count} / {days} 天",
+    "Recorded {count} / {days} days",
+    "{days}일 중 {count}일 기록됨",
+    "{days}日中{count}日を記録",
+  ]),
+  singleDay: localized([
+    "目前仅有 {date} 的收益数据，后续每日更新。",
+    "目前僅有 {date} 的收益資料，後續每日更新。",
+    "Only {date} has available earnings so far. Updated daily.",
+    "현재 사용 가능한 수익은 {date}뿐입니다. 매일 업데이트됩니다.",
+    "現在利用できる収益は{date}のみです。毎日更新されます。",
+  ]),
+  noUsdHistory: localized([
+    "暂无美元估值，可选择项目查看原币收益。",
+    "暫無美元估值，可選擇專案查看原幣收益。",
+    "USD estimates are unavailable. Select a project to view native earnings.",
+    "USD 평가액이 없습니다. 프로젝트를 선택해 원래 통화의 수익을 확인하세요.",
+    "USD評価額はありません。プロジェクトを選び、元の通貨の収益を確認できます。",
+  ]),
+  noDailyValues: localized([
+    "所选范围暂无可用的日收益记录。",
+    "所選範圍暫無可用的日收益紀錄。",
+    "No available daily earnings in this selection.",
+    "선택한 범위에 사용 가능한 일별 수익이 없습니다.",
+    "選択範囲に利用可能な日別収益はありません。",
+  ]),
   historyLogin: localized([
     "登录后查看收益历史",
     "登入後查看收益歷史",
@@ -86,11 +135,11 @@ export const proCopy = {
     "アカウントまたは共有ウォレットの収益を含み、単独デバイスの収益ではありません。",
   ]),
   deviceHistoryStart: localized([
-    "设备历史从首次采集起记录。",
-    "設備歷史從首次採集起記錄。",
-    "Device history starts with its first snapshot.",
-    "기기 이력은 첫 수집부터 기록됩니다.",
-    "デバイス履歴は最初の収集から記録します。",
+    "设备历史按当前关联的 ID 查询官方记录并每日采集。",
+    "設備歷史按目前關聯的 ID 查詢官方紀錄並每日採集。",
+    "History uses official records and daily snapshots for the IDs currently linked to this device.",
+    "현재 기기에 연결된 ID의 공식 이력과 일별 기록을 사용합니다.",
+    "現在のデバイスに関連付けたIDの公式履歴と日次記録を使用します。",
   ]),
 
   periodEarnings: localized([
@@ -169,11 +218,11 @@ export const proCopy = {
   bulk: localized(["批量管理", "批次管理", "Bulk management", "일괄 관리", "一括管理"]),
   exports: localized(["报表导出", "報表匯出", "Report exports", "보고서 내보내기", "レポート出力"]),
   historyNote: localized([
-    "从首次采集起记录，保留最近 90 天。缺失数据不计为零；美元仅汇总可估值的部分。",
-    "從首次採集起記錄，保留最近 90 天。缺失資料不計為零；美元僅彙總可估值的部分。",
-    "Records start with the first snapshot and are kept for 90 days. Missing data is not zero. USD totals include only priced earnings.",
-    "첫 수집부터 기록하며 최근 90일을 보관합니다. 누락은 0이 아니며 USD는 평가 가능한 수익만 합산합니다.",
-    "最初の収集から記録し、直近90日を保存。欠損はゼロ扱いせず、USDは評価可能な収益のみ集計。",
+    "官方回补与每日采集记录，保留最近 90 天。缺失不计为零；历史美元价格缺失时按项目查看原币收益。",
+    "官方回補與每日採集紀錄，保留最近 90 天。缺失不計為零；缺少歷史美元價格時按專案查看原幣收益。",
+    "Official history and daily snapshots, retained for 90 days. Missing data is not zero. Select a project for native earnings when historical USD prices are unavailable.",
+    "공식 이력과 일별 기록을 90일간 보관합니다. 누락은 0이 아닙니다. 과거 USD 가격이 없으면 프로젝트별 원래 통화 수익을 확인하세요.",
+    "公式履歴と日次記録を90日間保存。欠損はゼロ扱いせず、過去のUSD価格がない場合はプロジェクト別の元通貨収益を表示します。",
   ]),
   noHistory: localized([
     "尚无收益记录，首次采集后会显示在这里。",

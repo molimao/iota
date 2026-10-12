@@ -37,6 +37,8 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_history_backfill_worker: { Args: { p_action: string; p_payload: Json }; Returns: Json };
+      watch_history_backfill_status: { Args: Record<string, never>; Returns: Json };
       watch_pro_status: { Args: Record<string, never>; Returns: Json };
       watch_set_pro_preferences: {
         Args: { p_alerts: boolean; p_monthly: boolean; p_locale: string };

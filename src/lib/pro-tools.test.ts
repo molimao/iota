@@ -11,6 +11,7 @@ import {
   bulkTemplate,
   proPreferencePayload,
   proPreferencesInput,
+  earningsTrendValue,
 } from "./pro-tools";
 import { renderMonthlyReport, renderStatusAlert } from "./pro-email";
 import { aggregateDailyReport, reportDayWindow } from "./daily-report";
@@ -56,6 +57,18 @@ const report = aggregateDailyReport(
   2,
   Date.parse("2026-09-02T01:30:00Z"),
 );
+it("keeps a zero-value trend point and separates unpriced native earnings from missing history", () => {
+  const zero = { ...report, usdSubtotal: 0, projects: [{ ...report.projects[0]!, amount: "0" }] };
+  expect(earningsTrendValue(zero, false)).toBe(0);
+  expect(earningsTrendValue(zero, true)).toBe(0);
+  const unpriced = { ...report, usdSubtotal: null };
+  expect(earningsTrendValue(unpriced, false)).toBeNull();
+  expect(earningsTrendValue(unpriced, true)).toBe(1.23456789);
+  expect(earningsTrendValue(undefined, false)).toBeNull();
+  expect(
+    earningsTrendValue({ ...report, projects: [{ ...report.projects[0]!, amount: null }] }, true),
+  ).toBeNull();
+});
 it("keeps missing days and unpriced resources distinct from zero and deduplicates daily snapshots", () => {
   const m = summarizeMonth([report, report], "2026-09");
   expect(m).toMatchObject({ days: 1, expected: 30, usdSubtotal: 10, partial: true });

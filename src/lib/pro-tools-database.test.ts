@@ -40,6 +40,7 @@ beforeAll(async () => {
     "20261006200000_platform_connections.sql",
     "20261010180000_daily_reports.sql",
     "20261011120000_pro_tools.sql",
+    "20261011235900_history_backfill.sql",
   ])
     await db.exec(readFileSync("supabase/migrations/" + file, "utf8"));
   await db.query(

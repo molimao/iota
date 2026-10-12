@@ -85,6 +85,7 @@ export type ReportReading = {
   usd: number | null;
   fetchedAt?: number | undefined;
   reason?: ReportReason | undefined;
+  partial?: boolean;
 };
 export type ProjectReport = {
   project: ProjectId;
@@ -99,6 +100,7 @@ export type ProjectReport = {
   reason: ReportReason | null;
 };
 export type DailyReport = {
+  source?: "backfill" | undefined;
   day: string;
   generatedAt: string;
   valuationAt?: string;
@@ -153,7 +155,7 @@ export function aggregateDailyReport(
       known,
       priced,
       total: group.length,
-      partial: known < group.length,
+      partial: known < group.length || group.some((r) => r.partial),
       reason:
         known === group.length ? null : (group.find((r) => r.reason)?.reason ?? "unavailable"),
     } satisfies ProjectReport;

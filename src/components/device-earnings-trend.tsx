@@ -34,7 +34,7 @@ export function DeviceEarningsTrend({
     enabled: open && !!userId && !preview,
     queryFn: () => read({ data: { device: device.id } }),
     staleTime: 60000,
-    refetchInterval: 5 * 60000,
+    refetchInterval: (query) => ((query.state.data?.length ?? 0) < 2 ? 60000 : 5 * 60000),
     refetchIntervalInBackground: false,
     retry: 1,
   });
