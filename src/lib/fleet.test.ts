@@ -24,15 +24,15 @@ function device(id: string, projects: FleetProject[]): FleetDevice {
 }
 
 describe("independent project quotas", () => {
-  it("allows 5 devices in every project, even when the device view contains 20", () => {
+  it("allows 3 devices in every project, even when the device view contains 12", () => {
     const projects: FleetProject[] = ["iota", "xid", "quantus", "flyai"];
     const devices = projects.flatMap((p) =>
-      Array.from({ length: 5 }, (_, i) => device(`${p}-${i}`, [p])),
+      Array.from({ length: 3 }, (_, i) => device(`${p}-${i}`, [p])),
     );
-    expect(devices).toHaveLength(20);
+    expect(devices).toHaveLength(12);
     for (const project of projects) {
       expect(projectQuotaState(devices, project, PLANS.free.projectDeviceLimit)).toMatchObject({
-        count: 5,
+        count: 3,
         remaining: 0,
         canAdd: false,
       });

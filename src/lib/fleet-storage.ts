@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import {
   FLEET_KEY,
   bindingIdentity,
@@ -42,7 +43,7 @@ export function loadLocalFleet(): FleetDevice[] {
 export function localFleetMutation(
   devices: FleetDevice[],
   input: FleetMutation,
-  limit = 5,
+  limit = PLANS.free.projectDeviceLimit,
 ): FleetDevice[] {
   const mutation = fleetMutationSchema.parse(input),
     payload = mutation.payload;

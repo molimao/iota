@@ -52,3 +52,23 @@ describe("local fleet preserves existing records", () => {
     expect(linked).toHaveLength(8);
   });
 });
+
+it("enforces the current three-device quota locally and retains all saved devices", () => {
+  const devices = Array.from({ length: 3 }, (_, i) => device(i + 1));
+  expect(() =>
+    localFleetMutation(devices, {
+      action: "create",
+      payload: {
+        name: "Fourth",
+        hardware: "",
+        binding: { project: "flyai", identifier: wallet(4), worker: "" },
+      },
+    }),
+  ).toThrow("project_device_limit_reached");
+  const renamed = localFleetMutation(devices, {
+    action: "rename",
+    payload: { id: devices[0]!.id, name: "Renamed", hardware: "" },
+  });
+  expect(renamed).toHaveLength(3);
+  expect(renamed[0]!.name).toBe("Renamed");
+});

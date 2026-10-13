@@ -163,7 +163,7 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 3 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is \`iota-2\` (Train at Home SN9), not \`iota\` (IOTA Layer 1).
 
@@ -186,7 +186,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: ${PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ")} at ${origin}/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: ${PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ")} at ${origin}/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: ${origin}/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: ${origin}/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.

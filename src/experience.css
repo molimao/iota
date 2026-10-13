@@ -5952,3 +5952,24 @@ body:has(.site-shell) {
     width: 100%;
   }
 }
+
+.account-login-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.account-login-error {
+  position: absolute;
+  z-index: 80;
+  right: 0;
+  top: 100%;
+  margin: 8px 0 0;
+  width: min(280px, 80vw);
+  padding: 12px 14px;
+  border: 1px solid #555;
+  border-radius: 10px;
+  background: #181818;
+  color: #eee;
+  font-size: 12px;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px #0005;
+}

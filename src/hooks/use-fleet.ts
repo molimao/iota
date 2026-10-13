@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { useCallback, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -151,7 +152,7 @@ export function useFleet(userId: string | null, authReady: boolean) {
   return {
     devices,
     plan: remote.data?.plan ?? "free",
-    limit: remote.data?.projectDeviceLimit ?? 5,
+    limit: remote.data?.projectDeviceLimit ?? PLANS.free.projectDeviceLimit,
     ready: authReady && (userId ? !!remote.data : loaded),
     error: error ?? (remote.isError ? "fleet_read_failed" : null),
     billing: billing.data,

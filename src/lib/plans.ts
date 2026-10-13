@@ -1,6 +1,6 @@
 /** Shared display policy. The database enforces quotas independently. */
 export const PLANS = {
-  free: { projectDeviceLimit: 5 },
+  free: { projectDeviceLimit: 3 },
   pro: { projectDeviceLimit: 50, monthlyCents: 299, annualCents: 1699, currency: "usd" },
 } as const;
 
@@ -13,6 +13,7 @@ export type BillingSummary = {
   periodEnd: number | null;
   cancelAtPeriodEnd: boolean;
   hasCustomer: boolean;
+  trialEligible?: boolean | undefined;
 };
 
 export function paidAccess(status: string | null, periodEnd: number | null, now = Date.now()) {

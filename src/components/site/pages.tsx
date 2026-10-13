@@ -750,8 +750,8 @@ export function AccountPage() {
               <p>
                 {localizeValue(
                   en
-                    ? "Free: 5 devices per project. Pro: 50 per project. The device overview has no separate device limit."
-                    : "免费：每个项目 5 台。Pro：每个项目 50 台。设备总览无额外总数限制。",
+                    ? "Free: 3 devices per project. Pro: 50 per project. The device overview has no separate device limit."
+                    : "免费：每个项目 3 台。Pro：每个项目 50 台。设备总览无额外总数限制。",
                   locale,
                 )}
               </p>
@@ -783,8 +783,8 @@ export function AccountPage() {
           <p className="article-lead">
             {localizeValue(
               en
-                ? "Sign in to sync devices across browsers. Free: 5 devices per project. Pro: 50 per project."
-                : "登录后可跨浏览器同步设备。免费每个项目 5 台，Pro 每个项目 50 台。",
+                ? "Sign in to sync devices across browsers. Free: 3 devices per project. Pro: 50 per project."
+                : "登录后可跨浏览器同步设备。免费每个项目 3 台，Pro 每个项目 50 台。",
               locale,
             )}
           </p>

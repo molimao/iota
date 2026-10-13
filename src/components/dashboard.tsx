@@ -1,3 +1,5 @@
+import { ReportEntry } from "./daily-report-discovery";
+import { useBilling } from "@/hooks/use-billing";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { minerIdError, shortId } from "@/lib/ss58";
 import { useRouterState } from "@tanstack/react-router";
@@ -172,6 +174,7 @@ function SavedIotaDashboard() {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
   const watch = useWatchlist(auth.userId, auth.ready);
+  const billing = useBilling(auth.userId, auth.ready);
   const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const [adding, setAdding] = useState(false);
@@ -573,6 +576,9 @@ function SavedIotaDashboard() {
                 locale,
               )}
         </p>
+      )}
+      {watch.loaded && watch.devices.length > 0 && (!auth.userId || billing.data) && (
+        <ReportEntry plan={billing.data?.plan ?? "free"} />
       )}
       {dash.farm ? (
         <FarmLine farm={dash.farm} deviceCount={watch.devices.length} stale={dash.farmStale} />

@@ -93,7 +93,7 @@ describe("real PostgreSQL quota and subscription enforcement", () => {
     const after = await db.query<{ data: { projectCounts: { flyai: number } } }>(
       "SELECT watch_list_devices() AS data",
     );
-    expect(after.rows[0]!.data.projectCounts.flyai).toBe(5);
+    expect(after.rows[0]!.data.projectCounts["flyai"]).toBe(5);
   });
   it("prevents direct quota bypass and reads or mutations of another account", async () => {
     const owned = await mutate("create", { name: "Private" });
@@ -249,4 +249,44 @@ it("applies independent NOID and Acurast quotas and retains existing fleets", as
       mutate("create", { name: "Sixth", binding: { project, identifier: identifier(5) } }),
     ).rejects.toThrow(/project_device_limit_reached/);
   }
+});
+
+it("lowers Free to three per project without removing legacy records or trial access", async () => {
+  await db.exec("RESET ROLE");
+  await db.exec(readFileSync("supabase/migrations/20261013180000_free_three_devices.sql", "utf8"));
+  const id = "77777777-7777-4777-8777-777777777777";
+  await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
+  await asUser(grandfather);
+  const legacy = await db.query<{ data: { devices: unknown[]; projectDeviceLimit: number } }>(
+    "SELECT watch_list_devices() AS data",
+  );
+  expect(legacy.rows[0]!.data.devices).toHaveLength(8);
+  expect(legacy.rows[0]!.data.projectDeviceLimit).toBe(3);
+  await asUser(id);
+  for (let i = 1; i <= 3; i++)
+    await mutate("create", {
+      name: `New ${i}`,
+      binding: { project: "flyai", identifier: wallet(i) },
+    });
+  await expect(
+    mutate("create", { name: "Fourth", binding: { project: "flyai", identifier: wallet(4) } }),
+  ).rejects.toThrow("project_device_limit_reached");
+  const independent = await mutate("create", {
+    name: "Other project",
+    binding: { project: "xid", identifier: "xpa1" + "q".repeat(58) },
+  });
+  expect(independent.projectCounts["flyai"]).toBe(3);
+  expect(independent.projectCounts["xid"]).toBe(1);
+  await db.exec("RESET ROLE");
+  await db.query(
+    "INSERT INTO watch_billing(user_id,stripe_customer,status,period_end) VALUES($1,'cus_quota_test','trialing',now()+interval '7 days')",
+    [id],
+  );
+  await asUser(id);
+  const trial = await mutate("create", {
+    name: "Trial fourth",
+    binding: { project: "flyai", identifier: wallet(4) },
+  });
+  expect(trial.projectDeviceLimit).toBe(50);
+  expect(trial.projectCounts["flyai"]).toBe(4);
 });

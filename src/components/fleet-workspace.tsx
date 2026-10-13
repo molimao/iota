@@ -1,3 +1,4 @@
+import { trialCopy } from "./pro-trial-copy";
 import { AdditionHelp } from "./onboarding";
 import { reportCopy } from "./daily-report-copy";
 import { ReportEntry } from "./daily-report-discovery";
@@ -54,6 +55,8 @@ type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
   initialPaywallProject?: FleetProject | undefined;
   initialProject?: FleetProject | undefined;
+  signedIn?: boolean;
+  initialInterval?: "month" | "year";
   initialTab?: "devices" | "plans";
   devices: FleetDevice[];
   plan: "free" | "pro";
@@ -101,7 +104,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     [worker, setWorker] = useState("");
   const [sourceId, setSourceId] = useState(""),
     [bindingId, setBindingId] = useState("");
-  const [interval, setInterval] = useState<"month" | "year">("year");
+  const [interval, setInterval] = useState<"month" | "year">(props.initialInterval ?? "year");
   const [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null);
   const [paywallProject, setPaywallProject] = useState<FleetProject | null>(
@@ -151,6 +154,22 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       const device = props.devices.find((d) => d.id === deviceId);
       setName(device?.name ?? "");
       setHardware(device?.hardware ?? "");
+    }
+  }
+  async function choosePlan() {
+    if (props.preview || !props.onSubscribe) {
+      open("billing");
+      return;
+    }
+    if (busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await props.onSubscribe(interval);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : c.unavailable);
+    } finally {
+      setBusy(false);
     }
   }
   async function save(event: React.FormEvent) {
@@ -363,11 +382,19 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               <FleetPricing
                 interval={interval}
                 onIntervalChange={setInterval}
-                onChoose={() => open("billing")}
+                onChoose={() => void choosePlan()}
+                busy={busy}
+                trialEligible={props.billing?.trialEligible}
+                signedIn={props.signedIn}
                 allowances={(limit) => (
                   <ProjectAllowances devices={props.devices} limit={limit} c={c} />
                 )}
               />
+              {error && (
+                <p className="fleet-form-error" role="alert">
+                  {error}
+                </p>
+              )}
               {props.preview && (
                 <button className="fleet-preview-wall" onClick={() => showPaywall("iota")}>
                   {c.previewWall} · IOTA
@@ -678,6 +705,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 interval={interval}
                 onChange={setInterval}
                 disabled={busy}
+                trialEligible={props.billing?.trialEligible}
                 preview={!!props.preview || !props.onSubscribe}
               />
             )}
@@ -702,7 +730,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               >
                 {dialog === "billing" ? (
                   <>
-                    {c.checkout}
+                    {busy
+                      ? c.processing
+                      : props.signedIn
+                        ? trialCopy.continue[locale]
+                        : trialCopy.signIn[locale]}
                     <span>
                       US${planAmount(interval)} {interval === "year" ? c.perYear : c.perMonth}
                     </span>

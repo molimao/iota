@@ -1,3 +1,4 @@
+import { authErrorText } from "@/lib/auth-errors";
 import { localizeValue } from "@/components/site/localization";
 import { ChevronDown, CreditCard, LogOut, Settings, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -71,16 +72,24 @@ export function AccountMenu() {
       ja: "ログイン",
     }[locale];
     return (
-      <button
-        type="button"
-        className="site-button small account-login"
-        aria-label={t("用 Google 登录")}
-        title={t("用 Google 登录")}
-        onClick={() => void auth.signInWithGoogle()}
-        disabled={!mounted || auth.signingIn}
-      >
-        {auth.signingIn ? t("正在登录") : signInLabel}
-      </button>
+      <div className="account-login-wrap">
+        <button
+          type="button"
+          className="site-button small account-login"
+          aria-label={t("用 Google 登录")}
+          title={t("用 Google 登录")}
+          onClick={() => void auth.signInWithGoogle()}
+          disabled={!mounted || auth.signingIn}
+        >
+          {auth.signingIn ? t("正在登录") : signInLabel}
+        </button>
+
+        {auth.error && (
+          <p className="account-login-error" role="alert">
+            {authErrorText(auth.error, locale)}
+          </p>
+        )}
+      </div>
     );
   }
 

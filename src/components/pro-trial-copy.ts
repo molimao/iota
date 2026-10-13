@@ -1,5 +1,26 @@
 import { localized } from "@/lib/product-discovery";
 export const trialCopy = {
+  start: localized([
+    "免费试用 7 天",
+    "免費試用 7 天",
+    "Try 7 days free",
+    "7일 무료 체험",
+    "7日間無料で試す",
+  ]),
+  continue: localized([
+    "继续至 Stripe",
+    "繼續至 Stripe",
+    "Continue to Stripe",
+    "Stripe로 계속",
+    "Stripeへ進む",
+  ]),
+  signIn: localized([
+    "登录后继续开通",
+    "登入後繼續開通",
+    "Sign in to continue",
+    "로그인 후 계속",
+    "ログインして続ける",
+  ]),
   offer: localized([
     "首次开通，免费试用 7 天",
     "首次開通，免費試用 7 天",

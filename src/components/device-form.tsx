@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { IotaAdditionHelp } from "./onboarding";
 import { localizeValue } from "@/components/site/localization";
 import { useRef, useState } from "react";
@@ -11,7 +12,7 @@ export function DeviceForm({
   initialLabel = "",
   initialHotkey = "",
   rename = false,
-  limit = 5,
+  limit = PLANS.free.projectDeviceLimit,
   duplicateIds = [],
   onSave,
   onCancel,

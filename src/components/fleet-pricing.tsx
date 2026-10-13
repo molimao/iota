@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { adLabels } from "@/lib/ads";
 import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
@@ -46,7 +47,13 @@ export function FleetPricing({
   onIntervalChange,
   onChoose,
   allowances,
+  busy = false,
+  trialEligible,
+  signedIn,
 }: {
+  busy?: boolean;
+  trialEligible?: boolean | undefined;
+  signedIn?: boolean | undefined;
   interval: "month" | "year";
   onIntervalChange: (interval: "month" | "year") => void;
   onChoose: () => void;
@@ -64,7 +71,7 @@ export function FleetPricing({
         </header>
         <p className="fleet-plan-purpose">{pricingCopy.freeIntro[locale]}</p>
         <div className="fleet-price">$0</div>
-        <p className="fleet-plan-saving">{capacity(5)}</p>
+        <p className="fleet-plan-saving">{capacity(PLANS.free.projectDeviceLimit)}</p>
         <ul className="fleet-plan-benefits">
           <li>
             <Check size={17} aria-hidden="true" />
@@ -81,7 +88,7 @@ export function FleetPricing({
         </ul>
         <details className="fleet-plan-allowances">
           <summary>{c.quotas}</summary>
-          {allowances(5)}
+          {allowances(PLANS.free.projectDeviceLimit)}
         </details>
       </article>
       <article id="pro-plan" className="fleet-plan-card fleet-pro-card">
@@ -97,6 +104,8 @@ export function FleetPricing({
           </div>
         </header>
         <p className="fleet-plan-purpose">{pricingCopy.proIntro[locale]}</p>
+        {trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
+
         <div className="fleet-price">
           ${planAmount(interval)}
           <small>{interval === "month" ? c.perMonth : c.perYear}</small>
@@ -138,14 +147,19 @@ export function FleetPricing({
             <b>{adLabels[locale][1]}</b>
           </li>
         </ul>
-        <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>
         <p className="fleet-free-included">{proCopy.freeIncluded[locale]}</p>
-        <button className="fleet-plan-primary" onClick={onChoose}>
-          {pricingCopy.start[locale]}
+        <button className="fleet-plan-primary" onClick={onChoose} disabled={busy} aria-busy={busy}>
+          {busy
+            ? c.processing
+            : trialEligible === true
+              ? trialCopy.start[locale]
+              : pricingCopy.start[locale]}
           <ArrowUpRight size={17} aria-hidden="true" />
         </button>
-        <p className="fleet-plan-activation">{trialCopy.activation[locale]}</p>
-        <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>
+        <p className="fleet-plan-activation">
+          {signedIn === false ? trialCopy.signIn[locale] : trialCopy.activation[locale]}
+        </p>
+        {trialEligible !== false && <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>}
         <details className="fleet-plan-allowances">
           <summary>{c.quotas}</summary>
           {allowances(50)}

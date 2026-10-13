@@ -18,7 +18,7 @@ export function SiteAd() {
       hostname: window.location.hostname,
       pathname,
       client,
-      authReady: auth.ready,
+      authReady: auth.ready && !auth.error,
       userId: auth.userId,
       billingReady: billing.isSuccess && !billing.isError,
       billing: billing.data,
@@ -41,6 +41,14 @@ export function SiteAd() {
     loaded.current = true;
     loadedUser.current = auth.userId;
     document.head.appendChild(script);
-  }, [pathname, auth.ready, auth.userId, billing.isSuccess, billing.isError, billing.data]);
+  }, [
+    pathname,
+    auth.ready,
+    auth.error,
+    auth.userId,
+    billing.isSuccess,
+    billing.isError,
+    billing.data,
+  ]);
   return null;
 }

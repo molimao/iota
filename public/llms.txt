@@ -4,7 +4,7 @@
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 3 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
 
@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -57,7 +57,7 @@ Use IOTA Watch to check saved identifiers together, organize cross-project devic
 Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
 
 ### Do I need an account, a wallet connection or a subscription?
-Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
+Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 3 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
 Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.

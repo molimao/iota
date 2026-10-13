@@ -111,6 +111,7 @@ export async function readBilling(userId: string): Promise<BillingSummary> {
     periodEnd: end,
     cancelAtPeriodEnd: row?.cancel_at_period_end ?? false,
     hasCustomer: !!row?.stripe_customer,
+    trialEligible: row?.stripe_subscription ? false : !row?.stripe_customer ? true : undefined,
   };
 }
 async function validateCatalog(stripe: Stripe, config: BillingConfig) {

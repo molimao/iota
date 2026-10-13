@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowRight, Check, Layers } from "lucide-react";
@@ -68,7 +69,13 @@ export function PaywallBody({
   onChange,
   disabled,
   preview,
-}: PriceChoiceProps & { devices: FleetDevice[]; project: FleetProject | null; preview: boolean }) {
+  trialEligible,
+}: PriceChoiceProps & {
+  devices: FleetDevice[];
+  project: FleetProject | null;
+  preview: boolean;
+  trialEligible?: boolean | undefined;
+}) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const used = project ? projectDeviceCount(devices, project) : null;
@@ -79,8 +86,10 @@ export function PaywallBody({
           <div>
             <span>{project ? FLEET_NAMES[project] : c.free}</span>
             <strong>
-              {used ?? 5}
-              <small>{used === null ? " " + c.devices : " / 5"}</small>
+              {used ?? PLANS.free.projectDeviceLimit}
+              <small>
+                {used === null ? " " + c.devices : ` / ${PLANS.free.projectDeviceLimit}`}
+              </small>
             </strong>
             <p>{project ? c.used : c.quotas}</p>
           </div>
@@ -107,10 +116,12 @@ export function PaywallBody({
           {c.perProject}
         </p>
       </div>
-      <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>
+      {trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
       <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
       <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
-      <p className="fleet-paywall-report-guide">{trialCopy.terms[locale]}</p>
+      {trialEligible !== false && (
+        <p className="fleet-paywall-report-guide">{trialCopy.terms[locale]}</p>
+      )}
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>

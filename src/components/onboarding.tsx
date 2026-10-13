@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { onboardingCopy as copy, projectHelpPath, projectAccess } from "@/lib/onboarding";
 import type { ProjectId } from "@/lib/projects";
 import { useLocale } from "./site/locale";
@@ -52,8 +53,10 @@ export function AdditionHelp({ project, plan }: { project: ProjectId; plan: "fre
     </div>
   );
 }
-export function IotaAdditionHelp({ limit = 5 }: { limit?: number }) {
-  return <AdditionHelp project="iota" plan={limit > 5 ? "pro" : "free"} />;
+export function IotaAdditionHelp({ limit = PLANS.free.projectDeviceLimit }: { limit?: number }) {
+  return (
+    <AdditionHelp project="iota" plan={limit > PLANS.free.projectDeviceLimit ? "pro" : "free"} />
+  );
 }
 export function ProjectAccessLabel({ project }: { project: ProjectId }) {
   const { locale } = useLocale();

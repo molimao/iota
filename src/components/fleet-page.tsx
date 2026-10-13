@@ -1,7 +1,8 @@
 import { DeviceEarningsTrend } from "./device-earnings-trend";
 import { ProTools } from "./pro-tools";
 import { ProNotificationSettings } from "./pro-notification-settings";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { CHECKOUT_INTENT_KEY, checkoutInterval, readCheckoutIntent } from "@/lib/checkout-intent";
 import { DailyReportSettings } from "./daily-report-settings";
 import { useRouterState } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -47,19 +48,77 @@ export function FleetPage() {
           : e instanceof Error && e.message === "import_partial"
             ? c.importPartial
             : c.unavailable;
-  async function subscribe(interval: "month" | "year") {
-    if (!auth.userId) {
-      await auth.signInWithGoogle();
+  const { userId, signInWithGoogle } = auth;
+  const checkoutBusy = useRef(false);
+  const cadence = useRouterState({
+    select: (s) => checkoutInterval(new URLSearchParams(s.location.searchStr).get("checkout")),
+  });
+  const clearIntent = useCallback(() => {
+    try {
+      sessionStorage.removeItem(CHECKOUT_INTENT_KEY);
+    } catch {
+      /* Storage may be blocked. */
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.delete("checkout");
+    window.history.replaceState(window.history.state, "", url.href);
+  }, []);
+  const subscribe = useCallback(
+    async (interval: "month" | "year") => {
+      if (checkoutBusy.current) return;
+      checkoutBusy.current = true;
+      setError(null);
+      try {
+        if (!userId) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("checkout", interval);
+          window.history.replaceState(window.history.state, "", url.href);
+          try {
+            sessionStorage.setItem(
+              CHECKOUT_INTENT_KEY,
+              JSON.stringify({
+                interval,
+                at: Date.now(),
+                path: url.pathname,
+              }),
+            );
+          } catch {
+            /* The selected interval still survives in the return URL. */
+          }
+          await signInWithGoogle();
+          return;
+        }
+        // Checkout validates live billing configuration on the server.
+        clearIntent();
+        const result = await checkoutFn({ data: { interval, locale } });
+        window.location.assign(result.url);
+      } catch {
+        clearIntent();
+        throw new Error(c.unavailable);
+      } finally {
+        checkoutBusy.current = false;
+      }
+    },
+    [userId, signInWithGoogle, checkoutFn, locale, c.unavailable, clearIntent],
+  );
+  useEffect(() => {
+    if (auth.error) {
+      clearIntent();
       return;
     }
-    if (!fleet.billing?.configured) throw new Error(c.unavailable);
+    if (!auth.ready || !auth.userId || !fleet.ready || !fleet.billing) return;
+    let pending: "month" | "year" | null = null;
     try {
-      const result = await checkoutFn({ data: { interval, locale } });
-      window.location.assign(result.url);
-    } catch (e) {
-      throw new Error(message(e));
+      pending = readCheckoutIntent(
+        sessionStorage.getItem(CHECKOUT_INTENT_KEY),
+        window.location.href,
+      );
+    } catch {
+      /* Never auto-start without a saved intent. */
     }
-  }
+    clearIntent(); // Consume before the request, including Strict Mode or a remount.
+    if (pending) void subscribe(pending).catch((e) => setError(e.message));
+  }, [auth.ready, auth.userId, auth.error, fleet.ready, fleet.billing, subscribe, clearIntent]);
   async function manage() {
     try {
       const result = await portalFn({ data: { locale } });
@@ -99,6 +158,8 @@ export function FleetPage() {
         </div>
       )}
       <FleetWorkspace
+        initialInterval={cadence}
+        signedIn={!!auth.userId}
         initialProject={initialProject}
         devices={fleet.devices}
         plan={fleet.plan}
