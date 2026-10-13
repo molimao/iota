@@ -434,11 +434,27 @@ export function LearnIndex() {
       <span className="eyebrow">{localizeValue(en ? "HELP" : "使用说明", locale)}</span>
       <h1>{discoveryCopy.guidesTitle[locale]}</h1>
       <p className="article-lead">{discoveryCopy.guideIntro[locale]}</p>
+      <div className="guide-problem-links">
+        {[
+          "device-not-found",
+          "what-refresh-interrupted-means",
+          "noid-monitor-guide",
+          "acurast-monitor-guide",
+        ].map((slug) => {
+          const guide = getArticle(slug);
+          return guide ? (
+            <a key={slug} href={`/${locale}/learn/${slug}`}>
+              {guide.title[locale]} <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          ) : null;
+        })}
+      </div>
       <nav className="guide-jump-links" aria-label={learningCopy[locale].title}>
-        <a href="#start">IOTA</a>
-        <a href="#xid">XID / MMM</a>
-        <a href="#quantus">Quantus</a>
-        <a href="#compare">{learningCopy[locale].compare}</a>
+        {Object.entries(articleClusterMeta).map(([id, group]) => (
+          <a key={id} href={`#${id}`}>
+            {group.title[locale]}
+          </a>
+        ))}
       </nav>
       <LearnGrid locale={locale} allProjects />
       <p className="article-updated">
@@ -487,7 +503,22 @@ export function ArticleView({
       </a>
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
-      <p className="article-lead">{article.description[locale]}</p>
+      <p className="article-lead">{article.summary?.[locale] ?? article.description[locale]}</p>
+      <div className="article-primary-action">
+        <a
+          className="site-button"
+          href={
+            article.project === "all"
+              ? `/${locale}/projects`
+              : projectPath(locale, article.project ?? "iota")
+          }
+        >
+          {article.project === "all"
+            ? learningCopy[locale].compare
+            : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
       <div className="article-meta">
         <p className="article-scope">
           {evidenceLabels.scope[locale]} ·{" "}
@@ -510,20 +541,15 @@ export function ArticleView({
           {localizeValue(en ? "Plain text version" : "纯文本版本", locale)}
         </a>
       </div>
-      {article.summary && (
-        <aside className="article-answer">
-          <h2>{guideCopy.answer}</h2>
-          <p>{article.summary[locale]}</p>
-        </aside>
-      )}
       {article.comparison && (
         <div
           className="article-comparison"
           role="region"
-          aria-label={guideCopy.compare}
+          aria-label={article.comparisonTitle?.[locale] ?? guideCopy.compare}
           tabIndex={0}
         >
           <table>
+            <caption>{article.comparisonTitle?.[locale] ?? guideCopy.compare}</caption>
             <thead>
               <tr>
                 {article.comparison[locale].headers.map((h) => (
@@ -551,122 +577,165 @@ export function ArticleView({
           </table>
         </div>
       )}
-      {sections.length > 0 && (
-        <nav
-          className="article-toc"
-          aria-label={localizeValue(en ? "On this page" : "本文目录", locale)}
-        >
-          <h2>{localizeValue(en ? "On this page" : "本文目录", locale)}</h2>
-          <ul>
-            {sections.map((section) => (
-              <li key={section.id}>
-                <a href={`#${section.id}`}>{section.title}</a>
-              </li>
-            ))}
-            {article.evidence && (
-              <li>
-                <a href="#observed-example">{evidenceLabels.heading[locale]}</a>
-              </li>
-            )}
-          </ul>
-        </nav>
-      )}
-      <div className="learn-body">
-        <ArticleBlocks blocks={article.body[locale]} locale={locale} />
-      </div>
-      {article.evidence && (
-        <section id="observed-example" className="article-evidence">
-          <h2>{evidenceLabels.heading[locale]}</h2>
-          <p>{article.evidence.method[locale]}</p>
-          <figure>
-            <a href={article.evidence.image} target="_blank" rel="noreferrer">
-              <img
-                src={article.evidence.image}
-                alt={article.evidence.caption[locale]}
-                loading="lazy"
-                width="1280"
-                height="720"
-              />
-            </a>
-            <figcaption>
-              {article.evidence.caption[locale]} ·{" "}
-              <time dateTime={article.evidence.capturedAt}>{article.evidence.capturedAt}</time>
-            </figcaption>
-          </figure>
-          <div
-            className="article-comparison"
-            role="region"
-            aria-label={article.evidence.caption[locale]}
-            tabIndex={0}
+      <div className="article-reading-layout">
+        <div className="article-navigation">
+          <nav
+            className="article-toc article-desktop-toc"
+            aria-label={localizeValue(en ? "On this page" : "本文目录", locale)}
           >
-            <table>
-              <thead>
-                <tr>
-                  {article.evidence.headers[locale].map((h) => (
-                    <th key={h} scope="col">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {article.evidence.rows[locale].map((row) => (
-                  <tr key={row[0]}>
-                    {row.map((v, i) =>
-                      i === 0 ? (
-                        <th scope="row" key={i}>
-                          {v}
-                        </th>
-                      ) : (
-                        <td key={i}>{v}</td>
-                      ),
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <h2>{localizeValue(en ? "On this page" : "本文目录", locale)}</h2>
+            <ul>
+              {sections.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`}>{item.title}</a>
+                </li>
+              ))}
+              {article.evidence && (
+                <li>
+                  <a href="#observed-example">{evidenceLabels.heading[locale]}</a>
+                </li>
+              )}
+              {article.questions && (
+                <li>
+                  <a href="#questions">{guideCopy.questions}</a>
+                </li>
+              )}
+              {article.sources && (
+                <li>
+                  <a href="#article-sources">{guideCopy.sourceLinks}</a>
+                </li>
+              )}
+            </ul>
+          </nav>
+          <details className="article-mobile-toc">
+            <summary>{localizeValue(en ? "On this page" : "本文目录", locale)}</summary>
+            <ul>
+              {sections.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`}>{item.title}</a>
+                </li>
+              ))}
+              {article.evidence && (
+                <li>
+                  <a href="#observed-example">{evidenceLabels.heading[locale]}</a>
+                </li>
+              )}
+              {article.questions && (
+                <li>
+                  <a href="#questions">{guideCopy.questions}</a>
+                </li>
+              )}
+              {article.sources && (
+                <li>
+                  <a href="#article-sources">{guideCopy.sourceLinks}</a>
+                </li>
+              )}
+            </ul>
+          </details>
+        </div>
+        <div className="article-reading-content">
+          <div className="learn-body">
+            <ArticleBlocks blocks={article.body[locale]} locale={locale} />
           </div>
-          <p>{article.evidence.result[locale]}</p>
-          <a className="text-link" href={article.evidence.source}>
-            {evidenceLabels.excerpt[locale]}
-          </a>
-        </section>
-      )}
-      {article.questions && (
-        <section id="questions" className="article-questions">
-          <h2>{guideCopy.questions}</h2>
-          {article.questions[locale].map((q) => (
-            <section key={q.question}>
-              <h3>{q.question}</h3>
-              <p>{q.answer}</p>
-            </section>
-          ))}
-        </section>
-      )}
-      {article.sources && (
-        <aside className="article-sources">
-          <h2>{localizeValue(en ? "Sources and implementation" : "资料来源与本站实现", locale)}</h2>
-          <p>
-            {article.project
-              ? guideCopy.sources
-              : localizeValue(
-                  en
-                    ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
-                    : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
-                  locale,
-                )}
-          </p>
-          <ul>
-            {article.sources.map((source) => (
-              <li key={source.url}>
-                <a href={source.url} target="_blank" rel="noreferrer">
-                  {source.name}
+          {article.evidence && (
+            <section id="observed-example" className="article-evidence">
+              <h2>{evidenceLabels.heading[locale]}</h2>
+              <p>{article.evidence.method[locale]}</p>
+              <figure>
+                <a href={article.evidence.image} target="_blank" rel="noreferrer">
+                  <img
+                    src={article.evidence.image}
+                    alt={article.evidence.caption[locale]}
+                    loading="lazy"
+                    width="1280"
+                    height="720"
+                  />
                 </a>
-              </li>
-            ))}
-          </ul>
-        </aside>
-      )}
+                <figcaption>
+                  {article.evidence.caption[locale]} ·{" "}
+                  <time dateTime={article.evidence.capturedAt}>{article.evidence.capturedAt}</time>
+                </figcaption>
+              </figure>
+              <div
+                className="article-comparison"
+                role="region"
+                aria-label={article.evidence.caption[locale]}
+                tabIndex={0}
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      {article.evidence.headers[locale].map((h) => (
+                        <th key={h} scope="col">
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {article.evidence.rows[locale].map((row) => (
+                      <tr key={row[0]}>
+                        {row.map((v, i) =>
+                          i === 0 ? (
+                            <th scope="row" key={i}>
+                              {v}
+                            </th>
+                          ) : (
+                            <td key={i}>{v}</td>
+                          ),
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>{article.evidence.result[locale]}</p>
+              <a className="text-link" href={article.evidence.source}>
+                {evidenceLabels.excerpt[locale]}
+              </a>
+            </section>
+          )}
+          {article.questions && (
+            <section id="questions" className="article-questions">
+              <h2>{guideCopy.questions}</h2>
+              {article.questions[locale].map((q) => (
+                <details key={q.question}>
+                  <summary>
+                    <h3>{q.question}</h3>
+                  </summary>
+                  <p>{q.answer}</p>
+                </details>
+              ))}
+            </section>
+          )}
+          {article.sources && (
+            <aside id="article-sources" className="article-sources">
+              <h2>
+                {localizeValue(en ? "Sources and implementation" : "资料来源与本站实现", locale)}
+              </h2>
+              <p>
+                {article.project
+                  ? guideCopy.sources
+                  : localizeValue(
+                      en
+                        ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
+                        : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
+                      locale,
+                    )}
+              </p>
+              <ul>
+                {article.sources.map((source) => (
+                  <li key={source.url}>
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )}
+        </div>
+      </div>
       <aside className="related-notes">
         <h2>{localizeValue(en ? "Related" : "相关说明", locale)}</h2>
         <div>

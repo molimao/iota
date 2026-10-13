@@ -1,5 +1,134 @@
 import type { Article } from "./articles";
+import { localized as l } from "@/lib/product-discovery";
+import { LOCALES } from "@/lib/site";
+const idRows = l([
+  [
+    ["Miner ID / hotkey", "单台矿工的公开地址", "填入 IOTA Watch"],
+    ["coldkey", "公开收款地址", "在官方应用 Connect 中配置"],
+    ["私钥 / 助记词", "控制钱包的秘密", "不用于查询"],
+  ],
+  [
+    ["Miner ID / hotkey", "單台礦工的公開地址", "填入IOTA Watch"],
+    ["coldkey", "公開收款地址", "在官方應用Connect中設定"],
+    ["私鑰 / 助記詞", "控制錢包的秘密", "不用於查詢"],
+  ],
+  [
+    ["Miner ID / hotkey", "A miner’s public address", "Use in IOTA Watch"],
+    ["coldkey", "Public payout address", "Configure in the official app’s Connect control"],
+    ["Private key / seed", "Wallet secret", "Not a lookup identifier"],
+  ],
+  [
+    ["Miner ID / hotkey", "개별 채굴기의 공개 주소", "IOTA Watch에 입력"],
+    ["coldkey", "공개 지급 주소", "공식 앱 Connect에서 설정"],
+    ["비밀키 / 시드", "지갑의 비밀 정보", "조회에 사용하지 않음"],
+  ],
+  [
+    ["Miner ID / hotkey", "採掘機の公開アドレス", "IOTA Watchに入力"],
+    ["coldkey", "公開受取アドレス", "公式アプリのConnectで設定"],
+    ["秘密鍵 / シード", "ウォレットの秘密", "照会IDに使用しない"],
+  ],
+]);
+const idHeaders = l([
+  ["标识", "用途", "填写位置"],
+  ["識別碼", "用途", "填寫位置"],
+  ["Identifier", "Purpose", "Where to use it"],
+  ["식별자", "용도", "입력 위치"],
+  ["ID", "用途", "入力先"],
+]);
 export const iotaGuideAnswers: Record<string, Partial<Article>> = {
+  "find-miner-id": {
+    project: "iota",
+    modified: "2026-10-13",
+    sources: [
+      {
+        name: "Macrocosmos · Train at Home user guide",
+        url: "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+      },
+      {
+        name: "Macrocosmos · Train at Home FAQs",
+        url: "https://docs.macrocosmos.ai/product-and-services/tah/faqs",
+      },
+    ],
+    summary: l([
+      "打开官方 Train at Home 应用的 Miner 页面，复制完整的公开 Miner ID，再粘贴到 IOTA Watch 查询。用于收款的 coldkey 是另一个标识。",
+      "在官方Train at Home應用的Miner頁複製完整公開Miner ID，再貼到IOTA Watch查詢。收款coldkey是另一個識別碼。",
+      "Open Miner in the official Train at Home app, copy the complete public Miner ID and paste it into IOTA Watch. The payout coldkey is a different identifier.",
+      "공식 Train at Home 앱의 Miner에서 전체 공개 Miner ID를 복사해 IOTA Watch에 붙여넣으세요. 지급 coldkey는 다른 식별자입니다.",
+      "公式Train at HomeアプリのMinerで完全な公開Miner IDをコピーし、IOTA Watchに貼り付けます。受取用coldkeyは別のIDです。",
+    ]),
+    comparisonTitle: l([
+      "公开标识怎么选",
+      "公開識別碼怎麼選",
+      "Choose the right identifier",
+      "공개 식별자 선택",
+      "公開IDの選び方",
+    ]),
+    comparison: Object.fromEntries(
+      LOCALES.map((locale) => [locale, { headers: idHeaders[locale], rows: idRows[locale] }]),
+    ) as NonNullable<Article["comparison"]>,
+    questions: l([
+      [
+        {
+          question: "一个收款地址能查询所有机器吗？",
+          answer:
+            "本站按 Miner ID 查询单台矿工。同一个 coldkey 可以接收不同矿工的奖励，但不能替代各台机器的 Miner ID。",
+        },
+        {
+          question: "复制后仍然找不到设备怎么办？",
+          answer:
+            "核对完整 ID 和官方应用是否已连接。查不到名单不等于设备不存在，也不代表历史收益为零；按「尚未找到」排查指南逐项核对。",
+        },
+      ],
+      [
+        {
+          question: "一個收款地址能查所有機器嗎？",
+          answer:
+            "本站按Miner ID查單台礦工。同一coldkey可收不同礦工獎勵，但不能取代各台的Miner ID。",
+        },
+        {
+          question: "複製後仍找不到設備怎麼辦？",
+          answer:
+            "核對完整ID及官方應用連線。名單查不到不代表設備不存在或歷史收益為零，依排查指南核對。",
+        },
+      ],
+      [
+        {
+          question: "Can one payout address look up every machine?",
+          answer:
+            "This tool looks up individual miners by Miner ID. A shared coldkey can receive their rewards but does not replace each miner’s ID.",
+        },
+        {
+          question: "What if the copied ID is still not found?",
+          answer:
+            "Check the full ID and the official app’s connection. Missing from the current list does not mean the device never existed or earned zero. Follow the device-not-found guide.",
+        },
+      ],
+      [
+        {
+          question: "하나의 지급 주소로 모든 기기를 조회하나요?",
+          answer:
+            "이 도구는 Miner ID로 개별 채굴기를 조회합니다. 공통 coldkey로 보상을 받아도 각 Miner ID를 대체하지 않습니다.",
+        },
+        {
+          question: "ID를 복사했는데도 기기를 찾을 수 없나요?",
+          answer:
+            "전체 ID와 공식 앱 연결을 확인하세요. 목록에 없다고 기기가 없거나 과거 수익이 0이라는 뜻은 아닙니다. 기기 누락 가이드를 확인하세요.",
+        },
+      ],
+      [
+        {
+          question: "受取アドレス一つで全機器を照会できますか？",
+          answer:
+            "このツールはMiner IDで個別の採掘機を照会します。共通coldkeyで報酬を受け取っても各Miner IDの代わりにはなりません。",
+        },
+        {
+          question: "コピーしても機器が見つかりません。",
+          answer:
+            "完全なIDと公式アプリの接続を確認してください。現在の一覧にないことは機器の不存在や過去収益ゼロを意味しません。未検出ガイドで確認します。",
+        },
+      ],
+    ]),
+  },
   "how-rewards-work": {
     project: "iota",
     modified: "2026-10-03",

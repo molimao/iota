@@ -118,11 +118,50 @@ describe("multi-project content and discovery", () => {
           );
         }
         if (a.comparison) {
-          expect(article.about).toHaveLength(a.slug === 'iota-xid-quantus-compared' ? 3 : 10);
+          if (a.project === "all")
+            expect(article.about).toHaveLength(a.slug === "iota-xid-quantus-compared" ? 3 : 10);
+          else
+            expect(article.about["@id"]).toBe(
+              `https://iotahome.site/#project-${a.project ?? "iota"}`,
+            );
           for (const row of a.comparison[locale].rows)
             for (const cell of row) expect(md).toContain(cell);
         }
       }
     }
   });
+});
+
+it("puts a direct query action before the reading column and keeps new guide facts aligned", () => {
+  for (const slug of ["find-miner-id", "noid-monitor-guide", "acurast-monitor-guide"]) {
+    const article = getArticle(slug)!;
+    for (const locale of LOCALES) {
+      const html = renderToStaticMarkup(
+        createElement(
+          LocaleContext.Provider,
+          { value: locale },
+          createElement(ArticleView, { article, section: "learn", related: [] }),
+        ),
+      );
+      const md = buildArticleMarkdown(article, locale);
+      expect(html.indexOf("article-primary-action")).toBeLessThan(html.indexOf("article-meta"));
+      expect(html).toContain(
+        renderToStaticMarkup(
+          createElement("p", { className: "article-lead" }, article.summary![locale]),
+        ),
+      );
+      expect(html).toContain(
+        `href="${projectPath(locale, article.project as "iota" | "noid" | "acurast")}"`,
+      );
+      expect(md).toContain(article.comparisonTitle![locale]);
+      expect(html).toContain(
+        renderToStaticMarkup(createElement("caption", null, article.comparisonTitle![locale])),
+      );
+      for (const question of article.questions![locale]) {
+        expect(html).toContain(renderToStaticMarkup(createElement("p", null, question.answer)));
+        expect(md).toContain(question.answer);
+      }
+      expect(html).toContain('id="article-sources"');
+    }
+  }
 });

@@ -1,3 +1,4 @@
+import { monitorGuideDetails } from "./monitor-guide-details";
 import { localized as l } from "@/lib/product-discovery";
 import { LOCALES } from "@/lib/site";
 import type { Article } from "./articles";
@@ -97,7 +98,8 @@ export const additionalGuides: Article[] = (["noid", "acurast"] as const).map((p
     slug: `${project}-monitor-guide`,
     project,
     published: "2026-10-12",
-    modified: "2026-10-12",
+    modified: "2026-10-13",
+    ...monitorGuideDetails(project),
     title: c.title,
     description: c.description,
     topic: l(["监控指南", "監控指南", "Monitoring guide", "모니터링 가이드", "監視ガイド"]),

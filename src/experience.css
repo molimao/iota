@@ -5973,3 +5973,162 @@ body:has(.site-shell) {
   line-height: 1.6;
   box-shadow: 0 8px 24px #0005;
 }
+
+/* Public guides: one answer, one action, a quiet reading column. */
+.article-page.learn-article {
+  max-width: 1120px;
+}
+.learn-article > h1,
+.learn-article > .article-lead {
+  max-width: 760px;
+}
+.article-primary-action {
+  margin: 22px 0 26px;
+}
+.article-primary-action .site-button {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+.article-reading-layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.article-navigation {
+  position: sticky;
+  top: 110px;
+  min-width: 0;
+}
+.article-reading-content {
+  min-width: 0;
+}
+.article-desktop-toc {
+  margin: 0;
+  padding: 0 18px 0 0;
+  border: 0;
+  border-right: 1px solid var(--watch-border);
+  border-radius: 0;
+}
+.article-desktop-toc h2 {
+  color: var(--watch-muted);
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.article-desktop-toc ul {
+  list-style: none;
+  padding: 0;
+  gap: 14px;
+}
+.article-desktop-toc a {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.article-mobile-toc {
+  display: none;
+}
+.learn-article .learn-body > h2:first-child {
+  margin-top: 0;
+}
+.learn-article .article-questions > details {
+  padding: 17px 0;
+  border-bottom: 1px solid var(--watch-border);
+}
+.learn-article .article-questions summary {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.65;
+}
+.learn-article .article-questions details p {
+  padding-top: 12px;
+}
+.learn-article .article-sources {
+  padding: 24px 0 0;
+  border: 0;
+  border-top: 1px solid var(--watch-border);
+  border-radius: 0;
+}
+.learn-article #questions,
+.learn-article #observed-example,
+.learn-article #article-sources {
+  scroll-margin-top: 110px;
+}
+.guide-problem-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--watch-border);
+  margin: 28px 0;
+}
+.guide-problem-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 16px 18px 0;
+  border-bottom: 1px solid var(--watch-border);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.guide-problem-links svg {
+  flex-shrink: 0;
+}
+@media (max-width: 800px) {
+  .article-reading-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+  .article-navigation {
+    position: static;
+  }
+  .article-desktop-toc {
+    display: none;
+  }
+  .article-mobile-toc {
+    display: block;
+    border-block: 1px solid var(--watch-border);
+    padding: 14px 0;
+  }
+  .article-mobile-toc summary {
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .article-mobile-toc ul {
+    display: grid;
+    gap: 12px;
+    padding-left: 20px;
+    font-size: 14px;
+  }
+  .guide-problem-links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .article-meta {
+    margin-bottom: 24px;
+  }
+}
+.learn-article .article-comparison caption {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--watch-text);
+  border-bottom: 1px solid var(--watch-border);
+}
+.article-desktop-toc {
+  background: none;
+}
+.learn-article .article-questions summary h3 {
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+.article-page.learn-article:not(.network-page):not(.learn-page) {
+  max-width: 1120px;
+}
+.article-reading-content {
+  max-width: 760px;
+}

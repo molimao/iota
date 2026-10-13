@@ -33,6 +33,7 @@ export type Article = {
   keywords?: Record<Locale, string[]>;
   related?: string[];
   comparison?: Record<Locale, { headers: string[]; rows: string[][] }>;
+  comparisonTitle?: Record<Locale, string>;
   topic: Record<Locale, string>;
   title: Record<Locale, string>;
   description: Record<Locale, string>;

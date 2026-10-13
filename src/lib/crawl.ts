@@ -305,7 +305,7 @@ function readableArticleBlocks(article: Article, locale: SiteLocale) {
     ...(article.summary ? [`## ${c.answer}`, article.summary[locale]] : []),
     ...(comparison
       ? [
-          `## ${c.compare}`,
+          `## ${article.comparisonTitle?.[locale] ?? c.compare}`,
           [
             tableRow(comparison.headers),
             tableRow(comparison.headers.map(() => "---")),

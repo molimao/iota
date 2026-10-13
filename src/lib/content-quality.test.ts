@@ -59,14 +59,14 @@ it("keeps actual article subjects and the product definition aligned across repr
 it("retains publication history and dates only the actual article update", () => {
   expect(articleDates(getArticle("find-miner-id")!, "ja")).toEqual({
     published: "2026-10-02",
-    modified: "2026-10-02",
+    modified: "2026-10-13",
   });
   expect(buildArticleMarkdown(getArticle("find-miner-id")!, "ja")).toContain(
     "- Published: 2026-10-02",
   );
   expect(articleDates(getArticle("find-miner-id")!)).toEqual({
     published: "2026-09-12",
-    modified: "2026-09-12",
+    modified: "2026-10-13",
   });
   expect(articleDates(getArticle("how-rewards-work")!)).toEqual({
     published: "2026-09-12",

@@ -2,8 +2,9 @@ import type { SiteLocale } from "@/lib/site";
 
 export const learningCopy = {
   zh: {
+    sourceLinks: "资料来源",
     title: "项目使用指南",
-    intro: "IOTA 训练、XID / MMM 和 Quantus 挖矿：地址、状态、收益与问题排查。",
+    intro: "按问题查找公开标识、状态说明和收益排查方法。",
     guides: "教程与排查",
     answer: "先看结论",
     questions: "常见问题",
@@ -14,8 +15,9 @@ export const learningCopy = {
     all: "全部指南",
   },
   "zh-TW": {
+    sourceLinks: "資料來源",
     title: "專案使用指南",
-    intro: "IOTA 訓練、XID / MMM 與 Quantus 挖礦：地址、狀態、收益與問題排查。",
+    intro: "按問題查找公開識別碼、狀態說明與收益排查方法。",
     guides: "教學與排查",
     answer: "先看結論",
     questions: "常見問題",
@@ -26,9 +28,9 @@ export const learningCopy = {
     all: "全部指南",
   },
   en: {
+    sourceLinks: "Sources",
     title: "Project guides",
-    intro:
-      "IOTA training, XID / MMM and Quantus mining: addresses, activity, rewards and troubleshooting.",
+    intro: "Find public identifiers, understand status and troubleshoot earnings.",
     guides: "Guides & troubleshooting",
     answer: "At a glance",
     questions: "Common questions",
@@ -40,8 +42,9 @@ export const learningCopy = {
     all: "All guides",
   },
   ko: {
+    sourceLinks: "자료 출처",
     title: "프로젝트 사용 안내",
-    intro: "IOTA 학습, XID / MMM 및 Quantus 채굴: 주소, 상태, 보상과 문제 점검.",
+    intro: "공개 식별자, 상태 설명 및 수익 문제 점검 방법을 찾아보세요.",
     guides: "사용 안내 및 문제 점검",
     answer: "핵심 내용",
     questions: "자주 묻는 질문",
@@ -53,8 +56,9 @@ export const learningCopy = {
     all: "모든 안내",
   },
   ja: {
+    sourceLinks: "情報源",
     title: "プロジェクト利用ガイド",
-    intro: "IOTA学習、XID / MMMとQuantus採掘：アドレス、状態、報酬、問題確認。",
+    intro: "公開ID、状態の説明、収益の問題を探せます。",
     guides: "ガイドと問題確認",
     answer: "要点",
     questions: "よくある質問",

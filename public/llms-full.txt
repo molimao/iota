@@ -1181,13 +1181,25 @@ IOTA FoundationのLayer 1ネットワーク、IOTAコインのウォレット、
 - ko: https://iotahome.site/ko/learn/find-miner-id
 - ja: https://iotahome.site/ja/learn/find-miner-id
 - Published: 2026-09-12
-- Updated: 2026-09-12
+- Updated: 2026-10-13
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### 如何找到 IOTA Train at Home 的 Miner ID (zh-CN)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-13
+
+## 先看结论
+
+打开官方 Train at Home 应用的 Miner 页面，复制完整的公开 Miner ID，再粘贴到 IOTA Watch 查询。用于收款的 coldkey 是另一个标识。
+
+## 公开标识怎么选
+
+| 标识 | 用途 | 填写位置 |
+| --- | --- | --- |
+| Miner ID / hotkey | 单台矿工的公开地址 | 填入 IOTA Watch |
+| coldkey | 公开收款地址 | 在官方应用 Connect 中配置 |
+| 私钥 / 助记词 | 控制钱包的秘密 | 不用于查询 |
 
 IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开 SS58 hotkey。它不是私钥、助记词、coldkey，也不是本站设备清单的行号。
 
@@ -1217,9 +1229,31 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 应用里显示的公开
 
 保存之后，可查看 [设备状态](https://iotahome.site/zh/learn/device-status) 与 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
+## 常见问题
+
+### 一个收款地址能查询所有机器吗？
+
+本站按 Miner ID 查询单台矿工。同一个 coldkey 可以接收不同矿工的奖励，但不能替代各台机器的 Miner ID。
+
+### 复制后仍然找不到设备怎么办？
+
+核对完整 ID 和官方应用是否已连接。查不到名单不等于设备不存在，也不代表历史收益为零；按「尚未找到」排查指南逐项核对。
+
 ### 如何找到 IOTA Train at Home 的 Miner ID (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-13
+
+## 先看結論
+
+在官方Train at Home應用的Miner頁複製完整公開Miner ID，再貼到IOTA Watch查詢。收款coldkey是另一個識別碼。
+
+## 公開識別碼怎麼選
+
+| 識別碼 | 用途 | 填寫位置 |
+| --- | --- | --- |
+| Miner ID / hotkey | 單台礦工的公開地址 | 填入IOTA Watch |
+| coldkey | 公開收款地址 | 在官方應用Connect中設定 |
+| 私鑰 / 助記詞 | 控制錢包的秘密 | 不用於查詢 |
 
 IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的公開 SS58 hotkey。它不是私鑰、助記詞、coldkey，也不是本站設備清單的行號。
 
@@ -1249,9 +1283,31 @@ IOTA Watch 使用的 Miner ID，是官方 Train at Home 應用程式裡顯示的
 
 儲存後，可查看 [設備狀態](https://iotahome.site/zh-TW/learn/device-status)與 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
+## 常見問題
+
+### 一個收款地址能查所有機器嗎？
+
+本站按Miner ID查單台礦工。同一coldkey可收不同礦工獎勵，但不能取代各台的Miner ID。
+
+### 複製後仍找不到設備怎麼辦？
+
+核對完整ID及官方應用連線。名單查不到不代表設備不存在或歷史收益為零，依排查指南核對。
+
 ### How to find your IOTA Train at Home Miner ID (en)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-13
+
+## At a glance
+
+Open Miner in the official Train at Home app, copy the complete public Miner ID and paste it into IOTA Watch. The payout coldkey is a different identifier.
+
+## Choose the right identifier
+
+| Identifier | Purpose | Where to use it |
+| --- | --- | --- |
+| Miner ID / hotkey | A miner’s public address | Use in IOTA Watch |
+| coldkey | Public payout address | Configure in the official app’s Connect control |
+| Private key / seed | Wallet secret | Not a lookup identifier |
 
 The Miner ID used by IOTA Watch is the public SS58 hotkey shown in the official Train at Home app. It is not a private key, seed phrase, coldkey, or a row number on this website.
 
@@ -1281,9 +1337,31 @@ Without signing in, the list stays in this browser (up to 3 devices per project 
 
 After it is saved, see [device statuses](https://iotahome.site/en/learn/device-status) and [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
 
+## Common questions
+
+### Can one payout address look up every machine?
+
+This tool looks up individual miners by Miner ID. A shared coldkey can receive their rewards but does not replace each miner’s ID.
+
+### What if the copied ID is still not found?
+
+Check the full ID and the official app’s connection. Missing from the current list does not mean the device never existed or earned zero. Follow the device-not-found guide.
+
 ### IOTA Train at Home의 Miner ID 찾는 방법 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-13
+
+## 핵심 내용
+
+공식 Train at Home 앱의 Miner에서 전체 공개 Miner ID를 복사해 IOTA Watch에 붙여넣으세요. 지급 coldkey는 다른 식별자입니다.
+
+## 공개 식별자 선택
+
+| 식별자 | 용도 | 입력 위치 |
+| --- | --- | --- |
+| Miner ID / hotkey | 개별 채굴기의 공개 주소 | IOTA Watch에 입력 |
+| coldkey | 공개 지급 주소 | 공식 앱 Connect에서 설정 |
+| 비밀키 / 시드 | 지갑의 비밀 정보 | 조회에 사용하지 않음 |
 
 IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개SS58hotkey입니다. 이는 개인 키, 시드 문구,coldkey또는 이 웹사이트의 행 번호가 아닙니다.
 
@@ -1313,9 +1391,31 @@ IOTA Watch이 사용하는Miner ID은 공식Train at Home앱에 표시된 공개
 
 저장한 후 [기기 상태](https://iotahome.site/ko/learn/device-status) 및 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 확인하세요.
 
+## 자주 묻는 질문
+
+### 하나의 지급 주소로 모든 기기를 조회하나요?
+
+이 도구는 Miner ID로 개별 채굴기를 조회합니다. 공통 coldkey로 보상을 받아도 각 Miner ID를 대체하지 않습니다.
+
+### ID를 복사했는데도 기기를 찾을 수 없나요?
+
+전체 ID와 공식 앱 연결을 확인하세요. 목록에 없다고 기기가 없거나 과거 수익이 0이라는 뜻은 아닙니다. 기기 누락 가이드를 확인하세요.
+
 ### IOTA Train at HomeのMiner IDを確認する方法 (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-13
+
+## 要点
+
+公式Train at HomeアプリのMinerで完全な公開Miner IDをコピーし、IOTA Watchに貼り付けます。受取用coldkeyは別のIDです。
+
+## 公開IDの選び方
+
+| ID | 用途 | 入力先 |
+| --- | --- | --- |
+| Miner ID / hotkey | 採掘機の公開アドレス | IOTA Watchに入力 |
+| coldkey | 公開受取アドレス | 公式アプリのConnectで設定 |
+| 秘密鍵 / シード | ウォレットの秘密 | 照会IDに使用しない |
 
 IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示される公開SS58hotkeyです。これは、秘密キー、シード フレーズ、coldkey、またはこの Web サイトの行番号ではありません。
 
@@ -1345,6 +1445,17 @@ IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示�
 
 保存したら、[デバイスのステータス](https://iotahome.site/ja/learn/device-status) と [報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work) を参照してください。
 
+## よくある質問
+
+### 受取アドレス一つで全機器を照会できますか？
+
+このツールはMiner IDで個別の採掘機を照会します。共通coldkeyで報酬を受け取っても各Miner IDの代わりにはなりません。
+
+### コピーしても機器が見つかりません。
+
+完全なIDと公式アプリの接続を確認してください。現在の一覧にないことは機器の不存在や過去収益ゼロを意味しません。未検出ガイドで確認します。
+- Source: Macrocosmos · Train at Home user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: Macrocosmos · Train at Home FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
 
 ### How IOTA Train at Home daily and lifetime rewards are counted
 - zh-CN: https://iotahome.site/zh/learn/how-rewards-work
@@ -4835,13 +4946,25 @@ Train at HomeはIOTA、xCoin MMMはXID、QuantusのノードとマイナーはQu
 - ko: https://iotahome.site/ko/learn/noid-monitor-guide
 - ja: https://iotahome.site/ja/learn/noid-monitor-guide
 - Published: 2026-10-12
-- Updated: 2026-10-12
+- Updated: 2026-10-13
 - Publisher: IOTA Watch (independent monitor)
 - Topics: NOID
 
 ### NOID 付款为什么不等于今日收益？ (zh-CN)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 先看结论
+
+NOID 监控查询 Parano1d Pool 的地址数据。待付款、累计付款和滚动 24 小时付款都不等于今日收益；使用其他矿池或 solo 时，先到原来源核对。
+
+## 字段对照
+
+| 页面字段 | 表示什么 | 不能据此判断 |
+| --- | --- | --- |
+| Measured hashrate | 矿池估算的地址算力 | 单台设备的实时性能 |
+| Unpaid | 矿池记账的待付款 | 今日新增收益 |
+| 24h payouts | 滚动 24 小时付款 | 北京时间自然日收益 |
 
 ## 地址与网络
 
@@ -4857,9 +4980,31 @@ Updated: 2026-10-12
 
 [NOID](https://iotahome.site/zh/projects/noid)
 
+## 常见问题
+
+### 矿工在运行，为什么这里没有记录？
+
+先确认矿工使用 Parano1d Pool，且查询地址与 payout 地址完全一致。其他矿池或 solo 不在此工具的查询范围内。
+
+### 多台机器用同一个地址，算力能分开吗？
+
+当前来源按地址汇总，无法据此拆成各台机器。设备名称只是你自己的标签，不会改变原始数据范围。
+
 ### NOID 付款為什麼不等於今日收益？ (zh-TW)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 先看結論
+
+NOID 監控查詢 Parano1d Pool 的地址資料。待付款、累計與滾動24小時付款皆不等於今日收益；其他礦池或solo請先到原來源核對。
+
+## 欄位對照
+
+| 頁面欄位 | 代表什麼 | 不能據此判斷 |
+| --- | --- | --- |
+| Measured hashrate | 礦池估算的地址算力 | 單台設備即時效能 |
+| Unpaid | 礦池記帳的待付款 | 今日新增收益 |
+| 24h payouts | 滾動24小時付款 | 北京時間當日收益 |
 
 ## 地址與網路
 
@@ -4875,9 +5020,31 @@ Updated: 2026-10-12
 
 [NOID](https://iotahome.site/zh-TW/projects/noid)
 
+## 常見問題
+
+### 礦工正在執行，為什麼沒有紀錄？
+
+確認使用Parano1d Pool且查詢地址與payout完全一致；其他礦池或solo不在此工具範圍。
+
+### 多台機器共用地址，算力能分開嗎？
+
+來源按地址彙總，無法拆成各台機器。設備名稱只是標籤，不改變資料範圍。
+
 ### Why NOID payouts differ from daily earnings (en)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## At a glance
+
+This NOID monitor reads Parano1d Pool address data. Unpaid, lifetime and rolling 24-hour payments are not today’s earnings. Check your own source if you use another pool or mine solo.
+
+## Field reference
+
+| Field | What it means | What it does not prove |
+| --- | --- | --- |
+| Measured hashrate | Pool-estimated address hashrate | One device’s live performance |
+| Unpaid | Pool-accounted unpaid amount | New earnings today |
+| 24h payouts | Payments in a rolling 24-hour window | Beijing-calendar-day earnings |
 
 ## Address and network
 
@@ -4893,9 +5060,31 @@ Check the address and pool, then look for valid share submissions. The page read
 
 [NOID](https://iotahome.site/en/projects/noid)
 
+## Common questions
+
+### Why is my running miner missing here?
+
+Check that it uses Parano1d Pool and that the query matches its full payout address. Other pools and solo mining are outside this tool’s coverage.
+
+### Can I split several machines sharing one address?
+
+This source aggregates by address. Device labels do not separate that aggregate into individual machine readings.
+
 ### NOID 지급액과 오늘 수익이 다른 이유 (ko)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 핵심 내용
+
+NOID 모니터는 Parano1d Pool 주소 데이터를 조회합니다. 미지급·누적·최근 24시간 지급액은 오늘 수익과 다릅니다. 다른 풀이나 단독 채굴은 해당 소스를 확인하세요.
+
+## 필드 설명
+
+| 필드 | 의미 | 판단할 수 없는 것 |
+| --- | --- | --- |
+| Measured hashrate | 풀의 주소 해시레이트 추정치 | 단일 기기의 실시간 성능 |
+| Unpaid | 풀에 기록된 미지급액 | 오늘 새로 발생한 수익 |
+| 24h payouts | 최근 24시간 지급액 | 베이징 기준 당일 수익 |
 
 ## 주소와 네트워크
 
@@ -4911,9 +5100,31 @@ Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하�
 
 [NOID](https://iotahome.site/ko/projects/noid)
 
+## 자주 묻는 질문
+
+### 채굴기가 작동하는데 기록이 없는 이유는?
+
+Parano1d Pool을 사용하고 조회 주소가 전체 payout 주소와 같은지 확인하세요. 다른 풀과 단독 채굴은 조회 범위 밖입니다.
+
+### 한 주소를 쓰는 여러 기기의 해시레이트를 나눌 수 있나요?
+
+원본이 주소별로 합산하므로 단일 기기로 나눌 수 없습니다. 기기 이름은 라벨일 뿐 데이터 범위를 바꾸지 않습니다.
+
 ### NOIDの支払と当日収益が異なる理由 (ja)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 要点
+
+NOID監視はParano1d Poolのアドレス情報を照会します。未払・累計・直近24時間の支払は今日の収益とは別です。他のプールや単独採掘は利用元で確認してください。
+
+## 項目の対照
+
+| 項目 | 意味 | 判断できないこと |
+| --- | --- | --- |
+| Measured hashrate | プールが推定するアドレスの採掘速度 | 単一機器の実時間性能 |
+| Unpaid | プール記帳の未払額 | 今日の新規収益 |
+| 24h payouts | 直近24時間の支払 | 北京時間の暦日収益 |
 
 ## アドレスとネットワーク
 
@@ -4928,6 +5139,16 @@ Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOID
 住所とプールを確認し、有効shareの提出を確認します。取得は5分ごとで、提出が20分以上前ならアドレスをオフラインと表示します。累計支払や取得成功は単一機器の接続を証明しません。24時間支払は北京時間の日次収益から除外します。
 
 [NOID](https://iotahome.site/ja/projects/noid)
+
+## よくある質問
+
+### 動作中の採掘機に記録がないのはなぜ？
+
+Parano1d Poolを利用し、照会する完全なアドレスがpayoutと一致するか確認してください。他のプールや単独採掘は対象外です。
+
+### 同じアドレスの複数機器を分けられますか？
+
+取得元はアドレス単位で合算します。機器名を付けても個別の数値には分割されません。
 - Source: Parano1d address / RPC conventions — https://docs.parano1d.org/reference/rpc
 - Source: Parano1d Pool — https://www.parano1d-pool.fun/
 
@@ -4938,13 +5159,25 @@ Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOID
 - ko: https://iotahome.site/ko/learn/acurast-monitor-guide
 - ja: https://iotahome.site/ja/learn/acurast-monitor-guide
 - Published: 2026-10-12
-- Updated: 2026-10-12
+- Updated: 2026-10-13
 - Publisher: IOTA Watch (independent monitor)
 - Topics: Acurast
 
 ### Acurast 应该填管理者钱包还是处理器地址？ (zh-CN)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 先看结论
+
+填写单台手机的 Processor 地址，而不是管理者钱包。当前查询显示主网登记和处理器类型，不提供实时在线状态或收益；登记存在也不代表设备此刻运行。
+
+## 字段对照
+
+| 页面字段 | 表示什么 | 不能据此判断 |
+| --- | --- | --- |
+| Processor 地址 | 单个处理器的公开标识 | 管理者钱包地址 |
+| 已登记 | 主网索引存在记录 | 手机当前在线或有收益 |
+| Core / Lite | 处理器模式 | 实时吞吐量或报酬 |
 
 ## 地址与网络
 
@@ -4960,9 +5193,31 @@ Updated: 2026-10-12
 
 [Acurast](https://iotahome.site/zh/projects/acurast)
 
+## 常见问题
+
+### 为什么已经登记却没有收益数字？
+
+当前接入只读取处理器登记，不读取奖励。横线表示未提供该数据，不表示收益为零；请到 Acurast Hub 核对奖励。
+
+### Canary 地址能用于主网查询吗？
+
+先在 Hub 核对网络。本站使用主网索引，不将 Canary 的 cACU 和主网 ACU 混合显示。
+
 ### Acurast 應填管理者錢包還是處理器地址？ (zh-TW)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 先看結論
+
+填寫單台手機的Processor地址，而非管理者錢包。目前顯示主網登記與類型，不提供即時在線狀態或收益；有登記不代表此刻執行。
+
+## 欄位對照
+
+| 頁面欄位 | 代表什麼 | 不能據此判斷 |
+| --- | --- | --- |
+| Processor 地址 | 單個處理器的公開識別碼 | 管理者錢包地址 |
+| 已登記 | 主網索引存在紀錄 | 手機現在在線或有收益 |
+| Core / Lite | 處理器模式 | 即時吞吐量或報酬 |
 
 ## 地址與網路
 
@@ -4978,9 +5233,31 @@ Updated: 2026-10-12
 
 [Acurast](https://iotahome.site/zh-TW/projects/acurast)
 
+## 常見問題
+
+### 已登記為何沒有收益數字？
+
+目前只讀處理器登記，不讀獎勵。橫線代表未提供資料，不是收益為零；請在Acurast Hub核對獎勵。
+
+### Canary地址能查主網嗎？
+
+先在Hub核對網路。本站使用主網索引，不混合Canary cACU與主網ACU。
+
 ### Which Acurast address belongs to your processor? (en)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## At a glance
+
+Use the phone’s Processor address, not its manager wallet. This lookup shows mainnet registration and processor type, not live uptime or earnings. Registration alone does not mean the device is running now.
+
+## Field reference
+
+| Field | What it means | What it does not prove |
+| --- | --- | --- |
+| Processor address | A processor’s public identifier | Its manager wallet address |
+| Registered | A record in the mainnet index | Current uptime or earnings |
+| Core / Lite | Processor mode | Live throughput or rewards |
 
 ## Address and network
 
@@ -4996,9 +5273,31 @@ For missing records, check for a manager address, Canary or Devnet selection. Ma
 
 [Acurast](https://iotahome.site/en/projects/acurast)
 
+## Common questions
+
+### Why does a registered processor have no earnings figure?
+
+This integration reads registration, not rewards. A dash means the data is unavailable here, not zero earnings. Check rewards in Acurast Hub.
+
+### Can a Canary address be used for mainnet lookup?
+
+Verify the network in Hub first. This tool uses the mainnet index and does not combine Canary cACU with mainnet ACU.
+
 ### Acurast에서 관리자와 프로세서 주소 구분하기 (ko)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 핵심 내용
+
+관리 지갑이 아닌 휴대폰의 Processor 주소를 입력하세요. 현재 메인넷 등록과 유형만 조회하며 실시간 연결이나 수익은 제공하지 않습니다. 등록만으로 현재 작동을 확인할 수 없습니다.
+
+## 필드 설명
+
+| 필드 | 의미 | 판단할 수 없는 것 |
+| --- | --- | --- |
+| Processor 주소 | 개별 프로세서의 공개 식별자 | 관리 지갑 주소 |
+| 등록됨 | 메인넷 인덱스의 기록 | 현재 연결 상태나 수익 |
+| Core / Lite | 프로세서 모드 | 실시간 처리량 또는 보상 |
 
 ## 주소와 네트워크
 
@@ -5014,9 +5313,31 @@ Acurast Hub에서 Mainnet을 선택하고 특정 기기 상세의 Processor 주�
 
 [Acurast](https://iotahome.site/ko/projects/acurast)
 
+## 자주 묻는 질문
+
+### 등록됐는데 수익 숫자가 없는 이유는?
+
+현재 등록만 조회하며 보상은 조회하지 않습니다. 대시는 수익 0이 아닌 데이터 미제공을 뜻합니다. Acurast Hub에서 보상을 확인하세요.
+
+### Canary 주소로 메인넷을 조회할 수 있나요?
+
+Hub에서 네트워크를 먼저 확인하세요. 이 도구는 메인넷 인덱스를 쓰며 Canary cACU와 메인넷 ACU를 합산하지 않습니다.
+
 ### Acurastの管理者とプロセッサのアドレスを区別する (ja)
 Published: 2026-10-12
-Updated: 2026-10-12
+Updated: 2026-10-13
+
+## 要点
+
+管理者ウォレットではなく電話のProcessorアドレスを入力します。現在はメインネット登録と種類を表示し、実時間の接続や収益は取得しません。登録だけでは現在の動作を証明できません。
+
+## 項目の対照
+
+| 項目 | 意味 | 判断できないこと |
+| --- | --- | --- |
+| Processorアドレス | 個別プロセッサの公開ID | 管理者のウォレットアドレス |
+| 登録済み | メインネット索引の記録 | 現在の接続や収益 |
+| Core / Lite | プロセッサのモード | 実時間の処理量や報酬 |
 
 ## アドレスとネットワーク
 
@@ -5031,6 +5352,16 @@ HubでMainnetを選び、個別機器の詳細からProcessorアドレスをコ�
 記録がなければ管理者アドレスやCanary・Devnet選択を確認します。ACUとcACUを合算しません。索引の障害は未知の状態を保持します。報酬はHubと公式ガイドに戻り、基本ベンチマーク報酬とステーキング報酬を分けて確認します。
 
 [Acurast](https://iotahome.site/ja/projects/acurast)
+
+## よくある質問
+
+### 登録済みでも収益が表示されないのはなぜ？
+
+現在の接続は登録のみを取得し、報酬は取得しません。横線はゼロ収益ではなくデータ未提供です。報酬はAcurast Hubで確認してください。
+
+### Canaryのアドレスでメインネットを照会できますか？
+
+まずHubでネットワークを確認します。このツールはメインネット索引を使い、CanaryのcACUとメインネットACUを合算しません。
 - Source: Acurast Compute Providers — https://docs.acurast.com/processors/
 - Source: Acurast Rewards — https://docs.acurast.com/processors/rewards/
 - Source: Official mainnet indexer — https://github.com/Acurast/acurast-indexer
