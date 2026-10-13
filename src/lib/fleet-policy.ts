@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PLANS } from "./plans";
 import { FLEET_PROJECTS, parseFleet } from "./fleet";
 
 export const fleetMutationSchema = z.discriminatedUnion("action", [
@@ -51,11 +52,14 @@ export function fleetSnapshot(input: unknown) {
     .object({
       devices: z.unknown(),
       plan: z.enum(["free", "pro"]),
-      projectDeviceLimit: z.union([z.literal(5), z.literal(50)]),
+      projectDeviceLimit: z.union([
+        z.literal(PLANS.free.projectDeviceLimit),
+        z.literal(PLANS.pro.projectDeviceLimit),
+      ]),
       quotaScope: z.literal("per_project"),
     })
     .parse(input);
-  if (snapshot.projectDeviceLimit !== (snapshot.plan === "pro" ? 50 : 5))
+  if (snapshot.projectDeviceLimit !== PLANS[snapshot.plan].projectDeviceLimit)
     throw new Error("invalid-fleet-plan");
   return { ...snapshot, devices: parseFleet(snapshot.devices) };
 }

@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { fleetSnapshot } from "./fleet-policy";
 import { PGlite } from "@electric-sql/pglite";
 import { beforeAll, afterAll, describe, it, expect } from "vitest";
 
@@ -273,10 +274,11 @@ it("lowers Free to three per project without removing legacy records or trial ac
   ).rejects.toThrow("project_device_limit_reached");
   const independent = await mutate("create", {
     name: "Other project",
-    binding: { project: "xid", identifier: "xpa1" + "q".repeat(58) },
+    binding: { project: "golem", identifier: wallet(4) },
   });
   expect(independent.projectCounts["flyai"]).toBe(3);
-  expect(independent.projectCounts["xid"]).toBe(1);
+  expect(fleetSnapshot(independent).devices).toHaveLength(4);
+  expect(independent.projectCounts["golem"]).toBe(1);
   await db.exec("RESET ROLE");
   await db.query(
     "INSERT INTO watch_billing(user_id,stripe_customer,status,period_end) VALUES($1,'cus_quota_test','trialing',now()+interval '7 days')",
@@ -288,5 +290,6 @@ it("lowers Free to three per project without removing legacy records or trial ac
     binding: { project: "flyai", identifier: wallet(4) },
   });
   expect(trial.projectDeviceLimit).toBe(50);
+  expect(fleetSnapshot(trial).projectDeviceLimit).toBe(50);
   expect(trial.projectCounts["flyai"]).toBe(4);
 });
