@@ -6501,3 +6501,104 @@ body:has(.site-shell) {
     align-items: stretch;
   }
 }
+.agent-entry {
+  font-size: 13px;
+  color: #aaa;
+  text-decoration: underline;
+}
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+.agent-grid h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.agent-grid .compute-panel {
+  margin: 0;
+  min-width: 0;
+}
+.agent-online {
+  color: #d8d8d8;
+}
+.agent-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+.agent-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 24px;
+  font-size: 14px;
+}
+.agent-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: #fff;
+}
+.agent-logs {
+  padding: 14px;
+  background: #0b0b0b;
+  border: 1px solid #333;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 240px;
+  overflow: auto;
+  font-size: 12px;
+}
+.agent-revoke {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: underline;
+}
+.agent-pair {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.agent-pair label {
+  display: grid;
+  gap: 9px;
+  font-size: 13px;
+}
+.agent-pair select {
+  padding: 10px;
+  color: inherit;
+  background: #171717;
+  border: 1px solid #444;
+  border-radius: 9px;
+}
+.agent-pair-code {
+  width: 100%;
+}
+.agent-pair-code code {
+  display: block;
+  overflow-wrap: anywhere;
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+@media (max-width: 760px) {
+  .agent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.agent-settings {
+  margin-top: 20px;
+  border-top: 1px solid #333;
+  padding-top: 16px;
+}
+.agent-settings summary {
+  font-size: 13px;
+  color: #bbb;
+  cursor: pointer;
+}

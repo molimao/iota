@@ -3,6 +3,7 @@ import { PlatformPage } from "@/components/platform-page";
 import { isPlatform } from "@/lib/platforms";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { isLocale } from "@/lib/site";
+import { DeviceAgentPage } from "@/components/device-agent-page";
 import { FleetReview } from "@/components/fleet-review";
 
 /** Local review only: the production build never exposes sample account data. */
@@ -35,6 +36,10 @@ function Review() {
   const p = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("platform"),
   });
+  const machines = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("machines") === "1",
+  });
+  if (machines) return <DeviceAgentPage preview />;
   if (request) return <ProjectRequest preview defaultOpen />;
   return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;
 }

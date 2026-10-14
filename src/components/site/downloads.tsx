@@ -1,3 +1,4 @@
+import { agentCopy } from "@/components/device-agent-copy";
 import { localizeValue } from "@/components/site/localization";
 import { Download, ArrowUpRight, Monitor, Terminal, RefreshCw } from "lucide-react";
 import { useLocale } from "./locale";
@@ -93,6 +94,16 @@ export function DownloadsPage() {
         )}
       </p>
 
+      <section className="tool-download-card">
+        <div>
+          <h2>{agentCopy.title[locale]}</h2>
+          <p>{agentCopy.intro[locale]}</p>
+          <p>{agentCopy.steps[locale]}</p>
+        </div>
+        <a className="site-button" href={`/${locale}/machines`}>
+          {agentCopy.pair[locale]} →
+        </a>
+      </section>
       <section className="tool-download-card" aria-labelledby="tool-release-title">
         <div>
           <div className="tool-release-meta">

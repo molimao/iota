@@ -1,3 +1,4 @@
+import { agentCopy } from "./device-agent-copy";
 import { IotaAddFlow } from "./iota-add-flow";
 import { iotaAddCopy } from "./iota-add-copy";
 import { trialCopy } from "./pro-trial-copy";
@@ -247,6 +248,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 : c.plans
               : onboardingCopy.devices[locale]}
           </h1>
+          {tab === "devices" && (
+            <a className="agent-entry" href={`/${locale}/machines`}>
+              {agentCopy.title[locale]} →
+            </a>
+          )}
           {tab === "devices" && (
             <p className="fleet-count-line">
               {props.devices.length} {c.devices} · {activeProjects} {c.projects}

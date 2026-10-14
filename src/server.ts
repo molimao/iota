@@ -179,6 +179,10 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if (new URL(request.url).pathname.startsWith("/api/device-agent/")) {
+        const { deviceAgentHttp } = await import("./lib/device-agent-http.server");
+        return deviceAgentHttp(request);
+      }
       if (new URL(request.url).pathname === "/api/history/backfill") {
         const { historyBackfillCron } = await import("./lib/history-backfill-worker.server");
         return historyBackfillCron(request);

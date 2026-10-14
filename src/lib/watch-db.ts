@@ -86,6 +86,14 @@ export type WatchDatabase = Omit<Database, "public"> & {
         };
         Returns: Json;
       };
+      watch_agent_owner: {
+        Args: { p_action: string; p_device?: string | null; p_payload?: Json };
+        Returns: Json;
+      };
+      watch_agent_exchange: {
+        Args: { p_action: string; p_hash: string; p_payload: Json };
+        Returns: Json;
+      };
       watch_list_devices: { Args: Record<string, never>; Returns: Json };
       watch_mutate_device: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_reserve_checkout: {

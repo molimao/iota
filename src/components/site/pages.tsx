@@ -1,4 +1,5 @@
 import { adPrivacy, adLabels } from "@/lib/ads";
+import { agentCopy } from "@/components/device-agent-copy";
 import { analyticsPrivacy } from "@/lib/analytics-privacy";
 import { proCopy } from "../pro-tools-copy";
 import { MonitoringExample } from "../onboarding";
@@ -355,6 +356,8 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
             {proCopy.trends[locale]} · {proCopy.more[locale]}
           </h3>
           <p>{proCopy.privacy[locale]}</p>
+          <h2>{agentCopy.title[locale]}</h2>
+          <p>{agentCopy.privacy[locale]}</p>
           <p>{proCopy.alertsNote[locale]}</p>
           <p>{proCopy.monthlyNote[locale]}</p>
           <p>

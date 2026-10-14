@@ -19,6 +19,7 @@ import { Route as LocaleDevicesRouteImport } from './routes/$locale.devices'
 import { Route as LocaleDownloadsRouteImport } from './routes/$locale.downloads'
 import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
+import { Route as LocaleMachinesRouteImport } from './routes/$locale.machines'
 import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
@@ -76,6 +77,11 @@ const LocaleGuideRoute = LocaleGuideRouteImport.update({
   path: '/guide',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleMachinesRoute = LocaleMachinesRouteImport.update({
+  id: '/machines',
+  path: '/machines',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleNetworkRoute = LocaleNetworkRouteImport.update({
   id: '/network',
   path: '/network',
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/$locale/downloads': typeof LocaleDownloadsRoute
   '/$locale/faq': typeof LocaleFaqRoute
   '/$locale/guide': typeof LocaleGuideRoute
+  '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/machines'
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/review'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/machines'
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/review'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/$locale/downloads'
     | '/$locale/faq'
     | '/$locale/guide'
+    | '/$locale/machines'
     | '/$locale/network'
     | '/$locale/privacy'
     | '/$locale/review'
@@ -298,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleGuideRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/machines': {
+      id: '/$locale/machines'
+      path: '/machines'
+      fullPath: '/$locale/machines'
+      preLoaderRoute: typeof LocaleMachinesRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/network': {
       id: '/$locale/network'
       path: '/network'
@@ -350,6 +369,7 @@ interface LocaleRouteChildren {
   LocaleDownloadsRoute: typeof LocaleDownloadsRoute
   LocaleFaqRoute: typeof LocaleFaqRoute
   LocaleGuideRoute: typeof LocaleGuideRoute
+  LocaleMachinesRoute: typeof LocaleMachinesRoute
   LocaleNetworkRoute: typeof LocaleNetworkRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleReviewRoute: typeof LocaleReviewRoute
@@ -366,6 +386,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleDownloadsRoute: LocaleDownloadsRoute,
   LocaleFaqRoute: LocaleFaqRoute,
   LocaleGuideRoute: LocaleGuideRoute,
+  LocaleMachinesRoute: LocaleMachinesRoute,
   LocaleNetworkRoute: LocaleNetworkRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleReviewRoute: LocaleReviewRoute,
