@@ -32,3 +32,16 @@ it("offers remote updates only for supported versions", () => {
   expect(agentCanUpdate("bad")).toBe(false);
   expect(agentCanUpdate(undefined)).toBe(false);
 });
+
+it("filters offline, stale queues and unpaired agents without claiming training contribution", async () => {
+  const { matchesAgentFilter } = await import("./device-agent");
+  const now = Date.now();
+  const a = { deviceId: "a", lastSeen: new Date(now).toISOString(), snapshot: { appRunning: true, workerRunning: true, queue: { position: 3, observedAt: new Date(now).toISOString() } }, logsEnabled: false, recoveryEnabled: false, pending: null, latestCommand: null };
+  expect(matchesAgentFilter(a, "queued", now)).toBe(true);
+  expect(matchesAgentFilter(a, "training", now)).toBe(false);
+  expect(matchesAgentFilter({...a,lastSeen:new Date(now-100000).toISOString()}, "queued", now)).toBe(false);
+  expect(matchesAgentFilter({...a,lastSeen:null}, "offline", now)).toBe(true);
+  expect(matchesAgentFilter(undefined, "unpaired", now)).toBe(true);
+  expect(matchesAgentFilter(undefined, "offline", now)).toBe(false);
+  expect(matchesAgentFilter({...a,snapshot:{...a.snapshot,queue:{position:3,observedAt:new Date(now-301000).toISOString()}}}, "queued", now)).toBe(false);
+});

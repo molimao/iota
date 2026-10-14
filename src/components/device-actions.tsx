@@ -1,3 +1,4 @@
+import { localized } from "@/lib/product-discovery";
 import { localizeValue } from "@/components/site/localization";
 import { useRef, useState } from "react";
 import { LoaderCircle } from "lucide-react";
@@ -8,12 +9,16 @@ import type { WatchlistResult } from "@/hooks/use-watchlist";
 import type { WatchEntry } from "@/lib/watchlist";
 
 export function DeviceActions({
+  onCancel,
+  initialMode = "actions",
   entry,
   cloud,
   onRename,
   onRemove,
   onRemoved,
 }: {
+  onCancel?: () => void;
+  initialMode?: "actions" | "remove";
   entry: WatchEntry;
   cloud: boolean;
   onRename: (hotkey: string, label: string) => Promise<WatchlistResult>;
@@ -21,7 +26,7 @@ export function DeviceActions({
   onRemoved: () => void;
 }) {
   const { t, en, locale } = useLocale();
-  const [mode, setMode] = useState<"actions" | "rename" | "remove">("actions");
+  const [mode, setMode] = useState<"actions" | "rename" | "remove">(initialMode);
   const [feedback, setFeedback] = useState("");
   const [failed, setFailed] = useState(false);
   const [removing, setRemoving] = useState(false);
@@ -59,19 +64,21 @@ export function DeviceActions({
             {localizeValue(en ? `Remove ${entry.label}?` : `移除「${entry.label}」？`, locale)}
           </h3>
           <p>
-            {localizeValue(
-              en
-                ? `This removes the device from ${cloud ? "your account" : "this browser"}. Training will keep running. You can add it again with its Miner ID.`
-                : `将从${cloud ? "你的账号" : "此浏览器"}移除设备，不会停止训练。之后可以用 Miner ID 重新添加。`,
-              locale,
-            )}
+            {localized([
+              "移除这条 IOTA 监控记录，保留其他项目关联，不会停止训练。",
+              "移除此 IOTA 監控記錄，保留其他專案關聯，不會停止訓練。",
+              "Remove this IOTA monitoring entry. Other project links are kept and training continues.",
+              "IOTA 모니터링 기록을 제거합니다. 다른 프로젝트 연결은 유지되며 학습은 계속됩니다.",
+              "このIOTA監視記録を削除します。他のプロジェクトの関連付けと学習は維持されます。",
+            ])[locale]}
           </p>
           <div className="actions form-actions">
             <button
               autoFocus
               disabled={removing}
               onClick={() => {
-                setMode("actions");
+                if (onCancel) onCancel();
+                else setMode("actions");
                 setFeedback("");
               }}
             >

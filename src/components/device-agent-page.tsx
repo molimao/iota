@@ -1,3 +1,5 @@
+import { AgentFilterSelect, agentFilterCopy } from "./agent-filter";
+import { matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
 import { useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -84,6 +86,8 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     setConfirm(null);
     setPairedDevice(null);
   }, [auth.userId]);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
   useEffect(() => {
     if (code && q.data?.some((a) => a.deviceId === code.deviceId)) {
@@ -98,6 +102,11 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     const timer = setTimeout(() => setCopied(false), 2500);
     return () => clearTimeout(timer);
   }, [copied]);
+  const visibleAgents = agents.filter(a => {
+    const d = fleet.devices.find(d => d.id === a.deviceId);
+    const text = `${preview ? "Mac Studio" : d?.name ?? "Mac"} ${d?.bindings.map(b => b.identifier).join(" ") ?? ""}`.toLowerCase();
+    return text.includes(search.trim().toLowerCase()) && matchesAgentFilter(a, statusFilter, now);
+  });
   const candidates = fleet.devices.filter(
     (d) => d.bindings.some((b) => b.project === "iota") && !agents.some((a) => a.deviceId === d.id),
   );
@@ -222,8 +231,14 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
           )}
           {q.isError && !preview && <p role="alert">{t.unavailable}</p>}
           {error && <p role="alert">{error}</p>}
+          <div className="agent-filter-toolbar">
+            <input type="search" aria-label={agentFilterCopy.search[locale]} placeholder={agentFilterCopy.search[locale]} value={search} onChange={e=>setSearch(e.target.value)} />
+            <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} unpaired={false} />
+            <span>{visibleAgents.length} / {agents.length}</span>
+          </div>
+          {agents.length > 0 && visibleAgents.length === 0 && <p role="status">{agentFilterCopy.empty[locale]}</p>}
           <div className="agent-grid">
-            {agents.map((a) => {
+            {visibleAgents.map((a) => {
               const online = preview || agentOnline(a.lastSeen, now),
                 s = a.snapshot,
                 name = preview
@@ -441,6 +456,15 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   >
                     {confirm === `${a.deviceId}:revoke` ? t.confirm : t.revoke}
                   </button>
+                  <button type="button" className="agent-revoke" disabled={busy} onClick={() => {
+                    if (!requiresConfirm(a.deviceId, "remove")) return;
+                    void act(async () => {
+                      if (preview) setDemo(agents.filter(x => x.deviceId !== a.deviceId));
+                      else await fleet.mutate({action: "remove", payload: {id: a.deviceId}});
+                    });
+                  }}>{confirm === `${a.deviceId}:remove` ? t.confirm : t.removeDevice}</button>
+                  {confirm === `${a.deviceId}:remove` && <p role="alert">{t.removeDeviceNote}</p>}
+
                 </section>
               );
             })}

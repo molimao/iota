@@ -1,5 +1,7 @@
 import { localized as l } from "@/lib/product-discovery";
 export const agentCopy = {
+  removeDevice: l(["移除设备", "移除設備", "Remove device", "기기 제거", "端末を削除"]),
+  removeDeviceNote: l(["移除这台设备及其项目关联，并撤销代理配对；不会停止 Mac 上的挖矿程序。", "移除此設備及其專案關聯，並撤銷代理配對；不會停止 Mac 上的挖礦程式。", "Remove this device and its project links, and revoke agent pairing. Mining applications on the Mac will not be stopped.", "기기와 프로젝트 연결 및 에이전트 연결을 삭제합니다. Mac의 채굴 앱은 중지하지 않습니다.", "端末とプロジェクトの関連付け、エージェント接続を削除します。Mac上の採掘アプリは停止しません。"]),
   copyCode: l(["复制配对码", "複製配對碼", "Copy pairing code", "연결 코드 복사", "接続コードをコピー"]),
   copied: l(["已复制", "已複製", "Copied", "복사됨", "コピー済み"]),
   copyFailed: l(["复制失败，请选中配对码手动复制。", "複製失敗，請選取配對碼手動複製。", "Copy failed. Select the code and copy it manually.", "복사하지 못했습니다. 코드를 선택해 직접 복사하세요.", "コピーできませんでした。コードを選択して手動でコピーしてください。"]),

@@ -1,3 +1,9 @@
+import { AgentFilterSelect } from "./agent-filter";
+import { matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
+import { useAuth } from "@/hooks/use-auth";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getDeviceAgents } from "@/lib/device-agent.functions";
 import { DeviceAgentSummary } from "./device-agent-summary";
 import { agentCopy } from "./device-agent-copy";
 import { IotaAddFlow } from "./iota-add-flow";
@@ -94,6 +100,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     c = fleetCopy(locale);
   const tab = props.initialTab ?? "devices";
   const [project, setProject] = useState<FleetProject | "all">(props.initialProject ?? "all");
+  const auth = useAuth();
+  const listAgents = useServerFn(getDeviceAgents);
+  const agents = useQuery({queryKey:["device-agents",auth.userId],queryFn:()=>listAgents(),enabled:!props.preview && !!auth.userId && auth.ready,staleTime:10000,refetchInterval:15000,retry:false});
+  const [statusFilter,setStatusFilter] = useState<AgentFilter>("all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
     "add" | "link" | "billing" | "edit" | "merge" | "remove" | "unlink" | null
@@ -121,13 +131,14 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     () =>
       props.devices.filter((d) => {
         const text =
-          `${d.name} ${d.hardware} ${d.bindings.map((b) => FLEET_NAMES[b.project]).join(" ")}`.toLowerCase();
+          `${d.name} ${d.hardware} ${d.bindings.map((b) => `${FLEET_NAMES[b.project]} ${b.identifier} ${b.worker}`).join(" ")}`.toLowerCase();
         return (
           (project === "all" || d.bindings.some((b) => b.project === project)) &&
-          text.includes(search.trim().toLowerCase())
+          text.includes(search.trim().toLowerCase()) &&
+          (statusFilter === "all" || (!agents.isPending && !agents.isError && matchesAgentFilter(agents.data?.find(a=>a.deviceId===d.id),statusFilter)))
         );
       }),
-    [props.devices, project, search],
+    [props.devices, project, search, statusFilter, agents.data, agents.isPending, agents.isError],
   );
   const activeProjects = FLEET_PROJECTS.filter(
     (p) => projectDeviceCount(props.devices, p) > 0,
@@ -320,6 +331,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   </button>
                 ))}
               </div>
+              {!props.preview && auth.userId && <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} />}
               <label className="fleet-search">
                 <Search size={16} />
                 <input
@@ -341,6 +353,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 reading={props.reading}
                 trend={props.deviceTrend?.(device)}
                 onLink={() => open("link", device.id)}
+                onRemove={props.onMutation ? () => open("remove", device.id) : undefined}
                 onEdit={props.onMutation ? () => open("edit", device.id) : undefined}
                 onUnlink={
                   props.onMutation ? (binding) => open("unlink", device.id, binding) : undefined
@@ -464,7 +477,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 : dialog === "merge"
                   ? c.mergeNote
                   : dialog === "remove" || dialog === "unlink"
-                    ? c.removeNote
+                    ? dialog === "remove" ? agentCopy.removeDeviceNote[locale] : c.removeNote
                     : c.mapping}
           </DialogDescription>
           {dialog === "billing" && <span className="fleet-paywall-brand">IOTA WATCH / PRO</span>}
@@ -847,6 +860,7 @@ function ProjectAllowances({
 }
 
 function FleetCard({
+  onRemove,
   preview,
   device,
   c,
@@ -856,6 +870,7 @@ function FleetCard({
   onEdit,
   onUnlink,
 }: {
+  onRemove: (() => void) | undefined;
   preview?: boolean;
   device: FleetDevice;
   c: Copy;
@@ -1090,16 +1105,17 @@ function FleetCard({
           );
         })}
       </div>
+      {device.bindings.some((b) => b.project === "iota") && (
+        <DeviceAgentSummary deviceId={device.id} preview={!!preview} />
+      )}
       <footer>
+        {onRemove && <button onClick={onRemove}>{c.remove}</button>}
         {onEdit && <button onClick={onEdit}>{c.rename}</button>}
         <button onClick={onLink}>
           <Plus size={14} />
           {c.addProject}
         </button>
       </footer>
-      {device.bindings.some((b) => b.project === "iota") && (
-        <DeviceAgentSummary deviceId={device.id} preview={!!preview} />
-      )}
     </article>
   );
 }

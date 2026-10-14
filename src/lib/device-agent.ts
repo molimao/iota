@@ -66,3 +66,21 @@ export function agentCanUpdate(version?: string) {
   const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);
   return major > 1 || (major === 1 && (minor > 0 || patch >= 2));
 }
+
+export const AGENT_FILTERS = ["all", "online", "training", "queued", "stopped", "offline", "unpaired"] as const;
+export type AgentFilter = typeof AGENT_FILTERS[number];
+export function matchesAgentFilter(agent: AgentInfo | undefined, filter: AgentFilter, now = Date.now()) {
+  if (filter === "all") return true;
+  if (filter === "unpaired") return !agent;
+  if (!agent) return false;
+  const online = agentOnline(agent.lastSeen, now);
+  if (filter === "online") return online;
+  if (filter === "offline") return !online;
+  if (!online) return false;
+  const s = agent.snapshot;
+  if (filter === "stopped") return s.appRunning === false;
+  const age = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
+  const queued = !!s.appRunning && !!s.workerRunning && age >= 0 && age <= 300000 && !!s.queue && s.queue.position > 0;
+  if (filter === "queued") return queued;
+  return !!s.appRunning && !!s.workerRunning && !queued;
+}

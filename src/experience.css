@@ -6627,3 +6627,30 @@ body:has(.site-shell) {
 .agent-pair-actions > button, .agent-pair-actions > a { margin: 0; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
 .agent-code-actions > code { margin: 0; max-width: 100%; box-sizing: border-box; white-space: normal; }
 .agent-code-actions > button { flex-shrink: 0; }
+
+.agent-filter-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin:1.5rem 0; }
+.agent-filter-toolbar > input { flex:1 1 220px; min-width:0; }
+.agent-filter-toolbar input, .agent-filter-label select { padding:.65rem .8rem; border:1px solid #444; border-radius:8px; background:#171717; color:inherit; font:inherit; }
+.agent-filter-label { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; font-size:.85rem; }
+
+/* Agent telemetry belongs inside the card, before its compact action footer. */
+.fleet-device-card > .agent-card-summary { margin: 0; padding: 16px 20px; border-top: 1px solid #303030; gap: 10px; }
+.fleet-device-card > footer { margin: 0; min-height: 0; padding: 12px 20px; flex-wrap: wrap; }
+.agent-card-summary .agent-card-heading strong { font-size: 13px; font-weight: 600; }
+.agent-card-summary .agent-card-heading a { font-size: 12px; }
+.agent-card-summary .agent-card-metrics { gap: 12px; }
+.agent-card-summary .agent-card-metrics dd { line-height: 1.4; }
+
+.agent-revoke + .agent-revoke { margin-inline-start: 20px; }
+
+/* Dark controls keep their foreground/background pair on hover and focus. */
+.fleet-project-toggle:is(:hover, :focus-visible),
+.fleet-device-card > footer button:is(:hover, :focus-visible),
+.fleet-outline:is(:hover, :focus-visible),
+.agent-revoke:is(:hover, :focus-visible) { background: #ffffff0c; color: #f5f5f5; }
+.fleet-project-toggle:is(:hover, :focus-visible) > small,
+.fleet-project-toggle:is(:hover, :focus-visible) > svg { color: #ccc; }
+.fleet-filters button:not([aria-pressed="true"]):is(:hover, :focus-visible),
+.pro-segment button:not([aria-pressed="true"]):is(:hover, :focus-visible),
+.fleet-billing-switch button:not([aria-pressed="true"]):is(:hover, :focus-visible) { background: #ffffff0c; color: #eee; }
+.fleet-filters button[aria-pressed="true"] span { color: #444; }

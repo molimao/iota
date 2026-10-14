@@ -181,6 +181,7 @@ function SavedIotaDashboard() {
   const billing = useBilling(auth.userId, auth.ready);
   const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
+  const [removeTarget, setRemoveTarget] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("overview");
@@ -627,6 +628,7 @@ function SavedIotaDashboard() {
                           />
                         </td>
                         <td>
+                          <button onClick={() => setRemoveTarget(view.entry.hotkey)}>{t("移除设备")}</button>
                           <button
                             onClick={() =>
                               openDevice(
@@ -702,6 +704,7 @@ function SavedIotaDashboard() {
                         </div>
                       </div>
                       <div className="device-foot">
+                        <button onClick={() => setRemoveTarget(view.entry.hotkey)}>{t("移除设备")}</button>
                         <span>
                           {formatAgo(view.statusFetchedAt, dash.now, locale)}
                           {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
@@ -776,6 +779,17 @@ function SavedIotaDashboard() {
               setMessage(watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"));
             }}
           />
+        </DialogContent>
+      </Dialog>
+      <Dialog open={!!removeTarget} onOpenChange={(open) => { if (!open) setRemoveTarget(null); }}>
+        <DialogContent className="detail-dialog dash-dialog">
+          <DialogTitle>{t("移除设备")}</DialogTitle>
+          <DialogDescription>{watch.devices.find(d => d.hotkey === removeTarget)?.label ?? ""}</DialogDescription>
+          {watch.devices.filter(d => d.hotkey === removeTarget).map(entry => <DeviceActions
+            key={entry.hotkey} onCancel={() => setRemoveTarget(null)} initialMode="remove" entry={entry} cloud={watch.cloud}
+            onRename={watch.rename} onRemove={watch.remove}
+            onRemoved={() => { setRemoveTarget(null); setMessage(t("设备已移除")); }}
+          />)}
         </DialogContent>
       </Dialog>
       <Dialog

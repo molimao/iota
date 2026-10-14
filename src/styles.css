@@ -181,8 +181,10 @@ button {
   font-weight: 600;
   color: #353535;
 }
-button:hover {
-  background: #f2f2f2;
+/* Theme-specific controls own their hover colors. Never force a light surface
+   onto controls whose labels inherit a dark-theme foreground. */
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
 }
 button:disabled {
   opacity: 0.45;
