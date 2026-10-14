@@ -61,3 +61,12 @@ it("only uses explicit fresh platform connectivity; account rewards cannot imply
   expect(await collectAlertSignal({ project: "vast", identifier: "1" })).toBe("unknown");
   expect(await collectAlertSignal({ project: "xid", identifier: "wallet" })).toBe("unknown");
 });
+
+it("retains the specific fresh IOTA reason without changing alert eligibility", async () => {
+  const explain = vi.fn();
+  for (const [miner, reason] of [[null, "iota_not_found"], [{ throughput: 0, is_active: false }, "iota_idle"]] as const) {
+    state.roster.mockResolvedValue({ devices: [{ miner, stale: false, fetchedAt: Date.now() }], fullCoverage: true, fetchedAt: Date.now() });
+    expect(await collectAlertSignal({ project: "iota", identifier: "public" }, explain)).toBe("bad");
+    expect(explain).toHaveBeenLastCalledWith(reason);
+  }
+});

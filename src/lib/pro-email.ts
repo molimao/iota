@@ -1,3 +1,5 @@
+import { statusAlertCopy as alertCopy } from "./status-alert-copy";
+import type { AlertReason } from "./pro-alerts.server";
 import { escapeEmail } from "./daily-report-email";
 import { summarizeMonth } from "./pro-tools";
 import { proCopy } from "@/components/pro-tools-copy";
@@ -53,7 +55,7 @@ export function renderMonthlyReport(
   );
 }
 export function renderStatusAlert(
-  event: { name: string; project: ProjectId; identifier: string },
+  event: { name: string; project: ProjectId; identifier: string; reason?: AlertReason | undefined },
   since: string,
   locale: SiteLocale,
   unsub: string,
@@ -68,11 +70,17 @@ export function renderStatusAlert(
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(since));
+  const reason = alertCopy[event.reason ?? "unknown"][locale];
+  const next = (event.project === "iota" ? alertCopy.iotaSteps : alertCopy.platformSteps)[locale];
+  const shortId = event.identifier.length > 22
+    ? event.identifier.slice(0, 8) + "…" + event.identifier.slice(-6)
+    : event.identifier;
+  const title = event.name + " · " + c.alertsSubject[locale];
   return emailShell(
     locale,
-    c.alertsSubject[locale],
-    `<p style="line-height:1.8">${e(c.alertBody[locale])}</p><div style="padding:24px 0;border-top:1px solid #ccc;border-bottom:1px solid #ccc"><h2>${e(event.name)}</h2><p>${e(project)}</p><p style="font-family:monospace;word-break:break-all">${e(event.identifier)}</p><small>${e(at)} · UTC+8</small></div>`,
-    `${c.alertBody[locale]}\n${event.name} · ${project}\n${event.identifier}\n${at} UTC+8`,
+    title,
+    `<p style="color:#666">${e(project)} · ID ${e(shortId)}</p><h2 style="font-size:20px;line-height:1.5">${e(reason)}</h2><p style="line-height:1.7">${e(alertCopy.context[locale])}</p><p style="color:#666;font-size:13px">${e(alertCopy.since[locale])}: ${e(at)} · UTC+8</p><div style="margin-top:24px;border-top:1px solid #ddd;padding-top:16px"><h2 style="font-size:17px">${e(alertCopy.next[locale])}</h2><p style="line-height:1.7">${e(next)}</p></div>`,
+    `${event.name} · ${project} · ID ${shortId}\n${reason}\n${alertCopy.context[locale]}\n${alertCopy.since[locale]}: ${at} UTC+8\n\n${alertCopy.next[locale]}\n${next}`,
     unsub,
   );
 }

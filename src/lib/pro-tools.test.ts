@@ -150,3 +150,21 @@ it("exports the selected project and monthly coverage without mixing in other pr
   expect(csv).toContain('"2026-09","quantus","","QUAN","","0","30","0","true"');
   expect(csv).not.toContain('"iota"');
 });
+
+it("explains alert reasons, next steps and observation time in all five languages", () => {
+  for (const locale of ["zh", "zh-TW", "en", "ko", "ja"] as const) {
+    const mail = renderStatusAlert(
+      { name: "My Mac", project: "iota", identifier: "123456789012345678901234567890", reason: "iota_not_found" },
+      "2026-10-14T11:00:00Z", locale,
+      "https://iotahome.site/api/pro/unsubscribe?token=123",
+    );
+    expect(mail.subject).toContain("My Mac");
+    expect(mail.text).toContain("12345678…567890");
+    expect(mail.text).toContain("UTC+8");
+    expect(mail.text).not.toContain("undefined");
+    expect(mail.html).not.toContain("123456789012345678901234567890");
+  }
+  const legacy = renderStatusAlert({ name: "Mac", project: "iota", identifier: "id" },
+    "2026-10-14T11:00:00Z", "en", "https://iotahome.site/api/pro/unsubscribe?token=123");
+  expect(legacy.text).toContain("older record has no specific reason");
+});

@@ -4,7 +4,8 @@ import { publicPlatform } from "./platforms.server";
 import { validBinding, bindingIdentity } from "./fleet";
 import type { ReportBinding } from "./daily-report-collect.server";
 export type AlertSignal = "healthy" | "bad" | "unknown";
-export async function collectAlertSignal(b: ReportBinding): Promise<AlertSignal> {
+export type AlertReason = "iota_not_found" | "iota_idle" | "provider_offline";
+export async function collectAlertSignal(b: ReportBinding, explain?: (reason: AlertReason) => void): Promise<AlertSignal> {
   if (!validBinding(b.project, b.identifier)) return "unknown";
   try {
     if (b.project === "iota") {
@@ -17,6 +18,8 @@ export async function collectAlertSignal(b: ReportBinding): Promise<AlertSignal>
         lastSuccessfulFetchAt: d.fetchedAt ?? roster.fetchedAt,
         now: Date.now(),
       });
+      if (status === "not_found") explain?.("iota_not_found");
+      if (status === "idle") explain?.("iota_idle");
       return ["contributing", "waiting"].includes(status)
         ? "healthy"
         : ["idle", "not_found"].includes(status)
@@ -38,6 +41,7 @@ export async function collectAlertSignal(b: ReportBinding): Promise<AlertSignal>
         n.sourceUpdatedAt > now + 60000
       )
         return "unknown";
+      if (n.online === false) explain?.("provider_offline");
       return n.online === true ? "healthy" : n.online === false ? "bad" : "unknown";
     }
   } catch {

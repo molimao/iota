@@ -5,7 +5,7 @@ import type { Json } from "@/integrations/supabase/types";
 import { watchDb } from "./watch-db";
 import { authenticateReportCron } from "./daily-report-cron-auth.server";
 import { collectReportBinding } from "./daily-report-collect.server";
-import { collectAlertSignal, alertResource } from "./pro-alerts.server";
+import { collectAlertSignal, alertResource, type AlertReason } from "./pro-alerts.server";
 import { aggregateDailyReport, reportDayWindow, type ReportReading } from "./daily-report";
 import { historySchema, dailySnapshotSchema, summarizeMonth } from "./pro-tools";
 import { fetchIotaUsdPrice } from "./iota-price.server";
@@ -101,17 +101,18 @@ async function snapshot(j: Job) {
 }
 async function sample(j: Job) {
   const chunk = j.bindings.slice(j.cursor, j.cursor + 5);
-  const samples = await mapConcurrent(chunk, 3, async (b) => ({
-    b,
-    signal: await collectAlertSignal(b),
-  }));
-  for (const { b, signal } of samples)
+  const samples = await mapConcurrent(chunk, 3, async (b) => {
+    let reason: AlertReason | undefined;
+    const signal = await collectAlertSignal(b, (value) => { reason = value; });
+    return { b, signal, reason };
+  });
+  for (const { b, signal, reason } of samples)
     await rpc("observe", {
       id: j.id,
       lease: j.lease,
       resource: alertResource(b),
       signal,
-      event: { name: b.name, project: b.project, identifier: b.identifier },
+      event: { name: b.name, project: b.project, identifier: b.identifier, reason },
     });
   const cursor = j.cursor + chunk.length;
   await progress(j, [], cursor, cursor >= j.bindings.length);
@@ -139,7 +140,9 @@ async function notify(j: Job) {
     } else {
       const v = z
         .object({
-          event: binding.pick({ name: true, project: true, identifier: true }),
+          event: binding.pick({ name: true, project: true, identifier: true }).extend({
+            reason: z.enum(["iota_not_found", "iota_idle", "provider_offline"]).optional(),
+          }),
           since: z.string().datetime({ offset: true }),
         })
         .parse(j.data);
