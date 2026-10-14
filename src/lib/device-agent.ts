@@ -7,7 +7,7 @@ export const agentSnapshot = z
     appCpu: z.number().finite().min(0).max(10000).nullable(),
     processMemoryMb: z.number().finite().min(0).max(1000000).nullable(),
     load: z.number().finite().min(0).max(10000).nullable(),
-    version: z.literal("1.0.0"),
+    version: z.enum(["1.0.0", "1.0.1"]),
     queue: z
       .object({
         position: z.number().int().min(0).max(10000000),

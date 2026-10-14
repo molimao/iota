@@ -165,7 +165,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                 <div className="agent-pair-code">
                   <p>{t.steps}</p>
                   <code>{now < code.expiresAt ? code.token : "—"}</code>
-                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.0.zip" download>
+                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.1.zip" download>
                     {t.install}
                   </a>
                 </div>

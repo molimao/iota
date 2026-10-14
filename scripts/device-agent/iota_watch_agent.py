@@ -18,7 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -197,7 +197,14 @@ def control(action):
         if processes():
             raise ValueError('app did not stop')
     if action in ('start', 'restart'):
-        subprocess.run(['/usr/bin/open', '-g', str(APP)], check=True, timeout=10)
+        if any(r[3] == EXEC for r in processes()):
+            return
+        legacy = Path.home() / 'Library/Application Support/IOTA Local Guardian/iota_local_start.py'
+        launcher = legacy if legacy.is_file() else ROOT / 'iota_local_start.py'
+        if not launcher.is_file():
+            raise ValueError('optimized launcher missing; reinstall the complete agent package')
+        subprocess.run([sys.executable, str(launcher)], check=True, timeout=10,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         deadline = time.monotonic() + 12
         while time.monotonic() < deadline:
             if any(r[3] == EXEC for r in processes()):
@@ -267,6 +274,10 @@ def install(server):
     if not APP.is_dir():
         raise ValueError('TAH app missing')
     endpoint(server)
+    source = Path(__file__).resolve().parent
+    helpers = [source / name for name in ('iota_local_start.py', 'iota_local_relay.py')]
+    if not all(p.is_file() for p in helpers):
+        raise ValueError('incomplete package: startup helpers missing')
     token = getpass.getpass('Paste the 10-minute pairing code from IOTA Watch: ').strip()
     if not re.fullmatch(r'[A-Za-z0-9_-]{43}', token):
         raise ValueError('invalid pairing code')
@@ -282,6 +293,11 @@ def install(server):
     if Path(__file__).resolve() != script.resolve():
         shutil.copyfile(__file__, script)
     script.chmod(0o700)
+    for helper in helpers:
+        target = ROOT / helper.name
+        if helper.resolve() != target.resolve():
+            shutil.copyfile(helper, target)
+        target.chmod(0o600)
     PLIST.parent.mkdir(parents=True, exist_ok=True)
     with PLIST.open('wb') as f:
         plistlib.dump({'Label': LABEL, 'ProgramArguments': [sys.executable, str(script), '--run'],

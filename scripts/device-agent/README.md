@@ -22,3 +22,11 @@ python3 "$HOME/Library/Application Support/IOTA Watch Agent/iota_watch_agent.py"
 Also click Disconnect on the website to invalidate the device credential and remove server-side excerpts and pending actions. Original TAH logs and app settings are untouched.
 
 Developers: use `--server http://127.0.0.1:8081` only for local test pairing. The normal installer uses https://iotahome.site. No remote redirects are allowed.
+
+## Optimized startup (1.0.1)
+
+Start and Restart reuse the website's IOTA Local Tools startup relay. The relay listens only on 127.0.0.1:18010 and waits up to 180 seconds for the real miner service on port 8010, without manufacturing health responses or recording request contents. This reduces startup connection failures; it does not change official queue priority or guarantee training. Click Start training in the official app if necessary.
+
+The package includes the two startup helpers; it does not install a second guardian. If IOTA Local Guardian is already installed, its launcher is reused to avoid competing for the relay port. Existing guardian settings are unchanged. A port conflict fails startup instead of silently falling back. An already running app is left running. The existing local guardian is separate: stop it if you want this agent to be the sole restart controller.
+
+Uninstall leaves the startup helpers/relay in place so an active training connection is not interrupted. After quitting TAH and logging out, the remaining agent support folder may be removed. Reinstall with a new pairing code to upgrade an existing agent (disconnect the old pairing on the website first).
