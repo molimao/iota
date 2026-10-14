@@ -6654,3 +6654,10 @@ body:has(.site-shell) {
 .pro-segment button:not([aria-pressed="true"]):is(:hover, :focus-visible),
 .fleet-billing-switch button:not([aria-pressed="true"]):is(:hover, :focus-visible) { background: #ffffff0c; color: #eee; }
 .fleet-filters button[aria-pressed="true"] span { color: #444; }
+
+/* Keep shorter, unpaired cards natural-height and separate the following email entry. */
+.site-shell .dashboard .devices { align-items: start; }
+.site-shell .dashboard > .daily-report-entry { margin-top: 24px; }
+.agent-connect-hint { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 12px; }
+.agent-connect-hint > span { flex: 1 1 160px; font-size: 12px; line-height: 1.6; }
+.agent-connect-hint > a { font-size: 12px; color: inherit; text-underline-offset: 3px; white-space: nowrap; }

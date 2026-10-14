@@ -24,7 +24,10 @@ export function DeviceAgentSummary({ deviceId, miner, preview = false }: { devic
   const s = agent?.snapshot;
   const age = s?.queue ? Date.now() - Date.parse(s.queue.observedAt) : Infinity;
   const queue = online && s?.appRunning && s.workerRunning && age >= 0 && age <= 300000 ? s.queue?.position : undefined;
-  if (!agent) return null;
+  if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
+    <span>{enabled && query.isError ? t.error : t.connectHint}</span>
+    <a href={url}>{t.connectCompact} ↗</a>
+  </section>;
   return <section className="fleet-agent-connect agent-card-summary" aria-label={t.title}>
     <>
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
