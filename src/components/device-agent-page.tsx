@@ -17,6 +17,7 @@ import {
 import { agentCopy as copy } from "./device-agent-copy";
 export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const requestedDevice = useRouterState({ select: (s) => new URLSearchParams(s.location.searchStr).get("device") });
+  const requestedMiner = useRouterState({ select: (s) => new URLSearchParams(s.location.searchStr).get("miner") });
   const auth = useAuth(),
     fleet = useFleet(preview ? null : auth.userId, preview ? false : auth.ready),
     { locale } = useLocale(),
@@ -29,11 +30,16 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     command = useServerFn(deviceAgentCommand),
     settings = useServerFn(setDeviceAgentOptions),
     revoke = useServerFn(revokeDeviceAgent);
+  const [code, setCode] = useState<{ token: string; expiresAt: number; deviceId: string } | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
+  const [pairedDevice, setPairedDevice] = useState<string | null>(null);
   const q = useQuery({
     queryKey: ["device-agents", auth.userId],
     queryFn: () => list(),
     enabled: !preview && !!auth.userId,
-    refetchInterval: 15000,
+    refetchInterval: code && Date.now() < code.expiresAt ? 3000 : 15000,
+    refetchOnWindowFocus: true,
     retry: false,
   });
   const examples: AgentInfo[] = [
@@ -57,7 +63,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   ];
   const [demo, setDemo] = useState<AgentInfo[] | null>(null),
     [device, setDevice] = useState(""),
-    [code, setCode] = useState<{ token: string; expiresAt: number } | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null),
     [confirm, setConfirm] = useState<string | null>(null);
@@ -77,12 +82,28 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     setCode(null);
     setDevice("");
     setConfirm(null);
+    setPairedDevice(null);
   }, [auth.userId]);
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
+  useEffect(() => {
+    if (code && q.data?.some((a) => a.deviceId === code.deviceId)) {
+      setPairedDevice(code.deviceId);
+      setCode(null);
+      setDevice("");
+    }
+  }, [code, q.data]);
+  useEffect(() => { setCopied(false); setCopyFailed(false); }, [code?.token]);
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 2500);
+    return () => clearTimeout(timer);
+  }, [copied]);
   const candidates = fleet.devices.filter(
     (d) => d.bindings.some((b) => b.project === "iota") && !agents.some((a) => a.deviceId === d.id),
   );
-  const linkedDevice = candidates.find((d) => d.id === requestedDevice)?.id;
+  const linkedDevice = candidates.find((d) => requestedDevice
+    ? d.id === requestedDevice
+    : !!requestedMiner && d.bindings.some((b) => b.project === "iota" && b.identifier === requestedMiner))?.id;
   useEffect(() => {
     if (linkedDevice) setDevice(linkedDevice);
   }, [linkedDevice, auth.userId]);
@@ -119,7 +140,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
       </header>
       {preview && <p className="review-notice">{t.demo}</p>}
       <section className="agent-setup-guide">
-        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.2.zip" download>{t.install}</a></div>
+        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>{t.install}</a></div>
         <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
       </section>
       {!preview && !auth.userId ? (
@@ -132,6 +153,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         </button>
       ) : (
         <>
+          {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">
               {!candidates.length ? (
@@ -163,7 +185,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       void act(async () => {
                         const requestedUser = auth.userId;
                         const result = await pair({ data: { deviceId: device } });
-                        if (actor.current === requestedUser) setCode(result);
+                        if (actor.current === requestedUser) {
+                          setCode({ ...result, deviceId: device });
+                          setPairedDevice(null);
+                        }
                       })
                     }
                   >
@@ -174,8 +199,19 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
               {code && (
                 <div className="agent-pair-code">
                   <p>{t.steps}</p>
-                  <code>{now < code.expiresAt ? code.token : "—"}</code>
-                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.2.zip" download>
+                  <div className="agent-code-actions">
+                    <code>{now < code.expiresAt ? code.token : "—"}</code>
+                    <button type="button" className="fleet-outline" disabled={now >= code.expiresAt} onClick={async () => {
+                      const token = code.token;
+                      try {
+                        await navigator.clipboard.writeText(token);
+                        setCopied(true); setCopyFailed(false);
+                      } catch { setCopyFailed(true); }
+                    }}>{copied ? t.copied : t.copyCode}</button>
+                  </div>
+                  <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.expired : t.waitPair}</p>
+                  <button type="button" className="fleet-outline" disabled={q.isFetching} onClick={() => void q.refetch()}>{t.checkPair}</button>
+                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>
                     {t.install}
                   </a>
                 </div>
@@ -311,7 +347,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     ) : (
                       <a
                         className="project-outline"
-                        href="/downloads/iota-watch-agent-1.0.2.zip"
+                        href="/downloads/iota-watch-agent-1.0.3.zip"
                         download
                       >
                         {t.manualUpgrade}

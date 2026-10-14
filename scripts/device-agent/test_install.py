@@ -67,4 +67,23 @@ class InstallTests(unittest.TestCase):
         self.post.assert_not_called()
         self.run.assert_not_called()
 
+class ConnectionTests(unittest.TestCase):
+    def test_requests_identify_agent(self):
+        with patch.object(agent.urllib.request, 'build_opener') as opener:
+            opener.return_value.open.return_value.__enter__.return_value.read.return_value = b'{}'
+            agent.post('https://iotahome.site', '/api/device-agent/pair', {'token': 'P'*43})
+            request = opener.return_value.open.call_args.args[0]
+            self.assertEqual(request.get_header('User-agent'), 'IOTA-Watch-Agent/' + agent.VERSION)
+            self.assertNotIn('P'*43, request.full_url)
+
+    def test_errors_do_not_expose_secrets(self):
+        secret = 'private-pairing-value'
+        for status in (400, 401, 403, 429, 500):
+            error = agent.urllib.error.HTTPError('https://example/'+secret, status, secret, {}, None)
+            message = agent.setup_error(error)
+            self.assertNotIn(secret, message)
+        self.assertIn('403', agent.setup_error(agent.urllib.error.HTTPError('', 403, '', {}, None)))
+        self.assertIn('network', agent.setup_error(agent.urllib.error.URLError(secret)))
+        self.assertIn('complete pairing code', agent.setup_error(ValueError('invalid pairing code')))
+
 if __name__ == '__main__': unittest.main()

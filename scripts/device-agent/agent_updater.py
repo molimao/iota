@@ -45,7 +45,8 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def download(name, limit):
-    with urllib.request.build_opener(NoRedirect()).open(BASE + name, timeout=15) as response:
+    request = urllib.request.Request(BASE + name, headers={'User-Agent': 'IOTA-Watch-Agent-Updater/1.0.3'})
+    with urllib.request.build_opener(NoRedirect()).open(request, timeout=15) as response:
         data = response.read(limit + 1)
     if len(data) > limit:
         raise ValueError('update too large')

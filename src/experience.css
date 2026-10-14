@@ -6610,3 +6610,6 @@ body:has(.site-shell) {
 .agent-setup-guide > div { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; min-width: 0; }
 .agent-setup-guide span { line-height: 1.7; color: var(--muted-foreground, #999); }
 @media (max-width: 640px) { .agent-setup-guide { grid-template-columns: 1fr; } }
+.agent-code-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+.agent-code-actions code { min-width: 0; overflow-wrap: anywhere; user-select: all; }
+.agent-pair-success { padding: 1rem; border: 1px solid currentColor; border-radius: .75rem; }

@@ -63,7 +63,7 @@ def main():
                 time.sleep(.2)
             raise RuntimeError('test deadline exceeded')
         def send_update(version, broken=False, corrupt=False):
-            candidate = source.replace("VERSION = '1.0.2'", 'VERSION = '+repr(version))
+            candidate = source.replace("VERSION = '1.0.3'", 'VERSION = '+repr(version))
             if broken: candidate = candidate.replace('elif args.run:', 'elif args.run:\n        raise SystemExit(9)')
             blob = io.BytesIO()
             with zipfile.ZipFile(blob, 'w', zipfile.ZIP_DEFLATED) as archive:

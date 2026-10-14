@@ -1,4 +1,5 @@
 import { ReportEntry } from "./daily-report-discovery";
+import { agentCopy } from "./device-agent-copy";
 import { useBilling } from "@/hooks/use-billing";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { minerIdError, shortId } from "@/lib/ss58";
@@ -717,6 +718,12 @@ function SavedIotaDashboard() {
                             : t("查看详情")}
                           <ArrowUpRight size={16} />
                         </button>
+                      </div>
+                      <div className="fleet-agent-connect">
+                        <a className="fleet-outline" href={`/${locale}/machines?miner=${encodeURIComponent(view.entry.hotkey)}`}>
+                          <Monitor size={16} />{agentCopy.cardAction[locale]}<ArrowUpRight size={14} />
+                        </a>
+                        <small>{agentCopy.cardHint[locale]}</small>
                       </div>
                     </article>
                   );

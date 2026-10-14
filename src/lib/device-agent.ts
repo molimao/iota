@@ -60,7 +60,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
 }
 
-export const AGENT_RELEASE = "1.0.2";
+export const AGENT_RELEASE = "1.0.3";
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
   const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);

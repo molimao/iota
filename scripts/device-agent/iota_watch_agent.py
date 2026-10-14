@@ -18,7 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.2'
+VERSION = '1.0.3'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -74,7 +74,8 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def post(server, path, data, credential=None):
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/json',
+               'User-Agent': 'IOTA-Watch-Agent/' + VERSION}
     if credential:
         headers['Authorization'] = 'Bearer ' + credential
     req = urllib.request.Request(endpoint(server) + path, json.dumps(data, ensure_ascii=False).encode(), headers=headers, method='POST')
@@ -278,6 +279,31 @@ def step(config, state, now=None):
     return state
 
 
+def setup_error(error):
+    """Only fixed, actionable messages; never echo codes, credentials or response bodies."""
+    if isinstance(error, urllib.error.HTTPError):
+        if error.code == 401:
+            return 'Pairing code expired or already used. Generate a new code on the website. / 配对码无效或已过期，请重新生成。'
+        if error.code == 403:
+            return 'Website protection blocked the request (HTTP 403). Download the latest agent. / 请求被网站防护拦截，请下载最新版代理。'
+        if error.code == 429:
+            return 'Too many requests. Wait a minute and retry. / 请求过多，请稍后重试。'
+        return 'Pairing service returned HTTP %d. Please retry later. / 配对服务异常，请稍后重试。' % error.code
+    if isinstance(error, (urllib.error.URLError, TimeoutError)):
+        return 'Cannot connect securely to iotahome.site. Check network and system time, then retry. / 无法连接官网，请检查网络和系统时间。'
+    if isinstance(error, subprocess.SubprocessError):
+        return 'Could not start the background agent. Run the installer again. / 后台代理启动失败，请重新运行安装器。'
+    messages = {
+        'invalid pairing code': 'Paste the complete pairing code from the website. / 请粘贴完整配对码，再按回车。',
+        'TAH app missing': 'Install IOTA Train at Home in Applications first. / 请先安装官方 IOTA 应用。',
+        'incomplete package: startup helpers missing': 'Extract the entire ZIP before running install.command. / 请完整解压安装包后运行。',
+        'pairing failed': 'Unexpected pairing response. Please retry with the latest agent. / 配对响应异常，请使用最新代理重试。',
+    }
+    if isinstance(error, ValueError):
+        return messages.get(str(error), 'Invalid setup data. Download the latest agent and retry. / 安装数据异常，请重新下载安装包。')
+    return 'Could not save agent files. Check file permissions and available disk space. / 无法保存代理文件，请检查权限和磁盘空间。'
+
+
 def install(server):
     if sys.platform != 'darwin':
         raise ValueError('macOS required')
@@ -293,7 +319,7 @@ def install(server):
     if upgrading:
         credential = existing['credential']
     else:
-        token = getpass.getpass('Paste the 10-minute pairing code from IOTA Watch: ').strip()
+        token = getpass.getpass('Paste pairing code, then press Enter (input is hidden / 输入不显示): ').strip()
         if not re.fullmatch(r'[A-Za-z0-9_-]{43}', token):
             raise ValueError('invalid pairing code')
         result = post(server, '/api/device-agent/pair', {'token': token})
@@ -381,6 +407,6 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except (OSError, ValueError, KeyError, subprocess.SubprocessError):
-        print('Agent setup failed. Check the pairing code, network and TAH installation.', file=sys.stderr)
+    except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+        print('Agent setup failed: ' + setup_error(error), file=sys.stderr)
         sys.exit(1)

@@ -1,5 +1,12 @@
 import { localized as l } from "@/lib/product-discovery";
 export const agentCopy = {
+  copyCode: l(["复制配对码", "複製配對碼", "Copy pairing code", "연결 코드 복사", "接続コードをコピー"]),
+  copied: l(["已复制", "已複製", "Copied", "복사됨", "コピー済み"]),
+  copyFailed: l(["复制失败，请选中配对码手动复制。", "複製失敗，請選取配對碼手動複製。", "Copy failed. Select the code and copy it manually.", "복사하지 못했습니다. 코드를 선택해 직접 복사하세요.", "コピーできませんでした。コードを選択して手動でコピーしてください。"]),
+  waitPair: l(["等待 Mac 配对，页面会自动更新。", "等待 Mac 配對，頁面會自動更新。", "Waiting for your Mac. This page updates automatically.", "Mac 연결 대기 중입니다. 페이지가 자동 갱신됩니다.", "Macの接続を待っています。自動更新されます。"]),
+  paired: l(["配对成功，设备状态见下方。", "配對成功，設備狀態見下方。", "Paired. Device status is shown below.", "연결되었습니다. 아래에서 기기 상태를 확인하세요.", "接続しました。端末状態は下に表示されます。"]),
+  expired: l(["配对码已过期，请重新生成。", "配對碼已過期，請重新產生。", "Code expired. Generate a new code.", "코드가 만료되었습니다. 다시 생성하세요.", "コードの期限が切れました。再発行してください。"]),
+  checkPair: l(["检查连接状态", "檢查連接狀態", "Check connection", "연결 확인", "接続を確認"]),
   cardAction: l(["连接 / 管理 Mac", "連接 / 管理 Mac", "Connect / manage Mac", "Mac 연결 / 관리", "Macを接続・管理"]),
   cardHint: l(["安装代理，查看本机状态并远程重启 IOTA。", "安裝代理，查看本機狀態並遠端重啟 IOTA。", "Install the agent to see local status and restart IOTA remotely.", "에이전트를 설치하면 기기 상태를 확인하고 IOTA를 원격 재시작할 수 있습니다.", "エージェントを入れると端末状態の確認とIOTAの遠隔再起動ができます。"]),
   setupDownload: l(["1. 下载到要管理的 Mac", "1. 下載到要管理的 Mac", "1. Download on the Mac you want to manage", "1. 관리할 Mac에 다운로드", "1. 管理するMacにダウンロード"]),
