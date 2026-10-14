@@ -18,7 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -231,6 +231,11 @@ def step(config, state, now=None):
             state['recoveryEnabled'] = False
         raise
     state['ack'] = None
+    update = read(ROOT / 'update-request.json')
+    if update.get('phase') == 'installed' and update.get('version') == VERSION:
+        state['ack'] = {'id': update['id'], 'success': True}
+        store(STATE, state)
+        store(ROOT / 'update-health.json', {'id': update['id'], 'version': VERSION})
     state['logsEnabled'] = result.get('logsEnabled') is True
     state['recoveryEnabled'] = result.get('recoveryEnabled') is True
     state['permissionsUntil'] = now + 90
@@ -238,14 +243,19 @@ def step(config, state, now=None):
     if command:
         cmd_id = command.get('id', '')
         expiry = datetime.datetime.fromisoformat(command['expiresAt'].replace('Z', '+00:00')).timestamp()
-        if re.fullmatch(r'[0-9a-fA-F-]{36}', cmd_id) and expiry >= now and command.get('action') in ('start', 'stop', 'restart'):
+        if re.fullmatch(r'[0-9a-fA-F-]{36}', cmd_id) and expiry >= now and command.get('action') in ('start', 'stop', 'restart', 'update'):
             if cmd_id not in state.get('executed', []):
                 # Persist deduplication before any action; a restart of this agent cannot replay it.
                 state['executed'] = (state.get('executed', []) + [cmd_id])[-32:]
                 store(STATE, state)
                 success = False
                 try:
-                    control(command['action'])
+                    if command['action'] == 'update':
+                        import agent_updater
+                        if agent_updater.prepare(VERSION, cmd_id):
+                            return state
+                    else:
+                        control(command['action'])
                     success = True
                 except (OSError, ValueError, subprocess.SubprocessError):
                     pass
@@ -275,20 +285,26 @@ def install(server):
         raise ValueError('TAH app missing')
     endpoint(server)
     source = Path(__file__).resolve().parent
-    helpers = [source / name for name in ('iota_local_start.py', 'iota_local_relay.py')]
+    helpers = [source / name for name in ('iota_local_start.py', 'iota_local_relay.py', 'agent_updater.py')]
     if not all(p.is_file() for p in helpers):
         raise ValueError('incomplete package: startup helpers missing')
-    token = getpass.getpass('Paste the 10-minute pairing code from IOTA Watch: ').strip()
-    if not re.fullmatch(r'[A-Za-z0-9_-]{43}', token):
-        raise ValueError('invalid pairing code')
-    result = post(server, '/api/device-agent/pair', {'token': token})
-    credential = result.get('credential', '')
-    if not re.fullmatch(r'[A-Za-z0-9_-]{43}', credential):
-        raise ValueError('pairing failed')
+    existing = read(CONFIG)
+    upgrading = bool(re.fullmatch(r'[A-Za-z0-9_-]{43}', existing.get('credential', ''))) and existing.get('server') == endpoint(server)
+    if upgrading:
+        credential = existing['credential']
+    else:
+        token = getpass.getpass('Paste the 10-minute pairing code from IOTA Watch: ').strip()
+        if not re.fullmatch(r'[A-Za-z0-9_-]{43}', token):
+            raise ValueError('invalid pairing code')
+        result = post(server, '/api/device-agent/pair', {'token': token})
+        credential = result.get('credential', '')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{43}', credential):
+            raise ValueError('pairing failed')
     subprocess.run(['/bin/launchctl', 'bootout', 'gui/' + str(os.getuid()), str(PLIST)], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     store(CONFIG, {'server': endpoint(server), 'credential': credential})
     # A new pairing must not inherit log consent or queued acknowledgements.
-    store(STATE, {})
+    if not upgrading:
+        store(STATE, {})
     script = ROOT / 'iota_watch_agent.py'
     if Path(__file__).resolve() != script.resolve():
         shutil.copyfile(__file__, script)
@@ -298,9 +314,11 @@ def install(server):
         if helper.resolve() != target.resolve():
             shutil.copyfile(helper, target)
         target.chmod(0o600)
+    for marker in ('update-request.json', 'update-health.json'):
+        (ROOT / marker).unlink(missing_ok=True)
     PLIST.parent.mkdir(parents=True, exist_ok=True)
     with PLIST.open('wb') as f:
-        plistlib.dump({'Label': LABEL, 'ProgramArguments': [sys.executable, str(script), '--run'],
+        plistlib.dump({'Label': LABEL, 'ProgramArguments': [sys.executable, str(ROOT / 'agent_updater.py')],
                       'RunAtLoad': True, 'KeepAlive': True,
                       'StandardOutPath': '/dev/null', 'StandardErrorPath': '/dev/null'}, f)
     PLIST.chmod(0o600)
@@ -312,20 +330,23 @@ def install(server):
 def uninstall():
     subprocess.run(['/bin/launchctl', 'bootout', 'gui/' + str(os.getuid()), str(PLIST)], check=False)
     PLIST.unlink(missing_ok=True)
-    for path in [CONFIG, STATE, ROOT / 'agent.lock', ROOT / 'iota_watch_agent.py']:
+    for path in [CONFIG, STATE, ROOT / 'agent.lock', ROOT / 'supervisor.lock', ROOT / 'iota_watch_agent.py', ROOT / 'agent_updater.py', ROOT / 'update-request.json', ROOT / 'update-health.json']:
         path.unlink(missing_ok=True)
     print('Removed locally. Revoke the pairing in IOTA Watch as well.')
 
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--self-test', action='store_true')
     parser.add_argument('--install', action='store_true')
     parser.add_argument('--uninstall', action='store_true')
     parser.add_argument('--run', action='store_true')
     parser.add_argument('--status', action='store_true')
     parser.add_argument('--server', default='https://iotahome.site')
     args = parser.parse_args()
-    if args.install:
+    if args.self_test:
+        print(VERSION)
+    elif args.install:
         install(args.server)
     elif args.uninstall:
         uninstall()
@@ -350,6 +371,8 @@ def main():
                 state['logsEnabled'] = False
                 state['recoveryEnabled'] = False
             store(STATE, state)
+            if read(ROOT / 'update-request.json').get('phase') == 'ready':
+                return
             time.sleep(15)
     else:
         parser.print_help()

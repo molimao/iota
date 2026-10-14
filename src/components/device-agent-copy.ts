@@ -1,5 +1,22 @@
 import { localized as l } from "@/lib/product-discovery";
 export const agentCopy = {
+  agentVersion: l(["代理版本", "代理版本", "Agent version", "에이전트 버전", "エージェント版"]),
+  update: l(["更新代理", "更新代理", "Update agent", "에이전트 업데이트", "エージェントを更新"]),
+  upToDate: l(["已是最新版", "已是最新版", "Up to date", "최신 버전", "最新版です"]),
+  manualUpgrade: l([
+    "下载安装更新",
+    "下載安裝更新",
+    "Download update",
+    "업데이트 다운로드",
+    "更新をダウンロード",
+  ]),
+  manualUpgradeNote: l([
+    "旧版需在 Mac 安装一次新版，保留现有配对；之后支持远程更新。",
+    "舊版需在 Mac 安裝一次新版，保留現有配對；之後支援遠端更新。",
+    "Install the new version once on your Mac. Pairing is preserved; future updates can run remotely.",
+    "Mac에 새 버전을 한 번 설치하세요. 연결을 유지하며 이후 원격 업데이트가 가능합니다.",
+    "Macで一度新版をインストールすると、接続を保持して以後は遠隔更新できます。",
+  ]),
   queue: l(["排队名次", "排隊名次", "Queue position", "대기 순번", "待機順位"]),
   queueUnknown: l(["暂未获取", "暫未取得", "Unavailable", "확인 불가", "未取得"]),
   queueNote: l([

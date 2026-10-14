@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const agentAction = z.enum(["start", "stop", "restart"]);
+export const agentAction = z.enum(["start", "stop", "restart", "update"]);
 export const agentSnapshot = z
   .object({
     appRunning: z.boolean(),
@@ -7,7 +7,7 @@ export const agentSnapshot = z
     appCpu: z.number().finite().min(0).max(10000).nullable(),
     processMemoryMb: z.number().finite().min(0).max(1000000).nullable(),
     load: z.number().finite().min(0).max(10000).nullable(),
-    version: z.enum(["1.0.0", "1.0.1"]),
+    version: z.string().regex(/^\d{1,4}\.\d{1,4}\.\d{1,4}$/),
     queue: z
       .object({
         position: z.number().int().min(0).max(10000000),
@@ -58,4 +58,11 @@ export function redactAgentLog(input: string) {
 export function agentOnline(lastSeen: string | null, now = Date.now()) {
   const t = lastSeen ? Date.parse(lastSeen) : NaN;
   return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
+}
+
+export const AGENT_RELEASE = "1.0.2";
+export function agentCanUpdate(version?: string) {
+  if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
+  const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);
+  return major > 1 || (major === 1 && (minor > 0 || patch >= 2));
 }

@@ -38,13 +38,21 @@ class InstallTests(unittest.TestCase):
         plist = plistlib.loads(self.plist.read_bytes())
         self.assertTrue(plist['RunAtLoad'])
         self.assertTrue(plist['KeepAlive'])
-        self.assertEqual(plist['ProgramArguments'][-1], '--run')
+        self.assertTrue(plist['ProgramArguments'][-1].endswith('agent_updater.py'))
         self.assertNotIn('C'*43, self.plist.read_text())
         self.assertEqual([c.args[0][1] for c in self.run.call_args_list], ['bootout', 'bootstrap'])
         agent.uninstall()
         self.assertFalse(self.config.exists())
         self.assertFalse(self.plist.exists())
         self.assertTrue(self.app.exists())
+
+    def test_upgrade_preserves_pairing_and_state(self):
+        agent.store(self.config, {'server': 'https://iotahome.site', 'credential': 'E'*43})
+        agent.store(self.state, {'executed': ['old'], 'logsEnabled': True})
+        agent.install('https://iotahome.site')
+        self.post.assert_not_called()
+        self.assertEqual(agent.read(self.config)['credential'], 'E'*43)
+        self.assertEqual(agent.read(self.state)['executed'], ['old'])
 
     def test_bad_pairing_keeps_existing_installation(self):
         agent.store(self.config, {'credential': 'existing'})

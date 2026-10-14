@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useLocale } from "./site/locale";
 import { LANGUAGE_TAG } from "@/lib/site";
-import { agentOnline, type AgentInfo } from "@/lib/device-agent";
+import { AGENT_RELEASE, agentCanUpdate, agentOnline, type AgentInfo } from "@/lib/device-agent";
 import {
   getDeviceAgents,
   pairDeviceAgent,
@@ -165,7 +165,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                 <div className="agent-pair-code">
                   <p>{t.steps}</p>
                   <code>{now < code.expiresAt ? code.token : "—"}</code>
-                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.1.zip" download>
+                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.2.zip" download>
                     {t.install}
                   </a>
                 </div>
@@ -268,6 +268,49 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       </button>
                     ))}
                   </div>
+                  <div className="agent-actions">
+                    <span>
+                      {t.agentVersion} {s.version ?? "—"}
+                    </span>
+                    {agentCanUpdate(s.version) ? (
+                      <button
+                        className="project-outline"
+                        disabled={busy || !online || !!a.pending || s.version === AGENT_RELEASE}
+                        onClick={() => {
+                          if (!requiresConfirm(a.deviceId, "update")) return;
+                          void act(async () => {
+                            if (preview)
+                              setDemo(
+                                agents.map((x) =>
+                                  x.deviceId === a.deviceId
+                                    ? { ...x, snapshot: { ...x.snapshot, version: AGENT_RELEASE } }
+                                    : x,
+                                ),
+                              );
+                            else
+                              await command({ data: { deviceId: a.deviceId, action: "update" } });
+                          });
+                        }}
+                      >
+                        {s.version === AGENT_RELEASE
+                          ? t.upToDate
+                          : confirm === `${a.deviceId}:update`
+                            ? t.confirm
+                            : t.update}
+                      </button>
+                    ) : (
+                      <a
+                        className="project-outline"
+                        href="/downloads/iota-watch-agent-1.0.2.zip"
+                        download
+                      >
+                        {t.manualUpgrade}
+                      </a>
+                    )}
+                  </div>
+                  {!agentCanUpdate(s.version) && (
+                    <p className="compute-caption">{t.manualUpgradeNote}</p>
+                  )}
                   {a.pending ? (
                     <p role="status">{t.pending}</p>
                   ) : (

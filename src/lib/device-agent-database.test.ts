@@ -38,6 +38,7 @@ beforeAll(async () => {
   );
   await db.exec(readFileSync("supabase/migrations/20261005130000_fleet_and_billing.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261014210000_device_agents.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261014230000_agent_updates.sql", "utf8"));
   const r = await db.query<{ id: string }>(
     "INSERT INTO watch_devices(user_id,name) VALUES($1,'Test Mac') RETURNING id",
     [u],
@@ -130,4 +131,20 @@ it("expires unused pairing codes and rate-limits device heartbeats", async () =>
   await expect(
     exchange("heartbeat", "e".repeat(64), { snapshot: { appRunning: true } }),
   ).rejects.toThrow("rate_limited");
+});
+
+it("requires an update-capable agent and owner identity", async () => {
+  await admin();
+  await db.query(
+    "UPDATE watch_agent_commands SET status='expired' WHERE status IN ('queued','claimed')",
+  );
+  await db.query(`UPDATE watch_device_agents SET last_seen=now(), snapshot='{"version":"1.0.1"}'`);
+  await owner(u);
+  await expect(own("update")).rejects.toThrow("manual_agent_upgrade_required");
+  await admin();
+  await db.query(`UPDATE watch_device_agents SET snapshot='{"version":"1.0.2"}'`);
+  await owner(other);
+  await expect(own("update")).rejects.toThrow("device_not_found");
+  await owner(u);
+  expect((await own("update")).rows[0]!.r).toHaveProperty("id");
 });

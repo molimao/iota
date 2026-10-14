@@ -29,4 +29,12 @@ Start and Restart reuse the website's IOTA Local Tools startup relay. The relay 
 
 The package includes the two startup helpers; it does not install a second guardian. If IOTA Local Guardian is already installed, its launcher is reused to avoid competing for the relay port. Existing guardian settings are unchanged. A port conflict fails startup instead of silently falling back. An already running app is left running. The existing local guardian is separate: stop it if you want this agent to be the sole restart controller.
 
-Uninstall leaves the startup helpers/relay in place so an active training connection is not interrupted. After quitting TAH and logging out, the remaining agent support folder may be removed. Reinstall with a new pairing code to upgrade an existing agent (disconnect the old pairing on the website first).
+Uninstall leaves the startup helpers/relay in place so an active training connection is not interrupted. After quitting TAH and logging out, the remaining agent support folder may be removed. Run the new installer to upgrade an existing paired agent; credentials and settings are preserved.
+
+## Remote updates (1.0.2+)
+
+Install 1.0.2 once on each Mac to enable remote updates. The installer preserves existing pairing and settings. Older agents cannot update themselves. The website shows the installed version and offers Update agent when a newer release is available.
+
+Updates download only from https://iotahome.site/downloads/ over verified HTTPS, reject redirects, verify the release SHA-256/size, extract only the three allowlisted Python files and probe the candidate version before changing installed files. This trusts the website's release channel; a checksum is not an independent publisher signature. No arbitrary update URL or shell command is accepted.
+
+A stable local supervisor backs up the previous files and replaces only agent/startup helpers. The new agent must complete an authenticated heartbeat within 75 seconds or it is stopped and the previous files are restored. Interrupted installations roll back at supervisor startup. Pairing/configuration, official IOTA application and active local relay are left alone. The supervisor itself is updated only by the manual installer. Updates never intentionally restart TAH or the active training relay; a short monitoring gap is expected. Use the website's command result and reported version to confirm completion.
