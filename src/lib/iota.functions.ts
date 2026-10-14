@@ -265,3 +265,20 @@ export const getDeviceSeries = createServerFn({ method: "POST" })
       error: errors.length ? errors.join("；") : null,
     };
   });
+
+/** Public wallet discovery reuses the bounded official-roster cache. */
+export const discoverWallet = createServerFn({ method: "POST" })
+  .validator((input: { coldkey: string }) => {
+    if (
+      typeof input?.coldkey !== "string" ||
+      input.coldkey.length > 64 ||
+      !isValidMinerId(input.coldkey.trim())
+    )
+      throw new Error("invalid_wallet");
+    return { coldkey: input.coldkey.trim() };
+  })
+  .handler(async ({ data }) => {
+    const { discoverWalletMiners } = await import("./iota-wallet.server");
+    const { withDeadline } = await import("./deadline");
+    return withDeadline(discoverWalletMiners(data.coldkey), 45_000, "wallet_lookup_timeout");
+  });

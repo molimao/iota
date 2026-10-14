@@ -1,3 +1,5 @@
+import { IotaAddFlow } from "./iota-add-flow";
+import { iotaAddCopy } from "./iota-add-copy";
 import { trialCopy } from "./pro-trial-copy";
 import { AdditionHelp } from "./onboarding";
 import { reportCopy } from "./daily-report-copy";
@@ -105,6 +107,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const [sourceId, setSourceId] = useState(""),
     [bindingId, setBindingId] = useState("");
   const [interval, setInterval] = useState<"month" | "year">(props.initialInterval ?? "year");
+  const [iotaQuick, setIotaQuick] = useState(false);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null);
   const [paywallProject, setPaywallProject] = useState<FleetProject | null>(
@@ -139,6 +142,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   }
   function open(kind: NonNullable<typeof dialog>, deviceId = "", binding = "") {
     setError(null);
+    setIotaQuick(false);
     setName("");
     setHardware("");
     setIdentifier("");
@@ -419,7 +423,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         }}
       >
         <DialogContent
-          className={dialog === "billing" ? "fleet-dialog fleet-paywall-dialog" : "fleet-dialog"}
+          className={
+            dialog === "billing"
+              ? "fleet-dialog fleet-paywall-dialog"
+              : `fleet-dialog${iotaQuick ? " iota-add-dialog" : ""}`
+          }
         >
           <DialogTitle>
             {dialog === "add"
@@ -442,7 +450,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
             {dialog === "billing"
               ? reportCopy.paywallIntro[locale]
               : dialog === "add"
-                ? c.addGuide
+                ? iotaQuick
+                  ? iotaAddCopy.guide[locale]
+                  : c.addGuide
                 : dialog === "merge"
                   ? c.mergeNote
                   : dialog === "remove" || dialog === "unlink"
@@ -450,305 +460,346 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     : c.mapping}
           </DialogDescription>
           {dialog === "billing" && <span className="fleet-paywall-brand">IOTA WATCH / PRO</span>}
-          <form onSubmit={(e) => void save(e)}>
-            {dialog === "add" || dialog === "edit" ? (
-              <>
-                {dialog === "add" && (
-                  <>
-                    <label>
-                      {c.projects}
-                      <select
-                        value={selectedProject}
-                        onChange={(e) => {
-                          setSelectedProject(e.target.value as FleetProject);
-                          setIdentifier("");
-                          setWorker("");
-                        }}
-                      >
-                        {FLEET_PROJECTS.map((p) => (
-                          <option key={p} value={p}>
-                            {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      {isPlatform(selectedProject)
-                        ? selectedProject === "ionet"
-                          ? "Device ID"
-                          : selectedProject === "vast"
-                            ? "Machine ID"
-                            : platformCopy(locale).identifier
-                        : selectedProject === "nosana"
-                          ? editorialCopy(locale).nodeId
-                          : selectedProject === "gonka"
-                            ? editorialCopy(locale).hostId
-                            : selectedProject === "iota"
-                              ? "Miner ID"
-                              : selectedProject === "flyai"
-                                ? `fly.ai · ${c.rewardAddress}`
-                                : selectedProject === "quantus"
-                                  ? `Wormhole · ${c.rewardAddress}`
-                                  : `xCoin · ${c.rewardAddress}`}
-                      <input
-                        autoFocus
-                        required
-                        autoComplete="off"
-                        spellCheck={false}
-                        maxLength={100}
-                        value={identifier}
-                        onChange={(e) => setIdentifier(e.target.value)}
-                        placeholder={
-                          isPlatform(selectedProject)
-                            ? selectedProject === "noid"
-                              ? "o1…"
-                              : selectedProject === "acurast"
-                                ? "Processor · SS58 / 0x…"
-                                : selectedProject === "akash"
-                                  ? "akash1…"
-                                  : selectedProject === "golem"
-                                    ? "0x…"
-                                    : selectedProject === "ionet"
-                                      ? "Device ID"
-                                      : "Machine ID"
-                            : selectedProject === "nosana"
-                              ? "Solana…"
-                              : selectedProject === "gonka"
-                                ? "gonka1…"
-                                : selectedProject === "iota"
-                                  ? "5…"
-                                  : selectedProject === "xid"
-                                    ? "xpa1r…"
-                                    : selectedProject === "quantus"
-                                      ? `Wormhole · ${c.rewardAddress}`
-                                      : "0x…"
-                        }
-                      />
-                    </label>
-                    <AdditionHelp project={selectedProject} plan={props.plan} />
-                    {!isPrivatePlatform(selectedProject) && (
-                      <p className="fleet-input-note">{c.publicOnly}</p>
-                    )}
-                    {selectedProject === "xid" && (
+          {dialog === "add" && selectedProject === "iota" && (
+            <button
+              type="button"
+              className="iota-quick-toggle"
+              disabled={busy}
+              onClick={() => setIotaQuick((value) => !value)}
+            >
+              {iotaQuick ? iotaAddCopy.back[locale] : iotaAddCopy.quick[locale]}
+            </button>
+          )}
+          {dialog === "add" && iotaQuick ? (
+            <IotaAddFlow
+              initialMode="wallet"
+              duplicateIds={props.devices.flatMap((d) =>
+                d.bindings.filter((b) => b.project === "iota").map((b) => b.identifier),
+              )}
+              limit={limit}
+              remaining={Math.max(0, limit - projectDeviceCount(props.devices, "iota"))}
+              onCancel={closeDialog}
+              onBusy={setBusy}
+              onComplete={closeDialog}
+              onSave={async (input) => {
+                try {
+                  await props.onAdd(input.label, "", {
+                    project: "iota",
+                    identifier: input.hotkey,
+                    worker: "",
+                  });
+                  return { ok: true };
+                } catch {
+                  return { ok: false, error: c.unavailable };
+                }
+              }}
+            />
+          ) : (
+            <form onSubmit={(e) => void save(e)}>
+              {dialog === "add" || dialog === "edit" ? (
+                <>
+                  {dialog === "add" && (
+                    <>
                       <label>
-                        {c.worker}
+                        {c.projects}
+                        <select
+                          value={selectedProject}
+                          onChange={(e) => {
+                            setSelectedProject(e.target.value as FleetProject);
+                            setIdentifier("");
+                            setWorker("");
+                          }}
+                        >
+                          {FLEET_PROJECTS.map((p) => (
+                            <option key={p} value={p}>
+                              {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        {isPlatform(selectedProject)
+                          ? selectedProject === "ionet"
+                            ? "Device ID"
+                            : selectedProject === "vast"
+                              ? "Machine ID"
+                              : platformCopy(locale).identifier
+                          : selectedProject === "nosana"
+                            ? editorialCopy(locale).nodeId
+                            : selectedProject === "gonka"
+                              ? editorialCopy(locale).hostId
+                              : selectedProject === "iota"
+                                ? "Miner ID"
+                                : selectedProject === "flyai"
+                                  ? `fly.ai · ${c.rewardAddress}`
+                                  : selectedProject === "quantus"
+                                    ? `Wormhole · ${c.rewardAddress}`
+                                    : `xCoin · ${c.rewardAddress}`}
                         <input
-                          maxLength={80}
-                          value={worker}
-                          onChange={(e) => setWorker(e.target.value)}
+                          autoFocus
+                          required
                           autoComplete="off"
+                          spellCheck={false}
+                          maxLength={100}
+                          value={identifier}
+                          onChange={(e) => setIdentifier(e.target.value)}
+                          placeholder={
+                            isPlatform(selectedProject)
+                              ? selectedProject === "noid"
+                                ? "o1…"
+                                : selectedProject === "acurast"
+                                  ? "Processor · SS58 / 0x…"
+                                  : selectedProject === "akash"
+                                    ? "akash1…"
+                                    : selectedProject === "golem"
+                                      ? "0x…"
+                                      : selectedProject === "ionet"
+                                        ? "Device ID"
+                                        : "Machine ID"
+                              : selectedProject === "nosana"
+                                ? "Solana…"
+                                : selectedProject === "gonka"
+                                  ? "gonka1…"
+                                  : selectedProject === "iota"
+                                    ? "5…"
+                                    : selectedProject === "xid"
+                                      ? "xpa1r…"
+                                      : selectedProject === "quantus"
+                                        ? `Wormhole · ${c.rewardAddress}`
+                                        : "0x…"
+                          }
                         />
                       </label>
-                    )}
-                    {projectDeviceCount(props.devices, selectedProject) >= limit && (
-                      <div className="fleet-quota-warning">
-                        <p>{c.limit}</p>
-                        {props.plan === "free" && (
-                          <button
-                            type="button"
-                            className="fleet-outline"
-                            onClick={() => showPaywall(selectedProject)}
-                          >
-                            {c.viewPro}
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
-                <label>
-                  {c.name}
-                  <input
-                    autoFocus={dialog === "edit"}
-                    required
-                    maxLength={40}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </label>
-                <details className="fleet-optional-fields" open={dialog === "edit"}>
-                  <summary>{c.optionalDetails}</summary>
+                      <AdditionHelp project={selectedProject} plan={props.plan} />
+                      {!isPrivatePlatform(selectedProject) && (
+                        <p className="fleet-input-note">{c.publicOnly}</p>
+                      )}
+                      {selectedProject === "xid" && (
+                        <label>
+                          {c.worker}
+                          <input
+                            maxLength={80}
+                            value={worker}
+                            onChange={(e) => setWorker(e.target.value)}
+                            autoComplete="off"
+                          />
+                        </label>
+                      )}
+                      {projectDeviceCount(props.devices, selectedProject) >= limit && (
+                        <div className="fleet-quota-warning">
+                          <p>{c.limit}</p>
+                          {props.plan === "free" && (
+                            <button
+                              type="button"
+                              className="fleet-outline"
+                              onClick={() => showPaywall(selectedProject)}
+                            >
+                              {c.viewPro}
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
                   <label>
-                    {c.hardware}
+                    {c.name}
                     <input
-                      maxLength={100}
-                      value={hardware}
-                      onChange={(e) => setHardware(e.target.value)}
-                      placeholder="Apple M4 Max · 128 GB"
+                      autoFocus={dialog === "edit"}
+                      required
+                      maxLength={40}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </label>
-                </details>
-                {dialog === "edit" && (
-                  <div className="fleet-edit-actions">
-                    <button
-                      className="fleet-outline"
-                      type="button"
-                      disabled={props.devices.length < 2}
-                      onClick={() => open("merge", selectedDevice)}
-                    >
-                      {c.merge}
-                    </button>
-                    <button
-                      className="fleet-outline"
-                      type="button"
-                      onClick={() => open("remove", selectedDevice)}
-                    >
-                      {c.remove}
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : dialog === "link" ? (
-              <>
-                <label>
-                  {c.choose}
-                  <select
-                    value={selectedDevice}
-                    onChange={(e) => setSelectedDevice(e.target.value)}
-                  >
-                    {props.devices.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  {c.projects}
-                  <select
-                    value={selectedProject}
-                    onChange={(e) => setSelectedProject(e.target.value as FleetProject)}
-                  >
-                    {FLEET_PROJECTS.map((p) => (
-                      <option key={p} value={p}>
-                        {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                {!canLinkProject(props.devices, selectedDevice, selectedProject, limit) && (
-                  <div className="fleet-quota-warning">
-                    <p>{c.limit}</p>
-                    {props.plan === "free" && (
+                  <details className="fleet-optional-fields" open={dialog === "edit"}>
+                    <summary>{c.optionalDetails}</summary>
+                    <label>
+                      {c.hardware}
+                      <input
+                        maxLength={100}
+                        value={hardware}
+                        onChange={(e) => setHardware(e.target.value)}
+                        placeholder="Apple M4 Max · 128 GB"
+                      />
+                    </label>
+                  </details>
+                  {dialog === "edit" && (
+                    <div className="fleet-edit-actions">
                       <button
                         className="fleet-outline"
                         type="button"
-                        onClick={() => showPaywall(selectedProject, true)}
+                        disabled={props.devices.length < 2}
+                        onClick={() => open("merge", selectedDevice)}
                       >
-                        {c.viewPro}
+                        {c.merge}
                       </button>
-                    )}
-                  </div>
-                )}
-                <label>
-                  {isPlatform(selectedProject)
-                    ? selectedProject === "ionet"
-                      ? "Device ID"
-                      : selectedProject === "vast"
-                        ? "Machine ID"
-                        : platformCopy(locale).identifier
-                    : selectedProject === "nosana"
-                      ? editorialCopy(locale).nodeId
-                      : selectedProject === "gonka"
-                        ? editorialCopy(locale).hostId
-                        : selectedProject === "iota"
-                          ? "Miner ID"
-                          : selectedProject === "flyai"
-                            ? `fly.ai · ${c.rewardAddress}`
-                            : selectedProject === "quantus"
-                              ? `Wormhole · ${c.rewardAddress}`
-                              : `xCoin · ${c.rewardAddress}`}
-                  <input
-                    required
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    autoComplete="off"
-                    maxLength={100}
-                    spellCheck={false}
-                  />
-                </label>
-                {selectedProject === "xid" && (
+                      <button
+                        className="fleet-outline"
+                        type="button"
+                        onClick={() => open("remove", selectedDevice)}
+                      >
+                        {c.remove}
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : dialog === "link" ? (
+                <>
                   <label>
-                    {c.worker}
+                    {c.choose}
+                    <select
+                      value={selectedDevice}
+                      onChange={(e) => setSelectedDevice(e.target.value)}
+                    >
+                      {props.devices.map((d) => (
+                        <option key={d.id} value={d.id}>
+                          {d.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    {c.projects}
+                    <select
+                      value={selectedProject}
+                      onChange={(e) => setSelectedProject(e.target.value as FleetProject)}
+                    >
+                      {FLEET_PROJECTS.map((p) => (
+                        <option key={p} value={p}>
+                          {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  {!canLinkProject(props.devices, selectedDevice, selectedProject, limit) && (
+                    <div className="fleet-quota-warning">
+                      <p>{c.limit}</p>
+                      {props.plan === "free" && (
+                        <button
+                          className="fleet-outline"
+                          type="button"
+                          onClick={() => showPaywall(selectedProject, true)}
+                        >
+                          {c.viewPro}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  <label>
+                    {isPlatform(selectedProject)
+                      ? selectedProject === "ionet"
+                        ? "Device ID"
+                        : selectedProject === "vast"
+                          ? "Machine ID"
+                          : platformCopy(locale).identifier
+                      : selectedProject === "nosana"
+                        ? editorialCopy(locale).nodeId
+                        : selectedProject === "gonka"
+                          ? editorialCopy(locale).hostId
+                          : selectedProject === "iota"
+                            ? "Miner ID"
+                            : selectedProject === "flyai"
+                              ? `fly.ai · ${c.rewardAddress}`
+                              : selectedProject === "quantus"
+                                ? `Wormhole · ${c.rewardAddress}`
+                                : `xCoin · ${c.rewardAddress}`}
                     <input
-                      maxLength={80}
-                      value={worker}
-                      onChange={(e) => setWorker(e.target.value)}
+                      required
+                      value={identifier}
+                      onChange={(e) => setIdentifier(e.target.value)}
                       autoComplete="off"
+                      maxLength={100}
+                      spellCheck={false}
                     />
                   </label>
-                )}
-                <AdditionHelp project={selectedProject} plan={props.plan} />
-                {!isPrivatePlatform(selectedProject) && (
-                  <p className="fleet-input-note">{c.publicOnly}</p>
-                )}
-              </>
-            ) : dialog === "merge" ? (
-              <label>
-                {c.choose}
-                <select required value={sourceId} onChange={(e) => setSourceId(e.target.value)}>
-                  {props.devices
-                    .filter((d) => d.id !== selectedDevice)
-                    .map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
-                </select>
-              </label>
-            ) : dialog === "remove" || dialog === "unlink" ? (
-              <p>{props.devices.find((d) => d.id === selectedDevice)?.name}</p>
-            ) : (
-              <PaywallBody
-                devices={props.devices}
-                project={paywallProject}
-                interval={interval}
-                onChange={setInterval}
-                disabled={busy}
-                trialEligible={props.billing?.trialEligible}
-                preview={!!props.preview || !props.onSubscribe}
-              />
-            )}
-            {error && (
-              <p className="fleet-form-error" role="alert">
-                {error}
-              </p>
-            )}
-            <div className="fleet-dialog-actions">
-              <button className="fleet-outline" type="button" onClick={closeDialog} disabled={busy}>
-                {dialog === "billing" ? c.continueFree : c.cancel}
-              </button>
-              <button
-                className="site-button"
-                disabled={
-                  busy ||
-                  (dialog === "add" &&
-                    projectDeviceCount(props.devices, selectedProject) >= limit) ||
-                  (dialog === "billing" && (props.preview || !props.onSubscribe))
-                }
-                type="submit"
-              >
-                {dialog === "billing" ? (
-                  <>
-                    {busy
-                      ? c.processing
-                      : props.signedIn
-                        ? trialCopy.continue[locale]
-                        : trialCopy.signIn[locale]}
-                    <span>
-                      US${planAmount(interval)} {interval === "year" ? c.perYear : c.perMonth}
-                    </span>
-                  </>
-                ) : busy ? (
-                  c.processing
-                ) : dialog === "add" ? (
-                  c.add
-                ) : (
-                  c.save
-                )}
-              </button>
-            </div>
-          </form>
+                  {selectedProject === "xid" && (
+                    <label>
+                      {c.worker}
+                      <input
+                        maxLength={80}
+                        value={worker}
+                        onChange={(e) => setWorker(e.target.value)}
+                        autoComplete="off"
+                      />
+                    </label>
+                  )}
+                  <AdditionHelp project={selectedProject} plan={props.plan} />
+                  {!isPrivatePlatform(selectedProject) && (
+                    <p className="fleet-input-note">{c.publicOnly}</p>
+                  )}
+                </>
+              ) : dialog === "merge" ? (
+                <label>
+                  {c.choose}
+                  <select required value={sourceId} onChange={(e) => setSourceId(e.target.value)}>
+                    {props.devices
+                      .filter((d) => d.id !== selectedDevice)
+                      .map((d) => (
+                        <option key={d.id} value={d.id}>
+                          {d.name}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+              ) : dialog === "remove" || dialog === "unlink" ? (
+                <p>{props.devices.find((d) => d.id === selectedDevice)?.name}</p>
+              ) : (
+                <PaywallBody
+                  devices={props.devices}
+                  project={paywallProject}
+                  interval={interval}
+                  onChange={setInterval}
+                  disabled={busy}
+                  trialEligible={props.billing?.trialEligible}
+                  preview={!!props.preview || !props.onSubscribe}
+                />
+              )}
+              {error && (
+                <p className="fleet-form-error" role="alert">
+                  {error}
+                </p>
+              )}
+              <div className="fleet-dialog-actions">
+                <button
+                  className="fleet-outline"
+                  type="button"
+                  onClick={closeDialog}
+                  disabled={busy}
+                >
+                  {dialog === "billing" ? c.continueFree : c.cancel}
+                </button>
+                <button
+                  className="site-button"
+                  disabled={
+                    busy ||
+                    (dialog === "add" &&
+                      projectDeviceCount(props.devices, selectedProject) >= limit) ||
+                    (dialog === "billing" && (props.preview || !props.onSubscribe))
+                  }
+                  type="submit"
+                >
+                  {dialog === "billing" ? (
+                    <>
+                      {busy
+                        ? c.processing
+                        : props.signedIn
+                          ? trialCopy.continue[locale]
+                          : trialCopy.signIn[locale]}
+                      <span>
+                        US${planAmount(interval)} {interval === "year" ? c.perYear : c.perMonth}
+                      </span>
+                    </>
+                  ) : busy ? (
+                    c.processing
+                  ) : dialog === "add" ? (
+                    c.add
+                  ) : (
+                    c.save
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
           {dialog === "billing" && (
             <div className="fleet-paywall-footer">
               <p>{c.stripePayment}</p>

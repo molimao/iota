@@ -12,11 +12,11 @@ const entryCopy = {
     "収益レポートと通知",
   ]),
   intro: localized([
-    "按项目收取收益报表，设备异常时接收提醒。",
-    "按專案收取收益報表，設備異常時接收提醒。",
-    "Project earnings reports and device issue alerts by email.",
-    "프로젝트별 수익 보고서와 기기 이상 알림을 이메일로 받으세요.",
-    "プロジェクト別の収益レポートとデバイスの異常通知をメールで受信。",
+    "不用一直开着页面，也能收到收益报表和设备异常邮件。",
+    "不用一直開著頁面，也能收到收益報表和設備異常郵件。",
+    "Receive earnings reports and device issue emails without keeping this page open.",
+    "페이지를 열어 두지 않아도 수익 보고서와 기기 이상 이메일을 받을 수 있습니다.",
+    "ページを開いていなくても、収益レポートとデバイスの異常通知をメールで受信。",
   ]),
   settings: localized(["邮件设置", "郵件設定", "Email settings", "이메일 설정", "メール設定"]),
 };

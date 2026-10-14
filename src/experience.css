@@ -6132,3 +6132,314 @@ body:has(.site-shell) {
 .article-reading-content {
   max-width: 760px;
 }
+
+/* IOTA addition: validate and choose before saving. */
+.iota-add-flow {
+  min-width: 0;
+}
+.iota-add-modes,
+.iota-layout-switch {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line, #383838);
+  border-radius: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.iota-add-modes button,
+.iota-layout-switch button {
+  border: 0;
+  background: transparent;
+  padding: 9px 12px;
+  border-radius: 7px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.iota-add-modes button[aria-pressed="true"],
+.iota-layout-switch button[aria-pressed="true"] {
+  color: #111;
+  background: #f5f5f5;
+}
+.iota-address-input {
+  display: grid;
+  gap: 9px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+.iota-address-input textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 74px;
+  max-height: 220px;
+  border: 1px solid #454545;
+  background: transparent;
+  color: inherit;
+  border-radius: 10px;
+  padding: 12px;
+  font:
+    13px/1.6 ui-monospace,
+    monospace;
+}
+.iota-selection-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+  margin: 24px 0 12px;
+  font-size: 13px;
+}
+.iota-selection-heading span,
+.iota-add-result span {
+  color: #aaa;
+  font-size: 12px;
+}
+.iota-add-results {
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid #383838;
+}
+.iota-add-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #383838;
+  min-width: 0;
+}
+.iota-add-result > input {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  accent-color: #fff;
+}
+.iota-add-result > div {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.iota-add-result code {
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+  color: #aaa;
+  overflow-wrap: anywhere;
+}
+.iota-add-result > div > input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #383838;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+}
+.iota-quick-toggle {
+  margin: 0 0 18px;
+  font-size: 13px;
+}
+.iota-layout-switch {
+  margin: 16px 0;
+}
+.iota-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #383838;
+  border-radius: 12px;
+}
+.iota-device-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.iota-device-table th {
+  color: #aaa;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 14px 16px;
+}
+.iota-device-table td {
+  padding: 16px;
+  border-top: 1px solid #333;
+  vertical-align: middle;
+}
+.iota-device-table td:first-child > button {
+  display: block;
+  font-weight: 650;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.iota-device-table code {
+  display: block;
+  color: #888;
+  font-size: 11px;
+  margin-top: 5px;
+}
+.iota-device-table td:last-child button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.iota-device-table .money-pair strong {
+  font-size: 16px;
+  white-space: nowrap;
+}
+.iota-device-table .money-pair em {
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .iota-add-modes {
+    width: 100%;
+  }
+  .iota-add-modes button {
+    flex: 1;
+    padding: 9px 5px;
+    font-size: 12px;
+  }
+  .iota-device-table {
+    min-width: 620px;
+  }
+}
+.iota-add-flow > button.iota-check-button {
+  color: #eee;
+  background: #242424;
+  border: 1px solid #555;
+}
+.iota-add-flow > .form-actions {
+  position: sticky;
+  bottom: 0;
+  background: #111;
+  padding: 12px 0 0;
+  margin-top: 12px;
+}
+.iota-add-results {
+  max-height: 230px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+}
+.iota-address-input textarea {
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+  font-weight: 400;
+}
+.iota-device-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+.iota-device-tools > input {
+  flex: 1;
+  min-width: 0;
+  max-width: 420px;
+  padding: 10px 12px;
+  border: 1px solid #383838;
+  background: transparent;
+  color: inherit;
+  border-radius: 8px;
+}
+.iota-device-tools > select {
+  min-width: 0;
+  max-width: 220px;
+  padding: 10px;
+  border: 1px solid #383838;
+  border-radius: 8px;
+  background: #111;
+  color: inherit;
+}
+.iota-device-tools .iota-layout-switch {
+  margin: 0 0 0 auto;
+}
+@media (max-width: 640px) {
+  .iota-device-tools {
+    flex-wrap: wrap;
+  }
+  .iota-device-tools > input {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .iota-device-tools > select {
+    flex: 1;
+  }
+}
+.iota-device-rate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #999;
+  font-size: 13px;
+  margin: 12px 0 20px;
+}
+.iota-device-rate b {
+  color: #eee;
+  font-weight: 500;
+}
+
+.dash-dialog.iota-add-dialog,
+.fleet-dialog.iota-add-dialog {
+  width: min(560px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  min-width: 0;
+  max-height: calc(100dvh - 32px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.iota-add-dialog > * {
+  min-width: 0;
+}
+.iota-add-flow .form-help {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #aaa;
+}
+.iota-add-flow > button.iota-check-button {
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fleet-dialog.iota-add-dialog {
+  background: #111;
+  color: #eee;
+  border-color: #383838;
+}
+.iota-add-dialog input:not([type="checkbox"]) {
+  background: #171717;
+  color: inherit;
+  border-color: #454545;
+}
+.iota-quota-link {
+  display: inline-block;
+  font-size: 12px;
+  text-decoration: underline;
+  margin-bottom: 12px;
+  color: #ccc;
+}
+
+.fleet-dialog.iota-add-dialog .iota-quick-toggle {
+  background: transparent;
+  color: #aaa;
+  border: 0;
+  padding: 0;
+  width: fit-content;
+  text-decoration: underline;
+  margin-bottom: 8px;
+}
+.iota-add-dialog .iota-add-modes button:not([aria-pressed="true"]) {
+  color: #ccc;
+}
+.fleet-dialog.iota-add-dialog label {
+  color: #ccc;
+}
+.fleet-dialog.iota-add-dialog .iota-add-result input[type="checkbox"] {
+  width: 16px;
+  margin: 0;
+}

@@ -25,6 +25,8 @@ import {
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { FarmLine } from "@/components/farm-view";
 import { DeviceForm } from "@/components/device-form";
+import { IotaAddFlow } from "./iota-add-flow";
+import { iotaAddCopy } from "./iota-add-copy";
 import { DeviceActions } from "@/components/device-actions";
 import { DataHealth } from "@/components/data-health";
 import { useAuth } from "@/hooks/use-auth";
@@ -184,11 +186,41 @@ function SavedIotaDashboard() {
   const [saving, setSaving] = useState(false);
   const [importing, setImporting] = useState(false);
   const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<"added" | "rewards" | "issues">("added");
+  const [layout, setLayout] = useState<"cards" | "list">("cards");
+  const layoutInitialized = useRef(false);
+  useEffect(() => {
+    if (!watch.loaded || layoutInitialized.current) return;
+    layoutInitialized.current = true;
+    try {
+      const saved = localStorage.getItem("iota-device-layout");
+      setLayout(
+        saved === "cards" || saved === "list" ? saved : watch.devices.length > 6 ? "list" : "cards",
+      );
+    } catch {
+      /* Display preferences never block monitoring. */
+    }
+  }, [watch.loaded, watch.devices.length]);
   const [filter, setFilter] = useState<StatusBucket | "all">("all");
   const file = useRef<HTMLInputElement>(null);
   const active = dash.views.find((v) => v.entry.hotkey === selected);
-  const visible =
-    filter === "all" ? dash.views : dash.views.filter((view) => view.bucket === filter);
+  const visible = dash.views
+    .filter(
+      (view) =>
+        (filter === "all" || view.bucket === filter) &&
+        `${view.entry.label} ${view.entry.hotkey}`
+          .toLowerCase()
+          .includes(search.trim().toLowerCase()),
+    )
+    .sort((a, b) =>
+      sort === "rewards"
+        ? (b.earnings?.todayUnits ?? -1) - (a.earnings?.todayUnits ?? -1)
+        : sort === "issues"
+          ? Number(b.bucket === "attention" || b.bucket === "pending") -
+            Number(a.bucket === "attention" || a.bucket === "pending")
+          : 0,
+    );
 
   function openAdd() {
     if (!watch.loaded) return;
@@ -502,61 +534,195 @@ function SavedIotaDashboard() {
             {!visible.length && (
               <div className="filter-empty">
                 <p>{t("这个状态下暂无设备。")}</p>
-                <button onClick={() => setFilter("all")}>{t("查看全部设备")}</button>
+                <button
+                  onClick={() => {
+                    setFilter("all");
+                    setSearch("");
+                  }}
+                >
+                  {t("查看全部设备")}
+                </button>
               </div>
             )}
-            <div className="devices">
-              {visible.map((view) => {
-                const meta = STATUS_META[view.status];
-                return (
-                  <article className="device" key={view.entry.hotkey}>
-                    <div className="device-top">
-                      <span className="device-icon">
-                        <Monitor size={22} />
-                      </span>
-                      <button
-                        className={`badge ${meta.tone}`}
-                        data-bucket={view.bucket}
-                        title={localizeValue(en ? "Status details" : "状态说明", locale)}
-                        onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                      >
-                        {t(meta.label)}
-                      </button>
-                    </div>
-                    <h3>
-                      <button className="device-name" onClick={() => openDevice(view.entry.hotkey)}>
-                        {view.entry.label}
-                      </button>
-                    </h3>
-                    <PresenceSignals miner={view.miner} />
-                    <div className="device-earnings">
-                      <div>
-                        <span>{t("今日收益")}</span>
-                        <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
-                      </div>
-                      <div>
-                        <span>{t("累计收益")}</span>
-                        <MoneyPair
-                          units={view.earnings?.totalEarnedUnits}
-                          usdPerIota={dash.usdPerIota}
-                        />
-                      </div>
-                    </div>
-                    <div className="device-foot">
-                      <span>
-                        {formatAgo(view.statusFetchedAt, dash.now, locale)}
-                        {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
-                        {view.earnings && !view.earningsUsable ? ` · ${t("收益为旧数据")}` : ""}
-                      </span>
-                      <button onClick={() => openDevice(view.entry.hotkey)}>
-                        {t("查看详情")}
-                        <ArrowUpRight size={16} />
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
+            <div className="iota-device-tools">
+              <input
+                type="search"
+                aria-label={iotaAddCopy.search[locale]}
+                placeholder={iotaAddCopy.search[locale]}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <select
+                aria-label={iotaAddCopy.sort[locale]}
+                value={sort}
+                onChange={(e) => setSort(e.target.value as typeof sort)}
+              >
+                <option value="added">{iotaAddCopy.defaultSort[locale]}</option>
+                <option value="rewards">{iotaAddCopy.rewardSort[locale]}</option>
+                <option value="issues">{iotaAddCopy.issueSort[locale]}</option>
+              </select>
+              <div
+                className="iota-layout-switch"
+                role="group"
+                aria-label={iotaAddCopy.layout[locale]}
+              >
+                {(["cards", "list"] as const).map((value) => (
+                  <button
+                    key={value}
+                    aria-pressed={layout === value}
+                    onClick={() => {
+                      setLayout(value);
+                      try {
+                        localStorage.setItem("iota-device-layout", value);
+                      } catch {
+                        /* Optional preference. */
+                      }
+                    }}
+                  >
+                    {iotaAddCopy[value][locale]}
+                  </button>
+                ))}
+              </div>
             </div>
+            {layout === "list" ? (
+              <div className="iota-table-scroll">
+                <table className="iota-device-table">
+                  <thead>
+                    <tr>
+                      {(["name", "state", "rate", "today", "action"] as const).map((key) => (
+                        <th key={key}>{iotaAddCopy[key][locale]}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visible.map((view) => (
+                      <tr key={view.entry.hotkey}>
+                        <td>
+                          <button onClick={() => openDevice(view.entry.hotkey)}>
+                            {view.entry.label}
+                          </button>
+                          <code>{shortId(view.entry.hotkey)}</code>
+                        </td>
+                        <td>
+                          <button
+                            className={`badge ${STATUS_META[view.status].tone}`}
+                            data-bucket={view.bucket}
+                            onClick={() => openDevice(view.entry.hotkey, "diagnose")}
+                          >
+                            {t(STATUS_META[view.status].label)}
+                          </button>
+                        </td>
+                        <td>
+                          {view.miner
+                            ? `${formatCount(view.miner.throughput, locale)} tokens/s`
+                            : "—"}
+                        </td>
+                        <td>
+                          <MoneyPair
+                            units={view.earnings?.todayUnits}
+                            usdPerIota={dash.usdPerIota}
+                          />
+                        </td>
+                        <td>
+                          <button
+                            onClick={() =>
+                              openDevice(
+                                view.entry.hotkey,
+                                view.status === "contributing" || view.status === "waiting"
+                                  ? "overview"
+                                  : "diagnose",
+                              )
+                            }
+                          >
+                            {
+                              iotaAddCopy[view.status === "not_found" ? "inspect" : "status"][
+                                locale
+                              ]
+                            }{" "}
+                            <ArrowUpRight size={14} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="devices">
+                {visible.map((view) => {
+                  const meta = STATUS_META[view.status];
+                  return (
+                    <article className="device" key={view.entry.hotkey}>
+                      <div className="device-top">
+                        <span className="device-icon">
+                          <Monitor size={22} />
+                        </span>
+                        <button
+                          className={`badge ${meta.tone}`}
+                          data-bucket={view.bucket}
+                          title={localizeValue(en ? "Status details" : "状态说明", locale)}
+                          onClick={() => openDevice(view.entry.hotkey, "diagnose")}
+                        >
+                          {t(meta.label)}
+                        </button>
+                      </div>
+                      <h3>
+                        <button
+                          className="device-name"
+                          onClick={() => openDevice(view.entry.hotkey)}
+                        >
+                          {view.entry.label}
+                        </button>
+                      </h3>
+                      <p className="iota-device-rate">
+                        {iotaAddCopy.rate[locale]}{" "}
+                        <b>
+                          {view.miner
+                            ? `${formatCount(view.miner.throughput, locale)} tokens/s`
+                            : "—"}
+                        </b>
+                      </p>
+                      <div className="device-earnings">
+                        <div>
+                          <span>{t("今日收益")}</span>
+                          <MoneyPair
+                            units={view.earnings?.todayUnits}
+                            usdPerIota={dash.usdPerIota}
+                          />
+                        </div>
+                        <div>
+                          <span>{t("累计收益")}</span>
+                          <MoneyPair
+                            units={view.earnings?.totalEarnedUnits}
+                            usdPerIota={dash.usdPerIota}
+                          />
+                        </div>
+                      </div>
+                      <div className="device-foot">
+                        <span>
+                          {formatAgo(view.statusFetchedAt, dash.now, locale)}
+                          {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
+                          {view.earnings && !view.earningsUsable ? ` · ${t("收益为旧数据")}` : ""}
+                        </span>
+                        <button
+                          onClick={() =>
+                            openDevice(
+                              view.entry.hotkey,
+                              view.status === "not_found" ? "diagnose" : "overview",
+                            )
+                          }
+                        >
+                          {view.status === "not_found"
+                            ? iotaAddCopy.inspect[locale]
+                            : t("查看详情")}
+                          <ArrowUpRight size={16} />
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
           </>
         )}
       </section>
@@ -589,34 +755,21 @@ function SavedIotaDashboard() {
           if (!saving) setAdding(open);
         }}
       >
-        <DialogContent className="dash-dialog">
+        <DialogContent className="dash-dialog iota-add-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
-          <DialogDescription>
-            {localizeValue(
-              en ? "Paste the public ID from the Miner page." : "粘贴 Miner 页面中的公开 ID。",
-              locale,
-            )}
-          </DialogDescription>
-          <DeviceForm
+          <DialogDescription>{iotaAddCopy.guide[locale]}</DialogDescription>
+          <IotaAddFlow
             limit={watch.limit}
+            remaining={Math.max(0, watch.limit - watch.projectCount)}
             initialHotkey={hotkey}
             duplicateIds={watch.devices.map((device) => device.hotkey)}
             onCancel={() => setAdding(false)}
-            onSave={async (input) => {
-              setSaving(true);
-              try {
-                const result = await watch.add(input);
-                if (result.ok) {
-                  setAdding(false);
-                  setHotkey("");
-                  setMessage(
-                    watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"),
-                  );
-                }
-                return result;
-              } finally {
-                setSaving(false);
-              }
+            onBusy={setSaving}
+            onSave={watch.add}
+            onComplete={() => {
+              setAdding(false);
+              setHotkey("");
+              setMessage(watch.cloud ? t("设备已绑定到你的账号。") : t("设备已保存到此浏览器。"));
             }}
           />
         </DialogContent>
