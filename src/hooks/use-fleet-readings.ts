@@ -189,6 +189,11 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                     ? "Acurast Mainnet Indexer"
                     : "Golem Stats",
         scope: d?.scope === "provider" ? "wallet" : "device",
+        ...(binding.project === "noid" && d?.balance != null
+          ? {
+              accountSummary: { kind: "balance" as const, amount: String(d.balance), unit: "NOID" },
+            }
+          : {}),
         status:
           current && sourceFresh && d?.online === true
             ? "online"

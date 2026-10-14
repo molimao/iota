@@ -1,3 +1,4 @@
+import { bech32m } from "@scure/base";
 import { readFileSync } from "node:fs";
 import { fleetSnapshot } from "./fleet-policy";
 import { PGlite } from "@electric-sql/pglite";
@@ -255,7 +256,9 @@ it("applies independent NOID and Acurast quotas and retains existing fleets", as
 it("restores Free to five per project without removing legacy records or trial access", async () => {
   await db.exec("RESET ROLE");
   await db.exec(readFileSync("supabase/migrations/20261013180000_free_three_devices.sql", "utf8"));
-  await db.exec(readFileSync("supabase/migrations/20261014110000_restore_free_five_devices.sql", "utf8"));
+  await db.exec(
+    readFileSync("supabase/migrations/20261014110000_restore_free_five_devices.sql", "utf8"),
+  );
   const id = "77777777-7777-4777-8777-777777777777";
   await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
   await asUser(grandfather);
@@ -293,4 +296,30 @@ it("restores Free to five per project without removing legacy records or trial a
   expect(trial.projectDeviceLimit).toBe(50);
   expect(fleetSnapshot(trial).projectDeviceLimit).toBe(50);
   expect(trial.projectCounts["flyai"]).toBe(6);
+});
+
+it("keeps multiple project addresses in the account database and isolates another account", async () => {
+  const batchUser = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
+  await db.exec("RESET ROLE");
+  await db.query("INSERT INTO auth.users(id) VALUES($1)", [batchUser]);
+  await asUser(batchUser);
+  for (const n of [91, 92])
+    await mutate("create", {
+      name: `NOID test ${n}`,
+      hardware: "",
+      binding: {
+        project: "noid",
+        identifier: bech32m.encode("o", bech32m.toWords(new Uint8Array(32).fill(n))),
+        worker: "",
+      },
+    });
+  const own = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+  const snapshot = fleetSnapshot(own.rows[0]!.data);
+  expect(snapshot.devices).toHaveLength(2);
+  expect(snapshot.devices.flatMap((d) => d.bindings).every((b) => b.project === "noid")).toBe(true);
+  await asUser(other);
+  const different = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+  expect(
+    fleetSnapshot(different.rows[0]!.data).devices.some((d) => d.name.startsWith("NOID test")),
+  ).toBe(false);
 });

@@ -1,4 +1,5 @@
 import { readQuery, hongKongMonth } from "@/lib/read-query";
+import { ProjectAddressBook } from "./project-address-book";
 import { ProjectAbout } from "./project-about";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -135,6 +136,7 @@ export function FlyaiPage() {
         </div>
         <p>{t.scope}</p>
       </section>
+      <ProjectAddressBook project="flyai" />
       <QuietDetails title={c.setup}>
         <section className="project-panel flyai-panel" id="setup">
           <h2>{c.setup}</h2>

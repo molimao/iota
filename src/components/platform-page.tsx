@@ -1,9 +1,11 @@
 import { additionalMetricCopy as extra } from "./additional-platform-copy";
 import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { ProjectAddressBook } from "./project-address-book";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
+import { useFleet } from "@/hooks/use-fleet";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocale } from "./site/locale";
 import { ProjectAbout } from "./project-about";
@@ -42,6 +44,28 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
     connect = useServerFn(connectPlatform),
     disconnect = useServerFn(disconnectPlatform);
   const secured = isPrivatePlatform(project);
+  const fleet = useFleet(auth.userId, auth.ready);
+  async function saveIdentifier(value: string) {
+    if (!auth.userId || !fleet.ready) throw new Error("sign_in_required");
+    if (
+      fleet.devices.some((d) =>
+        d.bindings.some((b) => b.project === project && b.identifier === value),
+      )
+    )
+      return;
+    await fleet.mutate({
+      action: "create",
+      payload: {
+        name: `${PROJECTS[project].name} ${value.slice(0, 6)}…${value.slice(-4)}`,
+        hardware: "",
+        binding: { project, identifier: value, worker: "" },
+      },
+    });
+  }
+  const selectSaved = useCallback((value: string) => {
+    setInput(value);
+    setId(value);
+  }, []);
   const status = useQuery({
     queryKey: ["platform-connection", auth.userId, project],
     enabled: !demo && !!auth.userId && secured,
@@ -112,6 +136,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
       }
       await client.invalidateQueries({ queryKey: ["platform-connection", auth.userId, project] });
       await client.resetQueries({ queryKey: ["platform-node", auth.userId, project] });
+      await saveIdentifier(input.trim());
       setId(input.trim());
     } catch {
       setMessage(f.unavailable);
@@ -158,13 +183,20 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
         </div>
         <a href={`/${locale}/devices?project=${project}`}>{f.add} →</a>
       </header>
-      {!demo && (
+      {!demo && <ProjectAddressBook project={project} onSelect={selectSaved} />}
+      {!demo && (secured || !auth.userId) && (
         <section className="compute-panel">
           <form
             className="compute-lookup"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               if (validPlatformId(project, input.trim())) {
+                try {
+                  if (auth.userId) await saveIdentifier(input.trim());
+                } catch {
+                  setMessage(f.unavailable);
+                  return;
+                }
                 if (id === input.trim()) void lookup.refetch();
                 else setId(input.trim());
                 setMessage(null);

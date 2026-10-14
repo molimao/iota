@@ -6443,3 +6443,61 @@ body:has(.site-shell) {
   width: 16px;
   margin: 0;
 }
+
+.project-address-book {
+  margin: 24px 0;
+  min-width: 0;
+}
+.project-address-add {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin: 18px 0 8px;
+}
+.project-address-add label {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: #aaa;
+}
+.project-address-add textarea {
+  display: block;
+  margin-top: 8px;
+  width: 100%;
+  min-height: 76px;
+  resize: vertical;
+  background: #171717;
+  color: #eee;
+  border: 1px solid #454545;
+  border-radius: 10px;
+  padding: 12px;
+  font: inherit;
+  overflow-wrap: anywhere;
+}
+.project-address-book .project-address-card {
+  min-width: 0;
+}
+.project-address-book code {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  color: #999;
+}
+.project-address-book .project-address-heading {
+  align-items: center;
+  gap: 10px;
+}
+.project-address-book .project-address-heading h3 {
+  font-size: 15px;
+  margin: 0;
+}
+.project-address-book .project-address-heading span {
+  font-size: 12px;
+  color: #aaa;
+}
+@media (max-width: 640px) {
+  .project-address-add {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

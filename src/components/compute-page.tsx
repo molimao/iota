@@ -1,6 +1,7 @@
 import { readQuery } from "@/lib/read-query";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { useState } from "react";
+import { ProjectAddressBook } from "./project-address-book";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocale } from "./site/locale";
 import { editorialCopy, projectEditorial } from "./project-editorial";
@@ -19,8 +20,7 @@ export function ComputeProjectPage({
   const { locale } = useLocale(),
     c = editorialCopy(locale),
     f = fleetCopy(locale);
-  const [input, setInput] = useState(""),
-    [address, setAddress] = useState("");
+  const [address, setAddress] = useState("");
   const client = useQueryClient();
   const network = useQuery({
     ...readQuery(client, ["compute", project], () => getComputeNetwork({ data: { project } })),
@@ -84,31 +84,7 @@ export function ComputeProjectPage({
         </div>
       </section>
       <section className="compute-panel">
-        <form
-          className="compute-lookup"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (validComputeId(project, input.trim())) {
-              if (address === input.trim())
-                void (project === "nosana" ? node.refetch() : network.refetch());
-              else setAddress(input.trim());
-            }
-          }}
-        >
-          <label htmlFor="compute-address">{project === "nosana" ? c.nodeId : c.hostId}</label>
-          <div>
-            <input
-              id="compute-address"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={project === "gonka" ? "gonka1…" : "Solana…"}
-              maxLength={100}
-              spellCheck={false}
-              autoComplete="off"
-            />
-            <button disabled={!validComputeId(project, input.trim())}>{c.lookup}</button>
-          </div>
-        </form>
+        <ProjectAddressBook project={project} onSelect={setAddress} />
         {address && (
           <div aria-live="polite">
             <p className="compute-caption">

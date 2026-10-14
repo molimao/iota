@@ -485,9 +485,9 @@ Monitor: https://iotahome.site/en/projects/golem
 
 ### NOID
 Content updated: 2026-10-12
-Address hashrate, last-24-hour payouts and unpaid balance from Parano1d Pool.
-Enter the public o1… payout address from the Parano1d wallet. This integration covers Parano1d Pool; other pools and solo mining require their own source.
-Reads the pool’s public page every 5 minutes. Online means address activity within 20 minutes, not every machine being online. Rolling payouts and unpaid balance are not today’s earnings and are excluded from device daily totals. A failed source remains unavailable.
+Address hashrate, payouts and unpaid balance from Parano1d Pool / InnovLab.
+Enter the public o1… payout address from the Parano1d wallet. This integration covers Parano1d Pool / InnovLab; other pools and solo mining require their own source.
+Refreshes every 5 minutes. Checks Parano1d Pool first, then InnovLab on a miss or failure. Results belong to the named pool, not a cross-pool total. InnovLab provides confirmed unpaid balance and lifetime payouts, but no rolling-24h payouts here. Online is address-level; balances and payouts are not daily earnings.
 Source: https://docs.parano1d.org/reference/rpc
 Monitor: https://iotahome.site/en/projects/noid
 
@@ -4956,7 +4956,7 @@ Updated: 2026-10-13
 
 ## 先看结论
 
-NOID 监控查询 Parano1d Pool 的地址数据。待付款、累计付款和滚动 24 小时付款都不等于今日收益；使用其他矿池或 solo 时，先到原来源核对。
+NOID 监控查询 Parano1d Pool / InnovLab 的地址数据。待付款、累计付款和滚动 24 小时付款都不等于今日收益；使用其他矿池或 solo 时，先到原来源核对。
 
 ## 字段对照
 
@@ -4968,7 +4968,7 @@ NOID 监控查询 Parano1d Pool 的地址数据。待付款、累计付款和滚
 
 ## 地址与网络
 
-打开 Parano1d 钱包，复制收款地址（o1 开头），并确认矿工的 payout 地址一致。在 NOID 查询页粘贴完整地址。当前来源为 Parano1d Pool；若你使用其他矿池或 solo，这里没有记录是正常的，先回到该来源核对。
+打开 Parano1d 钱包，复制收款地址（o1 开头），并确认矿工的 payout 地址一致。在 NOID 查询页粘贴完整地址。当前来源为 Parano1d Pool / InnovLab；若你使用其他矿池或 solo，这里没有记录是正常的，先回到该来源核对。
 
 ## 字段怎么读
 
@@ -4984,7 +4984,7 @@ NOID 监控查询 Parano1d Pool 的地址数据。待付款、累计付款和滚
 
 ### 矿工在运行，为什么这里没有记录？
 
-先确认矿工使用 Parano1d Pool，且查询地址与 payout 地址完全一致。其他矿池或 solo 不在此工具的查询范围内。
+先确认矿工使用 Parano1d Pool / InnovLab，且查询地址与 payout 地址完全一致。其他矿池或 solo 不在此工具的查询范围内。
 
 ### 多台机器用同一个地址，算力能分开吗？
 
@@ -4996,7 +4996,7 @@ Updated: 2026-10-13
 
 ## 先看結論
 
-NOID 監控查詢 Parano1d Pool 的地址資料。待付款、累計與滾動24小時付款皆不等於今日收益；其他礦池或solo請先到原來源核對。
+NOID 監控查詢 Parano1d Pool / InnovLab 的地址資料。待付款、累計與滾動24小時付款皆不等於今日收益；其他礦池或solo請先到原來源核對。
 
 ## 欄位對照
 
@@ -5008,7 +5008,7 @@ NOID 監控查詢 Parano1d Pool 的地址資料。待付款、累計與滾動24�
 
 ## 地址與網路
 
-開啟 Parano1d 錢包並複製 o1 收款地址，確認與礦工 payout 地址一致，再貼到 NOID 查詢頁。目前來源是 Parano1d Pool；其他礦池或 solo 沒有紀錄時，先回原來源核對。
+開啟 Parano1d 錢包並複製 o1 收款地址，確認與礦工 payout 地址一致，再貼到 NOID 查詢頁。目前來源是 Parano1d Pool / InnovLab；其他礦池或 solo 沒有紀錄時，先回原來源核對。
 
 ## 欄位怎麼讀
 
@@ -5024,7 +5024,7 @@ NOID 監控查詢 Parano1d Pool 的地址資料。待付款、累計與滾動24�
 
 ### 礦工正在執行，為什麼沒有紀錄？
 
-確認使用Parano1d Pool且查詢地址與payout完全一致；其他礦池或solo不在此工具範圍。
+確認使用Parano1d Pool / InnovLab且查詢地址與payout完全一致；其他礦池或solo不在此工具範圍。
 
 ### 多台機器共用地址，算力能分開嗎？
 
@@ -5036,7 +5036,7 @@ Updated: 2026-10-13
 
 ## At a glance
 
-This NOID monitor reads Parano1d Pool address data. Unpaid, lifetime and rolling 24-hour payments are not today’s earnings. Check your own source if you use another pool or mine solo.
+This NOID monitor reads Parano1d Pool / InnovLab address data. Unpaid, lifetime and rolling 24-hour payments are not today’s earnings. Check your own source if you use another pool or mine solo.
 
 ## Field reference
 
@@ -5048,7 +5048,7 @@ This NOID monitor reads Parano1d Pool address data. Unpaid, lifetime and rolling
 
 ## Address and network
 
-Copy the o1 payout address from your Parano1d wallet and match it against the miner configuration. Paste the full address into the NOID tool. It queries Parano1d Pool. If you mine elsewhere or solo, a missing record here does not diagnose your miner; check that source first.
+Copy the o1 payout address from your Parano1d wallet and match it against the miner configuration. Paste the full address into the NOID tool. It queries Parano1d Pool / InnovLab. If you mine elsewhere or solo, a missing record here does not diagnose your miner; check that source first.
 
 ## Reading the fields
 
@@ -5064,7 +5064,7 @@ Check the address and pool, then look for valid share submissions. The page read
 
 ### Why is my running miner missing here?
 
-Check that it uses Parano1d Pool and that the query matches its full payout address. Other pools and solo mining are outside this tool’s coverage.
+Check that it uses Parano1d Pool / InnovLab and that the query matches its full payout address. Other pools and solo mining are outside this tool’s coverage.
 
 ### Can I split several machines sharing one address?
 
@@ -5076,7 +5076,7 @@ Updated: 2026-10-13
 
 ## 핵심 내용
 
-NOID 모니터는 Parano1d Pool 주소 데이터를 조회합니다. 미지급·누적·최근 24시간 지급액은 오늘 수익과 다릅니다. 다른 풀이나 단독 채굴은 해당 소스를 확인하세요.
+NOID 모니터는 Parano1d Pool / InnovLab 주소 데이터를 조회합니다. 미지급·누적·최근 24시간 지급액은 오늘 수익과 다릅니다. 다른 풀이나 단독 채굴은 해당 소스를 확인하세요.
 
 ## 필드 설명
 
@@ -5088,7 +5088,7 @@ NOID 모니터는 Parano1d Pool 주소 데이터를 조회합니다. 미지급·
 
 ## 주소와 네트워크
 
-Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하는지 확인하고 NOID 도구에 붙여넣으세요. Parano1d Pool을 조회합니다. 다른 풀·단독 채굴 기록이 여기 없다고 기기 오류는 아니므로 원래 소스를 먼저 확인하세요.
+Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하는지 확인하고 NOID 도구에 붙여넣으세요. Parano1d Pool / InnovLab을 조회합니다. 다른 풀·단독 채굴 기록이 여기 없다고 기기 오류는 아니므로 원래 소스를 먼저 확인하세요.
 
 ## 필드 읽기
 
@@ -5104,7 +5104,7 @@ Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하�
 
 ### 채굴기가 작동하는데 기록이 없는 이유는?
 
-Parano1d Pool을 사용하고 조회 주소가 전체 payout 주소와 같은지 확인하세요. 다른 풀과 단독 채굴은 조회 범위 밖입니다.
+Parano1d Pool / InnovLab을 사용하고 조회 주소가 전체 payout 주소와 같은지 확인하세요. 다른 풀과 단독 채굴은 조회 범위 밖입니다.
 
 ### 한 주소를 쓰는 여러 기기의 해시레이트를 나눌 수 있나요?
 
@@ -5116,7 +5116,7 @@ Updated: 2026-10-13
 
 ## 要点
 
-NOID監視はParano1d Poolのアドレス情報を照会します。未払・累計・直近24時間の支払は今日の収益とは別です。他のプールや単独採掘は利用元で確認してください。
+NOID監視はParano1d Pool / InnovLabのアドレス情報を照会します。未払・累計・直近24時間の支払は今日の収益とは別です。他のプールや単独採掘は利用元で確認してください。
 
 ## 項目の対照
 
@@ -5128,7 +5128,7 @@ NOID監視はParano1d Poolのアドレス情報を照会します。未払・累
 
 ## アドレスとネットワーク
 
-Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOIDツールに完全なアドレスを入力します。対象はParano1d Poolです。別プールやソロの記録がない場合、ここで機器故障と判断せず各取得元を確認してください。
+Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOIDツールに完全なアドレスを入力します。対象はParano1d Pool / InnovLabです。別プールやソロの記録がない場合、ここで機器故障と判断せず各取得元を確認してください。
 
 ## 項目の読み方
 
@@ -5144,13 +5144,14 @@ Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOID
 
 ### 動作中の採掘機に記録がないのはなぜ？
 
-Parano1d Poolを利用し、照会する完全なアドレスがpayoutと一致するか確認してください。他のプールや単独採掘は対象外です。
+Parano1d Pool / InnovLabを利用し、照会する完全なアドレスがpayoutと一致するか確認してください。他のプールや単独採掘は対象外です。
 
 ### 同じアドレスの複数機器を分けられますか？
 
 取得元はアドレス単位で合算します。機器名を付けても個別の数値には分割されません。
 - Source: Parano1d address / RPC conventions — https://docs.parano1d.org/reference/rpc
 - Source: Parano1d Pool — https://www.parano1d-pool.fun/
+- Source: InnovLab — https://noid.innovlab.cc/
 
 ### Which Acurast address belongs to your processor?
 - zh-CN: https://iotahome.site/zh/learn/acurast-monitor-guide
