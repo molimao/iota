@@ -252,9 +252,10 @@ it("applies independent NOID and Acurast quotas and retains existing fleets", as
   }
 });
 
-it("lowers Free to three per project without removing legacy records or trial access", async () => {
+it("restores Free to five per project without removing legacy records or trial access", async () => {
   await db.exec("RESET ROLE");
   await db.exec(readFileSync("supabase/migrations/20261013180000_free_three_devices.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261014110000_restore_free_five_devices.sql", "utf8"));
   const id = "77777777-7777-4777-8777-777777777777";
   await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
   await asUser(grandfather);
@@ -262,22 +263,22 @@ it("lowers Free to three per project without removing legacy records or trial ac
     "SELECT watch_list_devices() AS data",
   );
   expect(legacy.rows[0]!.data.devices).toHaveLength(8);
-  expect(legacy.rows[0]!.data.projectDeviceLimit).toBe(3);
+  expect(legacy.rows[0]!.data.projectDeviceLimit).toBe(5);
   await asUser(id);
-  for (let i = 1; i <= 3; i++)
+  for (let i = 1; i <= 5; i++)
     await mutate("create", {
       name: `New ${i}`,
       binding: { project: "flyai", identifier: wallet(i) },
     });
   await expect(
-    mutate("create", { name: "Fourth", binding: { project: "flyai", identifier: wallet(4) } }),
+    mutate("create", { name: "Sixth", binding: { project: "flyai", identifier: wallet(6) } }),
   ).rejects.toThrow("project_device_limit_reached");
   const independent = await mutate("create", {
     name: "Other project",
-    binding: { project: "golem", identifier: wallet(4) },
+    binding: { project: "golem", identifier: wallet(6) },
   });
-  expect(independent.projectCounts["flyai"]).toBe(3);
-  expect(fleetSnapshot(independent).devices).toHaveLength(4);
+  expect(independent.projectCounts["flyai"]).toBe(5);
+  expect(fleetSnapshot(independent).devices).toHaveLength(6);
   expect(independent.projectCounts["golem"]).toBe(1);
   await db.exec("RESET ROLE");
   await db.query(
@@ -286,10 +287,10 @@ it("lowers Free to three per project without removing legacy records or trial ac
   );
   await asUser(id);
   const trial = await mutate("create", {
-    name: "Trial fourth",
-    binding: { project: "flyai", identifier: wallet(4) },
+    name: "Trial sixth",
+    binding: { project: "flyai", identifier: wallet(6) },
   });
   expect(trial.projectDeviceLimit).toBe(50);
   expect(fleetSnapshot(trial).projectDeviceLimit).toBe(50);
-  expect(trial.projectCounts["flyai"]).toBe(4);
+  expect(trial.projectCounts["flyai"]).toBe(6);
 });

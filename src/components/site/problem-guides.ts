@@ -115,7 +115,7 @@ const bodies = [
       "## 什么情况下必须回到官方来源？",
       "官方规则、运行日志、账号授权、提款和奖励领取应以原项目为准。IOTA Watch 会注明 API 来源及读取时间，但它不证明任务已经在本机正常运行，也不控制平台账号。",
       "## 如何判断这个工具是否适合你？",
-      "用一个公开标识检查是否能返回你需要的指标，再添加更多记录。每个项目免费支持 3 台；Pro 提升各项目设备名额到 50 台。需要自己的服务环境时，可查看 [开源仓库与部署指南](https://github.com/molimao/iota)。",
+      "用一个公开标识检查是否能返回你需要的指标，再添加更多记录。每个项目免费支持 5 台；Pro 提升各项目设备名额到 50 台。需要自己的服务环境时，可查看 [开源仓库与部署指南](https://github.com/molimao/iota)。",
     ],
     [
       "## 先確認你要完成哪一種操作",
@@ -125,7 +125,7 @@ const bodies = [
       "## 何時必須回到官方來源？",
       "官方規則、執行日誌、帳戶授權、提款與獎勵領取以原專案為準。本站標明 API 來源與取得時間，但不能證明任務在本機正常執行，也不控制平台帳戶。",
       "## 如何判斷是否適合你？",
-      "先用一個公開識別碼確認所需指標可查，再加入更多紀錄。每個專案免費 3 台，Pro 提升至 50 台。自行部署可查看 [開源倉庫與部署指南](https://github.com/molimao/iota)。",
+      "先用一個公開識別碼確認所需指標可查，再加入更多紀錄。每個專案免費 5 台，Pro 提升至 50 台。自行部署可查看 [開源倉庫與部署指南](https://github.com/molimao/iota)。",
     ],
     [
       "## Start with the action you need",
@@ -135,7 +135,7 @@ const bodies = [
       "## When should I use the original source?",
       "Use the project itself for official rules, runtime logs, authorization, withdrawals and reward claims. IOTA Watch names its API sources and fetch times, but a web record does not prove that a job is running correctly on your machine, and the site does not control platform accounts.",
       "## How can I evaluate whether it fits?",
-      "Look up one public identifier to check the metrics you need before adding more records. Free supports 3 devices per project; Pro raises each project's limit to 50. For a self-hosted environment, see the [source repository and deployment guide](https://github.com/molimao/iota).",
+      "Look up one public identifier to check the metrics you need before adding more records. Free supports 5 devices per project; Pro raises each project's limit to 50. For a self-hosted environment, see the [source repository and deployment guide](https://github.com/molimao/iota).",
     ],
     [
       "## 필요한 작업부터 정하세요",
@@ -145,7 +145,7 @@ const bodies = [
       "## 원래 출처를 사용해야 하는 경우는 언제인가요?",
       "공식 규칙, 실행 로그, 인증, 출금과 보상 수령은 해당 프로젝트를 이용하세요. IOTA Watch는 출처와 조회 시각을 표시하지만 작업이 기기에서 정상 실행된다는 증거가 아니며 플랫폼 계정을 제어하지 않습니다.",
       "## 내 용도에 적합한지 어떻게 판단하나요?",
-      "공개 식별자 하나로 필요한 지표가 나오는지 확인한 뒤 더 추가하세요. 프로젝트당 무료 3대, Pro 50대입니다. 직접 호스팅하려면 [소스 코드와 배포 안내](https://github.com/molimao/iota)를 참고하세요.",
+      "공개 식별자 하나로 필요한 지표가 나오는지 확인한 뒤 더 추가하세요. 프로젝트당 무료 5대, Pro 50대입니다. 직접 호스팅하려면 [소스 코드와 배포 안내](https://github.com/molimao/iota)를 참고하세요.",
     ],
     [
       "## まず必要な操作を決めます",
@@ -155,7 +155,7 @@ const bodies = [
       "## 元の出典を使うべき場面は？",
       "公式ルール、動作ログ、認証、出金、報酬受領は該当プロジェクトで行います。本站は出典と取得時刻を示しますが、実機での正常動作を証明したり公式アカウントを制御したりはしません。",
       "## 自分の用途に合うか確認するには？",
-      "公開IDを1つ照会し、必要な指標があるか確認してから追加します。無料は各プロジェクト3台、Proは50台です。自分でホストする場合は[ソースコードと配置案内](https://github.com/molimao/iota)を参照できます。",
+      "公開IDを1つ照会し、必要な指標があるか確認してから追加します。無料は各プロジェクト5台、Proは50台です。自分でホストする場合は[ソースコードと配置案内](https://github.com/molimao/iota)を参照できます。",
     ],
   ]),
   localized([

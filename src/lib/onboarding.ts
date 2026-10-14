@@ -48,11 +48,11 @@ export const onboardingCopy = {
     "ログインとアカウント接続が必要",
   ]),
   quota: localized([
-    "每项目免费 3 台",
-    "每專案免費 3 台",
-    "3 free devices per project",
-    "프로젝트당 무료 3대",
-    "各プロジェクト3台まで無料",
+    "每项目免费 5 台",
+    "每專案免費 5 台",
+    "5 free devices per project",
+    "프로젝트당 무료 5대",
+    "各プロジェクト5台まで無料",
   ]),
   proQuota: localized([
     "Pro · 每项目 50 台",

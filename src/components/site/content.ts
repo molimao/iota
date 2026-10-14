@@ -89,7 +89,7 @@ const legacyContent = withLocales({
       ],
       [
         "Keep the list",
-        "Sign in with Google to bind up to 3 devices per project on Free, or 50 per project on Pro to the account, or export a JSON backup.",
+        "Sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro to the account, or export a JSON backup.",
       ],
     ],
     bottomTitle: "Add more devices as needed.",
@@ -136,7 +136,7 @@ const legacyContent = withLocales({
       ],
       [
         "Do I need an account?",
-        "No. Without signing in you can keep up to 3 devices per project on Free in this browser. Sign in with Google to bind up to 3 devices per project on Free, or 50 per project on Pro to the account and open the same list on another device.",
+        "No. Without signing in you can keep up to 5 devices per project on Free in this browser. Sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro to the account and open the same list on another device.",
       ],
       [
         "Can I use the same list on a phone?",
@@ -164,7 +164,7 @@ const legacyContent = withLocales({
       ],
       [
         "What is stored locally",
-        "Without signing in, this browser keeps public Miner IDs and names, up to 3 devices per project on Free. A small cache of recently fetched numbers is kept for up to 24 hours.",
+        "Without signing in, this browser keeps public Miner IDs and names, up to 5 devices per project on Free. A small cache of recently fetched numbers is kept for up to 24 hours.",
       ],
       [
         "What is sent to the server",
@@ -176,7 +176,7 @@ const legacyContent = withLocales({
       ],
       [
         "Accounts and removing the list",
-        "Google sign-in is optional. After sign-in, the list is stored on the account (up to 3 devices per project on Free, or 50 per project on Pro) so it can be opened elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices on the dashboard, or clear this site’s browser storage to erase the local copy.",
+        "Google sign-in is optional. After sign-in, the list is stored on the account (up to 5 devices per project on Free, or 50 per project on Pro) so it can be opened elsewhere. Export still creates a JSON file of public IDs and labels. Remove devices on the dashboard, or clear this site’s browser storage to erase the local copy.",
       ],
       [
         "Independent, read-only access",
@@ -249,7 +249,7 @@ const legacyContent = withLocales({
       ["添加设备", "在监控页填写 ID 与设备名称。其余设备按同样方式添加。"],
       [
         "同步清单",
-        "使用 Google 登录后每个项目免费 3 台、Pro 50 台，可在其他设备查看；也可导出 JSON 备份。",
+        "使用 Google 登录后每个项目免费 5 台、Pro 50 台，可在其他设备查看；也可导出 JSON 备份。",
       ],
     ],
     bottomTitle: "可继续添加设备。",
@@ -295,7 +295,7 @@ const legacyContent = withLocales({
       ],
       [
         "需要注册账号吗？",
-        "不必须。未登录时当前浏览器每个项目免费最多 3 台。使用 Google 登录后，清单绑定账号，每个项目免费 3 台、Pro 50 台，可在其他设备查看。",
+        "不必须。未登录时当前浏览器每个项目免费最多 5 台。使用 Google 登录后，清单绑定账号，每个项目免费 5 台、Pro 50 台，可在其他设备查看。",
       ],
       [
         "手机和电脑可以看同一个清单吗？",
@@ -323,7 +323,7 @@ const legacyContent = withLocales({
       ],
       [
         "本地存储内容",
-        "未登录时，当前浏览器会保存已添加的公开 Miner ID 和名称，每个项目免费最多 3 台。最近查询的数字会暂存最多 24 小时。",
+        "未登录时，当前浏览器会保存已添加的公开 Miner ID 和名称，每个项目免费最多 5 台。最近查询的数字会暂存最多 24 小时。",
       ],
       [
         "发送到服务端的数据",
@@ -335,7 +335,7 @@ const legacyContent = withLocales({
       ],
       [
         "账号、导出与删除",
-        "Google 登录为可选项。登录后清单保存在账号中（每个项目免费 3 台、Pro 50 台），可在其他设备打开。导出会生成包含公开 ID 和设备名称的 JSON。在监控页移除设备，或清理本站浏览器存储，可删除本地副本。",
+        "Google 登录为可选项。登录后清单保存在账号中（每个项目免费 5 台、Pro 50 台），可在其他设备打开。导出会生成包含公开 ID 和设备名称的 JSON。在监控页移除设备，或清理本站浏览器存储，可删除本地副本。",
       ],
       [
         "独立、只读",
