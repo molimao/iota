@@ -110,3 +110,49 @@ it("does not include rolling pool payments or unavailable Acurast rewards in dai
     (await collectReportBinding("test", { project: "acurast", identifier: key }, window)).reason,
   ).toBe("unsupported");
 });
+
+it("reads InnovLab atomic balances without treating estimates as earned rewards", async () => {
+  const { parseInnovlabNoid } = await import("./additional-platforms");
+  const input = {
+    coin: "parano1d",
+    address,
+    found: true,
+    hashrate: 2011028,
+    hashrate_unit: "H/s",
+    workersOnline: 4,
+    shares: { lastAcceptedAt: "2026-10-14T11:24:00Z" },
+    balance: { confirmed: "158490", paid: "0" },
+    estimate: { perDay: 174414218 },
+  };
+  expect(parseInnovlabNoid(input, address, Date.parse("2026-10-14T11:25:00Z"))).toMatchObject({
+    sourcePool: "InnovLab",
+    online: true,
+    activity: "2.011 MH/s",
+    balance: 0.15849,
+    lifetime: 0,
+    reward: null,
+    period: null,
+    scope: "provider",
+  });
+  expect(() => parseInnovlabNoid({ ...input, address: "other" }, address)).toThrow("invalid-data");
+  expect(() => parseInnovlabNoid({ ...input, found: false }, address)).toThrow("not-found");
+  expect(
+    parseInnovlabNoid({ ...input, balance: { confirmed: "9999999999999999" } }, address).balance,
+  ).toBeNull();
+  const f = vi.fn(async (url: string | URL | Request) =>
+    String(url).includes("innovlab")
+      ? new Response(JSON.stringify(input))
+      : new Response(`<input name=a value="${address}"><p>No shares recorded</p>`),
+  );
+  expect((await readPublicPlatform("noid", address, f)).sourcePool).toBe("InnovLab");
+  expect(f.mock.calls[1]?.[0]).toBe(`https://noid.innovlab.cc/api/coins/parano1d/miner/${address}`);
+});
+
+it("does not call a pool outage a missing NOID address", async () => {
+  const f = vi.fn(async (url: string | URL | Request) =>
+    String(url).includes("innovlab")
+      ? new Response(JSON.stringify({ coin: "parano1d", address, found: false }))
+      : new Response("Unavailable", { status: 503 }),
+  );
+  await expect(readPublicPlatform("noid", address, f)).rejects.toThrow("unavailable");
+});

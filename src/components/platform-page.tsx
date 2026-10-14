@@ -280,6 +280,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
                     : c.unknown}
             </span>
           </div>
+          {data.sourcePool && <p className="compute-caption">{data.sourcePool}</p>}
           <div className="compute-metrics">
             {project === "acurast" ? (
               <>
@@ -338,7 +339,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           {data.partial && <p role="status">{c.partial}</p>}
           <QuietDetails title={f.source}>
             <p>
-              {PROJECTS[project].name} ·{" "}
+              {data.sourcePool ?? PROJECTS[project].name} ·{" "}
               {result?.fetchedAt
                 ? new Date(result.fetchedAt).toLocaleString(LANGUAGE_TAG[locale])
                 : "—"}

@@ -66,11 +66,11 @@ const acurastRows = l([
 const details = {
   noid: {
     summary: l([
-      "NOID 监控查询 Parano1d Pool 的地址数据。待付款、累计付款和滚动 24 小时付款都不等于今日收益；使用其他矿池或 solo 时，先到原来源核对。",
-      "NOID 監控查詢 Parano1d Pool 的地址資料。待付款、累計與滾動24小時付款皆不等於今日收益；其他礦池或solo請先到原來源核對。",
-      "This NOID monitor reads Parano1d Pool address data. Unpaid, lifetime and rolling 24-hour payments are not today’s earnings. Check your own source if you use another pool or mine solo.",
-      "NOID 모니터는 Parano1d Pool 주소 데이터를 조회합니다. 미지급·누적·최근 24시간 지급액은 오늘 수익과 다릅니다. 다른 풀이나 단독 채굴은 해당 소스를 확인하세요.",
-      "NOID監視はParano1d Poolのアドレス情報を照会します。未払・累計・直近24時間の支払は今日の収益とは別です。他のプールや単独採掘は利用元で確認してください。",
+      "NOID 监控查询 Parano1d Pool / InnovLab 的地址数据。待付款、累计付款和滚动 24 小时付款都不等于今日收益；使用其他矿池或 solo 时，先到原来源核对。",
+      "NOID 監控查詢 Parano1d Pool / InnovLab 的地址資料。待付款、累計與滾動24小時付款皆不等於今日收益；其他礦池或solo請先到原來源核對。",
+      "This NOID monitor reads Parano1d Pool / InnovLab address data. Unpaid, lifetime and rolling 24-hour payments are not today’s earnings. Check your own source if you use another pool or mine solo.",
+      "NOID 모니터는 Parano1d Pool / InnovLab 주소 데이터를 조회합니다. 미지급·누적·최근 24시간 지급액은 오늘 수익과 다릅니다. 다른 풀이나 단독 채굴은 해당 소스를 확인하세요.",
+      "NOID監視はParano1d Pool / InnovLabのアドレス情報を照会します。未払・累計・直近24時間の支払は今日の収益とは別です。他のプールや単独採掘は利用元で確認してください。",
     ]),
     rows: noidRows,
     questions: l([
@@ -78,7 +78,7 @@ const details = {
         {
           question: "矿工在运行，为什么这里没有记录？",
           answer:
-            "先确认矿工使用 Parano1d Pool，且查询地址与 payout 地址完全一致。其他矿池或 solo 不在此工具的查询范围内。",
+            "先确认矿工使用 Parano1d Pool / InnovLab，且查询地址与 payout 地址完全一致。其他矿池或 solo 不在此工具的查询范围内。",
         },
         {
           question: "多台机器用同一个地址，算力能分开吗？",
@@ -89,7 +89,8 @@ const details = {
       [
         {
           question: "礦工正在執行，為什麼沒有紀錄？",
-          answer: "確認使用Parano1d Pool且查詢地址與payout完全一致；其他礦池或solo不在此工具範圍。",
+          answer:
+            "確認使用Parano1d Pool / InnovLab且查詢地址與payout完全一致；其他礦池或solo不在此工具範圍。",
         },
         {
           question: "多台機器共用地址，算力能分開嗎？",
@@ -100,7 +101,7 @@ const details = {
         {
           question: "Why is my running miner missing here?",
           answer:
-            "Check that it uses Parano1d Pool and that the query matches its full payout address. Other pools and solo mining are outside this tool’s coverage.",
+            "Check that it uses Parano1d Pool / InnovLab and that the query matches its full payout address. Other pools and solo mining are outside this tool’s coverage.",
         },
         {
           question: "Can I split several machines sharing one address?",
@@ -112,7 +113,7 @@ const details = {
         {
           question: "채굴기가 작동하는데 기록이 없는 이유는?",
           answer:
-            "Parano1d Pool을 사용하고 조회 주소가 전체 payout 주소와 같은지 확인하세요. 다른 풀과 단독 채굴은 조회 범위 밖입니다.",
+            "Parano1d Pool / InnovLab을 사용하고 조회 주소가 전체 payout 주소와 같은지 확인하세요. 다른 풀과 단독 채굴은 조회 범위 밖입니다.",
         },
         {
           question: "한 주소를 쓰는 여러 기기의 해시레이트를 나눌 수 있나요?",
@@ -124,7 +125,7 @@ const details = {
         {
           question: "動作中の採掘機に記録がないのはなぜ？",
           answer:
-            "Parano1d Poolを利用し、照会する完全なアドレスがpayoutと一致するか確認してください。他のプールや単独採掘は対象外です。",
+            "Parano1d Pool / InnovLabを利用し、照会する完全なアドレスがpayoutと一致するか確認してください。他のプールや単独採掘は対象外です。",
         },
         {
           question: "同じアドレスの複数機器を分けられますか？",

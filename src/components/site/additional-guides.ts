@@ -19,11 +19,11 @@ const texts = {
       "公開アドレスを確認し、測定ハッシュレート・未払額を区別してプール記録の欠落を確認します。",
     ]),
     steps: l([
-      "打开 Parano1d 钱包，复制收款地址（o1 开头），并确认矿工的 payout 地址一致。在 NOID 查询页粘贴完整地址。当前来源为 Parano1d Pool；若你使用其他矿池或 solo，这里没有记录是正常的，先回到该来源核对。",
-      "開啟 Parano1d 錢包並複製 o1 收款地址，確認與礦工 payout 地址一致，再貼到 NOID 查詢頁。目前來源是 Parano1d Pool；其他礦池或 solo 沒有紀錄時，先回原來源核對。",
-      "Copy the o1 payout address from your Parano1d wallet and match it against the miner configuration. Paste the full address into the NOID tool. It queries Parano1d Pool. If you mine elsewhere or solo, a missing record here does not diagnose your miner; check that source first.",
-      "Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하는지 확인하고 NOID 도구에 붙여넣으세요. Parano1d Pool을 조회합니다. 다른 풀·단독 채굴 기록이 여기 없다고 기기 오류는 아니므로 원래 소스를 먼저 확인하세요.",
-      "Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOIDツールに完全なアドレスを入力します。対象はParano1d Poolです。別プールやソロの記録がない場合、ここで機器故障と判断せず各取得元を確認してください。",
+      "打开 Parano1d 钱包，复制收款地址（o1 开头），并确认矿工的 payout 地址一致。在 NOID 查询页粘贴完整地址。当前来源为 Parano1d Pool / InnovLab；若你使用其他矿池或 solo，这里没有记录是正常的，先回到该来源核对。",
+      "開啟 Parano1d 錢包並複製 o1 收款地址，確認與礦工 payout 地址一致，再貼到 NOID 查詢頁。目前來源是 Parano1d Pool / InnovLab；其他礦池或 solo 沒有紀錄時，先回原來源核對。",
+      "Copy the o1 payout address from your Parano1d wallet and match it against the miner configuration. Paste the full address into the NOID tool. It queries Parano1d Pool / InnovLab. If you mine elsewhere or solo, a missing record here does not diagnose your miner; check that source first.",
+      "Parano1d 지갑의 o1 지급 주소를 복사해 채굴기 설정과 일치하는지 확인하고 NOID 도구에 붙여넣으세요. Parano1d Pool / InnovLab을 조회합니다. 다른 풀·단독 채굴 기록이 여기 없다고 기기 오류는 아니므로 원래 소스를 먼저 확인하세요.",
+      "Parano1dウォレットのo1受取アドレスと採掘設定を照合し、NOIDツールに完全なアドレスを入力します。対象はParano1d Pool / InnovLabです。別プールやソロの記録がない場合、ここで機器故障と判断せず各取得元を確認してください。",
     ]),
     fields: l([
       "例如待付款为 0.287310 NOID、近 24 小时付款为 0：表示池内还有未付款，最近窗口没有付款，不表示你今天没挖。累计付款也不是钱包余额。测得算力按矿池收到的份额估算，会与矿工本地显示不同；同一地址的机器共享地址统计。",
@@ -112,6 +112,7 @@ export const additionalGuides: Article[] = (["noid", "acurast"] as const).map((p
               url: "https://docs.parano1d.org/reference/rpc",
             },
             { name: "Parano1d Pool", url: "https://www.parano1d-pool.fun/" },
+            { name: "InnovLab", url: "https://noid.innovlab.cc/" },
           ]
         : [
             { name: "Acurast Compute Providers", url: "https://docs.acurast.com/processors/" },

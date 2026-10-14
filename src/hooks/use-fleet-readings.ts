@@ -184,7 +184,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : binding.project === "akash"
                 ? "Akash"
                 : binding.project === "noid"
-                  ? "Parano1d Pool"
+                  ? (d?.sourcePool ?? "NOID pool")
                   : binding.project === "acurast"
                     ? "Acurast Mainnet Indexer"
                     : "Golem Stats",

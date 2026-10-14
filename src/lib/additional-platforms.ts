@@ -49,6 +49,7 @@ export function parseNoid(html: unknown, id: string, now = Date.now()): Platform
   const paid = amount("paid (24h)");
   return {
     ...emptyNode(id),
+    sourcePool: "Parano1d Pool",
     scope: "provider",
     sourceUpdatedAt: age !== null ? now - age : null,
     online: age !== null ? age <= 20 * 60000 : null,
@@ -79,4 +80,43 @@ export function parseAcurast(input: unknown, id: string): PlatformNode {
     .filter((v) => typeof v === "string" && ["iOS", "Android", "Core", "Lite"].includes(v))
     .join(" · ");
   return { ...emptyNode(id), hardware: hardware || null, partial: !hardware };
+}
+
+/** InnovLab publishes atomic NOID amounts (6 decimals); estimates are not earnings. */
+export function parseInnovlabNoid(input: unknown, id: string, now = Date.now()): PlatformNode {
+  const r = record(input);
+  if (!validAdditionalId("noid", id) || r["address"] !== id || r["coin"] !== "parano1d")
+    throw new Error("invalid-data");
+  if (r["found"] === false) throw new Error("not-found");
+  if (r["found"] !== true) throw new Error("invalid-data");
+  const balance = record(r["balance"]);
+  const atomic = (v: unknown) => {
+    if (typeof v !== "string" || !/^\d{1,16}$/.test(v)) return null;
+    const n = Number(v);
+    return Number.isSafeInteger(n) ? n / 1e6 : null;
+  };
+  const rate = r["hashrate"];
+  const online = r["workersOnline"];
+  const seen = record(r["shares"])["lastAcceptedAt"];
+  const time = typeof seen === "string" ? Date.parse(seen) : NaN;
+  const confirmed = atomic(balance["confirmed"]);
+  const paid = atomic(balance["paid"]);
+  return {
+    ...emptyNode(id),
+    sourcePool: "InnovLab",
+    scope: "provider",
+    sourceUpdatedAt: Number.isFinite(time) && time <= now ? time : null,
+    online:
+      typeof online === "number" && Number.isInteger(online) && online >= 0 ? online > 0 : null,
+    activity:
+      typeof rate === "number" && Number.isFinite(rate) && rate >= 0 && r["hashrate_unit"] === "H/s"
+        ? `${(rate / 1e6).toFixed(3)} MH/s`
+        : null,
+    balance: confirmed,
+    balanceUnit: "NOID",
+    lifetime: paid,
+    reward: null,
+    rewardUnit: "NOID",
+    partial: true,
+  };
 }

@@ -26,6 +26,7 @@ export function validPlatformId(project: Platform, id: string) {
   }
 }
 export type PlatformNode = {
+  sourcePool?: "Parano1d Pool" | "InnovLab";
   id: string;
   activity?: string | null;
   balance?: number | null;

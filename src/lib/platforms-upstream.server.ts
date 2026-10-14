@@ -1,4 +1,4 @@
-import { parseNoid, parseAcurast } from "./additional-platforms";
+import { parseNoid, parseAcurast, parseInnovlabNoid } from "./additional-platforms";
 import { upstreamJson } from "./upstream-json.server";
 import {
   parseAkash,
@@ -18,15 +18,41 @@ export async function readPublicPlatform(
   id: string,
   fetcher: typeof fetch = fetch,
 ): Promise<PlatformNode> {
-  if (project === "noid")
-    return parseNoid(
-      await upstreamJson(
-        `https://www.parano1d-pool.fun/miner?a=${encodeURIComponent(id)}`,
-        { responseType: "text", maxBytes: 1000000 },
-        fetcher,
-      ),
-      id,
-    );
+  if (project === "noid") {
+    // Keep the existing source first; a miss/failure also checks InnovLab.
+    // Never combine one pool's balance with another pool's activity.
+    let firstError: unknown;
+    try {
+      return parseNoid(
+        await upstreamJson(
+          `https://www.parano1d-pool.fun/miner?a=${encodeURIComponent(id)}`,
+          { responseType: "text", maxBytes: 1000000 },
+          fetcher,
+        ),
+        id,
+      );
+    } catch (e) {
+      firstError = e;
+    }
+    try {
+      return parseInnovlabNoid(
+        await upstreamJson(
+          `https://noid.innovlab.cc/api/coins/parano1d/miner/${encodeURIComponent(id)}`,
+          { maxBytes: 1000000 },
+          fetcher,
+        ),
+        id,
+      );
+    } catch (e) {
+      if (
+        e instanceof Error &&
+        e.message === "not-found" &&
+        !(firstError instanceof Error && firstError.message === "not-found")
+      )
+        throw firstError;
+      throw e;
+    }
+  }
   if (project === "acurast")
     return parseAcurast(
       await upstreamJson(
