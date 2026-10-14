@@ -1,5 +1,10 @@
 import { localized as l } from "@/lib/product-discovery";
 export const agentCopy = {
+  cardAction: l(["连接 / 管理 Mac", "連接 / 管理 Mac", "Connect / manage Mac", "Mac 연결 / 관리", "Macを接続・管理"]),
+  cardHint: l(["安装代理，查看本机状态并远程重启 IOTA。", "安裝代理，查看本機狀態並遠端重啟 IOTA。", "Install the agent to see local status and restart IOTA remotely.", "에이전트를 설치하면 기기 상태를 확인하고 IOTA를 원격 재시작할 수 있습니다.", "エージェントを入れると端末状態の確認とIOTAの遠隔再起動ができます。"]),
+  setupDownload: l(["1. 下载到要管理的 Mac", "1. 下載到要管理的 Mac", "1. Download on the Mac you want to manage", "1. 관리할 Mac에 다운로드", "1. 管理するMacにダウンロード"]),
+  setupPair: l(["2. 选择对应设备，生成配对码", "2. 選擇對應設備，產生配對碼", "2. Select the matching device and generate a pairing code", "2. 해당 기기를 선택하고 연결 코드 생성", "2. 対応する端末を選び接続コードを発行"]),
+  setupRun: l(["3. 解压，运行 install.command，粘贴配对码", "3. 解壓，執行 install.command，貼上配對碼", "3. Unzip, run install.command and paste the pairing code", "3. 압축 해제 후 install.command 실행 및 코드 입력", "3. 展開しinstall.commandを実行してコードを貼り付け"]),
   agentVersion: l(["代理版本", "代理版本", "Agent version", "에이전트 버전", "エージェント版"]),
   update: l(["更新代理", "更新代理", "Update agent", "에이전트 업데이트", "エージェントを更新"]),
   upToDate: l(["已是最新版", "已是最新版", "Up to date", "최신 버전", "最新版です"]),

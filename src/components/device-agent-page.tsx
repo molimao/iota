@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
@@ -15,6 +16,7 @@ import {
 } from "@/lib/device-agent.functions";
 import { agentCopy as copy } from "./device-agent-copy";
 export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
+  const requestedDevice = useRouterState({ select: (s) => new URLSearchParams(s.location.searchStr).get("device") });
   const auth = useAuth(),
     fleet = useFleet(preview ? null : auth.userId, preview ? false : auth.ready),
     { locale } = useLocale(),
@@ -80,6 +82,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const candidates = fleet.devices.filter(
     (d) => d.bindings.some((b) => b.project === "iota") && !agents.some((a) => a.deviceId === d.id),
   );
+  const linkedDevice = candidates.find((d) => d.id === requestedDevice)?.id;
+  useEffect(() => {
+    if (linkedDevice) setDevice(linkedDevice);
+  }, [linkedDevice, auth.userId]);
   async function act(fn: () => Promise<unknown>) {
     if (busy) return;
     setBusy(true);
@@ -112,6 +118,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         <a href={`/${locale}/devices`}>{t.back} →</a>
       </header>
       {preview && <p className="review-notice">{t.demo}</p>}
+      <section className="agent-setup-guide">
+        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.2.zip" download>{t.install}</a></div>
+        <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
+      </section>
       {!preview && !auth.userId ? (
         <button
           className="site-button"

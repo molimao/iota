@@ -6602,3 +6602,11 @@ body:has(.site-shell) {
   color: #bbb;
   cursor: pointer;
 }
+
+.fleet-agent-connect { display: grid; gap: .6rem; border-top: 1px solid var(--border, #333); padding-top: 1rem; margin-top: 1rem; }
+.fleet-agent-connect .fleet-outline { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; text-decoration: none; }
+.fleet-agent-connect small { color: var(--muted-foreground, #999); line-height: 1.6; }
+.agent-setup-guide { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1.5rem; border: 1px solid var(--border, #333); border-radius: 1rem; margin: 1.5rem 0; }
+.agent-setup-guide > div { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; min-width: 0; }
+.agent-setup-guide span { line-height: 1.7; color: var(--muted-foreground, #999); }
+@media (max-width: 640px) { .agent-setup-guide { grid-template-columns: 1fr; } }

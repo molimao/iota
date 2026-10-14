@@ -1093,6 +1093,14 @@ function FleetCard({
           {c.addProject}
         </button>
       </footer>
+      {device.bindings.some((b) => b.project === "iota") && (
+        <div className="fleet-agent-connect">
+          <a className="fleet-outline" href={`/${locale}/machines?device=${encodeURIComponent(device.id)}`}>
+            <Cpu size={16} />{agentCopy.cardAction[locale]}<ArrowUpRight size={14} />
+          </a>
+          <small>{agentCopy.cardHint[locale]}</small>
+        </div>
+      )}
     </article>
   );
 }
