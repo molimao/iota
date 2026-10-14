@@ -1,5 +1,6 @@
 import { ReportEntry } from "./daily-report-discovery";
 import { agentCopy } from "./device-agent-copy";
+import { DeviceAgentSummary } from "./device-agent-summary";
 import { useBilling } from "@/hooks/use-billing";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
 import { minerIdError, shortId } from "@/lib/ss58";
@@ -405,6 +406,7 @@ function SavedIotaDashboard() {
               {t("设备")}
               <span>{watch.devices.length}</span>
             </h2>
+            <a className="agent-entry" href={`/${locale}/machines`}>{agentCopy.title[locale]} ↗</a>
             {watch.devices.length > 0 && (
               <DataHealth
                 compact
@@ -719,12 +721,7 @@ function SavedIotaDashboard() {
                           <ArrowUpRight size={16} />
                         </button>
                       </div>
-                      <div className="fleet-agent-connect">
-                        <a className="fleet-outline" href={`/${locale}/machines?miner=${encodeURIComponent(view.entry.hotkey)}`}>
-                          <Monitor size={16} />{agentCopy.cardAction[locale]}<ArrowUpRight size={14} />
-                        </a>
-                        <small>{agentCopy.cardHint[locale]}</small>
-                      </div>
+                      <DeviceAgentSummary miner={view.entry.hotkey} />
                     </article>
                   );
                 })}

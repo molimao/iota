@@ -210,10 +210,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     }}>{copied ? t.copied : t.copyCode}</button>
                   </div>
                   <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.expired : t.waitPair}</p>
+                  <div className="agent-pair-actions">
                   <button type="button" className="fleet-outline" disabled={q.isFetching} onClick={() => void q.refetch()}>{t.checkPair}</button>
                   <a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>
                     {t.install}
                   </a>
+                  </div>
                 </div>
               )}
             </section>

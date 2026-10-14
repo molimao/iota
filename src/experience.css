@@ -6613,3 +6613,17 @@ body:has(.site-shell) {
 .agent-code-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
 .agent-code-actions code { min-width: 0; overflow-wrap: anywhere; user-select: all; }
 .agent-pair-success { padding: 1rem; border: 1px solid currentColor; border-radius: .75rem; }
+
+.agent-card-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.agent-card-heading a { font-size:.8rem; color:inherit; text-underline-offset:3px; }
+.agent-card-summary > span { font-size:.85rem; color:var(--muted-foreground); }
+.agent-card-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.65rem; margin:0; }
+.agent-card-metrics dt { font-size:.75rem; color:var(--muted-foreground); }
+.agent-card-metrics dd { margin:.3rem 0 0; font-size:.9rem; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+
+.agent-pair-code { display: grid; gap: 1rem; min-width: 0; }
+.agent-pair-code > p { margin: 0; line-height: 1.65; }
+.agent-pair-actions { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }
+.agent-pair-actions > button, .agent-pair-actions > a { margin: 0; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+.agent-code-actions > code { margin: 0; max-width: 100%; box-sizing: border-box; white-space: normal; }
+.agent-code-actions > button { flex-shrink: 0; }

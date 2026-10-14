@@ -1,3 +1,4 @@
+import { DeviceAgentSummary } from "./device-agent-summary";
 import { agentCopy } from "./device-agent-copy";
 import { IotaAddFlow } from "./iota-add-flow";
 import { iotaAddCopy } from "./iota-add-copy";
@@ -333,6 +334,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           <div className="fleet-cards">
             {visible.map((device) => (
               <FleetCard
+                preview={!!props.preview}
                 key={device.id}
                 device={device}
                 c={c}
@@ -845,6 +847,7 @@ function ProjectAllowances({
 }
 
 function FleetCard({
+  preview,
   device,
   c,
   reading,
@@ -853,6 +856,7 @@ function FleetCard({
   onEdit,
   onUnlink,
 }: {
+  preview?: boolean;
   device: FleetDevice;
   c: Copy;
   reading: FleetWorkspaceProps["reading"];
@@ -1094,12 +1098,7 @@ function FleetCard({
         </button>
       </footer>
       {device.bindings.some((b) => b.project === "iota") && (
-        <div className="fleet-agent-connect">
-          <a className="fleet-outline" href={`/${locale}/machines?device=${encodeURIComponent(device.id)}`}>
-            <Cpu size={16} />{agentCopy.cardAction[locale]}<ArrowUpRight size={14} />
-          </a>
-          <small>{agentCopy.cardHint[locale]}</small>
-        </div>
+        <DeviceAgentSummary deviceId={device.id} preview={!!preview} />
       )}
     </article>
   );
