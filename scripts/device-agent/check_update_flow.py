@@ -48,6 +48,7 @@ def main():
         threading.Thread(target=server.serve_forever, daemon=True).start()
         base = 'http://127.0.0.1:' + str(server.server_port)
         source = (SOURCE/'iota_watch_agent.py').read_text()
+        source = re.sub(r"^VERSION = '[0-9.]+'", "VERSION = '1.0.3'", source, count=1, flags=re.M)
         # Test copies use temporary paths and loopback endpoints. Release files stay unchanged.
         source = source.replace("ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'", "ROOT = Path(__file__).resolve().parent")
         updater = (SOURCE/'agent_updater.py').read_text().replace("BASE = 'https://iotahome.site/downloads/'", 'BASE = '+repr(base+'/downloads/'))
@@ -80,9 +81,9 @@ def main():
             return state['ack']['success']
         try:
             wait_for(lambda: bool(state['versions']))
-            results.append({'check':'new_agent_heartbeat', 'passed':send_update('1.0.3') and '1.0.3' in state['versions']})
-            results.append({'check':'crashing_update_rolls_back', 'passed':not send_update('1.0.4',broken=True) and state['versions'][-1]=='1.0.3'})
-            results.append({'check':'bad_checksum_rejected', 'passed':not send_update('1.0.4',corrupt=True)})
+            results.append({'check':'new_agent_heartbeat', 'passed':send_update('1.0.4') and '1.0.4' in state['versions']})
+            results.append({'check':'crashing_update_rolls_back', 'passed':not send_update('1.0.5',broken=True) and state['versions'][-1]=='1.0.4'})
+            results.append({'check':'bad_checksum_rejected', 'passed':not send_update('1.0.5',corrupt=True)})
             results.append({'check':'pairing_preserved','passed':json.loads((root/'config.json').read_text())==config})
             results.append({'check':'no_raw_logs_sent','passed':not state['logsReceived']})
         finally:
