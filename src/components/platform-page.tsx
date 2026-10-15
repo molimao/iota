@@ -181,7 +181,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           <h1>{PROJECTS[project].name}</h1>
           <p>{platformEditorial[project].summary[locale]}</p>
         </div>
-        <a href={`/${locale}/devices?project=${project}`}>{f.add} →</a>
+        <a href={`/${locale}/devices?project=${project}&add=1`}>{f.add} →</a>
       </header>
       {!demo && <ProjectAddressBook project={project} onSelect={selectSaved} />}
       {!demo && (secured || !auth.userId) && (

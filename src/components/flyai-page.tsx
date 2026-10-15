@@ -84,7 +84,7 @@ export function FlyaiPage() {
           <p>{simpleCopy(locale).projectSummary.flyai}</p>
         </div>
         <div className="project-heading-links">
-          <a className="site-button" href={`/${locale}/devices?project=flyai`}>
+          <a className="site-button" href={`/${locale}/devices?project=flyai&add=1`}>
             <Cpu size={17} />
             {f.title}
           </a>
@@ -142,7 +142,7 @@ export function FlyaiPage() {
           <h2>{c.setup}</h2>
           <h3 id="addresses">{t.wallet}</h3>
           <p>{t.step}</p>
-          <a className="site-button" href={`/${locale}/devices?project=flyai`}>
+          <a className="site-button" href={`/${locale}/devices?project=flyai&add=1`}>
             {c.open}
             <ArrowUpRight size={16} />
           </a>

@@ -89,7 +89,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
     c = projectsCopy[locale];
   return (
     <div className={`project-cards${compact ? " compact" : ""}`}>
-      {PROJECT_IDS.map((id) => (
+      {(compact ? PROJECT_IDS.slice(0, 4) : PROJECT_IDS).map((id) => (
         <a className="project-card" key={id} href={projectPath(locale, id)}>
           <div className="project-card-top">
             <span className="project-symbol">

@@ -71,6 +71,14 @@ describe("public lookup and onboarding", () => {
     expect(result).not.toContain("$0.00");
     expect(result).not.toContain("0.00000000");
     expect(result).not.toContain('role="dialog"');
+    // An old cached zero must not become a current earnings figure after refresh fails.
+    const cached = state.query.mock.results.at(-1)!.value;
+    cached.views[0].earnings = { todayUnits: 0, totalEarnedUnits: 0 };
+    cached.views[0].lifetimeUsable = false;
+    cached.usdPerIota = 7;
+    const stale = html("en", createElement(Dashboard));
+    expect(stale).not.toContain("$0.00");
+
   });
   it("keeps sample data clearly labelled and routes project-specific help to real articles", () => {
     for (const locale of LOCALES) {

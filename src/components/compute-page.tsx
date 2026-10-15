@@ -64,7 +64,7 @@ export function ComputeProjectPage({
           >
             {network.isFetching ? f.refreshingData : f.refreshData}
           </button>
-          <a href={`/${locale}/devices?project=${project}`}>{f.add} →</a>
+          <a href={`/${locale}/devices?project=${project}&add=1`}>{f.add} →</a>
         </div>
       </header>
       <section className="compute-panel">

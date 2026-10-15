@@ -148,10 +148,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         <a href={`/${locale}/devices`}>{t.back} →</a>
       </header>
       {preview && <p className="review-notice">{t.demo}</p>}
-      <section className="agent-setup-guide">
-        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>{t.install}</a></div>
-        <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
-      </section>
       {!preview && !auth.userId ? (
         <button
           className="site-button"
@@ -162,6 +158,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         </button>
       ) : (
         <>
+      <section className="agent-setup-guide">
+        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>{t.install}</a></div>
+        <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
+      </section>
           {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">

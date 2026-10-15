@@ -6661,3 +6661,24 @@ body:has(.site-shell) {
 .agent-connect-hint { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 12px; }
 .agent-connect-hint > span { flex: 1 1 160px; font-size: 12px; line-height: 1.6; }
 .agent-connect-hint > a { font-size: 12px; color: inherit; text-underline-offset: 3px; white-space: nowrap; }
+
+/* Keep the price, subscription action and terms together. */
+.fleet-pricing-focused .fleet-plan-card .fleet-plan-purpose {
+  margin-bottom: 12px;
+  min-height: 0;
+}
+.fleet-pricing-focused .fleet-plan-card p.fleet-plan-saving {
+  min-height: 0;
+  margin-bottom: 16px;
+}
+.fleet-pricing-focused .fleet-plan-primary {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+.fleet-pro-card .report-email-preview {
+  color: #171717;
+  margin: 0 0 18px;
+}
+.fleet-pro-card .report-email-preview summary {
+  color: inherit;
+}

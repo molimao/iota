@@ -33,6 +33,9 @@ export function FleetPage() {
   const projectFilter = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("project"),
   });
+  const addRequested = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("add") === "1",
+  });
   const initialProject = FLEET_PROJECTS.find((p) => p === projectFilter);
   const upgradeProject = FLEET_PROJECTS.find((p) => p === upgrade);
   const memberView = useRouterState({
@@ -158,6 +161,7 @@ export function FleetPage() {
         </div>
       )}
       <FleetWorkspace
+        initialAdd={addRequested}
         initialInterval={cadence}
         signedIn={!!auth.userId}
         initialProject={initialProject}

@@ -623,7 +623,7 @@ function SavedIotaDashboard() {
                         </td>
                         <td>
                           <MoneyPair
-                            units={view.earnings?.todayUnits}
+                            units={view.todayUsable ? view.earnings?.todayUnits : null}
                             usdPerIota={dash.usdPerIota}
                           />
                         </td>
@@ -691,14 +691,14 @@ function SavedIotaDashboard() {
                         <div>
                           <span>{t("今日收益")}</span>
                           <MoneyPair
-                            units={view.earnings?.todayUnits}
+                            units={view.todayUsable ? view.earnings?.todayUnits : null}
                             usdPerIota={dash.usdPerIota}
                           />
                         </div>
                         <div>
                           <span>{t("累计收益")}</span>
                           <MoneyPair
-                            units={view.earnings?.totalEarnedUnits}
+                            units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
                             usdPerIota={dash.usdPerIota}
                           />
                         </div>
@@ -899,11 +899,11 @@ function DeviceDetail({
               </div>
               <div>
                 <span>{t("今日收益")}</span>
-                <MoneyPair units={view.earnings?.todayUnits} usdPerIota={usdPerIota} />
+                <MoneyPair units={view.todayUsable ? view.earnings?.todayUnits : null} usdPerIota={usdPerIota} />
               </div>
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={usdPerIota} />
+                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={usdPerIota} />
               </div>
             </div>
             {view.miner && (
@@ -968,7 +968,7 @@ function DeviceDetail({
             <div className="detail-grid reward-balances">
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={usdPerIota} />
+                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={usdPerIota} />
               </div>
               <div>
                 <span>{t("已支付")}</span>
@@ -1095,13 +1095,13 @@ function IotaLookup({ id }: { id: string }) {
             <div className="device-earnings">
               <div>
                 <span>
-                  {view.earnings && !view.todayUsable ? fleetCopy(locale).lastDaily : t("今日收益")}
+                  {t("今日收益")}
                 </span>
-                <MoneyPair units={view.earnings?.todayUnits} usdPerIota={dash.usdPerIota} />
+                <MoneyPair units={view.todayUsable ? view.earnings?.todayUnits : null} usdPerIota={dash.usdPerIota} />
               </div>
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.earnings?.totalEarnedUnits} usdPerIota={dash.usdPerIota} />
+                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={dash.usdPerIota} />
               </div>
             </div>
             {view.earnings && !view.earningsUsable && <p>{t("收益为旧数据")}</p>}

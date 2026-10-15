@@ -63,6 +63,7 @@ import { copyValues, planAmount } from "@/lib/billing-display";
 
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
+  initialAdd?: boolean;
   initialPaywallProject?: FleetProject | undefined;
   initialProject?: FleetProject | undefined;
   signedIn?: boolean;
@@ -107,7 +108,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
     "add" | "link" | "billing" | "edit" | "merge" | "remove" | "unlink" | null
-  >(props.initialPaywallProject ? "billing" : null);
+  >(props.initialPaywallProject ? "billing" : props.initialAdd ? "add" : null);
   const [selectedDevice, setSelectedDevice] = useState("");
   const [name, setName] = useState(""),
     [hardware, setHardware] = useState("");
@@ -304,7 +305,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
-          {props.proTools}
+          {props.devices.length > 0 && props.proTools}
           {props.devices.length > 0 && (
             <ReportEntry plan={props.plan} preview={props.preview ?? false} />
           )}
@@ -427,12 +428,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               )}
               <p className="fleet-plan-note">{c.renewal}</p>
               <p className="fleet-plan-note">{c.downgrade}</p>
-              {props.reportSettings && (
-                <details className="fleet-plan-report-options">
-                  <summary>{reportCopy.options[locale]}</summary>
-                  {props.reportSettings}
-                </details>
-              )}
+
             </>
           )}
         </section>

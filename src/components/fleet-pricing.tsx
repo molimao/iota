@@ -1,3 +1,4 @@
+import { ReportEmailPreview } from "./daily-report-preview";
 import { PLANS } from "@/lib/plans";
 import { adLabels } from "@/lib/ads";
 import { trialCopy } from "./pro-trial-copy";
@@ -115,6 +116,18 @@ export function FleetPricing({
             ? copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
             : c.monthlyCharge}
         </p>
+        <button className="fleet-plan-primary" onClick={onChoose} disabled={busy} aria-busy={busy}>
+          {busy
+            ? c.processing
+            : trialEligible === true
+              ? trialCopy.start[locale]
+              : pricingCopy.start[locale]}
+          <ArrowUpRight size={17} aria-hidden="true" />
+        </button>
+        <p className="fleet-plan-activation">
+          {signedIn === false ? trialCopy.signIn[locale] : trialCopy.activation[locale]}
+        </p>
+        {trialEligible !== false && <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>}
         <ul className="fleet-plan-benefits">
           <li>
             <Check size={18} aria-hidden="true" />
@@ -147,19 +160,8 @@ export function FleetPricing({
             <b>{adLabels[locale][1]}</b>
           </li>
         </ul>
+        <ReportEmailPreview />
         <p className="fleet-free-included">{proCopy.freeIncluded[locale]}</p>
-        <button className="fleet-plan-primary" onClick={onChoose} disabled={busy} aria-busy={busy}>
-          {busy
-            ? c.processing
-            : trialEligible === true
-              ? trialCopy.start[locale]
-              : pricingCopy.start[locale]}
-          <ArrowUpRight size={17} aria-hidden="true" />
-        </button>
-        <p className="fleet-plan-activation">
-          {signedIn === false ? trialCopy.signIn[locale] : trialCopy.activation[locale]}
-        </p>
-        {trialEligible !== false && <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>}
         <details className="fleet-plan-allowances">
           <summary>{c.quotas}</summary>
           {allowances(50)}
