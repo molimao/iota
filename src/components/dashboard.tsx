@@ -593,9 +593,10 @@ function SavedIotaDashboard() {
                 <table className="iota-device-table">
                   <thead>
                     <tr>
-                      {(["name", "state", "rate", "today", "action"] as const).map((key) => (
+                      {(["name", "state", "rate", "today"] as const).map((key) => (
                         <th key={key}>{iotaAddCopy[key][locale]}</th>
                       ))}
+                      <th>Mac</th><th>{iotaAddCopy.action[locale]}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -627,6 +628,7 @@ function SavedIotaDashboard() {
                             usdPerIota={dash.usdPerIota}
                           />
                         </td>
+                        <td><DeviceAgentSummary miner={view.entry.hotkey} compact /></td>
                         <td>
                           <button onClick={() => setRemoveTarget(view.entry.hotkey)}>{t("移除设备")}</button>
                           <button

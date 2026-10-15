@@ -1,3 +1,4 @@
+import { macStatusGuide } from "./mac-status-guide";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import { withLocales } from "@/components/site/localization";
@@ -489,6 +490,7 @@ export const articles: Article[] = [
   })),
   ...projectGuides,
   ...computeGuides,
+  macStatusGuide,
   ...problemGuides,
 ];
 
@@ -529,7 +531,7 @@ export const articleClusterMeta: Record<
       ko: "사용 사례와 도구 선택",
       ja: "用途とツールの選び方",
     },
-    slugs: problemGuides.map((a) => a.slug),
+    slugs: [macStatusGuide.slug, ...problemGuides.map((a) => a.slug)],
   },
   compute: {
     title: {

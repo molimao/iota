@@ -6,7 +6,7 @@ export const agentFilterCopy = {
   label: l(["Mac 状态", "Mac 狀態", "Mac status", "Mac 상태", "Macの状態"]),
   all: l(["全部状态", "全部狀態", "All states", "모든 상태", "すべての状態"]),
   online: l(["在线", "在線", "Online", "온라인", "オンライン"]),
-  training: l(["训练进程运行", "訓練程序執行", "Training process running", "학습 프로세스 실행 중", "学習プロセス実行中"]),
+  training: l(["进程运行", "程序執行", "Process running", "프로세스 실행", "プロセス実行中"]),
   queued: l(["排队中", "排隊中", "Queued", "대기 중", "待機中"]),
   stopped: l(["应用已停止", "應用已停止", "App stopped", "앱 중지됨", "アプリ停止中"]),
   offline: l(["未上报", "未回報", "No heartbeat", "보고 없음", "報告なし"]),

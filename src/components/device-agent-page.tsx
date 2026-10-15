@@ -1,3 +1,5 @@
+import { insightCopy } from "./agent-insight-copy";
+import { AgentStatus, AgentCommandResult, AgentTimeline } from "./agent-insights";
 import { AgentFilterSelect, agentFilterCopy } from "./agent-filter";
 import { matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
 import { useEffect, useRef, useState } from "react";
@@ -54,7 +56,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         appCpu: 286.5,
         processMemoryMb: 2810,
         load: 3.2,
-        logs: "[demo] training epoch 34 · throughput 24.8 tokens/s",
+        logs: '[2026-10-15 10:32:00.000] training throughput=24.8 tokens/s\n[2026-10-15 10:28:00.000] training status: {"state": "initializing"}',
         version: "1.0.0",
       },
       logsEnabled: true,
@@ -86,6 +88,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     setConfirm(null);
     setPairedDevice(null);
   }, [auth.userId]);
+  const [layout, setLayout] = useState<"list" | "cards">("list");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
@@ -235,9 +238,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
             <input type="search" aria-label={agentFilterCopy.search[locale]} placeholder={agentFilterCopy.search[locale]} value={search} onChange={e=>setSearch(e.target.value)} />
             <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} unpaired={false} />
             <span>{visibleAgents.length} / {agents.length}</span>
+            <div className="agent-layout-switch">{(["list", "cards"] as const).map(v=><button type="button" key={v} aria-pressed={layout===v} onClick={()=>setLayout(v)}>{insightCopy[v][locale]}</button>)}</div>
           </div>
           {agents.length > 0 && visibleAgents.length === 0 && <p role="status">{agentFilterCopy.empty[locale]}</p>}
-          <div className="agent-grid">
+          <div className="agent-grid" data-layout={layout}>
             {visibleAgents.map((a) => {
               const online = preview || agentOnline(a.lastSeen, now),
                 s = a.snapshot,
@@ -252,12 +256,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       {online ? t.live : t.offline}
                     </span>
                   </div>
-                  <p>
-                    {online ? (s.appRunning ? t.running : t.stopped) : "—"}
-                    {online && s.appRunning
-                      ? ` · ${s.workerRunning ? t.training : t.workerStopped}`
-                      : ""}
-                  </p>
+                  <AgentStatus agent={a} now={now} />
                   <div className="compute-metrics">
                     <div className="compute-metric" title={t.queueNote}>
                       <span>{t.queue}</span>
@@ -290,6 +289,9 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   <p className="compute-caption">
                     {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
+                  <AgentCommandResult agent={a} />
+                  <details className="agent-controls" open={layout === "cards" ? true : undefined}>
+                    <summary>{insightCopy.manage[locale]}</summary>
                   <div className="agent-actions">
                     {(["start", "stop", "restart"] as const).map((action) => (
                       <button
@@ -374,13 +376,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   {!agentCanUpdate(s.version) && (
                     <p className="compute-caption">{t.manualUpgradeNote}</p>
                   )}
-                  {a.pending ? (
-                    <p role="status">{t.pending}</p>
-                  ) : (
-                    a.latestCommand && (
-                      <p role="status">{a.latestCommand.status === "done" ? t.done : t.failed}</p>
-                    )
-                  )}
                   <details className="agent-settings">
                     <summary>{t.settings}</summary>
                     <label className="agent-option">
@@ -441,7 +436,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       {t.logs}
                     </label>
                     <p className="compute-caption">{t.logsNote}</p>
-                    {a.logsEnabled && <pre className="agent-logs">{s.logs || t.noLogs}</pre>}
+                    {a.logsEnabled && <AgentTimeline logs={s.logs} />}
                   </details>
                   <button
                     className="agent-revoke"
@@ -464,6 +459,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     });
                   }}>{confirm === `${a.deviceId}:remove` ? t.confirm : t.removeDevice}</button>
                   {confirm === `${a.deviceId}:remove` && <p role="alert">{t.removeDeviceNote}</p>}
+                  </details>
 
                 </section>
               );

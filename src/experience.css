@@ -6682,3 +6682,39 @@ body:has(.site-shell) {
 .fleet-pro-card .report-email-preview summary {
   color: inherit;
 }
+
+/* Device evidence, kept separate from official mining contribution. */
+.agent-insight { min-width: 0; display: grid; gap: .35rem; }
+.agent-insight > strong { font-size: .9rem; color: #eee; }
+.agent-insight > p { margin: 0; font-size: .8rem; line-height: 1.6; color: #aaa; }
+.agent-insight > a { width: fit-content; font-size: .75rem; color: #bbb; text-underline-offset: 3px; }
+.agent-insight > a:hover { color: #fff; text-decoration: underline; }
+.agent-command-result { padding: .65rem .8rem; border-left: 2px solid #777; font-size: .85rem; line-height: 1.6; }
+.agent-event-block { margin-top: 1.25rem; }
+.agent-event-block h3 { margin: 0 0 .75rem; font-size: .9rem; }
+.agent-event-list { list-style: none; margin: 0; padding: 0; }
+.agent-event-list li { display: grid; grid-template-columns: 10rem minmax(0,1fr); gap: .5rem 1rem; padding: .65rem 0; border-bottom: 1px solid #333; font-size: .8rem; line-height: 1.5; }
+.agent-event-list time { color: #aaa; font-variant-numeric: tabular-nums; }
+.agent-event-block > details { margin-top: .8rem; }
+.agent-event-block summary { cursor: pointer; font-size: .8rem; }
+.agent-table-status { text-decoration: none; }
+.agent-table-status .agent-insight { min-width: 7rem; }
+.agent-card-summary .agent-insight { margin: .5rem 0; }
+@media (max-width: 600px) { .agent-event-list li { grid-template-columns: 1fr; gap: .15rem; } }
+.agent-grid .compute-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin: 1rem 0; }
+.agent-grid .compute-metric strong { font-size: 1.25rem; overflow-wrap: anywhere; }
+.agent-grid[data-layout="list"] { grid-template-columns: 1fr; }
+.agent-grid[data-layout="list"] > .compute-panel { display: grid; grid-template-columns: minmax(14rem,1fr) minmax(16rem,1fr); gap: .5rem 2rem; align-content: start; }
+.agent-grid[data-layout="list"] .project-address-heading { grid-column: 1 / -1; }
+.agent-grid[data-layout="list"] .compute-metrics { margin: 0; }
+.agent-grid[data-layout="list"] .agent-controls, .agent-grid[data-layout="list"] .agent-command-result { grid-column: 1 / -1; }
+.agent-grid[data-layout="list"] > .compute-panel > .compute-caption { grid-column: 1 / -1; margin: .3rem 0; }
+.agent-controls > summary { cursor: pointer; width: fit-content; padding: .65rem 0; font-size: .85rem; font-weight: 600; }
+.agent-layout-switch { display: flex; gap: .25rem; }
+.agent-layout-switch button { border: 1px solid #3d3d3d; border-radius: 7px; padding: .4rem .6rem; background: transparent; color: #ccc; font-size: .8rem; }
+.agent-layout-switch button[aria-pressed="true"], .agent-layout-switch button:hover { background: #eee; color: #111; }
+@media(max-width: 700px) { .agent-grid[data-layout="list"] > .compute-panel { grid-template-columns: minmax(0,1fr); gap: .75rem; } .agent-grid .compute-metric strong { font-size: 1rem; } }
+
+.agent-controls .agent-revoke { color: #ddd; background: transparent; border: 1px solid #444; }
+.agent-controls .agent-revoke:hover { color: #111; background: #eee; }
+.agent-command-time { display: block; font-size: .75rem; color: #aaa; margin-top: .25rem; }

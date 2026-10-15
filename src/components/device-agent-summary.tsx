@@ -1,3 +1,4 @@
+import { AgentStatus } from "./agent-insights";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
@@ -8,7 +9,7 @@ import { useLocale } from "./site/locale";
 import { agentCopy } from "./device-agent-copy";
 
 /** Both card views share the account-scoped query with Mac management. */
-export function DeviceAgentSummary({ deviceId, miner, preview = false }: { deviceId?: string; miner?: string; preview?: boolean }) {
+export function DeviceAgentSummary({ deviceId, miner, preview = false, compact = false }: { deviceId?: string; miner?: string; preview?: boolean; compact?: boolean }) {
   const auth = useAuth();
   const { locale } = useLocale();
   const t = Object.fromEntries(Object.entries(agentCopy).map(([key, value]) => [key, value[locale]])) as Record<keyof typeof agentCopy, string>;
@@ -24,6 +25,7 @@ export function DeviceAgentSummary({ deviceId, miner, preview = false }: { devic
   const s = agent?.snapshot;
   const age = s?.queue ? Date.now() - Date.parse(s.queue.observedAt) : Infinity;
   const queue = online && s?.appRunning && s.workerRunning && age >= 0 && age <= 300000 ? s.queue?.position : undefined;
+  if (compact) return agent && !query.isError ? <a href={url} className="agent-table-status"><AgentStatus agent={agent} compact /></a> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
     <a href={url}>{t.connectCompact} ↗</a>
@@ -31,7 +33,7 @@ export function DeviceAgentSummary({ deviceId, miner, preview = false }: { devic
   return <section className="fleet-agent-connect agent-card-summary" aria-label={t.title}>
     <>
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
-      {online && <span>{s?.appRunning === undefined ? t.queueUnknown : !s.appRunning ? t.stopped : s.workerRunning ? t.training : t.running}</span>}
+      {!query.isError && <AgentStatus agent={agent} />}
       <dl className="agent-card-metrics">
         <div><dt>{t.queue}</dt><dd>{queue == null ? "—" : `#${queue}`}</dd></div>
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>
