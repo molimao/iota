@@ -68,7 +68,16 @@ export async function deviceAgentHttp(request: Request) {
         { error: r.error.message.includes("rate_limited") ? "rate_limited" : "unauthorized" },
         r.error.message.includes("rate_limited") ? 429 : 401,
       );
-    return reply(r.data);
+    // Python 3.9 (shipped with macOS) accepts 3 or 6 fractional digits,
+    // while Postgres omits trailing zeroes. Keep the existing agent wire format compatible.
+    const result = r.data;
+    if (result && typeof result === "object" && !Array.isArray(result)) {
+      const command = result["command"];
+      if (command && typeof command === "object" && !Array.isArray(command) && typeof command["expiresAt"] === "string") {
+        command["expiresAt"] = new Date(command["expiresAt"]).toISOString();
+      }
+    }
+    return reply(result);
   } catch {
     return reply({ error: "invalid_request" }, 400);
   }
