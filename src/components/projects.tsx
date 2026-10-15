@@ -1,3 +1,5 @@
+import { isPoolProject } from "@/lib/pool-projects";
+import { poolEditorial } from "./pool-copy";
 import { ProjectAccessLabel } from "./onboarding";
 import { DiscoveryQuestions } from "./discovery-questions";
 import { readQuery } from "@/lib/read-query";
@@ -48,7 +50,7 @@ export function ProjectSwitch() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const selected = (path.match(
-    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem|noid|acurast)(?:\/|$)/,
+    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem|noid|acurast|prl|xmr|etc|rvn|zec|kas)(?:\/|$)/,
   )?.[1] ??
     (articleProject && articleProject !== "iota" && articleProject !== "all"
       ? articleProject
@@ -117,9 +119,11 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
           </div>
           <h2>{PROJECTS[id].name}</h2>
           <p>
-            {isPlatform(id)
-              ? platformEditorial[id].summary[locale]
-              : simpleCopy(locale).projectSummary[id]}
+            {isPoolProject(id)
+              ? poolEditorial[id].summary[locale]
+              : isPlatform(id)
+                ? platformEditorial[id].summary[locale]
+                : simpleCopy(locale).projectSummary[id]}
           </p>
           <ProjectAccessLabel project={id} />
           <span className="project-card-link">

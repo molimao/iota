@@ -1,3 +1,4 @@
+import { isPoolProject, POOL_PROJECTS } from "./pool-projects";
 import { localized } from "./product-discovery";
 import { isPrivatePlatform } from "./platforms";
 import { type ProjectId } from "./projects";
@@ -102,6 +103,7 @@ export function projectAccess(project: ProjectId) {
   return isPrivatePlatform(project) ? "private" : "public";
 }
 export function projectHelpPath(locale: string, project: ProjectId) {
+  if (isPoolProject(project)) return POOL_PROJECTS[project].guide;
   const slug =
     project === "iota"
       ? "find-miner-id"

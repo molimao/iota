@@ -1,3 +1,4 @@
+import { isPoolProject } from "./pool-projects";
 import { validBinding } from "./fleet";
 import { PROJECTS, record, type ProjectId } from "./projects";
 import { iotaWindowUnits, type ReportWindow, type ReportReading } from "./daily-report";
@@ -21,6 +22,7 @@ export async function collectReportBinding(
     currency: PROJECTS[b.project].token,
     usd: null,
   };
+  if (isPoolProject(b.project)) return { ...base, reason: "different_period" };
   if (!validBinding(b.project, b.identifier)) return { ...base, reason: "unavailable" };
   if (["xid", "nosana", "gonka", "akash", "acurast"].includes(b.project))
     return { ...base, reason: "unsupported" };

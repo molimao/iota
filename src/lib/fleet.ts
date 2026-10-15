@@ -1,3 +1,4 @@
+import { isPoolProject, validPoolAddress, poolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { isPlatform, validPlatformId } from "./platforms";
 import { z } from "zod";
@@ -19,6 +20,12 @@ export const FLEET_PROJECTS = [
   "golem",
   "noid",
   "acurast",
+  "prl",
+  "xmr",
+  "etc",
+  "rvn",
+  "zec",
+  "kas",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -34,31 +41,45 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   golem: "Golem",
   noid: "NOID",
   acurast: "Acurast",
+  prl: "Pearl",
+  xmr: "Monero",
+  etc: "Ethereum Classic",
+  rvn: "Ravencoin",
+  zec: "Zcash",
+  kas: "Kaspa",
 };
 export const bindingSchema = z
   .object({
     id: z.string().min(1).max(120),
     project: z.enum(FLEET_PROJECTS),
-    identifier: z.string().trim().min(1).max(100),
+    identifier: z.string().trim().min(1).max(120),
+    pool: z.enum(["kryptex", "2miners"]).optional(),
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>
-    b.project === "acurast" && acurastPublicKey(b.identifier)
-      ? { ...b, identifier: "0x" + acurastPublicKey(b.identifier) }
-      : b,
+    isPoolProject(b.project)
+      ? {
+          ...b,
+          identifier: b.project === "etc" ? b.identifier.toLowerCase() : b.identifier,
+          pool: b.pool ?? poolProvider(b.project),
+        }
+      : b.project === "acurast" && acurastPublicKey(b.identifier)
+        ? { ...b, identifier: "0x" + acurastPublicKey(b.identifier) }
+        : b,
   );
 export const fleetDeviceSchema = z.object({
   id: z.string().min(1).max(120),
   name: z.string().trim().min(1).max(40),
   hardware: z.string().trim().max(100).default(""),
   createdAt: z.number().positive(),
-  bindings: z.array(bindingSchema).max(12),
+  bindings: z.array(bindingSchema).max(18),
 });
 export type FleetBinding = z.infer<typeof bindingSchema>;
 export type FleetDevice = z.infer<typeof fleetDeviceSchema>;
 export const FLEET_KEY = "watch:fleet:v1";
 
 export function validBinding(project: FleetProject, identifier: string) {
+  if (isPoolProject(project)) return validPoolAddress(project, identifier);
   if (isPlatform(project)) return validPlatformId(project, identifier);
   if (project === "iota") return isValidMinerId(identifier);
   // Only public payout wallet addresses, never the fly.ai miner bearer token.
@@ -71,7 +92,7 @@ export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identif
   const identifier =
     binding.project === "acurast"
       ? "0x" + acurastPublicKey(binding.identifier)
-      : binding.project === "flyai"
+      : binding.project === "flyai" || binding.project === "etc"
         ? binding.identifier.toLowerCase()
         : binding.identifier;
   return `${binding.project}:${identifier}:${binding.worker}`;
@@ -86,7 +107,11 @@ export function parseFleet(input: unknown): FleetDevice[] {
     ids.add(device.id);
     for (const binding of device.bindings) {
       const key = bindingIdentity(binding);
-      if (!validBinding(binding.project, binding.identifier) || sources.has(key))
+      if (
+        !validBinding(binding.project, binding.identifier) ||
+        (isPoolProject(binding.project) && binding.pool !== poolProvider(binding.project)) ||
+        sources.has(key)
+      )
         throw new Error("invalid-binding");
       sources.add(key);
     }

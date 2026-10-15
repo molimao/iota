@@ -82,6 +82,22 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
   }
   const idle = binding.id === "laptop-iota";
   switch (binding.project) {
+    case "prl":
+    case "xmr":
+    case "etc":
+    case "rvn":
+    case "zec":
+    case "kas":
+      return {
+        status: "unavailable",
+        activity: "—",
+        today: null,
+        lifetime: null,
+        unit: PROJECTS[binding.project].token,
+        scope: "wallet",
+        source: "—",
+        updated: "—",
+      };
     case "iota":
       return {
         status: idle ? "waiting" : "training",

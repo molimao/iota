@@ -1,3 +1,7 @@
+import { getPoolAccount } from "@/lib/pool-monitor.functions";
+import { isPoolProject, poolName, POOL_PROJECTS } from "@/lib/pool-projects";
+import { poolHashrate } from "@/lib/pool-monitor";
+import { poolCopy } from "@/components/pool-copy";
 import { additionalMetricCopy } from "@/components/additional-platform-copy";
 import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { fleetIotaStatus } from "@/lib/fleet-iota-status";
@@ -53,6 +57,27 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       staleTime: 300000,
       refetchInterval: 300000,
       retry: false,
+    })),
+  });
+  const poolBindings = [
+    ...new Map(
+      devices
+        .flatMap((d) => d.bindings)
+        .filter((b) => isPoolProject(b.project))
+        .map((b) => [`${b.project}:${b.identifier}`, b]),
+    ).values(),
+  ];
+  const poolQueries = useQueries({
+    queries: poolBindings.map((b) => ({
+      queryKey: ["pool-account", b.project, b.identifier],
+      queryFn: () => {
+        if (!isPoolProject(b.project)) throw new Error("invalid");
+        return getPoolAccount({ data: { project: b.project, address: b.identifier } });
+      },
+      enabled: ready,
+      staleTime: 60000,
+      refetchInterval: 120000,
+      retry: 1,
     })),
   });
   const entries = useMemo(
@@ -155,6 +180,71 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : "fly.ai",
       updated: "—",
     };
+    if (isPoolProject(binding.project)) {
+      const q =
+        poolQueries[
+          poolBindings.findIndex(
+            (b) => b.project === binding.project && b.identifier === binding.identifier,
+          )
+        ];
+      const r = q?.data,
+        d = r?.data,
+        worker = binding.worker ? d?.workers.find((w) => w.name === binding.worker) : undefined;
+      const current =
+        !!r?.fetchedAt && iota.now - r.fetchedAt < 300000 && !r.error && !r.stale && !q?.isError;
+      const online = binding.worker
+        ? worker?.online
+        : d?.workers.some((w) => w.online === true)
+          ? true
+          : d && !d.partial && d.workers.every((w) => w.online === false)
+            ? false
+            : null;
+      return {
+        ...base,
+        source: poolName(binding.project),
+        unit: POOL_PROJECTS[binding.project].token,
+        status: q?.isPending
+          ? "loading"
+          : !current
+            ? "unavailable"
+            : binding.worker && !worker && !d?.partial
+              ? "notFound"
+              : online === true
+                ? "online"
+                : online === false
+                  ? "offline"
+                  : "unavailable",
+        activity: poolHashrate(
+          binding.project,
+          binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
+        ),
+        scope: "wallet",
+        today: d?.reward == null ? null : String(d.reward),
+        ...(d ? { todayLabel: poolCopy[d.period][locale] } : {}),
+        todayUsable: false,
+        todaySameDay: false,
+        lifetime: d?.paid == null ? null : String(d.paid),
+        totalLabel: poolCopy.paid[locale],
+        ...(d?.balance == null
+          ? {}
+          : {
+              accountSummary: {
+                kind: "balance" as const,
+                amount: String(d.balance),
+                unit: POOL_PROJECTS[binding.project].token,
+              },
+            }),
+        updated: clock(r?.fetchedAt),
+        note:
+          r?.error === "not-found"
+            ? poolCopy.notFound[locale]
+            : !current
+              ? c.unavailable
+              : d?.partial
+                ? poolCopy.partial[locale]
+                : poolCopy.scope[locale],
+      };
+    }
     if (isPlatform(binding.project)) {
       const q =
           platformQueries[

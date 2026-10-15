@@ -511,7 +511,7 @@ export function articleProjects(article: Article): readonly ProjectId[] {
   return (
     article.subjects ??
     (article.project === "all"
-      ? PROJECT_IDS.filter((id) => id !== "noid" && id !== "acurast")
+      ? (["iota", "xid", "quantus", "flyai", "nosana", "gonka", "akash", "ionet", "vast", "golem"] as const)
       : [article.project ?? "iota"])
   );
 }

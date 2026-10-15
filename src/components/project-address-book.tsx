@@ -1,3 +1,5 @@
+import { isPoolProject, poolName, poolProvider } from "@/lib/pool-projects";
+import { poolCopy } from "./pool-copy";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
@@ -103,7 +105,12 @@ export function ProjectAddressBook({
           payload: {
             name: `${FLEET_NAMES[project]} ${identifier.slice(0, 6)}…${identifier.slice(-4)}`,
             hardware: "",
-            binding: { project, identifier, worker: "" },
+            binding: {
+              project,
+              identifier,
+              worker: "",
+              ...(isPoolProject(project) ? { pool: poolProvider(project) } : {}),
+            },
           },
         });
         done++;
@@ -130,6 +137,11 @@ export function ProjectAddressBook({
         </h2>
         <a href={`/${locale}/devices?project=${project}`}>{c.title} →</a>
       </div>
+      {isPoolProject(project) && (
+        <p className="compute-caption">
+          {poolCopy.pool[locale]} · {poolName(project)}
+        </p>
+      )}
       {!auth.userId ? (
         <button
           type="button"
@@ -206,19 +218,44 @@ export function ProjectAddressBook({
                   {r.source} · {r.updated}
                 </p>
                 {r.note && <p className="compute-caption">{r.note}</p>}
-                {onSelect && (
-                  <button
-                    type="button"
-                    className="site-button"
-                    aria-pressed={selected === b.identifier}
-                    onClick={() => {
-                      setSelected(b.identifier);
-                      onSelect?.(b.identifier);
-                    }}
-                  >
-                    {copy.detail[locale]}
-                  </button>
-                )}
+                <div className="pool-card-actions">
+                  {onSelect && (
+                    <button
+                      type="button"
+                      className="site-button"
+                      aria-pressed={selected === b.identifier}
+                      onClick={() => {
+                        setSelected(b.identifier);
+                        onSelect?.(b.identifier);
+                      }}
+                    >
+                      {copy.detail[locale]}
+                    </button>
+                  )}
+                  {isPoolProject(project) && (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={async () => {
+                        if (!window.confirm(`${poolCopy.remove[locale]} ${d.name}?`)) return;
+                        setBusy(true);
+                        setError(null);
+                        try {
+                          await fleet.mutate({
+                            action: "unlink",
+                            payload: { id: d.id, bindingId: b.id },
+                          });
+                        } catch {
+                          setError(c.unavailable);
+                        } finally {
+                          setBusy(false);
+                        }
+                      }}
+                    >
+                      {poolCopy.remove[locale]}
+                    </button>
+                  )}
+                </div>
               </article>
             );
           }),

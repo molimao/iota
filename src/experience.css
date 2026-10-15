@@ -6718,3 +6718,25 @@ body:has(.site-shell) {
 .agent-controls .agent-revoke { color: #ddd; background: transparent; border: 1px solid #444; }
 .agent-controls .agent-revoke:hover { color: #111; background: #eee; }
 .agent-command-time { display: block; font-size: .75rem; color: #aaa; margin-top: .25rem; }
+
+/* Pool monitoring: concise metrics, bounded worker list, responsive address form. */
+.pool-lookup { display:flex; align-items:flex-end; gap:1rem; margin:1.5rem 0; }
+.pool-lookup label { display:grid; gap:.5rem; flex:1; min-width:0; }
+.pool-lookup input { width:100%; min-width:0; padding:.75rem; border:1px solid #343434; border-radius:10px; background:transparent; color:inherit; }
+.pool-results { margin:1.5rem 0 2rem; }
+.pool-metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.pool-metrics > div { display:grid; gap:.6rem; padding:1rem; border:1px solid #343434; border-radius:12px; min-width:0; }
+.pool-metrics span { opacity:.65; font-size:.85rem; }
+.pool-metrics strong { font-size:1.4rem; overflow-wrap:anywhere; }
+.pool-workers { margin:1.25rem 0; }
+.pool-worker-list { max-height:360px; overflow:auto; }
+.pool-worker-list > div { display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:1rem; padding:.7rem 0; border-bottom:1px solid #343434; }
+.pool-worker-list b { overflow-wrap:anywhere; }
+.pool-card-actions { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:1rem; }
+@media(max-width:600px) { .pool-lookup { flex-direction:column; align-items:stretch; } .pool-metrics { grid-template-columns:1fr; } .pool-worker-list > div { grid-template-columns:minmax(0,1fr) auto; } }
+
+.pool-page .project-heading { display:block; }
+.pool-page .project-heading p { max-width:760px; margin-top:.75rem; }
+
+.pool-worker-search { display:grid; gap:.5rem; max-width:420px; margin:1rem 0; }
+.pool-worker-search input { padding:.7rem; border:1px solid #454545; border-radius:8px; background:#171717; color:#eee; }

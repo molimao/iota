@@ -62,8 +62,8 @@ describe("public guide indexing", () => {
       const app = seo(locale, "home")
         .scripts.map((script) => JSON.parse(script.children))
         .find((s) => s["@type"] === "WebApplication");
-      expect(app.about).toHaveLength(12);
-      expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(12);
+      expect(app.about).toHaveLength(18);
+      expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(18);
       expect(app.sameAs).toContain("https://github.com/molimao/iota");
       expect(app.license).toBe("https://github.com/molimao/iota/blob/main/LICENSE");
     }

@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -152,6 +152,36 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Acurast processor lookup: mainnet registration and device type (en)](https://iotahome.site/en/projects/acurast)
 - [Acurast 프로세서 조회: 메인넷 등록과 기기 유형 (ko)](https://iotahome.site/ko/projects/acurast)
 - [Acurastプロセッサ照会：メインネット登録と機器種別 (ja)](https://iotahome.site/ja/projects/acurast)
+- [Pearl 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/prl)
+- [Pearl 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/prl)
+- [Pearl mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/prl)
+- [Pearl 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/prl)
+- [Pearl採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/prl)
+- [Monero 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/xmr)
+- [Monero 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/xmr)
+- [Monero mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/xmr)
+- [Monero 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/xmr)
+- [Monero採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/xmr)
+- [Ethereum Classic 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/etc)
+- [Ethereum Classic 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/etc)
+- [Ethereum Classic mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/etc)
+- [Ethereum Classic 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/etc)
+- [Ethereum Classic採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/etc)
+- [Ravencoin 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/rvn)
+- [Ravencoin 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/rvn)
+- [Ravencoin mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/rvn)
+- [Ravencoin 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/rvn)
+- [Ravencoin採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/rvn)
+- [Zcash 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/zec)
+- [Zcash 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/zec)
+- [Zcash mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/zec)
+- [Zcash 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/zec)
+- [Zcash採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/zec)
+- [Kaspa 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/kas)
+- [Kaspa 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/kas)
+- [Kaspa mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/kas)
+- [Kaspa 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/kas)
+- [Kaspa採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/kas)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)

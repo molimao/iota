@@ -1,3 +1,4 @@
+import { isPoolProject, POOL_PROJECTS } from "./pool-projects";
 import { describe, it, expect, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
@@ -86,7 +87,8 @@ describe("public lookup and onboarding", () => {
       expect(result).toContain(onboardingCopy.sampleNote[locale]);
       for (const project of PROJECT_IDS) {
         const path = projectHelpPath(locale, project);
-        expect(getArticle(path.split("/").at(-1)!)).toBeDefined();
+        if (isPoolProject(project)) expect(path).toBe(POOL_PROJECTS[project].guide);
+        else expect(getArticle(path.split("/").at(-1)!)).toBeDefined();
         const free = html(locale, createElement(AdditionHelp, { project, plan: "free" }));
         expect(free).toContain(path);
         expect(free).toContain(onboardingCopy.quota[locale]);

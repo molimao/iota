@@ -6,6 +6,12 @@ export function editionDate(date: string, locale?: SiteLocale) {
 }
 // Editorial dates, never build/deploy clocks. Change only the page actually edited.
 export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
+  prl: "2026-10-15",
+  xmr: "2026-10-15",
+  etc: "2026-10-15",
+  rvn: "2026-10-15",
+  zec: "2026-10-15",
+  kas: "2026-10-15",
   iota: "2026-10-09",
   xid: "2026-10-09",
   quantus: "2026-10-09",
@@ -19,4 +25,4 @@ export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
   acurast: "2026-10-12",
   golem: "2026-10-09",
 };
-export const PROJECT_INDEX_UPDATED = "2026-10-12";
+export const PROJECT_INDEX_UPDATED = "2026-10-15";

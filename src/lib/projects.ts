@@ -1,3 +1,4 @@
+import { POOL_PROJECTS, isPoolProject } from "./pool-projects";
 import { bech32m } from "@scure/base";
 import { decodeSs58 } from "./ss58";
 
@@ -14,6 +15,12 @@ export const PROJECT_IDS = [
   "golem",
   "noid",
   "acurast",
+  "prl",
+  "xmr",
+  "etc",
+  "rvn",
+  "zec",
+  "kas",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 export type MiningProject = "xid" | "quantus";
@@ -23,6 +30,7 @@ export function isComputeProject(value: unknown): value is ComputeProject {
   return value === "nosana" || value === "gonka";
 }
 export const PROJECTS = {
+  ...POOL_PROJECTS,
   iota: {
     name: "IOTA",
     detail: "Train at Home",
@@ -127,6 +135,7 @@ export function isMiningProject(value: unknown): value is MiningProject {
 
 export function isMonitorProject(value: unknown): value is MonitorProject {
   return (
+    isPoolProject(value) ||
     isMiningProject(value) ||
     value === "flyai" ||
     isComputeProject(value) ||

@@ -1,3 +1,4 @@
+import { poolEditorial } from "./pool-copy";
 import { projectDiscoveryQuestions } from "@/lib/product-discovery";
 import { PROJECTS } from "@/lib/projects";
 import { platformEditorial } from "./platform-copy";
@@ -149,6 +150,7 @@ const labels = {
 } as const;
 export const projectEditorial = {
   ...platformEditorial,
+  ...poolEditorial,
   iota: {
     title: {
       zh: "IOTA Train at Home 监控：Miner ID、训练状态与收益",

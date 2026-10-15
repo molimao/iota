@@ -1,3 +1,5 @@
+import { isPoolProject } from "@/lib/pool-projects";
+import { PoolPage } from "@/components/pool-page";
 import { isPlatform } from "@/lib/platforms";
 import { PlatformPage } from "@/components/platform-page";
 import { ComputeProjectPage } from "@/components/compute-page";
@@ -23,6 +25,7 @@ export const Route = createFileRoute("/$locale/projects/{-$project}")({
 });
 function Page() {
   const { project } = Route.useParams();
+  if (isPoolProject(project)) return <PoolPage key={project} project={project} />;
   if (isPlatform(project)) return <PlatformPage key={project} project={project} />;
   if (project === "iota") return <Dashboard />;
   if (isComputeProject(project))

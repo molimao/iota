@@ -49,6 +49,9 @@ beforeAll(async () => {
     readFileSync("supabase/migrations/20261006200000_platform_connections.sql", "utf8"),
   );
   await db.exec(readFileSync("supabase/migrations/20261012213000_noid_acurast.sql", "utf8"));
+  await db.exec(
+    readFileSync("supabase/migrations/20261015180000_mining_pool_projects.sql", "utf8"),
+  );
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -322,4 +325,61 @@ it("keeps multiple project addresses in the account database and isolates anothe
   expect(
     fleetSnapshot(different.rows[0]!.data).devices.some((d) => d.name.startsWith("NOID test")),
   ).toBe(false);
+});
+
+describe("six mining pools persist in PostgreSQL", () => {
+  it("round-trips six projects, pool and worker across reads; unlink releases quota", async () => {
+    const owner = "99999999-4444-4444-8444-444444444444";
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
+    await asUser(owner);
+    const samples = {
+      prl: "prl1" + "q".repeat(58),
+      xmr: "4" + "a".repeat(94),
+      etc: "0x" + "a".repeat(40),
+      rvn: "R" + "a".repeat(33),
+      zec: "t1" + "a".repeat(33),
+      kas: "kaspa:" + "q".repeat(61),
+    };
+    for (const [project, identifier] of Object.entries(samples)) {
+      await mutate("create", { name: project, binding: { project, identifier, worker: "rig-01" } });
+    }
+    const read = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+    const snapshot = fleetSnapshot(read.rows[0]!.data);
+    expect(snapshot.devices).toHaveLength(6);
+    for (const d of snapshot.devices) {
+      const b = d.bindings[0]!;
+      expect(b.worker).toBe("rig-01");
+      expect(b.pool).toBe(["prl", "xmr"].includes(b.project) ? "kryptex" : "2miners");
+    }
+    const first = snapshot.devices.find((d) => d.name === "prl")!;
+    await expect(
+      mutate("create", {
+        name: "Duplicate",
+        binding: { project: "prl", identifier: samples.prl, worker: "rig-01" },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "prl", identifier: samples.prl, worker: "rig-02", pool: "2miners" },
+      }),
+    ).rejects.toThrow();
+    const next = await mutate("unlink", { id: first.id, bindingId: first.bindings[0]!.id });
+    expect(next.projectCounts["prl"]).toBe(0);
+    await asUser(other);
+    await expect(mutate("remove", { id: first.id })).rejects.toThrow("device_not_found");
+    await asUser(owner);
+    for (let n = 0; n < 5; n++)
+      await mutate("create", {
+        name: `PRL ${n}`,
+        binding: { project: "prl", identifier: samples.prl, worker: `rig-${n}` },
+      });
+    await expect(
+      mutate("create", {
+        name: "Sixth",
+        binding: { project: "prl", identifier: samples.prl, worker: "rig-six" },
+      }),
+    ).rejects.toThrow("project_device_limit_reached");
+  });
 });

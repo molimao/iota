@@ -57,6 +57,12 @@ describe("separate project identities and currencies", () => {
       "golem",
       "noid",
       "acurast",
+      "prl",
+      "xmr",
+      "etc",
+      "rvn",
+      "zec",
+      "kas",
     ]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {
