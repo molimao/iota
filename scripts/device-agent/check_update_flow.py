@@ -1,3 +1,4 @@
+import re
 """Isolated end-to-end update exercise; never installs or controls the real IOTA app."""
 import hashlib
 import http.server
@@ -63,7 +64,7 @@ def main():
                 time.sleep(.2)
             raise RuntimeError('test deadline exceeded')
         def send_update(version, broken=False, corrupt=False):
-            candidate = source.replace("VERSION = '1.0.3'", 'VERSION = '+repr(version))
+            candidate = re.sub(r"^VERSION = '[0-9.]+'", 'VERSION = '+repr(version), source, count=1, flags=re.M)
             if broken: candidate = candidate.replace('elif args.run:', 'elif args.run:\n        raise SystemExit(9)')
             blob = io.BytesIO()
             with zipfile.ZipFile(blob, 'w', zipfile.ZIP_DEFLATED) as archive:

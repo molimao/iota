@@ -18,7 +18,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -99,6 +99,46 @@ def processes():
     return result
 
 
+def training_resources():
+    """Sum the training process tree, excluding the GUI, helpers and this agent."""
+    text = subprocess.check_output(['/bin/ps', '-axo', 'pid=,ppid=,%cpu=,rss=,comm='], text=True, timeout=5)
+    rows = {}
+    for line in text.splitlines():
+        parts = line.strip().split(None, 4)
+        if len(parts) != 5:
+            continue
+        try:
+            pid, parent, cpu, rss = int(parts[0]), int(parts[1]), float(parts[2]), int(parts[3])
+            if cpu >= 0 and rss >= 0:
+                rows[pid] = (parent, cpu, rss, parts[4])
+        except ValueError:
+            continue
+    # TAH changes its worker process title. Accept that exact title only when
+    # descended from the installed application or an identified training worker.
+    selected = {pid for pid, row in rows.items() if row[3] == WORKER}
+    apps = {pid for pid, row in rows.items() if row[3] == EXEC}
+    for pid, row in rows.items():
+        if row[3] != 'main_pool:ai.macrocosmos.iota.tah.worker':
+            continue
+        parent, seen = row[0], {pid}
+        while parent in rows and parent not in seen:
+            if parent in apps or parent in selected:
+                selected.add(pid)
+                break
+            seen.add(parent)
+            parent = rows[parent][0]
+    while True:
+        children = {pid for pid, row in rows.items() if row[0] in selected}
+        if children <= selected:
+            break
+        selected |= children
+    selected.discard(os.getpid())
+    if not selected:
+        return None, None
+    return (sum(rows[pid][1] for pid in selected),
+            round(sum(rows[pid][2] for pid in selected) / 1024, 1))
+
+
 def logs():
     folder = Path.home() / 'Library/Logs/IOTA Train at Home'
     files = sorted([p for p in folder.glob('*.log') if p.is_file() and not p.is_symlink()], key=lambda p: p.stat().st_mtime)[-2:]
@@ -165,9 +205,10 @@ def queue_status(rows):
 
 def snapshot(include_logs=False):
     rows = processes()
+    cpu, memory = training_resources()
     payload = {'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': any(r[3] == WORKER for r in rows),
-               'appCpu': sum(r[1] for r in rows) if rows else None,
-               'processMemoryMb': round(sum(r[2] for r in rows) / 1024, 1) if rows else None,
+               'appCpu': cpu,
+               'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
     payload['queue'] = queue_status(rows)
     if include_logs:
