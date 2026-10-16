@@ -11,13 +11,6 @@ import { useLocale } from "./site/locale";
 
 const copy = {
   today: localized(["昨日收益", "昨日收益", "Yesterday's rewards", "어제 보상", "昨日の報酬"]),
-  yesterday: localized([
-    "前日收益",
-    "前日收益",
-    "Rewards two days ago",
-    "그저께 보상",
-    "一昨日の報酬",
-  ]),
   lifetime: localized(["累计收益", "累計收益", "Lifetime rewards", "누적 보상", "累計報酬"]),
   note: localized([
     "按次日记账记录归属 · 北京时间 · 美元按当前报价估算",
@@ -33,15 +26,13 @@ const copy = {
 
 export function DailyRewardsSummary({
   today,
-  yesterday,
   lifetime,
   usdPerIota,
   now = Date.now(),
   priceStale = false,
 }: {
   today: Aggregate;
-  yesterday: Aggregate;
-  lifetime?: Aggregate;
+  lifetime: Aggregate;
   usdPerIota: number | null;
   now?: number;
   priceStale?: boolean;
@@ -61,7 +52,7 @@ export function DailyRewardsSummary({
         {(
           [
             { key: "today", value: today, at: start - 86400000 },
-            { key: "yesterday", value: yesterday, at: start - 2 * 86400000 },
+            { key: "lifetime", value: lifetime, at: null },
           ] as const
         ).map(({ key, value, at }) => {
           const units = value.known ? value.units : null;
@@ -69,9 +60,11 @@ export function DailyRewardsSummary({
             <section key={key} className={`daily-reward-card ${key}`}>
               <div className="daily-reward-heading">
                 <h2>{copy[key][locale]}</h2>
-                <time dateTime={new Date(at + 28800000).toISOString().slice(0, 10)}>
-                  {date(at)}
-                </time>
+                {at !== null && (
+                  <time dateTime={new Date(at + 28800000).toISOString().slice(0, 10)}>
+                    {date(at)}
+                  </time>
+                )}
               </div>
               <strong className="daily-reward-amount">
                 {formatIota(units, 8, locale)} <small>IOTA</small>
@@ -95,14 +88,6 @@ export function DailyRewardsSummary({
           {copy.note[locale]}
           {priceStale ? ` · ${copy.stale[locale]}` : ""}
         </span>
-        {lifetime && (
-          <span>
-            {copy.lifetime[locale]}{" "}
-            <b>{formatIota(lifetime.known ? lifetime.units : null, 8, locale)} IOTA</b>
-            {" · "}
-            {formatUsd(iotaUnitsToUsd(lifetime.known ? lifetime.units : null, usdPerIota))} USD
-          </span>
-        )}
       </div>
     </section>
   );

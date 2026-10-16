@@ -334,7 +334,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           {dailyReadings.length > 0 && (project === "all" || project === "iota") && (
             <DailyRewardsSummary
               today={aggregateUnits(dailyReadings.map((r) => r.todayUnits ?? null))}
-              yesterday={aggregateUnits(dailyReadings.map((r) => r.yesterdayUnits ?? null))}
+              lifetime={aggregateUnits(dailyReadings.map((r) => r.lifetimeUnits ?? null))}
               usdPerIota={
                 dailyReadings.find((r) => r.iotaUsdPerUnit != null)?.iotaUsdPerUnit ?? null
               }

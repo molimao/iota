@@ -335,6 +335,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         activity: view.miner ? String(view.miner.throughput) + " tokens/s" : "—",
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
+        lifetimeUnits: view.lifetimeUsable ? total : null,
         unit: "IOTA",
         todayUnits: view.todayUsable ? today : null,
         yesterdayUnits: view.todayUsable ? (view.earnings?.yesterdayUnits ?? null) : null,

@@ -317,7 +317,6 @@ function SavedIotaDashboard() {
         <>
           <DailyRewardsSummary
             today={dash.todayTotal}
-            yesterday={dash.yesterdayTotal}
             lifetime={dash.lifetimeTotal}
             usdPerIota={dash.usdPerIota}
             now={dash.now}
