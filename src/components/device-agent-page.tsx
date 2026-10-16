@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useLocale } from "./site/locale";
 import { LANGUAGE_TAG } from "@/lib/site";
-import { AGENT_RELEASE, agentCanUpdate, agentOnline, type AgentInfo } from "@/lib/device-agent";
+import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentCanUpdate, agentOnline, type AgentInfo } from "@/lib/device-agent";
 import {
   getDeviceAgents,
   pairDeviceAgent,
@@ -162,7 +162,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
       ) : (
         <>
       <section className="agent-setup-guide">
-        <div><strong>{t.setupDownload}</strong><a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>{t.install}</a></div>
+        <div><strong>{t.setupDownload}</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a></div>
         <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
       </section>
           {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
@@ -224,7 +224,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.expired : t.waitPair}</p>
                   <div className="agent-pair-actions">
                   <button type="button" className="fleet-outline" disabled={q.isFetching} onClick={() => void q.refetch()}>{t.checkPair}</button>
-                  <a className="site-button" href="/downloads/iota-watch-agent-1.0.3.zip" download>
+                  <a className="site-button" href={AGENT_DOWNLOAD_URL} download>
                     {t.install}
                   </a>
                   </div>
@@ -366,7 +366,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     ) : (
                       <a
                         className="project-outline"
-                        href="/downloads/iota-watch-agent-1.0.3.zip"
+                        href={AGENT_DOWNLOAD_URL}
                         download
                       >
                         {t.manualUpgrade}
