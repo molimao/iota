@@ -74,6 +74,11 @@ export function ReportEmailPreview({ emailLocale }: { emailLocale?: SiteLocale |
               <span>{report.day}</span>
             </div>
             <h3>{reportCopy.yesterday[language]}</h3>
+            <p>
+              {reportCopy.recordedDate[language]}:{" "}
+              {new Date(reportDayWindow(report.day).end + 28800000).toISOString().slice(0, 10)} ·
+              UTC+8
+            </p>
             <div className="report-email-total">
               <span>
                 {reportCopy.estimate[language]} · {reportCopy.partial[language]}

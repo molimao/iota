@@ -128,6 +128,13 @@ export const reportCopy = {
     "이메일 서비스가 아직 활성화되지 않았습니다",
     "メールサービスはまだ有効ではありません",
   ]),
+  recordedDate: l([
+    "IOTA 记账日",
+    "IOTA 記帳日",
+    "IOTA recording date",
+    "IOTA 기록일",
+    "IOTA記帳日",
+  ]),
   yesterday: l(["昨日收益", "昨日收益", "Yesterday’s earnings", "어제 수익", "昨日の収益"]),
   estimate: l([
     "可估算收益",
@@ -178,11 +185,11 @@ export const reportCopy = {
     "取得済みUSD換算の内訳",
   ]),
   window: l([
-    "统计范围：昨日 00:00 至今日 00:00（北京时间）。IOTA 按记账日期统计。",
-    "統計範圍：昨日 00:00 至今日 00:00（北京時間），IOTA 依記帳日期統計。",
-    "Window: yesterday 00:00 to today 00:00, Beijing time. IOTA follows accounting dates.",
-    "베이징 기준 어제 00:00부터 오늘 00:00까지이며 IOTA는 기록 날짜 기준입니다.",
-    "北京時間の昨日00:00から今日00:00まで。IOTAは記帳日で集計します。",
+    "收益日期见邮件标题。IOTA 使用次日记账记录，按北京时间归属到前一天，与网站一致。其他项目按该收益日统计。",
+    "收益日期見郵件標題。IOTA 使用次日記帳紀錄，依北京時間歸屬至前一天，與網站一致。其他專案依該收益日統計。",
+    "The subject shows the reward date. IOTA uses next-day accounting records attributed to the preceding day in UTC+8, matching the website. Other projects use the reward date.",
+    "제목의 날짜는 보상일입니다. IOTA는 UTC+8 기준 다음 날 기록을 전날에 귀속하여 웹사이트와 일치시킵니다. 다른 프로젝트는 해당 보상일 기준입니다.",
+    "件名の日付は報酬日です。IOTAはUTC+8の翌日の記帳記録を前日に帰属し、サイトと一致させます。他のプロジェクトは報酬日で集計します。",
   ]),
   generated: l(["读取时间", "讀取時間", "Retrieved at", "조회 시각", "取得時刻"]),
   quoteTime: l([

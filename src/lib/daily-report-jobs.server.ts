@@ -11,8 +11,7 @@ import {
   yesterdayReportWindow,
   type ReportReading,
 } from "./daily-report";
-import { collectReportBinding } from "./daily-report-collect.server";
-import { dailySnapshotSchema } from "./pro-tools";
+import { collectEmailReportBinding } from "./daily-report-collect.server";
 import { renderDailyReport } from "./daily-report-email";
 import { fetchIotaUsdPrice } from "./iota-price.server";
 import {
@@ -107,7 +106,7 @@ async function prepare(j: Job) {
   }
   const readings = [
     ...j.readings,
-    ...(await mapConcurrent(chunk, 3, (b) => collectReportBinding(j.user_id, b, w))),
+    ...(await mapConcurrent(chunk, 3, (b) => collectEmailReportBinding(j.user_id, b, w))),
   ];
   await update(
     j,
@@ -129,6 +128,31 @@ async function deliver(j: Job, config: NonNullable<ReturnType<typeof reportEmail
   }
   let payload = j.payload;
   if (!payload) {
+    // Early preparation runs before the morning settlement. Refresh IOTA in
+    // bounded chunks at dispatch, using a fixed cutoff so large fleets finish.
+    const refreshBindings = j.bindings
+      .filter(
+        (b) =>
+          b.project === "iota" &&
+          !j.readings.some(
+            (r) =>
+              r.project === b.project &&
+              r.resource === b.identifier &&
+              r.fetchedAt != null &&
+              r.fetchedAt >= w.due - 5 * 60000,
+          ),
+      )
+      .slice(0, 5);
+    if (refreshBindings.length) {
+      const refreshed = await mapConcurrent(refreshBindings, 3, async (b) => {
+        const r = await collectEmailReportBinding(j.user_id, b, w);
+        return { ...r, fetchedAt: r.units === null ? Date.now() : (r.fetchedAt ?? Date.now()) };
+      });
+      const replacements = new Map(refreshed.map((r) => [r.project + ":" + r.resource, r]));
+      const readings = j.readings.filter((r) => !replacements.has(r.project + ":" + r.resource));
+      await update(j, "ready", [...readings, ...refreshed]);
+      return;
+    }
     const quote = await fetchIotaUsdPrice();
     const validPrice =
       quote.usdPerIota !== null &&
@@ -152,23 +176,12 @@ async function deliver(j: Job, config: NonNullable<ReturnType<typeof reportEmail
     );
     if (validPrice && quote.fetchedAt)
       report.valuationAt = new Date(quote.quotedAt ?? quote.fetchedAt).toISOString();
-    // Reuse the durable Pro snapshot so the daily mail, chart, monthly summary
-    // and CSV share one valuation. Older installations fall back to the ledger.
-    const saved = await db()
-      .from("watch_pro_history")
-      .select("report")
-      .eq("user_id", j.user_id)
-      .eq("day", j.report_day)
-      .maybeSingle();
-    const stored = dailySnapshotSchema.safeParse(saved.data?.report);
-    const canonical =
-      !saved.error && stored.success && stored.data.day === j.report_day
-        ? { ...stored.data, locale: j.locale }
-        : report;
+    // Ledger snapshots use accounting dates, while this email attributes IOTA
+    // to the preceding day. Never replace these readings with a different day.
     const unsub = new URL("/api/reports/unsubscribe", ORIGIN);
     unsub.searchParams.set("token", j.unsubscribe_token);
     unsub.searchParams.set("locale", j.locale);
-    payload = { ...renderDailyReport(canonical, unsub.toString()), unsubscribe: unsub.toString() };
+    payload = { ...renderDailyReport(report, unsub.toString()), unsubscribe: unsub.toString() };
     const r = await db().rpc("watch_update_report", {
       p_id: j.id,
       p_lease: j.lease_token,

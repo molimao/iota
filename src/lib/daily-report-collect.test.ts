@@ -84,3 +84,54 @@ it("uses historical Vast scope and does not substitute other periods or invalid 
   await collectReportBinding("owner", { project: "iota", identifier: "../unsafe" }, w);
   expect(mock.history.mock.calls.length).toBe(before);
 });
+
+it("attributes next-day IOTA records to yesterday without shifting other projects or ledger history", async () => {
+  const { collectEmailReportBinding } = await import("./daily-report-collect.server");
+  mock.history.mockResolvedValue({
+    data: {
+      alpha_amounts: [2.76373384, 0.16464501, 5],
+      timestamps: [w.start / 1000 + 8 * 3600, w.end / 1000 + 8 * 3600, w.end / 1000 + 86400],
+      statuses: ["settled", "pending", "settled"],
+    },
+    fetchedAt: Date.now(),
+    error: null,
+    stale: false,
+  });
+  expect(
+    await collectEmailReportBinding("owner", { project: "iota", identifier: "public-test" }, w),
+  ).toMatchObject({ units: "16464501" });
+  expect(
+    await collectReportBinding("owner", { project: "iota", identifier: "public-test" }, w),
+  ).toMatchObject({ units: "276373384" });
+  mock.vast.mockResolvedValue({ periodStart: w.start, reward: 3, partial: false });
+  await collectEmailReportBinding("owner", { project: "vast", identifier: "public-test" }, w);
+  expect(mock.vast).toHaveBeenCalledWith("owner", "public-test", w.end);
+});
+
+it("excludes future IOTA accounting entries from a morning email", async () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2026-10-16T01:30:00Z"));
+  try {
+    const { collectEmailReportBinding } = await import("./daily-report-collect.server");
+    const window = reportDayWindow("2026-10-15");
+    mock.history.mockResolvedValue({
+      data: {
+        alpha_amounts: [0.16464501, 9],
+        timestamps: [Date.now() / 1000 - 60, Date.now() / 1000 + 60],
+        statuses: ["pending", "settled"],
+      },
+      fetchedAt: Date.now(),
+      error: null,
+      stale: false,
+    });
+    expect(
+      await collectEmailReportBinding(
+        "owner",
+        { project: "iota", identifier: "public-test" },
+        window,
+      ),
+    ).toMatchObject({ units: "16464501" });
+  } finally {
+    vi.useRealTimers();
+  }
+});

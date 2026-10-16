@@ -95,3 +95,21 @@ export async function collectReportBinding(
     };
   }
 }
+
+/** Email uses the same preceding-day attribution as the IOTA website cards.
+ * The shared ledger collector remains on actual accounting dates for history. */
+export async function collectEmailReportBinding(
+  user: string,
+  binding: ReportBinding,
+  window: ReportWindow,
+) {
+  const recordingWindow =
+    binding.project === "iota"
+      ? {
+          ...window,
+          start: window.start + 86400000,
+          end: Math.min(window.end + 86400000, Date.now() + 1),
+        }
+      : window;
+  return collectReportBinding(user, binding, recordingWindow);
+}
