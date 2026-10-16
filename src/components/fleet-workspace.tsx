@@ -948,13 +948,20 @@ function FleetCard({
   const accountStale = device.bindings.some((b) => reading(b).health === "stale");
   const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
   const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
+  const hasIota = device.bindings.some((b) => b.project === "iota");
+  const hasOtherDaily = device.bindings.some((b) => {
+    const r = reading(b);
+    return b.project !== "iota" && r.scope === "device" && r.earningsPeriod !== "month" && r.todayUsable !== false && r.today !== null;
+  });
   const headlineLabel = retained
     ? c.lastDaily
     : account
       ? account.kind === "month"
         ? c.monthPoints
         : c.balance
-      : c.deviceToday;
+      : hasIota
+        ? hasOtherDaily ? c.deviceDaily : c.deviceYesterday
+        : c.deviceToday;
   return (
     <article className="fleet-device-card">
       <header>
@@ -1066,7 +1073,7 @@ function FleetCard({
                   <div className="fleet-reading-metrics">
                     <div>
                       <span>
-                        {data.todayLabel ?? c.today}
+                        {data.todayLabel ?? (binding.project === "iota" ? c.yesterday : c.today)}
                         {data.scope === "wallet" && <small>{c.wallet}</small>}
                       </span>
                       <strong>

@@ -655,7 +655,7 @@ function SavedIotaDashboard() {
                       </p>
                       <div className="device-earnings">
                         <div>
-                          <span>{t("今日收益")}</span>
+                          <span>{iotaAddCopy.today[locale]}</span>
                           <MoneyPair
                             units={view.todayUsable ? view.earnings?.todayUnits : null}
                             usdPerIota={dash.usdPerIota}
@@ -885,7 +885,7 @@ function DeviceDetail({
                 <b>{formatCount(view.miner?.throughput, locale)}</b>
               </div>
               <div>
-                <span>{t("今日收益")}</span>
+                <span>{iotaAddCopy.today[locale]}</span>
                 <MoneyPair
                   units={view.todayUsable ? view.earnings?.todayUnits : null}
                   usdPerIota={usdPerIota}
@@ -984,12 +984,7 @@ function DeviceDetail({
               {formatIota(view.earnings?.minimumPayoutUnits ?? null, 8, locale)} IOTA
             </p>
             <p>
-              {localizeValue(
-                en
-                  ? "Paid and pending are accounting balances; they are not added again to lifetime rewards. Frozen records are excluded from today's total."
-                  : "已支付、待结算为记账余额，不会重复加进累计收益。冻结记录不计入今日收益。",
-                locale,
-              )}
+              {iotaAddCopy.rewardBalancesNote[locale]}
             </p>
             {view.earnings?.error && <p role="alert">{t("收益刷新失败，以下可能为旧记录。")}</p>}
             {view.earnings?.recent.length ? (
@@ -1090,7 +1085,7 @@ function IotaLookup({ id }: { id: string }) {
             </p>
             <div className="device-earnings">
               <div>
-                <span>{t("今日收益")}</span>
+                <span>{iotaAddCopy.today[locale]}</span>
                 <MoneyPair
                   units={view.todayUsable ? view.earnings?.todayUnits : null}
                   usdPerIota={dash.usdPerIota}

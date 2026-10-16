@@ -1,5 +1,12 @@
 import { localized } from "@/lib/product-discovery";
 export const iotaAddCopy = {
+  rewardBalancesNote: localized([
+    "已支付、待结算为记账余额，不重复计入累计收益。冻结记录不计入昨日收益。",
+    "已支付、待結算為記帳餘額，不重複計入累計收益。凍結紀錄不計入昨日收益。",
+    "Paid and pending are accounting balances and are not added again to lifetime rewards. Frozen records are excluded from yesterday’s rewards.",
+    "지급 및 정산 대기 잔액은 누적 보상에 중복 합산하지 않습니다. 동결 기록은 어제 보상에서 제외됩니다.",
+    "支払済み・精算待ちの残高は累計報酬に重複加算されません。凍結記録は昨日の報酬から除外されます。",
+  ]),
   back: localized([
     "返回项目选择",
     "返回專案選擇",
@@ -18,11 +25,11 @@ export const iotaAddCopy = {
   sort: localized(["排序", "排序", "Sort", "정렬", "並び順"]),
   defaultSort: localized(["添加顺序", "新增順序", "Added order", "추가 순서", "追加順"]),
   rewardSort: localized([
-    "今日收益优先",
-    "今日收益優先",
-    "Today’s earnings first",
-    "오늘 수익순",
-    "今日の収益順",
+    "昨日收益优先",
+    "昨日收益優先",
+    "Yesterday’s earnings first",
+    "어제 수익순",
+    "昨日の収益順",
   ]),
   issueSort: localized([
     "需关注优先",
@@ -135,7 +142,7 @@ export const iotaAddCopy = {
   name: localized(["设备", "設備", "Device", "기기", "機器"]),
   state: localized(["状态", "狀態", "Status", "상태", "状態"]),
   rate: localized(["吞吐量", "吞吐量", "Throughput", "처리량", "スループット"]),
-  today: localized(["今日收益", "今日收益", "Today’s earnings", "오늘 수익", "今日の収益"]),
+  today: localized(["昨日收益", "昨日收益", "Yesterday’s earnings", "어제 수익", "昨日の収益"]),
   action: localized(["操作", "操作", "Action", "작업", "操作"]),
   inspect: localized(["检查 ID", "檢查 ID", "Check ID", "ID 확인", "IDを確認"]),
   status: localized(["查看状态", "查看狀態", "View status", "상태 보기", "状態を確認"]),
