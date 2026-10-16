@@ -358,7 +358,7 @@ function SavedIotaDashboard() {
         </>
       ) : null}
       <section>
-        <div className="section-heading">
+        <div className="section-heading iota-device-heading">
           <div className="device-heading-status">
             <h2>
               {t("设备")}
@@ -396,7 +396,7 @@ function SavedIotaDashboard() {
               />
             )}
           </div>
-          <div className="actions">
+          <div className="actions device-transfer-actions">
             <button disabled={!watch.loaded || importing} onClick={() => file.current?.click()}>
               {importing ? <LoaderCircle size={15} className="spin" /> : <Upload size={15} />}
               {importing ? t("导入中…") : t("导入")}

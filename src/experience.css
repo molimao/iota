@@ -6762,3 +6762,16 @@ body:has(.site-shell) {
   .daily-reward-amount { font-size: clamp(20px, 5.3vw, 30px); margin: 18px 0 10px; }
   .daily-reward-value { font-size: 16px; }
 }
+
+/* Keep device backup controls readable beside monitoring metadata. */
+.iota-device-heading { flex-wrap: wrap; gap: 16px; }
+.iota-device-heading .device-heading-status { flex: 1 1 320px; }
+.iota-device-heading .device-transfer-actions { flex: 0 0 auto; gap: 10px; }
+.device-transfer-actions > button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; min-height: 44px; }
+.device-transfer-actions > button > svg { flex-shrink: 0; }
+@media (max-width: 640px) {
+  .iota-device-heading { align-items: stretch; }
+  .iota-device-heading .device-heading-status { flex-basis: 100%; }
+  .iota-device-heading .device-transfer-actions { width: 100%; display: flex; flex-wrap: wrap; gap: 10px; }
+  .device-transfer-actions > button { flex: 1 0 auto; }
+}
