@@ -1,3 +1,5 @@
+import { DailyRewardsSummary } from "./daily-rewards-summary";
+import { aggregateUnits } from "@/lib/earnings";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
@@ -265,6 +267,15 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       setBusy(false);
     }
   }
+  const iotaBindings = [
+    ...new Map(
+      props.devices
+        .flatMap((d) => d.bindings)
+        .filter((b) => b.project === "iota")
+        .map((b) => [b.identifier, b]),
+    ).values(),
+  ];
+  const dailyReadings = iotaBindings.map((b) => props.reading(b));
   return (
     <main className="fleet-workspace">
       <header className="fleet-heading">
@@ -320,6 +331,16 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
+          {dailyReadings.length > 0 && (project === "all" || project === "iota") && (
+            <DailyRewardsSummary
+              today={aggregateUnits(dailyReadings.map((r) => r.todayUnits ?? null))}
+              yesterday={aggregateUnits(dailyReadings.map((r) => r.yesterdayUnits ?? null))}
+              usdPerIota={
+                dailyReadings.find((r) => r.iotaUsdPerUnit != null)?.iotaUsdPerUnit ?? null
+              }
+              priceStale={dailyReadings.some((r) => r.priceStale)}
+            />
+          )}
           {props.devices.length > 0 && props.proTools}
           {props.devices.length > 0 && (
             <ReportEntry plan={props.plan} preview={props.preview ?? false} />
@@ -553,23 +574,25 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                         </select>
                       </label>
                       <label>
-                        {isPoolProject(selectedProject) ? poolCopy.wallet[locale] : isPlatform(selectedProject)
-                          ? selectedProject === "ionet"
-                            ? "Device ID"
-                            : selectedProject === "vast"
-                              ? "Machine ID"
-                              : platformCopy(locale).identifier
-                          : selectedProject === "nosana"
-                            ? editorialCopy(locale).nodeId
-                            : selectedProject === "gonka"
-                              ? editorialCopy(locale).hostId
-                              : selectedProject === "iota"
-                                ? "Miner ID"
-                                : selectedProject === "flyai"
-                                  ? `fly.ai · ${c.rewardAddress}`
-                                  : selectedProject === "quantus"
-                                    ? `Wormhole · ${c.rewardAddress}`
-                                    : `xCoin · ${c.rewardAddress}`}
+                        {isPoolProject(selectedProject)
+                          ? poolCopy.wallet[locale]
+                          : isPlatform(selectedProject)
+                            ? selectedProject === "ionet"
+                              ? "Device ID"
+                              : selectedProject === "vast"
+                                ? "Machine ID"
+                                : platformCopy(locale).identifier
+                            : selectedProject === "nosana"
+                              ? editorialCopy(locale).nodeId
+                              : selectedProject === "gonka"
+                                ? editorialCopy(locale).hostId
+                                : selectedProject === "iota"
+                                  ? "Miner ID"
+                                  : selectedProject === "flyai"
+                                    ? `fly.ai · ${c.rewardAddress}`
+                                    : selectedProject === "quantus"
+                                      ? `Wormhole · ${c.rewardAddress}`
+                                      : `xCoin · ${c.rewardAddress}`}
                         <input
                           autoFocus
                           required
@@ -579,29 +602,38 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                           value={identifier}
                           onChange={(e) => setIdentifier(e.target.value)}
                           placeholder={
-                            isPoolProject(selectedProject) ? ({prl:"prl1…",xmr:"4… / 8…",etc:"0x…",rvn:"R…",zec:"t1… / t3…",kas:"kaspa:…"}[selectedProject]) : isPlatform(selectedProject)
-                              ? selectedProject === "noid"
-                                ? "o1…"
-                                : selectedProject === "acurast"
-                                  ? "Processor · SS58 / 0x…"
-                                  : selectedProject === "akash"
-                                    ? "akash1…"
-                                    : selectedProject === "golem"
-                                      ? "0x…"
-                                      : selectedProject === "ionet"
-                                        ? "Device ID"
-                                        : "Machine ID"
-                              : selectedProject === "nosana"
-                                ? "Solana…"
-                                : selectedProject === "gonka"
-                                  ? "gonka1…"
-                                  : selectedProject === "iota"
-                                    ? "5…"
-                                    : selectedProject === "xid"
-                                      ? "xpa1r…"
-                                      : selectedProject === "quantus"
-                                        ? `Wormhole · ${c.rewardAddress}`
-                                        : "0x…"
+                            isPoolProject(selectedProject)
+                              ? {
+                                  prl: "prl1…",
+                                  xmr: "4… / 8…",
+                                  etc: "0x…",
+                                  rvn: "R…",
+                                  zec: "t1… / t3…",
+                                  kas: "kaspa:…",
+                                }[selectedProject]
+                              : isPlatform(selectedProject)
+                                ? selectedProject === "noid"
+                                  ? "o1…"
+                                  : selectedProject === "acurast"
+                                    ? "Processor · SS58 / 0x…"
+                                    : selectedProject === "akash"
+                                      ? "akash1…"
+                                      : selectedProject === "golem"
+                                        ? "0x…"
+                                        : selectedProject === "ionet"
+                                          ? "Device ID"
+                                          : "Machine ID"
+                                : selectedProject === "nosana"
+                                  ? "Solana…"
+                                  : selectedProject === "gonka"
+                                    ? "gonka1…"
+                                    : selectedProject === "iota"
+                                      ? "5…"
+                                      : selectedProject === "xid"
+                                        ? "xpa1r…"
+                                        : selectedProject === "quantus"
+                                          ? `Wormhole · ${c.rewardAddress}`
+                                          : "0x…"
                           }
                         />
                       </label>
@@ -726,23 +758,25 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     </div>
                   )}
                   <label>
-                    {isPoolProject(selectedProject) ? poolCopy.wallet[locale] : isPlatform(selectedProject)
-                      ? selectedProject === "ionet"
-                        ? "Device ID"
-                        : selectedProject === "vast"
-                          ? "Machine ID"
-                          : platformCopy(locale).identifier
-                      : selectedProject === "nosana"
-                        ? editorialCopy(locale).nodeId
-                        : selectedProject === "gonka"
-                          ? editorialCopy(locale).hostId
-                          : selectedProject === "iota"
-                            ? "Miner ID"
-                            : selectedProject === "flyai"
-                              ? `fly.ai · ${c.rewardAddress}`
-                              : selectedProject === "quantus"
-                                ? `Wormhole · ${c.rewardAddress}`
-                                : `xCoin · ${c.rewardAddress}`}
+                    {isPoolProject(selectedProject)
+                      ? poolCopy.wallet[locale]
+                      : isPlatform(selectedProject)
+                        ? selectedProject === "ionet"
+                          ? "Device ID"
+                          : selectedProject === "vast"
+                            ? "Machine ID"
+                            : platformCopy(locale).identifier
+                        : selectedProject === "nosana"
+                          ? editorialCopy(locale).nodeId
+                          : selectedProject === "gonka"
+                            ? editorialCopy(locale).hostId
+                            : selectedProject === "iota"
+                              ? "Miner ID"
+                              : selectedProject === "flyai"
+                                ? `fly.ai · ${c.rewardAddress}`
+                                : selectedProject === "quantus"
+                                  ? `Wormhole · ${c.rewardAddress}`
+                                  : `xCoin · ${c.rewardAddress}`}
                     <input
                       required
                       value={identifier}

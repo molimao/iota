@@ -280,3 +280,52 @@ describe("shared official proxy", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
+
+it("separates today's and yesterday's HK ledger entries at midnight boundaries", () => {
+  const clock = Date.parse("2026-10-16T02:00:00Z");
+  const start = hongKongDayStartSeconds(clock);
+  const h = {
+    alpha_amounts: [0.16464501, 2.56613668, 0.19759716, 9, 7],
+    timestamps: [start, start - 1, start - 86400, start - 86401, start - 10],
+    statuses: ["pending", "settled", "pending", "settled", "frozen"],
+  };
+  const value = buildDeviceEarnings("test-only", good(totals), good(h), clock);
+  expect(value.todayUnits).toBe(16464501);
+  expect(value.yesterdayUnits).toBe(276373384);
+});
+
+it("sums yesterday before truncating display history and rejects uncovered history", () => {
+  const clock = Date.parse("2026-10-16T02:00:00Z");
+  const start = hongKongDayStartSeconds(clock);
+  const h = {
+    alpha_amounts: [...Array(110).fill(0), 2, 0],
+    timestamps: [...Array(110).fill(start + 1), start - 1, start - 86401],
+    statuses: Array(112).fill("settled"),
+  };
+  const value = buildDeviceEarnings("test-only", good(totals), good(h), clock);
+  expect(value.recent).toHaveLength(100);
+  expect(value.yesterdayUnits).toBe(200000000);
+  const incomplete = {
+    alpha_amounts: Array(30).fill(1),
+    timestamps: Array(30).fill(start + 1),
+    statuses: Array(30).fill("settled"),
+  };
+  expect(
+    buildDeviceEarnings("test-only", good(totals), good(incomplete), clock).yesterdayUnits,
+  ).toBeNull();
+});
+
+it("does not carry a previous day's yesterday value across midnight on failure", () => {
+  const before = buildDeviceEarnings("test-only", good(totals), good(history), now);
+  const failed = { data: null, fetchedAt: null, error: "timeout", stale: true };
+  const [same] = mergeEarnings(
+    [buildDeviceEarnings("test-only", failed, failed, now + 500)],
+    [before],
+  );
+  expect(same?.yesterdayUnits).toBe(before.yesterdayUnits);
+  const [next] = mergeEarnings(
+    [buildDeviceEarnings("test-only", failed, failed, now + 2000)],
+    [before],
+  );
+  expect(next?.yesterdayUnits).toBeNull();
+});

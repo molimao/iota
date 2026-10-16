@@ -1,3 +1,4 @@
+import { iotaWindowUnits, reportDayWindow } from "./daily-report";
 import { hongKongDayStartSeconds, sumTodayUnits, toUnits } from "./earnings";
 import type { DeviceEarnings, EntitlementHistory, EntitlementTotals } from "./iota-types";
 import type { UpstreamResult } from "./iota-upstream.server";
@@ -12,6 +13,18 @@ export function buildDeviceEarnings(
 ): DeviceEarnings {
   const data = totals.data;
   const today = sumTodayUnits(history.data, now);
+  const dayStart = hongKongDayStartSeconds(now);
+  const yesterdayDay = new Date((dayStart - 86400 + 28800) * 1000).toISOString().slice(0, 10);
+  const window = reportDayWindow(yesterdayDay);
+  const covered =
+    history.data &&
+    !(
+      history.data.timestamps.length >= 30 &&
+      !history.data.timestamps.some((t) => t * 1000 < window.start)
+    );
+  const yesterday = covered ? iotaWindowUnits(history.data, window) : null;
+  const yesterdayUnits =
+    yesterday !== null && Number.isSafeInteger(Number(yesterday)) ? Number(yesterday) : null;
   const recent =
     history.data?.alpha_amounts
       .map((amount, index) => ({
@@ -29,6 +42,7 @@ export function buildDeviceEarnings(
     hotkey,
     totalEarnedUnits: data ? toUnits(data.total_amount_earned) : null,
     todayUnits: today.units,
+    yesterdayUnits,
     paidUnits: data ? toUnits(data.total_amount_paid) : null,
     pendingUnits: data ? toUnits(data.total_amount_pending) : null,
     frozenUnits: data ? toUnits(data.total_amount_frozen) : null,
@@ -69,6 +83,8 @@ export function mergeEarnings(
       ...(item.todayUnits === null && item.historyError
         ? {
             todayUnits: old.accountingDay === item.accountingDay ? old.todayUnits : null,
+            yesterdayUnits:
+              old.accountingDay === item.accountingDay ? (old.yesterdayUnits ?? null) : null,
             recent: old.recent,
             historyCount: old.historyCount,
             historyFetchedAt: old.historyFetchedAt ?? old.fetchedAt,

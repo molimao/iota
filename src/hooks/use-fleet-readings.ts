@@ -336,6 +336,9 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
         unit: "IOTA",
+        todayUnits: view.todayUsable ? today : null,
+        yesterdayUnits: view.todayUsable ? (view.earnings?.yesterdayUnits ?? null) : null,
+        iotaUsdPerUnit: !iota.priceRefreshFailed ? iota.usdPerIota : null,
         todayUsable: view.todayUsable,
         todaySameDay: today !== null,
         todayUsdValue:

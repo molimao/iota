@@ -6740,3 +6740,25 @@ body:has(.site-shell) {
 
 .pool-worker-search { display:grid; gap:.5rem; max-width:420px; margin:1rem 0; }
 .pool-worker-search input { padding:.7rem; border:1px solid #454545; border-radius:8px; background:#171717; color:#eee; }
+
+.daily-rewards-summary { margin: 0 0 24px; min-width: 0; }
+.daily-rewards-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.daily-reward-card { min-width: 0; padding: 26px 28px; border: 1px solid var(--watch-border, #333); border-radius: 18px; background: var(--watch-surface, #191919); }
+.daily-reward-card.today { background: #f4f4f4; color: #171717; border-color: #f4f4f4; }
+.daily-reward-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.daily-reward-heading h2 { margin: 0; font-size: 15px; font-weight: 600; color: inherit; }
+.daily-reward-heading time { font-size: 12px; opacity: .65; font-variant-numeric: tabular-nums; }
+.daily-reward-amount { display: block; margin: 24px 0 14px; font-size: clamp(25px, 3.5vw, 48px); line-height: 1.2; letter-spacing: -.04em; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.daily-reward-amount small { font-size: 13px; letter-spacing: 0; opacity: .65; font-weight: 500; }
+.daily-reward-value { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; font-size: 19px; font-weight: 600; }
+.daily-reward-value small { font-size: 12px; font-weight: 400; opacity: .65; }
+.daily-reward-footer { display: flex; justify-content: space-between; gap: 10px 20px; flex-wrap: wrap; margin-top: 12px; color: #999; font-size: 12px; line-height: 1.6; }
+.daily-reward-footer b { color: var(--watch-text, #ddd); font-weight: 500; }
+@media (max-width: 560px) {
+  .daily-rewards-grid { gap: 10px; }
+  .daily-reward-card { padding: 18px 14px; border-radius: 14px; }
+  .daily-reward-heading { gap: 5px; }
+  .daily-reward-heading h2 { font-size: 13px; }
+  .daily-reward-amount { font-size: clamp(20px, 5.3vw, 30px); margin: 18px 0 10px; }
+  .daily-reward-value { font-size: 16px; }
+}

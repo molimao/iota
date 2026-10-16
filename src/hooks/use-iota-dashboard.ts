@@ -365,6 +365,13 @@ export function useIotaDashboard(
       aggregateUnits(views.map((view) => (view.todayUsable ? view.earnings!.todayUnits : null))),
     [views],
   );
+  const yesterdayTotal = useMemo(
+    () =>
+      aggregateUnits(
+        views.map((view) => (view.todayUsable ? (view.earnings?.yesterdayUnits ?? null) : null)),
+      ),
+    [views],
+  );
   const lifetimeTotal: Aggregate = useMemo(
     () =>
       aggregateUnits(
@@ -390,6 +397,7 @@ export function useIotaDashboard(
     counts,
     needsAttention,
     todayTotal,
+    yesterdayTotal,
     lifetimeTotal,
     discovery,
     farm: farmState.farm,

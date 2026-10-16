@@ -1,3 +1,4 @@
+import { DailyRewardsSummary } from "./daily-rewards-summary";
 import { ReportEntry } from "./daily-report-discovery";
 import { agentCopy } from "./device-agent-copy";
 import { DeviceAgentSummary } from "./device-agent-summary";
@@ -42,7 +43,7 @@ import {
   type StatusBucket,
 } from "@/lib/device-status";
 import { RECONCILE_NOTES, type Diagnosis } from "@/lib/diagnose";
-import { formatIota, formatUsd, iotaUnitsToUsd, type Aggregate } from "@/lib/earnings";
+import { formatIota, formatUsd, iotaUnitsToUsd } from "@/lib/earnings";
 import { formatAgo, formatCount, formatSecondsTimestamp } from "@/lib/format";
 import { DeviceHistory } from "@/components/device-history";
 
@@ -95,44 +96,6 @@ function MoneyPair({
     </span>
   );
 }
-function Total({
-  title,
-  value,
-  usdPerIota,
-  primary = false,
-}: {
-  title: string;
-  value: Aggregate;
-  usdPerIota: number | null;
-  primary?: boolean;
-}) {
-  const units = value.known || !value.total ? value.units : null;
-  const { t, en, locale } = useLocale();
-  return (
-    <section className={`total ${primary ? "primary" : ""}`}>
-      <div className="earnings-card-heading">
-        <h2>{title}</h2>
-      </div>
-      <div className="amount">
-        <MoneyPair large units={units} usdPerIota={usdPerIota} />
-      </div>
-      <p>{primary ? simpleCopy(locale).today : simpleCopy(locale).total}</p>
-      {value.partial && (
-        <p className="coverage-note" role="status">
-          {value.known
-            ? localizeValue(
-                en
-                  ? `Partial total · ${value.known}/${value.total} devices`
-                  : `部分合计 · 已获取 ${value.known}/${value.total} 台`,
-                locale,
-              )
-            : localizeValue(en ? "Rewards are not available yet" : "收益数据暂未获取", locale)}
-        </p>
-      )}
-    </section>
-  );
-}
-
 function DiagnosisBlock({ diagnosis: originalDiagnosis }: { diagnosis: Diagnosis }) {
   const { locale, en } = useLocale();
   const diagnosis = withLocales(originalDiagnosis);
@@ -352,19 +315,14 @@ function SavedIotaDashboard() {
       )}
       {watch.devices.length ? (
         <>
-          <div className="totals">
-            <Total
-              primary
-              title={t("今日总收益")}
-              value={dash.todayTotal}
-              usdPerIota={dash.usdPerIota}
-            />
-            <Total
-              title={t("累计总收益")}
-              value={dash.lifetimeTotal}
-              usdPerIota={dash.usdPerIota}
-            />
-          </div>
+          <DailyRewardsSummary
+            today={dash.todayTotal}
+            yesterday={dash.yesterdayTotal}
+            lifetime={dash.lifetimeTotal}
+            usdPerIota={dash.usdPerIota}
+            now={dash.now}
+            priceStale={dash.priceStale}
+          />
           {dash.usdPerIota ? (
             <QuietDetails
               title={`${simpleCopy(locale).pricing}${dash.priceStale ? ` · ${t(dash.priceRefreshFailed ? "行情刷新失败" : "报价较早")}` : ""}`}
@@ -407,7 +365,9 @@ function SavedIotaDashboard() {
               {t("设备")}
               <span>{watch.devices.length}</span>
             </h2>
-            <a className="agent-entry" href={`/${locale}/machines`}>{agentCopy.title[locale]} ↗</a>
+            <a className="agent-entry" href={`/${locale}/machines`}>
+              {agentCopy.title[locale]} ↗
+            </a>
             {watch.devices.length > 0 && (
               <DataHealth
                 compact
@@ -596,7 +556,8 @@ function SavedIotaDashboard() {
                       {(["name", "state", "rate", "today"] as const).map((key) => (
                         <th key={key}>{iotaAddCopy[key][locale]}</th>
                       ))}
-                      <th>Mac</th><th>{iotaAddCopy.action[locale]}</th>
+                      <th>Mac</th>
+                      <th>{iotaAddCopy.action[locale]}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -628,9 +589,13 @@ function SavedIotaDashboard() {
                             usdPerIota={dash.usdPerIota}
                           />
                         </td>
-                        <td><DeviceAgentSummary miner={view.entry.hotkey} compact /></td>
                         <td>
-                          <button onClick={() => setRemoveTarget(view.entry.hotkey)}>{t("移除设备")}</button>
+                          <DeviceAgentSummary miner={view.entry.hotkey} compact />
+                        </td>
+                        <td>
+                          <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
+                            {t("移除设备")}
+                          </button>
                           <button
                             onClick={() =>
                               openDevice(
@@ -706,7 +671,9 @@ function SavedIotaDashboard() {
                         </div>
                       </div>
                       <div className="device-foot">
-                        <button onClick={() => setRemoveTarget(view.entry.hotkey)}>{t("移除设备")}</button>
+                        <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
+                          {t("移除设备")}
+                        </button>
                         <span>
                           {formatAgo(view.statusFetchedAt, dash.now, locale)}
                           {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
@@ -783,15 +750,34 @@ function SavedIotaDashboard() {
           />
         </DialogContent>
       </Dialog>
-      <Dialog open={!!removeTarget} onOpenChange={(open) => { if (!open) setRemoveTarget(null); }}>
+      <Dialog
+        open={!!removeTarget}
+        onOpenChange={(open) => {
+          if (!open) setRemoveTarget(null);
+        }}
+      >
         <DialogContent className="detail-dialog dash-dialog">
           <DialogTitle>{t("移除设备")}</DialogTitle>
-          <DialogDescription>{watch.devices.find(d => d.hotkey === removeTarget)?.label ?? ""}</DialogDescription>
-          {watch.devices.filter(d => d.hotkey === removeTarget).map(entry => <DeviceActions
-            key={entry.hotkey} onCancel={() => setRemoveTarget(null)} initialMode="remove" entry={entry} cloud={watch.cloud}
-            onRename={watch.rename} onRemove={watch.remove}
-            onRemoved={() => { setRemoveTarget(null); setMessage(t("设备已移除")); }}
-          />)}
+          <DialogDescription>
+            {watch.devices.find((d) => d.hotkey === removeTarget)?.label ?? ""}
+          </DialogDescription>
+          {watch.devices
+            .filter((d) => d.hotkey === removeTarget)
+            .map((entry) => (
+              <DeviceActions
+                key={entry.hotkey}
+                onCancel={() => setRemoveTarget(null)}
+                initialMode="remove"
+                entry={entry}
+                cloud={watch.cloud}
+                onRename={watch.rename}
+                onRemove={watch.remove}
+                onRemoved={() => {
+                  setRemoveTarget(null);
+                  setMessage(t("设备已移除"));
+                }}
+              />
+            ))}
         </DialogContent>
       </Dialog>
       <Dialog
@@ -901,11 +887,17 @@ function DeviceDetail({
               </div>
               <div>
                 <span>{t("今日收益")}</span>
-                <MoneyPair units={view.todayUsable ? view.earnings?.todayUnits : null} usdPerIota={usdPerIota} />
+                <MoneyPair
+                  units={view.todayUsable ? view.earnings?.todayUnits : null}
+                  usdPerIota={usdPerIota}
+                />
               </div>
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={usdPerIota} />
+                <MoneyPair
+                  units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
+                  usdPerIota={usdPerIota}
+                />
               </div>
             </div>
             {view.miner && (
@@ -970,7 +962,10 @@ function DeviceDetail({
             <div className="detail-grid reward-balances">
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={usdPerIota} />
+                <MoneyPair
+                  units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
+                  usdPerIota={usdPerIota}
+                />
               </div>
               <div>
                 <span>{t("已支付")}</span>
@@ -1096,14 +1091,18 @@ function IotaLookup({ id }: { id: string }) {
             </p>
             <div className="device-earnings">
               <div>
-                <span>
-                  {t("今日收益")}
-                </span>
-                <MoneyPair units={view.todayUsable ? view.earnings?.todayUnits : null} usdPerIota={dash.usdPerIota} />
+                <span>{t("今日收益")}</span>
+                <MoneyPair
+                  units={view.todayUsable ? view.earnings?.todayUnits : null}
+                  usdPerIota={dash.usdPerIota}
+                />
               </div>
               <div>
                 <span>{t("累计收益")}</span>
-                <MoneyPair units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null} usdPerIota={dash.usdPerIota} />
+                <MoneyPair
+                  units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
+                  usdPerIota={dash.usdPerIota}
+                />
               </div>
             </div>
             {view.earnings && !view.earningsUsable && <p>{t("收益为旧数据")}</p>}

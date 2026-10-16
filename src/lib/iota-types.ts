@@ -80,6 +80,7 @@ export type DeviceEarnings = {
   /** micro-units: integer count of 1e-8 alpha, null when unknown */
   totalEarnedUnits: number | null;
   todayUnits: number | null;
+  yesterdayUnits?: number | null;
   pendingUnits: number | null;
   frozenUnits: number | null;
   minimumPayoutUnits: number | null;
