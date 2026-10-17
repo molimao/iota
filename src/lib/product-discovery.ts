@@ -1,6 +1,6 @@
 import { type SiteLocale, LOCALES } from "./site";
 import { planAmount } from "./billing-display";
-export const DISCOVERY_UPDATED = "2026-10-12";
+export const DISCOVERY_UPDATED = "2026-10-17";
 export const localized = <T>(items: readonly [T, T, T, T, T]) =>
   Object.fromEntries(LOCALES.map((l, i) => [l, items[i]])) as Record<SiteLocale, T>;
 // Order follows LOCALES: zh, zh-TW, en, ko, ja. Shared by HTML, schema and readable exports.
@@ -147,7 +147,27 @@ const questions = [
 export const problemLinks = questions;
 export function productQuestions(locale: SiteLocale) {
   return [
-    ...questions.map((p) => ({ question: p.q[locale], answer: p.a[locale] })),
+    ...questions.map((p) => ({
+      question: p.q[locale],
+      answer:
+        p.id === "multiple"
+          ? localized([
+              "添加每台 Mac 的公开 Miner ID，集中查看状态、昨日与累计收益；登录后同步清单，本机心跳与控制可另配对 Mac Agent。",
+              "新增每台 Mac 的公開 Miner ID，集中查看狀態、昨日與累計收益；登入同步清單，本機心跳與控制可另配對 Mac Agent。",
+              "Add each Mac's public Miner ID to see reported activity, yesterday's rewards and lifetime totals. Sign in to sync; pair the optional Mac agent for local heartbeats and control.",
+              "각 Mac의 공개 Miner ID로 상태·어제·누적 보상을 모아 확인합니다. 로그인으로 동기화하며 로컬 상태·제어는 선택 에이전트를 연결하세요.",
+              "各Macの公開Miner IDで状態・昨日と累計の報酬を集約します。ログインで同期、ローカル状態と制御には任意のエージェントをペアリングします。",
+            ])[locale]
+          : p.id === "rewards"
+            ? localized([
+                "先核对币种、周期和归属。IOTA 显示昨日归属，io.net 为 UTC 日，Golem 为近 24 小时，fly.ai 为月度积分；余额、积分和不同周期不能直接当作同一天设备收入比较。",
+                "先核對幣種、周期及歸屬。IOTA 顯示昨日歸屬，io.net 是 UTC 日、Golem 近 24 小時、fly.ai 月度積分；餘額、積分與不同周期不能當作同一天單機收入比較。",
+                "Check currency, period and ownership. IOTA uses preceding-day attribution, io.net a UTC day, Golem rolling 24 hours and fly.ai monthly points. Balances, points and different periods are not comparable as the same day's device income.",
+                "통화·기간·귀속을 확인하세요. IOTA는 전날 표시, io.net은 UTC 일자, Golem은 최근 24시간, fly.ai는 월간 포인트입니다. 잔액·포인트·다른 기간을 같은 날 기기 수입으로 비교하지 마세요.",
+                "通貨・期間・帰属を確認します。IOTAは前日表示、io.netはUTC日、Golemは直近24時間、fly.aiは月次ポイントです。残高・ポイント・異なる期間を同日の1台の収入として比較しません。",
+              ])[locale]
+            : p.a[locale],
+    })),
     {
       question: localized([
         "需要登录、连接钱包或付费吗？",
@@ -173,11 +193,11 @@ export function productQuestions(locale: SiteLocale) {
         "対応プロジェクトと追加申請の方法は？",
       ])[locale],
       answer: localized([
-        "项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。",
-        "專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。",
-        "Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.",
-        "IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.",
-        "IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。",
+        "项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 和 Kaspa，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。",
+        "專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 與 Kaspa，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。",
+        "Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.",
+        "IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash와 Kaspa 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.",
+        "IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspaの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。",
       ])[locale],
     },
     {
@@ -189,8 +209,8 @@ export function productQuestions(locale: SiteLocale) {
         "古いデータや報酬ゼロは故障を意味しますか？",
       ])[locale],
       answer: localized([
-        "先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。",
-        "先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。",
+        "先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 本次有效记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。",
+        "先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。本次有效記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。",
         "Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.",
         "최근 성공한 조회 시각과 출처를 먼저 확인하세요. 갱신 실패 시 이전 결과를 보존하고 누락된 값을 0으로 채우지 않습니다. 유효한 IOTA 일일 합계 0은 해당 기록이 아직 없다는 뜻일 수 있습니다. 오래된 표본이나 처리량 0만으로 오프라인을 판단할 수 없으며 실행 로그는 해당 기기의 공식 앱에서 확인해야 합니다.",
         "まず最終取得時刻と出典を確認します。更新失敗時は前回の結果を保持し、欠損をゼロで埋めません。有効なIOTAの日次合計ゼロは対象の記帳記録がまだない場合もあります。古いサンプルや処理量ゼロだけでオフラインとは判断できず、動作ログは実機の公式アプリで確認します。",

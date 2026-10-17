@@ -4,7 +4,7 @@
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, yesterday’s attributed rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. Public lookup alone cannot control a Mac. An optional installed and paired Mac agent adds local heartbeats, queue state and remote controls; log upload is separately opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
 
@@ -14,7 +14,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Canonical site: https://iotahome.site
 - Audience: people already running IOTA Train at Home, or managing identifiers across supported mining and compute projects
 - Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
-- Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
+- Yesterday’s IOTA rewards: next accounting day records attributed to the preceding date in Asia/Hong_Kong (UTC+8); pending + settled only, frozen and future timestamps excluded. This is the site display convention, not proof of actual training date or wallet receipt date. Daily email uses the same attribution.
 - Lifetime rewards: official total earned; paid is not added again
 - Device status: official sample, not a Mac heartbeat
 - Sources have independent fetch clocks; an earnings refresh does not renew a device status clock
@@ -23,7 +23,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Wallet private keys and seed phrases are not accepted by IOTA Watch
-- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See https://iotahome.site/en/downloads for installation effects and removal instructions.
+- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. Public lookups stay read-only; paired-agent controls act only on the paired Mac. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
 ## Additional mining projects
 
@@ -45,7 +45,7 @@ IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, f
 ## Common user questions
 
 ### Where can I check multiple Macs running IOTA together?
-Add each Mac's public Miner ID and a device name in IOTA Watch to see reported activity, today's accounted rewards in Hong Kong time and lifetime rewards on one page. This suits people already running IOTA Train at Home who want to check several machines together.
+Add each Mac's public Miner ID to see reported activity, yesterday's rewards and lifetime totals. Sign in to sync; pair the optional Mac agent for local heartbeats and control.
 
 ### How can I track several projects on one machine?
 Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other supported identifiers. Each project keeps its own status and reporting period. XID wallet balance and fly.ai monthly points are wallet totals, excluded from device daily earnings. Matching Worker names are not merged automatically.
@@ -54,16 +54,17 @@ Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other 
 Use IOTA Watch to check saved identifiers together, organize cross-project device cards and inspect reward records. Use the relevant official app or dashboard to install miners, start or stop jobs, inspect local logs, claim rewards or change platform account settings.
 
 ### Can rewards from different projects be added together?
-Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+Check currency, period and ownership. IOTA uses preceding-day attribution, io.net a UTC day, Golem rolling 24 hours and fly.ai monthly points. Balances, points and different periods are not comparable as the same day's device income.
 
 ### Do I need an account, a wallet connection or a subscription?
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
+
 
 ## Question guides
 
@@ -232,11 +233,11 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [How to find your IOTA Train at Home Miner ID (en)](https://iotahome.site/en/learn/find-miner-id)
 - [IOTA Train at Home의 Miner ID 찾는 방법 (ko)](https://iotahome.site/ko/learn/find-miner-id)
 - [IOTA Train at HomeのMiner IDを確認する方法 (ja)](https://iotahome.site/ja/learn/find-miner-id)
-- [IOTA Train at Home 今日收益和累计收益怎么算 (zh)](https://iotahome.site/zh/learn/how-rewards-work)
-- [IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)](https://iotahome.site/zh-TW/learn/how-rewards-work)
-- [How IOTA Train at Home daily and lifetime rewards are counted (en)](https://iotahome.site/en/learn/how-rewards-work)
-- [IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)](https://iotahome.site/ko/learn/how-rewards-work)
-- [IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)](https://iotahome.site/ja/learn/how-rewards-work)
+- [IOTA 昨日收益、累计收益和日报日期怎么算？ (zh)](https://iotahome.site/zh/learn/how-rewards-work)
+- [IOTA 昨日收益、累計收益與日報日期怎麼算？ (zh-TW)](https://iotahome.site/zh-TW/learn/how-rewards-work)
+- [IOTA yesterday's rewards, lifetime totals and daily email dates (en)](https://iotahome.site/en/learn/how-rewards-work)
+- [IOTA 어제·누적 보상과 일일 메일 날짜 계산 (ko)](https://iotahome.site/ko/learn/how-rewards-work)
+- [IOTAの昨日・累計報酬と日次メールの集計日 (ja)](https://iotahome.site/ja/learn/how-rewards-work)
 - [IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh)](https://iotahome.site/zh/learn/device-status)
 - [IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)](https://iotahome.site/zh-TW/learn/device-status)
 - [What IOTA Train at Home device statuses mean (en)](https://iotahome.site/en/learn/device-status)
@@ -397,6 +398,31 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Can rewards from different projects be added together? (en)](https://iotahome.site/en/learn/compare-mining-rewards-across-projects)
 - [서로 다른 프로젝트의 수익을 합산할 수 있나요? (ko)](https://iotahome.site/ko/learn/compare-mining-rewards-across-projects)
 - [異なるプロジェクトの収益は合算できますか？ (ja)](https://iotahome.site/ja/learn/compare-mining-rewards-across-projects)
+- [IOTA Train at Home 怎么开始？从安装到查看收益 (zh)](https://iotahome.site/zh/learn/start-iota-train-at-home)
+- [IOTA Train at Home 如何開始？從安裝到查看收益 (zh-TW)](https://iotahome.site/zh-TW/learn/start-iota-train-at-home)
+- [How to start IOTA Train at Home and monitor rewards (en)](https://iotahome.site/en/learn/start-iota-train-at-home)
+- [IOTA Train at Home 시작부터 보상 확인까지 (ko)](https://iotahome.site/ko/learn/start-iota-train-at-home)
+- [IOTA Train at Homeの始め方と報酬の確認 (ja)](https://iotahome.site/ja/learn/start-iota-train-at-home)
+- [IOTA 一直排队、0 tokens/s，怎么判断有没有在训练？ (zh)](https://iotahome.site/zh/learn/iota-queue-and-zero-throughput)
+- [IOTA 一直排隊、0 tokens/s，如何判斷是否在訓練？ (zh-TW)](https://iotahome.site/zh-TW/learn/iota-queue-and-zero-throughput)
+- [IOTA Train at Home queued or 0 tokens/s: what to check (en)](https://iotahome.site/en/learn/iota-queue-and-zero-throughput)
+- [IOTA 대기열·0 tokens/s: 훈련 상태 확인하기 (ko)](https://iotahome.site/ko/learn/iota-queue-and-zero-throughput)
+- [IOTAが待機中・0 tokens/sのときの確認方法 (ja)](https://iotahome.site/ja/learn/iota-queue-and-zero-throughput)
+- [IOTA 窗口还在，训练却停止了：Mac 自动恢复怎么设置？ (zh)](https://iotahome.site/zh/learn/iota-training-stopped-auto-recovery)
+- [IOTA 視窗還在但訓練停止：Mac 自動恢復設定 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-training-stopped-auto-recovery)
+- [IOTA training stopped with the app open: Mac auto-recovery (en)](https://iotahome.site/en/learn/iota-training-stopped-auto-recovery)
+- [IOTA 앱은 열렸는데 훈련이 중단됐을 때 자동 복구 (ko)](https://iotahome.site/ko/learn/iota-training-stopped-auto-recovery)
+- [IOTAアプリが開いているのに学習停止：Mac自動復旧 (ja)](https://iotahome.site/ja/learn/iota-training-stopped-auto-recovery)
+- [Mac 挖 Pearl / PRL 后，怎样查算力、Worker 和收益？ (zh)](https://iotahome.site/zh/learn/pearl-prl-mac-monitoring)
+- [Mac 挖 Pearl / PRL 後如何查算力、Worker 與收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/pearl-prl-mac-monitoring)
+- [Pearl PRL on Mac: check pool hashrate, workers and rewards (en)](https://iotahome.site/en/learn/pearl-prl-mac-monitoring)
+- [Mac Pearl PRL 채굴: 해시레이트·워커·보상 확인 (ko)](https://iotahome.site/ko/learn/pearl-prl-mac-monitoring)
+- [MacでPearl PRL：ハッシュレート・ワーカー・報酬を確認 (ja)](https://iotahome.site/ja/learn/pearl-prl-mac-monitoring)
+- [NOID 地址查不到？先核对 InnovLab 与 Parano1d 矿池 (zh)](https://iotahome.site/zh/learn/noid-address-not-found)
+- [NOID 地址查不到？先核對 InnovLab 與 Parano1d 礦池 (zh-TW)](https://iotahome.site/zh-TW/learn/noid-address-not-found)
+- [NOID address not found: InnovLab and Parano1d pool checks (en)](https://iotahome.site/en/learn/noid-address-not-found)
+- [NOID 주소가 조회되지 않을 때: InnovLab·Parano1d 확인 (ko)](https://iotahome.site/ko/learn/noid-address-not-found)
+- [NOIDアドレスが見つからない：InnovLabとParano1dの確認 (ja)](https://iotahome.site/ja/learn/noid-address-not-found)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
@@ -585,13 +611,13 @@ Monitor: https://iotahome.site/en/projects/kas
 
 ### 开始前的几个问题 (zh-CN)
 - Canonical page: https://iotahome.site/zh/faq
-- Updated: 2026-10-12
+- Updated: 2026-10-17
 
 按你遇到的问题选择教程：添加公开标识、整理多项目设备、核对收益周期，或排查刷新失败。
 
 #### 多台 Mac 跑 IOTA，在哪里一起看状态和收益？
 
-在 IOTA Watch 添加每台 Mac 的公开 Miner ID，并填写设备名称，就能在同一页面查看官方上报状态、香港时间今日已记账收益和累计收益。适用于已有 IOTA Train at Home 设备、希望减少逐台查看的人。
+添加每台 Mac 的公开 Miner ID，集中查看状态、昨日与累计收益；登录后同步清单，本机心跳与控制可另配对 Mac Agent。
 
 #### 同一台机器运行多个项目，怎样集中查看？
 
@@ -603,7 +629,7 @@ Monitor: https://iotahome.site/en/projects/kas
 
 #### 不同项目的收益可以直接加在一起吗？
 
-需要先核对币种、统计周期和设备归属。IOTA 今日收益按香港时间记账；io.net 区块奖励按 UTC 日；Golem 为近 24 小时；fly.ai 为月度积分。不同代币、钱包余额和积分不直接相加。只有可归属设备且周期匹配的已知美元金额，才参与设备今日合计。
+先核对币种、周期和归属。IOTA 显示昨日归属，io.net 为 UTC 日，Golem 为近 24 小时，fly.ai 为月度积分；余额、积分和不同周期不能直接当作同一天设备收入比较。
 
 #### 需要登录、连接钱包或付费吗？
 
@@ -611,11 +637,11 @@ Monitor: https://iotahome.site/en/projects/kas
 
 #### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 和 Kaspa，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 #### 显示旧数据或零收益，设备一定有问题吗？
 
-先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
+先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 本次有效记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
 
 #### 这是 IOTA 公链或官方钱包吗？
 
@@ -641,13 +667,13 @@ IOTA 页面查看 Train at Home 的设备状态和记账收益；XID 页面查�
 
 打开该设备的 IOTA Train at Home 应用，进入 Miner 页面，复制完整 Miner ID。使用公开的 SS58 hotkey 地址，不是私钥、助记词或本站清单行号。
 
-#### IOTA · 打开网站就能开始挖矿吗？
+#### 能远程管理 Mac 和恢复训练吗？
 
-不能。训练在每台设备的 IOTA Train at Home 应用中运行。本站只查看上报信息，不能重启应用或读取本地日志。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
-#### IOTA · 今日收益怎么算？
+#### 昨日收益怎么算？
 
-按香港时间（UTC+8）当天 00:00 至当前时间内的 pending、settled 记账记录求和，不包含冻结记录。这是记账日口径，不代表当天一定到账。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
 #### IOTA · 收益单位 IOTA 是什么？
 
@@ -681,15 +707,23 @@ IOTA 页面查看 Train at Home 的设备状态和记账收益；XID 页面查�
 
 SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha，本站也称为 IOTA。它不是 TAO，也不是 IOTA 公链币。
 
+#### IOTA 一直排队、0 tokens/s，怎么判断有没有在训练？
+
+排队、训练进程运行和实际贡献不是一回事。先核对数据源及时间，再查看官方训练状态；没有排队名次不能证明已经开始训练。
+
+#### IOTA 窗口还在，训练却停止了：Mac 自动恢复怎么设置？
+
+Mac Agent 1.0.5 可在训练进程停止 2 分钟后尝试恢复。应用打开不等于训练已启动；内存不足仍需处理，自动恢复不能保证持续贡献。
+
 ### 開始前的幾個問題 (zh-TW)
 - Canonical page: https://iotahome.site/zh-TW/faq
-- Updated: 2026-10-12
+- Updated: 2026-10-17
 
 依照你遇到的問題選擇教學：新增公開識別碼、整理多專案設備、核對收益週期，或排查更新失敗。
 
 #### 多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？
 
-在 IOTA Watch 新增每台 Mac 的公開 Miner ID 與設備名稱，就能在同一頁查看官方回報狀態、香港時間今日已記帳收益及累計收益，適合已執行 IOTA Train at Home、希望集中查看多台機器的人。
+新增每台 Mac 的公開 Miner ID，集中查看狀態、昨日與累計收益；登入同步清單，本機心跳與控制可另配對 Mac Agent。
 
 #### 同一台機器執行多個專案，如何集中查看？
 
@@ -701,7 +735,7 @@ SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha
 
 #### 不同專案的收益可以直接相加嗎？
 
-需先核對幣種、統計週期與設備歸屬。IOTA 今日收益使用香港時間，io.net 區塊獎勵使用 UTC 日，Golem 為近 24 小時，fly.ai 為月度積分。不同代幣、錢包餘額和積分不直接相加；只有歸屬設備且週期相符的已知美元金額才計入今日合計。
+先核對幣種、周期及歸屬。IOTA 顯示昨日歸屬，io.net 是 UTC 日、Golem 近 24 小時、fly.ai 月度積分；餘額、積分與不同周期不能當作同一天單機收入比較。
 
 #### 需要登入、連接錢包或付費嗎？
 
@@ -709,11 +743,11 @@ SN9 是 Bittensor 子网 9（IOTA Train at Home）。收益代币是子网 alpha
 
 #### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 與 Kaspa，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 #### 顯示舊資料或零收益，設備一定有問題嗎？
 
-先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
+先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。本次有效記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
 
 #### 這是 IOTA 公鏈或官方錢包嗎？
 
@@ -739,13 +773,13 @@ IOTA 頁面查看 Train at Home 的設備狀態與記帳收益；XID 頁面查�
 
 開啟該裝置的 IOTA Train at Home 應用，進入 Miner 頁面，複製完整 Miner ID。使用公開的 SS58 hotkey 位址，不是私鑰、助記詞或本站清單行號。
 
-#### IOTA · 打開網站就能開始挖礦嗎？
+#### 能遠端管理 Mac 與恢復訓練嗎？
 
-不能。訓練在每個裝置的 IOTA Train at Home 應用中運作。本站只查看上報訊息，不能重新啟動應用程式或讀取本機日誌。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
-#### IOTA · 今日收益怎麼算？
+#### 昨日收益怎麼計算？
 
-以香港時間（UTC+8）當天 00:00 至目前時間內的 pending、settled 記帳記錄求和，不包含凍結記錄。這是記帳日口徑，不代表當天一定到帳。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
 #### IOTA · 收益單位 IOTA 是什麼？
 
@@ -779,15 +813,23 @@ IOTA 頁面查看 Train at Home 的設備狀態與記帳收益；XID 頁面查�
 
 SN9 是 Bittensor 子網路 9（IOTA Train at Home）。收益代幣是子網 alpha，本站也稱為 IOTA。它不是 TAO，也不是 IOTA 公鏈幣。
 
+#### IOTA 一直排隊、0 tokens/s，如何判斷是否在訓練？
+
+排隊、訓練程序執行與實際貢獻並不同。先核對來源及時間，再檢查官方訓練狀態；沒有排隊名次不能證明已開始訓練。
+
+#### IOTA 視窗還在但訓練停止：Mac 自動恢復設定
+
+Mac Agent 1.0.5 可在訓練程序停止 2 分鐘後嘗試恢復。視窗開啟不代表已訓練；記憶體不足仍須處理，不能保證持續貢獻。
+
 ### Before you start (en)
 - Canonical page: https://iotahome.site/en/faq
-- Updated: 2026-10-12
+- Updated: 2026-10-17
 
 Choose a guide for your question: adding public identifiers, organizing devices across projects, checking reward periods or investigating failed refreshes.
 
 #### Where can I check multiple Macs running IOTA together?
 
-Add each Mac's public Miner ID and a device name in IOTA Watch to see reported activity, today's accounted rewards in Hong Kong time and lifetime rewards on one page. This suits people already running IOTA Train at Home who want to check several machines together.
+Add each Mac's public Miner ID to see reported activity, yesterday's rewards and lifetime totals. Sign in to sync; pair the optional Mac agent for local heartbeats and control.
 
 #### How can I track several projects on one machine?
 
@@ -799,7 +841,7 @@ Use IOTA Watch to check saved identifiers together, organize cross-project devic
 
 #### Can rewards from different projects be added together?
 
-Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+Check currency, period and ownership. IOTA uses preceding-day attribution, io.net a UTC day, Golem rolling 24 hours and fly.ai monthly points. Balances, points and different periods are not comparable as the same day's device income.
 
 #### Do I need an account, a wallet connection or a subscription?
 
@@ -807,7 +849,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 #### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 #### Does old data or zero rewards mean my device has failed?
 
@@ -837,13 +879,13 @@ No. This monitor reads the mainnet miner block-reward index, not the pool’s co
 
 Open IOTA Train at Home on the device, select Miner, and copy the complete Miner ID. Use the public SS58 hotkey address, not a private key, seed phrase, or a row number on this site.
 
-#### IOTA · Does this start mining or training?
+#### Can I manage a Mac and recover stopped training?
 
-No. Training runs in the IOTA Train at Home application on each device. This site only monitors reported information and cannot restart the app or read local logs.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
-#### IOTA · What counts as today’s rewards?
+#### How are yesterday's rewards counted?
 
-Records dated today from 00:00 in Asia/Hong_Kong (UTC+8), up to the current time, with pending or settled status. Frozen records are excluded. This is an accounting date, not a guaranteed payout date.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
 #### IOTA · What does the IOTA unit mean?
 
@@ -877,15 +919,23 @@ This site could not finish a successful official read for more than five minutes
 
 SN9 is Bittensor subnet 9 (IOTA Train at Home). The reward token is the subnet alpha, also called IOTA here. It is not TAO and not IOTA Layer 1.
 
+#### IOTA Train at Home queued or 0 tokens/s: what to check
+
+A queue, a running training process and actual contribution are different signals. Check each source and timestamp; no queue position does not prove training has begun.
+
+#### IOTA training stopped with the app open: Mac auto-recovery
+
+Mac agent 1.0.5 can attempt recovery after the training process has stopped for two minutes. An open app is not proof of training; recovery cannot fix insufficient memory or guarantee contribution.
+
 ### 시작 전 확인 사항 (ko)
 - Canonical page: https://iotahome.site/ko/faq
-- Updated: 2026-10-12
+- Updated: 2026-10-17
 
 공개 식별자 추가, 여러 프로젝트의 기기 정리, 보상 기간 확인, 새로고침 실패 등 필요한 안내를 선택하세요.
 
 #### IOTA를 실행하는 여러 Mac의 상태와 수익을 어디서 함께 확인하나요?
 
-IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고된 상태, 홍콩 시간 기준 오늘 기록된 보상과 누적 보상을 한 화면에서 볼 수 있습니다. 이미 IOTA Train at Home을 실행하며 여러 기기를 함께 확인하려는 사용자에게 적합합니다.
+각 Mac의 공개 Miner ID로 상태·어제·누적 보상을 모아 확인합니다. 로그인으로 동기화하며 로컬 상태·제어는 선택 에이전트를 연결하세요.
 
 #### 한 기기에서 여러 프로젝트를 실행하면 어떻게 모아 보나요?
 
@@ -897,7 +947,7 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 
 #### 서로 다른 프로젝트의 수익을 합산할 수 있나요?
 
-먼저 통화, 집계 기간과 기기 귀속을 확인하세요. IOTA는 홍콩 기준 일일 정산, io.net 블록 보상은 UTC 날짜, Golem은 최근 24시간, fly.ai는 월간 포인트입니다. 다른 토큰·지갑 잔액·포인트는 직접 합산하지 않습니다. 같은 일일 기간에 해당하는 기기별 USD 금액만 오늘 합계에 포함합니다.
+통화·기간·귀속을 확인하세요. IOTA는 전날 표시, io.net은 UTC 일자, Golem은 최근 24시간, fly.ai는 월간 포인트입니다. 잔액·포인트·다른 기간을 같은 날 기기 수입으로 비교하지 마세요.
 
 #### 계정, 지갑 연결 또는 구독이 필요한가요?
 
@@ -905,7 +955,7 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 
 #### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash와 Kaspa 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 #### 이전 데이터나 수익 0이면 기기에 문제가 있나요?
 
@@ -935,13 +985,13 @@ IOTA는 Train at Home 기기 상태와 기록 보상을, XID는 xCoin / MMM 풀 
 
 장치에서IOTA Train at Home을 열고 Miner를 선택한 후 전체Miner ID을 복사합니다. 이 사이트의 개인 키, 시드 문구 또는 행 번호가 아닌 공개SS58hotkey주소를 사용하세요.
 
-#### IOTA · 채굴이나 훈련이 시작되나요?
+#### Mac 원격 관리와 훈련 복구가 가능한가요?
 
-아니요. 교육은 각 기기의IOTA Train at Home애플리케이션에서 실행됩니다. 이 사이트는 보고된 정보만 모니터링하며 앱을 다시 시작하거나 로컬 로그를 읽을 수 없습니다.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
-#### IOTA · 오늘의 보상은 무엇인가요?
+#### 어제 보상은 어떻게 계산하나요?
 
-Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이며 보류 또는 해결 상태입니다. 동결된 기록은 제외됩니다. 이는 지급 보장 날짜가 아닌 회계 날짜입니다.
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
 #### IOTA · IOTA단위는 무엇을 의미하나요?
 
@@ -975,15 +1025,23 @@ Asia/Hong_Kong(UTC+8)에서 오늘 00:00부터 현재 시간까지의 기록이�
 
 SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기서IOTA이라고도 하는 서브넷 알파입니다.TAO도 아니고IOTA레이어 1도 아닙니다.
 
+#### IOTA 대기열·0 tokens/s: 훈련 상태 확인하기
+
+대기열·훈련 프로세스 실행·실제 기여는 다른 신호입니다. 출처와 시각을 확인하세요. 순번이 없다고 훈련 시작이 증명되지는 않습니다.
+
+#### IOTA 앱은 열렸는데 훈련이 중단됐을 때 자동 복구
+
+Mac 에이전트 1.0.5는 훈련 프로세스가 2분간 멈추면 복구를 시도합니다. 열린 앱은 훈련의 증거가 아니며 복구가 메모리 부족을 해결하거나 기여를 보장하지는 않습니다.
+
 ### 始める前の確認事項 (ja)
 - Canonical page: https://iotahome.site/ja/faq
-- Updated: 2026-10-12
+- Updated: 2026-10-17
 
 公開IDの追加、複数プロジェクトの整理、報酬期間の確認、更新失敗の対処など、必要な案内を選べます。
 
 #### IOTAを動かす複数のMacの状態と収益をまとめて確認できますか？
 
-各Macの公開Miner IDとデバイス名をIOTA Watchに追加すると、報告された状態、香港時間で本日記帳された報酬、累計報酬を同じ画面で確認できます。すでにIOTA Train at Homeを実行し、複数機器をまとめて確認したい方に適しています。
+各Macの公開Miner IDで状態・昨日と累計の報酬を集約します。ログインで同期、ローカル状態と制御には任意のエージェントをペアリングします。
 
 #### 1台で複数のプロジェクトを動かす場合はどう確認しますか？
 
@@ -995,7 +1053,7 @@ SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기
 
 #### 異なるプロジェクトの収益は合算できますか？
 
-通貨、集計期間、デバイスへの帰属を先に確認します。IOTAは香港時間の日次記帳、io.netのブロック報酬はUTC日、Golemは直近24時間、fly.aiは月間ポイントです。異なるトークン、残高、ポイントを直接合算せず、日次期間が一致する既知のデバイス単位のUSD額のみ本日の合計に含めます。
+通貨・期間・帰属を確認します。IOTAは前日表示、io.netはUTC日、Golemは直近24時間、fly.aiは月次ポイントです。残高・ポイント・異なる期間を同日の1台の収入として比較しません。
 
 #### アカウント、ウォレット接続、購読は必要ですか？
 
@@ -1003,7 +1061,7 @@ SN9은Bittensor서브넷 9(IOTA Train at Home)입니다. 보상 토큰은 여기
 
 #### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspaの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 
 #### 古いデータや報酬ゼロは故障を意味しますか？
 
@@ -1033,13 +1091,13 @@ IOTAはTrain at Homeのデバイス状態と記帳報酬、XIDはxCoin / MMMの�
 
 デバイス上でIOTA Train at Homeを開き、Miner を選択して、完全なMiner IDをコピーします。このサイトでは、秘密キー、シード フレーズ、または行番号ではなく、公開アドレスSS58hotkeyを使用してください。
 
-#### IOTA · これで採掘やトレーニングが始まりますか?
+#### Macの遠隔管理・学習復旧は可能？
 
-いいえ。トレーニングは各デバイスのIOTA Train at Homeアプリケーションで実行されます。このサイトは報告された情報のみを監視し、アプリを再起動したり、ローカル ログを読み取ることはできません。
+公開Miner ID照会は公式報告のみです。任意のMacエージェントを設置・ペアリングすると、応答・待機順位・学習プロセスと遠隔起動・停止・再起動・代理更新を利用できます。ログは別途有効化します。1.0.5の学習自動復旧は初期無効、Pro不要です。
 
-#### IOTA · 今日の報酬は何ですか?
+#### 昨日の報酬の計算方法は？
 
-アジア/香港 (UTC+8) の今日の 00:00 から現在時刻までの、保留中または解決済みステータスのレコード。凍結されたレコードは除外されます。これは会計日であり、保証された支払い日ではありません。
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 
 #### IOTA · IOTAという単位は何を意味しますか?
 
@@ -1073,6 +1131,14 @@ IOTAはTrain at Homeのデバイス状態と記帳報酬、XIDはxCoin / MMMの�
 
 SN9はBittensorサブネット 9 (IOTA Train at Home) です。報酬トークンはサブネット アルファであり、ここではIOTAとも呼ばれます。レイヤ 1TAOやIOTAではありません。
 
+#### IOTAが待機中・0 tokens/sのときの確認方法
+
+待機順位・学習プロセス・実際の貢献は異なる情報です。取得元と時刻を確認し、順位がないことを学習開始の証拠にしないでください。
+
+#### IOTAアプリが開いているのに学習停止：Mac自動復旧
+
+Macエージェント1.0.5は学習プロセスの停止2分後に復旧を試みます。アプリの表示だけでは学習中ではなく、メモリ不足の解消や貢献の保証もできません。
+
 ## Complete multilingual guides
 
 ### What IOTA Watch is — not the IOTA cryptocurrency
@@ -1082,179 +1148,189 @@ SN9はBittensorサブネット 9 (IOTA Train at Home) です。報酬トーク�
 - ko: https://iotahome.site/ko/learn/what-is-iota-watch
 - ja: https://iotahome.site/ja/learn/what-is-iota-watch
 - Published: 2026-09-12
-- Updated: 2026-09-12
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Watch 是什么？它不是 IOTA 公链钱包 (zh-CN)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
-IOTA Watch 是面向 [IOTA Train at Home](https://iota.macrocosmos.ai/) 的独立网页监控工具。添加公开 Miner ID 后，可在同一页面查看上报的训练状态、今日记账收益和累计收益。
+## 先看结论
 
-它**不是** IOTA Foundation 的 Layer 1 公链，也不是 IOTA 币钱包，更不是 Firefly。它不能转账、托管资金或签名交易。
+IOTA Watch 是独立的多项目监控工具，以 Macrocosmos IOTA Train at Home 为核心。用公开 Miner ID 查看状态、昨日收益和累计收益；需要本机信息及控制时，可自行安装并配对 Mac Agent。它不是 IOTA Foundation 公链钱包。
 
-## 功能范围
+IOTA Watch 是独立的多项目监控工具，以 Macrocosmos IOTA Train at Home 为核心。用公开 Miner ID 查看状态、昨日收益和累计收益；需要本机信息及控制时，可自行安装并配对 Mac Agent。它不是 IOTA Foundation 公链钱包。
 
-- 用公开 Miner ID（SS58 hotkey）查询官方上报数据
+[打开监控](https://iotahome.site/zh/app)，添加每台设备的公开 Miner ID / hotkey。收款 coldkey 与设备标识不同，不能填私钥或助记词。每项目免费保存 5 台，Pro 50 台；登录同步清单，设备总览不额外设总数限制。不同项目的钱包余额、积分及设备收益保留各自周期。
 
-- 将多台设备放在同一份清单中，使用自定义名称区分
+## 能远程管理 Mac 和恢复训练吗？
 
-- 未登录可在浏览器保存每个项目免费最多 5 台，Google 登录后每个项目免费 5 台、Pro 50 台
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
-## 功能限制
+## 昨日收益怎么算？
 
-- 不能启动或停止训练
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
-- 不能读取设备上的 IOTA 应用日志
+累计收益取官方 Total Earned，不再次加上 Total Paid。美元为查询时市场估值，不是官方支付价格；无报价显示未知，不伪造为零。邮件与网页的昨日 IOTA 采用相同日期归属，但采集时刻、官方修订与估值时刻可能不同。
 
-- 不能保证收益或到账时间
+本站不是项目官方服务，不托管资金、不签名交易，不保证任务分配、等待时长或收益。未配对 Agent 时不能控制本机；其他项目的账户指标和钱包统计不等于单机实际收益。
 
-训练必须在每台设备的官方 Train at Home 应用中运行。官方说明见 [Macrocosmos TAH 用户指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+[IOTA Train at Home](https://iotahome.site/zh/learn/start-iota-train-at-home) · [Mac Agent](https://iotahome.site/zh/learn/iota-training-stopped-auto-recovery)
 
-## 搜索结果容易混淆的原因
+## 常见问题
 
-搜索「IOTA」时，结果大多指向 IOTA 公链。IOTA Train at Home 是 Macrocosmos 在 Bittensor 生态中的去中心化训练产品。收益单位也称为 IOTA，但是子网 alpha 代币，不是 IOTA 公链币，也不是 TAO。对照见 [Train at Home 和 IOTA 公链的区别](https://iotahome.site/zh/learn/iota-train-at-home-vs-iota-coin)。
+### 能远程管理 Mac 和恢复训练吗？
 
-> 监控训练设备请使用 IOTA Watch。管理 IOTA 公链资产请使用对应官方钱包。请勿在本站填写私钥或助记词。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
-下一步：[获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)，然后打开 [我的设备](https://iotahome.site/zh/app)。
+### 昨日收益怎么算？
+
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
 ### IOTA Watch 是什麼？它不是 IOTA 公鏈錢包 (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
-IOTA Watch 是針對 [IOTA Train at Home](https://iota.macrocosmos.ai/)的獨立網頁監控工具。新增公開 Miner ID 後，可在同一頁面查看上報的訓練狀態、今日記帳收益和累積收益。
+## 先看結論
 
-它**不是**IOTA Foundation 的 Layer 1 公鏈，也不是 IOTA 幣錢包，更不是 Firefly。它不能轉帳、託管資金或簽名交易。
+IOTA Watch 是以 Macrocosmos IOTA Train at Home 為核心的獨立多專案監控工具。公開 Miner ID 可查狀態、昨日及累計收益；本機資訊與控制需另裝並配對 Mac Agent。不是 IOTA Foundation 公鏈錢包。
 
-## 功能範圍
+IOTA Watch 是以 Macrocosmos IOTA Train at Home 為核心的獨立多專案監控工具。公開 Miner ID 可查狀態、昨日及累計收益；本機資訊與控制需另裝並配對 Mac Agent。不是 IOTA Foundation 公鏈錢包。
 
-- 以公開 Miner ID（SS58 hotkey）查詢官方回報數據
+[開啟監控](https://iotahome.site/zh-TW/app) 新增各設備公開 Miner ID / hotkey，與收款 coldkey 不同，勿填私鑰或助記詞。每專案免費 5 台、Pro 50 台；登入同步清單，設備總覽無額外總數限制。各專案餘額、積分及收益保留原周期。
 
-- 將多台設備放在同一份清單中，使用自訂名稱區分
+## 能遠端管理 Mac 與恢復訓練嗎？
 
-- 免費版每個項目可關聯 5 台設備，Pro 每個項目 50 台。各項目獨立計數，設備總覽不另設總數限制。Google 登入可跨設備同步，未登入時清單儲存在目前瀏覽器。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
-## 功能限制
+## 昨日收益怎麼計算？
 
-- 不能啟動或停止訓練
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
-- 無法讀取裝置上的 IOTA 應用程式日誌
+累計收益使用官方 Total Earned，不再加 Total Paid。美元是查詢時市場估值，非官方支付價；無報價顯示未知。郵件與網頁昨日 IOTA 日期口徑一致，但採集、官方修訂與估值時刻可能不同。
 
-- 不能保證收益或到帳時間
+本站並非官方服務，不託管資金、不簽名交易、不保證任務、等待時長或收益。未配對 Agent 不能控制本機；其他專案帳戶或錢包指標不等於單機收益。
 
-訓練必須在每台設備的官方 Train at Home 應用中運作。官方說明請見 [Macrocosmos TAH 使用者指南](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)。
+[IOTA Train at Home](https://iotahome.site/zh-TW/learn/start-iota-train-at-home) · [Mac Agent](https://iotahome.site/zh-TW/learn/iota-training-stopped-auto-recovery)
 
-## 搜尋結果容易混淆的原因
+## 常見問題
 
-搜尋「IOTA」時，結果大多指向 IOTA 公鏈。 IOTA Train at Home 是 Macrocosmos 在 Bittensor 生態中的去中心化訓練產品。收益單位也稱為 IOTA，但是子網 alpha 代幣，不是 IOTA 公鏈幣，也不是 TAO。對照見 [Train at Home 和 IOTA 公鏈的區別](https://iotahome.site/zh-TW/learn/iota-train-at-home-vs-iota-coin)。
+### 能遠端管理 Mac 與恢復訓練嗎？
 
-> 監控訓練設備請使用 IOTA Watch。管理 IOTA 公鏈資產請使用對應官方錢包。請勿在本站填寫私鑰或助記詞。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
-下一步：[取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)，然後開啟 [我的裝置](https://iotahome.site/zh-TW/app)。
+### 昨日收益怎麼計算？
+
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
 ### What IOTA Watch is — not the IOTA cryptocurrency (en)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
-IOTA Watch is an independent browser dashboard for [IOTA Train at Home](https://iota.macrocosmos.ai/). Add a public Miner ID to view reported training status, today’s accounted rewards, and lifetime rewards.
+## At a glance
 
-It is **not** the IOTA Foundation Layer 1 network, not an IOTA coin wallet, and not Firefly. It cannot send tokens, hold funds, or sign transactions.
+IOTA Watch is an independent multi-project monitor built around Macrocosmos IOTA Train at Home. Public Miner IDs show reported activity, yesterday's rewards and lifetime rewards. Local telemetry and controls require the optional paired Mac agent. It is not an IOTA Foundation wallet.
 
-## What it can do
+IOTA Watch is an independent multi-project monitor built around Macrocosmos IOTA Train at Home. Public Miner IDs show reported activity, yesterday's rewards and lifetime rewards. Local telemetry and controls require the optional paired Mac agent. It is not an IOTA Foundation wallet.
 
-- Look up official reported status with a public Miner ID (SS58 hotkey)
+[Open the monitor](https://iotahome.site/en/app) and add each device's public Miner ID / hotkey, not its payout coldkey, private key or seed. Free saves five devices per project and Pro 50; sign in to sync the list. The cross-project overview adds no overall limit. Balances, points and earnings keep their source periods.
 
-- Show several devices in one list, with custom names
+## Can I manage a Mac and recover stopped training?
 
-- Keep up to 5 devices per project on Free in this browser, or sign in with Google to bind up to 5 devices per project on Free, or 50 per project on Pro
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
-## What it cannot do
+## How are yesterday's rewards counted?
 
-- Start or stop training on the device
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
-- Read local IOTA app logs
+Lifetime uses official Total Earned without adding Total Paid again. USD is a market estimate at lookup, not an official payout price; a missing quote stays unknown. Daily email and website IOTA use the same preceding-day attribution, but capture time, upstream revisions and valuation time can differ.
 
-- Promise rewards or a payout time
+This is not an official project service. It does not custody funds, sign transactions or guarantee task allocation, wait times or returns. Unpaired Macs cannot be controlled. Account and wallet statistics from other projects do not establish individual-machine earnings.
 
-Training still runs in the official Train at Home app on each machine. See the [Macrocosmos TAH user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide).
+[IOTA Train at Home](https://iotahome.site/en/learn/start-iota-train-at-home) · [Mac Agent](https://iotahome.site/en/learn/iota-training-stopped-auto-recovery)
 
-## Why search results are confusing
+## Common questions
 
-A search for “IOTA” usually means the IOTA Foundation chain. IOTA Train at Home is a Macrocosmos product in the Bittensor ecosystem. The reward unit is also called IOTA, but it is the subnet alpha token — not IOTA Layer 1, and not TAO. See [Train at Home vs the IOTA coin](https://iotahome.site/en/learn/iota-train-at-home-vs-iota-coin).
+### Can I manage a Mac and recover stopped training?
 
-> To monitor home training devices, use IOTA Watch. To hold IOTA Layer 1 coins, use that network’s official wallet. Do not paste a private key or seed phrase here.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
-Next: [find your Miner ID](https://iotahome.site/en/learn/find-miner-id), then open [My devices](https://iotahome.site/en/app).
+### How are yesterday's rewards counted?
+
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
 ### IOTA Watch란? IOTA 암호화폐와의 차이 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
-IOTA Watch는 [IOTA Train at Home](https://iota.macrocosmos.ai/)을 위한 독립적인 웹 대시보드입니다. 공개 Miner ID를 추가하면 공식 데이터에 보고된 훈련 상태, 오늘의 기록된 보상, 누적 보상을 확인할 수 있습니다.
+## 핵심 내용
 
-IOTA Foundation의 Layer 1 네트워크, IOTA 코인 지갑, Firefly와는 **다른 서비스**입니다. 토큰 전송, 자금 보관, 거래 서명 기능은 없습니다.
+IOTA Watch는 Macrocosmos IOTA Train at Home 중심의 독립 멀티 프로젝트 모니터입니다. 공개 Miner ID로 상태·어제 보상·누적 보상을 조회하며 로컬 정보·제어는 선택 Mac 에이전트 설치와 연결이 필요합니다. IOTA Foundation 지갑이 아닙니다.
 
-## 할 수 있는 일
+IOTA Watch는 Macrocosmos IOTA Train at Home 중심의 독립 멀티 프로젝트 모니터입니다. 공개 Miner ID로 상태·어제 보상·누적 보상을 조회하며 로컬 정보·제어는 선택 Mac 에이전트 설치와 연결이 필요합니다. IOTA Foundation 지갑이 아닙니다.
 
-- 공개Miner ID(SS58hotkey)으로 공식 보고 상태 조회
+[모니터](https://iotahome.site/ko/app)에 각 기기의 공개 Miner ID / hotkey를 추가하세요. 지급 coldkey와 다르며 비밀키·시드는 입력하지 마세요. 프로젝트당 무료 5대·Pro 50대로 로그인 시 목록을 동기화하며 통합 화면의 추가 총수 제한은 없습니다. 잔액·포인트·수익은 각 출처 기간을 유지합니다.
 
-- 여러 장치를 하나의 목록에 사용자 정의 이름으로 표시
+## Mac 원격 관리와 훈련 복구가 가능한가요?
 
-- 무료는 프로젝트별 기기 5대, Pro는 프로젝트별 50대를 지원합니다. 프로젝트 한도는 독립적이며 기기 개요에 별도의 총수 제한은 없습니다. Google 로그인으로 기기 간 목록을 동기화할 수 있습니다. 로그인하지 않으면 목록은 이 브라우저에 저장됩니다.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
-## 할 수 없는 일
+## 어제 보상은 어떻게 계산하나요?
 
-- 장치에서 훈련을 시작하거나 중지합니다.
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
-- 로컬IOTA앱 로그 읽기
+누적은 공식 Total Earned이며 Total Paid를 다시 더하지 않습니다. USD는 조회 시 시장 추정값으로 공식 지급 가격이 아니며 가격이 없으면 미상입니다. 메일·웹의 어제 IOTA는 같은 일자 기준이지만 수집·공식 수정·환산 시각은 다를 수 있습니다.
 
-- 보상이나 지불 시간을 약속합니다.
+공식 프로젝트 서비스가 아니며 자금 보관·거래 서명·작업 배정·대기 시간·수익 보장을 하지 않습니다. 연결되지 않은 Mac을 제어하지 못하며 다른 프로젝트의 계정·지갑 통계가 개별 기기 수입을 증명하지 않습니다.
 
-훈련은 여전히 각 머신의 공식Train at Home앱에서 실행됩니다. [MacrocosmosTAH 사용자 가이드](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)를 참조하세요.
+[IOTA Train at Home](https://iotahome.site/ko/learn/start-iota-train-at-home) · [Mac Agent](https://iotahome.site/ko/learn/iota-training-stopped-auto-recovery)
 
-## 검색결과가 혼란스러운 이유
+## 자주 묻는 질문
 
-"IOTA"으로 검색하면 일반적으로IOTAFoundation 체인을 의미합니다.IOTA Train at Home는Bittensor생태계의Macrocosmos제품입니다. 보상 단위는IOTA라고도 부르지만IOTA레이어 1이나TAO이 아닌 서브넷 알파 토큰입니다. [Train at Home대IOTA코인](https://iotahome.site/ko/learn/iota-train-at-home-vs-iota-coin)을 참조하세요.
+### Mac 원격 관리와 훈련 복구가 가능한가요?
 
-> 홈트레이닝 기기를 모니터링하려면IOTA Watch을 사용하세요.IOTA개의 레이어 1 코인을 보유하려면 해당 네트워크의 공식 지갑을 사용하세요. 여기에 개인 키나 시드 문구를 붙여넣지 마세요.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
-다음: [Miner ID](https://iotahome.site/ko/learn/find-miner-id)을 찾은 다음 [내 장치](https://iotahome.site/ko/app)를 엽니다.
+### 어제 보상은 어떻게 계산하나요?
+
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
 ### IOTA Watchとは？IOTA暗号資産との違い (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
-IOTA Watchは[IOTA Train at Home](https://iota.macrocosmos.ai/)向けの独立したウェブダッシュボードです。公開Miner IDを追加すると、公式データに記録された学習状態、本日の報酬、累計報酬を確認できます。
+## 要点
 
-IOTA FoundationのLayer 1ネットワーク、IOTAコインのウォレット、Fireflyとは**別のサービス**です。トークンの送金、資金の保管、取引への署名はできません。
+IOTA WatchはMacrocosmos IOTA Train at Homeを中心とした独立マルチプロジェクト監視ツールです。公開Miner IDで状態・昨日と累計の報酬を確認でき、ローカル情報と制御には任意のMacエージェント設置・ペアリングが必要です。IOTA Foundationのウォレットではありません。
 
-## できること
+IOTA WatchはMacrocosmos IOTA Train at Homeを中心とした独立マルチプロジェクト監視ツールです。公開Miner IDで状態・昨日と累計の報酬を確認でき、ローカル情報と制御には任意のMacエージェント設置・ペアリングが必要です。IOTA Foundationのウォレットではありません。
 
-- 公式に報告されたステータスをパブリックMiner ID(SS58hotkey) で検索します。
+[監視画面](https://iotahome.site/ja/app)に各機器の公開Miner ID / hotkeyを追加します。受取coldkey・秘密鍵・シードとは異なります。無料は各プロジェクト5台、Proは50台、ログインで同期し、統合画面の追加総数上限はありません。残高・ポイント・収益は取得元の期間を保ちます。
 
-- 複数のデバイスをカスタム名で 1 つのリストに表示します
+## Macの遠隔管理・学習復旧は可能？
 
-- 無料版は各プロジェクト5台、Proは各50台に対応します。各プロジェクトの枠は独立し、デバイス一覧に別途の総数制限はありません。Googleログインでデバイス間の一覧を同期でき、ログインしない場合はこのブラウザーに保存されます。
+公開Miner ID照会は公式報告のみです。任意のMacエージェントを設置・ペアリングすると、応答・待機順位・学習プロセスと遠隔起動・停止・再起動・代理更新を利用できます。ログは別途有効化します。1.0.5の学習自動復旧は初期無効、Pro不要です。
 
-## できないこと
+## 昨日の報酬の計算方法は？
 
-- デバイス上でトレーニングを開始または停止する
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 
-- ローカルのIOTAアプリ ログを読み取る
+累計は公式Total Earnedで、Total Paidを再加算しません。USDは取得時の市場概算で公式支払価格ではなく、価格なしは不明です。メールとWebは同じ前日帰属ですが、取得時刻・公式修正・換算時刻は異なる場合があります。
 
-- 報酬や支払い時期を約束する
+公式サービスではなく、資金保管・取引署名・タスク配分・待ち時間・収益の保証はしません。未ペアリングのMacは制御できず、他プロジェクトのアカウントやウォレット統計は1台の収益を証明しません。
 
-トレーニングは各マシンの公式Train at Homeアプリで引き続き実行されます。 [MacrocosmosTAH ユーザー ガイド](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) を参照してください。
+[IOTA Train at Home](https://iotahome.site/ja/learn/start-iota-train-at-home) · [Mac Agent](https://iotahome.site/ja/learn/iota-training-stopped-auto-recovery)
 
-## 検索結果がわかりにくい理由
+## よくある質問
 
-「IOTA」を検索すると、通常はIOTAFoundation チェーンを意味します。IOTA Train at Homeは、Bittensorエコシステム内のMacrocosmos製品です。報酬ユニットはIOTAとも呼ばれますが、これはサブネット アルファ トークンであり、IOTALayer 1 やTAOではありません。 [Train at Home対IOTAコイン](https://iotahome.site/ja/learn/iota-train-at-home-vs-iota-coin)を参照してください。
+### Macの遠隔管理・学習復旧は可能？
 
-> ホームトレーニングデバイスを監視するには、IOTA Watchを使用します。IOTAのレイヤー 1 コインを保持するには、そのネットワークの公式ウォレットを使用してください。ここに秘密キーやシードフレーズを貼り付けないでください。
+公開Miner ID照会は公式報告のみです。任意のMacエージェントを設置・ペアリングすると、応答・待機順位・学習プロセスと遠隔起動・停止・再起動・代理更新を利用できます。ログは別途有効化します。1.0.5の学習自動復旧は初期無効、Pro不要です。
 
-次に: [Miner IDを検索](https://iotahome.site/ja/learn/find-miner-id)、[マイ デバイス](https://iotahome.site/ja/app) を開きます。
+### 昨日の報酬の計算方法は？
+
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 
 
 ### How to find your IOTA Train at Home Miner ID
@@ -1540,62 +1616,36 @@ IOTA Watchで使用されるMiner IDは、公式Train at Homeアプリに表示�
 - Source: Macrocosmos · Train at Home user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: Macrocosmos · Train at Home FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
 
-### How IOTA Train at Home daily and lifetime rewards are counted
+### IOTA yesterday's rewards, lifetime totals and daily email dates
 - zh-CN: https://iotahome.site/zh/learn/how-rewards-work
 - zh-TW: https://iotahome.site/zh-TW/learn/how-rewards-work
 - en: https://iotahome.site/en/learn/how-rewards-work
 - ko: https://iotahome.site/ko/learn/how-rewards-work
 - ja: https://iotahome.site/ja/learn/how-rewards-work
 - Published: 2026-09-12
-- Updated: 2026-10-09
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
-### IOTA Train at Home 今日收益和累计收益怎么算 (zh-CN)
+### IOTA 昨日收益、累计收益和日报日期怎么算？ (zh-CN)
 Published: 2026-09-12
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看结论
 
-今日 IOTA 是香港时间 00:00 起的 pending 与 settled 记账记录，排除冻结与未来记录。累计使用官方 Total Earned，不再叠加 Total Paid；已赚金额不等于钱包已到账。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
-IOTA Watch 不会估算收益。它读取官方 entitlements 记录，并给出两个数字：今日记账收益，以及累计记账收益。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
-## 今日收益
+## 昨日收益怎么算？
 
-- 按香港时间（UTC+8）当天 00:00 起算
+累计收益取官方 Total Earned，不再次加上 Total Paid。美元为查询时市场估值，不是官方支付价格；无报价显示未知，不伪造为零。邮件与网页的昨日 IOTA 采用相同日期归属，但采集时刻、官方修订与估值时刻可能不同。
 
-- 只加总状态为 **pending** 或 **settled** 的记录
+[打开监控](https://iotahome.site/zh/app)，添加每台设备的公开 Miner ID / hotkey。收款 coldkey 与设备标识不同，不能填私钥或助记词。每项目免费保存 5 台，Pro 50 台；登录同步清单，设备总览不额外设总数限制。不同项目的钱包余额、积分及设备收益保留各自周期。
 
-- 冻结和其他状态不计入
+[IOTA](https://iotahome.site/zh/app) · [USD](https://iotahome.site/zh/learn/iota-rewards-in-usd)
 
-- 时间戳晚于当前时刻的记录不计入
-
-这是记账日口径，不代表代币今天已经打到钱包。
-
-## 累计收益
-
-累计收益取官方 totals 接口里的 **total earned**。不会再把已支付金额叠加上去，避免同一笔记两次。
-
-## 这里的 IOTA 是什么单位
-
-本站的 IOTA 是 Train at Home 上游接口使用的子网 alpha 代币。它不是 TAO，也不是 IOTA 公链币。每个 IOTA 数字旁边会同时给出按公开市场价格估算的美元，那不是官方结算价。详见 [收益怎么显示美元](https://iotahome.site/zh/learn/iota-rewards-in-usd)。
-
-## 缺失不是零
-
-请求失败或数据不可用时，页面显示未知，不记作 0。只有部分设备有可用数据时，总计会标明覆盖范围，例如 2/3 台。
-
-> 数据有缓存：设备状态通常保留 60 秒，收益保留 5 分钟。手动刷新有 15 秒冷却。
-
-若设备显示未在训练，请先查看 [状态含义](https://iotahome.site/zh/learn/device-status)，不宜直接视为离线。
-
-## 怎样复核同一笔收益？
-
-先从官方应用获取公开 Miner ID，在首页直接查询。读取 /v1/entitlements/history/hotkey/公开ID 的 alpha_amounts、timestamps、statuses，按同一位置组成一条记录；与当前香港自然日比较后求和。再用 totals 接口的 total_amount_earned 核对累计。
-
-## 今日为零时怎么排查？
-
-成功读到空数组或窗口内没有 pending、settled 记录，可以是零；超时、缺字段或数组长度不一致是未知。冻结记录、前一天记录和未来时间不能计入今日。状态采样、收益记账和美元报价有不同时间，先比较各自时效，再决定是否回本机检查。
+下方历史证据截图保留拍摄时的旧「今日」标签，只用于核对原始账本字段。当前页面及日报已改为上述昨日归属，历史截图不代表当前界面。
 
 ## 实测案例
 
@@ -1619,59 +1669,29 @@ IOTA 官方公开名单样本的查询结果；截图为简体中文，历史快
 
 ## 常见问题
 
-### 累计是否要加上已支付？
+### 昨日收益怎么算？
 
-不用，Total Earned 已包含已完成和待支付的收入，再加已支付会重复计算。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
-### 香港午夜后今日归零正常吗？
-
-可以，新的一天使用新时间窗口；累计不会因此被清空。
-
-### IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)
+### IOTA 昨日收益、累計收益與日報日期怎麼算？ (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看結論
 
-今日 IOTA 是香港時間 00:00 起的 pending 與 settled 記帳紀錄，排除凍結與未來紀錄。累計使用官方 Total Earned，不再加上 Total Paid；已賺金額不等於錢包已到帳。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
-IOTA Watch 不會估算收益。它讀取官方 entitlements 記錄，並給出兩個數字：今日記帳收益，以及累積記帳收益。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
-## 今日收益
+## 昨日收益怎麼計算？
 
-- 以香港時間（UTC+8）當天 00:00 算
+累計收益使用官方 Total Earned，不再加 Total Paid。美元是查詢時市場估值，非官方支付價；無報價顯示未知。郵件與網頁昨日 IOTA 日期口徑一致，但採集、官方修訂與估值時刻可能不同。
 
-- 只加總狀態為**pending**或**settled**的記錄
+[開啟監控](https://iotahome.site/zh-TW/app) 新增各設備公開 Miner ID / hotkey，與收款 coldkey 不同，勿填私鑰或助記詞。每專案免費 5 台、Pro 50 台；登入同步清單，設備總覽無額外總數限制。各專案餘額、積分及收益保留原周期。
 
-- 凍結和其他狀態不計入
+[IOTA](https://iotahome.site/zh-TW/app) · [USD](https://iotahome.site/zh-TW/learn/iota-rewards-in-usd)
 
-- 時間戳晚於當下時刻的記錄不計入
-
-這是記帳日口徑，不代表代幣今天已經打到錢包。
-
-## 累計收益
-
-累計收益取官方 totals 介面裡的**total earned**。不會再把已支付金額疊加上去，避免同一筆記兩次。
-
-## 這裡的 IOTA 是什麼單位
-
-本站的 IOTA 是 Train at Home 上游介面使用的子網路 alpha 代幣。它不是 TAO，也不是 IOTA 公鏈幣。每個 IOTA 數字旁邊會同時給出以公開市場價格估算的美元，那不是官方結算價。詳見 [收益怎麼顯示美元](https://iotahome.site/zh-TW/learn/iota-rewards-in-usd)。
-
-## 缺失不是零
-
-請求失敗或資料不可用時，頁面顯示未知，不記作 0。只有部分設備有可用資料時，總計會標示覆蓋範圍，例如 2/3 台。
-
-> 資料有快取：設備狀態通常保留 60 秒，收益保留 5 分鐘。手動刷新有 15 秒冷卻。
-
-若設備顯示未在訓練，請先查看 [狀態意義](https://iotahome.site/zh-TW/learn/device-status)，不宜直接視為離線。
-
-## 如何複核同一筆收益？
-
-先從官方應用取得公開 Miner ID，在首頁直接查詢。讀取 history 的 alpha_amounts、timestamps、statuses，同位置組成一筆紀錄；按香港自然日求和，再用 totals 的 total_amount_earned 核對累計。
-
-## 今日為零如何排查？
-
-成功讀到空陣列或期間沒有 pending、settled 紀錄，可以為零；逾時、缺欄位或陣列長度不同是未知。凍結、前一天和未來紀錄不計入今日。先核對狀態、記帳和美元報價各自時間，再回本機檢查。
+下方歷史截圖保留拍攝時舊「今日」標籤，只用於核對原始帳本欄位。現行頁面與日報使用上述昨日歸屬，歷史截圖非目前介面。
 
 ## 實測案例
 
@@ -1695,59 +1715,29 @@ IOTA 官方公開名單樣本查詢結果；截圖為簡體中文，是歷史快
 
 ## 常見問題
 
-### 累計是否要加上已支付？
+### 昨日收益怎麼計算？
 
-不用，Total Earned 已包含已完成與待支付收入，再加已支付會重複計算。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
-### 香港午夜後今日歸零正常嗎？
-
-可以，新的一天使用新的時間範圍；累計不會因此清空。
-
-### How IOTA Train at Home daily and lifetime rewards are counted (en)
+### IOTA yesterday's rewards, lifetime totals and daily email dates (en)
 Published: 2026-09-12
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## At a glance
 
-Today’s IOTA sums pending and settled accounting records since Hong Kong midnight, excluding frozen and future records. Lifetime uses official Total Earned without adding Total Paid again. Accounted earnings are not confirmed wallet receipts.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
-IOTA Watch does not estimate earnings. It reads official entitlement records and shows two numbers: today’s accounted rewards, and lifetime accounted rewards.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
-## Today’s rewards
+## How are yesterday's rewards counted?
 
-- Calendar day starts at 00:00 in Asia/Hong_Kong (UTC+8)
+Lifetime uses official Total Earned without adding Total Paid again. USD is a market estimate at lookup, not an official payout price; a missing quote stays unknown. Daily email and website IOTA use the same preceding-day attribution, but capture time, upstream revisions and valuation time can differ.
 
-- Only records with status **pending** or **settled** are added
+[Open the monitor](https://iotahome.site/en/app) and add each device's public Miner ID / hotkey, not its payout coldkey, private key or seed. Free saves five devices per project and Pro 50; sign in to sync the list. The cross-project overview adds no overall limit. Balances, points and earnings keep their source periods.
 
-- Frozen and other statuses are excluded
+[IOTA](https://iotahome.site/en/app) · [USD](https://iotahome.site/en/learn/iota-rewards-in-usd)
 
-- A timestamp after “now” is excluded
-
-This is an accounting date. It does not mean the tokens arrived in a wallet today.
-
-## Lifetime rewards
-
-Lifetime uses **total earned** from the official totals API. Paid amounts are not added on top of earned, so the same reward is not counted twice.
-
-## What the IOTA unit means here
-
-On this site, IOTA is the Train at Home subnet alpha token used by the upstream API. It is not a TAO amount and not IOTA Layer 1. Next to each IOTA figure the dashboard also shows a USD estimate from the public SN9 market price. That estimate is not an official payout. Details: [how USD is shown](https://iotahome.site/en/learn/iota-rewards-in-usd).
-
-## Missing values are not zero
-
-If a request fails or the payload is unusable, the dashboard shows unknown — not 0. When only some devices have usable data, the total is marked partial (for example 2/3 devices).
-
-> Numbers refresh on a cache: device status is usually kept for 60 seconds, rewards for five minutes. A manual refresh has a 15-second cooldown.
-
-If a device appears idle, see [status meanings](https://iotahome.site/en/learn/device-status) before treating it as offline.
-
-## Reproduce the accounting check
-
-Copy the public Miner ID from the official app and query it on the home page. Read alpha_amounts, timestamps and statuses from /v1/entitlements/history/hotkey/public-ID; positions identify each record. Sum eligible entries in the same Hong Kong day, then compare total_amount_earned from totals for lifetime.
-
-## Diagnose zero or missing daily rewards
-
-A successfully read empty array or a day with no pending/settled entries can legitimately be zero. Timeouts, missing fields or unequal array lengths are unknown. Frozen, previous-day and future records do not count today. Check the independent activity, accounting and quote clocks before inspecting the machine.
+The dated evidence screenshot below retains its original Today label to document raw ledger fields. Current cards and daily emails use the preceding-day attribution above; the historical screenshot is not the current interface.
 
 ## Observed example
 
@@ -1771,59 +1761,29 @@ This read produced 6.64217856 IOTA for today and 111.16934253 IOTA lifetime. Add
 
 ## Common questions
 
-### Should paid rewards be added to lifetime earned?
+### How are yesterday's rewards counted?
 
-No. Total Earned already includes completed and pending income; adding paid duplicates it.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
-### Can today reset after Hong Kong midnight?
-
-Yes. A new day starts a new accounting window; this does not clear lifetime rewards.
-
-### IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)
+### IOTA 어제·누적 보상과 일일 메일 날짜 계산 (ko)
 Published: 2026-10-02
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 핵심 내용
 
-오늘 IOTA는 홍콩 자정 이후 pending·settled 기록을 합산하고 frozen 및 미래 기록은 제외합니다. 누적은 공식 Total Earned이며 Total Paid를 다시 더하지 않습니다. 기록 수입은 지갑 수령 확정과 다릅니다.
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
-IOTA Watch는 보상을 임의로 계산하거나 예측하지 않습니다. 공식 보상 기록을 읽고 오늘의 기록된 보상과 누적 보상을 표시합니다.
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
-## 오늘의 보상
+## 어제 보상은 어떻게 계산하나요?
 
-- 하루는 Asia/Hong_Kong 기준 00:00(UTC+8)에 시작합니다.
+누적은 공식 Total Earned이며 Total Paid를 다시 더하지 않습니다. USD는 조회 시 시장 추정값으로 공식 지급 가격이 아니며 가격이 없으면 미상입니다. 메일·웹의 어제 IOTA는 같은 일자 기준이지만 수집·공식 수정·환산 시각은 다를 수 있습니다.
 
-- 상태가 **pending**(대기) 또는 **settled**(정산 완료)인 기록만 합산합니다.
+[모니터](https://iotahome.site/ko/app)에 각 기기의 공개 Miner ID / hotkey를 추가하세요. 지급 coldkey와 다르며 비밀키·시드는 입력하지 마세요. 프로젝트당 무료 5대·Pro 50대로 로그인 시 목록을 동기화하며 통합 화면의 추가 총수 제한은 없습니다. 잔액·포인트·수익은 각 출처 기간을 유지합니다.
 
-- 동결된 기록과 그 밖의 상태는 제외합니다.
+[IOTA](https://iotahome.site/ko/app) · [USD](https://iotahome.site/ko/learn/iota-rewards-in-usd)
 
-- 현재 시각보다 뒤의 타임스탬프는 제외합니다.
-
-이 날짜는 보상이 기록된 날짜입니다. 오늘 지갑으로 토큰이 입금되었다는 뜻은 아닙니다.
-
-## 누적 보상
-
-누적 보상은 공식 합계 API의 **총 획득량**을 사용합니다. 이미 지급된 금액을 획득량에 다시 더하지 않으므로 같은 보상을 중복 계산하지 않습니다.
-
-## 여기서 IOTA 단위의 의미
-
-이 사이트의 IOTA는 공식 API에서 사용하는 Train at Home 서브넷의 alpha 토큰입니다. TAO 금액이나 IOTA Layer 1 코인이 아닙니다. 각 IOTA 금액 옆에는 공개 SN9 시세를 기준으로 계산한 USD 추정값도 표시됩니다. 이 추정값은 공식 지급액이 아닙니다. 자세한 내용은 [USD 표시 방식](https://iotahome.site/ko/learn/iota-rewards-in-usd)을 확인하세요.
-
-## 누락된 값은 0이 아닙니다
-
-요청이 실패하거나 응답 데이터를 사용할 수 없으면 0이 아닌 확인 대기 상태로 표시합니다. 일부 기기의 데이터만 조회된 경우 합계에는 조회 범위가 표시됩니다(예: 2/3대).
-
-> 데이터는 캐시를 통해 갱신됩니다. 기기 상태는 보통 60초, 보상은 5분 동안 캐시됩니다. 수동 새로고침에는 15초 대기 시간이 있습니다.
-
-기기가 유휴 상태로 보인다면 오프라인으로 판단하기 전에 [상태의 의미](https://iotahome.site/ko/learn/device-status)를 확인하세요.
-
-## 같은 보상을 재확인하기
-
-공식 앱에서 공개 Miner ID를 복사해 홈페이지에서 조회합니다. history의 alpha_amounts·timestamps·statuses에서 같은 위치를 하나의 기록으로 읽고 홍콩 일자에 맞는 항목을 합산합니다. 누적은 totals의 total_amount_earned와 비교합니다.
-
-## 오늘 0 또는 누락 확인하기
-
-성공한 빈 배열이나 오늘 pending·settled 기록 없음은 0일 수 있습니다. 시간 초과·필드 누락·배열 길이 불일치는 알 수 없음입니다. frozen·전일·미래 기록은 제외합니다. 상태·기록·가격의 개별 시각을 확인한 뒤 실기기를 점검하세요.
+아래 과거 증거 스크린샷의 오늘 표시는 당시 장부 필드 확인용으로 보존됩니다. 현재 카드·메일은 위 전날 기준이며 과거 화면은 현재 UI가 아닙니다.
 
 ## 실측 사례
 
@@ -1847,59 +1807,29 @@ IOTA Watch는 보상을 임의로 계산하거나 예측하지 않습니다. 공
 
 ## 자주 묻는 질문
 
-### 누적 수입에 지급액을 더해야 하나요?
+### 어제 보상은 어떻게 계산하나요?
 
-아니요. Total Earned에 완료 및 대기 수입이 포함되어 있어 지급액을 더하면 중복됩니다.
+IOTA Watch의 어제 보상은 다음 날 정산 기록을 UTC+8 기준 전날로 표시합니다. 예를 들어 10월 17일 기록은 10월 16일 보상으로 표시합니다. pending·settled만 합산하고 frozen·미래 기록은 제외합니다. 이는 표시 기준이며 실제 훈련일이나 지갑 수령일을 증명하지 않습니다.
 
-### 홍콩 자정 후 오늘 값이 0으로 바뀔 수 있나요?
-
-네. 새 날짜는 새 집계 구간을 사용하며 누적 보상을 지우지는 않습니다.
-
-### IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)
+### IOTAの昨日・累計報酬と日次メールの集計日 (ja)
 Published: 2026-10-02
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 要点
 
-今日のIOTAは香港時間の深夜以降のpending・settled記帳記録を合算し、凍結と未来の記録を除きます。累計は公式Total Earnedを使い、Total Paidを再加算しません。記帳収入とウォレットの着金は別です。
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 
-IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得して、本日の記録済み報酬と累計報酬を表示します。
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 
-## 本日の報酬
+## 昨日の報酬の計算方法は？
 
-- 1日はAsia/Hong_Kongの00:00（UTC+8）から始まります。
+累計は公式Total Earnedで、Total Paidを再加算しません。USDは取得時の市場概算で公式支払価格ではなく、価格なしは不明です。メールとWebは同じ前日帰属ですが、取得時刻・公式修正・換算時刻は異なる場合があります。
 
-- 状態が**pending**（保留中）または**settled**（精算済み）の記録だけを合計します。
+[監視画面](https://iotahome.site/ja/app)に各機器の公開Miner ID / hotkeyを追加します。受取coldkey・秘密鍵・シードとは異なります。無料は各プロジェクト5台、Proは50台、ログインで同期し、統合画面の追加総数上限はありません。残高・ポイント・収益は取得元の期間を保ちます。
 
-- 凍結された記録と、それ以外の状態は除外します。
+[IOTA](https://iotahome.site/ja/app) · [USD](https://iotahome.site/ja/learn/iota-rewards-in-usd)
 
-- 現在時刻より後のタイムスタンプは除外します。
-
-この日付は報酬が記録された日付です。本日ウォレットにトークンが入金されたことを意味しません。
-
-## 累計報酬
-
-累計報酬には公式の合計APIの**総獲得量**を使います。支払い済みの額を獲得量に再び加算しないため、同じ報酬を重複して数えることはありません。
-
-## ここでのIOTAの単位
-
-このサイトのIOTAは、公式APIで使われるTrain at Homeサブネットのalphaトークンです。TAOの金額でもIOTA Layer 1のコインでもありません。各IOTA額の横には、公開SN9市場価格による米ドル推定額も表示します。この推定額は公式の支払額ではありません。詳しくは[米ドル表示の仕組み](https://iotahome.site/ja/learn/iota-rewards-in-usd)をご覧ください。
-
-## 欠落した値はゼロではありません
-
-リクエストが失敗したり応答データが使えない場合は、0ではなく未確認として表示します。一部のデバイスのデータだけ取得できた場合、合計に取得範囲を表示します（例：3台中2台）。
-
-> データはキャッシュを通して更新されます。デバイス状態は通常60秒、報酬は5分間キャッシュされます。手動更新には15秒の待機時間があります。
-
-デバイスが待機中に見える場合は、オフラインと判断する前に[状態の見方](https://iotahome.site/ja/learn/device-status)をご確認ください。
-
-## 同じ報酬を再確認する
-
-公式アプリの公開Miner IDをホームで照会します。historyのalpha_amounts・timestamps・statusesの同じ位置を1件として読み、香港の同日内の対象記録を合算します。累計はtotalsのtotal_amount_earnedと比較します。
-
-## 今日がゼロ・未取得の場合
-
-取得成功の空配列や当日にpending・settledがない場合はゼロになり得ます。タイムアウト・項目不足・配列長の不一致は不明です。frozen・前日・未来の記録は除外します。状態・記帳・価格の別々の時刻を確認してから実機を調べます。
+下の日時付き証拠画像には当時の今日表示を保存しています。原台帳項目の確認用であり、現行カードとメールは上の前日基準です。過去画像は現在のUIではありません。
 
 ## 実測例
 
@@ -1923,13 +1853,9 @@ IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得�
 
 ## よくある質問
 
-### 累計収入に支払済み額を足しますか？
+### 昨日の報酬の計算方法は？
 
-いいえ。Total Earnedには完了・未払いの収入が含まれ、支払済み額を足すと重複します。
-
-### 香港時間の深夜に今日がゼロになりますか？
-
-はい。新しい日の集計範囲に切り替わり、累計報酬が消えるわけではありません。
+当サイトのIOTA「昨日の報酬」は、翌記帳日の記録をUTC+8で前日に帰属表示します。例えば10月17日の記録は10月16日の報酬です。pending・settledのみ合算し、frozen・未来時刻は除外します。これは表示基準で、実際の学習日や着金日を証明しません。
 - Source: Macrocosmos · Train at Home user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 - Source: Macrocosmos · Train at Home FAQs — https://docs.macrocosmos.ai/product-and-services/tah/faqs
 - Source: IOTA Watch · source code — https://github.com/molimao/iota
@@ -1941,13 +1867,13 @@ IOTA Watchは報酬量を独自に予測せず、公式の報酬記録を取得�
 - ko: https://iotahome.site/ko/learn/device-status
 - ja: https://iotahome.site/ja/learn/device-status
 - Published: 2026-09-12
-- Updated: 2026-10-03
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh-CN)
 Published: 2026-09-12
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官方的**统计采样时间**，不是设备心跳，也不是本站最近一次拉取数据的时间。
 
@@ -1967,13 +1893,13 @@ IOTA Watch 将官方 miner 记录归纳为简短状态。miner 时间戳是官�
 
 如果本站超过 5 分钟都没能成功拿到官方数据，页面会提示刷新中断，并保留上一次成功的内容。那是**获取失败**。它和「这次获取成功，但官方采样时间比较旧」不是一回事。详见 [刷新中断是什么意思](https://iotahome.site/zh/learn/what-refresh-interrupted-means)。
 
-> 吞吐量为零，不等于设备已掉线。本机报错需在 IOTA Train at Home 应用中查看。本站无法读取设备本地日志。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
 添加设备见 [如何获取 Miner ID](https://iotahome.site/zh/learn/find-miner-id)。状态旁的数字见 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
 
 ### IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是官方的**統計採樣時間**，不是設備心跳，也不是本站最近一次拉取資料的時間。
 
@@ -1993,13 +1919,13 @@ IOTA Watch 將官方 miner 記錄歸納為簡短狀態。 miner 時間戳記是�
 
 如果本站超過 5 分鐘都沒能成功拿到官方數據，頁面會提示刷新中斷，並保留上一次成功的內容。那就是**獲取失敗**。它和「這次獲取成功，但官方採樣時間比較舊」不是一回事。詳見 [刷新中斷是什麼意思](https://iotahome.site/zh-TW/learn/what-refresh-interrupted-means)。
 
-> 吞吐量為零，不等於設備已斷線。本機報錯需在 IOTA Train at Home 應用中查看。本站無法讀取設備本機日誌。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
 新增設備見 [如何取得 Miner ID](https://iotahome.site/zh-TW/learn/find-miner-id)。狀態旁的數字請參考 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
 ### What IOTA Train at Home device statuses mean (en)
 Published: 2026-09-12
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 IOTA Watch maps official miner records into a short status. The miner timestamp is the official **statistics sample time**. It is not a heartbeat from the device, and it is not the time this website last fetched data.
 
@@ -2019,13 +1945,13 @@ IOTA Watch maps official miner records into a short status. The miner timestamp 
 
 If this website cannot refresh official data for more than five minutes, the dashboard says the refresh was interrupted and keeps the last successful values. That is a **fetch** problem. It is different from an old sample timestamp on a successful fetch. Details: [what “refresh interrupted” means](https://iotahome.site/en/learn/what-refresh-interrupted-means).
 
-> Zero throughput is not evidence that the device is offline. For local errors, open the IOTA Train at Home app. This website cannot read local logs.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 To add a device, see [how to find a Miner ID](https://iotahome.site/en/learn/find-miner-id). For the numbers beside the status, see [how rewards are counted](https://iotahome.site/en/learn/how-rewards-work).
 
 ### IOTA Train at Home 기기 상태의 의미 (ko)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채굴자 타임스탬프는 공식 **통계 샘플 시간**입니다. 이는 장치의 하트비트가 아니며 이 웹사이트가 마지막으로 데이터를 가져온 시간도 아닙니다.
 
@@ -2045,13 +1971,13 @@ IOTA Watch은 공식 채굴자 기록을 짧은 상태로 매핑합니다. 채�
 
 이 웹사이트에서 5분 이상 공식 데이터를 새로 고칠 수 없는 경우 대시보드는 새로고침이 중단되었다는 메시지를 표시하고 마지막으로 성공한 값을 유지합니다. 그것은 **가져오기** 문제입니다. 이는 성공적인 가져오기에 대한 이전 샘플 타임스탬프와 다릅니다. 세부 정보: ["새로고침 중단됨"의 의미](https://iotahome.site/ko/learn/what-refresh-interrupted-means).
 
-> 처리량 0은 장치가 오프라인이라는 증거가 아닙니다. 로컬 오류의 경우IOTA Train at Home앱을 엽니다. 이 웹사이트는 로컬 로그를 읽을 수 없습니다.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
 장치를 추가하려면 [Miner ID찾는 방법](https://iotahome.site/ko/learn/find-miner-id)을 참조하세요. 상태 옆의 숫자는 [보상 계산 방법](https://iotahome.site/ko/learn/how-rewards-work)을 참조하세요.
 
 ### IOTA Train at Homeのデバイス状態の見方 (ja)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 IOTA Watchは、公式マイナー記録を短いステータスにマッピングします。マイナーのタイムスタンプは、公式の **統計サンプル時間** です。これはデバイスからのハートビートではなく、この Web サイトが最後にデータを取得した時間でもありません。
 
@@ -2071,7 +1997,7 @@ IOTA Watchは、公式マイナー記録を短いステータスにマッピン�
 
 この Web サイトが公式データを 5 分以上更新できない場合、ダッシュボードには更新が中断されたことが示され、最後に成功した値が保持されます。それは**フェッチ**の問題です。これは、フェッチが成功したときの古いサンプルのタイムスタンプとは異なります。詳細: [「リフレッシュの中断」の意味](https://iotahome.site/ja/learn/what-refresh-interrupted-means)。
 
-> スループットがゼロであっても、デバイスがオフラインであるという証拠にはなりません。ローカル エラーの場合は、IOTA Train at Homeアプリを開きます。この Web サイトはローカル ログを読み取ることができません。
+公開Miner ID照会は公式報告のみです。任意のMacエージェントを設置・ペアリングすると、応答・待機順位・学習プロセスと遠隔起動・停止・再起動・代理更新を利用できます。ログは別途有効化します。1.0.5の学習自動復旧は初期無効、Pro不要です。
 
 デバイスを追加するには、[Miner IDを見つける方法](https://iotahome.site/ja/learn/find-miner-id) を参照してください。ステータスの横の数字については、[報酬のカウント方法](https://iotahome.site/ja/learn/how-rewards-work)を参照してください。
 
@@ -2205,13 +2131,13 @@ Updated: 2026-10-02
 - ko: https://iotahome.site/ko/learn/iota-rewards-in-usd
 - ja: https://iotahome.site/ja/learn/iota-rewards-in-usd
 - Published: 2026-09-12
-- Updated: 2026-10-03
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Train at Home 收益怎么同时显示美元 (zh-CN)
 Published: 2026-09-12
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 ## 先看结论
 
@@ -2247,7 +2173,7 @@ IOTA Watch 的美元数字是 SN9 子网 IOTA 的公开市场估价，不是官�
 
 ### IOTA Train at Home 收益怎麼同時顯示美元 (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 ## 先看結論
 
@@ -2283,7 +2209,7 @@ IOTA Watch 的美元數字是 SN9 子網 IOTA 的公開市場估價，不是官�
 
 ### How IOTA Train at Home rewards are shown in USD (en)
 Published: 2026-09-12
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 ## At a glance
 
@@ -2293,7 +2219,7 @@ The dashboard shows **two numbers for the same reward**: the official IOTA amoun
 
 ## What is official
 
-Today’s and lifetime IOTA amounts still follow the [reward rules](https://iotahome.site/en/learn/how-rewards-work): Hong Kong midnight, pending and settled only, lifetime = total earned. IOTA Watch does not invent those IOTA figures.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
 ## What is an estimate
 
@@ -2319,7 +2245,7 @@ No. It is a different asset from Train at Home’s SN9 subnet token.
 
 ### IOTA Train at Home 보상의 USD 환산 방식 (ko)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 ## 핵심 내용
 
@@ -2355,7 +2281,7 @@ USD 라인은 해당IOTA금액에Train at Home서브넷 토큰의 공개 시장 
 
 ### IOTA Train at Homeの報酬を米ドルで表示する仕組み (ja)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 ## 要点
 
@@ -2399,13 +2325,13 @@ USD 行は、そのIOTAの金額に、Train at Homeサブネット トークン�
 - ko: https://iotahome.site/ko/learn/what-refresh-interrupted-means
 - ja: https://iotahome.site/ja/learn/what-refresh-interrupted-means
 - Published: 2026-09-12
-- Updated: 2026-09-12
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Watch「刷新中断」是什么意思 (zh-CN)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
 **刷新中断**出现在本站超过 5 分钟都没能成功读完官方 Train at Home 数据时。卡片会保留上一次已经拿到的数字。
 
@@ -2429,13 +2355,13 @@ Updated: 2026-09-12
 
 - 若黄色提示写明上游错误，表示本站当时无法连接官方接口
 
-- 本机报错（应用断连、GPU 空闲、登录失败）请在该设备上打开 Train at Home 应用。IOTA Watch 无法读取本地日志
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
 > 获取成功后，徽章应回到有贡献、等待任务或暂未参与。对照见 [设备状态含义](https://iotahome.site/zh/learn/device-status)。
 
 ### IOTA Watch「刷新中斷」是什麼意思 (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 **刷新中斷**出現在本站超過 5 分鐘都沒能成功讀完官方 Train at Home 資料時。卡片會保留上一次已經拿到的數字。
 
@@ -2459,13 +2385,13 @@ Updated: 2026-10-02
 
 - 若黃色提示寫明上游錯誤，表示本站當時無法連接官方接口
 
-- 本機報錯誤（應用程式斷連、GPU 閒置、登入失敗）請在該裝置上開啟 Train at Home 應用程式。 IOTA Watch 無法讀取本地日誌
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
 > 取得成功後，徽章應回到有貢獻、等待任務或暫未參與。對照見 [設備狀態意義](https://iotahome.site/zh-TW/learn/device-status)。
 
 ### What “refresh interrupted” means on IOTA Watch (en)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
 **Refresh interrupted** appears when this website cannot complete a successful read of official Train at Home data for more than five minutes. The cards keep the last values that did arrive.
 
@@ -2489,13 +2415,13 @@ IOTA amounts that already loaded are the last official entitlements this site re
 
 - If the yellow notice names an upstream error, the official API was unreachable from this site
 
-- For local errors — app disconnected, GPU idle, login failed — open the Train at Home app on that machine. IOTA Watch cannot read local logs
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 > After a successful fetch, the badge should return to contributing, waiting, or not participating. Read those here: [device statuses](https://iotahome.site/en/learn/device-status).
 
 ### IOTA Watch의 새로고침 중단은 무슨 뜻인가요? (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 **새로고침이 중단되었습니다**는 이 웹사이트가 5분 이상 공식Train at Home데이터 읽기를 성공적으로 완료할 수 없을 때 나타납니다. 카드는 마지막으로 도착한 값을 유지합니다.
 
@@ -2519,13 +2445,13 @@ Updated: 2026-10-02
 
 - 노란색 알림이 업스트림 오류를 나타내는 경우 이 사이트에서 공식 API에 연결할 수 없는 것입니다.
 
-- 로컬 오류(앱 연결 끊김, GPU 유휴, 로그인 실패)의 경우 해당 컴퓨터에서Train at Home앱을 엽니다.IOTA Watch로컬 로그를 읽을 수 없습니다.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
 > 가져오기가 성공적으로 완료되면 배지는 참여, 대기 또는 참여하지 않음 상태로 돌아가야 합니다. 여기에서 읽어보세요: [기기 상태](https://iotahome.site/ko/learn/device-status).
 
 ### IOTA Watchの「更新中断」とは？ (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 この Web サイトが公式Train at Homeデータの読み取りを 5 分以上正常に完了できない場合、**更新が中断されました** が表示されます。カードには、最後に到着した値が保持されます。
 
@@ -2875,13 +2801,13 @@ SN9は、Bittensorサブネット 9 —MacrocosmosIOTA Train at Homeです。こ
 - ko: https://iotahome.site/ko/learn/device-not-found
 - ja: https://iotahome.site/ja/learn/device-not-found
 - Published: 2026-09-12
-- Updated: 2026-09-12
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Watch 显示「尚未找到」 (zh-CN)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
 **尚未找到**只会在 IOTA Watch 已经成功读完所有进行中的 Train at Home 任务名单，而且里面仍然没有这个 Miner ID 时出现。
 
@@ -2911,7 +2837,7 @@ ID 正确且获取成功后，卡片应变成有贡献、等待任务或暂未�
 
 ### IOTA Watch 顯示“尚未找到” (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 **尚未找到**只會在 IOTA Watch 已經成功讀完所有進行中的 Train at Home 任務名單，而且裡面仍然沒有這個 Miner ID 時出現。
 
@@ -2941,7 +2867,7 @@ ID 正確且取得成功後，卡片應變成有貢獻、等待任務或暫未�
 
 ### IOTA Watch says the Miner ID was not found (en)
 Published: 2026-09-12
-Updated: 2026-09-12
+Updated: 2026-10-17
 
 **Not found** is only used after IOTA Watch successfully reads every active Train at Home run list and still does not see this Miner ID.
 
@@ -2965,13 +2891,13 @@ Steps: [how to find your Miner ID](https://iotahome.site/en/learn/find-miner-id)
 
 - A character was truncated when pasting
 
-> Training still has to run in the official app. IOTA Watch cannot register a miner or start a job for you.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 If the ID is correct and a fetch succeeds, the card should move to contributing, waiting, or not participating. Those meanings: [device statuses](https://iotahome.site/en/learn/device-status).
 
 ### IOTA Watch에서 Miner ID를 찾을 수 없을 때 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 **찾을 수 없음**은IOTA Watch이 모든 활성Train at Home실행 목록을 성공적으로 읽은 후에만 사용되며 여전히 이Miner ID를 볼 수 없습니다.
 
@@ -3001,7 +2927,7 @@ ID가 정확하고 가져오기에 성공하면 카드는 기여, 대기 또는 
 
 ### IOTA WatchでMiner IDが見つからない場合 (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 **Not found** は、IOTA WatchがすべてのアクティブなTrain at Home実行リストを正常に読み取り、それでもこのMiner IDを認識しない場合にのみ使用されます。
 
@@ -3037,13 +2963,13 @@ ID が正しく、フェッチが成功した場合、カードは貢献、待�
 - ko: https://iotahome.site/ko/learn/data-sources-and-freshness
 - ja: https://iotahome.site/ja/learn/data-sources-and-freshness
 - Published: 2026-10-01
-- Updated: 2026-10-01
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Watch 数据来自哪里，多久更新一次？ (zh-CN)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 IOTA Watch 读取 Macrocosmos 的公开主网 API。设备状态、收益与训练统计分别记录更新时间；某一项刷新成功，不会让其他项目自动变成最新。
 
@@ -3057,7 +2983,7 @@ IOTA Watch 读取 Macrocosmos 的公开主网 API。设备状态、收益与训�
 
 - 训练历史：所选任务与时间范围内的训练指标、吞吐量和累计 token 数
 
-API 基础地址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)。这些是公开上报数据，本站无法读取设备本地日志或控制官方训练应用。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
 ## 页面多久更新一次？
 
@@ -3077,7 +3003,7 @@ API 基础地址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.m
 
 ### IOTA Watch 數據來自哪裡，多久更新一次？ (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 IOTA Watch 讀取 Macrocosmos 的公開主網 API。設備狀態、效益與訓練統計分別記錄更新時間；某一項刷新成功，不會讓其他項目自動變成最新。
 
@@ -3091,7 +3017,7 @@ IOTA Watch 讀取 Macrocosmos 的公開主網 API。設備狀態、效益與訓�
 
 - 訓練歷史：所選任務與時間範圍內的訓練指標、吞吐量和累積 token 數
 
-API 基礎位址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs)。這些是公開上報數據，本站無法讀取設備本地日誌或控制官方訓練應用。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
 ## 頁面多久更新一次？
 
@@ -3111,7 +3037,7 @@ API 基礎位址是 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.m
 
 ### Where IOTA Watch data comes from and how often it refreshes (en)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 IOTA Watch reads the public Macrocosmos mainnet API. Device status, rewards and training statistics have separate update clocks; refreshing one does not make the others current.
 
@@ -3125,7 +3051,7 @@ IOTA Watch reads the public Macrocosmos mainnet API. Device status, rewards and 
 
 - Training history: metrics, throughput and cumulative tokens for the selected run and period
 
-The API base is [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macrocosmos.ai/mainnet/runs). These are public readings; IOTA Watch cannot read local device logs or control the official training app.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 ## How often does the page update?
 
@@ -3145,7 +3071,7 @@ A device refresh interrupted for more than five minutes is a data-read warning. 
 
 ### IOTA Watch 데이터 출처와 갱신 주기 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 IOTA Watch은 공개Macrocosmos메인넷 API를 읽습니다. 장치 상태, 보상 및 훈련 통계에는 별도의 업데이트 시계가 있습니다. 하나를 새로 고쳐도 다른 것이 최신 상태가 되지는 않습니다.
 
@@ -3179,7 +3105,7 @@ API 기반은 [iota-web.api.macrocosmos.ai/mainnet](https://iota-web.api.macroco
 
 ### IOTA Watchのデータ取得元と更新頻度 (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 IOTA Watchは、パブリックMacrocosmosメインネット API を読み取ります。デバイスのステータス、報酬、トレーニング統計には個別の更新クロックがあります。 1 つを更新しても、他のものは最新になりません。
 
@@ -3385,13 +3311,13 @@ Updated: 2026-10-02
 - ko: https://iotahome.site/ko/learn/network-status-explained
 - ja: https://iotahome.site/ja/learn/network-status-explained
 - Published: 2026-10-01
-- Updated: 2026-10-03
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Train at Home 全网状态：名额、名单矿工与训练进度 (zh-CN)
 Published: 2026-10-01
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 [全网页面](https://iotahome.site/zh/network) 无需 Miner ID 或登录，即可查看 IOTA Train at Home 的公开任务。它提供设备状态的背景：有哪些任务、还剩多少名额，以及网络上报的活动情况。
 
@@ -3411,11 +3337,11 @@ Updated: 2026-10-03
 
 ## 怎样检查自己的机器？
 
-在 [我的设备](https://iotahome.site/zh/app) 添加公开 Miner ID。设备缺失时，按 [尚未找到设备的排查步骤](https://iotahome.site/zh/learn/device-not-found) 检查。本地错误请打开官方应用，全网页面无法读取 Mac 的本地状态。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
 ### IOTA Train at Home 全網狀態：名額、名單礦工與訓練進度 (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 [全網頁面](https://iotahome.site/zh-TW/network)無需 Miner ID 或登錄，即可查看 IOTA Train at Home 的公開任務。它提供設備狀態的背景：有哪些任務、還剩多少名額，以及網路上報的活動狀況。
 
@@ -3435,11 +3361,11 @@ Updated: 2026-10-03
 
 ## 怎樣檢查自己的機器？
 
-在 [我的設備](https://iotahome.site/zh-TW/app)添加公開 Miner ID。設備缺失時，按 [尚未找到設備的檢查步驟](https://iotahome.site/zh-TW/learn/device-not-found)檢查。本地錯誤請開啟官方應用，全網頁面無法讀取 Mac 的本地狀態。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
 ### IOTA Train at Home network status: slots, roster miners and training progress (en)
 Published: 2026-10-01
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 The [network page](https://iotahome.site/en/network) shows public IOTA Train at Home runs without requiring a Miner ID or sign-in. It gives context for your device: which runs exist, their available slots and the activity reported by the network.
 
@@ -3463,7 +3389,7 @@ Add its public Miner ID on [My devices](https://iotahome.site/en/app). For missi
 
 ### IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 [네트워크 페이지](https://iotahome.site/ko/network)에는 공개IOTA Train at Home이Miner ID또는 로그인 없이 실행되는 것으로 표시됩니다. 이는 실행 중인 장치, 사용 가능한 슬롯 및 네트워크에서 보고된 활동에 대한 컨텍스트를 제공합니다.
 
@@ -3487,7 +3413,7 @@ Updated: 2026-10-03
 
 ### IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)
 Published: 2026-10-02
-Updated: 2026-10-03
+Updated: 2026-10-17
 
 [ネットワーク ページ](https://iotahome.site/ja/network) は、Miner IDやサインインを必要とせずにパブリックIOTA Train at Homeが実行されることを示しています。これは、デバイスのコンテキスト (どの実行が存在するか、使用可能なスロット、ネットワークによって報告されるアクティビティ) を提供します。
 
@@ -6502,13 +6428,13 @@ Macのスリープ、通信、エージェントを確認してください。�
 - ko: https://iotahome.site/ko/learn/mining-monitor-for-multiple-devices
 - ja: https://iotahome.site/ja/learn/mining-monitor-for-multiple-devices
 - Published: 2026-10-09
-- Updated: 2026-10-09
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### 多台 Mac 跑 IOTA，在哪里一起看状态和收益？ (zh-CN)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看结论
 
@@ -6524,11 +6450,11 @@ Updated: 2026-10-09
 
 ## 状态和收益应该怎样一起看？
 
-先看最近成功读取时间，再查看上报状态与记账收益。IOTA 今日收益从香港时间 00:00 起统计 pending、settled 记录，美元属于市场估值。状态刷新和收益刷新有各自的时间，不能只凭一个旧采样判断机器已经离线。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
 ## 什么时候回到设备本机？
 
-需要确认应用是否启动、检查网络连接或查看本地日志时，打开对应 Mac 上的官方应用。网页监控不直接读取本机日志或控制训练。遇到异常可继续读 [数据来源与时效](https://iotahome.site/zh/learn/data-sources-and-freshness)。
+公开 Miner ID 查询只读取官方上报数据。安装并配对可选 Mac Agent 后，账号可查看设备心跳、排队及训练进程，远程启停、重启和更新代理；日志需单独开启。Agent 1.0.5 支持停止训练后自动恢复，默认关闭，不要求 Pro。
 
 ## 常见问题
 
@@ -6538,11 +6464,11 @@ Updated: 2026-10-09
 
 ### 显示旧数据或零收益，设备一定有问题吗？
 
-先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
+先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 本次有效记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
 
 ### 多台 Mac 執行 IOTA，在哪裡一起查看狀態與收益？ (zh-TW)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看結論
 
@@ -6558,11 +6484,11 @@ Updated: 2026-10-09
 
 ## 狀態與收益應如何一起看？
 
-先看最近成功讀取時間，再核對回報狀態與記帳收益。IOTA 今日收益從香港時間 00:00 起統計 pending、settled 紀錄，美元屬於市場估值。兩種資料有不同更新時間，不能只憑舊採樣判斷機器離線。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
 ## 何時回到設備本機？
 
-確認應用是否啟動、網路連接或本機日誌時，開啟對應 Mac 的官方應用。網頁不能直接讀取本機日誌或控制訓練。可繼續閱讀 [資料來源與時效](https://iotahome.site/zh-TW/learn/data-sources-and-freshness)。
+公開 Miner ID 查詢只讀取官方回報。安裝並配對可選 Mac Agent 後，可查看心跳、排隊及訓練程序，遠端啟停、重啟及更新代理；日誌須另行啟用。1.0.5 支援停止訓練後自動恢復，預設關閉，不需 Pro。
 
 ## 常見問題
 
@@ -6572,11 +6498,11 @@ Updated: 2026-10-09
 
 ### 顯示舊資料或零收益，設備一定有問題嗎？
 
-先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
+先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。本次有效記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
 
 ### Where can I check multiple Macs running IOTA together? (en)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## At a glance
 
@@ -6610,7 +6536,7 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 
 ### IOTA를 실행하는 여러 Mac의 상태와 수익을 어디서 함께 확인하나요? (ko)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 핵심 내용
 
@@ -6644,7 +6570,7 @@ IOTA Watch에 각 Mac의 공개 Miner ID와 기기 이름을 추가하면 보고
 
 ### IOTAを動かす複数のMacの状態と収益をまとめて確認できますか？ (ja)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 要点
 
@@ -6717,7 +6643,7 @@ XID 钱包余额与 fly.ai 本月积分不是单台设备当天的记账收益�
 
 ### 不同项目的收益可以直接加在一起吗？
 
-需要先核对币种、统计周期和设备归属。IOTA 今日收益按香港时间记账；io.net 区块奖励按 UTC 日；Golem 为近 24 小时；fly.ai 为月度积分。不同代币、钱包余额和积分不直接相加。只有可归属设备且周期匹配的已知美元金额，才参与设备今日合计。
+先核对币种、周期和归属。IOTA 显示昨日归属，io.net 为 UTC 日，Golem 为近 24 小时，fly.ai 为月度积分；余额、积分和不同周期不能直接当作同一天设备收入比较。
 
 ### 需要登录、连接钱包或付费吗？
 
@@ -6751,7 +6677,7 @@ XID 錢包餘額及 fly.ai 本月積分不是單台設備當天的記帳收益�
 
 ### 不同專案的收益可以直接相加嗎？
 
-需先核對幣種、統計週期與設備歸屬。IOTA 今日收益使用香港時間，io.net 區塊獎勵使用 UTC 日，Golem 為近 24 小時，fly.ai 為月度積分。不同代幣、錢包餘額和積分不直接相加；只有歸屬設備且週期相符的已知美元金額才計入今日合計。
+先核對幣種、周期及歸屬。IOTA 顯示昨日歸屬，io.net 是 UTC 日、Golem 近 24 小時、fly.ai 月度積分；餘額、積分與不同周期不能當作同一天單機收入比較。
 
 ### 需要登入、連接錢包或付費嗎？
 
@@ -6785,7 +6711,7 @@ Expand that project on the card and open its monitor for sources and detail. The
 
 ### Can rewards from different projects be added together?
 
-Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+Check currency, period and ownership. IOTA uses preceding-day attribution, io.net a UTC day, Golem rolling 24 hours and fly.ai monthly points. Balances, points and different periods are not comparable as the same day's device income.
 
 ### Do I need an account, a wallet connection or a subscription?
 
@@ -6819,7 +6745,7 @@ XID 지갑 잔액과 fly.ai 월간 포인트는 기기 일일 정산 수익이 �
 
 ### 서로 다른 프로젝트의 수익을 합산할 수 있나요?
 
-먼저 통화, 집계 기간과 기기 귀속을 확인하세요. IOTA는 홍콩 기준 일일 정산, io.net 블록 보상은 UTC 날짜, Golem은 최근 24시간, fly.ai는 월간 포인트입니다. 다른 토큰·지갑 잔액·포인트는 직접 합산하지 않습니다. 같은 일일 기간에 해당하는 기기별 USD 금액만 오늘 합계에 포함합니다.
+통화·기간·귀속을 확인하세요. IOTA는 전날 표시, io.net은 UTC 일자, Golem은 최근 24시간, fly.ai는 월간 포인트입니다. 잔액·포인트·다른 기간을 같은 날 기기 수입으로 비교하지 마세요.
 
 ### 계정, 지갑 연결 또는 구독이 필요한가요?
 
@@ -6853,7 +6779,7 @@ XIDの残高とfly.aiの月間ポイントは実機の日次記帳収益では�
 
 ### 異なるプロジェクトの収益は合算できますか？
 
-通貨、集計期間、デバイスへの帰属を先に確認します。IOTAは香港時間の日次記帳、io.netのブロック報酬はUTC日、Golemは直近24時間、fly.aiは月間ポイントです。異なるトークン、残高、ポイントを直接合算せず、日次期間が一致する既知のデバイス単位のUSD額のみ本日の合計に含めます。
+通貨・期間・帰属を確認します。IOTAは前日表示、io.netはUTC日、Golemは直近24時間、fly.aiは月次ポイントです。残高・ポイント・異なる期間を同日の1台の収入として比較しません。
 
 ### アカウント、ウォレット接続、購読は必要ですか？
 
@@ -6913,7 +6839,7 @@ Updated: 2026-10-09
 
 ### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 和 Acurast，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 和 Kaspa，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 ### IOTA Watch 與官方面板，應該使用哪個？ (zh-TW)
 Published: 2026-10-09
@@ -6956,7 +6882,7 @@ Updated: 2026-10-09
 
 ### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID 與 Acurast，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 與 Kaspa，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 ### When should I use IOTA Watch or an official dashboard? (en)
 Published: 2026-10-09
@@ -6999,7 +6925,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 ### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### IOTA Watch와 공식 대시보드는 언제 사용하나요? (ko)
 Published: 2026-10-09
@@ -7042,7 +6968,7 @@ Updated: 2026-10-09
 
 ### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID와 Acurast 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash와 Kaspa 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 ### IOTA Watchと公式ダッシュボードはどう使い分けますか？ (ja)
 Published: 2026-10-09
@@ -7085,7 +7011,7 @@ Mac、プロジェクト、公開IDを頻繁に切り替えて確認する場合
 
 ### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurastの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspaの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 - Source: IOTA Watch source and deployment — https://github.com/molimao/iota
 - Source: IOTA Train at Home official guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 
@@ -7096,17 +7022,17 @@ IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.
 - ko: https://iotahome.site/ko/learn/compare-mining-rewards-across-projects
 - ja: https://iotahome.site/ja/learn/compare-mining-rewards-across-projects
 - Published: 2026-10-09
-- Updated: 2026-10-09
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem
 
 ### 不同项目的收益可以直接加在一起吗？ (zh-CN)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看结论
 
-需要先核对币种、统计周期和设备归属。IOTA 今日收益按香港时间记账；io.net 区块奖励按 UTC 日；Golem 为近 24 小时；fly.ai 为月度积分。不同代币、钱包余额和积分不直接相加。只有可归属设备且周期匹配的已知美元金额，才参与设备今日合计。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
 ## 合计前，先核对三个条件
 
@@ -7132,15 +7058,15 @@ IOTA 的美元金額按 SN9 市场报价估算，并保留报价时间提示。�
 
 ### 显示旧数据或零收益，设备一定有问题吗？
 
-先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 有效的今日记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
+先看最近成功读取时间和来源。刷新失败会保留上次结果，缺失字段不会填成零。IOTA 本次有效记账为零可能代表尚无符合统计口径的记录；旧采样和零吞吐量不能单独证明设备离线。需要检查运行日志时，应回到本机的官方应用。
 
 ### 不同專案的收益可以直接相加嗎？ (zh-TW)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 先看結論
 
-需先核對幣種、統計週期與設備歸屬。IOTA 今日收益使用香港時間，io.net 區塊獎勵使用 UTC 日，Golem 為近 24 小時，fly.ai 為月度積分。不同代幣、錢包餘額和積分不直接相加；只有歸屬設備且週期相符的已知美元金額才計入今日合計。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
 ## 合計前，先核對三個條件
 
@@ -7166,15 +7092,15 @@ IOTA 美元金額依 SN9 市場報價估算並標明時間。其他代幣沒有�
 
 ### 顯示舊資料或零收益，設備一定有問題嗎？
 
-先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。有效的今日記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
+先查看最近成功讀取時間和來源。更新失敗會保留上次結果，缺失欄位不會填成零。本次有效記帳為零可能代表尚無符合口徑的紀錄；舊採樣與零吞吐量不能單獨證明設備離線。檢查日誌時應回到本機的官方應用。
 
 ### Can rewards from different projects be added together? (en)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## At a glance
 
-Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
 ## Check three conditions before summing
 
@@ -7204,7 +7130,7 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 
 ### 서로 다른 프로젝트의 수익을 합산할 수 있나요? (ko)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 핵심 내용
 
@@ -7238,7 +7164,7 @@ IOTA USD 금액은 SN9 시세로 추정하고 시각을 표시합니다. 지원�
 
 ### 異なるプロジェクトの収益は合算できますか？ (ja)
 Published: 2026-10-09
-Updated: 2026-10-09
+Updated: 2026-10-17
 
 ## 要点
 
@@ -7272,6 +7198,651 @@ IOTAのUSD額はSN9市場価格で推計し時刻を示します。対応する�
 - Source: IOTA Watch source and deployment — https://github.com/molimao/iota
 - Source: IOTA Train at Home official guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 
+### How to start IOTA Train at Home and monitor rewards
+- zh-CN: https://iotahome.site/zh/learn/start-iota-train-at-home
+- zh-TW: https://iotahome.site/zh-TW/learn/start-iota-train-at-home
+- en: https://iotahome.site/en/learn/start-iota-train-at-home
+- ko: https://iotahome.site/ko/learn/start-iota-train-at-home
+- ja: https://iotahome.site/ja/learn/start-iota-train-at-home
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
+
+### IOTA Train at Home 怎么开始？从安装到查看收益 (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+先在官方应用中开始训练，再用公开 Miner ID 查询。IOTA Watch 提供独立监控，不代替训练客户端，也不是 IOTA 公链钱包。
+
+## 应该下载哪个应用？
+
+从 [Macrocosmos 官方入口](https://iota.macrocosmos.ai/) 下载 Train at Home，安装前核对官方硬件与系统要求。不要把本站的 Mac Agent 当作训练客户端；Agent 只管理已经安装的官方应用。
+
+## 打开应用后要做什么？
+
+官方指南的顺序是：等待 Connected，按指南配置公开收款 coldkey，再点击 Start training。打开窗口不等于训练已经启动。排队、启动中和实际贡献是不同阶段；本站不能保证何时获得任务或收益。
+
+## 查询时填 Miner ID 还是收款地址？
+
+在官方应用的 Miner 页面复制设备 Miner ID / hotkey，按 [ID 获取教程](https://iotahome.site/zh/learn/find-miner-id) 添加到 [IOTA 监控](https://iotahome.site/zh/app)。coldkey 用于收款，不要用私钥或助记词查询。多台 Mac 分别添加各自 hotkey；登录后同步清单。
+
+## 为什么开始了却没收益？
+
+先看是否仍在 [排队或零吞吐](https://iotahome.site/zh/learn/iota-queue-and-zero-throughput)，再核对数据读取时间。本站 IOTA 的「昨日收益」按次日记账记录归属到前一天，不是即时每秒收入；累计收益与钱包到账也不同。详见 [收益计算](https://iotahome.site/zh/learn/how-rewards-work)。
+
+### IOTA Train at Home 如何開始？從安裝到查看收益 (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+先在官方應用開始訓練，再用公開 Miner ID 查詢。IOTA Watch 提供獨立監控，不代替訓練客戶端，也不是 IOTA 公鏈錢包。
+
+## 應下載哪個應用？
+
+從 [Macrocosmos 官方入口](https://iota.macrocosmos.ai/) 下載 Train at Home，先核對硬體及系統要求。本站 Mac Agent 只管理已安裝的官方應用，不能取代訓練客戶端。
+
+## 開啟應用後要做什麼？
+
+依官方指南等待 Connected、設定公開收款 coldkey，再點 Start training。視窗開啟不代表訓練已啟動；排隊、啟動中與實際貢獻是不同階段，本站不保證任務或收益時間。
+
+## 查詢要填 Miner ID 還是收款地址？
+
+從官方 Miner 頁複製設備 Miner ID / hotkey，依 [ID 教程](https://iotahome.site/zh-TW/learn/find-miner-id) 加入 [IOTA 監控](https://iotahome.site/zh-TW/app)。coldkey 用於收款，不要輸入私鑰或助記詞。每台 Mac 使用自己的 hotkey，登入後同步清單。
+
+## 為什麼開始後沒有收益？
+
+先看是否仍在 [排隊或零吞吐](https://iotahome.site/zh-TW/learn/iota-queue-and-zero-throughput)，再核對取得時間。「昨日收益」依次日記帳紀錄歸屬到前一天，不是即時收入；累計與錢包入帳也不同。見 [收益計算](https://iotahome.site/zh-TW/learn/how-rewards-work)。
+
+### How to start IOTA Train at Home and monitor rewards (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+Start training in the official app, then monitor its public Miner ID. IOTA Watch is an independent monitor, not the training client or an IOTA Layer 1 wallet.
+
+## Which application should I install?
+
+Download Train at Home from [Macrocosmos](https://iota.macrocosmos.ai/) and check its current hardware and OS requirements. The IOTA Watch Mac agent manages an existing official installation; downloading the agent alone does not install the training client.
+
+## What comes after installation?
+
+Follow the official guide: wait for Connected, configure your public payout coldkey as instructed, then choose Start training. An open window is not an active session. Queuing, starting and contributing are different states; no task allocation or earnings time is guaranteed.
+
+## Which identifier belongs in the monitor?
+
+Copy the device Miner ID / hotkey from the official Miner view and follow [Find your Miner ID](https://iotahome.site/en/learn/find-miner-id) to add it to [IOTA monitoring](https://iotahome.site/en/app). A coldkey identifies the payout wallet. Never enter a private key or seed. Add each Mac's own hotkey and sign in to sync the list.
+
+## Why are rewards still zero?
+
+Check [queuing and zero throughput](https://iotahome.site/en/learn/iota-queue-and-zero-throughput), then the last successful fetch. IOTA Watch attributes the next day's accounting records to the preceding date under Yesterday's rewards; it is not income per second. Lifetime rewards also differ from wallet receipts. See [reward calculation](https://iotahome.site/en/learn/how-rewards-work).
+
+### IOTA Train at Home 시작부터 보상 확인까지 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+공식 앱에서 훈련을 시작한 뒤 공개 Miner ID를 조회하세요. IOTA Watch는 독립 모니터이며 훈련 클라이언트나 IOTA L1 지갑이 아닙니다.
+
+## 어떤 앱을 설치하나요?
+
+[Macrocosmos](https://iota.macrocosmos.ai/)에서 Train at Home을 받고 최신 하드웨어·OS 요구 사항을 확인하세요. IOTA Watch 에이전트는 설치된 공식 앱을 관리하며 훈련 클라이언트를 대신 설치하지 않습니다.
+
+## 설치 후 무엇을 하나요?
+
+공식 안내에 따라 Connected를 기다리고 공개 지급 coldkey를 설정한 뒤 Start training을 누르세요. 창이 열렸다고 훈련 중인 것은 아닙니다. 대기·시작·기여는 다르며 작업 배정이나 수익 시점은 보장되지 않습니다.
+
+## 조회에는 어떤 ID를 쓰나요?
+
+공식 Miner 화면에서 기기 Miner ID / hotkey를 복사해 [ID 안내](https://iotahome.site/ko/learn/find-miner-id)에 따라 [모니터](https://iotahome.site/ko/app)에 추가하세요. coldkey는 지급 지갑입니다. 비밀키·시드는 입력하지 마세요. Mac마다 각 hotkey를 추가하고 로그인해 목록을 동기화하세요.
+
+## 시작했는데 보상이 없는 이유는?
+
+[대기·처리량 0](https://iotahome.site/ko/learn/iota-queue-and-zero-throughput)과 마지막 조회 시간을 확인하세요. 어제 보상은 다음 날 정산 기록을 전날로 표시한 값이며 초당 실시간 수입이 아닙니다. 누적과 지갑 수령도 다릅니다. [계산 기준](https://iotahome.site/ko/learn/how-rewards-work)을 확인하세요.
+
+### IOTA Train at Homeの始め方と報酬の確認 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+公式アプリで学習を開始し、公開Miner IDを照会します。IOTA Watchは独立した監視ツールで、学習クライアントやIOTA L1のウォレットではありません。
+
+## どのアプリを入れる？
+
+[Macrocosmos](https://iota.macrocosmos.ai/)からTrain at Homeを入手し、最新のハードウェア・OS要件を確認します。IOTA Watchのエージェントは既存の公式アプリを管理するもので、学習クライアントの代わりにはなりません。
+
+## インストール後は？
+
+公式手順に従い、Connectedを待ち、公開受取coldkeyを設定してStart trainingを押します。ウィンドウの表示だけでは学習中とは限りません。待機・起動・貢献は別の段階で、タスクや報酬の時期は保証されません。
+
+## 照会にはどのIDを使う？
+
+公式Miner画面の機器Miner ID / hotkeyをコピーし、[IDの探し方](https://iotahome.site/ja/learn/find-miner-id)から[監視画面](https://iotahome.site/ja/app)に追加します。coldkeyは受取用です。秘密鍵やシードは入力しません。Macごとのhotkeyを追加し、ログインで一覧を同期します。
+
+## 開始したのに報酬がない理由は？
+
+[待機と処理量ゼロ](https://iotahome.site/ja/learn/iota-queue-and-zero-throughput)、最終取得時刻を確認します。昨日の報酬は翌日の記帳記録を前日に表示する当サイトの基準で、秒当たり収入ではありません。累計と着金も別です。[計算方法](https://iotahome.site/ja/learn/how-rewards-work)を参照してください。
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · agent source and installation — https://github.com/molimao/iota/tree/main/scripts/device-agent
+
+### IOTA Train at Home queued or 0 tokens/s: what to check
+- zh-CN: https://iotahome.site/zh/learn/iota-queue-and-zero-throughput
+- zh-TW: https://iotahome.site/zh-TW/learn/iota-queue-and-zero-throughput
+- en: https://iotahome.site/en/learn/iota-queue-and-zero-throughput
+- ko: https://iotahome.site/ko/learn/iota-queue-and-zero-throughput
+- ja: https://iotahome.site/ja/learn/iota-queue-and-zero-throughput
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
+
+### IOTA 一直排队、0 tokens/s，怎么判断有没有在训练？ (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+排队、训练进程运行和实际贡献不是一回事。先核对数据源及时间，再查看官方训练状态；没有排队名次不能证明已经开始训练。
+
+## 排队名次从哪里来？
+
+配对 Mac Agent 后，名次来自本机官方日志的 register/status 排队响应。Agent 只接受当前进程启动后的记录，且记录需在最近 5 分钟内。设备在线则要求 90 秒内有心跳；这是两个不同的时效条件。没安装 Agent 时，公开矿工名单不等于本机排队状态。
+
+## 为什么有名次却显示名单中未找到？
+
+两处读取的不是同一类数据：排队反映本机注册响应，项目标签反映已读取的官方任务矿工名单。示例：Agent 显示 #235、项目标签显示「名单中未找到」，应分别检查名次时间和名单覆盖，不能把它们合成「设备离线」。这是字段解释示例，不是等待时间预测。
+
+## 0 tokens/s、低 CPU 是不是故障？
+
+不一定。排队和等待任务时可能没有贡献吞吐；应用进程存在也不能证明模型正在计算。结合官方应用训练按钮、近期日志、吞吐采样时间和错误信息判断。Agent 的进程资源不是矿池收益，也不是整个系统的 CPU 百分比。不要把低 CPU 或当天零收入作为自动重启依据。
+
+## 重启能插队吗？自动恢复会干预排队吗？
+
+本站没有插队功能，也不提供根据名次估算的等待时长。Agent 1.0.5 的自动恢复针对训练进程停止，正常存在的排队进程不会触发恢复。需要排障时见 [停止训练后自动恢复](https://iotahome.site/zh/learn/iota-training-stopped-auto-recovery)，集中查看见 [Mac 设备管理](https://iotahome.site/zh/machines)。
+
+## 一直 initializing、出现 weights 404，要不要换 run？
+
+先记录官方应用版本、run、报错时间及前后日志，再按官方指南检查连接与训练状态。404 本身不能证明矿工被封禁，也不能证明本机需要重装。IOTA Watch 不提供强制分配、切换官方 run 或修复模型文件的功能；不要反复重启碰运气。若同一错误持续出现，带着上述信息向官方支持核对，分享日志前去掉密码、令牌和私钥。
+
+### IOTA 一直排隊、0 tokens/s，如何判斷是否在訓練？ (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+排隊、訓練程序執行與實際貢獻並不同。先核對來源及時間，再檢查官方訓練狀態；沒有排隊名次不能證明已開始訓練。
+
+## 排隊名次從哪裡來？
+
+配對 Mac Agent 後，名次來自本機官方日誌的 register/status 排隊回應，只接受本次程序啟動後、最近 5 分鐘內的紀錄。設備在線要求 90 秒內有心跳，兩者時效不同。未裝 Agent 時，公開名單不等於本機排隊狀態。
+
+## 為何有名次卻顯示名單中未找到？
+
+排隊來自本機註冊回應，專案標籤來自已讀取的官方任務名單。例如 Agent 顯示 #235、專案顯示「名單中未找到」，應分別檢查名次時間與名單覆蓋，不能合併判作離線。此為欄位示例，不是等待預測。
+
+## 0 tokens/s、低 CPU 是否故障？
+
+不一定。排隊或等待任務時可能沒有吞吐，程序存在也不代表模型在計算。合併訓練按鈕、近期日誌、吞吐採樣時間與錯誤判斷。進程資源不是礦池收益，也不是全系統 CPU 百分比；不要只因低 CPU 或零收入重啟。
+
+## 重啟可以插隊嗎？自動恢復會影響排隊嗎？
+
+本站沒有插隊功能，也不依名次預測等待時長。Agent 1.0.5 只針對停止的訓練程序恢復，正常排隊不觸發。見 [停止後自動恢復](https://iotahome.site/zh-TW/learn/iota-training-stopped-auto-recovery) 或 [Mac 管理](https://iotahome.site/zh-TW/machines)。
+
+## 一直 initializing、出現 weights 404，要換 run 嗎？
+
+先記錄官方應用版本、run、錯誤時間及前後日誌，依官方指南核對連線與訓練狀態。404 本身不能證明被封鎖或需要重裝。本站無法強制分配、切換官方 run 或修復模型檔案；不要反覆重啟。持續發生時，帶上述資訊向官方支援核對，分享日誌前移除密碼、權杖與私鑰。
+
+### IOTA Train at Home queued or 0 tokens/s: what to check (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+A queue, a running training process and actual contribution are different signals. Check each source and timestamp; no queue position does not prove training has begun.
+
+## Where does the queue position come from?
+
+With a paired Mac agent, positions come from local official register/status log responses. The agent accepts only records after the current worker started and within five minutes. Online requires a heartbeat within 90 seconds: a separate clock. Without an agent, the public miner roster does not reveal the Mac's local queue.
+
+## Why can a queued device be missing from the roster?
+
+The queue describes a local registration response; the project badge describes the official run rosters successfully read. For example, #235 beside Not in roster calls for checking queue age and roster coverage separately, not declaring the Mac offline. This is a field-reading example, not a waiting-time forecast.
+
+## Does zero throughput or low CPU mean failure?
+
+Not necessarily. A queued or waiting participant may have no reported contribution. A process alone does not prove model computation. Check the official training button, recent logs, throughput sample time and errors together. Agent process resources are not pool income or whole-system CPU usage. Low CPU or zero daily rewards alone are not restart criteria.
+
+## Will restarting skip the queue?
+
+IOTA Watch cannot skip queues and does not predict a wait from the rank. Agent 1.0.5 recovery targets stopped training processes; an existing queued worker does not trigger recovery. Use [stopped-training recovery](https://iotahome.site/en/learn/iota-training-stopped-auto-recovery) for failures or [Mac management](https://iotahome.site/en/machines) to compare devices.
+
+## Stuck initializing or seeing weights 404: should I change runs?
+
+Record the official app version, run, error time and surrounding log lines, then check connection and training state against the official guide. A 404 alone does not establish a ban or a need to reinstall. IOTA Watch cannot force assignment, change official runs or repair model files. Avoid repeated restarts as a guess. If the error persists, give official support those details after removing passwords, tokens and private keys from shared logs.
+
+### IOTA 대기열·0 tokens/s: 훈련 상태 확인하기 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+대기열·훈련 프로세스 실행·실제 기여는 다른 신호입니다. 출처와 시각을 확인하세요. 순번이 없다고 훈련 시작이 증명되지는 않습니다.
+
+## 대기 순번의 출처는?
+
+Mac 에이전트 순번은 공식 로컬 register/status 로그 응답에서 읽습니다. 현재 워커 시작 이후이며 최근 5분 이내 기록만 사용합니다. 온라인은 90초 이내 하트비트 기준으로 별도입니다. 에이전트 없이 공개 목록만으로 로컬 대기를 알 수 없습니다.
+
+## 대기 중인데 목록에 없는 이유는?
+
+대기열은 로컬 등록 응답이고 프로젝트 태그는 조회된 공식 실행 목록입니다. 예를 들어 #235와 목록 없음이 함께 보이면 순번 시각과 목록 조회 범위를 각각 확인하세요. 오프라인으로 합쳐 판단하지 마세요. 이 예시는 대기 시간 예측이 아닙니다.
+
+## 처리량 0·낮은 CPU는 고장인가요?
+
+반드시 그렇지는 않습니다. 대기 중이면 기여 처리량이 없을 수 있고 프로세스 존재가 모델 계산을 증명하지 않습니다. 공식 훈련 버튼·최근 로그·처리량 샘플 시각·오류를 함께 확인하세요. 에이전트 자원 값은 수익이나 전체 시스템 CPU 사용률이 아닙니다. 낮은 CPU나 일일 보상 0만으로 재시작하지 마세요.
+
+## 재시작하면 대기열을 건너뛰나요?
+
+IOTA Watch에는 대기열 우회나 순번 기반 대기 시간 예측이 없습니다. 1.0.5 복구는 중지된 훈련 프로세스를 대상으로 하며 정상 대기 워커는 제외합니다. 오류는 [자동 복구 안내](https://iotahome.site/ko/learn/iota-training-stopped-auto-recovery), 기기 비교는 [Mac 관리](https://iotahome.site/ko/machines)를 확인하세요.
+
+## initializing 또는 weights 404가 계속되면 run을 바꾸나요?
+
+공식 앱 버전·run·오류 시각·전후 로그를 기록하고 공식 안내로 연결과 훈련 상태를 확인하세요. 404만으로 차단이나 재설치 필요를 판단할 수 없습니다. IOTA Watch는 강제 배정·공식 run 변경·모델 파일 복구를 제공하지 않습니다. 추측으로 반복 재시작하지 마세요. 지속되면 비밀번호·토큰·비밀키를 제거한 정보를 공식 지원에 전달하세요.
+
+### IOTAが待機中・0 tokens/sのときの確認方法 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+待機順位・学習プロセス・実際の貢献は異なる情報です。取得元と時刻を確認し、順位がないことを学習開始の証拠にしないでください。
+
+## 待機順位の取得元は？
+
+Macエージェントの順位は公式ローカルログのregister/status応答から取得します。現在のワーカー起動後かつ5分以内の記録だけを採用します。オンライン判定は90秒以内のハートビートで別の時計です。公開名簿だけではMacの待機状態は分かりません。
+
+## 待機中なのに名簿にない理由は？
+
+順位はローカル登録応答、プロジェクトの表示は取得済み公式実行名簿です。例えば#235と名簿なしが同時に見える場合、順位の時刻と名簿の取得範囲を別々に確認します。オフラインと断定しません。これは読み方の例で待ち時間の予測ではありません。
+
+## 処理量ゼロ・低CPUは故障？
+
+必ずしも故障ではありません。待機中には貢献処理量がなく、プロセスの存在だけではモデル計算を証明しません。公式学習ボタン・最近のログ・サンプル時刻・エラーを確認します。プロセス資源は収益やシステム全体CPUではありません。低CPUや報酬ゼロだけで再起動しません。
+
+## 再起動で順番を飛ばせる？
+
+IOTA Watchは順番を飛ばせず、順位から待ち時間も予測しません。1.0.5の復旧は停止した学習プロセスが対象で、正常な待機ワーカーは対象外です。[自動復旧](https://iotahome.site/ja/learn/iota-training-stopped-auto-recovery)と[Mac管理](https://iotahome.site/ja/machines)を参照してください。
+
+## initializingやweights 404が続く場合、runを変える？
+
+公式アプリのバージョン・run・発生時刻・前後のログを記録し、公式手順で接続と学習状態を確認します。404だけでは利用停止や再インストールの必要性は判断できません。当サイトは強制割当・公式run変更・モデルファイル修復を行えません。推測で再起動を繰り返さず、続く場合はパスワード・トークン・秘密鍵を除いた情報を公式サポートへ伝えてください。
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · agent source and installation — https://github.com/molimao/iota/tree/main/scripts/device-agent
+
+### IOTA training stopped with the app open: Mac auto-recovery
+- zh-CN: https://iotahome.site/zh/learn/iota-training-stopped-auto-recovery
+- zh-TW: https://iotahome.site/zh-TW/learn/iota-training-stopped-auto-recovery
+- en: https://iotahome.site/en/learn/iota-training-stopped-auto-recovery
+- ko: https://iotahome.site/ko/learn/iota-training-stopped-auto-recovery
+- ja: https://iotahome.site/ja/learn/iota-training-stopped-auto-recovery
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: IOTA
+
+### IOTA 窗口还在，训练却停止了：Mac 自动恢复怎么设置？ (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+Mac Agent 1.0.5 可在训练进程停止 2 分钟后尝试恢复。应用打开不等于训练已启动；内存不足仍需处理，自动恢复不能保证持续贡献。
+
+## 在哪里开启？
+
+在 [Mac 设备管理](https://iotahome.site/zh/machines) 为对应 Miner ID 配对 Agent，确认设备心跳及版本至少 1.0.5，再在「设置与日志」开启「训练停止后自动恢复」。默认关闭，不要求 Pro。只下载脚本但未安装配对时，网页无法控制那台 Mac。
+
+## 按停止按钮后会怎样？
+
+官方应用内的 Stop Training 会停止训练进程，恢复开关开启时也属于恢复对象。正常排队进程仍存在，不触发恢复。网页上的「停止」会同时关闭自动恢复，让设备保持停止。主动休息、维护或释放内存前，先在网页停止或关闭开关。
+
+## 会修改什么？怎样判断成功？
+
+恢复通过优化启动器重启官方应用，并启用官方 autoStartTrainingOnStartup（启动时自动训练），该设置会保留；不修改钱包、线程或开机登录设置。只有训练进程在 60 秒内出现才确认恢复成功，排队也算进程已启动，不表示已经产生收益。失败后仍遵守 15 分钟尝试间隔；网络中断时不执行恢复。规则来自公开源码与自动化测试，尚不能代替你设备上的按钮实测。
+
+### IOTA 視窗還在但訓練停止：Mac 自動恢復設定 (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+Mac Agent 1.0.5 可在訓練程序停止 2 分鐘後嘗試恢復。視窗開啟不代表已訓練；記憶體不足仍須處理，不能保證持續貢獻。
+
+## 在哪裡啟用？
+
+在 [Mac 管理](https://iotahome.site/zh-TW/machines) 對應 Miner ID 配對 Agent，確認心跳及版本至少 1.0.5，再於「設定與日誌」開啟「訓練停止後自動恢復」。預設關閉，不需 Pro；只下載而未安裝配對時不能控制 Mac。
+
+## 按停止按鈕後會怎樣？
+
+官方應用內 Stop Training 停止訓練程序，開啟恢復時也會被恢復；正常排隊不觸發。網頁「停止」會關閉自動恢復。休息、維護或釋放記憶體前，先在網頁停止或關閉開關。
+
+## 會修改什麼？如何確認成功？
+
+恢復會經優化啟動器重啟官方應用，啟用並保留 autoStartTrainingOnStartup；不改錢包、執行緒或登入啟動設定。60 秒內出現訓練程序才確認成功，排隊不代表產生收益。失敗仍受 15 分鐘間隔限制，斷線不執行。依據公開源碼及自動化測試，不代替實機按鈕測試。
+
+### IOTA training stopped with the app open: Mac auto-recovery (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+Mac agent 1.0.5 can attempt recovery after the training process has stopped for two minutes. An open app is not proof of training; recovery cannot fix insufficient memory or guarantee contribution.
+
+## Where do I enable it?
+
+Pair the agent to the correct Miner ID in [Mac management](https://iotahome.site/en/machines). Confirm a recent heartbeat and version 1.0.5 or newer, then enable Recover stopped training under Settings and logs. It is off by default and does not require Pro. Downloading without installation and pairing does not grant control of a Mac.
+
+## What happens when I press Stop?
+
+Stop Training inside the official app stops the worker and is also covered when recovery is enabled. A queued worker remains present and is excluded. Stop on the IOTA Watch website disables recovery so it stays stopped. Before maintenance or freeing memory, stop through the website or turn the recovery option off.
+
+## What changes, and what counts as success?
+
+Recovery restarts the official app through the optimized launcher and enables its persistent autoStartTrainingOnStartup preference. Wallet, thread and launch-at-login settings are not changed. The worker must appear within 60 seconds; a queued worker counts as started, not as earning. Failed attempts still have a 15-minute cooldown; network failure prevents recovery. These rules are supported by public code and automated tests, not a claim of a successful button test on every Mac.
+
+### IOTA 앱은 열렸는데 훈련이 중단됐을 때 자동 복구 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+Mac 에이전트 1.0.5는 훈련 프로세스가 2분간 멈추면 복구를 시도합니다. 열린 앱은 훈련의 증거가 아니며 복구가 메모리 부족을 해결하거나 기여를 보장하지는 않습니다.
+
+## 어디에서 켜나요?
+
+[Mac 관리](https://iotahome.site/ko/machines)에서 올바른 Miner ID에 에이전트를 연결하세요. 최신 하트비트와 1.0.5 이상 버전을 확인한 뒤 설정·로그에서 자동 복구를 켭니다. 기본은 꺼짐이며 Pro가 필요하지 않습니다. 다운로드만 하고 설치·페어링하지 않으면 제어할 수 없습니다.
+
+## 중지를 누르면 어떻게 되나요?
+
+공식 앱의 Stop Training도 훈련 프로세스를 중지하므로 복구 대상입니다. 정상 대기 워커는 제외됩니다. IOTA Watch 웹의 중지는 자동 복구를 꺼서 중단 상태를 유지합니다. 점검이나 메모리 확보 전에는 웹에서 중지하거나 복구를 끄세요.
+
+## 무엇이 변경되고 성공 기준은 무엇인가요?
+
+최적화 실행기로 앱을 재시작하고 autoStartTrainingOnStartup 설정을 켜서 유지합니다. 지갑·스레드·로그인 실행 설정은 바꾸지 않습니다. 60초 이내 워커가 나타나야 성공이며 대기 워커가 수익을 뜻하지는 않습니다. 실패해도 15분 간격을 적용하고 네트워크 오류 시 복구하지 않습니다. 공개 코드와 자동화 테스트 기준이며 모든 Mac의 버튼 실측을 뜻하지 않습니다.
+
+### IOTAアプリが開いているのに学習停止：Mac自動復旧 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+Macエージェント1.0.5は学習プロセスの停止2分後に復旧を試みます。アプリの表示だけでは学習中ではなく、メモリ不足の解消や貢献の保証もできません。
+
+## どこで有効にする？
+
+[Mac管理](https://iotahome.site/ja/machines)で正しいMiner IDへペアリングします。最近の応答と1.0.5以降を確認し、設定とログで自動復旧を有効にします。初期設定は無効、Pro不要です。ダウンロードだけで未設置・未ペアリングなら制御できません。
+
+## 停止ボタンを押すと？
+
+公式アプリ内のStop Trainingもワーカーを停止するため、有効時は復旧対象です。待機中ワーカーは除外されます。IOTA WatchのWeb停止は自動復旧も無効にして停止を維持します。保守やメモリ解放前にはWebで停止するか復旧を無効にしてください。
+
+## 何を変更し、何を成功とする？
+
+最適化ランチャーで公式アプリを再起動し、autoStartTrainingOnStartupを有効にして保持します。ウォレット・スレッド・ログイン起動は変更しません。60秒以内にワーカーが現れた場合のみ成功で、待機中は収益発生を意味しません。失敗時も15分間隔、通信断では復旧しません。公開コードと自動テストの仕様であり、全Macのボタン実測を示すものではありません。
+- Source: Macrocosmos · TAH user guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
+- Source: IOTA Watch · agent source and installation — https://github.com/molimao/iota/tree/main/scripts/device-agent
+
+### Pearl PRL on Mac: check pool hashrate, workers and rewards
+- zh-CN: https://iotahome.site/zh/learn/pearl-prl-mac-monitoring
+- zh-TW: https://iotahome.site/zh-TW/learn/pearl-prl-mac-monitoring
+- en: https://iotahome.site/en/learn/pearl-prl-mac-monitoring
+- ko: https://iotahome.site/ko/learn/pearl-prl-mac-monitoring
+- ja: https://iotahome.site/ja/learn/pearl-prl-mac-monitoring
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: Pearl
+
+### Mac 挖 Pearl / PRL 后，怎样查算力、Worker 和收益？ (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+Apple Silicon 有 Pearl Metal 矿工，但监控必须匹配你实际使用的矿池。本站 PRL 查询读取 Kryptex 钱包统计，不提供安装挖矿程序或保证收益。
+
+## Mac 可以挖 PRL 吗？
+
+[Pearl Metal 仓库](https://github.com/Breakwater-ecosystem/pearl-metal-miner) 提供 Apple Silicon Metal 后端。安装、支持的系统、连接参数及更新以仓库说明为准。不能把 RTX 5090 的收益、算力或功耗套用到 Mac；本站没有足以给出各款 Mac 净收益的统一实测。
+
+## 查询时应该填什么？
+
+先到 [Kryptex PRL](https://pool.kryptex.com/en/prl) 核对挖矿连接使用的公开 PRL 收款地址，再在 [PRL 监控](https://iotahome.site/zh/projects/prl) 添加同一地址。Worker 名需与矿工配置一致。若接入别的矿池，本站的 Kryptex 查询无法代表该池数据；同一个钱包也不会自动汇总跨矿池收入。
+
+## Worker 收益能单独算吗？为什么和矿工算力不同？
+
+本站 Worker 筛选针对算力与状态，钱包收益仍属于整个地址，不能重复记到每台机器上。矿工本地瞬时算力与矿池按份额计算的平均算力窗口不同；先核对份额、样本时间及矿池周期。钱包今日收益按来源的 UTC 日统计，余额和累计付款分开显示，不等于已提现净利润。
+
+## 地址为什么下次还要输入？
+
+使用项目页的添加/保存入口把地址加入清单，不只做一次临时查询。多个地址分别命名；登录后保存到账号，换设备使用同一账号。未登录清单只保留在当前浏览器。打开 [PRL 监控](https://iotahome.site/zh/projects/prl) 核对来源与字段。
+
+### Mac 挖 Pearl / PRL 後如何查算力、Worker 與收益？ (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+Apple Silicon 有 Pearl Metal 礦工，監控必須對應實際礦池。本站 PRL 查詢讀取 Kryptex 錢包統計，不安裝挖礦程式或保證收益。
+
+## Mac 可以挖 PRL 嗎？
+
+[Pearl Metal 倉庫](https://github.com/Breakwater-ecosystem/pearl-metal-miner) 提供 Apple Silicon Metal 後端，安裝、系統及參數以倉庫為準。RTX 5090 的收益、算力或耗電不能套用 Mac，本站沒有各型 Mac 淨收益的統一實測。
+
+## 查詢要填什麼？
+
+先在 [Kryptex PRL](https://pool.kryptex.com/en/prl) 核對公開 PRL 收款地址，再於 [PRL 監控](https://iotahome.site/zh-TW/projects/prl) 加入相同地址，Worker 名須符合礦工設定。其他礦池資料不會由 Kryptex 查詢代表，同一錢包也不自動跨池合計。
+
+## 能單算 Worker 收益嗎？為何算力不同？
+
+Worker 篩選針對算力及狀態，收益屬於整個地址，不能重複記到各台。礦工瞬時算力與礦池份額平均窗口不同，先查份額、時間及周期。今日收益依來源 UTC 日，餘額與累計付款分開，並非提領後淨利。
+
+## 為何下次仍要輸入地址？
+
+用專案頁新增/儲存入口加入清單，不只臨時查詢。多個地址分別命名，登入後同步到帳號，未登入則只留在目前瀏覽器。開啟 [PRL 監控](https://iotahome.site/zh-TW/projects/prl) 核對來源與欄位。
+
+### Pearl PRL on Mac: check pool hashrate, workers and rewards (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+Pearl Metal supports Apple Silicon pool mining, but monitoring must match your actual pool. IOTA Watch's PRL tool reads Kryptex wallet statistics; it does not install a miner or guarantee returns.
+
+## Can a Mac mine PRL?
+
+The [Pearl Metal repository](https://github.com/Breakwater-ecosystem/pearl-metal-miner) provides an Apple Silicon Metal backend. Follow its current installation, OS and connection instructions. RTX 5090 earnings, hashrate and power figures cannot be transferred to a Mac. This site has no standardized net-profit measurements for every Mac model.
+
+## Which inputs should I use?
+
+Check the public PRL payout address used by your miner at [Kryptex PRL](https://pool.kryptex.com/en/prl), then add that address in [PRL monitoring](https://iotahome.site/en/projects/prl). Match the configured worker name. A Kryptex lookup cannot represent another pool, and the same wallet does not automatically combine income across pools.
+
+## Can I isolate worker rewards or compare instantaneous hashrate?
+
+Worker filtering applies to hashrate and activity; reward totals remain wallet-wide and must not be copied to each machine. Local instantaneous hashrate and pool share-based averages use different windows. Check accepted shares, sample times and pool periods. Today's pool earnings use the source's UTC day; unpaid balance and cumulative payments are separate, not withdrawn net profit.
+
+## How do I keep multiple addresses?
+
+Use Add/Save on the project page to place addresses in the saved list, rather than only running a one-off query. Name multiple entries separately and sign in to sync them to your account. Signed-out entries remain in the current browser. Open [PRL monitoring](https://iotahome.site/en/projects/prl) to check source fields.
+
+### Mac Pearl PRL 채굴: 해시레이트·워커·보상 확인 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+Pearl Metal은 Apple Silicon 풀 채굴을 지원하지만 실제 이용 풀에 맞춰 조회해야 합니다. PRL 도구는 Kryptex 지갑 통계를 읽으며 채굴기 설치나 수익 보장을 제공하지 않습니다.
+
+## Mac에서 PRL을 채굴할 수 있나요?
+
+[Pearl Metal 저장소](https://github.com/Breakwater-ecosystem/pearl-metal-miner)는 Apple Silicon Metal 백엔드를 제공합니다. 최신 설치·OS·연결 안내를 따르세요. RTX 5090의 수익·성능·전력을 Mac에 적용할 수 없습니다. 모든 Mac의 표준화된 순수익 실측은 없습니다.
+
+## 무엇을 입력하나요?
+
+[Kryptex PRL](https://pool.kryptex.com/en/prl)에서 채굴기에 설정한 공개 지급 주소를 확인하고 [PRL 모니터](https://iotahome.site/ko/projects/prl)에 같은 주소를 추가하세요. 워커 이름도 설정과 일치해야 합니다. Kryptex 조회는 다른 풀을 대표하지 않으며 같은 지갑도 풀 간 수익을 자동 합산하지 않습니다.
+
+## 워커별 수익과 순간 해시레이트를 비교할 수 있나요?
+
+워커 필터는 성능·상태에 적용되고 수익은 지갑 전체 기준이므로 기기마다 복사하지 마세요. 로컬 순간 속도와 풀의 제출 지분 평균은 기간이 다릅니다. 유효 지분·샘플 시각·풀 기간을 확인하세요. 오늘 수익은 출처의 UTC 일자이며 미지급 잔액·누적 지급·순이익은 다릅니다.
+
+## 여러 주소를 저장하려면?
+
+일회 조회만 하지 말고 프로젝트 페이지의 추가·저장으로 목록에 넣으세요. 여러 주소에 이름을 붙이고 로그인해 계정에 동기화하세요. 비로그인 목록은 현재 브라우저에만 저장됩니다. [PRL 모니터](https://iotahome.site/ko/projects/prl)에서 출처 필드를 확인하세요.
+
+### MacでPearl PRL：ハッシュレート・ワーカー・報酬を確認 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+Pearl MetalはApple Siliconのプール採掘に対応しますが、監視先は実際のプールと一致させます。当サイトのPRLはKryptexのウォレット統計を読み、マイナー設置や収益保証はしません。
+
+## MacでPRLを採掘できる？
+
+[Pearl Metal](https://github.com/Breakwater-ecosystem/pearl-metal-miner)はApple Silicon Metalバックエンドを提供します。最新の導入・OS・接続手順に従ってください。RTX 5090の収益・性能・消費電力はMacに適用できません。全Macの標準化した純利益実測はありません。
+
+## 何を入力する？
+
+[Kryptex PRL](https://pool.kryptex.com/en/prl)でマイナー設定の公開受取アドレスを確認し、[PRL監視](https://iotahome.site/ja/projects/prl)に追加します。ワーカー名も設定と一致させます。Kryptex照会で他プールを代表したり、同じウォレットの収益を跨いで自動合算したりはできません。
+
+## ワーカー別報酬・瞬間速度を比較できる？
+
+ワーカーフィルターは速度と状態用で、報酬はウォレット全体です。各機器へ重複計上しません。ローカル瞬間速度とプールのシェア平均は期間が異なり、受理シェア・時刻・集計期間を確認します。当日収益は取得元UTC日で、未払残高・累計支払・純利益は別です。
+
+## 複数アドレスを保存するには？
+
+一時照会だけでなくプロジェクトの追加・保存で一覧に登録します。複数アドレスに名前を付け、ログインでアカウント同期します。未ログインなら現ブラウザ内だけです。[PRL監視](https://iotahome.site/ja/projects/prl)で取得元と項目を確認してください。
+- Source: Pearl Metal miner — https://github.com/Breakwater-ecosystem/pearl-metal-miner
+- Source: Kryptex · PRL pool — https://pool.kryptex.com/en/prl
+
+### NOID address not found: InnovLab and Parano1d pool checks
+- zh-CN: https://iotahome.site/zh/learn/noid-address-not-found
+- zh-TW: https://iotahome.site/zh-TW/learn/noid-address-not-found
+- en: https://iotahome.site/en/learn/noid-address-not-found
+- ko: https://iotahome.site/ko/learn/noid-address-not-found
+- ja: https://iotahome.site/ja/learn/noid-address-not-found
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: NOID
+
+### NOID 地址查不到？先核对 InnovLab 与 Parano1d 矿池 (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+同一个 NOID 地址在不同矿池可能有不同结果。地址查不到不等于设备停止；核对矿池、地址及有效份额后再判断。
+
+## 为什么 InnovLab 能查到，另一处没有？
+
+矿池独立记录该地址提交的份额和付款，不共享完整账本。本站先查 Parano1d Pool，无记录或失败时再查 InnovLab，并标注实际来源，不跨池合计。在 [NOID 监控](https://iotahome.site/zh/projects/noid) 核对显示的来源，再与 [InnovLab](https://noid.innovlab.cc/) 的相同地址比较。
+
+## 复制的是完整链接怎么办？
+
+例如 https://noid.innovlab.cc/#miner=地址 中，查询标识是 #miner= 后面的公开地址。优先只复制该地址，检查首尾空格和截断，不填私钥。先在原矿池确认存在有效份额；首次提交后数据需要按矿池自身节奏出现，本站不能保证固定等待时间。
+
+## 余额、累计付款、在线分别是什么意思？
+
+InnovLab 提供已确认待付余额和累计付款，本站没有该来源的完整设备级今日收益。地址级在线不能代表同一钱包下每台机器都在线。不要把余额、累计付款或滚动 24 小时付款当作单机当日收入。为多个地址保存独立条目并登录同步；见 [NOID 指南](https://iotahome.site/zh/learn/noid-monitor-guide)。
+
+### NOID 地址查不到？先核對 InnovLab 與 Parano1d 礦池 (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+同一 NOID 地址在不同礦池可能有不同結果。查不到不代表設備停止，應先核對礦池、地址與有效份額。
+
+## 為何 InnovLab 查得到而另一處沒有？
+
+礦池各自記錄份額及付款，不共享完整帳本。本站先查 Parano1d Pool，無紀錄或失敗再查 InnovLab，標示實際來源、不跨池合計。在 [NOID 監控](https://iotahome.site/zh-TW/projects/noid) 核對來源，再與 [InnovLab](https://noid.innovlab.cc/) 同地址比較。
+
+## 複製完整連結時怎麼辦？
+
+例如 https://noid.innovlab.cc/#miner=地址，識別碼是 #miner= 後的公開地址。只複製地址並檢查空白與截斷，不填私鑰。先到原池確認有效份額，首次提交後資料依礦池節奏出現，不保證固定等待時間。
+
+## 餘額、累計付款與在線有何不同？
+
+InnovLab 提供已確認待付餘額及累計付款，本站沒有此來源完整單機今日收益。地址在線不代表錢包下每台都在線，餘額、累計及滾動 24 小時付款不能當作單機當日收入。多地址分開儲存並登入同步，見 [NOID 指南](https://iotahome.site/zh-TW/learn/noid-monitor-guide)。
+
+### NOID address not found: InnovLab and Parano1d pool checks (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+The same NOID address can have different results at different pools. Not found does not establish a stopped miner: check the pool, exact address and accepted shares first.
+
+## Why does InnovLab find the address but another pool does not?
+
+Pools maintain their own shares and payments, not a shared complete ledger. IOTA Watch tries Parano1d Pool first and falls back to InnovLab when absent or unavailable, labels the source, and does not sum pools. Compare the source in [NOID monitoring](https://iotahome.site/en/projects/noid) with the same address on [InnovLab](https://noid.innovlab.cc/).
+
+## What if I copied a full explorer link?
+
+In https://noid.innovlab.cc/#miner=ADDRESS, the public identifier is the value after #miner=. Prefer pasting that address alone; check whitespace and truncation, never a private key. Confirm accepted shares at the original pool. First-share visibility follows the pool's own update cycle; no fixed appearance time is guaranteed.
+
+## What do balance, paid and online actually mean?
+
+InnovLab supplies confirmed unpaid balance and cumulative payments, not complete per-device daily earnings in this tool. Address-level online does not establish that every machine sharing a wallet is online. Balance, total paid and rolling 24-hour payments are not individual-machine daily income. Save addresses separately and sign in to sync; see [NOID guide](https://iotahome.site/en/learn/noid-monitor-guide).
+
+### NOID 주소가 조회되지 않을 때: InnovLab·Parano1d 확인 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+같은 NOID 주소라도 풀마다 조회 결과가 다릅니다. 조회 없음이 채굴기 중지를 뜻하지 않습니다. 풀·주소·유효 지분부터 확인하세요.
+
+## InnovLab에서만 조회되는 이유는?
+
+풀은 자체 지분·지급 기록을 관리하며 전체 장부를 공유하지 않습니다. 도구는 Parano1d Pool부터 조회하고 없거나 실패하면 InnovLab으로 전환하며 출처를 표시하고 합산하지 않습니다. [NOID 모니터](https://iotahome.site/ko/projects/noid)의 출처와 [InnovLab](https://noid.innovlab.cc/)의 같은 주소를 비교하세요.
+
+## 전체 링크를 복사했다면?
+
+https://noid.innovlab.cc/#miner=ADDRESS 에서 공개 ID는 #miner= 뒤 주소입니다. 주소만 복사하고 공백·잘림을 확인하며 비밀키는 입력하지 마세요. 원래 풀의 유효 지분을 먼저 확인하세요. 첫 제출 표시 시점은 풀 갱신 주기에 따라 달라 보장되지 않습니다.
+
+## 잔액·누적 지급·온라인은 무엇인가요?
+
+InnovLab은 확정 미지급 잔액·누적 지급을 제공하며 이 도구의 완전한 기기별 일일 수입은 아닙니다. 주소 온라인이 지갑 아래 모든 기기의 온라인을 뜻하지 않습니다. 잔액·누적 지급·최근 24시간 지급을 단일 기기의 일일 수입으로 보지 마세요. 주소별 저장·로그인 동기화는 [NOID 안내](https://iotahome.site/ko/learn/noid-monitor-guide)를 참조하세요.
+
+### NOIDアドレスが見つからない：InnovLabとParano1dの確認 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+同じNOIDアドレスでもプールごとに結果は異なります。見つからないだけで停止とは判断せず、プール・正確なアドレス・受理シェアを確認します。
+
+## InnovLabだけで見つかる理由は？
+
+プールは各自のシェア・支払を管理し、完全な共通台帳ではありません。当サイトはParano1d Poolを先に照会し、不在・失敗時にInnovLabを照会、取得元を表示して合算しません。[NOID監視](https://iotahome.site/ja/projects/noid)と[InnovLab](https://noid.innovlab.cc/)の同じアドレスを比較します。
+
+## ページのURLをコピーした場合は？
+
+https://noid.innovlab.cc/#miner=ADDRESS の公開IDは#miner=以降です。アドレスだけをコピーし、空白・欠落を確認、秘密鍵は入力しません。元プールで受理シェアを確認してください。最初の反映はプールの更新周期によるため固定時間は保証しません。
+
+## 残高・累計支払・オンラインの違いは？
+
+InnovLabは確定未払残高と累計支払を提供しますが、当ツールで完全な機器別日次収入は取得できません。アドレスのオンラインは共有ウォレット配下の全機器の稼働を証明しません。残高・累計・直近24時間支払を1台の日次収入にしないでください。個別保存・同期は[NOIDガイド](https://iotahome.site/ja/learn/noid-monitor-guide)へ。
+- Source: InnovLab · NOID pool — https://noid.innovlab.cc/
+- Source: IOTA Watch · NOID adapter — https://github.com/molimao/iota/blob/main/src/lib/platforms.server.ts
+
 ### How to monitor multiple IOTA Train at Home devices from one browser
 - zh-CN: https://iotahome.site/zh/blog/monitor-multiple-iota-devices
 - zh-TW: https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices
@@ -7279,13 +7850,13 @@ IOTAのUSD額はSN9市場価格で推計し時刻を示します。対応する�
 - ko: https://iotahome.site/ko/blog/monitor-multiple-iota-devices
 - ja: https://iotahome.site/ja/blog/monitor-multiple-iota-devices
 - Published: 2026-10-01
-- Updated: 2026-10-05
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### 多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh-CN)
 Published: 2026-10-01
-Updated: 2026-10-05
+Updated: 2026-10-17
 
 多台 Mac 同时运行 IOTA Train at Home 时，逐台打开官方应用适合检查本地问题，却不方便快速了解全局。IOTA Watch 把设备的公开上报状态、收益与训练历史集中到一个浏览器中。训练仍在每台 Mac 的官方应用里运行，网页提供监控，不提供远程控制。
 
@@ -7327,7 +7898,7 @@ Updated: 2026-10-05
 
 ### 多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-05
+Updated: 2026-10-17
 
 多台 Mac 同時運行 IOTA Train at Home 時，逐台開啟官方應用程式適合檢查本地問題，卻不方便快速了解全局。 IOTA Watch 把設備的公開回報狀態、效益與訓練歷史集中到一個瀏覽器。訓練仍在每台 Mac 的官方應用程式中運行，網頁提供監控，不提供遠端控制。
 
@@ -7369,9 +7940,9 @@ Updated: 2026-10-05
 
 ### How to monitor multiple IOTA Train at Home devices from one browser (en)
 Published: 2026-10-01
-Updated: 2026-10-05
+Updated: 2026-10-17
 
-When several Macs run IOTA Train at Home, opening each machine’s app is useful for local checks but inconvenient for a quick overview. IOTA Watch brings public device readings into one browser: reported activity, reward totals and training history. Training continues in the official app on each Mac; the browser is a monitor, not a remote control.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 ## Start with a separate Miner ID for each machine
 
@@ -7411,7 +7982,7 @@ A useful routine is simple: check freshness, review exceptions, inspect reward c
 
 ### 여러 IOTA Train at Home 기기를 한 브라우저에서 확인하기 (ko)
 Published: 2026-10-02
-Updated: 2026-10-05
+Updated: 2026-10-17
 
 여러 Mac에서IOTA Train at Home을 실행하는 경우 각 컴퓨터의 앱을 여는 것은 로컬 확인에는 유용하지만 빠른 개요에는 불편합니다.IOTA Watch은 보고된 활동, 보상 합계, 훈련 내역 등 공개 장치 판독값을 하나의 브라우저에 제공합니다. 훈련은 각 Mac의 공식 앱에서 계속됩니다. 브라우저는 리모콘이 아니라 모니터입니다.
 
@@ -7453,7 +8024,7 @@ Updated: 2026-10-05
 
 ### 複数のIOTA Train at Homeデバイスを1つのブラウザーで確認する方法 (ja)
 Published: 2026-10-02
-Updated: 2026-10-05
+Updated: 2026-10-17
 
 複数の Mac がIOTA Train at Homeを実行している場合、各マシンのアプリを開くことはローカル チェックには便利ですが、簡単に概要を確認するには不便です。IOTA Watchは、報告されたアクティビティ、報酬の合計、トレーニング履歴など、デバイスの公開測定値を 1 つのブラウザーにまとめます。トレーニングは各 Mac の公式アプリで継続します。ブラウザはモニターであり、リモコンではありません。
 
@@ -7503,13 +8074,13 @@ Updated: 2026-10-05
 - ko: https://iotahome.site/ko/blog/iota-rewards-zero-or-not-paid
 - ja: https://iotahome.site/ja/blog/iota-rewards-zero-or-not-paid
 - Published: 2026-10-01
-- Updated: 2026-10-01
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Train at Home 收益为零或没到账，先检查什么？ (zh-CN)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 监控页显示 0 与钱包没有收到代币，是两个不同的问题。前者涉及网页读到了哪些记录，后者涉及官方支付流程。重启训练或判断收益丢失前，先确认变化的是哪个字段，以及对应数据源是否成功更新。
 
@@ -7521,7 +8092,7 @@ IOTA Watch 只有在可用的官方响应支持零值时才显示已知的 0。�
 
 ## 确认今日收益属于哪一天
 
-本站的今日收益按香港时间每天 00:00 起算，累加该时间窗口内官方历史中的 pending 与 settled 记录，排除 frozen 及未来时间戳。它是记账收益，不是对机器当前每秒收益的估算。
+本站 IOTA 的「昨日收益」使用次日记账记录，按北京时间归属到前一天。例如 10 月 17 日读取的当天记录显示为 10 月 16 日收益；只合计 pending、settled，排除 frozen 及未来时间戳。这是本站展示口径，不证明每笔记录对应的实际训练发生日，也不代表钱包当天到账。
 
 跨过午夜后，今日收益可以为 0，而累计收益仍为正。先检查收益记录的时间，再判断是否出现异常。即使机器位于其他时区，网页也使用同一记账日口径。详细规则见 [收益计算说明](https://iotahome.site/zh/learn/how-rewards-work)。
 
@@ -7549,7 +8120,7 @@ IOTA Watch 不配置官方应用的收款地址，不转移代币，也不验证
 
 ### IOTA Train at Home 收益為零或沒到賬，先檢查什麼？ (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 監視器頁顯示 0 與錢包沒有收到代幣，是兩個不同的問題。前者涉及網頁讀到了哪些記錄，後者涉及官方支付流程。重啟訓練或判斷收益遺失前，先確認變化的是哪個字段，以及對應資料來源是否成功更新。
 
@@ -7561,7 +8132,7 @@ IOTA Watch 只有在可用的官方回應支援零值時才顯示已知的 0。�
 
 ## 確認今日收益屬於哪一天
 
-本站的今日收益以香港時間每天 00:00 算，累加該時間窗口內官方歷史中的 pending 與 settled 記錄，排除 frozen 及未來時間戳。它是記帳收益，不是機器當前每秒收益的估算。
+本站 IOTA「昨日收益」依次日記帳紀錄，以北京時間歸屬到前一天。例如 10 月 17 日讀取當天紀錄顯示為 10 月 16 日收益；只計 pending、settled，排除 frozen 及未來時間。這是展示口徑，不證明實際訓練日，也不代表當日入帳。
 
 跨過午夜後，今日收益可以為 0，而累積收益仍為正。先檢查收益記錄的時間，再判斷是否有異常。即使機器位於其他時區，網頁也使用同一記帳日口徑。詳細規則請參閱 [收益計算說明](https://iotahome.site/zh-TW/learn/how-rewards-work)。
 
@@ -7589,7 +8160,7 @@ IOTA Watch 不配置官方應用的收款地址，不轉移代幣，也不驗證
 
 ### IOTA Train at Home rewards are zero or unpaid: what to check first (en)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 A zero on the dashboard and a missing wallet payout are different questions. The first concerns the records the monitor can read; the second concerns official payout processing. Before restarting training or assuming rewards were lost, identify which field changed and whether its data source succeeded.
 
@@ -7601,7 +8172,7 @@ Open the device’s reward details and inspect totals and history separately. Li
 
 ## Check which day the total covers
 
-Today’s rewards in IOTA Watch use the Hong Kong calendar day, starting at 00:00 Asia/Hong_Kong. They sum official pending and settled history entries in that window, excluding frozen entries and future timestamps. The result is accounted earnings, not an estimate of how much the machine is earning this second.
+IOTA Watch labels IOTA as Yesterday's rewards by attributing the next accounting day's records to the preceding date in UTC+8. For example, records dated October 17 appear under October 16. Only pending and settled count; frozen and future timestamps are excluded. This display convention does not prove the actual training date or the date funds reached a wallet.
 
 After midnight, today’s reading can be zero while lifetime earnings remain positive. Look at the history record timestamps before treating that as a regression. A device in a different timezone still uses the same dashboard accounting day. The [reward calculation guide](https://iotahome.site/en/learn/how-rewards-work) describes this rule in detail.
 
@@ -7629,7 +8200,7 @@ IOTA Watch does not configure where the official app pays rewards, move tokens o
 
 ### IOTA Train at Home 보상이 0이거나 미지급일 때 확인할 사항 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 대시보드의 0과 지갑 지불금 누락은 다른 질문입니다. 첫 번째는 모니터가 읽을 수 있는 기록에 관한 것입니다. 두 번째는 공식적인 지급 처리에 관한 것입니다. 훈련을 다시 시작하거나 보상이 손실되었다고 가정하기 전에 어떤 필드가 변경되었는지, 해당 데이터 소스가 성공했는지 확인하세요.
 
@@ -7669,7 +8240,7 @@ IOTA Watch은 공식 앱이 보상을 지불하고 토큰을 이동하거나 지
 
 ### IOTA Train at Homeの報酬がゼロ・未払いの場合に確認すること (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 ダッシュボードにゼロがあることと、ウォレットへの支払いが不足していることは別の問題です。 1 つ目は、モニターが読み取ることができるレコードに関するものです。 2 つ目は、公式の支払い処理に関するものです。トレーニングを再開する前、または報酬が失われたと想定する前に、どのフィールドが変化したか、そのデータ ソースが成功したかどうかを特定します。
 
@@ -7717,13 +8288,13 @@ IOTA Watchは、公式アプリが報酬を支払う場所、トークンを移�
 - ko: https://iotahome.site/ko/blog/iota-waiting-for-tasks
 - ja: https://iotahome.site/ja/blog/iota-waiting-for-tasks
 - Published: 2026-10-01
-- Updated: 2026-10-01
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### IOTA Train at Home 一直等待任务、吞吐量为零，怎样排查？ (zh-CN)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 设备可能仍出现在官方矿工名单中，但最近一次上报的吞吐量为零。单凭这一张快照，无法确认硬件故障或连接中断。排查时可以分开看三件事：网页有没有成功刷新、官方网络上报了什么，以及本地训练应用正在做什么。
 
@@ -7767,7 +8338,7 @@ Updated: 2026-10-01
 
 ### IOTA Train at Home 一直等待任務、吞吐量為零，怎麼檢查？ (zh-TW)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 設備可能仍出現在官方礦工名單中，但最近一次上報的吞吐量為零。單憑這張快照，無法確認硬體故障或連線中斷。排查時可以分開看三件事：網頁有沒有成功刷新、官方網路上報了什麼，以及本地訓練應用程式正在做什麼。
 
@@ -7811,7 +8382,7 @@ Updated: 2026-10-02
 
 ### IOTA Train at Home waiting for tasks: how to investigate zero throughput (en)
 Published: 2026-10-01
-Updated: 2026-10-01
+Updated: 2026-10-17
 
 A device can appear in the official miner list while its latest reported throughput is zero. That snapshot is not enough to identify a hardware failure or a lost connection. A useful investigation separates three things: whether the website refreshed, what the official network reported, and what the local training app is doing.
 
@@ -7841,7 +8412,7 @@ An empty selected history may mean the API has no records for that task and peri
 
 ## Then make the local checks
 
-The [official user guide](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide) identifies the app’s readiness status, run panel, run log and update notices as local checks. Open the affected Mac’s app and inspect those views; the monitor cannot read them remotely.
+Public Miner ID lookup reads official reports only. An optional installed and paired Mac agent adds heartbeats, queue and worker state, remote start/stop/restart and agent updates. Logs require a separate opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 - Check the app’s displayed connection and training state
 
@@ -7855,7 +8426,7 @@ Keep the observation precise: “the current sample reports zero throughput” i
 
 ### IOTA Train at Home 작업 대기와 처리량 0: 확인 방법 (ko)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 장치는 최근 보고된 처리량이 0인 동안에도 공식 채굴자 목록에 나타날 수 있습니다. 해당 스냅샷은 하드웨어 오류나 연결 끊김을 식별하는 데 충분하지 않습니다. 유용한 조사는 웹사이트가 새로 고쳐졌는지 여부, 공식 네트워크에서 보고한 내용, 지역 훈련 앱이 수행하는 작업의 세 가지 항목을 구분합니다.
 
@@ -7885,7 +8456,7 @@ IOTA Watch은 공식 채굴자 데이터를 사용하여 보고된 기여, 대�
 
 ## 그런 다음 로컬 확인을 수행합니다.
 
-[공식 사용자 가이드](https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide)는 앱의 준비 상태, 실행 패널, 실행 로그 및 업데이트 알림을 로컬 확인으로 식별합니다. 영향을 받는 Mac의 앱을 열고 해당 보기를 검사합니다. 모니터는 원격으로 읽을 수 없습니다.
+공개 Miner ID 조회는 공식 보고만 읽습니다. 선택 Mac 에이전트를 설치·연결하면 하트비트·대기열·훈련 프로세스와 원격 시작·중지·재시작·에이전트 업데이트를 사용할 수 있습니다. 로그는 별도로 켭니다. 1.0.5 훈련 자동 복구는 기본 꺼짐이며 Pro가 필요하지 않습니다.
 
 - 앱에 표시된 연결 및 훈련 상태를 확인하세요.
 
@@ -7899,7 +8470,7 @@ IOTA Watch은 공식 채굴자 데이터를 사용하여 보고된 기여, 대�
 
 ### IOTA Train at Homeのタスク待機・処理量ゼロの確認方法 (ja)
 Published: 2026-10-02
-Updated: 2026-10-02
+Updated: 2026-10-17
 
 デバイスは、最新に報告されたスループットがゼロであっても、公式マイナー リストに表示されることがあります。このスナップショットは、ハードウェアの障害や接続の切断を特定するには十分ではありません。有益な調査は、Web サイトが更新されたかどうか、公式ネットワークが報告したこと、ローカル トレーニング アプリが何を行っているかという 3 つのことを分離します。
 

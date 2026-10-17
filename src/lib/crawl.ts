@@ -48,10 +48,10 @@ export const crawlPages: CrawlPage[] = [
   { path: "blog", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
   { path: "learn", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "0.9" },
   { path: "network", lastmod: "2026-10-01", changefreq: "weekly", priority: "0.8" },
-  { path: "downloads", lastmod: "2026-10-01", changefreq: "monthly", priority: "0.8" },
+  { path: "downloads", lastmod: "2026-10-17", changefreq: "monthly", priority: "0.8" },
   { path: "faq", lastmod: DISCOVERY_UPDATED, changefreq: "monthly", priority: "0.8" },
   { path: "guide", changefreq: "monthly", priority: "0.7" },
-  { path: "privacy", lastmod: "2026-10-10", changefreq: "yearly", priority: "0.3" },
+  { path: "privacy", lastmod: "2026-10-17", changefreq: "yearly", priority: "0.3" },
   ...articles.map((article) => ({
     path: `learn/${article.slug}`,
     lastmod: articleDates(article).modified,
@@ -163,7 +163,7 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, yesterday’s attributed rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. Public lookup alone cannot control a Mac. An optional installed and paired Mac agent adds local heartbeats, queue state and remote controls; log upload is separately opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is \`iota-2\` (Train at Home SN9), not \`iota\` (IOTA Layer 1).
 
@@ -173,7 +173,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Canonical site: ${origin}
 - Audience: people already running IOTA Train at Home, or managing identifiers across supported mining and compute projects
 - Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
-- Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
+- Yesterday’s IOTA rewards: next accounting day records attributed to the preceding date in Asia/Hong_Kong (UTC+8); pending + settled only, frozen and future timestamps excluded. This is the site display convention, not proof of actual training date or wallet receipt date. Daily email uses the same attribution.
 - Lifetime rewards: official total earned; paid is not added again
 - Device status: official sample, not a Mac heartbeat
 - Sources have independent fetch clocks; an earnings refresh does not renew a device status clock
@@ -182,7 +182,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Wallet private keys and seed phrases are not accepted by IOTA Watch
-- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See ${origin}/en/downloads for installation effects and removal instructions.
+- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. Public lookups stay read-only; paired-agent controls act only on the paired Mac. See ${origin}/en/downloads for installation effects and removal instructions.
 
 ## Additional mining projects
 
@@ -206,6 +206,7 @@ IOTA remains the primary project. Supported project pages: ${PROJECT_IDS.map((id
 ${productQuestions("en")
   .map((q) => `### ${q.question}\n${q.answer}`)
   .join("\n\n")}
+
 
 ## Question guides
 

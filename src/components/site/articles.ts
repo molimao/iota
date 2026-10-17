@@ -1,3 +1,5 @@
+import { searchSupportGuides } from "./search-support-guides";
+import { currentIotaContent } from "./current-iota-content";
 import { macStatusGuide } from "./mac-status-guide";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
@@ -475,23 +477,26 @@ const iotaArticles = withLocales([
 ]);
 
 export const articles: Article[] = [
-  ...iotaArticles.map((article) => ({
-    ...article,
-    ...iotaGuideAnswers[article.slug],
-    ...(article.slug === "how-rewards-work"
-      ? {
-          modified: "2026-10-09",
-          evidence: iotaEvidence,
-          body: Object.fromEntries(
-            LOCALES.map((locale) => [locale, [...article.body[locale], ...rewardChecks[locale]]]),
-          ) as Article["body"],
-        }
-      : {}),
-  })),
+  ...iotaArticles
+    .map((article) => ({
+      ...article,
+      ...iotaGuideAnswers[article.slug],
+      ...(article.slug === "how-rewards-work"
+        ? {
+            modified: "2026-10-09",
+            evidence: iotaEvidence,
+            body: Object.fromEntries(
+              LOCALES.map((locale) => [locale, [...article.body[locale], ...rewardChecks[locale]]]),
+            ) as Article["body"],
+          }
+        : {}),
+    }))
+    .map(currentIotaContent),
   ...projectGuides,
   ...computeGuides,
   macStatusGuide,
-  ...problemGuides,
+  ...problemGuides.map(currentIotaContent),
+  ...searchSupportGuides,
 ];
 
 export function articleDates(article: Article, locale?: Locale) {
@@ -511,7 +516,18 @@ export function articleProjects(article: Article): readonly ProjectId[] {
   return (
     article.subjects ??
     (article.project === "all"
-      ? (["iota", "xid", "quantus", "flyai", "nosana", "gonka", "akash", "ionet", "vast", "golem"] as const)
+      ? ([
+          "iota",
+          "xid",
+          "quantus",
+          "flyai",
+          "nosana",
+          "gonka",
+          "akash",
+          "ionet",
+          "vast",
+          "golem",
+        ] as const)
       : [article.project ?? "iota"])
   );
 }
@@ -531,7 +547,11 @@ export const articleClusterMeta: Record<
       ko: "사용 사례와 도구 선택",
       ja: "用途とツールの選び方",
     },
-    slugs: [macStatusGuide.slug, ...problemGuides.map((a) => a.slug)],
+    slugs: [
+      macStatusGuide.slug,
+      ...problemGuides.map((a) => a.slug),
+      ...searchSupportGuides.map((a) => a.slug),
+    ],
   },
   compute: {
     title: {

@@ -1,3 +1,4 @@
+import { iotaPublicFacts } from "@/lib/iota-public-facts";
 import { adPrivacy, adLabels } from "@/lib/ads";
 import { agentCopy } from "@/components/device-agent-copy";
 import { analyticsPrivacy } from "@/lib/analytics-privacy";
@@ -325,14 +326,7 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       {page === "guide" && (
         <aside className="article-tip">
           <h2>{localizeValue(en ? "Before you start" : "使用前须知", locale)}</h2>
-          <p>
-            {localizeValue(
-              en
-                ? "A Train at Home device and its public Miner ID are required. This dashboard cannot run training, promise rewards, or read local logs."
-                : "需要已运行 Train at Home 的设备及其公开 Miner ID。本站不能启动训练、承诺收益，也不能读取本地日志。",
-              locale,
-            )}
-          </p>
+          <p>{iotaPublicFacts.agent[locale]}</p>
           <a href={`/${locale}/learn/find-miner-id`}>
             {localizeValue(en ? "Miner ID steps" : "Miner ID 步骤", locale)} →
           </a>
@@ -377,8 +371,8 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
       {page === "faq" && <ProjectLearning />}
       <p className="article-updated">
         {page === "privacy" || page === "faq" ? (
-          <time dateTime={page === "faq" ? DISCOVERY_UPDATED : "2026-10-11"}>
-            {page === "faq" ? DISCOVERY_UPDATED : "2026-10-11"}
+          <time dateTime={page === "faq" ? DISCOVERY_UPDATED : "2026-10-17"}>
+            {page === "faq" ? DISCOVERY_UPDATED : "2026-10-17"}
           </time>
         ) : (
           copy.updated

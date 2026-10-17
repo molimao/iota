@@ -1,3 +1,5 @@
+import { iotaPublicFacts as facts } from "@/lib/iota-public-facts";
+import { searchSupportGuides } from "./search-support-guides";
 import { discoveryCopy, productQuestions } from "@/lib/product-discovery";
 import { withLocales } from "@/components/site/localization";
 import { projectFaq } from "./project-faq";
@@ -354,12 +356,27 @@ function contentWithProjectFaq(locale: SiteLocale) {
     intro: discoveryCopy.intro[locale],
     faqTitle: discoveryCopy.faq[locale],
     faqIntro: discoveryCopy.guideIntro[locale],
+    privacy: legacy.privacy.map(([title, text], i): [string, string] =>
+      i ===
+      legacyContent.en.privacy.findIndex(([, value]) => value.includes("cannot access Mac log"))
+        ? [title, `${facts.agent[locale]} ${facts.privacyLimits[locale]}`]
+        : [title, text],
+    ),
     faq: [
       ...productQuestions(locale).map((q) => [q.question, q.answer] as [string, string]),
       ...projectFaq[locale].questions,
       ...legacy.faq
         .slice(2)
-        .map(([question, answer]): [string, string] => [`IOTA · ${question}`, answer]),
+        .map(([question, answer], i): [string, string] =>
+          i === 1
+            ? [facts.agentTitle[locale], facts.agent[locale]]
+            : i === 2
+              ? [facts.dayTitle[locale], facts.day[locale]]
+              : [`IOTA · ${question}`, answer],
+        ),
+      ...searchSupportGuides
+        .slice(1, 3)
+        .map((g) => [g.title[locale], g.summary![locale]] as [string, string]),
     ],
   };
 }

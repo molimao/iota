@@ -4,7 +4,7 @@
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, today’s accounted rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. The site cannot start training or read local Mac logs.
+IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, yesterday’s attributed rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 5 devices per project; Pro supports 50 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. Public lookup alone cannot control a Mac. An optional installed and paired Mac agent adds local heartbeats, queue state and remote controls; log upload is separately opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
 
@@ -14,7 +14,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Canonical site: https://iotahome.site
 - Audience: people already running IOTA Train at Home, or managing identifiers across supported mining and compute projects
 - Data: public telemetry and entitlements from iota-web.api.macrocosmos.ai
-- Today’s rewards: pending + settled records since 00:00 Asia/Hong_Kong (UTC+8); frozen excluded
+- Yesterday’s IOTA rewards: next accounting day records attributed to the preceding date in Asia/Hong_Kong (UTC+8); pending + settled only, frozen and future timestamps excluded. This is the site display convention, not proof of actual training date or wallet receipt date. Daily email uses the same attribution.
 - Lifetime rewards: official total earned; paid is not added again
 - Device status: official sample, not a Mac heartbeat
 - Sources have independent fetch clocks; an earnings refresh does not renew a device status clock
@@ -23,7 +23,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Historical training metrics align by epoch; training tokens are separate from reward tokens
 - Zero throughput is not proof the machine is offline
 - Wallet private keys and seed phrases are not accepted by IOTA Watch
-- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. The browser dashboard stays read-only. See https://iotahome.site/en/downloads for installation effects and removal instructions.
+- Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. Public lookups stay read-only; paired-agent controls act only on the paired Mac. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
 ## Additional mining projects
 
@@ -45,7 +45,7 @@ IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, f
 ## Common user questions
 
 ### Where can I check multiple Macs running IOTA together?
-Add each Mac's public Miner ID and a device name in IOTA Watch to see reported activity, today's accounted rewards in Hong Kong time and lifetime rewards on one page. This suits people already running IOTA Train at Home who want to check several machines together.
+Add each Mac's public Miner ID to see reported activity, yesterday's rewards and lifetime totals. Sign in to sync; pair the optional Mac agent for local heartbeats and control.
 
 ### How can I track several projects on one machine?
 Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other supported identifiers. Each project keeps its own status and reporting period. XID wallet balance and fly.ai monthly points are wallet totals, excluded from device daily earnings. Matching Worker names are not merged automatically.
@@ -54,16 +54,17 @@ Create one device card, then manually link its IOTA, XID / MMM, fly.ai or other 
 Use IOTA Watch to check saved identifiers together, organize cross-project device cards and inspect reward records. Use the relevant official app or dashboard to install miners, start or stop jobs, inspect local logs, claim rewards or change platform account settings.
 
 ### Can rewards from different projects be added together?
-Check the currency, reporting period and device attribution first. IOTA uses the Hong Kong accounting day; io.net block rewards use a UTC day; Golem uses a rolling 24 hours; fly.ai reports monthly points. Different tokens, wallet balances and points are not added directly. Only known, device-level USD amounts with a matching daily period enter a device's daily total.
+Check currency, period and ownership. IOTA uses preceding-day attribution, io.net a UTC day, Golem rolling 24 hours and fly.ai monthly points. Balances, points and different periods are not comparable as the same day's device income.
 
 ### Do I need an account, a wallet connection or a subscription?
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID and Acurast, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
+
 
 ## Question guides
 
@@ -232,11 +233,11 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [How to find your IOTA Train at Home Miner ID (en)](https://iotahome.site/en/learn/find-miner-id)
 - [IOTA Train at Home의 Miner ID 찾는 방법 (ko)](https://iotahome.site/ko/learn/find-miner-id)
 - [IOTA Train at HomeのMiner IDを確認する方法 (ja)](https://iotahome.site/ja/learn/find-miner-id)
-- [IOTA Train at Home 今日收益和累计收益怎么算 (zh)](https://iotahome.site/zh/learn/how-rewards-work)
-- [IOTA Train at Home 今日收益和累積收益怎麼算 (zh-TW)](https://iotahome.site/zh-TW/learn/how-rewards-work)
-- [How IOTA Train at Home daily and lifetime rewards are counted (en)](https://iotahome.site/en/learn/how-rewards-work)
-- [IOTA Train at Home의 일일 보상과 누적 보상 계산 방식 (ko)](https://iotahome.site/ko/learn/how-rewards-work)
-- [IOTA Train at Homeの本日の報酬・累計報酬の計算方法 (ja)](https://iotahome.site/ja/learn/how-rewards-work)
+- [IOTA 昨日收益、累计收益和日报日期怎么算？ (zh)](https://iotahome.site/zh/learn/how-rewards-work)
+- [IOTA 昨日收益、累計收益與日報日期怎麼算？ (zh-TW)](https://iotahome.site/zh-TW/learn/how-rewards-work)
+- [IOTA yesterday's rewards, lifetime totals and daily email dates (en)](https://iotahome.site/en/learn/how-rewards-work)
+- [IOTA 어제·누적 보상과 일일 메일 날짜 계산 (ko)](https://iotahome.site/ko/learn/how-rewards-work)
+- [IOTAの昨日・累計報酬と日次メールの集計日 (ja)](https://iotahome.site/ja/learn/how-rewards-work)
 - [IOTA 设备状态含义：有贡献、等待任务、暂未参与 (zh)](https://iotahome.site/zh/learn/device-status)
 - [IOTA 設備狀態意義：有貢獻、等待任務、暫未參與 (zh-TW)](https://iotahome.site/zh-TW/learn/device-status)
 - [What IOTA Train at Home device statuses mean (en)](https://iotahome.site/en/learn/device-status)
@@ -397,6 +398,31 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Can rewards from different projects be added together? (en)](https://iotahome.site/en/learn/compare-mining-rewards-across-projects)
 - [서로 다른 프로젝트의 수익을 합산할 수 있나요? (ko)](https://iotahome.site/ko/learn/compare-mining-rewards-across-projects)
 - [異なるプロジェクトの収益は合算できますか？ (ja)](https://iotahome.site/ja/learn/compare-mining-rewards-across-projects)
+- [IOTA Train at Home 怎么开始？从安装到查看收益 (zh)](https://iotahome.site/zh/learn/start-iota-train-at-home)
+- [IOTA Train at Home 如何開始？從安裝到查看收益 (zh-TW)](https://iotahome.site/zh-TW/learn/start-iota-train-at-home)
+- [How to start IOTA Train at Home and monitor rewards (en)](https://iotahome.site/en/learn/start-iota-train-at-home)
+- [IOTA Train at Home 시작부터 보상 확인까지 (ko)](https://iotahome.site/ko/learn/start-iota-train-at-home)
+- [IOTA Train at Homeの始め方と報酬の確認 (ja)](https://iotahome.site/ja/learn/start-iota-train-at-home)
+- [IOTA 一直排队、0 tokens/s，怎么判断有没有在训练？ (zh)](https://iotahome.site/zh/learn/iota-queue-and-zero-throughput)
+- [IOTA 一直排隊、0 tokens/s，如何判斷是否在訓練？ (zh-TW)](https://iotahome.site/zh-TW/learn/iota-queue-and-zero-throughput)
+- [IOTA Train at Home queued or 0 tokens/s: what to check (en)](https://iotahome.site/en/learn/iota-queue-and-zero-throughput)
+- [IOTA 대기열·0 tokens/s: 훈련 상태 확인하기 (ko)](https://iotahome.site/ko/learn/iota-queue-and-zero-throughput)
+- [IOTAが待機中・0 tokens/sのときの確認方法 (ja)](https://iotahome.site/ja/learn/iota-queue-and-zero-throughput)
+- [IOTA 窗口还在，训练却停止了：Mac 自动恢复怎么设置？ (zh)](https://iotahome.site/zh/learn/iota-training-stopped-auto-recovery)
+- [IOTA 視窗還在但訓練停止：Mac 自動恢復設定 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-training-stopped-auto-recovery)
+- [IOTA training stopped with the app open: Mac auto-recovery (en)](https://iotahome.site/en/learn/iota-training-stopped-auto-recovery)
+- [IOTA 앱은 열렸는데 훈련이 중단됐을 때 자동 복구 (ko)](https://iotahome.site/ko/learn/iota-training-stopped-auto-recovery)
+- [IOTAアプリが開いているのに学習停止：Mac自動復旧 (ja)](https://iotahome.site/ja/learn/iota-training-stopped-auto-recovery)
+- [Mac 挖 Pearl / PRL 后，怎样查算力、Worker 和收益？ (zh)](https://iotahome.site/zh/learn/pearl-prl-mac-monitoring)
+- [Mac 挖 Pearl / PRL 後如何查算力、Worker 與收益？ (zh-TW)](https://iotahome.site/zh-TW/learn/pearl-prl-mac-monitoring)
+- [Pearl PRL on Mac: check pool hashrate, workers and rewards (en)](https://iotahome.site/en/learn/pearl-prl-mac-monitoring)
+- [Mac Pearl PRL 채굴: 해시레이트·워커·보상 확인 (ko)](https://iotahome.site/ko/learn/pearl-prl-mac-monitoring)
+- [MacでPearl PRL：ハッシュレート・ワーカー・報酬を確認 (ja)](https://iotahome.site/ja/learn/pearl-prl-mac-monitoring)
+- [NOID 地址查不到？先核对 InnovLab 与 Parano1d 矿池 (zh)](https://iotahome.site/zh/learn/noid-address-not-found)
+- [NOID 地址查不到？先核對 InnovLab 與 Parano1d 礦池 (zh-TW)](https://iotahome.site/zh-TW/learn/noid-address-not-found)
+- [NOID address not found: InnovLab and Parano1d pool checks (en)](https://iotahome.site/en/learn/noid-address-not-found)
+- [NOID 주소가 조회되지 않을 때: InnovLab·Parano1d 확인 (ko)](https://iotahome.site/ko/learn/noid-address-not-found)
+- [NOIDアドレスが見つからない：InnovLabとParano1dの確認 (ja)](https://iotahome.site/ja/learn/noid-address-not-found)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)

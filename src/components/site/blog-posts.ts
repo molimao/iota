@@ -1,3 +1,4 @@
+import { currentIotaContent } from "./current-iota-content";
 import { withLocales } from "@/components/site/localization";
 import type { Article } from "./articles";
 
@@ -189,7 +190,7 @@ export const blogPosts: Article[] = withLocales([
       ],
     },
   },
-]);
+]).map(currentIotaContent);
 
 export function getBlogPost(slug: string) {
   return blogPosts.find((post) => post.slug === slug);
