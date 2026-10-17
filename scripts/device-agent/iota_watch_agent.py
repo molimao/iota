@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.6'
+VERSION = '1.0.7'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -241,6 +241,90 @@ def queue_status(rows):
     return local_training_status(rows)[0]
 
 
+def process_started(pid, now):
+    elapsed = subprocess.check_output(['/bin/ps', '-p', str(pid), '-o', 'etime='], text=True, timeout=5).strip()
+    days, clock = elapsed.split('-', 1) if '-' in elapsed else ('0', elapsed)
+    seconds = 0
+    for part in clock.split(':'):
+        seconds = seconds * 60 + int(part)
+    return now - (int(days) * 86400 + seconds)
+
+
+def log_crash_evidence(text, started, now):
+    """Only explicit process termination, never a warning, idle or Rust thread panic alone."""
+    crash, progress = None, None
+    for line in text.splitlines():
+        stamp = re.match(r'\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d+)\]', line)
+        if not stamp:
+            continue
+        try:
+            at = datetime.datetime.strptime(stamp[1], '%Y-%m-%d %H:%M:%S.%f').timestamp()
+        except ValueError:
+            continue
+        if not started <= at <= now:
+            continue
+        # Actual training activity, not GUI TRAINING labels or resource-monitor logs.
+        if re.search(r'Successfully completed request to /miner/(?:heartbeat(?:[?; ])|register/status/)|(?:FORWARD|BACKWARD) (?:pass|complete)|Starting (?:FORWARD|BACKWARD) pass', line):
+            progress = max(progress or at, at)
+        if re.search(r'(?:Training (?:process )?|Miner (?:process )?)(?:exited|terminated).*?(?:code[=: ]+(?:null|None|[1-9]\d*|-\d+)|SIG(?:ABRT|SEGV|BUS|ILL|KILL))', line, re.I):
+            crash = max(crash or at, at)
+    return crash, progress
+
+
+def diagnostic_crash_at(text, started, now):
+    """macOS .ips has a metadata JSON line followed by the report JSON. Local only."""
+    try:
+        decoder = json.JSONDecoder()
+        meta, end = decoder.raw_decode(text.lstrip())
+        rest = text.lstrip()[end:].lstrip()
+        report = decoder.raw_decode(rest)[0] if rest else meta
+        if not isinstance(report, dict) or report.get('procPath') != WORKER:
+            return None
+        if report.get('exception', {}).get('signal') not in ('SIGABRT', 'SIGSEGV', 'SIGBUS', 'SIGILL', 'SIGKILL'):
+            return None
+        stamp = report.get('captureTime') or meta.get('timestamp')
+        at = datetime.datetime.fromisoformat(stamp.replace('Z', '+00:00')).timestamp()
+        return at if started <= at <= now else None
+    except (ValueError, TypeError, AttributeError):
+        return None
+
+
+def crashed_training(rows, now=None):
+    """A surviving executable is not proof of a live training engine.
+    Scope crash evidence to this GUI launch and cancel it on subsequent real activity.
+    Missing/unreadable evidence alone never triggers recovery.
+    """
+    now = time.time() if now is None else now
+    apps = [r for r in rows if r[3] == EXEC]
+    if not apps:
+        return False
+    try:
+        started = min(process_started(r[0], now) for r in apps)
+        crash, progress = None, None
+        folder = Path.home() / 'Library/Logs/IOTA Train at Home'
+        for pattern in ('*main.log', '*cli.log'):
+            files = sorted([p for p in folder.glob(pattern) if p.is_file() and not p.is_symlink()], key=lambda p: p.stat().st_mtime)[-2:]
+            for path in files:
+                with path.open('rb') as f:
+                    f.seek(max(0, path.stat().st_size - 256000))
+                    c, alive = log_crash_evidence(f.read(256000).decode('utf-8', errors='replace'), started, now)
+                if c is not None:
+                    crash = max(crash or c, c)
+                if alive is not None:
+                    progress = max(progress or alive, alive)
+        reports = Path.home() / 'Library/Logs/DiagnosticReports'
+        files = sorted([p for p in reports.glob('main_pool*.ips') if p.is_file() and not p.is_symlink()], key=lambda p: p.stat().st_mtime)[-4:]
+        for path in files:
+            if path.stat().st_size > 2000000:
+                continue
+            c = diagnostic_crash_at(path.read_text(errors='replace'), started, now)
+            if c is not None:
+                crash = max(crash or c, c)
+        return crash is not None and (progress is None or progress <= crash)
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return False
+
+
 def snapshot(include_logs=False):
     rows = processes()
     cpu, memory = training_resources()
@@ -249,6 +333,9 @@ def snapshot(include_logs=False):
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
     payload['queue'], payload['trainingState'] = local_training_status(rows)
+    if payload['workerRunning'] and crashed_training(rows):
+        payload['workerRunning'] = False
+        payload['queue'], payload['trainingState'] = None, None
     if include_logs:
         try:
             payload['logs'] = logs()
@@ -303,7 +390,19 @@ def control(action, resume_training=False):
         while processes() and time.monotonic() < deadline:
             time.sleep(0.25)
         if processes():
-            raise ValueError('app did not stop')
+            # A crashed Rust worker may ignore TERM. Revalidate each fixed executable;
+            # never signal by process name or touch the agent / unrelated applications.
+            for pid, _, _, _ in processes():
+                if any(r[0] == pid for r in processes()):
+                    try:
+                        os.kill(pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+            deadline = time.monotonic() + 2
+            while processes() and time.monotonic() < deadline:
+                time.sleep(0.25)
+            if processes():
+                raise ValueError('app did not stop')
     if action in ('start', 'restart'):
         if any(r[3] == EXEC for r in processes()):
             if resume_training:
@@ -373,7 +472,7 @@ def step(config, state, now=None):
                 if command['action'] == 'stop':
                     state['recoveryEnabled'] = False
             return state
-    if not state.get('recoveryEnabled') or payload.get('workerRunning'):
+    if not state.get('recoveryEnabled') or (payload.get('appRunning') and payload.get('workerRunning')):
         state.pop('trainingMissingSince', None)
     else:
         # A GUI may survive a worker/OOM exit. Queued workers still count as running.
@@ -386,7 +485,7 @@ def step(config, state, now=None):
                 state['trainingMissingSince'] = now
                 store(STATE, state)
                 try:
-                    control('restart' if payload['appRunning'] else 'start', resume_training=True)
+                    control('restart' if payload['appRunning'] or payload.get('workerRunning') else 'start', resume_training=True)
                     state['recovery'] = 'restarted'
                 except (OSError, ValueError, subprocess.SubprocessError):
                     state['recovery'] = 'paused'

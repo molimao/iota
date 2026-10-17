@@ -147,11 +147,11 @@ export const agentCopy = {
     "学習停止後に自動復旧",
   ]),
   recoveryNote: l([
-    "训练停止 2 分钟后恢复，15 分钟内最多一次，排队除外。需代理 1.0.5+，恢复时开启官方“启动时自动训练”。在官网点停止会关闭恢复；在官方应用内停止仍会被恢复。",
-    "訓練停止 2 分鐘後恢復，15 分鐘內最多一次，排隊除外。需代理 1.0.5+，恢復時啟用官方「啟動時自動訓練」。在本網站停止會關閉恢復；在官方應用內停止仍會被恢復。",
-    "Recovers after 2 minutes stopped, at most once per 15 minutes; excludes queuing. Requires agent 1.0.5+ and enables the app’s train-on-launch setting. Stop here disables recovery; Stop Training in the official app does not.",
-    "중단 2분 후 복구하며 15분에 한 번으로 제한됩니다. 대기열은 제외됩니다. 에이전트 1.0.5 이상이 필요하며 앱 시작 시 자동 훈련을 켭니다. 이 웹에서 중지하면 복구가 꺼지지만 공식 앱의 중지는 복구 대상입니다.",
-    "停止2分後に復旧、15分に1回まで。待機列は対象外。エージェント1.0.5以降が必要で、起動時の自動学習を有効にします。本サイトで停止すると復旧を無効にしますが、公式アプリ内の停止は復旧対象です。",
+    "训练停止 2 分钟后恢复，15 分钟内最多一次，排队除外。1.0.7+ 支持识别崩溃后的残留进程；恢复时开启官方“启动时自动训练”。在官网点停止会关闭恢复；在官方应用内停止仍会被恢复。",
+    "訓練停止 2 分鐘後恢復，15 分鐘內最多一次，排隊除外。1.0.7+ 支援辨識崩潰後的殘留程序；恢復時啟用官方「啟動時自動訓練」。在本網站停止會關閉恢復；在官方應用內停止仍會被恢復。",
+    "Recovers after 2 minutes stopped, at most once per 15 minutes; excludes queuing. Agent 1.0.7+ detects crash leftovers. Recovery enables the app’s train-on-launch setting. Stop here disables recovery; Stop Training in the official app does not.",
+    "중단 2분 후 복구하며 15분에 한 번으로 제한됩니다. 대기열은 제외됩니다. 에이전트 1.0.7 이상은 충돌 후 남은 프로세스를 감지합니다. 복구 시 앱 시작 자동 훈련을 켭니다. 이 웹에서 중지하면 복구가 꺼지지만 공식 앱의 중지는 복구 대상입니다.",
+    "停止2分後に復旧、15分に1回まで。待機列は対象外。1.0.7以降はクラッシュ後の残存プロセスも検出します。復旧時は起動時の自動学習を有効にします。本サイトで停止すると復旧を無効にしますが、公式アプリ内の停止は復旧対象です。",
   ]),
   revoke: l(["断开连接", "中斷連線", "Disconnect", "연결 해제", "接続解除"]),
   confirm: l([

@@ -49,3 +49,11 @@ The agent reads the same bounded local CLI log tail used for queue positions. Su
 The website stores one structured observation per five-minute bucket for seven days and displays the latest 24 hours on demand. Gaps stay missing and cannot prove downtime. History begins after the server migration and connected heartbeats; it is not backfilled from invented observations. Disconnecting deletes device history.
 
 Parser reference: Macrocosmos IOTA commit `ed0fecb190ab7277ebb1e76ddba920eb4dcf7543`, `shared/subnet/src/subnet/common_api_client.py`, `shared/subnet/src/subnet/miner_api_client.py`, and `shared/common/src/common/models/miner_models.py`.
+
+## Crash leftovers and recovery (1.0.7+)
+
+A process with the worker executable path is no longer sufficient to establish health. The agent checks bounded local TAH main/CLI log tails and up to four matching macOS `main_pool*.ips` reports. Only an explicit abnormal worker exit or a fatal macOS report for the exact installed worker path qualifies; a thread panic, high memory usage, low CPU, zero throughput or stale GUI TRAINING text does not. Evidence must belong to the current GUI launch. A later successful registration/heartbeat or forward/backward operation cancels older crash evidence, so a recovered or queued worker is left alone. Missing/unreadable evidence is not a crash.
+
+When a confirmed exit has no subsequent real activity, the snapshot reports the training worker stopped even if same-path child processes survive. The existing opt-in, two-minute grace, fifteen-minute cooldown, manual-stop and online-authorization rules remain. If the GUI has gone but workers remain, recovery cleans those orphans before relaunching. TERM is tried first; only exact revalidated TAH executable PIDs still present after eight seconds receive KILL. No other application or the agent itself is targeted. Crash report contents and raw log contents stay local unless the existing optional log upload is separately enabled (crash reports are never uploaded).
+
+This is crash recovery, not a general hang detector: lack of compute or lack of logs alone never restarts a miner. No remote Mac has been restarted as part of local verification.
