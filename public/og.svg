@@ -1,8 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="IOTA Watch">
-  <rect width="1200" height="630" fill="#111111"/>
-  <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1"/>
-  <text x="88" y="210" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28" letter-spacing="4">IOTA TRAIN AT HOME</text>
-  <text x="88" y="310" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" font-size="72" font-weight="600">IOTA Watch</text>
-  <text x="88" y="390" fill="#ffffff" fill-opacity="0.78" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28">Device status, today’s rewards, lifetime rewards.</text>
-  <text x="88" y="520" fill="#ffffff" fill-opacity="0.5" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20">Not the IOTA Layer 1 wallet · Public Miner ID only</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="IOTA Watch — Mining and training monitoring">
+<rect width="1200" height="630" fill="#101315"/>
+<g transform="translate(72 78) scale(2)"><rect width="64" height="64" rx="16" fill="#14191d"/><path d="m13 20 9 24 10-17 10 17 9-24" fill="none" stroke="#f4f6f7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="51" cy="11" r="3.5" fill="#8ee4c1"/></g>
+<g font-family="Arial,Helvetica,sans-serif"><text x="232" y="169" fill="#f4f6f7" font-size="72" font-weight="700">IOTA Watch</text><text x="72" y="353" fill="#f4f6f7" font-size="55" font-weight="700">Mining &amp; training monitoring</text><text x="75" y="413" fill="#b4bdc4" font-size="27">Devices    Projects    Rewards</text><path d="M72 510h1056" stroke="#30383e"/><text x="75" y="574" fill="#8ee4c1" font-size="25">iotahome.site</text></g>
 </svg>

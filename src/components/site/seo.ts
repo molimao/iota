@@ -1,3 +1,4 @@
+import { brandTitle, homeBrandTitle, BRAND_VERSION } from "@/lib/brand";
 import { onboardingCopy } from "@/lib/onboarding";
 import { discoveryCopy, productQuestions, DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { planAmount } from "@/lib/billing-display";
@@ -24,7 +25,7 @@ export type Page =
   | "blog"
   | "downloads";
 
-const OG_IMAGE = `${ORIGIN}/og.png`;
+const OG_IMAGE = `${ORIGIN}/og.png?v=${BRAND_VERSION}`;
 const ORG_ID = `${ORIGIN}/#organization`;
 const WEBSITE_ID = `${ORIGIN}/#website`;
 
@@ -69,7 +70,7 @@ function organizationGraph(locale: Locale) {
     "@id": ORG_ID,
     name: "IOTA Watch",
     url: ORIGIN,
-    logo: `${ORIGIN}/favicon.svg`,
+    logo: `${ORIGIN}/brand/icon-512.png`,
     sameAs: ["https://github.com/molimao/iota"],
     description: discoveryCopy.intro[locale],
   };
@@ -108,7 +109,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
   const url = ORIGIN + sitePath(locale, path);
   const home = "IOTA Watch";
 
-  const title = article
+  const pageTitle = article
     ? `${article.title[locale]} | IOTA Watch`
     : page === "downloads"
       ? localizeValue(
@@ -139,6 +140,8 @@ export function seo(locale: Locale, page: Page, slug?: string) {
                           locale,
                         )
                       : `${onboardingCopy.lookup[locale]} | IOTA Watch`;
+
+  const title = brandTitle(page === "home" ? homeBrandTitle[locale] : pageTitle);
 
   const description = article
     ? article.description[locale]

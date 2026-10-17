@@ -1,3 +1,4 @@
+import { BRAND_NAME, BRAND_VERSION } from "../lib/brand";
 import { SiteAd } from "@/components/site-ad";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -80,6 +81,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
+      { title: BRAND_NAME },
+      { name: "application-name", content: BRAND_NAME },
+      { name: "apple-mobile-web-app-title", content: BRAND_NAME },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#0d1319" },
     ],
@@ -89,7 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "stylesheet", href: experienceCss },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: `/favicon.svg?v=${BRAND_VERSION}`, type: "image/svg+xml" },
+      { rel: "icon", href: `/favicon.ico?v=${BRAND_VERSION}`, sizes: "16x16 32x32 48x48" },
+      { rel: "apple-touch-icon", href: `/apple-touch-icon.png?v=${BRAND_VERSION}`, sizes: "180x180" },
+      { rel: "manifest", href: `/site.webmanifest?v=${BRAND_VERSION}` },
     ],
   }),
   shellComponent: RootShell,

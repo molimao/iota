@@ -1,3 +1,4 @@
+import { brandTitle } from "@/lib/brand";
 import { PROJECT_CONTENT_DATES, PROJECT_INDEX_UPDATED } from "@/lib/content-dates";
 import { projectEditorial, projectQuestions } from "./project-editorial";
 import { projectsCopy } from "./projects-copy";
@@ -10,7 +11,7 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
     name = project ? PROJECTS[project].name : c.projects;
   const path = `projects${project ? `/${project}` : ""}`,
     url = `${ORIGIN}/${locale}/${path}`;
-  const title = `${project ? projectEditorial[project].title[locale] : c.title} | IOTA Watch`;
+  const title = brandTitle(project ? projectEditorial[project].title[locale] : c.title);
   const description = project ? projectEditorial[project].summary[locale] : c.intro;
   const robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
   const page = {

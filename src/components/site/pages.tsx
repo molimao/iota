@@ -1,3 +1,4 @@
+import { BRAND_MARK } from "@/lib/brand";
 import { iotaPublicFacts } from "@/lib/iota-public-facts";
 import { adPrivacy, adLabels } from "@/lib/ads";
 import { agentCopy } from "@/components/device-agent-copy";
@@ -17,7 +18,7 @@ import { MonitoringViews, monitorViewCopy } from "../monitor-views";
 import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
 import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Layers, LogIn, Menu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, LogIn, Menu } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath, LOCALES, LANGUAGE_TAG, LANGUAGE_NAME } from "@/lib/site";
 import { minerIdError } from "@/lib/ss58";
@@ -112,7 +113,7 @@ export function SiteNav() {
           aria-current={pathname === `/${locale}` ? "page" : undefined}
         >
           <span>
-            <Layers size={20} />
+            <img src={BRAND_MARK} width={36} height={36} alt="" aria-hidden="true" />
           </span>
           IOTA <b>Watch</b>
         </a>
