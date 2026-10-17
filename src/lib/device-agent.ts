@@ -1,5 +1,10 @@
 import { z } from "zod";
 export const agentAction = z.enum(["start", "stop", "restart", "update"]);
+export const trainingStateSchema = z.object({
+  phase: z.enum(["training", "weights_uploading", "merging_partitions"]),
+  status: z.enum(["forward", "backward", "idle", "uploading_weights", "merging_partitions", "initializing", "frozen", "kicked"]),
+  observedAt: z.string().datetime({offset: true}),
+}).strict();
 export const agentSnapshot = z
   .object({
     appRunning: z.boolean(),
@@ -16,6 +21,7 @@ export const agentSnapshot = z
       .strict()
       .nullable()
       .optional(),
+    trainingState: trainingStateSchema.nullable().optional(),
     logs: z.string().max(12000).optional(),
     recovery: z.enum(["idle", "restarted", "cooldown", "paused"]).default("idle"),
   })
@@ -60,7 +66,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
 }
 
-export const AGENT_RELEASE = "1.0.5";
+export const AGENT_RELEASE = "1.0.6";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
@@ -68,20 +74,58 @@ export function agentCanUpdate(version?: string) {
   return major > 1 || (major === 1 && (minor > 0 || patch >= 2));
 }
 
+/** Newer supported semantic versions must never be offered a downgrade. */
+export function agentUpdateAvailable(version?: string) {
+  if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
+  const current=version.split(".").map(Number), target=AGENT_RELEASE.split(".").map(Number);
+  for(let i=0;i<3;i++) {
+    if(current[i]!==target[i]) return current[i]!<target[i]!;
+  }
+  return false;
+}
+
+/** Local evidence only: a live process is not proof of training contribution. */
+export type AgentPhase = "offline" | "unknown" | "stopped" | "workerStopped" | "queued" | "running" | "preparing" | "blocked" | "working" | "waiting" | "uploading" | "merging";
+export function agentPhase(agent: Pick<AgentInfo, "snapshot" | "lastSeen">, now = Date.now()): AgentPhase {
+  if (!agentOnline(agent.lastSeen, now)) return "offline";
+  const s = agent.snapshot;
+  if (s.appRunning === false) return "stopped";
+  if (s.appRunning !== true) return "unknown";
+  if (s.workerRunning === false) return "workerStopped";
+  if (s.workerRunning !== true) return "unknown";
+  const queueAge = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
+  const queued = !!s.queue && s.queue.position > 0 && queueAge >= 0 && queueAge <= 300000;
+  const state = s.trainingState;
+  const age = state ? now - Date.parse(state.observedAt) : Infinity;
+  const fresh = !!state && age >= 0 && age <= 300000;
+  if (queued && (!fresh || Date.parse(s.queue!.observedAt) >= Date.parse(state.observedAt))) return "queued";
+  if (fresh) {
+    if (state.status === "initializing" || state.status === "frozen") return "preparing";
+    if (state.status === "kicked") return "blocked";
+    if (state.phase === "weights_uploading") return "uploading";
+    if (state.phase === "merging_partitions") return "merging";
+    if (state.status === "forward" || state.status === "backward") return "working";
+    return "waiting";
+  }
+  return "running";
+}
+
+// Keep the persisted filter key for existing links; its visible label says process running.
 export const AGENT_FILTERS = ["all", "online", "training", "queued", "stopped", "offline", "unpaired"] as const;
 export type AgentFilter = typeof AGENT_FILTERS[number];
 export function matchesAgentFilter(agent: AgentInfo | undefined, filter: AgentFilter, now = Date.now()) {
   if (filter === "all") return true;
   if (filter === "unpaired") return !agent;
   if (!agent) return false;
-  const online = agentOnline(agent.lastSeen, now);
-  if (filter === "online") return online;
-  if (filter === "offline") return !online;
-  if (!online) return false;
-  const s = agent.snapshot;
-  if (filter === "stopped") return s.appRunning === false;
-  const age = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
-  const queued = !!s.appRunning && !!s.workerRunning && age >= 0 && age <= 300000 && !!s.queue && s.queue.position > 0;
-  if (filter === "queued") return queued;
-  return !!s.appRunning && !!s.workerRunning && !queued;
+  if (filter === "online") return agentOnline(agent.lastSeen, now);
+  const phase = agentPhase(agent, now);
+  if (filter === "stopped") return phase === "stopped" || phase === "workerStopped";
+  if (filter === "training") return ["running", "working", "waiting", "uploading", "merging", "preparing"].includes(phase);
+  return phase === filter;
 }
+
+export const agentHistoryPointSchema = z.object({
+  sampledAt: z.string().datetime({offset:true}),
+  snapshot: agentSnapshot.pick({appRunning:true,workerRunning:true,queue:true,trainingState:true}),
+}).strict();
+export type AgentHistoryPoint = z.infer<typeof agentHistoryPointSchema>;

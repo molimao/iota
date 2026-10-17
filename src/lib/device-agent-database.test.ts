@@ -39,7 +39,8 @@ beforeAll(async () => {
   await db.exec(readFileSync("supabase/migrations/20261005130000_fleet_and_billing.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261014210000_device_agents.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261014230000_agent_updates.sql", "utf8"));
-  const r = await db.query<{ id: string }>(
+  await db.exec(readFileSync("supabase/migrations/20261017160000_agent_history.sql", "utf8"));
+  const r = await db.query<{ id: string }> (
     "INSERT INTO watch_devices(user_id,name) VALUES($1,'Test Mac') RETURNING id",
     [u],
   );
@@ -147,4 +148,33 @@ it("requires an update-capable agent and owner identity", async () => {
   await expect(own("update")).rejects.toThrow("device_not_found");
   await owner(u);
   expect((await own("update")).rows[0]!.r).toHaveProperty("id");
+});
+
+it("persists bounded private observations without logs, enforces ownership and clears history on revoke", async () => {
+  await admin();
+  const snapshot={appRunning:true,workerRunning:true,queue:{position:42,observedAt:new Date().toISOString()},logs:"private log token",version:"1.0.6"};
+  await db.query("UPDATE watch_device_agents SET last_seen=now()-interval '10 minutes',snapshot=$1::jsonb WHERE device_id=$2",[JSON.stringify(snapshot),device]);
+  await db.query("UPDATE watch_device_agents SET last_seen=to_timestamp(floor(extract(epoch FROM now())/300)*300)+interval '1 second',snapshot=$1::jsonb WHERE device_id=$2",[JSON.stringify(snapshot),device]);
+  await db.query("UPDATE watch_device_agents SET last_seen=to_timestamp(floor(extract(epoch FROM now())/300)*300)+interval '2 seconds',snapshot=$1::jsonb WHERE device_id=$2",[JSON.stringify({...snapshot,queue:{...snapshot.queue,position:40}}),device]);
+  const rows=(await db.query<{snapshot:object}>("SELECT snapshot FROM watch_agent_history WHERE device_id=$1",[device])).rows;
+  expect(rows).toHaveLength(2);
+  expect(JSON.stringify(rows)).not.toContain("private log");
+  expect(JSON.stringify(rows)).not.toContain("version");
+  await owner(other);
+  await expect(db.query("SELECT watch_read_agent_history($1)",[device])).rejects.toThrow("device_not_found");
+  await owner(u);
+  const history=(await db.query<{h:Array<{snapshot:{queue:{position:number}}}>}>("SELECT watch_read_agent_history($1) AS h",[device])).rows[0]!.h;
+  expect(history).toHaveLength(2);
+  expect(history[1]!.snapshot.queue.position).toBe(40);
+  await expect(db.query("SELECT * FROM watch_agent_history")).rejects.toThrow("permission denied");
+  await admin();
+  await db.query("INSERT INTO watch_agent_history VALUES($1,$2,now()-interval '8 days',now()-interval '8 days','{}')",[device,u]);
+  await owner(u);
+  await db.query("SELECT watch_read_agent_history($1)",[device]);
+  await admin();
+  expect((await db.query("SELECT * FROM watch_agent_history WHERE sampled_at<now()-interval '7 days'")).rows).toHaveLength(0);
+  await owner(u);
+  await own("revoke");
+  await admin();
+  expect((await db.query("SELECT * FROM watch_agent_history WHERE device_id=$1",[device])).rows).toHaveLength(0);
 });

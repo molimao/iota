@@ -45,3 +45,26 @@ it("filters offline, stale queues and unpaired agents without claiming training 
   expect(matchesAgentFilter(undefined, "offline", now)).toBe(false);
   expect(matchesAgentFilter({...a,snapshot:{...a.snapshot,queue:{position:3,observedAt:new Date(now-301000).toISOString()}}}, "queued", now)).toBe(false);
 });
+
+it("uses the same evidence for card phases and filters, including a stopped training worker", async () => {
+  const { agentPhase, matchesAgentFilter } = await import("./device-agent");
+  const now = Date.now();
+  const base = { deviceId: "a", lastSeen: new Date(now).toISOString(), snapshot: {}, logsEnabled: false, recoveryEnabled: false, pending: null, latestCommand: null };
+  const cases = [
+    [{appRunning:true,workerRunning:false}, "workerStopped", "stopped"],
+    [{appRunning:false,workerRunning:false}, "stopped", "stopped"],
+    [{appRunning:true}, "unknown", null],
+    [{appRunning:true,workerRunning:true,queue:{position:0,observedAt:new Date(now).toISOString()}}, "running", "training"],
+  ] as const;
+  for (const [snapshot, phase, filter] of cases) {
+    const a = {...base, snapshot};
+    expect(agentPhase(a, now)).toBe(phase);
+    for (const f of ["training", "queued", "stopped"] as const) expect(matchesAgentFilter(a, f, now)).toBe(f === filter);
+  }
+});
+
+it("notifies only for newer releases and never offers a downgrade", async()=>{
+  const {agentUpdateAvailable,AGENT_RELEASE}=await import("./device-agent");
+  expect(agentUpdateAvailable("1.0.5")).toBe(true);
+  for(const version of [AGENT_RELEASE,"1.0.10","1.1.0","2.0.0","invalid",undefined]) expect(agentUpdateAvailable(version)).toBe(false);
+});

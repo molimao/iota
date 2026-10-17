@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.5'
+VERSION = '1.0.6'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -179,10 +179,43 @@ def parse_queue(text, now, started):
     return {'position': result['position'], 'observedAt': datetime.datetime.fromtimestamp(result['time'], datetime.timezone.utc).isoformat()}
 
 
-def queue_status(rows):
+
+def parse_training_state(text, now, started):
+    """Allowlisted fields from successful official heartbeats only.
+    Official logs truncate response dictionaries: require each complete quoted value,
+    never treat a run's phase alone as evidence of this miner doing work.
+    """
+    result = None
+    phases = {'training', 'weights_uploading', 'merging_partitions'}
+    statuses = {'forward', 'backward', 'idle', 'uploading_weights', 'merging_partitions', 'initializing', 'frozen', 'kicked'}
+    for line in text.splitlines():
+        if not re.search(r'Successfully completed request to /miner/heartbeat(?:\?[^; ]*)?; response:', line):
+            continue
+        stamp = re.match(r'\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d+)\]', line)
+        if not stamp:
+            continue
+        try:
+            observed = datetime.datetime.strptime(stamp[1], '%Y-%m-%d %H:%M:%S.%f').timestamp()
+        except ValueError:
+            continue
+        if observed < started or not 0 <= now - observed <= 300:
+            continue
+        if result and observed < result[0]:
+            continue
+        body = line.split('response:', 1)[1][:1000]
+        phase = re.search(r"['\"]phase['\"]:\s*['\"]([a-z_]+)['\"]", body)
+        status = re.search(r"['\"]status['\"]:\s*['\"]([a-z_]+)['\"]", body)
+        # A newer unreadable heartbeat clears older evidence instead of preserving it.
+        value = None
+        if phase and status and phase[1] in phases and status[1] in statuses:
+            value = {'phase': phase[1], 'status': status[1], 'observedAt': datetime.datetime.fromtimestamp(observed, datetime.timezone.utc).isoformat()}
+        result = (observed, value)
+    return result[1] if result else None
+
+def local_training_status(rows):
     workers = [r for r in rows if r[3] == WORKER]
     if not workers:
-        return None
+        return None, None
     try:
         # macOS etime is [[days-]hours:]minutes:seconds, independent of locale.
         elapsed = subprocess.check_output(['/bin/ps', '-p', str(workers[0][0]), '-o', 'etime='], text=True, timeout=5).strip()
@@ -199,9 +232,13 @@ def queue_status(rows):
             with path.open('rb') as f:
                 f.seek(max(0, path.stat().st_size - 128000))
                 text += f.read(128000).decode('utf-8', errors='replace') + '\n'
-        return parse_queue(text, now, started)
+        return parse_queue(text, now, started), parse_training_state(text, now, started)
     except (OSError, ValueError, subprocess.SubprocessError):
-        return None
+        return None, None
+
+
+def queue_status(rows):
+    return local_training_status(rows)[0]
 
 
 def snapshot(include_logs=False):
@@ -211,7 +248,7 @@ def snapshot(include_logs=False):
                'appCpu': cpu,
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
-    payload['queue'] = queue_status(rows)
+    payload['queue'], payload['trainingState'] = local_training_status(rows)
     if include_logs:
         try:
             payload['logs'] = logs()

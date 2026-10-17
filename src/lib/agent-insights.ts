@@ -1,16 +1,5 @@
-import { agentOnline, type AgentInfo } from './device-agent';
-export type AgentPhase = 'offline' | 'unknown' | 'stopped' | 'workerStopped' | 'queued' | 'running';
-export function agentPhase(agent: AgentInfo, now = Date.now()): AgentPhase {
-  if (!agentOnline(agent.lastSeen, now)) return 'offline';
-  const s = agent.snapshot;
-  if (s.appRunning === false) return 'stopped';
-  if (s.appRunning !== true) return 'unknown';
-  if (s.workerRunning === false) return 'workerStopped';
-  if (s.workerRunning !== true) return 'unknown';
-  const age = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
-  if (s.queue && s.queue.position > 0 && age >= 0 && age <= 300000) return 'queued';
-  return 'running';
-}
+import type { AgentInfo } from "./device-agent";
+export { agentPhase, type AgentPhase } from "./device-agent";
 export type AgentEventKind = 'shutdown' | 'unregistered' | 'initializing' | 'throughput';
 export type AgentEvent = { time: string; kind: AgentEventKind; value?: string };
 /** Conservative extraction from the existing opt-in excerpt, not a complete history.

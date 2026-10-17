@@ -1,12 +1,14 @@
 import { it, expect, vi, beforeEach, afterEach } from "vitest";
 const state = vi.hoisted(() => ({
   rpc: vi.fn(),
+  agents: vi.fn(),
   auth: vi.fn(),
   collect: vi.fn(),
   signal: vi.fn(),
   send: vi.fn(),
   config: vi.fn(),
 }));
+vi.mock("./pro-alert-agents.server", () => ({ readAlertAgents: state.agents }));
 vi.mock("@/integrations/supabase/client.server", () => ({ supabaseAdmin: {} }));
 vi.mock("./watch-db", () => ({ watchDb: () => ({ rpc: state.rpc }) }));
 vi.mock("./daily-report-cron-auth.server", () => ({ authenticateReportCron: state.auth }));
@@ -191,4 +193,22 @@ it("GET unsubscribe is harmless and POST returns no address or eligibility infor
     p_action: "unsubscribe",
     p_payload: { token: id },
   });
+});
+
+it("passes task-owned local evidence to alert sampling and preserves unknown on failed pairing reads", async () => {
+  const agent = {deviceId:id,lastSeen:new Date(now).toISOString(),snapshot:{appRunning:true,workerRunning:true},logsEnabled:false,recoveryEnabled:false,pending:null,latestCommand:null};
+  for (const agents of [new Map([[id,agent]]), null]) {
+    state.agents.mockResolvedValue(agents);
+    state.signal.mockResolvedValue("unknown");
+    let claimed = false;
+    state.rpc.mockImplementation(async (_fn, args) => ({
+      data: args.p_action === "claim" ? (claimed ? null : ((claimed = true), {...job,kind:"sample"})) : true,
+      error: null,
+    }));
+    expect((await proToolsCron(post())).status).toBe(200);
+    expect(state.agents).toHaveBeenLastCalledWith({},id,[id]);
+    expect(state.signal).toHaveBeenLastCalledWith(job.bindings[0],expect.any(Function),{available:agents!==null,agent:agents?.get(id)??null});
+    const observations=state.rpc.mock.calls.filter(c=>c[1].p_action==="observe");
+    expect(observations.at(-1)?.[1].p_payload.signal).toBe("unknown");
+  }
 });

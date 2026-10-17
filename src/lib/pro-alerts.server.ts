@@ -1,3 +1,4 @@
+import { agentPhase, type AgentInfo } from "./device-agent";
 import { discoverOfficialDevices } from "./iota-discovery.server";
 import { computeStatus } from "./device-status";
 import { publicPlatform } from "./platforms.server";
@@ -5,7 +6,8 @@ import { validBinding, bindingIdentity } from "./fleet";
 import type { ReportBinding } from "./daily-report-collect.server";
 export type AlertSignal = "healthy" | "bad" | "unknown";
 export type AlertReason = "iota_not_found" | "iota_idle" | "provider_offline";
-export async function collectAlertSignal(b: ReportBinding, explain?: (reason: AlertReason) => void): Promise<AlertSignal> {
+export type AlertAgentContext = { available: boolean; agent: AgentInfo | null };
+export async function collectAlertSignal(b: ReportBinding, explain?: (reason: AlertReason) => void, context?: AlertAgentContext): Promise<AlertSignal> {
   if (!validBinding(b.project, b.identifier)) return "unknown";
   try {
     if (b.project === "iota") {
@@ -18,6 +20,16 @@ export async function collectAlertSignal(b: ReportBinding, explain?: (reason: Al
         lastSuccessfulFetchAt: d.fetchedAt ?? roster.fetchedAt,
         now: Date.now(),
       });
+      // A roster is not a local heartbeat. A confirmed queue is normal;
+      // missing/stale local evidence cannot justify a paired-device failure alert.
+      if (status === "not_found" || status === "idle") {
+        if (context && !context.available) return "unknown";
+        if (context?.agent) {
+          const phase = agentPhase(context.agent);
+          if (phase === "queued") return "healthy";
+          if (phase !== "stopped" && phase !== "workerStopped") return "unknown";
+        }
+      }
       if (status === "not_found") explain?.("iota_not_found");
       if (status === "idle") explain?.("iota_idle");
       return ["contributing", "waiting"].includes(status)

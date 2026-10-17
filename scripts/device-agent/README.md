@@ -41,3 +41,11 @@ A stable local supervisor backs up the previous files and replaces only agent/st
 
 ### Stopped training recovery (1.0.5)
 The official app's Stop Training button stops the worker while its window remains open. With recovery enabled, this is covered by the same 2-minute grace period; disable recovery first if you want training to stay stopped, or use Stop on the website (which disables recovery). A recovery attempt restarts the app through the optimized launcher and enables the official `autoStartTrainingOnStartup` preference before launch. This preference remains enabled; launch-at-login, wallet and compute settings are not changed. Recovery is only reported successful after the worker appears, not merely when the application window opens. Queued workers count as started. If the worker does not appear within 60 seconds, the attempt fails and the 15-minute cooldown still applies. Missing or invalid official preferences cause a failure instead of overwriting settings.
+
+## Structured phase observations (1.0.6+)
+
+The agent reads the same bounded local CLI log tail used for queue positions. Successful `/miner/heartbeat` responses supply allowlisted cycle phase, miner status and observation time only. The phase of a layer is not proof that this Mac performed or earned work. Incomplete, unrecognized, future, pre-worker-start or older-than-five-minute evidence is omitted. Detailed phases may be unavailable on older app builds or truncated log lines. No raw log is uploaded unless the existing log option is enabled.
+
+The website stores one structured observation per five-minute bucket for seven days and displays the latest 24 hours on demand. Gaps stay missing and cannot prove downtime. History begins after the server migration and connected heartbeats; it is not backfilled from invented observations. Disconnecting deletes device history.
+
+Parser reference: Macrocosmos IOTA commit `ed0fecb190ab7277ebb1e76ddba920eb4dcf7543`, `shared/subnet/src/subnet/common_api_client.py`, `shared/subnet/src/subnet/miner_api_client.py`, and `shared/common/src/common/models/miner_models.py`.

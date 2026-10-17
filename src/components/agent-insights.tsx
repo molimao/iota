@@ -4,11 +4,11 @@ import { useLocale } from './site/locale';
 import { insightCopy as c } from './agent-insight-copy';
 import { LANGUAGE_TAG } from '@/lib/site';
 import { agentCopy } from './device-agent-copy';
-export function AgentStatus({agent, now, compact = false}: {agent: AgentInfo; now?: number; compact?: boolean}) {
+export function AgentStatus({agent, now, compact = false, concise = false}: {agent: AgentInfo; now?: number; compact?: boolean; concise?: boolean}) {
   const {locale}=useLocale(); const phase=agentPhase(agent, now);
   return <div className="agent-insight" data-phase={phase}>
     <strong>{c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
-    {!compact && <><p>{c[`${phase}Help`][locale]}</p><a href={`/${locale}/learn/mac-status-and-restart`}>{c.help[locale]} ↗</a></>}
+    {!compact && <>{!concise && <p>{c[`${phase}Help`][locale]}</p>}<a href={`/${locale}/learn/${phase === 'queued' ? 'iota-queue-and-zero-throughput' : 'mac-status-and-restart'}`}>{c[phase === 'queued' ? 'queueHelpLink' : ['running','working','waiting','uploading','merging'].includes(phase) ? 'runningHelpLink' : 'help'][locale]} ↗</a></>}
   </div>;
 }
 export function AgentCommandResult({agent}: {agent:AgentInfo}) {

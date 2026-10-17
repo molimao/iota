@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { watchDb } from "./watch-db";
-import { agentAction, type AgentInfo } from "./device-agent";
+import { agentAction, agentHistoryPointSchema, type AgentInfo } from "./device-agent";
 const device = z.object({ deviceId: z.string().uuid() }).strict();
 export const getDeviceAgents = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -58,4 +58,13 @@ export const revokeDeviceAgent = createServerFn({ method: "POST" })
     });
     if (r.error) throw new Error("revoke_failed");
     return { ok: true };
+  });
+
+export const getAgentHistory = createServerFn({method:"POST"})
+  .middleware([requireSupabaseAuth])
+  .inputValidator(device)
+  .handler(async ({data,context}) => {
+    const r = await watchDb(context.supabase).rpc("watch_read_agent_history",{p_device:data.deviceId});
+    if(r.error) throw new Error("agent_history_unavailable");
+    return z.array(agentHistoryPointSchema).max(289).parse(r.data);
   });

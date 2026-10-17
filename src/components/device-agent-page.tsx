@@ -1,3 +1,5 @@
+import { AgentUpdate } from "./agent-update";
+import { AgentHistory } from "./agent-history";
 import { insightCopy } from "./agent-insight-copy";
 import { AgentStatus, AgentCommandResult, AgentTimeline } from "./agent-insights";
 import { AgentFilterSelect, agentFilterCopy } from "./agent-filter";
@@ -10,7 +12,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useLocale } from "./site/locale";
 import { LANGUAGE_TAG } from "@/lib/site";
-import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentCanUpdate, agentOnline, type AgentInfo } from "@/lib/device-agent";
+import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentOnline, agentPhase, type AgentInfo } from "@/lib/device-agent";
 import {
   getDeviceAgents,
   pairDeviceAgent,
@@ -46,10 +48,11 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     refetchOnWindowFocus: true,
     retry: false,
   });
+  const [now, setNow] = useState(Date.now());
   const examples: AgentInfo[] = [
     {
       deviceId: "demo-mac",
-      lastSeen: new Date().toISOString(),
+      lastSeen: new Date(now).toISOString(),
       snapshot: {
         appRunning: true,
         workerRunning: true,
@@ -57,7 +60,8 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         processMemoryMb: 2810,
         load: 3.2,
         logs: '[2026-10-15 10:32:00.000] training throughput=24.8 tokens/s\n[2026-10-15 10:28:00.000] training status: {"state": "initializing"}',
-        version: "1.0.0",
+        version: "1.0.5",
+        trainingState:{phase:"training",status:"forward",observedAt:new Date(now).toISOString()},
       },
       logsEnabled: true,
       recoveryEnabled: false,
@@ -70,7 +74,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null),
     [confirm, setConfirm] = useState<string | null>(null);
-  const [now, setNow] = useState(Date.now());
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 15000);
     return () => clearInterval(timer);
@@ -243,7 +246,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
           {agents.length > 0 && visibleAgents.length === 0 && <p role="status">{agentFilterCopy.empty[locale]}</p>}
           <div className="agent-grid" data-layout={layout}>
             {visibleAgents.map((a) => {
-              const online = preview || agentOnline(a.lastSeen, now),
+              const online = agentOnline(a.lastSeen, now),
                 s = a.snapshot,
                 name = preview
                   ? "Mac Studio"
@@ -261,12 +264,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     <div className="compute-metric" title={t.queueNote}>
                       <span>{t.queue}</span>
                       <strong>
-                        {online &&
-                        s.appRunning &&
-                        s.workerRunning &&
-                        s.queue &&
-                        Date.now() - Date.parse(s.queue.observedAt) >= 0 &&
-                        Date.now() - Date.parse(s.queue.observedAt) <= 300000
+                        {agentPhase(a, now) === "queued" && s.queue
                           ? `#${s.queue.position}`
                           : t.queueUnknown}
                       </strong>
@@ -290,6 +288,8 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
                   <AgentCommandResult agent={a} />
+                  <AgentUpdate agent={a} disabled={busy} onPreviewUpdate={preview ? () => setDemo(agents.map(x=>x.deviceId===a.deviceId ? {...x,snapshot:{...x.snapshot,version:AGENT_RELEASE},latestCommand:{action:"update",status:"done",createdAt:new Date().toISOString()}}:x)) : undefined} />
+                  <AgentHistory deviceId={a.deviceId} preview={preview} />
                   <details className="agent-controls" open={layout === "cards" ? true : undefined}>
                     <summary>{insightCopy.manage[locale]}</summary>
                   <div className="agent-actions">
@@ -333,49 +333,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       </button>
                     ))}
                   </div>
-                  <div className="agent-actions">
-                    <span>
-                      {t.agentVersion} {s.version ?? "—"}
-                    </span>
-                    {agentCanUpdate(s.version) ? (
-                      <button
-                        className="project-outline"
-                        disabled={busy || !online || !!a.pending || s.version === AGENT_RELEASE}
-                        onClick={() => {
-                          if (!requiresConfirm(a.deviceId, "update")) return;
-                          void act(async () => {
-                            if (preview)
-                              setDemo(
-                                agents.map((x) =>
-                                  x.deviceId === a.deviceId
-                                    ? { ...x, snapshot: { ...x.snapshot, version: AGENT_RELEASE } }
-                                    : x,
-                                ),
-                              );
-                            else
-                              await command({ data: { deviceId: a.deviceId, action: "update" } });
-                          });
-                        }}
-                      >
-                        {s.version === AGENT_RELEASE
-                          ? t.upToDate
-                          : confirm === `${a.deviceId}:update`
-                            ? t.confirm
-                            : t.update}
-                      </button>
-                    ) : (
-                      <a
-                        className="project-outline"
-                        href={AGENT_DOWNLOAD_URL}
-                        download
-                      >
-                        {t.manualUpgrade}
-                      </a>
-                    )}
-                  </div>
-                  {!agentCanUpdate(s.version) && (
-                    <p className="compute-caption">{t.manualUpgradeNote}</p>
-                  )}
+                  <p className="compute-caption">{t.agentVersion} {s.version ?? "—"}{s.version===AGENT_RELEASE ? ` · ${t.upToDate}` : ""}</p>
                   <details className="agent-settings">
                     <summary>{t.settings}</summary>
                     <label className="agent-option">

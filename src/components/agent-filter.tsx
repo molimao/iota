@@ -8,7 +8,7 @@ export const agentFilterCopy = {
   online: l(["在线", "在線", "Online", "온라인", "オンライン"]),
   training: l(["进程运行", "程序執行", "Process running", "프로세스 실행", "プロセス実行中"]),
   queued: l(["排队中", "排隊中", "Queued", "대기 중", "待機中"]),
-  stopped: l(["应用已停止", "應用已停止", "App stopped", "앱 중지됨", "アプリ停止中"]),
+  stopped: l(["已停止", "已停止", "Stopped", "중지됨", "停止中"]),
   offline: l(["未上报", "未回報", "No heartbeat", "보고 없음", "報告なし"]),
   unpaired: l(["未配对", "未配對", "Not paired", "연결되지 않음", "未接続"]),
   empty: l(["没有符合条件的设备", "沒有符合條件的設備", "No matching devices", "일치하는 기기 없음", "一致する端末がありません"]),

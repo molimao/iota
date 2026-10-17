@@ -1,3 +1,4 @@
+import { readAlertAgents } from "./pro-alert-agents.server";
 import { buildDeviceSnapshots } from "./device-history";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
@@ -101,9 +102,10 @@ async function snapshot(j: Job) {
 }
 async function sample(j: Job) {
   const chunk = j.bindings.slice(j.cursor, j.cursor + 5);
+  const agents = await readAlertAgents(supabaseAdmin, j.user_id, chunk.filter(b => b.project === "iota").map(b => b.device));
   const samples = await mapConcurrent(chunk, 3, async (b) => {
     let reason: AlertReason | undefined;
-    const signal = await collectAlertSignal(b, (value) => { reason = value; });
+    const signal = await collectAlertSignal(b, (value) => { reason = value; }, { available: agents !== null, agent: agents?.get(b.device) ?? null });
     return { b, signal, reason };
   });
   for (const { b, signal, reason } of samples)

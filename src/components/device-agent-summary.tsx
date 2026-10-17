@@ -1,10 +1,11 @@
+import { AgentUpdate } from "./agent-update";
 import { AgentStatus } from "./agent-insights";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 import { getFleet } from "@/lib/fleet.functions";
 import { getDeviceAgents } from "@/lib/device-agent.functions";
-import { agentOnline } from "@/lib/device-agent";
+import { agentOnline, agentPhase, agentUpdateAvailable } from "@/lib/device-agent";
 import { useLocale } from "./site/locale";
 import { agentCopy } from "./device-agent-copy";
 
@@ -23,9 +24,8 @@ export function DeviceAgentSummary({ deviceId, miner, preview = false, compact =
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
   const online = !!agent && !query.isError && agentOnline(agent.lastSeen);
   const s = agent?.snapshot;
-  const age = s?.queue ? Date.now() - Date.parse(s.queue.observedAt) : Infinity;
-  const queue = online && s?.appRunning && s.workerRunning && age >= 0 && age <= 300000 ? s.queue?.position : undefined;
-  if (compact) return agent && !query.isError ? <a href={url} className="agent-table-status"><AgentStatus agent={agent} compact /></a> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
+  const queue = agent && !query.isError && agentPhase(agent) === "queued" ? s?.queue?.position : undefined;
+  if (compact) return agent && !query.isError ? <a href={url} className="agent-table-status"><AgentStatus agent={agent} compact />{agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
     <a href={url}>{t.connectCompact} ↗</a>
@@ -33,7 +33,8 @@ export function DeviceAgentSummary({ deviceId, miner, preview = false, compact =
   return <section className="fleet-agent-connect agent-card-summary" aria-label={t.title}>
     <>
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
-      {!query.isError && <AgentStatus agent={agent} />}
+      {!query.isError && <AgentStatus agent={agent} concise />}
+      {!query.isError && <AgentUpdate agent={agent} />}
       <dl className="agent-card-metrics">
         <div><dt>{t.queue}</dt><dd>{queue == null ? "—" : `#${queue}`}</dd></div>
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>

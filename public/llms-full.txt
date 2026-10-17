@@ -6206,13 +6206,13 @@ Updated: 2026-10-09
 - ko: https://iotahome.site/ko/learn/mac-status-and-restart
 - ja: https://iotahome.site/ja/learn/mac-status-and-restart
 - Published: 2026-10-15
-- Updated: 2026-10-15
+- Updated: 2026-10-17
 - Publisher: IOTA Watch (independent monitor)
 - Topics: IOTA
 
 ### Mac 在线却没有收益，要不要重启？ (zh-CN)
 Published: 2026-10-15
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## 先看结论
 
@@ -6225,6 +6225,30 @@ Updated: 2026-10-15
 ## 排队中
 
 等待官方分配任务；此名次来自最近的本机日志。
+
+## 等待初始化
+
+官方心跳返回初始化或冻结状态；等待后续状态，不代表电脑离线。
+
+## 等待训练任务
+
+训练周期进行中，最近心跳未显示前向或反向计算；无需仅因此重启。
+
+## 近期有计算活动
+
+最近的官方心跳记录了前向或反向计算；不等于已确认收益。
+
+## 权重上传阶段
+
+所在训练层进入权重上传阶段；不表示本机上传已完成或已记账。
+
+## 分区合并阶段
+
+所在训练层进入分区合并阶段；此阶段不是训练停止的证据。
+
+## 官方状态需检查
+
+官方心跳返回 kicked。请核对本机日志和项目状态，不能据此判断具体原因。
 
 ## 进程运行中
 
@@ -6254,7 +6278,7 @@ Updated: 2026-10-15
 
 ### Mac 在線卻沒有收益，要不要重啟？ (zh-TW)
 Published: 2026-10-15
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## 先看結論
 
@@ -6267,6 +6291,30 @@ Updated: 2026-10-15
 ## 排隊中
 
 等待官方分配任務；此名次來自最近的本機日誌。
+
+## 等待初始化
+
+官方心跳回傳初始化或凍結狀態；等待後續狀態，不代表電腦離線。
+
+## 等待訓練任務
+
+訓練週期進行中，最近心跳未顯示前向或反向計算；無需僅因此重啟。
+
+## 近期有計算活動
+
+最近官方心跳記錄了前向或反向計算；不等於已確認收益。
+
+## 權重上傳階段
+
+所在訓練層進入權重上傳階段；不表示本機上傳已完成或已記帳。
+
+## 分區合併階段
+
+所在訓練層進入分區合併階段；此階段不是訓練停止的證據。
+
+## 官方狀態需檢查
+
+官方心跳回傳 kicked。請核對本機日誌與專案狀態，不能據此判斷具體原因。
 
 ## 程序執行中
 
@@ -6296,7 +6344,7 @@ Updated: 2026-10-15
 
 ### Mac online but no rewards: should I restart? (en)
 Published: 2026-10-15
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## At a glance
 
@@ -6309,6 +6357,30 @@ Online means an agent heartbeat arrived within 90 seconds. A running process doe
 ## In queue
 
 Waiting for task assignment. Position comes from recent local logs.
+
+## Awaiting initialization
+
+Official heartbeat reports initializing or frozen. This does not mean the Mac is offline.
+
+## Waiting for training work
+
+The training cycle is active, but the latest heartbeat does not report forward or backward computation. This alone does not warrant a restart.
+
+## Recent compute activity
+
+A recent official heartbeat reports forward or backward computation. Rewards are not confirmed by this signal.
+
+## Weight upload phase
+
+The assigned layer is in its weight upload phase. This does not confirm this Mac has uploaded or earned rewards.
+
+## Partition merge phase
+
+The assigned layer is in its partition merge phase. This is not evidence that training has stopped.
+
+## Official status needs attention
+
+Official heartbeat reports kicked. Check local logs and the project; the cause is not confirmed.
 
 ## Process running
 
@@ -6338,7 +6410,7 @@ Waiting for device → Dispatched, awaiting result → Device confirmed completi
 
 ### Mac은 온라인인데 수익이 없나요? 재시작해야 하나요? (ko)
 Published: 2026-10-15
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## 핵심 내용
 
@@ -6351,6 +6423,30 @@ Updated: 2026-10-15
 ## 대기 중
 
 작업 배정을 기다립니다. 순번은 최근 로컬 로그 기준입니다.
+
+## 초기화 대기
+
+공식 응답이 초기화 또는 동결 상태입니다. Mac 오프라인을 뜻하지 않습니다.
+
+## 학습 작업 대기
+
+학습 주기는 진행 중이나 최근 응답에 연산 활동이 없습니다. 이것만으로 재시작할 필요는 없습니다.
+
+## 최근 연산 활동 있음
+
+최근 공식 응답에 순전파 또는 역전파 연산이 기록되었습니다. 보상 확정을 의미하지 않습니다.
+
+## 가중치 업로드 단계
+
+배정된 레이어가 가중치 업로드 단계입니다. 이 Mac의 업로드 완료나 보상 확정은 아닙니다.
+
+## 파티션 병합 단계
+
+배정된 레이어가 파티션 병합 단계입니다. 학습 중단의 증거가 아닙니다.
+
+## 공식 상태 확인 필요
+
+공식 응답이 kicked입니다. 로컬 로그와 프로젝트 상태를 확인하세요. 원인은 미확인입니다.
 
 ## 프로세스 실행 중
 
@@ -6380,7 +6476,7 @@ Mac의 잠자기, 네트워크 및 에이전트를 확인하세요. 학습 상�
 
 ### Macはオンラインなのに報酬がない：再起動すべき？ (ja)
 Published: 2026-10-15
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## 要点
 
@@ -6393,6 +6489,30 @@ Updated: 2026-10-15
 ## 待機中
 
 タスク割り当て待ちです。順位は最近のローカルログに基づきます。
+
+## 初期化待ち
+
+公式応答は初期化中または凍結状態です。Macのオフラインを意味しません。
+
+## 学習タスク待ち
+
+学習周期は進行中ですが最新応答に計算活動はありません。これだけで再起動する必要はありません。
+
+## 最近の計算活動あり
+
+最近の公式応答に順伝播または逆伝播の計算が記録されています。報酬確定を意味しません。
+
+## 重みアップロード段階
+
+担当レイヤーは重みアップロード段階です。このMacの送信完了や報酬を保証しません。
+
+## 分割データの統合段階
+
+担当レイヤーは分割データの統合段階です。学習停止の証拠ではありません。
+
+## 公式状態の確認が必要
+
+公式応答はkickedです。ローカルログとプロジェクトを確認してください。原因は未確認です。
 
 ## プロセス実行中
 

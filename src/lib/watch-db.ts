@@ -21,6 +21,12 @@ export type WatchDatabase = Omit<Database, "public"> & {
   public: Omit<Database["public"], "Tables" | "Functions"> & {
     Tables: Database["public"]["Tables"] & {
       watch_billing: Table<BillingRow>;
+      watch_device_agents: Table<{
+        device_id: string;
+        user_id: string;
+        last_seen: string | null;
+        snapshot: Json;
+      }>;
       watch_pro_history: Table<{
         user_id: string;
         day: string;
@@ -86,6 +92,7 @@ export type WatchDatabase = Omit<Database, "public"> & {
         };
         Returns: Json;
       };
+      watch_read_agent_history: { Args: { p_device: string }; Returns: Json };
       watch_agent_owner: {
         Args: { p_action: string; p_device?: string | null; p_payload?: Json };
         Returns: Json;

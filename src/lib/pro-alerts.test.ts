@@ -70,3 +70,23 @@ it("retains the specific fresh IOTA reason without changing alert eligibility", 
     expect(explain).toHaveBeenLastCalledWith(reason);
   }
 });
+
+it("does not alert on a fresh local queue just because the official roster is empty", async () => {
+  const now = Date.now();
+  const a = {deviceId:"owned",lastSeen:new Date(now).toISOString(),snapshot:{appRunning:true,workerRunning:true,queue:{position:235,observedAt:new Date(now-1000).toISOString()}},logsEnabled:false,recoveryEnabled:false,pending:null,latestCommand:null};
+  const explain = vi.fn();
+  state.roster.mockResolvedValue({devices:[{miner:null,stale:false,fetchedAt:now}],fullCoverage:true,fetchedAt:now});
+  expect(await collectAlertSignal({project:"iota",identifier:"public"}, explain, {available:true,agent:a})).toBe("healthy");
+  expect(explain).not.toHaveBeenCalled();
+  for (const agent of [
+    {...a,lastSeen:new Date(now-100000).toISOString()},
+    {...a,snapshot:{...a.snapshot,queue:null}},
+    {...a,snapshot:{...a.snapshot,queue:{position:235,observedAt:new Date(now-301000).toISOString()}}},
+    {...a,snapshot:{...a.snapshot,queue:{position:235,observedAt:new Date(now+60000).toISOString()}}},
+    {...a,snapshot:{}},
+  ]) expect(await collectAlertSignal({project:"iota",identifier:"public"}, explain, {available:true,agent})).toBe("unknown");
+  expect(explain).not.toHaveBeenCalled();
+  expect(await collectAlertSignal({project:"iota",identifier:"public"}, explain, {available:false,agent:null})).toBe("unknown");
+  expect(await collectAlertSignal({project:"iota",identifier:"public"}, explain, {available:true,agent:null})).toBe("bad");
+  expect(await collectAlertSignal({project:"iota",identifier:"public"}, explain, {available:true,agent:{...a,snapshot:{appRunning:true,workerRunning:false}}})).toBe("bad");
+});
