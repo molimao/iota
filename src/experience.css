@@ -1089,10 +1089,17 @@ body:has(.site-shell) {
 .device-filters button[data-bucket] b {
   opacity: 1;
 }
-.site-shell .dashboard .device-top .badge[data-bucket] {
+.site-shell .dashboard :is(.device-top, .iota-device-table) button.badge[data-bucket] {
   color: var(--status-color);
   background: rgba(var(--status-rgb), 0.16);
+  border-color: rgba(var(--status-rgb), 0.35);
 }
+.site-shell .dashboard :is(.device-top, .iota-device-table) button.badge[data-bucket]:hover,
+.site-shell .dashboard :is(.device-top, .iota-device-table) button.badge[data-bucket]:focus-visible {
+  color: var(--status-color);
+  background: rgba(var(--status-rgb), 0.24);
+}
+.iota-device-table .badge[data-bucket] { white-space: nowrap; }
 .dash-dialog {
   background: var(--watch-bg) !important;
   border-radius: 22px !important;
@@ -6787,7 +6794,7 @@ body:has(.site-shell) {
 .agent-history ol { list-style:none; margin:.5rem 0; padding:0; }
 .agent-history li { display:flex; flex-wrap:wrap; gap:.4rem 1rem; padding:.5rem 0; border-bottom:1px solid #303030; }
 .agent-history time { color:#aaa; font-variant-numeric:tabular-nums; }
-.agent-insight[data-phase="working"] > strong::before { background:#7fd2ad; }
+.agent-insight:is([data-phase="working"],[data-phase="training"]) > strong::before { background:#7fd2ad; }
 .agent-insight:is([data-phase="preparing"],[data-phase="waiting"],[data-phase="uploading"],[data-phase="merging"]) > strong::before { background:#8bb9e4; }
 .agent-insight[data-phase="blocked"] > strong::before { background:#edb77c; }
 

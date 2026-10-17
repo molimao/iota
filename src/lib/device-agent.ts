@@ -1,3 +1,4 @@
+import { REFRESH_INTERRUPTED_MS, validFetchedAt, type DeviceStatus } from "./device-status";
 import { z } from "zod";
 export const agentAction = z.enum(["start", "stop", "restart", "update"]);
 export const trainingStateSchema = z.object({
@@ -105,9 +106,25 @@ export function agentPhase(agent: Pick<AgentInfo, "snapshot" | "lastSeen">, now 
     if (state.phase === "weights_uploading") return "uploading";
     if (state.phase === "merging_partitions") return "merging";
     if (state.status === "forward" || state.status === "backward") return "working";
-    return "waiting";
+    // Orchestrator idle is not evidence that this miner has no training work.
+    return "running";
   }
   return "running";
+}
+
+export type OfficialTrainingEvidence = { status: DeviceStatus; fetchedAt: number | null };
+/** Combine account-matched evidence without hiding explicit local stop/queue/stage signals.
+ * Fetch freshness is separate from the upstream statistics sample time.
+ */
+export function agentDisplayPhase(agent: Pick<AgentInfo, "snapshot" | "lastSeen">, official?: OfficialTrainingEvidence, now = Date.now()): AgentPhase | "training" {
+  const phase = agentPhase(agent, now);
+  if (!["running", "working"].includes(phase)) return phase;
+  const fetchedAt = validFetchedAt(official?.fetchedAt);
+  if (!official || fetchedAt === null || fetchedAt > now + 5000 || now - fetchedAt > REFRESH_INTERRUPTED_MS) return phase;
+  if (official.status === "contributing") return "training";
+  // Positive local computation is stronger than a zero in an aggregated statistics sample.
+  if (official.status === "waiting" && phase === "running") return "waiting";
+  return phase;
 }
 
 // Keep the persisted filter key for existing links; its visible label says process running.

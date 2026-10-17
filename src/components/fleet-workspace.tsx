@@ -1171,7 +1171,7 @@ function FleetCard({
         })}
       </div>
       {device.bindings.some((b) => b.project === "iota") && (
-        <DeviceAgentSummary deviceId={device.id} preview={!!preview} />
+        <DeviceAgentSummary deviceId={device.id} preview={!!preview} official={device.bindings.filter(b => b.project === "iota").map(b => reading(b).officialTraining).find(Boolean)} />
       )}
       <footer>
         {onRemove && <button onClick={onRemove}>{c.remove}</button>}

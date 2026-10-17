@@ -2,6 +2,7 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  officialTraining?: import("@/lib/device-agent").OfficialTrainingEvidence;
   health?: "loading" | "fresh" | "stale" | "unavailable";
   accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
   todaySameDay?: boolean;

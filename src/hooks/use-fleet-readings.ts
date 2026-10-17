@@ -332,6 +332,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         status: fleetIotaStatus(view.status, view.statusStale),
+        officialTraining: {status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt},
         activity: view.miner ? String(view.miner.throughput) + " tokens/s" : "—",
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),

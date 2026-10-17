@@ -16,7 +16,7 @@ it("separates non-working miner states from run phases and respects newer observ
   const base={lastSeen:new Date(now).toISOString(),snapshot:{appRunning:true,workerRunning:true}};
   const observedAt=new Date(now-1000).toISOString();
   const cases=[
-    ["training","forward","working"], ["training","backward","working"], ["training","idle","waiting"],
+    ["training","forward","working"], ["training","backward","working"], ["training","idle","running"],
     ["weights_uploading","idle","uploading"], ["merging_partitions","idle","merging"],
     ["training","initializing","preparing"], ["weights_uploading","frozen","preparing"], ["training","kicked","blocked"],
   ] as const;

@@ -589,7 +589,7 @@ function SavedIotaDashboard() {
                           />
                         </td>
                         <td>
-                          <DeviceAgentSummary miner={view.entry.hotkey} compact />
+                          <DeviceAgentSummary miner={view.entry.hotkey} official={{status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt}} compact />
                         </td>
                         <td>
                           <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
@@ -692,7 +692,7 @@ function SavedIotaDashboard() {
                           <ArrowUpRight size={16} />
                         </button>
                       </div>
-                      <DeviceAgentSummary miner={view.entry.hotkey} />
+                      <DeviceAgentSummary miner={view.entry.hotkey} official={{status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt}} />
                     </article>
                   );
                 })}
