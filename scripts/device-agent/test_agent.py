@@ -28,13 +28,60 @@ class AgentTests(unittest.TestCase):
     self.assertTrue(state['ack']['success']);self.assertEqual(control.call_count,1)
     agent.step({'server':'https://iotahome.site','credential':'fake'},state,1015)
     self.assertEqual(control.call_count,1)
- def test_crash_recovery_requires_report_and_respects_cooldown(self):
+ def recovery_context(self, folder, payload, result=None):
+  from contextlib import ExitStack
+  stack=ExitStack()
+  stack.enter_context(patch.object(agent,'ROOT',Path(folder)))
+  stack.enter_context(patch.object(agent,'STATE',Path(folder)/'state.json'))
+  stack.enter_context(patch.object(agent,'snapshot',return_value=payload))
+  stack.enter_context(patch.object(agent,'post',return_value=result or {'recoveryEnabled':True}))
+  return stack
+ def test_missing_worker_recovers_after_grace_even_with_gui_open(self):
   with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
-   with patch.object(agent,'ROOT',Path(folder)),patch.object(agent,'STATE',Path(folder)/'state.json'),patch.object(agent,'snapshot',return_value={'appRunning':False}),patch.object(agent,'post',return_value={'recoveryEnabled':True}),patch.object(agent,'crashed_since',return_value=False),patch.object(agent,'control') as control:
-    agent.step({'server':'https://iotahome.site','credential':'fake'},{'lastRunning':900},1000);control.assert_not_called()
-   with patch.object(agent,'ROOT',Path(folder)),patch.object(agent,'STATE',Path(folder)/'state.json'),patch.object(agent,'snapshot',return_value={'appRunning':False}),patch.object(agent,'post',return_value={'recoveryEnabled':True}),patch.object(agent,'crashed_since',return_value=True),patch.object(agent,'control') as control:
-    agent.step({'server':'https://iotahome.site','credential':'fake'},{'lastRunning':900,'lastRestart':950},1000);control.assert_not_called()
-    agent.step({'server':'https://iotahome.site','credential':'fake'},{'lastRunning':900,'lastRestart':0},1000);control.assert_called_once_with('start')
+   with self.recovery_context(folder,{'appRunning':True,'workerRunning':False}),patch.object(agent,'control') as control:
+    state={}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,1000)
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,1119)
+    control.assert_not_called()
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,1120)
+    control.assert_called_once_with('restart',resume_training=True)
+    self.assertEqual(state['recovery'],'restarted')
+ def test_missing_application_is_started_without_crash_report(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   with self.recovery_context(folder,{'appRunning':False,'workerRunning':False}),patch.object(agent,'control') as control:
+    state={'trainingMissingSince':1000}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,1120)
+    control.assert_called_once_with('start',resume_training=True)
+ def test_queued_worker_clears_missing_timer_and_never_restarts(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   with self.recovery_context(folder,{'appRunning':True,'workerRunning':True,'queue':{'position':235}}),patch.object(agent,'control') as control:
+    state={'trainingMissingSince':1000}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,2000)
+    control.assert_not_called();self.assertNotIn('trainingMissingSince',state)
+ def test_recovery_disabled_by_default(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   with self.recovery_context(folder,{'appRunning':False,'workerRunning':False},{'recoveryEnabled':False}),patch.object(agent,'control') as control:
+    state={'trainingMissingSince':1000}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,2000)
+    control.assert_not_called();self.assertNotIn('trainingMissingSince',state)
+ def test_failed_restart_still_obeys_cooldown_across_agent_restart(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   with self.recovery_context(folder,{'appRunning':True,'workerRunning':False}),patch.object(agent,'control',side_effect=ValueError('not started')) as control:
+    state={'trainingMissingSince':1000}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,1120)
+    self.assertEqual(state['recovery'],'paused')
+    persisted=agent.read(agent.STATE)
+    agent.step({'server':'https://iotahome.site','credential':'fake'},persisted,1240)
+    self.assertEqual(persisted['recovery'],'cooldown');self.assertEqual(control.call_count,1)
+    agent.step({'server':'https://iotahome.site','credential':'fake'},persisted,2020)
+    self.assertEqual(control.call_count,2)
+ def test_manual_stop_disables_recovery_and_clears_timer(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   command={'id':'11111111-1111-4111-8111-111111111111','action':'stop','expiresAt':'2030-01-01T00:00:00Z'}
+   with self.recovery_context(folder,{'appRunning':False,'workerRunning':False},{'recoveryEnabled':False,'command':command}),patch.object(agent,'control') as control:
+    state={'trainingMissingSince':1000}
+    agent.step({'server':'https://iotahome.site','credential':'fake'},state,2000)
+    control.assert_called_once_with('stop');self.assertFalse(state['recoveryEnabled']);self.assertNotIn('trainingMissingSince',state)
  def test_network_failure_prevents_control_and_recovery(self):
   with patch.object(agent,'snapshot',return_value={'appRunning':False}),patch.object(agent,'post',side_effect=OSError('offline')),patch.object(agent,'control') as control:
    with self.assertRaises(OSError):agent.step({'server':'https://iotahome.site','credential':'fake'},{'recoveryEnabled':True,'lastRunning':900},1000)

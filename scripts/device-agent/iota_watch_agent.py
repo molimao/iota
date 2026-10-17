@@ -14,11 +14,12 @@ import signal
 import subprocess
 import sys
 import time
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.4'
+VERSION = '1.0.5'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -219,7 +220,35 @@ def snapshot(include_logs=False):
     return payload
 
 
-def control(action):
+def enable_training_on_launch():
+    """Use the official app preference; never patch app code or wallet data.
+
+    Kept enabled so every recovery launch actually starts training. This does
+    not enable launch-at-login, and is explained beside the recovery option.
+    """
+    path = Path.home() / 'Library/Application Support/IOTA Train at Home/preferences.json'
+    if path.is_symlink() or not path.is_file() or path.stat().st_size > 1000000:
+        raise ValueError('official preferences unavailable')
+    prefs = json.loads(path.read_text())
+    if not isinstance(prefs, dict):
+        raise ValueError('invalid official preferences')
+    if prefs.get('autoStartTrainingOnStartup') is True:
+        return
+    prefs['autoStartTrainingOnStartup'] = True
+    # Only called after TAH has stopped, avoiding concurrent app writes.
+    fd, temp = tempfile.mkstemp(prefix='.iota-recovery-', dir=str(path.parent))
+    try:
+        with os.fdopen(fd, 'w') as stream:
+            json.dump(prefs, stream)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp, path)
+    finally:
+        if os.path.exists(temp):
+            os.unlink(temp)
+
+
+def control(action, resume_training=False):
     if action not in ('start', 'stop', 'restart'):
         raise ValueError('unsupported action')
     if not APP.is_dir():
@@ -240,24 +269,24 @@ def control(action):
             raise ValueError('app did not stop')
     if action in ('start', 'restart'):
         if any(r[3] == EXEC for r in processes()):
+            if resume_training:
+                raise ValueError('app already running; recovery requires restart')
             return
         legacy = Path.home() / 'Library/Application Support/IOTA Local Guardian/iota_local_start.py'
         launcher = legacy if legacy.is_file() else ROOT / 'iota_local_start.py'
         if not launcher.is_file():
             raise ValueError('optimized launcher missing; reinstall the complete agent package')
+        if resume_training:
+            enable_training_on_launch()
         subprocess.run([sys.executable, str(launcher)], check=True, timeout=10,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        deadline = time.monotonic() + 12
+        deadline = time.monotonic() + (60 if resume_training else 12)
         while time.monotonic() < deadline:
-            if any(r[3] == EXEC for r in processes()):
+            target = WORKER if resume_training else EXEC
+            if any(r[3] == target for r in processes()):
                 return
             time.sleep(0.5)
-        raise ValueError('app did not start')
-
-
-def crashed_since(stamp):
-    folder = Path.home() / 'Library/Logs/DiagnosticReports'
-    return any(p.stat().st_mtime > stamp for p in folder.glob('IOTA Train at Home*.ips') if p.is_file())
+        raise ValueError('training did not start' if resume_training else 'app did not start')
 
 
 def step(config, state, now=None):
@@ -303,20 +332,27 @@ def step(config, state, now=None):
                     pass
                 state['ack'] = {'id': cmd_id, 'success': success}
                 state['lastRestart'] = now
+                state.pop('trainingMissingSince', None)
                 if command['action'] == 'stop':
                     state['recoveryEnabled'] = False
             return state
-    if payload['appRunning']:
-        state['lastRunning'] = now
-    elif state.get('recoveryEnabled') and state.get('lastRunning') and crashed_since(state['lastRunning']):
-        if now - state.get('lastRestart', 0) >= 900:
-            state['lastRestart'] = now
-            store(STATE, state)
-            try:
-                control('start')
-                state['recovery'] = 'restarted'
-            except (OSError, ValueError, subprocess.SubprocessError):
-                state['recovery'] = 'paused'
+    if not state.get('recoveryEnabled') or payload.get('workerRunning'):
+        state.pop('trainingMissingSince', None)
+    else:
+        # A GUI may survive a worker/OOM exit. Queued workers still count as running.
+        missing = state.setdefault('trainingMissingSince', now)
+        if now - missing >= 120:
+            if now - state.get('lastRestart', 0) < 900:
+                state['recovery'] = 'cooldown'
+            else:
+                state['lastRestart'] = now
+                state['trainingMissingSince'] = now
+                store(STATE, state)
+                try:
+                    control('restart' if payload['appRunning'] else 'start', resume_training=True)
+                    state['recovery'] = 'restarted'
+                except (OSError, ValueError, subprocess.SubprocessError):
+                    state['recovery'] = 'paused'
     return state
 
 
