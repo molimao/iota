@@ -26,7 +26,8 @@ export async function interpretLog(
   try {
     response = await fetcher(config.base + "/chat/completions", {
       method: "POST",
-      redirect: "error",
+      // Workers supports manual/follow only. Non-2xx responses below still reject every redirect.
+      redirect: "manual",
       signal: AbortSignal.timeout(45000),
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${config.key}` },
       body: JSON.stringify({
