@@ -1,12 +1,65 @@
-export const POOL_PROJECT_IDS = ["prl", "xmr", "etc", "rvn", "zec", "kas"] as const;
+import { validCsdAddress } from "./csd";
+import { validBntAddress } from "./bnt";
+export const POOL_PROJECT_IDS = [
+  "prl",
+  "xmr",
+  "etc",
+  "rvn",
+  "zec",
+  "kas",
+  "mds",
+  "bnt",
+  "csd",
+] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
-export type PoolProvider = "kryptex" | "2miners";
+export type PoolProvider = "kryptex" | "2miners" | "luckypool" | "bntpool" | "gpools";
 export const isPoolProject = (v: unknown): v is PoolProject =>
   POOL_PROJECT_IDS.includes(v as PoolProject);
 export const poolProvider = (p: PoolProject): PoolProvider =>
-  p === "prl" || p === "xmr" ? "kryptex" : "2miners";
-export const poolName = (p: PoolProject) => (poolProvider(p) === "kryptex" ? "Kryptex" : "2Miners");
+  p === "csd"
+    ? "gpools"
+    : p === "bnt"
+      ? "bntpool"
+      : p === "mds"
+        ? "luckypool"
+        : p === "prl" || p === "xmr"
+          ? "kryptex"
+          : "2miners";
+export const poolName = (p: PoolProject) =>
+  p === "csd"
+    ? "G-pools"
+    : p === "bnt"
+      ? "bntpool.com"
+      : p === "mds"
+        ? "LuckyPool"
+        : poolProvider(p) === "kryptex"
+          ? "Kryptex"
+          : "2Miners";
 export const POOL_PROJECTS = {
+  csd: {
+    name: "Compute Substrate",
+    detail: "CSD · SHA-256d",
+    token: "CSD",
+    website: "https://computesubstrate.org/",
+    guide: "https://csd.yamaduo.no/#mine",
+    explorer: "https://csd.yamaduo.no/",
+  },
+  bnt: {
+    name: "Blocknet",
+    detail: "BNT · Argon2id",
+    token: "BNT",
+    website: "https://blocknetcrypto.com/",
+    guide: "https://github.com/zpalmtree/seine",
+    explorer: "https://bntpool.com/",
+  },
+  mds: {
+    name: "Midstate",
+    detail: "MDS · BLAKE3 sequential",
+    token: "MDS",
+    website: "https://midstate.cash/",
+    guide: "https://github.com/ciphernom/midstate/blob/main/pools.md",
+    explorer: "https://midstate.luckypool.io/",
+  },
   prl: {
     name: "Pearl",
     detail: "PearlHash",
@@ -60,6 +113,12 @@ export const POOL_PROJECTS = {
 export function validPoolAddress(p: PoolProject, v: string) {
   if (v !== v.trim()) return false;
   switch (p) {
+    case "csd":
+      return validCsdAddress(v);
+    case "bnt":
+      return validBntAddress(v);
+    case "mds":
+      return /^[0-9a-f]{64}$/.test(v);
     case "prl":
       return /^prl1[023456789acdefghjklmnpqrstuvwxyz]{40,90}$/.test(v);
     case "xmr":
@@ -75,6 +134,10 @@ export function validPoolAddress(p: PoolProject, v: string) {
   }
 }
 export function poolAccountUrl(p: PoolProject, address: string) {
+  if (p === "csd") return "https://csd.yamaduo.no/";
+  if (p === "bnt") return "https://bntpool.com/stats";
+  if (p === "mds")
+    return `https://midstate.luckypool.io/miner-stats?address=${encodeURIComponent(address)}`;
   return poolProvider(p) === "kryptex"
     ? `https://pool.kryptex.com/${p}/miner/stats/${encodeURIComponent(address)}`
     : `https://${p}.2miners.com/account/${encodeURIComponent(address)}`;

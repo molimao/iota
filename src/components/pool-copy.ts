@@ -1,3 +1,6 @@
+import { csdEditorial } from "./csd-copy";
+import { bntEditorial } from "./bnt-copy";
+import { mdsEditorial } from "./mds-copy";
 import { localized } from "@/lib/product-discovery";
 import {
   POOL_PROJECT_IDS,
@@ -7,6 +10,13 @@ import {
   type PoolProject,
 } from "@/lib/pool-projects";
 export const poolCopy = {
+  unknown: localized([
+    "收益周期未提供",
+    "收益週期未提供",
+    "Reward period unavailable",
+    "보상 기간 미제공",
+    "報酬期間未提供",
+  ]),
   search: localized([
     "搜索 Worker",
     "搜尋 Worker",
@@ -85,6 +95,9 @@ export const poolCopy = {
   ]),
 };
 function editorial(p: PoolProject) {
+  if (p === "csd") return csdEditorial;
+  if (p === "bnt") return bntEditorial;
+  if (p === "mds") return mdsEditorial;
   const name = POOL_PROJECTS[p].name,
     pool = poolName(p);
   return {

@@ -1,3 +1,4 @@
+import { normalizeCsdAddress } from "./csd";
 import { isPoolProject, poolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { createServerFn } from "@tanstack/react-start";
@@ -25,6 +26,8 @@ export const mutateFleet = createServerFn({ method: "POST" })
       !validBinding(value.payload.binding.project, value.payload.binding.identifier)
     )
       throw new Error("invalid_binding");
+    if ("binding" in value.payload && value.payload.binding?.project === "csd")
+      value.payload.binding.identifier = normalizeCsdAddress(value.payload.binding.identifier);
     if ("binding" in value.payload && value.payload.binding?.project === "acurast")
       value.payload.binding.identifier = "0x" + acurastPublicKey(value.payload.binding.identifier);
     if (

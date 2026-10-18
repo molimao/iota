@@ -21,6 +21,7 @@ import { Route as LocaleFaqRouteImport } from './routes/$locale.faq'
 import { Route as LocaleGuideRouteImport } from './routes/$locale.guide'
 import { Route as LocaleMachinesRouteImport } from './routes/$locale.machines'
 import { Route as LocaleNetworkRouteImport } from './routes/$locale.network'
+import { Route as LocaleOverviewRouteImport } from './routes/$locale.overview'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
@@ -87,6 +88,11 @@ const LocaleNetworkRoute = LocaleNetworkRouteImport.update({
   path: '/network',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleOverviewRoute = LocaleOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
+  '/$locale/overview': typeof LocaleOverviewRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
+  '/$locale/overview': typeof LocaleOverviewRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale': typeof LocaleIndexRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/$locale/guide': typeof LocaleGuideRoute
   '/$locale/machines': typeof LocaleMachinesRoute
   '/$locale/network': typeof LocaleNetworkRoute
+  '/$locale/overview': typeof LocaleOverviewRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/$locale/guide'
     | '/$locale/machines'
     | '/$locale/network'
+    | '/$locale/overview'
     | '/$locale/privacy'
     | '/$locale/review'
     | '/$locale/'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/$locale/guide'
     | '/$locale/machines'
     | '/$locale/network'
+    | '/$locale/overview'
     | '/$locale/privacy'
     | '/$locale/review'
     | '/$locale'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/$locale/guide'
     | '/$locale/machines'
     | '/$locale/network'
+    | '/$locale/overview'
     | '/$locale/privacy'
     | '/$locale/review'
     | '/$locale/'
@@ -324,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleNetworkRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/overview': {
+      id: '/$locale/overview'
+      path: '/overview'
+      fullPath: '/$locale/overview'
+      preLoaderRoute: typeof LocaleOverviewRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/privacy': {
       id: '/$locale/privacy'
       path: '/privacy'
@@ -371,6 +390,7 @@ interface LocaleRouteChildren {
   LocaleGuideRoute: typeof LocaleGuideRoute
   LocaleMachinesRoute: typeof LocaleMachinesRoute
   LocaleNetworkRoute: typeof LocaleNetworkRoute
+  LocaleOverviewRoute: typeof LocaleOverviewRoute
   LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleReviewRoute: typeof LocaleReviewRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
@@ -388,6 +408,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleGuideRoute: LocaleGuideRoute,
   LocaleMachinesRoute: LocaleMachinesRoute,
   LocaleNetworkRoute: LocaleNetworkRoute,
+  LocaleOverviewRoute: LocaleOverviewRoute,
   LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleReviewRoute: LocaleReviewRoute,
   LocaleIndexRoute: LocaleIndexRoute,

@@ -43,6 +43,7 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_log_analysis: { Args: {p_action:string;p_request?:string;p_digest?:string;p_project?:string;p_result?:Json}; Returns:Json };
       watch_history_backfill_worker: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_history_backfill_status: { Args: Record<string, never>; Returns: Json };
       watch_pro_status: { Args: Record<string, never>; Returns: Json };

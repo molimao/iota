@@ -1,3 +1,4 @@
+import { LogAnalysis } from "./log-analysis";
 import { AgentUpdate } from "./agent-update";
 import { AgentHistory } from "./agent-history";
 import { insightCopy } from "./agent-insight-copy";
@@ -395,6 +396,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     </label>
                     <p className="compute-caption">{t.logsNote}</p>
                     {a.logsEnabled && <AgentTimeline logs={s.logs} />}
+                    <LogAnalysis initialLogs={s.logs} preview={preview} />
                   </details>
                   <button
                     className="agent-revoke"

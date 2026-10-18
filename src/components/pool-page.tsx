@@ -1,3 +1,6 @@
+import { csdLabels } from "./csd-copy";
+import { bntLabels } from "./bnt-copy";
+import { mdsLabels } from "./mds-copy";
 import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
@@ -59,7 +62,13 @@ export function PoolPage({ project }: { project: PoolProject }) {
         }}
       >
         <label>
-          {c.wallet[locale]}
+          {project === "csd"
+            ? csdLabels.address[locale]
+            : project === "bnt"
+              ? bntLabels.address[locale]
+              : project === "mds"
+                ? mdsLabels.address[locale]
+                : c.wallet[locale]}
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -94,9 +103,29 @@ export function PoolPage({ project }: { project: PoolProject }) {
               )}
               <div className="pool-metrics">
                 {[
-                  [c.rate[locale], poolHashrate(project, d.hashrate)],
-                  [c.balance[locale], `${value(d.balance)} ${info.token}`],
-                  [c[d.period][locale], `${value(d.reward)} ${info.token}`],
+                  [
+                    project === "csd" ? csdLabels.rate[locale] : c.rate[locale],
+                    poolHashrate(project, d.hashrate),
+                  ],
+                  [
+                    project === "bnt"
+                      ? bntLabels.confirmed[locale]
+                      : project === "mds"
+                        ? mdsLabels.balance[locale]
+                        : c.balance[locale],
+                    `${value(d.balance)} ${info.token}`,
+                  ],
+                  [
+                    project === "csd"
+                      ? csdLabels.pending[locale]
+                      : project === "bnt"
+                        ? bntLabels.estimated[locale]
+                        : c[d.period][locale],
+                    `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
+                  ],
+                  ...(project === "bnt"
+                    ? [[bntLabels.queued[locale], `${value(d.queued)} ${info.token}`]]
+                    : []),
                   [c.paid[locale], `${value(d.paid)} ${info.token}`],
                 ].map(([label, v]) => (
                   <div key={label}>

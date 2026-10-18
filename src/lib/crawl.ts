@@ -207,6 +207,9 @@ ${productQuestions("en")
   .map((q) => `### ${q.question}\n${q.answer}`)
   .join("\n\n")}
 
+- Compute Substrate / CSD: ${origin}/en/projects/csd — G-pools (csd.yamaduo.no) only. 40-hex addr20, optional 0x normalized. H/s is 1-hour average; Worker activity is share-based. Unpaid, confirming and cumulative paid stay separate. *_sat fields use 1e8 units per CSD. Pool windowed income is an estimate; no daily reward or USD price is invented. Guide: ${origin}/en/learn/csd-gpools-monitor-guide.
+- Blocknet / BNT: ${origin}/en/projects/bnt — Argon2id mining on bntpool.com, not Bancor or BLOCK. Mainnet full payout addresses only. Pool hashrate, Workers, immature estimates, confirmed unpaid, queued payments and cumulative paid are separate. 1 BNT=100,000,000 atomic units. No verified daily income or USD quote is invented. Guide: ${origin}/en/learn/blocknet-bnt-monitor-guide.
+- Midstate / MDS: ${origin}/en/projects/mds — LuckyPool public MSS payout-address records only. Rates are nonces/s. Amounts use base MDS (coinUnits=1); 1 mMDS=1,048,576 MDS and 1 gMDS=1,073,741,824 MDS. Last-24h block allocations are separate from paid transfers; unpaid includes locked and unlocked amounts. Worker activity is share-based, not a machine heartbeat. Wallet totals are not allocated to Workers, solo/other pools are not covered, and no USD quote is invented.
 
 ## Question guides
 

@@ -1,10 +1,32 @@
 import { onboardingCopy } from "@/lib/onboarding";
-import { Layers, Monitor } from "lucide-react";
+import { Layers, Monitor, LayoutDashboard } from "lucide-react";
 import type { SiteLocale } from "@/lib/site";
 import { projectPath, type ProjectId } from "@/lib/projects";
 import { useLocale } from "./site/locale";
 
 const labels = {
+  overview: ["总览", "Overview", "總覽", "개요", "概要"],
+  overviewDescription: [
+    "集中查看各项目的收益、算力与变化。",
+    "Earnings, compute and trends across your projects.",
+    "集中查看各專案的收益、算力與變化。",
+    "모든 프로젝트의 수익·연산 성능·추이를 확인하세요.",
+    "各プロジェクトの収益・処理性能・推移をまとめて確認。",
+  ],
+  overviewEmpty: [
+    "添加设备，开始查看总览",
+    "Add a device to see your overview",
+    "新增設備，開始查看總覽",
+    "기기를 추가해 개요를 확인하세요",
+    "デバイスを追加して概要を表示",
+  ],
+  overviewEmptyHelp: [
+    "添加项目地址后，收益与算力会自动汇总到这里。",
+    "Once you add project addresses, available earnings and compute appear here.",
+    "新增專案地址後，收益與算力會自動彙總到這裡。",
+    "프로젝트 주소를 추가하면 수익과 연산 성능이 여기에 집계됩니다.",
+    "プロジェクトのアドレスを追加すると、収益と処理性能をここに集計します。",
+  ],
   menuProjects: ["项目", "Projects", "專案", "프로젝트", "プロジェクト"],
   menuResources: ["教程与工具", "Guides & tools", "教學與工具", "안내 및 도구", "ガイドとツール"],
   allGuides: ["全部教程", "All guides", "全部教學", "모든 안내", "すべてのガイド"],
@@ -60,7 +82,7 @@ export function MonitoringViews({
   current,
   project,
 }: {
-  current: "projects" | "devices";
+  current: "overview" | "projects" | "devices";
   project?: ProjectId | undefined;
 }) {
   const { locale } = useLocale(),
@@ -68,12 +90,12 @@ export function MonitoringViews({
   return (
     <div className="header-view-switch" role="navigation" aria-label={c.navigation}>
       <a
-        href={project ? projectPath(locale, project) : `/${locale}/projects`}
-        aria-current={current === "projects" ? "page" : undefined}
-        title={c.projectDescription}
+        href={`/${locale}/overview`}
+        aria-current={current === "overview" ? "page" : undefined}
+        title={c.overviewDescription}
       >
-        <Layers size={15} />
-        <span>{c.projects}</span>
+        <LayoutDashboard size={15} />
+        <span>{c.overview}</span>
       </a>
       <a
         href={`/${locale}/devices${project ? `?project=${project}` : ""}`}
@@ -82,6 +104,14 @@ export function MonitoringViews({
       >
         <Monitor size={15} />
         <span>{onboardingCopy.devices[locale]}</span>
+      </a>
+      <a
+        href={project ? projectPath(locale, project) : `/${locale}/projects`}
+        aria-current={current === "projects" ? "page" : undefined}
+        title={c.projectDescription}
+      >
+        <Layers size={15} />
+        <span>{c.projects}</span>
       </a>
     </div>
   );

@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -60,11 +60,14 @@ Check currency, period and ownership. IOTA uses preceding-day attribution, io.ne
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa and Midstate MDS, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
 
+- Compute Substrate / CSD: https://iotahome.site/en/projects/csd — G-pools (csd.yamaduo.no) only. 40-hex addr20, optional 0x normalized. H/s is 1-hour average; Worker activity is share-based. Unpaid, confirming and cumulative paid stay separate. *_sat fields use 1e8 units per CSD. Pool windowed income is an estimate; no daily reward or USD price is invented. Guide: https://iotahome.site/en/learn/csd-gpools-monitor-guide.
+- Blocknet / BNT: https://iotahome.site/en/projects/bnt — Argon2id mining on bntpool.com, not Bancor or BLOCK. Mainnet full payout addresses only. Pool hashrate, Workers, immature estimates, confirmed unpaid, queued payments and cumulative paid are separate. 1 BNT=100,000,000 atomic units. No verified daily income or USD quote is invented. Guide: https://iotahome.site/en/learn/blocknet-bnt-monitor-guide.
+- Midstate / MDS: https://iotahome.site/en/projects/mds — LuckyPool public MSS payout-address records only. Rates are nonces/s. Amounts use base MDS (coinUnits=1); 1 mMDS=1,048,576 MDS and 1 gMDS=1,073,741,824 MDS. Last-24h block allocations are separate from paid transfers; unpaid includes locked and unlocked amounts. Worker activity is share-based, not a machine heartbeat. Wallet totals are not allocated to Workers, solo/other pools are not covered, and no USD quote is invented.
 
 ## Question guides
 
@@ -183,6 +186,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Kaspa mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/kas)
 - [Kaspa 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/kas)
 - [Kaspa採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/kas)
+- [Midstate MDS 矿池监控：算力、Worker 和收益 (zh)](https://iotahome.site/zh/projects/mds)
+- [Midstate MDS 礦池監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/mds)
+- [Midstate MDS mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/mds)
+- [Midstate MDS 채굴 모니터: 해시레이트·Worker·보상 (ko)](https://iotahome.site/ko/projects/mds)
+- [Midstate MDS採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/mds)
+- [Blocknet BNT 监控：算力、Worker 与矿池支付 (zh)](https://iotahome.site/zh/projects/bnt)
+- [Blocknet BNT 監控：算力、Worker 與礦池支付 (zh-TW)](https://iotahome.site/zh-TW/projects/bnt)
+- [Blocknet BNT monitor: hashrate, Workers and pool payments (en)](https://iotahome.site/en/projects/bnt)
+- [Blocknet BNT 모니터: 해시레이트·Worker·풀 지급 (ko)](https://iotahome.site/ko/projects/bnt)
+- [Blocknet BNT監視：ハッシュレート・Worker・プール支払 (ja)](https://iotahome.site/ja/projects/bnt)
+- [CSD 监控：G-pools 算力、Worker 与支付 (zh)](https://iotahome.site/zh/projects/csd)
+- [CSD 監控：G-pools 算力、Worker 與支付 (zh-TW)](https://iotahome.site/zh-TW/projects/csd)
+- [CSD monitor: G-pools hashrate, Workers and payments (en)](https://iotahome.site/en/projects/csd)
+- [CSD 모니터: G-pools 해시레이트·Worker·지급 (ko)](https://iotahome.site/ko/projects/csd)
+- [CSD監視：G-poolsハッシュレート・Worker・支払 (ja)](https://iotahome.site/ja/projects/csd)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -423,6 +441,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [NOID address not found: InnovLab and Parano1d pool checks (en)](https://iotahome.site/en/learn/noid-address-not-found)
 - [NOID 주소가 조회되지 않을 때: InnovLab·Parano1d 확인 (ko)](https://iotahome.site/ko/learn/noid-address-not-found)
 - [NOIDアドレスが見つからない：InnovLabとParano1dの確認 (ja)](https://iotahome.site/ja/learn/noid-address-not-found)
+- [Midstate MDS 怎么查矿池收益？地址、Worker 与单位说明 (zh)](https://iotahome.site/zh/learn/midstate-mds-monitor-guide)
+- [Midstate MDS 如何查礦池收益？地址、Worker 與單位 (zh-TW)](https://iotahome.site/zh-TW/learn/midstate-mds-monitor-guide)
+- [How to check Midstate MDS pool rewards, addresses and units (en)](https://iotahome.site/en/learn/midstate-mds-monitor-guide)
+- [Midstate MDS 풀 보상·주소·단위 확인 방법 (ko)](https://iotahome.site/ko/learn/midstate-mds-monitor-guide)
+- [Midstate MDSのプール報酬・アドレス・単位の確認方法 (ja)](https://iotahome.site/ja/learn/midstate-mds-monitor-guide)
+- [BNT 挖矿怎么查收益？Blocknet 地址、确认与支付 (zh)](https://iotahome.site/zh/learn/blocknet-bnt-monitor-guide)
+- [BNT 挖礦如何查收益？Blocknet 地址、確認與支付 (zh-TW)](https://iotahome.site/zh-TW/learn/blocknet-bnt-monitor-guide)
+- [How to check BNT mining rewards: Blocknet addresses and payments (en)](https://iotahome.site/en/learn/blocknet-bnt-monitor-guide)
+- [BNT 채굴 보상 확인: Blocknet 주소·확정·지급 (ko)](https://iotahome.site/ko/learn/blocknet-bnt-monitor-guide)
+- [BNT採掘報酬の確認：Blocknetアドレス・確定・支払 (ja)](https://iotahome.site/ja/learn/blocknet-bnt-monitor-guide)
+- [CSD 挖矿如何查算力和收益？G-pools 地址与结算说明 (zh)](https://iotahome.site/zh/learn/csd-gpools-monitor-guide)
+- [CSD 挖礦如何查算力與收益？G-pools 地址與結算 (zh-TW)](https://iotahome.site/zh-TW/learn/csd-gpools-monitor-guide)
+- [How to check CSD mining hashrate and G-pools payments (en)](https://iotahome.site/en/learn/csd-gpools-monitor-guide)
+- [CSD 채굴 해시레이트·G-pools 지급 확인 방법 (ko)](https://iotahome.site/ko/learn/csd-gpools-monitor-guide)
+- [CSD採掘のハッシュレート・G-pools支払の確認方法 (ja)](https://iotahome.site/ja/learn/csd-gpools-monitor-guide)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)
@@ -607,6 +640,30 @@ Use the public payout address configured in 2Miners. Results cover this pool, no
 View hashrate, Worker status, unpaid balance and total paid. Rewards cover the rolling last 24 hours. Only regular 2Miners pools are supported, not SOLO. Rewards are wallet-wide; Workers filter hashrate and status only. Missing data is not zero earnings.
 Source: https://kas.2miners.com/help
 Monitor: https://iotahome.site/en/projects/kas
+
+### Midstate
+Content updated: 2026-10-17
+Monitor LuckyPool hashrate, Workers and last-24h rewards with a public MSS payout address. Sign in to save multiple addresses.
+Enter the 64-character lowercase hex MSS public address from your mining configuration. The official pool guide requires reusable MSS addresses. Format validation cannot prove an address was generated as MSS. Never enter a private key, seed or wallet file.
+LuckyPool only. Last-24h rewards use rewardStats block allocations, not payment transfers. Unpaid balance includes locked and unlocked amounts; total paid is separate. Amounts use base MDS: 1 mMDS = 1,048,576 MDS; 1 gMDS = 1,073,741,824 MDS. Worker activity means a share in the last 15 minutes, not a machine heartbeat. Rates are nonces/s. Wallet rewards are not allocated to individual Workers and no USD estimate is supplied.
+Source: https://github.com/ciphernom/midstate/blob/main/pools.md
+Monitor: https://iotahome.site/en/projects/mds
+
+### Blocknet
+Content updated: 2026-10-18
+Check BNT hashrate, Workers, immature estimates and paid totals on bntpool.com. Sign in to save multiple addresses.
+This is Argon2id-based Blocknet BNT, not Bancor BNT or BLOCK. Enter the complete mainnet public payout address from Seine, not a shortname, private key or seed phrase. Coverage is bntpool.com only, excluding other pools and solo mining.
+Hashrate is H/s; Worker activity comes from recent shares, not machine heartbeats. Immature estimates, confirmed unpaid, queued and paid balances stay separate and are never presented as daily income. Amounts use 100,000,000 atomic units per BNT. Unverified daily rewards and USD quotes remain unknown. Wallet amounts are not allocated to Workers.
+Source: https://github.com/zpalmtree/seine
+Monitor: https://iotahome.site/en/projects/bnt
+
+### Compute Substrate
+Content updated: 2026-10-18
+Check Compute Substrate hashrate, Workers, unpaid balance and total paid on G-pools. Sign in to save multiple payout addresses.
+Use the 40-hex addr20 from your miner. An optional 0x prefix is accepted; saved addresses are lowercase without the prefix. Never enter a seed, private key or RPC URL. Coverage is G-pools (csd.yamaduo.no) only, not other pools or solo mining.
+Hashrate is the pool's 1-hour average in H/s. Worker activity uses recent shares, not host heartbeats. Unpaid, confirming and lifetime-paid amounts stay separate; 100,000,000 upstream *_sat units equal 1 CSD. The pool's windowed income apportions unpaid balances and is an estimate, not an exact daily ledger. We do not turn it into daily earnings, invent USD prices, or allocate wallet balances to Workers.
+Source: https://csd.yamaduo.no/#mine
+Monitor: https://iotahome.site/en/projects/csd
 ## Public project FAQ
 
 ### 开始前的几个问题 (zh-CN)
@@ -637,7 +694,7 @@ Monitor: https://iotahome.site/en/projects/kas
 
 #### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 和 Kaspa，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa 和 Midstate MDS，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 #### 显示旧数据或零收益，设备一定有问题吗？
 
@@ -743,7 +800,7 @@ Mac Agent 1.0.5 可在训练进程停止 2 分钟后尝试恢复。应用打开�
 
 #### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 與 Kaspa，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa 與 Midstate MDS，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 #### 顯示舊資料或零收益，設備一定有問題嗎？
 
@@ -849,7 +906,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 #### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa and Midstate MDS, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 #### Does old data or zero rewards mean my device has failed?
 
@@ -955,7 +1012,7 @@ Mac agent 1.0.5 can attempt recovery after the training process has stopped for 
 
 #### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash와 Kaspa 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa와 Midstate MDS 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 #### 이전 데이터나 수익 0이면 기기에 문제가 있나요?
 
@@ -1061,7 +1118,7 @@ Mac 에이전트 1.0.5는 훈련 프로세스가 2분간 멈추면 복구를 시
 
 #### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspaの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa、Midstate MDSの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 
 #### 古いデータや報酬ゼロは故障を意味しますか？
 
@@ -6232,7 +6289,7 @@ Updated: 2026-10-17
 
 ## 等待训练任务
 
-训练周期进行中，最近心跳未显示前向或反向计算；无需仅因此重启。
+官方最近统计吞吐量为 0，设备仍在参与训练。
 
 ## 近期有计算活动
 
@@ -6298,7 +6355,7 @@ Updated: 2026-10-17
 
 ## 等待訓練任務
 
-訓練週期進行中，最近心跳未顯示前向或反向計算；無需僅因此重啟。
+官方最近統計吞吐量為 0，設備仍在參與訓練。
 
 ## 近期有計算活動
 
@@ -6364,7 +6421,7 @@ Official heartbeat reports initializing or frozen. This does not mean the Mac is
 
 ## Waiting for training work
 
-The training cycle is active, but the latest heartbeat does not report forward or backward computation. This alone does not warrant a restart.
+Official statistics report zero throughput while the miner remains active.
 
 ## Recent compute activity
 
@@ -6430,7 +6487,7 @@ Updated: 2026-10-17
 
 ## 학습 작업 대기
 
-학습 주기는 진행 중이나 최근 응답에 연산 활동이 없습니다. 이것만으로 재시작할 필요는 없습니다.
+공식 통계 처리량은 0이며 채굴자는 활성 상태입니다.
 
 ## 최근 연산 활동 있음
 
@@ -6496,7 +6553,7 @@ Updated: 2026-10-17
 
 ## 学習タスク待ち
 
-学習周期は進行中ですが最新応答に計算活動はありません。これだけで再起動する必要はありません。
+公式統計のスループットは0ですが、マイナーは参加中です。
 
 ## 最近の計算活動あり
 
@@ -6959,7 +7016,7 @@ Updated: 2026-10-09
 
 ### 支持哪些项目？没找到我的项目怎么办？
 
-项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 和 Kaspa，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
+项目入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa 和 Midstate MDS，各自只展示接口实际提供的指标。io.net 与 Vast.ai 需要账户授权，真实账户接入仍待验证。未列出的项目可以登录后通过页面底部的「申请接入项目」提交，每个账号每天一次。
 
 ### IOTA Watch 與官方面板，應該使用哪個？ (zh-TW)
 Published: 2026-10-09
@@ -7002,7 +7059,7 @@ Updated: 2026-10-09
 
 ### 支援哪些專案？找不到我的專案怎麼辦？
 
-專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash 與 Kaspa，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
+專案入口包括 IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa 與 Midstate MDS，各自僅展示介面實際提供的指標。io.net 與 Vast.ai 需要帳戶授權，真實帳戶接入仍待驗證。未列出的專案可登入後透過頁面底部申請，每個帳號每天一次。
 
 ### When should I use IOTA Watch or an official dashboard? (en)
 Published: 2026-10-09
@@ -7045,7 +7102,7 @@ Public lookups and a local device list can be used without private keys or seed 
 
 ### Which projects are supported, and can I request another?
 
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa and Midstate MDS, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### IOTA Watch와 공식 대시보드는 언제 사용하나요? (ko)
 Published: 2026-10-09
@@ -7088,7 +7145,7 @@ Updated: 2026-10-09
 
 ### 지원하는 프로젝트와 추가 요청 방법은 무엇인가요?
 
-IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash와 Kaspa 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
+IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa와 Midstate MDS 화면에서 출처가 제공하는 지표를 조회할 수 있습니다. io.net·Vast.ai는 계정 인증이 필요하고 실제 계정 연동은 추가 검증 중입니다. 목록에 없는 프로젝트는 로그인 후 하단에서 계정당 하루 한 번 요청할 수 있습니다.
 
 ### IOTA Watchと公式ダッシュボードはどう使い分けますか？ (ja)
 Published: 2026-10-09
@@ -7131,7 +7188,7 @@ Mac、プロジェクト、公開IDを頻繁に切り替えて確認する場合
 
 ### 対応プロジェクトと追加申請の方法は？
 
-IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspaの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
+IOTA Train at Home、XID / MMM、Quantus、fly.ai、Nosana、Gonka、Akash、io.net、Vast.ai、Golem、NOID、Acurast、Pearl、Monero、Ethereum Classic、Ravencoin、Zcash、Kaspa、Midstate MDSの各画面で、出典が提供する指標を表示します。io.net・Vast.aiは認証が必要で実アカウントの検証は継続中です。一覧にないプロジェクトはログイン後、ページ下部から1日1回申請できます。
 - Source: IOTA Watch source and deployment — https://github.com/molimao/iota
 - Source: IOTA Train at Home official guide — https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide
 
@@ -7962,6 +8019,639 @@ https://noid.innovlab.cc/#miner=ADDRESS の公開IDは#miner=以降です。ア�
 InnovLabは確定未払残高と累計支払を提供しますが、当ツールで完全な機器別日次収入は取得できません。アドレスのオンラインは共有ウォレット配下の全機器の稼働を証明しません。残高・累計・直近24時間支払を1台の日次収入にしないでください。個別保存・同期は[NOIDガイド](https://iotahome.site/ja/learn/noid-monitor-guide)へ。
 - Source: InnovLab · NOID pool — https://noid.innovlab.cc/
 - Source: IOTA Watch · NOID adapter — https://github.com/molimao/iota/blob/main/src/lib/platforms.server.ts
+
+### How to check Midstate MDS pool rewards, addresses and units
+- zh-CN: https://iotahome.site/zh/learn/midstate-mds-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/midstate-mds-monitor-guide
+- en: https://iotahome.site/en/learn/midstate-mds-monitor-guide
+- ko: https://iotahome.site/ko/learn/midstate-mds-monitor-guide
+- ja: https://iotahome.site/ja/learn/midstate-mds-monitor-guide
+- Published: 2026-10-17
+- Updated: 2026-10-17
+- Publisher: IOTA Watch (independent monitor)
+- Topics: Midstate
+
+### Midstate MDS 怎么查矿池收益？地址、Worker 与单位说明 (zh-CN)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看结论
+
+用 LuckyPool 的公开 MSS 收款地址查看算力、Worker 和近 24 小时收益，登录后保存多个地址。
+
+## 查询填哪个地址？
+
+填写挖矿配置里的 64 位小写十六进制 MSS 公开地址。官方矿池指南要求使用可重复收款的 MSS 地址；本站只能检查格式，不能验证它是否由 MSS 钱包生成。不要输入私钥、助记词或钱包文件。
+
+## 收益、支付与单位有什么区别？
+
+仅覆盖 LuckyPool。近 24 小时收益取矿池 rewardStats 的 24h 区块分配，不是近 24 小时转账；未支付余额包含锁定与已解锁金额，累计已支付单独展示。金额使用基础单位 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活跃按最近 15 分钟收到份额判断，不是设备心跳；算力单位为 nonces/s。钱包收益不分摊给单个 Worker，不估算美元。
+
+## 能保存多个地址吗？查不到怎么办？
+
+在 [Midstate 监控](https://iotahome.site/zh/projects/mds) 登录后保存地址，可一次输入多行，分别命名并选择 Worker。每项目免费 5 台、Pro 50 台，支持移除与同步。查询本身不等于已保存。当前只接入 LuckyPool；其他矿池或 solo 地址查不到，不表示没在挖。先核对矿池、64 位 MSS 地址及有效份额，再看抓取时间；接口失败保留原数据并标注，缺失收益不当作零。
+
+## 常见问题
+
+### 查询填哪个地址？
+
+填写挖矿配置里的 64 位小写十六进制 MSS 公开地址。官方矿池指南要求使用可重复收款的 MSS 地址；本站只能检查格式，不能验证它是否由 MSS 钱包生成。不要输入私钥、助记词或钱包文件。
+
+### 收益、支付与单位有什么区别？
+
+仅覆盖 LuckyPool。近 24 小时收益取矿池 rewardStats 的 24h 区块分配，不是近 24 小时转账；未支付余额包含锁定与已解锁金额，累计已支付单独展示。金额使用基础单位 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活跃按最近 15 分钟收到份额判断，不是设备心跳；算力单位为 nonces/s。钱包收益不分摊给单个 Worker，不估算美元。
+
+### 能保存多个地址吗？查不到怎么办？
+
+在 Midstate 监控 登录后保存地址，可一次输入多行，分别命名并选择 Worker。每项目免费 5 台、Pro 50 台，支持移除与同步。查询本身不等于已保存。当前只接入 LuckyPool；其他矿池或 solo 地址查不到，不表示没在挖。先核对矿池、64 位 MSS 地址及有效份额，再看抓取时间；接口失败保留原数据并标注，缺失收益不当作零。
+
+### Midstate MDS 如何查礦池收益？地址、Worker 與單位 (zh-TW)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 先看結論
+
+用 LuckyPool 公開 MSS 收款地址查看算力、Worker 與近 24 小時收益，登入後儲存多個地址。
+
+## 查詢填哪個地址？
+
+填寫採礦設定中的 64 位小寫十六進位 MSS 公開地址。官方要求礦池使用可重複收款的 MSS 地址；本站只檢查格式，無法證明其由 MSS 錢包產生。勿輸入私鑰、助記詞或錢包檔。
+
+## 收益、支付與單位有何區別？
+
+僅覆蓋 LuckyPool。24h 收益來自 rewardStats 區塊分配，不是轉帳；未支付包含鎖定與已解鎖金額，已支付另列。採基礎 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活躍依最近 15 分鐘份額，非設備心跳；速度為 nonces/s。不分攤錢包收益至 Worker，不估美元。
+
+## 能儲存多個地址嗎？查不到怎麼辦？
+
+在 [Midstate 監控](https://iotahome.site/zh-TW/projects/mds) 登入後可多行新增地址、分別命名及選擇 Worker，每專案免費 5 台、Pro 50 台，可移除及同步。查詢不等於儲存。目前僅 LuckyPool，其他池或 solo 查不到不代表沒採礦。核對礦池、64 位 MSS 地址、有效份額及取得時間；失敗標示原資料，缺失不視為零。
+
+## 常見問題
+
+### 查詢填哪個地址？
+
+填寫採礦設定中的 64 位小寫十六進位 MSS 公開地址。官方要求礦池使用可重複收款的 MSS 地址；本站只檢查格式，無法證明其由 MSS 錢包產生。勿輸入私鑰、助記詞或錢包檔。
+
+### 收益、支付與單位有何區別？
+
+僅覆蓋 LuckyPool。24h 收益來自 rewardStats 區塊分配，不是轉帳；未支付包含鎖定與已解鎖金額，已支付另列。採基礎 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活躍依最近 15 分鐘份額，非設備心跳；速度為 nonces/s。不分攤錢包收益至 Worker，不估美元。
+
+### 能儲存多個地址嗎？查不到怎麼辦？
+
+在 Midstate 監控 登入後可多行新增地址、分別命名及選擇 Worker，每專案免費 5 台、Pro 50 台，可移除及同步。查詢不等於儲存。目前僅 LuckyPool，其他池或 solo 查不到不代表沒採礦。核對礦池、64 位 MSS 地址、有效份額及取得時間；失敗標示原資料，缺失不視為零。
+
+### How to check Midstate MDS pool rewards, addresses and units (en)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## At a glance
+
+Monitor LuckyPool hashrate, Workers and last-24h rewards with a public MSS payout address. Sign in to save multiple addresses.
+
+## Which address should I enter?
+
+Enter the 64-character lowercase hex MSS public address from your mining configuration. The official pool guide requires reusable MSS addresses. Format validation cannot prove an address was generated as MSS. Never enter a private key, seed or wallet file.
+
+## How do rewards, payments and units differ?
+
+LuckyPool only. Last-24h rewards use rewardStats block allocations, not payment transfers. Unpaid balance includes locked and unlocked amounts; total paid is separate. Amounts use base MDS: 1 mMDS = 1,048,576 MDS; 1 gMDS = 1,073,741,824 MDS. Worker activity means a share in the last 15 minutes, not a machine heartbeat. Rates are nonces/s. Wallet rewards are not allocated to individual Workers and no USD estimate is supplied.
+
+## Can I save multiple addresses, and what if lookup fails?
+
+Sign in to [Midstate monitoring](https://iotahome.site/en/projects/mds) to save multiple addresses, including multiline entry, names and optional Worker selection. Free allows five devices per project, Pro 50; entries can be removed and synced. A lookup alone is not a save. Only LuckyPool is covered. An absent solo or other-pool address does not prove stopped mining. Check pool, exact 64-character MSS address, accepted shares and fetch time. Failed reads retain labeled previous data; missing rewards stay unknown.
+
+## Common questions
+
+### Which address should I enter?
+
+Enter the 64-character lowercase hex MSS public address from your mining configuration. The official pool guide requires reusable MSS addresses. Format validation cannot prove an address was generated as MSS. Never enter a private key, seed or wallet file.
+
+### How do rewards, payments and units differ?
+
+LuckyPool only. Last-24h rewards use rewardStats block allocations, not payment transfers. Unpaid balance includes locked and unlocked amounts; total paid is separate. Amounts use base MDS: 1 mMDS = 1,048,576 MDS; 1 gMDS = 1,073,741,824 MDS. Worker activity means a share in the last 15 minutes, not a machine heartbeat. Rates are nonces/s. Wallet rewards are not allocated to individual Workers and no USD estimate is supplied.
+
+### Can I save multiple addresses, and what if lookup fails?
+
+Sign in to Midstate monitoring to save multiple addresses, including multiline entry, names and optional Worker selection. Free allows five devices per project, Pro 50; entries can be removed and synced. A lookup alone is not a save. Only LuckyPool is covered. An absent solo or other-pool address does not prove stopped mining. Check pool, exact 64-character MSS address, accepted shares and fetch time. Failed reads retain labeled previous data; missing rewards stay unknown.
+
+### Midstate MDS 풀 보상·주소·단위 확인 방법 (ko)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 핵심 내용
+
+LuckyPool의 공개 MSS 지급 주소로 해시레이트·Worker·최근 24시간 보상을 조회하고 로그인 후 여러 주소를 저장하세요.
+
+## 어떤 주소를 입력하나요?
+
+채굴 설정의 소문자 16진수 64자리 MSS 공개 주소를 입력하세요. 공식 풀 안내는 재사용 가능한 MSS 주소를 요구합니다. 형식 검사는 MSS 생성 여부를 증명하지 못합니다. 비밀키·시드·지갑 파일은 입력하지 마세요.
+
+## 보상·지급·단위는 어떻게 다른가요?
+
+LuckyPool만 조회합니다. 24h 보상은 rewardStats 블록 배분이며 송금액이 아닙니다. 미지급은 잠금·해제 금액을 포함하고 누적 지급은 별도입니다. 기본 MDS 단위이며 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS입니다. Worker 활성은 15분 내 지분 제출 기준이며 하트비트가 아닙니다. 속도는 nonces/s이며 지갑 보상을 Worker별로 나누거나 USD로 추정하지 않습니다.
+
+## 여러 주소를 저장하거나 조회 실패 시 어떻게 하나요?
+
+[Midstate 모니터](https://iotahome.site/ko/projects/mds)에 로그인해 여러 줄 주소·이름·Worker를 저장하고 동기화·삭제할 수 있습니다. 프로젝트당 무료 5대·Pro 50대이며 조회만으로 저장되지는 않습니다. LuckyPool만 지원하므로 다른 풀이나 solo 주소 미조회는 채굴 중단을 뜻하지 않습니다. 풀·64자리 MSS 주소·유효 지분·조회 시각을 확인하세요. 실패 시 이전 데이터와 표시를 유지하며 누락을 0으로 만들지 않습니다.
+
+## 자주 묻는 질문
+
+### 어떤 주소를 입력하나요?
+
+채굴 설정의 소문자 16진수 64자리 MSS 공개 주소를 입력하세요. 공식 풀 안내는 재사용 가능한 MSS 주소를 요구합니다. 형식 검사는 MSS 생성 여부를 증명하지 못합니다. 비밀키·시드·지갑 파일은 입력하지 마세요.
+
+### 보상·지급·단위는 어떻게 다른가요?
+
+LuckyPool만 조회합니다. 24h 보상은 rewardStats 블록 배분이며 송금액이 아닙니다. 미지급은 잠금·해제 금액을 포함하고 누적 지급은 별도입니다. 기본 MDS 단위이며 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS입니다. Worker 활성은 15분 내 지분 제출 기준이며 하트비트가 아닙니다. 속도는 nonces/s이며 지갑 보상을 Worker별로 나누거나 USD로 추정하지 않습니다.
+
+### 여러 주소를 저장하거나 조회 실패 시 어떻게 하나요?
+
+Midstate 모니터에 로그인해 여러 줄 주소·이름·Worker를 저장하고 동기화·삭제할 수 있습니다. 프로젝트당 무료 5대·Pro 50대이며 조회만으로 저장되지는 않습니다. LuckyPool만 지원하므로 다른 풀이나 solo 주소 미조회는 채굴 중단을 뜻하지 않습니다. 풀·64자리 MSS 주소·유효 지분·조회 시각을 확인하세요. 실패 시 이전 데이터와 표시를 유지하며 누락을 0으로 만들지 않습니다.
+
+### Midstate MDSのプール報酬・アドレス・単位の確認方法 (ja)
+Published: 2026-10-17
+Updated: 2026-10-17
+
+## 要点
+
+LuckyPoolの公開MSS受取アドレスで処理速度・Worker・直近24時間報酬を照会し、ログインで複数アドレスを保存できます。
+
+## どのアドレスを入力する？
+
+採掘設定の小文字16進数64桁のMSS公開アドレスを入力します。公式ガイドは再利用可能なMSSを要求します。形式検証ではMSS生成を証明できません。秘密鍵・シード・ウォレットファイルは入力しないでください。
+
+## 報酬・支払・単位の違いは？
+
+LuckyPoolのみです。24h報酬はrewardStatsのブロック配分で送金額ではありません。未払いはロック・解除済み金額を含み、累計支払は別表示です。基礎MDS単位で1 mMDS = 1,048,576 MDS、1 gMDS = 1,073,741,824 MDSです。Worker稼働は15分以内のシェア提出で、機器の応答ではありません。速度はnonces/s、報酬はWorkerへ按分せずUSD概算もありません。
+
+## 複数アドレスの保存と照会失敗時の確認は？
+
+[Midstate監視](https://iotahome.site/ja/projects/mds)にログインすると複数行のアドレス・名称・任意Workerを保存し、同期・削除できます。各プロジェクト無料5台、Pro50台で、照会だけでは保存されません。LuckyPoolのみのため他プールやsoloの不在は停止の証明ではありません。プール・64桁MSS・受理シェア・取得時刻を確認します。失敗時は以前の情報と表示を保ち、欠損はゼロにしません。
+
+## よくある質問
+
+### どのアドレスを入力する？
+
+採掘設定の小文字16進数64桁のMSS公開アドレスを入力します。公式ガイドは再利用可能なMSSを要求します。形式検証ではMSS生成を証明できません。秘密鍵・シード・ウォレットファイルは入力しないでください。
+
+### 報酬・支払・単位の違いは？
+
+LuckyPoolのみです。24h報酬はrewardStatsのブロック配分で送金額ではありません。未払いはロック・解除済み金額を含み、累計支払は別表示です。基礎MDS単位で1 mMDS = 1,048,576 MDS、1 gMDS = 1,073,741,824 MDSです。Worker稼働は15分以内のシェア提出で、機器の応答ではありません。速度はnonces/s、報酬はWorkerへ按分せずUSD概算もありません。
+
+### 複数アドレスの保存と照会失敗時の確認は？
+
+Midstate監視にログインすると複数行のアドレス・名称・任意Workerを保存し、同期・削除できます。各プロジェクト無料5台、Pro50台で、照会だけでは保存されません。LuckyPoolのみのため他プールやsoloの不在は停止の証明ではありません。プール・64桁MSS・受理シェア・取得時刻を確認します。失敗時は以前の情報と表示を保ち、欠損はゼロにしません。
+- Source: Midstate · protocol and binary units — https://midstate.cash/
+- Source: Midstate · official MSS pool guide — https://github.com/ciphernom/midstate/blob/main/pools.md
+- Source: LuckyPool · Midstate — https://midstate.luckypool.io/
+
+### How to check BNT mining rewards: Blocknet addresses and payments
+- zh-CN: https://iotahome.site/zh/learn/blocknet-bnt-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/blocknet-bnt-monitor-guide
+- en: https://iotahome.site/en/learn/blocknet-bnt-monitor-guide
+- ko: https://iotahome.site/ko/learn/blocknet-bnt-monitor-guide
+- ja: https://iotahome.site/ja/learn/blocknet-bnt-monitor-guide
+- Published: 2026-10-18
+- Updated: 2026-10-18
+- Publisher: IOTA Watch (independent monitor)
+- Topics: Blocknet
+
+### BNT 挖矿怎么查收益？Blocknet 地址、确认与支付 (zh-CN)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 先看结论
+
+查询 bntpool.com 的 BNT 算力、Worker、待成熟预估与累计支付。登录后保存多个地址。
+
+## 这是哪个 BNT？
+
+这是采用 Argon2id 的 Blocknet BNT，不是 Bancor BNT 或 BLOCK。填写 Seine 配置中的完整主网公开收益地址；不支持短名称、私钥或助记词。只查询 bntpool.com，其他矿池和 solo 记录不在覆盖范围内。
+
+## 预估、确认和支付有什么区别？
+
+算力以 H/s 显示，Worker 活跃状态根据最近份额判断，不是设备心跳。待成熟预估、已确认待支付、排队支付与累计支付分别展示，不相加冒充日收益。上游金额按 1 BNT = 100,000,000 原子单位换算；当前没有可验证的日收益或美元报价，均保留未知。钱包金额不能分摊到单个 Worker。
+
+## 如何保存多个 BNT 地址？
+
+打开 [BNT 监控](https://iotahome.site/zh/projects/bnt)，复制 Seine 的完整主网收益地址查询。登录后点击添加地址，可一次输入多行，给每个地址命名并选择 Worker。每项目免费 5 台、Pro 50 台；同一钱包的 Worker 共用钱包余额。查询不会自动保存，保存后可同步、移除及关联已有设备。
+
+## 查不到地址或算力为零怎么办？
+
+查不到时，先确认使用的是 bntpool.com，再检查主网完整地址和受理份额。短名称需在 Seine 解析成完整地址，不能直接填进本监控。算力是矿池估算；低频提交份额时，短期零算力不证明进程停止。待成熟预估会随确认或区块作废变化，并非已到账或一天内赚到的钱。本页于 2026-10-18 使用 Seine 公开开发者收益地址核对矿池字段与 1e8 单位换算，没有用该账户收益估算个人回报。
+
+## 常见问题
+
+### 这是哪个 BNT？
+
+这是采用 Argon2id 的 Blocknet BNT，不是 Bancor BNT 或 BLOCK。填写 Seine 配置中的完整主网公开收益地址；不支持短名称、私钥或助记词。只查询 bntpool.com，其他矿池和 solo 记录不在覆盖范围内。
+
+### 预估、确认和支付有什么区别？
+
+算力以 H/s 显示，Worker 活跃状态根据最近份额判断，不是设备心跳。待成熟预估、已确认待支付、排队支付与累计支付分别展示，不相加冒充日收益。上游金额按 1 BNT = 100,000,000 原子单位换算；当前没有可验证的日收益或美元报价，均保留未知。钱包金额不能分摊到单个 Worker。
+
+### 如何保存多个 BNT 地址？
+
+打开 BNT 监控，复制 Seine 的完整主网收益地址查询。登录后点击添加地址，可一次输入多行，给每个地址命名并选择 Worker。每项目免费 5 台、Pro 50 台；同一钱包的 Worker 共用钱包余额。查询不会自动保存，保存后可同步、移除及关联已有设备。
+
+### 查不到地址或算力为零怎么办？
+
+查不到时，先确认使用的是 bntpool.com，再检查主网完整地址和受理份额。短名称需在 Seine 解析成完整地址，不能直接填进本监控。算力是矿池估算；低频提交份额时，短期零算力不证明进程停止。待成熟预估会随确认或区块作废变化，并非已到账或一天内赚到的钱。本页于 2026-10-18 使用 Seine 公开开发者收益地址核对矿池字段与 1e8 单位换算，没有用该账户收益估算个人回报。
+
+### BNT 挖礦如何查收益？Blocknet 地址、確認與支付 (zh-TW)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 先看結論
+
+查詢 bntpool.com 的 BNT 算力、Worker、待成熟預估與累計支付。登入後儲存多個地址。
+
+## 這是哪個 BNT？
+
+這是採用 Argon2id 的 Blocknet BNT，不是 Bancor BNT 或 BLOCK。填寫 Seine 設定中的完整主網公開收益地址；不支援短名稱、私鑰或助記詞。僅查詢 bntpool.com，不含其他池與 solo。
+
+## 預估、確認與支付有何區別？
+
+算力以 H/s 顯示，Worker 活躍以最近份額判斷，非設備心跳。待成熟預估、已確認待支付、排隊支付與累計支付分開，不冒充日收益。1 BNT = 100,000,000 原子單位；日收益與美元報價未取得時保留未知，錢包金額不分攤給 Worker。
+
+## 如何儲存多個 BNT 地址？
+
+開啟 [BNT 監控](https://iotahome.site/zh-TW/projects/bnt)，複製 Seine 完整主網收益地址查詢。登入後新增地址，可多行輸入、命名及選擇 Worker。每專案免費 5 台、Pro 50 台。同錢包 Worker 共用餘額；查詢不會自動儲存，儲存後可同步、移除及關聯設備。
+
+## 查不到地址或算力為零怎麼辦？
+
+查不到時先核對 bntpool.com、完整主網地址與受理份額。短名稱須在 Seine 解析成完整地址。礦池估算算力在低頻份額時可能暫為零，不代表程序停止。待成熟預估會隨確認或區塊作廢改變，非已到帳或日收益。2026-10-18 使用 Seine 公開開發者收益地址核對欄位與 1e8 換算，未據此預測個人回報。
+
+## 常見問題
+
+### 這是哪個 BNT？
+
+這是採用 Argon2id 的 Blocknet BNT，不是 Bancor BNT 或 BLOCK。填寫 Seine 設定中的完整主網公開收益地址；不支援短名稱、私鑰或助記詞。僅查詢 bntpool.com，不含其他池與 solo。
+
+### 預估、確認與支付有何區別？
+
+算力以 H/s 顯示，Worker 活躍以最近份額判斷，非設備心跳。待成熟預估、已確認待支付、排隊支付與累計支付分開，不冒充日收益。1 BNT = 100,000,000 原子單位；日收益與美元報價未取得時保留未知，錢包金額不分攤給 Worker。
+
+### 如何儲存多個 BNT 地址？
+
+開啟 BNT 監控，複製 Seine 完整主網收益地址查詢。登入後新增地址，可多行輸入、命名及選擇 Worker。每專案免費 5 台、Pro 50 台。同錢包 Worker 共用餘額；查詢不會自動儲存，儲存後可同步、移除及關聯設備。
+
+### 查不到地址或算力為零怎麼辦？
+
+查不到時先核對 bntpool.com、完整主網地址與受理份額。短名稱須在 Seine 解析成完整地址。礦池估算算力在低頻份額時可能暫為零，不代表程序停止。待成熟預估會隨確認或區塊作廢改變，非已到帳或日收益。2026-10-18 使用 Seine 公開開發者收益地址核對欄位與 1e8 換算，未據此預測個人回報。
+
+### How to check BNT mining rewards: Blocknet addresses and payments (en)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## At a glance
+
+Check BNT hashrate, Workers, immature estimates and paid totals on bntpool.com. Sign in to save multiple addresses.
+
+## Which BNT is this?
+
+This is Argon2id-based Blocknet BNT, not Bancor BNT or BLOCK. Enter the complete mainnet public payout address from Seine, not a shortname, private key or seed phrase. Coverage is bntpool.com only, excluding other pools and solo mining.
+
+## How do estimates, confirmed rewards and payments differ?
+
+Hashrate is H/s; Worker activity comes from recent shares, not machine heartbeats. Immature estimates, confirmed unpaid, queued and paid balances stay separate and are never presented as daily income. Amounts use 100,000,000 atomic units per BNT. Unverified daily rewards and USD quotes remain unknown. Wallet amounts are not allocated to Workers.
+
+## How can I save multiple BNT addresses?
+
+Open [BNT monitoring](https://iotahome.site/en/projects/bnt) and copy the complete mainnet payout address from Seine. Sign in and add addresses using multiline input, names and optional Workers. Free allows five devices per project; Pro allows 50. Workers share the wallet balance. A lookup does not save automatically; saved entries sync and can be removed or linked to an existing device.
+
+## What if the address is missing or hashrate is zero?
+
+If lookup fails, check bntpool.com, the full mainnet address and accepted shares. Resolve shortnames in Seine before using the full address here. Pool-estimated hashrate may temporarily be zero with infrequent shares and does not prove process failure. Immature estimates can change with confirmations or orphaned blocks; they are neither paid nor daily income. On 2026-10-18 we checked fields and the 1e8 conversion using Seine's published developer payout address, without extrapolating personal returns.
+
+## Common questions
+
+### Which BNT is this?
+
+This is Argon2id-based Blocknet BNT, not Bancor BNT or BLOCK. Enter the complete mainnet public payout address from Seine, not a shortname, private key or seed phrase. Coverage is bntpool.com only, excluding other pools and solo mining.
+
+### How do estimates, confirmed rewards and payments differ?
+
+Hashrate is H/s; Worker activity comes from recent shares, not machine heartbeats. Immature estimates, confirmed unpaid, queued and paid balances stay separate and are never presented as daily income. Amounts use 100,000,000 atomic units per BNT. Unverified daily rewards and USD quotes remain unknown. Wallet amounts are not allocated to Workers.
+
+### How can I save multiple BNT addresses?
+
+Open BNT monitoring and copy the complete mainnet payout address from Seine. Sign in and add addresses using multiline input, names and optional Workers. Free allows five devices per project; Pro allows 50. Workers share the wallet balance. A lookup does not save automatically; saved entries sync and can be removed or linked to an existing device.
+
+### What if the address is missing or hashrate is zero?
+
+If lookup fails, check bntpool.com, the full mainnet address and accepted shares. Resolve shortnames in Seine before using the full address here. Pool-estimated hashrate may temporarily be zero with infrequent shares and does not prove process failure. Immature estimates can change with confirmations or orphaned blocks; they are neither paid nor daily income. On 2026-10-18 we checked fields and the 1e8 conversion using Seine's published developer payout address, without extrapolating personal returns.
+
+### BNT 채굴 보상 확인: Blocknet 주소·확정·지급 (ko)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 핵심 내용
+
+bntpool.com의 BNT 해시레이트·Worker·미성숙 예상 보상·누적 지급을 조회하고 여러 주소를 저장하세요.
+
+## 어떤 BNT인가요?
+
+Argon2id 기반 Blocknet BNT이며 Bancor BNT나 BLOCK이 아닙니다. Seine의 전체 메인넷 공개 보상 주소를 입력하세요. 짧은 이름·비밀키·복구 문구는 받지 않습니다. bntpool.com만 지원합니다.
+
+## 예상·확정·지급의 차이는?
+
+해시레이트는 H/s이며 Worker 활동은 최근 지분 기준으로 기기 하트비트가 아닙니다. 미성숙 예상·확정 미지급·지급 대기·지급 완료를 분리하고 일일 수익으로 합산하지 않습니다. 1 BNT는 100,000,000 원자 단위입니다. 미확인 일일 수익·USD 시세는 알 수 없는 값이며 Worker별 분배를 추정하지 않습니다.
+
+## BNT 주소 여러 개를 저장하려면?
+
+[BNT 모니터](https://iotahome.site/ko/projects/bnt)에 Seine의 전체 메인넷 보상 주소를 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 저장할 수 있습니다. 프로젝트당 무료 5대·Pro 50대입니다. Worker는 지갑 잔액을 공유합니다. 조회만으로 저장되지 않으며 저장 후 동기화·삭제·기기 연결이 가능합니다.
+
+## 주소 미조회·해시레이트 0일 때는?
+
+조회 실패 시 bntpool.com·전체 메인넷 주소·수락된 지분을 확인하세요. 짧은 이름은 Seine에서 전체 주소로 해석한 후 사용합니다. 지분 제출이 드물면 추정 해시레이트가 일시적으로 0이 될 수 있으며 프로세스 중단의 증거가 아닙니다. 미성숙 예상 보상은 확정·고아 블록에 따라 달라져 지급액이나 일일 수익이 아닙니다. 2026-10-18 Seine의 공개 개발자 주소로 필드와 1e8 환산을 검증했으며 개인 수익을 추정하지 않았습니다.
+
+## 자주 묻는 질문
+
+### 어떤 BNT인가요?
+
+Argon2id 기반 Blocknet BNT이며 Bancor BNT나 BLOCK이 아닙니다. Seine의 전체 메인넷 공개 보상 주소를 입력하세요. 짧은 이름·비밀키·복구 문구는 받지 않습니다. bntpool.com만 지원합니다.
+
+### 예상·확정·지급의 차이는?
+
+해시레이트는 H/s이며 Worker 활동은 최근 지분 기준으로 기기 하트비트가 아닙니다. 미성숙 예상·확정 미지급·지급 대기·지급 완료를 분리하고 일일 수익으로 합산하지 않습니다. 1 BNT는 100,000,000 원자 단위입니다. 미확인 일일 수익·USD 시세는 알 수 없는 값이며 Worker별 분배를 추정하지 않습니다.
+
+### BNT 주소 여러 개를 저장하려면?
+
+BNT 모니터에 Seine의 전체 메인넷 보상 주소를 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 저장할 수 있습니다. 프로젝트당 무료 5대·Pro 50대입니다. Worker는 지갑 잔액을 공유합니다. 조회만으로 저장되지 않으며 저장 후 동기화·삭제·기기 연결이 가능합니다.
+
+### 주소 미조회·해시레이트 0일 때는?
+
+조회 실패 시 bntpool.com·전체 메인넷 주소·수락된 지분을 확인하세요. 짧은 이름은 Seine에서 전체 주소로 해석한 후 사용합니다. 지분 제출이 드물면 추정 해시레이트가 일시적으로 0이 될 수 있으며 프로세스 중단의 증거가 아닙니다. 미성숙 예상 보상은 확정·고아 블록에 따라 달라져 지급액이나 일일 수익이 아닙니다. 2026-10-18 Seine의 공개 개발자 주소로 필드와 1e8 환산을 검증했으며 개인 수익을 추정하지 않았습니다.
+
+### BNT採掘報酬の確認：Blocknetアドレス・確定・支払 (ja)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 要点
+
+bntpool.comのBNTハッシュレート・Worker・未成熟推定額・累計支払を確認。ログインして複数アドレスを保存できます。
+
+## どのBNTですか？
+
+Argon2id方式のBlocknet BNTです。Bancor BNTやBLOCKとは異なります。Seineの完全なメインネット公開報酬アドレスを入力。短縮名・秘密鍵・復元フレーズは対象外で、bntpool.comのみ対応。
+
+## 推定・確定・支払の違いは？
+
+H/sで表示し、Worker活動は直近シェアから判断します。端末のハートビートではありません。未成熟推定・確定未払い・支払キュー・支払済みは分離し、日次収益に合算しません。1 BNTは100,000,000原子単位。日次報酬・USD価格の未確認値は不明のまま、Workerに配分しません。
+
+## BNTアドレスを複数保存するには？
+
+[BNT監視](https://iotahome.site/ja/projects/bnt)にSeineの完全なメインネット報酬アドレスを入力します。ログイン後は複数行・名称・任意Workerで保存できます。各プロジェクト無料5台、Pro50台。Workerは同じウォレット残高を共有します。照会だけでは保存されず、保存後は同期・削除・既存デバイスへの関連付けが可能です。
+
+## 照会不可・算力ゼロのときは？
+
+照会に失敗したらbntpool.com・完全なメインネットアドレス・受理シェアを確認。短縮名はSeineで完全アドレスに解決してください。シェアが少ないと一時的に算力ゼロでも停止の証明にはなりません。未成熟推定額は確定や孤立ブロックで変化し、支払済み・日次収益ではありません。2026-10-18にSeineの公開開発者アドレスで項目と1e8換算を確認しましたが、個人利益の予測には使っていません。
+
+## よくある質問
+
+### どのBNTですか？
+
+Argon2id方式のBlocknet BNTです。Bancor BNTやBLOCKとは異なります。Seineの完全なメインネット公開報酬アドレスを入力。短縮名・秘密鍵・復元フレーズは対象外で、bntpool.comのみ対応。
+
+### 推定・確定・支払の違いは？
+
+H/sで表示し、Worker活動は直近シェアから判断します。端末のハートビートではありません。未成熟推定・確定未払い・支払キュー・支払済みは分離し、日次収益に合算しません。1 BNTは100,000,000原子単位。日次報酬・USD価格の未確認値は不明のまま、Workerに配分しません。
+
+### BNTアドレスを複数保存するには？
+
+BNT監視にSeineの完全なメインネット報酬アドレスを入力します。ログイン後は複数行・名称・任意Workerで保存できます。各プロジェクト無料5台、Pro50台。Workerは同じウォレット残高を共有します。照会だけでは保存されず、保存後は同期・削除・既存デバイスへの関連付けが可能です。
+
+### 照会不可・算力ゼロのときは？
+
+照会に失敗したらbntpool.com・完全なメインネットアドレス・受理シェアを確認。短縮名はSeineで完全アドレスに解決してください。シェアが少ないと一時的に算力ゼロでも停止の証明にはなりません。未成熟推定額は確定や孤立ブロックで変化し、支払済み・日次収益ではありません。2026-10-18にSeineの公開開発者アドレスで項目と1e8換算を確認しましたが、個人利益の予測には使っていません。
+- Source: Blocknet protocol — https://blocknetcrypto.com/
+- Source: Seine mining and platform support — https://github.com/zpalmtree/seine
+- Source: Seine address checksum implementation — https://github.com/zpalmtree/seine/blob/master/src/address.rs
+- Source: bntpool.com — https://bntpool.com/start
+
+### How to check CSD mining hashrate and G-pools payments
+- zh-CN: https://iotahome.site/zh/learn/csd-gpools-monitor-guide
+- zh-TW: https://iotahome.site/zh-TW/learn/csd-gpools-monitor-guide
+- en: https://iotahome.site/en/learn/csd-gpools-monitor-guide
+- ko: https://iotahome.site/ko/learn/csd-gpools-monitor-guide
+- ja: https://iotahome.site/ja/learn/csd-gpools-monitor-guide
+- Published: 2026-10-18
+- Updated: 2026-10-18
+- Publisher: IOTA Watch (independent monitor)
+- Topics: Compute Substrate
+
+### CSD 挖矿如何查算力和收益？G-pools 地址与结算说明 (zh-CN)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 先看结论
+
+使用 Compute Substrate 公开收益地址查看 G-pools 算力、Worker、未支付余额和累计支付。登录后可保存多个地址。
+
+## CSD 是哪个项目？地址怎么填？
+
+填写挖矿配置中的 40 位十六进制 addr20，允许 0x 前缀，保存时统一为小写且去掉前缀。不接受助记词、私钥或 RPC 地址。当前只接入 G-pools（csd.yamaduo.no），其他矿池和 solo 地址不在覆盖范围内。
+
+## 为什么未支付、确认中和支付金额不同？
+
+算力采用矿池近 1 小时平均值，单位 H/s。Worker 活跃根据最近份额判断，不是本机心跳。未支付余额、确认中金额和累计支付分别显示；上游 *_sat 字段按 1 CSD = 100,000,000 单位换算。矿池网页的时段收益包含未支付余额分摊估算，不能当成准确日收益，本监控不据此填写每日收益或美元估值。钱包金额也不分摊到 Worker。
+
+## 能保存多个地址吗？
+
+在 [CSD 监控](https://iotahome.site/zh/projects/csd) 输入矿工配置中的 addr20。登录后可一次输入多个地址，分别命名和选择 Worker；每项目免费 5 台、Pro 50 台，已保存地址入库同步。40 位地址与加 0x 的同一地址会视为一个，避免重复添加。Worker 是矿池标签，不一定对应一台物理机器。
+
+## 数据验证了什么？算力为零怎么办？
+
+2026-10-18 使用 G-pools 公开贡献榜地址核对 /api/miner/{addr20} 与 /miners.json。矿池账户的 owed_sat、pending_sat、lifetime_paid_sat 与 CSD 展示字段按 1e8 对应；账户及 Worker 算力均采用 hr1h。统计快照超过 5 分钟时不纳入当前算力汇总。矿池网页按支付窗口与余额分摊得到的时段收入含估算，因此这里不把它当作昨日收益。查不到时先核对矿池、地址和受理份额，不要因短时零算力直接重启。
+
+## 常见问题
+
+### CSD 是哪个项目？地址怎么填？
+
+填写挖矿配置中的 40 位十六进制 addr20，允许 0x 前缀，保存时统一为小写且去掉前缀。不接受助记词、私钥或 RPC 地址。当前只接入 G-pools（csd.yamaduo.no），其他矿池和 solo 地址不在覆盖范围内。
+
+### 为什么未支付、确认中和支付金额不同？
+
+算力采用矿池近 1 小时平均值，单位 H/s。Worker 活跃根据最近份额判断，不是本机心跳。未支付余额、确认中金额和累计支付分别显示；上游 *_sat 字段按 1 CSD = 100,000,000 单位换算。矿池网页的时段收益包含未支付余额分摊估算，不能当成准确日收益，本监控不据此填写每日收益或美元估值。钱包金额也不分摊到 Worker。
+
+### 能保存多个地址吗？
+
+在 CSD 监控 输入矿工配置中的 addr20。登录后可一次输入多个地址，分别命名和选择 Worker；每项目免费 5 台、Pro 50 台，已保存地址入库同步。40 位地址与加 0x 的同一地址会视为一个，避免重复添加。Worker 是矿池标签，不一定对应一台物理机器。
+
+### 数据验证了什么？算力为零怎么办？
+
+2026-10-18 使用 G-pools 公开贡献榜地址核对 /api/miner/{addr20} 与 /miners.json。矿池账户的 owed_sat、pending_sat、lifetime_paid_sat 与 CSD 展示字段按 1e8 对应；账户及 Worker 算力均采用 hr1h。统计快照超过 5 分钟时不纳入当前算力汇总。矿池网页按支付窗口与余额分摊得到的时段收入含估算，因此这里不把它当作昨日收益。查不到时先核对矿池、地址和受理份额，不要因短时零算力直接重启。
+
+### CSD 挖礦如何查算力與收益？G-pools 地址與結算 (zh-TW)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 先看結論
+
+用 Compute Substrate 公開收益地址查看 G-pools 算力、Worker、未支付餘額與累計支付，登入後儲存多個地址。
+
+## CSD 是哪個專案？地址怎麼填？
+
+填寫 40 位十六進位 addr20，允許 0x 前綴，儲存時統一小寫且去掉前綴。不收助記詞、私鑰或 RPC 地址。目前僅 G-pools（csd.yamaduo.no），不含其他池或 solo。
+
+## 為何未支付、確認中與已支付不同？
+
+算力為近 1 小時平均 H/s，Worker 活躍依最近份額，非本機心跳。未支付、確認中與累計支付分開；1 CSD = 100,000,000 個上游 *_sat 單位。礦池時段收益含餘額分攤估算，不能視為準確日收益，故不填入每日收益或美元估值，也不將錢包金額分給 Worker。
+
+## 能儲存多個地址嗎？
+
+在 [CSD 監控](https://iotahome.site/zh-TW/projects/csd) 輸入 addr20。登入後可多行新增地址、命名與選擇 Worker，每專案免費 5 台、Pro 50 台，儲存後入庫同步。40 位地址及相同 0x 地址視為一個，Worker 不一定對應一台機器。
+
+## 資料驗證了什麼？算力為零怎麼辦？
+
+2026-10-18 以 G-pools 公開榜地址核對 /api/miner/{addr20} 及 /miners.json。owed_sat、pending_sat、lifetime_paid_sat 按 1e8 換算，算力採用 hr1h；超過 5 分鐘快照不納入當前算力。礦池時段收入包含支付窗口與餘額分攤估算，不作昨日收益。查不到先核對池、地址與份額，勿因短期零算力直接重啟。
+
+## 常見問題
+
+### CSD 是哪個專案？地址怎麼填？
+
+填寫 40 位十六進位 addr20，允許 0x 前綴，儲存時統一小寫且去掉前綴。不收助記詞、私鑰或 RPC 地址。目前僅 G-pools（csd.yamaduo.no），不含其他池或 solo。
+
+### 為何未支付、確認中與已支付不同？
+
+算力為近 1 小時平均 H/s，Worker 活躍依最近份額，非本機心跳。未支付、確認中與累計支付分開；1 CSD = 100,000,000 個上游 *_sat 單位。礦池時段收益含餘額分攤估算，不能視為準確日收益，故不填入每日收益或美元估值，也不將錢包金額分給 Worker。
+
+### 能儲存多個地址嗎？
+
+在 CSD 監控 輸入 addr20。登入後可多行新增地址、命名與選擇 Worker，每專案免費 5 台、Pro 50 台，儲存後入庫同步。40 位地址及相同 0x 地址視為一個，Worker 不一定對應一台機器。
+
+### 資料驗證了什麼？算力為零怎麼辦？
+
+2026-10-18 以 G-pools 公開榜地址核對 /api/miner/{addr20} 及 /miners.json。owed_sat、pending_sat、lifetime_paid_sat 按 1e8 換算，算力採用 hr1h；超過 5 分鐘快照不納入當前算力。礦池時段收入包含支付窗口與餘額分攤估算，不作昨日收益。查不到先核對池、地址與份額，勿因短期零算力直接重啟。
+
+### How to check CSD mining hashrate and G-pools payments (en)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## At a glance
+
+Check Compute Substrate hashrate, Workers, unpaid balance and total paid on G-pools. Sign in to save multiple payout addresses.
+
+## Which CSD is this and which address should I use?
+
+Use the 40-hex addr20 from your miner. An optional 0x prefix is accepted; saved addresses are lowercase without the prefix. Never enter a seed, private key or RPC URL. Coverage is G-pools (csd.yamaduo.no) only, not other pools or solo mining.
+
+## Why do unpaid, confirming and paid amounts differ?
+
+Hashrate is the pool's 1-hour average in H/s. Worker activity uses recent shares, not host heartbeats. Unpaid, confirming and lifetime-paid amounts stay separate; 100,000,000 upstream *_sat units equal 1 CSD. The pool's windowed income apportions unpaid balances and is an estimate, not an exact daily ledger. We do not turn it into daily earnings, invent USD prices, or allocate wallet balances to Workers.
+
+## Can I save multiple addresses?
+
+Enter your miner's addr20 in [CSD monitoring](https://iotahome.site/en/projects/csd). Sign in to save multiline addresses, names and Workers to your account database. Free allows five devices per project; Pro 50. An address with and without 0x is the same saved identity. Worker labels do not establish physical machine counts.
+
+## What was verified, and what if hashrate is zero?
+
+On 2026-10-18 we checked /api/miner/{addr20} and /miners.json using a public G-pools leaderboard address. owed_sat, pending_sat and lifetime_paid_sat match displayed CSD after dividing by 1e8. Both account and Worker rates use hr1h; snapshots older than five minutes are excluded from current compute totals. The pool's windowed income includes payment-window and balance-apportionment estimates, so we do not label it yesterday's earnings. Check pool, address and accepted shares before reacting to a brief zero rate.
+
+## Common questions
+
+### Which CSD is this and which address should I use?
+
+Use the 40-hex addr20 from your miner. An optional 0x prefix is accepted; saved addresses are lowercase without the prefix. Never enter a seed, private key or RPC URL. Coverage is G-pools (csd.yamaduo.no) only, not other pools or solo mining.
+
+### Why do unpaid, confirming and paid amounts differ?
+
+Hashrate is the pool's 1-hour average in H/s. Worker activity uses recent shares, not host heartbeats. Unpaid, confirming and lifetime-paid amounts stay separate; 100,000,000 upstream *_sat units equal 1 CSD. The pool's windowed income apportions unpaid balances and is an estimate, not an exact daily ledger. We do not turn it into daily earnings, invent USD prices, or allocate wallet balances to Workers.
+
+### Can I save multiple addresses?
+
+Enter your miner's addr20 in CSD monitoring. Sign in to save multiline addresses, names and Workers to your account database. Free allows five devices per project; Pro 50. An address with and without 0x is the same saved identity. Worker labels do not establish physical machine counts.
+
+### What was verified, and what if hashrate is zero?
+
+On 2026-10-18 we checked /api/miner/{addr20} and /miners.json using a public G-pools leaderboard address. owed_sat, pending_sat and lifetime_paid_sat match displayed CSD after dividing by 1e8. Both account and Worker rates use hr1h; snapshots older than five minutes are excluded from current compute totals. The pool's windowed income includes payment-window and balance-apportionment estimates, so we do not label it yesterday's earnings. Check pool, address and accepted shares before reacting to a brief zero rate.
+
+### CSD 채굴 해시레이트·G-pools 지급 확인 방법 (ko)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 핵심 내용
+
+Compute Substrate 공개 주소로 G-pools 해시레이트·Worker·미지급 잔액·누적 지급을 조회하고 여러 주소를 저장하세요.
+
+## CSD 프로젝트와 주소는?
+
+채굴기의 40자리 16진수 addr20을 입력하세요. 0x는 선택이며 저장 시 접두사 없는 소문자로 통일합니다. 복구 문구·비밀키·RPC URL은 받지 않습니다. G-pools(csd.yamaduo.no)만 지원합니다.
+
+## 미지급·확인 중·지급 금액이 다른 이유는?
+
+해시레이트는 H/s 단위 1시간 평균이며 Worker 상태는 최근 지분 기준입니다. 미지급·확인 중·누적 지급을 분리하고 *_sat 100,000,000 단위를 1 CSD로 환산합니다. 풀의 기간 수익에는 잔액 배분 추정치가 포함되어 정확한 일일 장부가 아닙니다. 일일 수익·USD 가격·Worker별 지갑 분배를 추정하지 않습니다.
+
+## 여러 주소를 저장할 수 있나요?
+
+[CSD 모니터](https://iotahome.site/ko/projects/csd)에 addr20을 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 계정 데이터베이스에 저장합니다. 프로젝트당 무료 5대·Pro 50대입니다. 0x 유무는 같은 주소로 처리하며 Worker 이름이 물리 기기 수를 보장하지 않습니다.
+
+## 검증 범위와 해시레이트 0일 때는?
+
+2026-10-18 공개 G-pools 순위 주소로 /api/miner/{addr20}와 /miners.json을 확인했습니다. owed_sat·pending_sat·lifetime_paid_sat는 1e8로 환산하고 계정·Worker는 hr1h를 사용합니다. 5분 넘은 스냅샷은 현재 연산 합계에서 제외합니다. 기간 수익에는 지급 구간·잔액 배분 추정이 포함되어 어제 수익으로 표시하지 않습니다. 일시적 0 해시레이트만으로 재시작하지 말고 풀·주소·유효 지분을 확인하세요.
+
+## 자주 묻는 질문
+
+### CSD 프로젝트와 주소는?
+
+채굴기의 40자리 16진수 addr20을 입력하세요. 0x는 선택이며 저장 시 접두사 없는 소문자로 통일합니다. 복구 문구·비밀키·RPC URL은 받지 않습니다. G-pools(csd.yamaduo.no)만 지원합니다.
+
+### 미지급·확인 중·지급 금액이 다른 이유는?
+
+해시레이트는 H/s 단위 1시간 평균이며 Worker 상태는 최근 지분 기준입니다. 미지급·확인 중·누적 지급을 분리하고 *_sat 100,000,000 단위를 1 CSD로 환산합니다. 풀의 기간 수익에는 잔액 배분 추정치가 포함되어 정확한 일일 장부가 아닙니다. 일일 수익·USD 가격·Worker별 지갑 분배를 추정하지 않습니다.
+
+### 여러 주소를 저장할 수 있나요?
+
+CSD 모니터에 addr20을 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 계정 데이터베이스에 저장합니다. 프로젝트당 무료 5대·Pro 50대입니다. 0x 유무는 같은 주소로 처리하며 Worker 이름이 물리 기기 수를 보장하지 않습니다.
+
+### 검증 범위와 해시레이트 0일 때는?
+
+2026-10-18 공개 G-pools 순위 주소로 /api/miner/{addr20}와 /miners.json을 확인했습니다. owed_sat·pending_sat·lifetime_paid_sat는 1e8로 환산하고 계정·Worker는 hr1h를 사용합니다. 5분 넘은 스냅샷은 현재 연산 합계에서 제외합니다. 기간 수익에는 지급 구간·잔액 배분 추정이 포함되어 어제 수익으로 표시하지 않습니다. 일시적 0 해시레이트만으로 재시작하지 말고 풀·주소·유효 지분을 확인하세요.
+
+### CSD採掘のハッシュレート・G-pools支払の確認方法 (ja)
+Published: 2026-10-18
+Updated: 2026-10-18
+
+## 要点
+
+Compute Substrateの公開アドレスでG-poolsのハッシュレート・Worker・未払い残高・累計支払を確認。複数アドレスを保存できます。
+
+## CSDのプロジェクトと入力アドレスは？
+
+採掘設定の40桁16進addr20を入力。任意の0xは保存時に除去し、小文字に統一します。復元フレーズ・秘密鍵・RPC URLは不要。G-pools(csd.yamaduo.no)のみ対応します。
+
+## 未払い・承認待ち・支払済みの違いは？
+
+H/s単位の1時間平均で、Worker活動は直近シェア基準です。未払い・承認待ち・累計支払を分離し、*_satの100,000,000単位を1 CSDに換算します。プールの期間収益は未払い残高の按分推定を含み、正確な日次台帳ではありません。日次収益・USD価格・Worker別配分は推定しません。
+
+## 複数アドレスを保存できる？
+
+[CSD監視](https://iotahome.site/ja/projects/csd)にaddr20を入力。ログイン後は複数行のアドレス・名称・Workerをデータベースに保存・同期します。各プロジェクト無料5台、Pro50台。0xの有無は同一アドレスとして扱い、Worker名を物理台数とみなしません。
+
+## 検証範囲と算力ゼロのときは？
+
+2026-10-18に公開G-poolsランキングのアドレスで/api/miner/{addr20}と/miners.jsonを確認。owed_sat・pending_sat・lifetime_paid_satは1e8で換算し、アカウントとWorkerはhr1hを使用。5分超のスナップショットは現在の合計から除外します。期間収益は支払期間・残高按分の推定を含むため昨日の収益とは表示しません。一時的なゼロで再起動せず、プール・アドレス・受理シェアを確認してください。
+
+## よくある質問
+
+### CSDのプロジェクトと入力アドレスは？
+
+採掘設定の40桁16進addr20を入力。任意の0xは保存時に除去し、小文字に統一します。復元フレーズ・秘密鍵・RPC URLは不要。G-pools(csd.yamaduo.no)のみ対応します。
+
+### 未払い・承認待ち・支払済みの違いは？
+
+H/s単位の1時間平均で、Worker活動は直近シェア基準です。未払い・承認待ち・累計支払を分離し、*_satの100,000,000単位を1 CSDに換算します。プールの期間収益は未払い残高の按分推定を含み、正確な日次台帳ではありません。日次収益・USD価格・Worker別配分は推定しません。
+
+### 複数アドレスを保存できる？
+
+CSD監視にaddr20を入力。ログイン後は複数行のアドレス・名称・Workerをデータベースに保存・同期します。各プロジェクト無料5台、Pro50台。0xの有無は同一アドレスとして扱い、Worker名を物理台数とみなしません。
+
+### 検証範囲と算力ゼロのときは？
+
+2026-10-18に公開G-poolsランキングのアドレスで/api/miner/{addr20}と/miners.jsonを確認。owed_sat・pending_sat・lifetime_paid_satは1e8で換算し、アカウントとWorkerはhr1hを使用。5分超のスナップショットは現在の合計から除外します。期間収益は支払期間・残高按分の推定を含むため昨日の収益とは表示しません。一時的なゼロで再起動せず、プール・アドレス・受理シェアを確認してください。
+- Source: Compute Substrate — https://computesubstrate.org/
+- Source: CSD mining client — https://github.com/dangraagu/CSD-Mining-pool-public
+- Source: G-pools public dashboard and field definitions — https://csd.yamaduo.no/
 
 ### How to monitor multiple IOTA Train at Home devices from one browser
 - zh-CN: https://iotahome.site/zh/blog/monitor-multiple-iota-devices

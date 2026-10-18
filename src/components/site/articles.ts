@@ -1,3 +1,6 @@
+import { csdGuide } from "./csd-guide";
+import { bntGuide } from "./bnt-guide";
+import { mdsGuide } from "./mds-guide";
 import { searchSupportGuides } from "./search-support-guides";
 import { currentIotaContent } from "./current-iota-content";
 import { macStatusGuide } from "./mac-status-guide";
@@ -497,6 +500,9 @@ export const articles: Article[] = [
   macStatusGuide,
   ...problemGuides.map(currentIotaContent),
   ...searchSupportGuides,
+  mdsGuide,
+  bntGuide,
+  csdGuide,
 ];
 
 export function articleDates(article: Article, locale?: Locale) {
@@ -549,6 +555,9 @@ export const articleClusterMeta: Record<
     },
     slugs: [
       macStatusGuide.slug,
+      mdsGuide.slug,
+      bntGuide.slug,
+      csdGuide.slug,
       ...problemGuides.map((a) => a.slug),
       ...searchSupportGuides.map((a) => a.slug),
     ],

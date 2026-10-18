@@ -1,3 +1,4 @@
+import { logCopy } from "../log-analysis-copy";
 import { BRAND_MARK } from "@/lib/brand";
 import { iotaPublicFacts } from "@/lib/iota-public-facts";
 import { adPrivacy, adLabels } from "@/lib/ads";
@@ -95,7 +96,12 @@ export function SiteNav() {
   const viewProject =
     project ??
     (filteredProject === "iota" || isMonitorProject(filteredProject) ? filteredProject : undefined);
-  const deviceView = /\/(devices|review)$/.test(pathname);
+  const overviewPreview = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("overview") === "1",
+  });
+  const overviewView =
+    pathname.endsWith("/overview") || (pathname.endsWith("/review") && overviewPreview);
+  const deviceView = /\/(devices|machines|review)$/.test(pathname) && !overviewView;
   const links: ReadonlyArray<readonly [string, string]> = [
     [`/${locale}/learn`, simpleCopy(locale).help],
     [`/${locale}/faq`, copy.nav[1]],
@@ -117,8 +123,11 @@ export function SiteNav() {
           </span>
           IOTA <b>Watch</b>
         </a>
-        <MonitoringViews current={deviceView ? "devices" : "projects"} project={viewProject} />
-        {!deviceView && !pathname.endsWith("/projects") && <ProjectSwitch />}
+        <MonitoringViews
+          current={overviewView ? "overview" : deviceView ? "devices" : "projects"}
+          project={viewProject}
+        />
+        {!deviceView && !overviewView && !pathname.endsWith("/projects") && <ProjectSwitch />}
       </div>
       <div className="site-links">
         <LanguageSwitch />
@@ -353,6 +362,8 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
           <p>{proCopy.privacy[locale]}</p>
           <h2>{agentCopy.title[locale]}</h2>
           <p>{agentCopy.privacy[locale]}</p>
+          <h2>{logCopy.title[locale]}</h2>
+          <p>{logCopy.privacy[locale]}</p>
           <p>{proCopy.alertsNote[locale]}</p>
           <p>{proCopy.monthlyNote[locale]}</p>
           <p>

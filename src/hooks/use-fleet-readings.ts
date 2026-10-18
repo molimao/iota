@@ -202,6 +202,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         source: poolName(binding.project),
+        health: current && d ? "fresh" : d ? "stale" : q?.isFetching ? "loading" : "unavailable",
         unit: POOL_PROJECTS[binding.project].token,
         status: q?.isPending
           ? "loading"
@@ -214,12 +215,21 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                 : online === false
                   ? "offline"
                   : "unavailable",
+        compute: {
+          value: binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
+          unit: binding.project === "zec" ? "S/s" : binding.project === "mds" ? "nonces/s" : "H/s",
+          scope: binding.worker ? "worker" : "account",
+          fresh: current,
+          fetchedAt: r?.fetchedAt ?? null,
+        },
         activity: poolHashrate(
           binding.project,
           binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
         ),
         scope: "wallet",
         today: d?.reward == null ? null : String(d.reward),
+        rewardAmount: d?.reward ?? null,
+        earningsWindow: d?.period ?? "unknown",
         ...(d ? { todayLabel: poolCopy[d.period][locale] } : {}),
         todayUsable: false,
         todaySameDay: false,
@@ -292,6 +302,8 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : "unavailable",
         activity: d?.activity ?? d?.hardware ?? "—",
         today: d?.reward === null || d?.reward === undefined ? null : String(d.reward),
+        rewardAmount: d?.reward ?? null,
+        earningsWindow: d?.period === "hkDay" ? "today" : d?.period ?? "unknown",
         ...(d?.period
           ? {
               todayLabel:
@@ -332,8 +344,11 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         status: fleetIotaStatus(view.status, view.statusStale),
+        rewardAmount: today === null ? null : today / 1e8,
+        earningsWindow: "yesterday",
         officialTraining: {status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt},
         activity: view.miner ? String(view.miner.throughput) + " tokens/s" : "—",
+        compute: { value: view.miner?.throughput ?? null, unit: "tokens/s", scope: "device", fresh: !view.statusStale && view.status !== "refresh_interrupted", fetchedAt: view.statusFetchedAt },
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
         lifetimeUnits: view.lifetimeUsable ? total : null,
@@ -367,6 +382,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       // Wallet hashrate is not evidence that this particular machine is mining.
       const worker = binding.worker && workers.length === 1 ? workers[0] : undefined;
       const speed = worker?.reportedHashrate ?? worker?.hashrate;
+      const computeFresh = fresh(result?.fetchedAt, result?.stale) && !n?.poolStale && !xid.isError && !!worker?.lastSeen && iota.now - worker.lastSeen < 600000;
       const mining =
         worker &&
         speed != null &&
@@ -395,6 +411,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               },
             }
           : {}),
+        ...(binding.worker ? { compute: { value: speed == null ? null : speed * 1e6, unit: "H/s" as const, scope: "worker" as const, fresh: computeFresh, fetchedAt: result?.fetchedAt ?? null } } : {}),
         activity:
           worker && speed != null
             ? String(speed) + " MH/s"

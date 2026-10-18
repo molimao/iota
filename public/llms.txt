@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -60,11 +60,14 @@ Check currency, period and ownership. IOTA uses preceding-day attribution, io.ne
 Public lookups and a local device list can be used without private keys or seed phrases. Google sign-in syncs your list. Free supports 5 devices per project; Pro supports 50, with new subscriptions at US$2.99/month or US$16.99/year. Private io.net and Vast.ai data requires sign-in and platform read credentials; real-account integration still needs further verification.
 
 ### Which projects are supported, and can I request another?
-Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash and Kaspa, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
+Project pages cover IOTA Train at Home, XID / MMM, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa and Midstate MDS, with only the metrics provided by each source. io.net and Vast.ai require account authorization and real-account integration remains under verification. Sign in to request an unlisted project using the page footer, once per account per day.
 
 ### Does old data or zero rewards mean my device has failed?
 Check the last successful fetch time and source first. Failed refreshes preserve previous results; missing fields are not filled with zero. A valid IOTA daily total of zero may mean no matching accounted records yet. Old samples and zero throughput alone do not prove that a device is offline. Inspect runtime logs in the official app on that machine.
 
+- Compute Substrate / CSD: https://iotahome.site/en/projects/csd — G-pools (csd.yamaduo.no) only. 40-hex addr20, optional 0x normalized. H/s is 1-hour average; Worker activity is share-based. Unpaid, confirming and cumulative paid stay separate. *_sat fields use 1e8 units per CSD. Pool windowed income is an estimate; no daily reward or USD price is invented. Guide: https://iotahome.site/en/learn/csd-gpools-monitor-guide.
+- Blocknet / BNT: https://iotahome.site/en/projects/bnt — Argon2id mining on bntpool.com, not Bancor or BLOCK. Mainnet full payout addresses only. Pool hashrate, Workers, immature estimates, confirmed unpaid, queued payments and cumulative paid are separate. 1 BNT=100,000,000 atomic units. No verified daily income or USD quote is invented. Guide: https://iotahome.site/en/learn/blocknet-bnt-monitor-guide.
+- Midstate / MDS: https://iotahome.site/en/projects/mds — LuckyPool public MSS payout-address records only. Rates are nonces/s. Amounts use base MDS (coinUnits=1); 1 mMDS=1,048,576 MDS and 1 gMDS=1,073,741,824 MDS. Last-24h block allocations are separate from paid transfers; unpaid includes locked and unlocked amounts. Worker activity is share-based, not a machine heartbeat. Wallet totals are not allocated to Workers, solo/other pools are not covered, and no USD quote is invented.
 
 ## Question guides
 
@@ -183,6 +186,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Kaspa mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/kas)
 - [Kaspa 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/kas)
 - [Kaspa採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/kas)
+- [Midstate MDS 矿池监控：算力、Worker 和收益 (zh)](https://iotahome.site/zh/projects/mds)
+- [Midstate MDS 礦池監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/mds)
+- [Midstate MDS mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/mds)
+- [Midstate MDS 채굴 모니터: 해시레이트·Worker·보상 (ko)](https://iotahome.site/ko/projects/mds)
+- [Midstate MDS採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/mds)
+- [Blocknet BNT 监控：算力、Worker 与矿池支付 (zh)](https://iotahome.site/zh/projects/bnt)
+- [Blocknet BNT 監控：算力、Worker 與礦池支付 (zh-TW)](https://iotahome.site/zh-TW/projects/bnt)
+- [Blocknet BNT monitor: hashrate, Workers and pool payments (en)](https://iotahome.site/en/projects/bnt)
+- [Blocknet BNT 모니터: 해시레이트·Worker·풀 지급 (ko)](https://iotahome.site/ko/projects/bnt)
+- [Blocknet BNT監視：ハッシュレート・Worker・プール支払 (ja)](https://iotahome.site/ja/projects/bnt)
+- [CSD 监控：G-pools 算力、Worker 与支付 (zh)](https://iotahome.site/zh/projects/csd)
+- [CSD 監控：G-pools 算力、Worker 與支付 (zh-TW)](https://iotahome.site/zh-TW/projects/csd)
+- [CSD monitor: G-pools hashrate, Workers and payments (en)](https://iotahome.site/en/projects/csd)
+- [CSD 모니터: G-pools 해시레이트·Worker·지급 (ko)](https://iotahome.site/ko/projects/csd)
+- [CSD監視：G-poolsハッシュレート・Worker・支払 (ja)](https://iotahome.site/ja/projects/csd)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -423,6 +441,21 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [NOID address not found: InnovLab and Parano1d pool checks (en)](https://iotahome.site/en/learn/noid-address-not-found)
 - [NOID 주소가 조회되지 않을 때: InnovLab·Parano1d 확인 (ko)](https://iotahome.site/ko/learn/noid-address-not-found)
 - [NOIDアドレスが見つからない：InnovLabとParano1dの確認 (ja)](https://iotahome.site/ja/learn/noid-address-not-found)
+- [Midstate MDS 怎么查矿池收益？地址、Worker 与单位说明 (zh)](https://iotahome.site/zh/learn/midstate-mds-monitor-guide)
+- [Midstate MDS 如何查礦池收益？地址、Worker 與單位 (zh-TW)](https://iotahome.site/zh-TW/learn/midstate-mds-monitor-guide)
+- [How to check Midstate MDS pool rewards, addresses and units (en)](https://iotahome.site/en/learn/midstate-mds-monitor-guide)
+- [Midstate MDS 풀 보상·주소·단위 확인 방법 (ko)](https://iotahome.site/ko/learn/midstate-mds-monitor-guide)
+- [Midstate MDSのプール報酬・アドレス・単位の確認方法 (ja)](https://iotahome.site/ja/learn/midstate-mds-monitor-guide)
+- [BNT 挖矿怎么查收益？Blocknet 地址、确认与支付 (zh)](https://iotahome.site/zh/learn/blocknet-bnt-monitor-guide)
+- [BNT 挖礦如何查收益？Blocknet 地址、確認與支付 (zh-TW)](https://iotahome.site/zh-TW/learn/blocknet-bnt-monitor-guide)
+- [How to check BNT mining rewards: Blocknet addresses and payments (en)](https://iotahome.site/en/learn/blocknet-bnt-monitor-guide)
+- [BNT 채굴 보상 확인: Blocknet 주소·확정·지급 (ko)](https://iotahome.site/ko/learn/blocknet-bnt-monitor-guide)
+- [BNT採掘報酬の確認：Blocknetアドレス・確定・支払 (ja)](https://iotahome.site/ja/learn/blocknet-bnt-monitor-guide)
+- [CSD 挖矿如何查算力和收益？G-pools 地址与结算说明 (zh)](https://iotahome.site/zh/learn/csd-gpools-monitor-guide)
+- [CSD 挖礦如何查算力與收益？G-pools 地址與結算 (zh-TW)](https://iotahome.site/zh-TW/learn/csd-gpools-monitor-guide)
+- [How to check CSD mining hashrate and G-pools payments (en)](https://iotahome.site/en/learn/csd-gpools-monitor-guide)
+- [CSD 채굴 해시레이트·G-pools 지급 확인 방법 (ko)](https://iotahome.site/ko/learn/csd-gpools-monitor-guide)
+- [CSD採掘のハッシュレート・G-pools支払の確認方法 (ja)](https://iotahome.site/ja/learn/csd-gpools-monitor-guide)
 - [多台 Mac 跑 IOTA Train at Home，怎样集中查看状态和收益？ (zh)](https://iotahome.site/zh/blog/monitor-multiple-iota-devices)
 - [多台 Mac 跑 IOTA Train at Home，怎麼集中查看狀態和收益？ (zh-TW)](https://iotahome.site/zh-TW/blog/monitor-multiple-iota-devices)
 - [How to monitor multiple IOTA Train at Home devices from one browser (en)](https://iotahome.site/en/blog/monitor-multiple-iota-devices)

@@ -88,7 +88,7 @@ export function ProTools({
     ),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(false);
-  const tab = selectedTool === undefined ? (userId || preview ? "trends" : null) : selectedTool;
+  const tab = selectedTool ?? null;
   const read = useServerFn(getEarningsHistory),
     apply = useServerFn(applyBulkDevices),
     exportFn = useServerFn(exportReportCsv),

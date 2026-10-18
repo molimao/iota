@@ -1,3 +1,4 @@
+import { OverviewReview } from "@/components/overview-review";
 import { ProjectRequest } from "@/components/project-request";
 import { PlatformPage } from "@/components/platform-page";
 import { isPlatform } from "@/lib/platforms";
@@ -30,6 +31,9 @@ export const Route = createFileRoute("/$locale/review")({
 });
 
 function Review() {
+  const overview = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("overview") === "1",
+  });
   const request = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("request") === "1",
   });
@@ -39,6 +43,7 @@ function Review() {
   const machines = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("machines") === "1",
   });
+  if (overview) return <OverviewReview />;
   if (machines) return <DeviceAgentPage preview />;
   if (request) return <ProjectRequest preview defaultOpen />;
   return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;

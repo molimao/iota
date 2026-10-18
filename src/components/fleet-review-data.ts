@@ -2,6 +2,9 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  compute?: import("@/lib/compute-summary").ComputeReading;
+  rewardAmount?: number | null;
+  earningsWindow?: import("@/lib/earnings-board").EarningsWindow;
   officialTraining?: import("@/lib/device-agent").OfficialTrainingEvidence;
   health?: "loading" | "fresh" | "stale" | "unavailable";
   accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
@@ -93,6 +96,9 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
     case "rvn":
     case "zec":
     case "kas":
+    case "csd":
+    case "bnt":
+    case "mds":
       return {
         status: "unavailable",
         activity: "—",
@@ -107,9 +113,18 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
       return {
         status: idle ? "waiting" : "training",
         activity: idle ? "—" : "24.8 tokens/s",
+        compute: {
+          value: idle ? 0 : 24.8,
+          unit: "tokens/s",
+          scope: "device",
+          fresh: true,
+          fetchedAt: Date.now(),
+        },
         today: idle ? "0.01825000" : "0.24161239",
         todayUsd: idle ? "0.14" : "1.80",
         todayUsdValue: idle ? 0.1363275 : 1.80484455,
+        rewardAmount: idle ? 0.01825 : 0.24161239,
+        earningsWindow: "yesterday",
         todayUnits: idle ? 1825000 : 24161239,
         yesterdayUnits: idle ? 5300000 : 35600000,
         iotaUsdPerUnit: 7.47,

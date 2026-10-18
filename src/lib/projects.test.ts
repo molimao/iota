@@ -63,6 +63,9 @@ describe("separate project identities and currencies", () => {
       "rvn",
       "zec",
       "kas",
+      "mds",
+      "bnt",
+      "csd",
     ]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {

@@ -1,3 +1,4 @@
+import { normalizeCsdAddress } from "./csd";
 import { isPoolProject, validPoolAddress, poolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { isPlatform, validPlatformId } from "./platforms";
@@ -26,6 +27,9 @@ export const FLEET_PROJECTS = [
   "rvn",
   "zec",
   "kas",
+  "mds",
+  "bnt",
+  "csd",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -47,20 +51,28 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   rvn: "Ravencoin",
   zec: "Zcash",
   kas: "Kaspa",
+  mds: "Midstate",
+  bnt: "Blocknet",
+  csd: "CSD",
 };
 export const bindingSchema = z
   .object({
     id: z.string().min(1).max(120),
     project: z.enum(FLEET_PROJECTS),
     identifier: z.string().trim().min(1).max(120),
-    pool: z.enum(["kryptex", "2miners"]).optional(),
+    pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools"]).optional(),
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>
     isPoolProject(b.project)
       ? {
           ...b,
-          identifier: b.project === "etc" ? b.identifier.toLowerCase() : b.identifier,
+          identifier:
+            b.project === "csd"
+              ? normalizeCsdAddress(b.identifier)
+              : b.project === "etc"
+                ? b.identifier.toLowerCase()
+                : b.identifier,
           pool: b.pool ?? poolProvider(b.project),
         }
       : b.project === "acurast" && acurastPublicKey(b.identifier)
@@ -72,7 +84,7 @@ export const fleetDeviceSchema = z.object({
   name: z.string().trim().min(1).max(40),
   hardware: z.string().trim().max(100).default(""),
   createdAt: z.number().positive(),
-  bindings: z.array(bindingSchema).max(18),
+  bindings: z.array(bindingSchema).max(21),
 });
 export type FleetBinding = z.infer<typeof bindingSchema>;
 export type FleetDevice = z.infer<typeof fleetDeviceSchema>;
@@ -90,11 +102,13 @@ export function validBinding(project: FleetProject, identifier: string) {
 
 export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identifier" | "worker">) {
   const identifier =
-    binding.project === "acurast"
-      ? "0x" + acurastPublicKey(binding.identifier)
-      : binding.project === "flyai" || binding.project === "etc"
-        ? binding.identifier.toLowerCase()
-        : binding.identifier;
+    binding.project === "csd"
+      ? normalizeCsdAddress(binding.identifier)
+      : binding.project === "acurast"
+        ? "0x" + acurastPublicKey(binding.identifier)
+        : binding.project === "flyai" || binding.project === "etc"
+          ? binding.identifier.toLowerCase()
+          : binding.identifier;
   return `${binding.project}:${identifier}:${binding.worker}`;
 }
 

@@ -52,6 +52,11 @@ beforeAll(async () => {
   await db.exec(
     readFileSync("supabase/migrations/20261015180000_mining_pool_projects.sql", "utf8"),
   );
+  await db.exec(readFileSync("supabase/migrations/20261017140000_midstate_mds.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261018140000_blocknet_bnt.sql", "utf8"));
+  await db.exec(
+    readFileSync("supabase/migrations/20261018150000_compute_substrate_csd.sql", "utf8"),
+  );
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -381,5 +386,143 @@ describe("six mining pools persist in PostgreSQL", () => {
         binding: { project: "prl", identifier: samples.prl, worker: "rig-six" },
       }),
     ).rejects.toThrow("project_device_limit_reached");
+  });
+});
+
+describe("Midstate saved-address persistence", () => {
+  it("persists multiple addresses with LuckyPool, enforces ownership and updates count on unlink", async () => {
+    await asUser(user);
+    const before = await mutate("create", {
+      name: "MDS rig 1",
+      binding: { project: "mds", identifier: "ab".repeat(32) },
+    });
+    const first = before.devices.find((d) => d.bindings.some((b) => b.project === "mds"))!;
+    const next = await mutate("create", {
+      name: "MDS rig 2",
+      binding: { project: "mds", identifier: "cd".repeat(32), pool: "luckypool" },
+    });
+    expect(next.projectCounts["mds"]).toBe(2);
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "mds", identifier: "ef".repeat(32), pool: "kryptex" },
+      }),
+    ).rejects.toThrow();
+    await asUser(other);
+    const foreign = await db.query<{ data: { devices: unknown[] } }>(
+      "SELECT watch_list_devices() AS data",
+    );
+    expect(JSON.stringify(foreign.rows[0]!.data)).not.toContain("MDS rig 1");
+    await expect(
+      mutate("unlink", { id: first.id, bindingId: first.bindings[0]!.id }),
+    ).rejects.toThrow("device_not_found");
+    await asUser(user);
+    const removed = await mutate("unlink", { id: first.id, bindingId: first.bindings[0]!.id });
+    expect(removed.projectCounts["mds"]).toBe(1);
+  });
+});
+
+describe("BNT database persistence", () => {
+  it("persists multiple addresses, enforces ownership and independent quotas, and frees capacity on removal", async () => {
+    const id = "77777777-2222-4222-8222-777777777777";
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [id]);
+    await asUser(id);
+    const address =
+      "SEiNEceuDyfEY3GKDQAYVuK6382K2Ln2gQSv83ySAFkKhraBxhHnTf2P6PsF8CXtreqywg4T1qwBAjQo3L2VYDYWtsbb9";
+    const first = await mutate("create", {
+      name: "BNT CPU",
+      binding: { project: "bnt", identifier: address, worker: "one" },
+    });
+    const device = first.devices[0]!;
+    expect(first.projectCounts["bnt"]).toBe(1);
+    await mutate("link", {
+      id: device.id,
+      binding: { project: "bnt", identifier: address, worker: "two" },
+    });
+    await mutate("link", {
+      id: device.id,
+      binding: {
+        project: "bnt",
+        identifier:
+          "NrncwqmoEJmNeCCe9sd4PWZeY7z47Ld3CZg3VsCceEk9AE7EkNwHxnCwqmHcQdFp5efvf9omYydNpKUFkJ6XFqXRoZPF",
+        worker: "cpu-two",
+      },
+    });
+    const reloaded = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+    const parsed = fleetSnapshot(reloaded.rows[0]!.data);
+    expect(parsed.devices[0]!.bindings).toHaveLength(3);
+    expect(parsed.devices[0]!.bindings.every((b) => b.pool === "bntpool")).toBe(true);
+    for (let i = 2; i <= 5; i++)
+      await mutate("create", {
+        name: `BNT ${i}`,
+        binding: { project: "bnt", identifier: address, worker: `worker-${i}` },
+      });
+    await expect(
+      mutate("create", {
+        name: "Sixth",
+        binding: { project: "bnt", identifier: address, worker: "six" },
+      }),
+    ).rejects.toThrow("project_device_limit_reached");
+    await mutate("create", {
+      name: "Other project",
+      binding: { project: "etc", identifier: "0x" + "a".repeat(40) },
+    });
+    await asUser(other);
+    await expect(mutate("remove", { id: device.id })).rejects.toThrow("device_not_found");
+    await asUser(id);
+    await mutate("remove", { id: device.id });
+    const after = await mutate("create", {
+      name: "Replacement",
+      binding: { project: "bnt", identifier: address, worker: "replacement" },
+    });
+    expect(after.projectCounts["bnt"]).toBe(5);
+  });
+});
+
+describe("CSD account storage", () => {
+  it("normalizes addr20, saves multiple addresses, isolates ownership and releases the project quota on unlink", async () => {
+    const owner = "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee",
+      address = "a1".repeat(20),
+      second = "b2".repeat(20);
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
+    await asUser(owner);
+    const first = await mutate("create", {
+      name: "CSD GPU",
+      binding: { project: "csd", identifier: "0x" + address.toUpperCase() },
+    });
+    const id = first.devices[0]!.id;
+    await expect(
+      mutate("link", { id, binding: { project: "csd", identifier: address } }),
+    ).rejects.toThrow(/duplicate key/);
+    await mutate("link", { id, binding: { project: "csd", identifier: second } });
+    const result = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+    const saved = fleetSnapshot(result.rows[0]!.data).devices[0]!;
+    expect(saved.bindings.map((b) => b.identifier).sort()).toEqual([address, second].sort());
+    expect(saved.bindings.every((b) => b.pool === "gpools")).toBe(true);
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "csd", identifier: "c3".repeat(20), pool: "kryptex" },
+      }),
+    ).rejects.toThrow();
+    for (let i = 1; i <= 4; i++)
+      await mutate("create", {
+        name: `GPU ${i}`,
+        binding: { project: "csd", identifier: i.toString(16).repeat(40) },
+      });
+    await expect(
+      mutate("create", { name: "Sixth", binding: { project: "csd", identifier: "c3".repeat(20) } }),
+    ).rejects.toThrow("project_device_limit_reached");
+    await asUser(other);
+    await expect(mutate("remove", { id })).rejects.toThrow("device_not_found");
+    await asUser(owner);
+    for (const b of saved.bindings) await mutate("unlink", { id, bindingId: b.id });
+    const next = await mutate("create", {
+      name: "New GPU",
+      binding: { project: "csd", identifier: "c3".repeat(20) },
+    });
+    expect(next.projectCounts["csd"]).toBe(5);
   });
 });

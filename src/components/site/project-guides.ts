@@ -1,3 +1,6 @@
+import { csdGuide } from "./csd-guide";
+import { bntGuide } from "./bnt-guide";
+import { mdsGuide } from "./mds-guide";
 import { searchSupportGuides } from "./search-support-guides";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
@@ -1447,12 +1450,21 @@ export const projectGuides: Article[] = [
 
 export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
   return project
-    ? [...projectGuides, ...computeGuides, ...problemGuides, ...searchSupportGuides].filter(
-        (a) => a.project === project || a.project === "all",
-      )
-    : [...projectGuides, ...searchSupportGuides].filter(
+    ? [
+        ...projectGuides,
+        ...computeGuides,
+        ...problemGuides,
+        ...searchSupportGuides,
+        mdsGuide,
+        bntGuide,
+        csdGuide,
+      ].filter((a) => a.project === project || a.project === "all")
+    : [...projectGuides, ...searchSupportGuides, mdsGuide, bntGuide, csdGuide].filter(
         (a) =>
           a.project === "all" ||
+          a.project === "mds" ||
+          a.project === "bnt" ||
+          a.project === "csd" ||
           a.slug === "xid-mmm-mainnet-setup" ||
           a.slug === "quantus-mainnet-mining-mac" ||
           searchSupportGuides.some((g) => g.slug === a.slug),

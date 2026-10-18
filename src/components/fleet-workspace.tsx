@@ -1,5 +1,3 @@
-import { DailyRewardsSummary } from "./daily-rewards-summary";
-import { aggregateUnits } from "@/lib/earnings";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
@@ -267,15 +265,6 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       setBusy(false);
     }
   }
-  const iotaBindings = [
-    ...new Map(
-      props.devices
-        .flatMap((d) => d.bindings)
-        .filter((b) => b.project === "iota")
-        .map((b) => [b.identifier, b]),
-    ).values(),
-  ];
-  const dailyReadings = iotaBindings.map((b) => props.reading(b));
   return (
     <main className="fleet-workspace">
       <header className="fleet-heading">
@@ -331,16 +320,6 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
-          {dailyReadings.length > 0 && (project === "all" || project === "iota") && (
-            <DailyRewardsSummary
-              today={aggregateUnits(dailyReadings.map((r) => r.todayUnits ?? null))}
-              lifetime={aggregateUnits(dailyReadings.map((r) => r.lifetimeUnits ?? null))}
-              usdPerIota={
-                dailyReadings.find((r) => r.iotaUsdPerUnit != null)?.iotaUsdPerUnit ?? null
-              }
-              priceStale={dailyReadings.some((r) => r.priceStale)}
-            />
-          )}
           {props.devices.length > 0 && props.proTools}
           {props.devices.length > 0 && (
             <ReportEntry plan={props.plan} preview={props.preview ?? false} />
@@ -610,6 +589,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                                   rvn: "R…",
                                   zec: "t1… / t3…",
                                   kas: "kaspa:…",
+                                  mds: "64 hex · MSS",
+                                  bnt: "Blocknet · Base58",
+                                  csd: "40 hex · addr20",
                                 }[selectedProject]
                               : isPlatform(selectedProject)
                                 ? selectedProject === "noid"
@@ -951,7 +933,13 @@ function FleetCard({
   const hasIota = device.bindings.some((b) => b.project === "iota");
   const hasOtherDaily = device.bindings.some((b) => {
     const r = reading(b);
-    return b.project !== "iota" && r.scope === "device" && r.earningsPeriod !== "month" && r.todayUsable !== false && r.today !== null;
+    return (
+      b.project !== "iota" &&
+      r.scope === "device" &&
+      r.earningsPeriod !== "month" &&
+      r.todayUsable !== false &&
+      r.today !== null
+    );
   });
   const headlineLabel = retained
     ? c.lastDaily
@@ -960,7 +948,9 @@ function FleetCard({
         ? c.monthPoints
         : c.balance
       : hasIota
-        ? hasOtherDaily ? c.deviceDaily : c.deviceYesterday
+        ? hasOtherDaily
+          ? c.deviceDaily
+          : c.deviceYesterday
         : c.deviceToday;
   return (
     <article className="fleet-device-card">
@@ -1171,7 +1161,14 @@ function FleetCard({
         })}
       </div>
       {device.bindings.some((b) => b.project === "iota") && (
-        <DeviceAgentSummary deviceId={device.id} preview={!!preview} official={device.bindings.filter(b => b.project === "iota").map(b => reading(b).officialTraining).find(Boolean)} />
+        <DeviceAgentSummary
+          deviceId={device.id}
+          preview={!!preview}
+          official={device.bindings
+            .filter((b) => b.project === "iota")
+            .map((b) => reading(b).officialTraining)
+            .find(Boolean)}
+        />
       )}
       <footer>
         {onRemove && <button onClick={onRemove}>{c.remove}</button>}
