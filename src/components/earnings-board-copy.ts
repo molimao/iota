@@ -1,5 +1,33 @@
 import { localized as l } from "@/lib/product-discovery";
 export const boardCopy = {
+  totalTrend: l([
+    "总收益趋势",
+    "總收益趨勢",
+    "Total earnings trend",
+    "전체 수익 추이",
+    "合計収益の推移",
+  ]),
+  projectCards: l([
+    "各项目表现",
+    "各專案表現",
+    "Your projects",
+    "프로젝트별 현황",
+    "プロジェクト別の状況",
+  ]),
+  aggregateNote: l([
+    "按历史美元估值汇总。没有报价的项目不计入总额，原币收益在下方各项目中展示。",
+    "按歷史美元估值彙總。沒有報價的專案不計入總額，原幣收益在下方各專案中展示。",
+    "Combined using recorded USD estimates. Unpriced projects are excluded here; their native earnings appear below.",
+    "기록된 USD 환산값을 합산합니다. 시세가 없는 프로젝트는 제외되며 아래에서 원화폐 수익을 확인할 수 있습니다.",
+    "記録済みのUSD換算を合計。価格のないプロジェクトは除外し、下のカードに通貨別収益を表示します。",
+  ]),
+  noProjectHistory: l([
+    "该项目还没有可绘制的历史收益，当前指标仍显示在上方。",
+    "此專案還沒有可繪製的歷史收益，目前指標仍顯示在上方。",
+    "No chartable history for this project yet. Available current metrics are shown above.",
+    "이 프로젝트의 수익 이력이 아직 없습니다. 현재 지표는 위에 표시됩니다.",
+    "このプロジェクトの収益履歴はまだありません。取得済みの現在値は上に表示します。",
+  ]),
   compute: l(["当前算力", "目前算力", "Current compute", "현재 연산 성능", "現在の処理性能"]),
   computeDetails: l(["设备明细", "設備明細", "Source details", "상세 내역", "詳細"]),
   computeActive: l(["有算力", "有算力", "Active", "가동 중", "稼働中"]),

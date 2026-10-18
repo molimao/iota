@@ -1,3 +1,4 @@
+import { AgentAnalysisLanguage } from "../agent-analysis-language";
 import { logCopy } from "../log-analysis-copy";
 import { BRAND_MARK } from "@/lib/brand";
 import { iotaPublicFacts } from "@/lib/iota-public-facts";
@@ -123,6 +124,7 @@ export function SiteNav() {
           </span>
           IOTA <b>Watch</b>
         </a>
+        <AgentAnalysisLanguage />
         <MonitoringViews
           current={overviewView ? "overview" : deviceView ? "devices" : "projects"}
           project={viewProject}

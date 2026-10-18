@@ -78,7 +78,9 @@ export function FleetPricing({
         <ul className="fleet-plan-benefits">
           <li>
             <Check size={17} aria-hidden="true" />
-            <span>{pricingCopy.monitoring[locale]} · {boardCopy.title[locale]}</span>
+            <span>
+              {pricingCopy.monitoring[locale]} · {boardCopy.title[locale]}
+            </span>
           </li>
           <li>
             <Check size={17} aria-hidden="true" />
@@ -87,6 +89,10 @@ export function FleetPricing({
           <li>
             <Check size={17} aria-hidden="true" />
             <span>{proCopy.trends[locale]}</span>
+          </li>
+          <li>
+            <Check size={17} aria-hidden="true" />
+            <span>{logCopy.autoTitle[locale]}</span>
           </li>
         </ul>
         <details className="fleet-plan-allowances">
@@ -131,7 +137,6 @@ export function FleetPricing({
         </p>
         {trialEligible !== false && <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>}
         <ul className="fleet-plan-benefits">
-          <li><Check size={18} aria-hidden="true" /><div><b>{logCopy.title[locale]}</b><span>{logCopy.intro[locale]}</span></div></li>
           <li>
             <Check size={18} aria-hidden="true" />
             <div>

@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.7'
+VERSION = '1.0.8'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -149,7 +149,7 @@ def logs():
             f.seek(max(0, path.stat().st_size - 24000))
             for line in f.read(24000).decode('utf-8', errors='replace').splitlines():
                 # Only training/status/error lines, never complete files or request/config dumps.
-                if re.search(r'epoch|throughput|training|activation|crash|fatal|error', line, re.I):
+                if re.search(r'epoch|throughput|training|activation|crash|fatal|error|SIGABRT|SIGSEGV|panicked at|PoisonError|missing local CID|out of memory', line, re.I):
                     lines.append(line)
     return redact('\n'.join(lines[-40:]))
 

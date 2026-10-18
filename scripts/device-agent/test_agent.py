@@ -8,6 +8,16 @@ agent=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(agent)
 
 class AgentTests(unittest.TestCase):
+ def test_crash_markers_are_uploaded_only_as_redacted_bounded_excerpts(self):
+  with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+   home=Path(folder);logs=home/'Library/Logs/IOTA Train at Home';logs.mkdir(parents=True)
+   (logs/'test.log').write_text('[2026-10-18 10:00:00.000] panicked at missing local CID state for path=0\nSIGABRT\nPoisonError\nerror token=secret\nrequest payload with private data')
+   with patch.object(agent.Path,'home',return_value=home):
+    text=agent.logs()
+   for marker in ['panicked at','SIGABRT','PoisonError']:self.assertIn(marker,text)
+   self.assertNotIn('secret',text);self.assertNotIn('request payload',text)
+   self.assertLessEqual(len(text.encode()),12000)
+
  def test_only_fixed_endpoints(self):
   self.assertEqual(agent.endpoint('https://iotahome.site'),'https://iotahome.site')
   for url in ['http://iotahome.site','https://evil.test','https://iotahome.site@evil.test','https://iotahome.site/?secret=x']:

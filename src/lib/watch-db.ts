@@ -43,6 +43,9 @@ export type WatchDatabase = Omit<Database, "public"> & {
       }>;
     };
     Functions: {
+      watch_agent_analysis_locale: { Args: {p_locale:string}; Returns:undefined };
+      watch_agent_analysis_read: { Args: {p_device:string;p_locale:string}; Returns:Json };
+      watch_agent_analysis_worker: { Args: {p_action:string;p_id?:string;p_lease?:string;p_result?:Json}; Returns:Json };
       watch_log_analysis: { Args: {p_action:string;p_request?:string;p_digest?:string;p_project?:string;p_result?:Json}; Returns:Json };
       watch_history_backfill_worker: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_history_backfill_status: { Args: Record<string, never>; Returns: Json };

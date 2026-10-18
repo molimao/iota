@@ -1,4 +1,3 @@
-import { ComputeSummary } from "./compute-summary";
 import { EarningsBoardCharts } from "./earnings-board-charts";
 import type { DailyReport } from "@/lib/daily-report";
 import { shortId } from "@/lib/ss58";
@@ -47,14 +46,16 @@ export function EarningsBoard({
         ))}
       </div>
       <p className="earnings-board-note">{c.note[locale]}</p>
-      <ComputeSummary
+      <EarningsBoardCharts
+        board={board}
         entries={entries.map((e) => ({
           binding: e.binding,
           name: e.name,
           compute: e.data.compute,
         }))}
+        previewHistory={previewHistory}
+        preview={preview}
       />
-      <EarningsBoardCharts board={board} previewHistory={previewHistory} preview={preview} />
       <details className="board-details">
         <summary>
           {c.details[locale]} <span>↗</span>

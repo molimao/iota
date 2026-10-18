@@ -1,4 +1,5 @@
-import { LogAnalysis } from "./log-analysis";
+import { crashPreviewResult } from "./agent-crash-preview";
+import { AgentCrashAnalysis } from "./agent-crash-analysis";
 import { AgentUpdate } from "./agent-update";
 import { AgentHistory } from "./agent-history";
 import { insightCopy } from "./agent-insight-copy";
@@ -23,6 +24,7 @@ import {
 } from "@/lib/device-agent.functions";
 import { agentCopy as copy } from "./device-agent-copy";
 export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
+  const crashPreview = useRouterState({select:(s)=>new URLSearchParams(s.location.searchStr).get("crash")==="done"});
   const requestedDevice = useRouterState({ select: (s) => new URLSearchParams(s.location.searchStr).get("device") });
   const requestedMiner = useRouterState({ select: (s) => new URLSearchParams(s.location.searchStr).get("miner") });
   const auth = useAuth(),
@@ -335,6 +337,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     ))}
                   </div>
                   <p className="compute-caption">{t.agentVersion} {s.version ?? "—"}{s.version===AGENT_RELEASE ? ` · ${t.upToDate}` : ""}</p>
+                  <AgentCrashAnalysis deviceId={a.deviceId} logsEnabled={a.logsEnabled} preview={preview} previewResult={import.meta.env.DEV && preview && crashPreview ? crashPreviewResult : undefined} />
                   <details className="agent-settings">
                     <summary>{t.settings}</summary>
                     <label className="agent-option">
@@ -396,7 +399,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     </label>
                     <p className="compute-caption">{t.logsNote}</p>
                     {a.logsEnabled && <AgentTimeline logs={s.logs} />}
-                    <LogAnalysis initialLogs={s.logs} preview={preview} />
+
                   </details>
                   <button
                     className="agent-revoke"

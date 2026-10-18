@@ -182,6 +182,8 @@ export async function proToolsCron(request: Request) {
   if (denied) return denied;
   if (process.env["PRO_TOOLS_ENABLED"] !== "true")
     return json({ error: "pro_tools_not_configured" }, 503);
+  // AI has a durable queue and its own failures; mail delivery keeps running.
+  const crashTask = import("./agent-crash-analysis.server").then(({processAgentCrashAnalysis}) => processAgentCrashAnalysis()).catch(() => ({processed:0}));
   try {
     await rpc("enqueue", {});
     let processed = 0;
@@ -195,8 +197,10 @@ export async function proToolsCron(request: Request) {
       else await notify(j);
       processed++;
     }
+    await crashTask;
     return json({ processed });
   } catch {
+    await crashTask;
     return json({ error: "pro_processing_unavailable" }, 503);
   }
 }

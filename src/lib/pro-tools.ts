@@ -144,7 +144,7 @@ export const dailySnapshotSchema = z
     valuationAt: z.string().datetime().optional(),
     locale: z.enum(LOCALES),
     deviceCount: z.number().int().nonnegative(),
-    projects: z.array(projectReportSchema).max(10),
+    projects: z.array(projectReportSchema).max(FLEET_PROJECTS.length),
     usdSubtotal: z.number().finite().nonnegative().nullable(),
     partial: z.boolean(),
   })

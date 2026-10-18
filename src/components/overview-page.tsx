@@ -8,7 +8,6 @@ import { useLocale } from "./site/locale";
 import { monitorViewCopy } from "./monitor-views";
 import { fleetCopy } from "./fleet-copy";
 import { EarningsBoard } from "./earnings-board";
-import { LogAnalysis } from "./log-analysis";
 import type { ProjectReading } from "./fleet-review-data";
 export function OverviewPage() {
   const auth = useAuth(),
@@ -43,7 +42,6 @@ export function OverviewPage() {
 export function OverviewWorkspace({
   devices,
   reading,
-  plan = "free",
   preview = false,
   history,
   onRefresh,
@@ -99,7 +97,6 @@ export function OverviewWorkspace({
             preview={preview}
             previewHistory={history}
           />
-          <LogAnalysis preview={preview} previewPlan={plan} />
         </>
       ) : (
         <section className="overview-empty">

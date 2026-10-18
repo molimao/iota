@@ -1,5 +1,34 @@
 import { localized as l } from "@/lib/product-discovery";
 export const logCopy = {
+  autoTitle: l([
+    "崩溃自动解读",
+    "崩潰自動解讀",
+    "Automatic crash analysis",
+    "충돌 자동 분석",
+    "クラッシュ自動解析",
+  ]),
+  autoDisabled: l([
+    "在下方设置开启日志上传，崩溃后会自动分析，无需粘贴日志。",
+    "在下方設定開啟日誌上傳，崩潰後會自動分析，無需貼上日誌。",
+    "Enable log uploads in settings below. Crashes are analyzed automatically—no copy and paste.",
+    "아래 설정에서 로그 업로드를 켜면 충돌을 자동 분석합니다. 붙여넣기는 필요 없습니다.",
+    "下の設定でログ送信を有効にすると、クラッシュを自動解析します。貼り付けは不要です。",
+  ]),
+  autoQueued: l([
+    "已收到崩溃日志，等待后台解读，完成后会自动显示。",
+    "已收到崩潰日誌，等待背景解讀，完成後會自動顯示。",
+    "Crash log received. Analysis is queued and will appear here automatically.",
+    "충돌 로그를 받았습니다. 분석이 완료되면 자동으로 표시됩니다.",
+    "クラッシュログを受信。解析完了後に自動表示します。",
+  ]),
+  autoWatching: l([
+    "已开启。收到新的崩溃日志后自动解读，正常排队不会触发。",
+    "已開啟。收到新的崩潰日誌後自動解讀，正常排隊不會觸發。",
+    "Enabled. New crash logs are analyzed automatically. Normal queueing does not trigger analysis.",
+    "사용 중입니다. 새 충돌 로그를 자동 분석합니다. 정상 대기열은 분석을 실행하지 않습니다.",
+    "有効です。新しいクラッシュログを自動解析します。通常の待機列は対象外です。",
+  ]),
+  autoRetry: l(["刷新", "重新整理", "Refresh", "새로고침", "更新"]),
   project: l(["项目", "專案", "Project", "프로젝트", "プロジェクト"]),
   title: l(["AI 日志解读", "AI 日誌解讀", "AI log analysis", "AI 로그 분석", "AIログ解析"]),
   intro: l([
@@ -10,11 +39,11 @@ export const logCopy = {
     "異常の手掛かりと対処方法を確認します。",
   ]),
   privacy: l([
-    "提交时会脱敏并发送到 AI 服务；仅保存解读结果与引用片段，不保存整份原始日志。",
-    "提交時會脫敏並傳送至 AI 服務；僅保存解讀結果與引用片段，不保存整份原始日誌。",
-    "On submission, redacted excerpts are sent to the AI service. Only the analysis and cited excerpts are saved, not the full original log.",
-    "제출 시 비식별화한 로그를 AI 서비스에 전송합니다. 분석 결과와 인용 부분만 저장합니다.",
-    "送信時に機密情報を除去してAIサービスへ送ります。解析結果と引用箇所のみ保存します。",
+    "用户开启 Agent 日志上传后，新的崩溃片段会脱敏并自动发送到 AI 服务解读，每日最多 10 次。同一次崩溃不重复分析。仅保存解读结果与引用片段，待处理片段最多保留 24 小时；不会自动执行 AI 建议。",
+    "使用者開啟 Agent 日誌上傳後，新的崩潰片段會脫敏並自動傳送至 AI 服務，每日最多 10 次。同一次崩潰不重複分析。僅保存解讀與引用片段，待處理片段最多保留 24 小時；不自動執行 AI 建議。",
+    "With Agent log uploads enabled, new crash excerpts are redacted and automatically sent to the AI service, up to 10 analyses per day. The same incident is not analyzed repeatedly. Only results and cited excerpts are retained; queued excerpts expire after 24 hours. AI suggestions are never executed automatically.",
+    "Agent 로그 업로드를 켜면 새 충돌 로그를 비식별화하여 AI 서비스로 자동 전송합니다(하루 최대 10회). 같은 충돌은 중복 분석하지 않습니다. 결과와 인용 부분만 저장하며 대기 로그는 최대 24시간 보관합니다. AI 제안을 자동 실행하지 않습니다.",
+    "Agentのログ送信を有効にすると、新しいクラッシュ抜粋の機密情報を除去し、AIへ自動送信します（1日10回まで）。同じ障害は重複解析しません。結果と引用のみ保存し、待機中の抜粋は最大24時間保持します。AIの提案は自動実行しません。",
   ]),
   paste: l(["粘贴日志", "貼上日誌", "Paste a log", "로그 붙여넣기", "ログを貼り付け"]),
   placeholder: l([

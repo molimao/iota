@@ -68,3 +68,22 @@ export const getAgentHistory = createServerFn({method:"POST"})
     if(r.error) throw new Error("agent_history_unavailable");
     return z.array(agentHistoryPointSchema).max(289).parse(r.data);
   });
+
+export const getAgentCrashAnalyses = createServerFn({method:"POST"})
+  .middleware([requireSupabaseAuth])
+  .inputValidator(device.extend({locale:z.enum(["zh","zh-TW","en","ko","ja"])}).strict())
+  .handler(async ({data,context}) => {
+    const r=await watchDb(context.supabase).rpc("watch_agent_analysis_read",{p_device:data.deviceId,p_locale:data.locale});
+    if(r.error) throw new Error("agent_analysis_unavailable");
+    const {agentAnalysisState}=await import("./agent-crash-analysis");
+    return agentAnalysisState.parse(r.data);
+  });
+
+export const setAgentAnalysisLocale = createServerFn({method:"POST"})
+  .middleware([requireSupabaseAuth])
+  .inputValidator(z.object({locale:z.enum(["zh","zh-TW","en","ko","ja"])}).strict())
+  .handler(async ({data,context}) => {
+    const r=await watchDb(context.supabase).rpc("watch_agent_analysis_locale",{p_locale:data.locale});
+    if(r.error) throw new Error("agent_analysis_unavailable");
+    return {ok:true};
+  });
