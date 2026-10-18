@@ -45,7 +45,14 @@ export async function processAgentCrashAnalysis(
       ok: boolean;
     };
     return { processed: completed.ok ? 1 : 0 };
-  } catch {
+  } catch (error) {
+    // Log only a bounded failure code. Never log prompts, device excerpts or provider responses.
+    const code =
+      error instanceof Error &&
+      /^analysis_(?:http_[1-5][0-9]{2}|unavailable|invalid_result)$/.test(error.message)
+        ? error.message
+        : "analysis_processing_failed";
+    console.warn("[agent-crash-analysis]", { code, jobId: job.id });
     await rpc("fail", job.id, job.lease);
     return { processed: 0 };
   }

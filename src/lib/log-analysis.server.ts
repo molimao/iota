@@ -50,7 +50,7 @@ export async function interpretLog(
   } catch {
     throw new Error("analysis_unavailable");
   }
-  if (!response.ok) throw new Error("analysis_unavailable");
+  if (!response.ok) throw new Error(`analysis_http_${response.status}`);
   const reader = response.body?.getReader();
   if (!reader) throw new Error("analysis_unavailable");
   let length = 0,

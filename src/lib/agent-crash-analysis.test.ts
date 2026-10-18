@@ -32,6 +32,7 @@ it("redacts before the model, carries website language, saves cited evidence onl
   expect(saved).not.toHaveProperty("logs");
 });
 it("model failure is retried by the durable queue instead of blocking heartbeats", async () => {
+  const warning = vi.spyOn(console, "warn").mockImplementation(() => {});
   const rpc = vi.fn().mockResolvedValueOnce(job).mockResolvedValue({ ok: true });
   await processAgentCrashAnalysis(
     rpc,
@@ -39,6 +40,26 @@ it("model failure is retried by the durable queue instead of blocking heartbeats
     vi.fn().mockRejectedValue(new Error("provider failure")),
   );
   expect(rpc.mock.calls[1]!.slice(0, 3)).toEqual(["fail", job.id, job.lease]);
+  expect(warning).toHaveBeenCalledWith("[agent-crash-analysis]", {
+    code: "analysis_processing_failed",
+    jobId: job.id,
+  });
+  expect(JSON.stringify(warning.mock.calls)).not.toContain("provider failure");
+  warning.mockRestore();
+});
+it("retains only the HTTP status code when the provider rejects a request", async () => {
+  const warning = vi.spyOn(console, "warn").mockImplementation(() => {});
+  const rpc = vi.fn().mockResolvedValueOnce(job).mockResolvedValue({ ok: true });
+  await processAgentCrashAnalysis(
+    rpc,
+    { key: "test", base: "https://fitzapi.fishai.com.cn/v1", model: "Qwen/Qwen3.5-4B" },
+    vi.fn().mockRejectedValue(new Error("analysis_http_401")),
+  );
+  expect(warning).toHaveBeenCalledWith("[agent-crash-analysis]", {
+    code: "analysis_http_401",
+    jobId: job.id,
+  });
+  warning.mockRestore();
 });
 it("does not claim paid work until the AI service is configured", async () => {
   const rpc = vi.fn();
