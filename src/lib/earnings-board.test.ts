@@ -71,6 +71,20 @@ it("keeps balances and monthly points separate from earnings", () => {
   expect(result.totals.today.count).toBe(0);
 });
 
+it("retains an available older quote as a labelled estimate without accepting stale earnings", () => {
+  const result = earningsBoard([
+    { binding: b("iota", "a"), deviceId: "1", data: { ...r("yesterday", 1, 7), priceStale: true } },
+    {
+      binding: b("iota", "b"),
+      deviceId: "2",
+      data: { ...r("yesterday", 2, 14), health: "stale", priceStale: true },
+    },
+  ]);
+  expect(result.totals.yesterday).toEqual({ usd: 7, count: 1 });
+  expect(result.olderPrices.yesterday).toBe(true);
+  expect(result.totals.today.count).toBe(0);
+});
+
 import { boardSeries } from "./earnings-board";
 it("charts observed zeroes without inventing missing days or including the incomplete current day", () => {
   const series = boardSeries(

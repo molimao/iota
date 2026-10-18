@@ -49,6 +49,7 @@ export function earningsBoard(
     }
   >();
   const totals = { today: { usd: 0, count: 0 }, yesterday: { usd: 0, count: 0 } };
+  const olderPrices = { today: false, yesterday: false };
   for (const { binding: b, deviceId, data: d } of entries) {
     let row = projects.get(b.project);
     if (!row) {
@@ -82,7 +83,6 @@ export function earningsBoard(
     const fresh = d.health === "fresh" || (d.health === undefined && d.todayUsable !== false);
     const usd =
       fresh &&
-      !d.priceStale &&
       typeof d.todayUsdValue === "number" &&
       Number.isFinite(d.todayUsdValue) &&
       d.todayUsdValue >= 0
@@ -108,9 +108,10 @@ export function earningsBoard(
     if (usd !== null && (window === "today" || window === "yesterday")) {
       totals[window].usd += usd;
       totals[window].count++;
+      olderPrices[window] ||= !!d.priceStale;
     }
   }
-  return { totals, projects: [...projects.values()] };
+  return { totals, olderPrices, projects: [...projects.values()] };
 }
 
 /** Preserve gaps and observed zeroes; never interpolate earnings on missing dates. */

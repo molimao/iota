@@ -36,14 +36,42 @@ export function EarningsBoard({
         </span>
       </header>
       <div className="earnings-board-totals">
-        {(["yesterday", "today"] as const).map((day) => (
-          <article key={day}>
-            <span>{c[day][locale]}</span>
-            <strong>
-              {formatUsd(board.totals[day].count ? board.totals[day].usd : null)} <small>USD</small>
-            </strong>
-          </article>
-        ))}
+        {(["yesterday", "today"] as const).map((day) => {
+          const metrics = board.projects.flatMap((p) =>
+            [...p.metrics.values()].filter((m) => m.window === day),
+          );
+          const native = new Map<string, number>();
+          for (const m of metrics) native.set(m.unit, (native.get(m.unit) ?? 0) + m.amount);
+          return (
+            <article key={day}>
+              <span>{c[day][locale]}</span>
+              <strong>
+                {formatUsd(board.totals[day].count ? board.totals[day].usd : null)}{" "}
+                <small>USD</small>
+              </strong>
+              {!board.totals[day].count && (
+                <>
+                  {[...native].map(([unit, amount]) => (
+                    <span key={unit}>
+                      {nf.format(amount)} {unit}
+                    </span>
+                  ))}
+                  <small className="board-total-context">
+                    {metrics.length
+                      ? c.noConversion[locale]
+                      : day === "today" && board.projects.some((p) => p.project === "iota")
+                        ? c.iotaYesterday[locale]
+                        : c.noPeriod[locale]}
+                    {metrics.some((m) => m.stale) ? ` · ${c.older[locale]}` : ""}
+                  </small>
+                </>
+              )}
+              {board.olderPrices[day] && (
+                <small className="board-total-context">{c.olderPrice[locale]}</small>
+              )}
+            </article>
+          );
+        })}
       </div>
       <p className="earnings-board-note">{c.note[locale]}</p>
       <EarningsBoardCharts

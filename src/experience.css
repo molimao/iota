@@ -6822,6 +6822,7 @@ body:has(.site-shell) {
 .earnings-board-totals span { display:block; color:#b7b7b7; font-size:.85rem; }
 .earnings-board-totals strong { display:block; margin-top:.6rem; font-size:clamp(1.7rem,4vw,2.5rem); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
 .earnings-board-totals small { font-size:.75rem; color:#aaa; }
+.earnings-board-totals .board-total-context { display:block; margin-top:.65rem; line-height:1.6; overflow-wrap:anywhere; }
 .earnings-board-note,.log-analysis-note { font-size:.8rem; color:#aaa; line-height:1.6; }
 .earnings-board-scroll { overflow-x:auto; border:1px solid #363636; border-radius:16px; }
 .earnings-board table { width:100%; border-collapse:collapse; text-align:left; font-size:.85rem; }

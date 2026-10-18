@@ -1,5 +1,33 @@
 import { localized as l } from "@/lib/product-discovery";
 export const boardCopy = {
+  noConversion: l([
+    "原币收益已获取，美元估值暂不可用",
+    "原幣收益已取得，美元估值暫不可用",
+    "Earnings received; USD estimate unavailable",
+    "수익은 확인되었지만 USD 환산값이 없습니다",
+    "収益取得済み・USD換算は現在利用できません",
+  ]),
+  noPeriod: l([
+    "暂无该日期的收益数据",
+    "暫無該日期的收益資料",
+    "No earnings data for this date yet",
+    "이 날짜의 수익 데이터가 아직 없습니다",
+    "この日の収益データはまだありません",
+  ]),
+  iotaYesterday: l([
+    "IOTA 按昨日记账收益展示，不计入今日",
+    "IOTA 按昨日記帳收益展示，不計入今日",
+    "IOTA reports yesterday’s booked rewards, excluded from today",
+    "IOTA는 어제 기록된 보상으로, 오늘 합계에서 제외됩니다",
+    "IOTAは昨日の記帳収益のため、本日分には含まれません",
+  ]),
+  olderPrice: l([
+    "按较早报价估算",
+    "按較早報價估算",
+    "Estimated using an older quote",
+    "이전 시세로 추정",
+    "以前の価格で概算",
+  ]),
   totalTrend: l([
     "总收益趋势",
     "總收益趨勢",
