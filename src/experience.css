@@ -1313,7 +1313,15 @@ body:has(.site-shell) {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
-  width: 220px;
+  width: 240px;
+  max-width: calc(100vw - 32px);
+  max-height: min(360px, calc(100dvh - 160px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #686868 transparent;
+  -webkit-overflow-scrolling: touch;
   padding: 6px;
   background: var(--watch-bg);
   border: 1px solid var(--watch-border);
@@ -1324,8 +1332,8 @@ body:has(.site-shell) {
 .project-options a {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 12px;
+  gap: 2px;
+  padding: 8px 10px;
   color: var(--watch-text);
   border-radius: 7px;
   text-decoration: none;
@@ -1344,6 +1352,10 @@ body:has(.site-shell) {
 .project-options a:hover,
 .project-options a[aria-current="page"] {
   background: #ffffff0c;
+}
+.project-options a:focus-visible {
+  outline: 2px solid var(--watch-text);
+  outline-offset: -2px;
 }
 .projects-page {
   max-width: 1180px;
@@ -3981,8 +3993,15 @@ body:has(.site-shell) {
 .mobile-nav > .site-menu-panel {
   left: auto;
   width: 300px;
-  max-width: min(100%, calc(100vw - 32px));
-  padding: 16px;
+  max-width: calc(100vw - 32px);
+  max-height: min(420px, calc(100dvh - 144px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #686868 transparent;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
 }
 .site-menu-group + .site-menu-group {
   border-top: 1px solid #333;
