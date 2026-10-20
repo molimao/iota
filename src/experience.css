@@ -7015,3 +7015,16 @@ body:has(.site-shell) {
 .agent-crash-analysis > header { display:flex; align-items:center; justify-content:space-between; gap:1rem; font-size:.85rem; }
 .agent-crash-analysis > header > span { font-size:.6rem; border:1px solid #7f8c86; border-radius:4px; padding:.1rem .3rem; }
 .agent-crash-analysis > p,.agent-crash-analysis > a,.agent-crash-analysis > time { font-size:.75rem; line-height:1.7; color:#9da8a2; margin:.6rem 0 0; display:block; }
+
+/* In-context account sync: one quiet, responsive row, never a blocking gate. */
+.sync-guidance { display:flex; align-items:center; gap:14px; padding:18px 20px; margin:18px 0; border:1px solid var(--line, #363636); border-radius:14px; background:rgba(255,255,255,.025); }
+.sync-guidance > svg { flex:none; color:#86b7d0; }
+.sync-guidance > div { flex:1; min-width:0; }
+.sync-guidance strong { font-size:14px; }
+.sync-guidance p { margin:5px 0 0; font-size:13px; line-height:1.6; color:var(--muted, #a1a1a1); }
+.sync-guidance button { display:inline-flex; align-items:center; justify-content:center; gap:8px; flex:none; white-space:nowrap; }
+.sync-guidance.compact { flex-wrap:wrap; padding:14px; margin:8px 0 16px; }
+.sync-guidance.compact > div { flex-basis:calc(100% - 40px); }
+.sync-guidance.compact button { margin-left:34px; }
+.sync-saved { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted, #a1a1a1); line-height:1.6; }
+@media(max-width:600px) { .sync-guidance { flex-wrap:wrap; padding:16px; } .sync-guidance > div { flex-basis:calc(100% - 40px); } .sync-guidance button { margin-left:34px; max-width:calc(100% - 34px); white-space:normal; } }

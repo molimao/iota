@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-20",
+  "status": "local-only",
+  "production_mutations": false,
+  "changes": {
+    "analytics": [
+      "Public GA4 stream default G-QWBDM7FKFE; empty explicit override disables it. Production-host only.",
+      "Coarse first-session acquisition source; raw referrer URLs and query parameters excluded.",
+      "Distinct login_start, login_failed, login and sign_up; success requires pending attempt and new-user classification uses creation timestamp.",
+      "Account/status query start and terminal result, deduplicated per route visit. Prices and network polling excluded.",
+      "Device save/link distinguishes account storage and browser storage.",
+      "Explicit local-device import start/success/partial failure."
+    ],
+    "guidance": [
+      "IOTA dashboard and My Devices provide inline account-sync action.",
+      "Logged-in users with unmatched local bindings can explicitly import without navigating away.",
+      "Add dialogs explain storage without redirecting partially completed forms into OAuth.",
+      "Five languages; responsive wrapping."
+    ]
+  },
+  "validation": {
+    "targeted_tests": 23,
+    "typecheck": "passed",
+    "build": "passed",
+    "lint": "changed files passed; use-fleet retains pre-existing billing.data dependency warning",
+    "responsive": {
+      "width": 390,
+      "languages": [
+        "zh",
+        "zh-TW",
+        "en",
+        "ja",
+        "ko"
+      ],
+      "overflow": false
+    },
+    "screenshots": [
+      "/tmp/iota-sync-page-desktop-20261020.png",
+      "/tmp/iota-sync-page-mobile-20261020.png",
+      "/tmp/iota-sync-dialog-desktop-20261020.png",
+      "/tmp/iota-sync-devices-desktop-20261020.png"
+    ]
+  },
+  "preview": "http://127.0.0.1:8082/zh/devices",
+  "limits": [
+    "No production OAuth registration performed; no production device imports performed.",
+    "GA4 delivery and real-time reporting require separately approved release and live verification.",
+    "Register acquisition_source, project and storage_mode as event-scoped dimensions when configuring GA4 reports. Custom events do not retroactively recover missing historical data.",
+    "Existing unrelated local billing conversion work and BNT redesign are preserved, not deployed."
+  ]
+}

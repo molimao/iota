@@ -1,3 +1,4 @@
+import { SyncGuidance } from "./sync-guidance";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
@@ -75,6 +76,7 @@ export type FleetWorkspaceProps = {
   plan: "free" | "pro";
   billing?: BillingSummary | undefined;
   reportSettings?: ReactNode;
+  syncGuidance?: ReactNode;
   proTools?: ReactNode;
   deviceTrend?: (device: FleetDevice) => ReactNode;
   preview?: boolean;
@@ -313,6 +315,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           </a>
         )}
       </header>
+      {tab === "devices" && props.syncGuidance}
       {props.error && (
         <p className="fleet-form-error" role="alert">
           {props.error}
@@ -494,6 +497,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       : c.removeNote
                     : c.mapping}
           </DialogDescription>
+          {dialog === "add" && <SyncGuidance compact informational />}
           {dialog === "billing" && <span className="fleet-paywall-brand">IOTA WATCH / PRO</span>}
           {dialog === "add" && selectedProject === "iota" && (
             <button

@@ -1,3 +1,5 @@
+import { SyncGuidance } from "./sync-guidance";
+import { trackProductEvent } from "@/lib/analytics";
 import { DeviceEarningsTrend } from "./device-earnings-trend";
 import { ProTools } from "./pro-tools";
 import { ProNotificationSettings } from "./pro-notification-settings";
@@ -94,6 +96,8 @@ export function FleetPage() {
         // Checkout validates live billing configuration on the server.
         clearIntent();
         const result = await checkoutFn({ data: { interval, locale } });
+        if (new URL(result.url).hostname === "checkout.stripe.com")
+          trackProductEvent("begin_checkout", interval);
         window.location.assign(result.url);
       } catch {
         clearIntent();
@@ -144,23 +148,15 @@ export function FleetPage() {
     );
   return (
     <>
-      {(fleet.pendingLocal > 0 || billingResult === "success") && (
+      {billingResult === "success" && (
         <div className="fleet-account-bar" role="status">
-          {fleet.pendingLocal > 0 && (
-            <button
-              className="fleet-outline"
-              disabled={!fleet.ready}
-              onClick={() => void fleet.importLocal().catch((e) => setError(message(e)))}
-            >
-              {c.importLocal} · {fleet.pendingLocal}
-            </button>
-          )}
           {billingResult === "success" && (
             <span>{fleet.plan === "pro" ? c.paymentConfirmed : c.paymentPending}</span>
           )}
         </div>
       )}
       <FleetWorkspace
+        syncGuidance={<SyncGuidance />}
         initialAdd={addRequested}
         initialInterval={cadence}
         signedIn={!!auth.userId}

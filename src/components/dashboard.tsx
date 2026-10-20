@@ -1,3 +1,4 @@
+import { SyncGuidance } from "./sync-guidance";
 import { DailyRewardsSummary } from "./daily-rewards-summary";
 import { ReportEntry } from "./daily-report-discovery";
 import { agentCopy } from "./device-agent-copy";
@@ -290,9 +291,9 @@ function SavedIotaDashboard() {
           {t(watch.storageError || auth.error || "")}
         </div>
       )}
-      {(watch.syncMessage || message) && (
+      {message && (
         <div role="status" className="notice">
-          {t(message || watch.syncMessage || "")}
+          {t(message)}
           <button
             aria-label={t("关闭提示")}
             onClick={() => {
@@ -589,7 +590,14 @@ function SavedIotaDashboard() {
                           />
                         </td>
                         <td>
-                          <DeviceAgentSummary miner={view.entry.hotkey} official={{status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt}} compact />
+                          <DeviceAgentSummary
+                            miner={view.entry.hotkey}
+                            official={{
+                              status: view.statusStale ? "refresh_interrupted" : view.status,
+                              fetchedAt: view.statusFetchedAt,
+                            }}
+                            compact
+                          />
                         </td>
                         <td>
                           <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
@@ -692,7 +700,13 @@ function SavedIotaDashboard() {
                           <ArrowUpRight size={16} />
                         </button>
                       </div>
-                      <DeviceAgentSummary miner={view.entry.hotkey} official={{status: view.statusStale ? "refresh_interrupted" : view.status, fetchedAt: view.statusFetchedAt}} />
+                      <DeviceAgentSummary
+                        miner={view.entry.hotkey}
+                        official={{
+                          status: view.statusStale ? "refresh_interrupted" : view.status,
+                          fetchedAt: view.statusFetchedAt,
+                        }}
+                      />
                     </article>
                   );
                 })}
@@ -701,23 +715,7 @@ function SavedIotaDashboard() {
           </>
         )}
       </section>
-      {watch.loaded && !watch.cloud && (
-        <p className="storage-note">
-          {watch.cloud
-            ? localizeValue(
-                en
-                  ? "Device list saved to your account. You can view it on other devices after signing in."
-                  : "设备清单已绑定账号，登录后可在其他设备查看。",
-                locale,
-              )
-            : localizeValue(
-                en
-                  ? "Device list saved in this browser. Export a backup before clearing browser data."
-                  : "设备清单保存在此浏览器，清理浏览器数据前请导出备份。",
-                locale,
-              )}
-        </p>
-      )}
+      {watch.loaded && <SyncGuidance />}
       {watch.loaded && watch.devices.length > 0 && (!auth.userId || billing.data) && (
         <ReportEntry plan={billing.data?.plan ?? "free"} />
       )}
@@ -733,6 +731,7 @@ function SavedIotaDashboard() {
         <DialogContent className="dash-dialog iota-add-dialog">
           <DialogTitle>{t("添加设备")}</DialogTitle>
           <DialogDescription>{iotaAddCopy.guide[locale]}</DialogDescription>
+          <SyncGuidance compact informational />
           <IotaAddFlow
             limit={watch.limit}
             remaining={Math.max(0, watch.limit - watch.projectCount)}
@@ -983,9 +982,7 @@ function DeviceDetail({
               {t("最低支付金额")} ·{" "}
               {formatIota(view.earnings?.minimumPayoutUnits ?? null, 8, locale)} IOTA
             </p>
-            <p>
-              {iotaAddCopy.rewardBalancesNote[locale]}
-            </p>
+            <p>{iotaAddCopy.rewardBalancesNote[locale]}</p>
             {view.earnings?.error && <p role="alert">{t("收益刷新失败，以下可能为旧记录。")}</p>}
             {view.earnings?.recent.length ? (
               <table>
@@ -1108,6 +1105,7 @@ function IotaLookup({ id }: { id: string }) {
         )}
         {dash.statusError && <p role="status">{fleetCopy(locale).refreshFailed}</p>}
       </article>
+      <SyncGuidance compact />
       <div className="lookup-actions">
         <a className="site-button" href={`/${locale}/app?add=${encodeURIComponent(id)}`}>
           {onboardingCopy.save[locale]}

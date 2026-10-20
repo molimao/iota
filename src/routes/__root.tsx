@@ -12,6 +12,8 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { trackPageView, trackFunnelEvent, queryAnalyticsProject } from "../lib/analytics";
+
 import appCss from "../styles.css?url";
 import experienceCss from "../experience.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -95,7 +97,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: experienceCss },
       { rel: "icon", href: `/favicon.svg?v=${BRAND_VERSION}`, type: "image/svg+xml" },
       { rel: "icon", href: `/favicon.ico?v=${BRAND_VERSION}`, sizes: "16x16 32x32 48x48" },
-      { rel: "apple-touch-icon", href: `/apple-touch-icon.png?v=${BRAND_VERSION}`, sizes: "180x180" },
+      {
+        rel: "apple-touch-icon",
+        href: `/apple-touch-icon.png?v=${BRAND_VERSION}`,
+        sizes: "180x180",
+      },
       { rel: "manifest", href: `/site.webmanifest?v=${BRAND_VERSION}` },
     ],
   }),
@@ -121,12 +127,60 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function AnalyticsObserver() {
+  const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  useEffect(() => {
+    const track = () => trackPageView(pathname);
+    track();
+    window.addEventListener("iota-analytics-consent", track);
+    return () => window.removeEventListener("iota-analytics-consent", track);
+  }, [pathname]);
+  useEffect(() => {
+    const started = new Set<string>(),
+      finished = new Set<string>();
+    const cache = queryClient.getQueryCache();
+    const observe = (query: ReturnType<typeof cache.getAll>[number]) => {
+      const project = queryAnalyticsProject(query.queryKey);
+      if (!project || (query.state.status === "pending" && query.state.fetchStatus === "idle"))
+        return;
+      const key = query.queryHash; // In-memory deduplication only. Never transmitted.
+      if (!started.has(key)) {
+        started.add(key);
+        trackFunnelEvent("query_started", { project });
+      }
+      if (finished.has(key) || query.state.fetchStatus === "fetching") return;
+      if (query.state.status === "error") {
+        finished.add(key);
+        trackFunnelEvent("query_failed", { project });
+      } else if (query.state.status === "success") {
+        const data = query.state.data as { error?: unknown; stale?: boolean } | undefined;
+        if (data?.stale) return;
+        finished.add(key);
+        trackFunnelEvent(
+          data?.error && data.error !== "not-found" ? "query_failed" : "query_completed",
+          { project, ...(data?.error === "not-found" ? { outcome: "not_found" as const } : {}) },
+        );
+      }
+    };
+    cache
+      .getAll()
+      .filter((q) => q.getObserversCount() > 0)
+      .forEach(observe);
+    return cache.subscribe((event) => {
+      if (event.query.getObserversCount() > 0) observe(event.query);
+    });
+  }, [pathname, queryClient]);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      {/* Required: nested routes render through Outlet. */}
+      <AnalyticsObserver />
       <SiteAd />
       <Outlet />
     </QueryClientProvider>

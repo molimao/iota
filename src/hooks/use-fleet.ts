@@ -1,4 +1,5 @@
 import { PLANS } from "@/lib/plans";
+import { trackCoreAction, trackFunnelEvent } from "@/lib/analytics";
 import { useCallback, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -76,12 +77,23 @@ export function useFleet(userId: string | null, authReady: boolean) {
         setLocal(next);
         window.dispatchEvent(new Event("watch-fleet-updated"));
       }
+      if (input.action === "create")
+        trackCoreAction("device_created", {
+          storage_mode: userId ? "account" : "browser",
+          ...(input.payload.binding ? { project: input.payload.binding.project } : {}),
+        });
+      if (input.action === "link")
+        trackCoreAction("project_linked", {
+          storage_mode: userId ? "account" : "browser",
+          project: input.payload.binding.project,
+        });
       setError(null);
     },
     [userId, client, mutateFn],
   );
   const importLocal = useCallback(async () => {
     if (!userId || !remote.data) throw new Error("sign_in_required");
+    trackFunnelEvent("sync_started");
     let snapshot = remote.data,
       skipped = 0;
     for (const device of local) {
@@ -143,7 +155,11 @@ export function useFleet(userId: string | null, authReady: boolean) {
       }
       client.setQueryData(["fleet", userId], snapshot);
     }
-    if (skipped) throw new Error("import_partial");
+    if (skipped) {
+      trackFunnelEvent("sync_failed");
+      throw new Error("import_partial");
+    }
+    trackFunnelEvent("sync_completed");
   }, [userId, remote.data, local, mutateFn, client]);
   const imported = new Set(devices.flatMap((d) => d.bindings).map(bindingIdentity));
   const pendingLocal = userId
