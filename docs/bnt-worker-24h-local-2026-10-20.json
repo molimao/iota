@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-20",
+  "status": "local_verified_not_published",
+  "scope": [
+    "Address chart fixed to 24h; no range selector",
+    "One sparkline per Worker card, scoped to that Worker",
+    "Authenticated owner-scoped database samples for saved payout addresses",
+    "Sample every five minutes while the BNT page is viewed; latest 24h displayed",
+    "Zero remains measured zero, missing Worker observations and >15-minute gaps break the line",
+    "First observation renders a dot, not an invented history curve",
+    "No production writes or migrations executed"
+  ],
+  "migration_required_before_release": "supabase/migrations/20261020120000_bnt_worker_samples.sql",
+  "storage": {
+    "table": "watch_bnt_worker_samples",
+    "primary_key": [
+      "user_id",
+      "address",
+      "bucket"
+    ],
+    "bucket_minutes": 5,
+    "max_workers_per_sample": 100,
+    "read_window_hours": 24,
+    "cleanup_threshold_hours": 48,
+    "writes": "Service role only; values fetched from pool on server, never accepted from client",
+    "reads": "Authenticated read RPC verifies current ownership in watch_bindings; selected-Worker bindings filter history",
+    "background_collection": "Not scheduled; explicit UI note that sampling happens while viewing the page"
+  },
+  "validation": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "tests": "17 passed; 1 optional live address-history test skipped in offline suite",
+    "db_tests": "Client writes and anonymous reads rejected; duplicate sample idempotent; owner isolation and Worker binding filters verified",
+    "server_tests": "Ownership verified before fetching; stale pool data not persisted; only verified pool rates written",
+    "build": "passed",
+    "browser": {
+      "miner_cards": 7,
+      "sparklines": 7,
+      "address_range_buttons": 0,
+      "mobile_viewport": 390,
+      "mobile_document_width": 390
+    }
+  },
+  "preview": "http://127.0.0.1:8082/zh/review?bnt=1",
+  "screenshots": [
+    "/tmp/iota-bnt-worker-24h-desktop-20261020.png",
+    "/tmp/iota-bnt-worker-24h-mobile-20261020.png"
+  ],
+  "release_notes": "Parent address chart changes are also local. watch-db.ts contains unrelated pre-existing conversion RPC types: stage only the two new BNT RPC additions. Do not deploy unrelated billing drafts."
+}

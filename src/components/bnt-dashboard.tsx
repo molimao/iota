@@ -1,3 +1,6 @@
+import { useBntWorkerHistory } from "@/hooks/use-bnt-worker-history";
+import { BntWorkerSparkline, WorkerSamplingNote } from "./bnt-worker-sparkline";
+import { BntHashrateTrend } from "./bnt-hashrate-trend";
 import { useEffect, useRef, useState } from "react";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { Cpu, Plus, RefreshCw, Search } from "lucide-react";
@@ -106,7 +109,13 @@ export function BntDashboard() {
         void client.invalidateQueries({ queryKey: ["pool-account", "bnt", address] });
       }}
       onLogin={auth.signInWithGoogle}
-      onRefresh={() => client.invalidateQueries({ queryKey: ["pool-account", "bnt"] })}
+      onRefresh={() =>
+        Promise.all([
+          client.invalidateQueries({ queryKey: ["pool-account", "bnt"] }),
+          client.invalidateQueries({ queryKey: ["bnt-hashrate-history"] }),
+          client.invalidateQueries({ queryKey: ["bnt-worker-history"] }),
+        ])
+      }
       onSave={(input) =>
         mutation(async () => {
           if (!auth.userId || !fleet.ready) throw new Error("unavailable");
@@ -229,6 +238,7 @@ export function BntDashboardView(p: Props) {
       ? p.lookup
       : undefined;
   const totals = bntTotals(p.rows.length ? p.rows : transient ? [transient] : []);
+  const workerHistory = useBntWorkerHistory(p.rows, p.signedIn, p.ready, p.preview ?? false);
   const groups = bntAddressGroups(p.rows);
   const workerMatches = (
     row: BntRow,
@@ -299,6 +309,7 @@ export function BntDashboardView(p: Props) {
   ];
   const addressSection = (g: ReturnType<typeof bntAddressGroups>[number], temporary = false) => {
     const r = g.account;
+    const history = workerHistory(g.address);
     return (
       <section className="bnt-address-group" key={g.address}>
         <header className="bnt-address-heading">
@@ -355,6 +366,8 @@ export function BntDashboardView(p: Props) {
             {r.loading ? c.loading : r.result?.error ? c.unavailable : t("noWorkers")}
           </p>
         )}
+        <BntHashrateTrend address={g.address} preview={p.preview ?? false} />
+        <WorkerSamplingNote />
         <div className="bnt-miner-grid" data-layout={layout}>
           {g.workers.slice(0, 100).map((w, i) => (
             <article className="bnt-miner-card" key={`${g.address}:${w.name}:${i}`}>
@@ -375,6 +388,17 @@ export function BntDashboardView(p: Props) {
                 <span>{poolCopy.rate[locale]}</span>
                 <strong>{poolHashrate("bnt", w.hashrate)}</strong>
               </div>
+              <BntWorkerSparkline
+                samples={history?.data?.samples ?? []}
+                name={w.name}
+                rate={w.hashrate}
+                preview={p.preview ?? false}
+                saved={!temporary}
+                signedIn={p.signedIn}
+                pending={history?.isPending ?? false}
+                error={history?.isError ?? false}
+                sampling={history?.data?.sampling ?? true}
+              />
               <div className="bnt-miner-share">
                 <span>{t("lastShare")}</span>
                 <time>{clock(w.lastSeen)}</time>
