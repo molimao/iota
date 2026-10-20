@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-20",
+  "branch": "main",
+  "status": "Local development; not published",
+  "before": "Single-address lookup followed by a separate saved-address book; no consolidated BNT device dashboard.",
+  "changes": [
+    "Dedicated BNT dashboard with automatic reads of all account-saved BNT bindings",
+    "Address-deduplicated total hashrate, total paid and confirmed unpaid balances, with per-field coverage",
+    "Stale hashrate excluded from current total; cached historical balances explicitly marked",
+    "Colored mining, zero-hashrate, older-data and unavailable states",
+    "Device/name/address/Worker search, status filters, hashrate sorting, cards and list view",
+    "Per-device Worker shares/timestamps and pending-payment details",
+    "Multiline address saving, optional names, linking to existing devices, optional Worker filter, renaming and removal through existing authenticated fleet mutations",
+    "Validation before batch mutation, remaining-address retention after partial failure and one-time tab-local login draft",
+    "Five languages and responsive mobile layout; advanced add fields collapsed",
+    "Anonymous query remains separate from saving; empty state has address help"
+  ],
+  "dataBoundaries": [
+    "No invented BNT daily earnings, USD quotes or historical trend series",
+    "Workers use pool share activity, not device heartbeats",
+    "Wallet balances remain wallet scoped even for Worker-filtered cards",
+    "Preview fixtures never enter production database or live query cache",
+    "No production writes, migrations, push or deployment"
+  ],
+  "validation": {
+    "targetedTests": "25 passed, one optional live test skipped in the offline suite",
+    "realPool": "BNT_LIVE_TEST=1: all six BNT tests passed using the public Seine developer address",
+    "browser": ["Real public pool lookup rendered hashrate, balances and Workers", "Search returned only matching device", "Attention filter selected the older-data device", "List and card modes switched", "Preview rename updated the device heading", "Preview removal reduced the device list", "Worker expansion showed last share time", "Mobile add dialog verified after contrast correction"],
+    "mobileLanguages": ["zh", "en", "zh-TW", "ko", "ja"],
+    "mobileWidth": 390,
+    "horizontalOverflow": false,
+    "screenshotDesktop": "/tmp/iota-bnt-dashboard-desktop-20261020.png",
+    "screenshotMobile": "/tmp/iota-bnt-dashboard-mobile-20261020.png",
+    "preview": "http://127.0.0.1:8081/zh/review?bnt=1",
+    "realPage": "http://127.0.0.1:8081/zh/projects/bnt"
+  },
+  "preserved": "Pre-existing analytics and other local changes were preserved and are outside this work."
+}

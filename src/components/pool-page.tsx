@@ -17,7 +17,11 @@ import { ProjectAbout } from "./project-about";
 import { useLocale } from "./site/locale";
 import { poolCopy as c, poolEditorial } from "./pool-copy";
 import { fleetCopy } from "./fleet-copy";
+import { BntDashboard } from "./bnt-dashboard";
 export function PoolPage({ project }: { project: PoolProject }) {
+  return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
+}
+function PoolLookupPage({ project }: { project: PoolProject }) {
   const { locale } = useLocale(),
     fc = fleetCopy(locale),
     info = POOL_PROJECTS[project];
