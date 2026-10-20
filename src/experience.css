@@ -6830,10 +6830,18 @@ body:has(.site-shell) {
 .bnt-card-balances small { color:#888; font-size:10px; font-weight:400; }
 .bnt-worker-details, .bnt-payment-details { margin-top:12px; font-size:12px; }
 .bnt-worker-details summary, .bnt-payment-details summary { color:#bbb; cursor:pointer; padding:5px 0; }
-.bnt-worker-rows { max-height:300px; overflow:auto; overscroll-behavior:contain; }
-.bnt-worker-rows > div { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; border-bottom:1px solid #343434; padding:12px 0; }
-.bnt-worker-rows b { overflow-wrap:anywhere; }
-.bnt-worker-rows small { color:#999; font-size:10px; }
+.bnt-worker-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr)); gap:12px; margin-top:12px; }
+.bnt-worker-grid.is-long { max-height:560px; overflow:auto; overscroll-behavior:contain; padding-right:6px; }
+.bnt-worker-card { min-width:0; padding:16px; border:1px solid #3a3a3a; border-radius:12px; background:#141616; }
+.bnt-worker-card > header { display:flex; flex-direction:column; align-items:flex-start; gap:9px; }
+.bnt-worker-card header b { color:#eee; font-size:13px; line-height:1.4; overflow-wrap:anywhere; }
+.bnt-worker-card .bnt-state { font-size:10px; padding:4px 7px; white-space:normal; }
+.bnt-worker-rate { display:flex; flex-direction:column; gap:6px; margin:18px 0; }
+.bnt-worker-rate > span, .bnt-worker-card footer > span { color:#999; font-size:10px; }
+.bnt-worker-rate strong { color:#f3f3f3; font-size:22px; font-variant-numeric:tabular-nums; letter-spacing:-.025em; }
+.bnt-worker-card footer { margin:0; display:flex; flex-direction:column; gap:5px; border-top:1px solid #303333; padding-top:12px; }
+.bnt-worker-card time { font-size:11px; color:#bbb; font-variant-numeric:tabular-nums; }
+@media(max-width:480px) { .bnt-worker-grid { grid-template-columns:1fr; } }
 .bnt-card-clock { color:#888; font-size:11px; margin:20px 0 14px; }
 .bnt-card-hint { color:#efbc7b; font-size:12px; line-height:1.6; margin-top:14px; }
 .bnt-card-actions { display:flex; flex-wrap:wrap; gap:12px; border-top:1px solid #343434; padding-top:14px; font-size:11px; }
@@ -7133,3 +7141,41 @@ body:has(.site-shell) {
 .sync-guidance.compact button { margin-left:34px; }
 .sync-saved { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted, #a1a1a1); line-height:1.6; }
 @media(max-width:600px) { .sync-guidance { flex-wrap:wrap; padding:16px; } .sync-guidance > div { flex-basis:calc(100% - 40px); } .sync-guidance button { margin-left:34px; max-width:calc(100% - 34px); white-space:normal; } }
+
+/* BNT: payout addresses group miners; only the address owns balances. */
+.bnt-address-groups { display:grid; gap:34px; }
+.bnt-address-group { min-width:0; padding:24px 0 28px; border-top:1px solid #383838; }
+.bnt-address-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
+.bnt-address-heading > div { min-width:0; }
+.bnt-address-heading h3 { margin:5px 0 9px; font-size:20px; }
+.bnt-address-heading .bnt-eyebrow { color:#999; font-size:11px; margin:0; }
+.bnt-address-heading code { line-height:1.6; max-width:720px; }
+.bnt-address-count { flex:none; padding:7px 11px; background:#272b29; color:#bbb; border-radius:8px; font-size:12px; }
+.bnt-address-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; padding:20px 0; margin:12px 0 0; }
+.bnt-address-metrics dt { color:#999; font-size:12px; margin-bottom:8px; }
+.bnt-address-metrics dd { margin:0; font-size:21px; font-weight:600; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.bnt-address-metrics small { font-size:12px; color:#999; }
+.bnt-address-tools { display:flex; align-items:baseline; flex-wrap:wrap; gap:12px 24px; margin-bottom:20px; font-size:11px; color:#999; }
+.bnt-address-tools .bnt-payment-details, .bnt-address-tools .bnt-card-clock { margin:0; }
+.bnt-address-tools a { margin-left:auto; }
+.bnt-miner-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.bnt-miner-card { min-width:0; border:1px solid #383838; border-radius:16px; padding:20px; background:#1a1c1b; }
+.bnt-miner-head { display:flex; align-items:center; justify-content:space-between; gap:12px; color:#999; }
+.bnt-miner-card h4 { margin:18px 0; font-size:17px; overflow-wrap:anywhere; }
+.bnt-miner-rate { display:flex; flex-direction:column; gap:8px; margin:18px 0; }
+.bnt-miner-rate > span, .bnt-miner-share > span { color:#999; font-size:11px; }
+.bnt-miner-rate strong { color:#eee; font-size:26px; font-variant-numeric:tabular-nums; letter-spacing:-.03em; }
+.bnt-miner-share { display:flex; flex-direction:column; gap:7px; border-top:1px solid #363936; padding-top:14px; }
+.bnt-miner-share time { font-size:12px; color:#ccc; }
+.bnt-miner-share small { font-size:10px; color:#999; }
+.bnt-address-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:20px; font-size:11px; color:#999; }
+.bnt-address-actions > div { display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
+.bnt-address-actions button { padding:0; border:0; background:transparent; color:#aaa; font:inherit; cursor:pointer; }
+.bnt-address-actions button:hover { color:#fff; text-decoration:underline; }
+.bnt-no-workers { padding:24px 0; font-size:13px; color:#aaa; }
+.bnt-miner-grid[data-layout="list"] { grid-template-columns:1fr; }
+.bnt-miner-grid[data-layout="list"] .bnt-miner-card { display:grid; grid-template-columns:150px minmax(100px,1fr) 140px minmax(170px,1fr); gap:20px; align-items:center; }
+.bnt-miner-grid[data-layout="list"] h4, .bnt-miner-grid[data-layout="list"] .bnt-miner-rate { margin:0; }
+.bnt-miner-grid[data-layout="list"] .bnt-miner-share { padding:0; border:0; }
+@media(max-width:1000px) { .bnt-miner-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .bnt-miner-grid[data-layout="list"] .bnt-miner-card { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
+@media(max-width:600px) { .bnt-miner-grid { grid-template-columns:1fr; } .bnt-address-metrics { grid-template-columns:1fr; gap:16px; } .bnt-address-heading { gap:12px; } .bnt-address-metrics > div { display:flex; justify-content:space-between; gap:16px; align-items:baseline; } .bnt-address-metrics dd { font-size:18px; text-align:right; } .bnt-address-metrics dt { margin:0; } .bnt-address-count { white-space:nowrap; } .bnt-miner-grid[data-layout="list"] .bnt-miner-card { gap:12px; } .bnt-miner-head { flex-wrap:wrap; } .bnt-address-tools a { margin-left:0; } }

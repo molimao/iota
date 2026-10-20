@@ -72,3 +72,30 @@ it("keeps stale data visible without reporting it as current mining activity", (
     "loading",
   );
 });
+
+it("groups one address with seven Workers as seven miners, without duplicating account money", async () => {
+  const { bntAddressGroups } = await import("./bnt-dashboard");
+  const account = row("address");
+  account.result!.data!.workers = Array.from({ length: 7 }, (_, i) => ({
+    name: `rig-${i}`,
+    hashrate: i,
+    online: true,
+    lastSeen: 1000,
+  }));
+  const groups = bntAddressGroups([account, { ...account, id: "duplicate", worker: "rig-1" }]);
+  expect(groups).toHaveLength(1);
+  expect(groups[0]!.workers).toHaveLength(7);
+  expect(groups[0]!.account.result!.data!.paid).toBe(8);
+});
+it("merges explicit Worker bindings once and keeps identical names on different addresses separate", async () => {
+  const { bntAddressGroups, bntWorkerState } = await import("./bnt-dashboard");
+  const a = { ...row("a"), worker: "rig" };
+  expect(
+    bntAddressGroups([a, { ...a, id: "duplicate" }, { ...a, id: "other", address: "other" }]).map(
+      (g) => g.workers.length,
+    ),
+  ).toEqual([1, 1]);
+  expect(bntWorkerState(a, a.result!.data!.workers[1]!)).toBe("waiting");
+  a.result!.stale = true;
+  expect(bntWorkerState(a, a.result!.data!.workers[0]!)).toBe("stale");
+});

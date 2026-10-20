@@ -1,5 +1,16 @@
 import { localized as l } from "@/lib/product-discovery";
 export const bntDashboardCopy = {
+  addressGroup: l(["收益地址", "收益地址", "Payout address", "수익 주소", "報酬アドレス"]),
+  miners: l(["矿机", "礦機", "Miners", "채굴기", "マイナー"]),
+  addressName: l(["地址备注", "地址備註", "Address label", "주소 메모", "アドレス名"]),
+  addressEmpty: l([
+    "添加收益地址，自动发现下属矿机",
+    "新增收益地址，自動發現下屬礦機",
+    "Add a payout address to discover its miners",
+    "수익 주소를 추가하면 채굴기를 불러옵니다",
+    "報酬アドレスを追加してマイナーを表示",
+  ]),
+
   advanced: l([
     "关联已有设备 / 指定 Worker",
     "關聯現有設備 / 指定 Worker",
@@ -29,7 +40,13 @@ export const bntDashboardCopy = {
   ]),
   rate: l(["总算力", "總算力", "Total hashrate", "총 해시레이트", "合計ハッシュレート"]),
   paid: l(["累计支付", "累計支付", "Total paid", "누적 지급", "累計支払"]),
-  add: l(["添加设备", "新增設備", "Add device", "기기 추가", "デバイスを追加"]),
+  add: l([
+    "添加收益地址",
+    "新增收益地址",
+    "Add payout address",
+    "수익 주소 추가",
+    "報酬アドレスを追加",
+  ]),
   lookup: l(["临时查询", "臨時查詢", "Quick lookup", "빠른 조회", "一時照会"]),
   unsaved: l([
     "查询结果尚未保存",
@@ -39,19 +56,19 @@ export const bntDashboardCopy = {
     "照会結果は未保存です",
   ]),
   save: l([
-    "保存到我的设备",
-    "儲存至我的設備",
-    "Save to My devices",
-    "내 기기에 저장",
-    "マイデバイスに保存",
+    "保存收益地址",
+    "儲存收益地址",
+    "Save payout address",
+    "수익 주소 저장",
+    "報酬アドレスを保存",
   ]),
   devices: l(["设备", "設備", "Devices", "기기", "デバイス"]),
   name: l([
-    "设备名称（可选）",
-    "設備名稱（選填）",
-    "Device name (optional)",
-    "기기 이름 (선택)",
-    "デバイス名（任意）",
+    "地址备注（可选）",
+    "地址備註（選填）",
+    "Address label (optional)",
+    "주소 메모 (선택)",
+    "アドレス名（任意）",
   ]),
   addresses: l([
     "收益地址（每行一个）",

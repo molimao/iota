@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-20",
+  "status": "local-only",
+  "model": "Payout address groups unique Workers; each Worker is a miner card. Saved bindings are not counted as physical miners.",
+  "changes": [
+    "Flat miner grid under each payout address; no nested device card",
+    "Address-level money shown once; no per-miner balance allocation",
+    "Global aggregate shown only for multiple addresses",
+    "Worker-level search, state counts, sorting and list layout",
+    "Duplicate address bindings merge into one group without duplicating Workers",
+    "Address label/add/save wording updated in five languages"
+  ],
+  "validation": {
+    "unit_tests": 9,
+    "typecheck": "passed",
+    "lint": "passed",
+    "production_build": "passed",
+    "browser": {
+      "groups": 1,
+      "miners": 7,
+      "nested_miners": 0,
+      "duplicate_single_address_global_summary": 0,
+      "waiting_filter_visible_miners": 1,
+      "worker_search_visible_miners": 1,
+      "list_view_miners": 7,
+      "mobile_viewport": 390,
+      "mobile_document_width": 390
+    }
+  },
+  "preview": "http://127.0.0.1:8082/zh/review?bnt=1",
+  "screenshot": "/tmp/iota-bnt-correct-address-miners-20261020.png",
+  "production_changes": false
+}

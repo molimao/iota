@@ -6,7 +6,7 @@ import { useFleet } from "@/hooks/use-fleet";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import { poolAccountUrl, validPoolAddress } from "@/lib/pool-projects";
 import { poolHashrate } from "@/lib/pool-monitor";
-import { bntRowState, bntTotals, type BntRow } from "@/lib/bnt-dashboard";
+import { bntTotals, bntAddressGroups, bntWorkerState, type BntRow } from "@/lib/bnt-dashboard";
 import { projectAddressInput } from "@/lib/project-address-input";
 import { canLinkProject } from "@/lib/fleet";
 import { useLocale } from "./site/locale";
@@ -229,33 +229,37 @@ export function BntDashboardView(p: Props) {
       ? p.lookup
       : undefined;
   const totals = bntTotals(p.rows.length ? p.rows : transient ? [transient] : []);
-  const stateLabel = (r: BntRow) => {
-    const s = bntRowState(r);
-    return s === "mining" || s === "waiting" || s === "stale"
-      ? t(s)
-      : s === "notFound"
-        ? t("notFound")
-        : s === "loading"
-          ? c.loading
-          : c.unavailable;
+  const groups = bntAddressGroups(p.rows);
+  const workerMatches = (
+    row: BntRow,
+    worker: ReturnType<typeof bntAddressGroups>[number]["workers"][number],
+  ) => {
+    const state = bntWorkerState(row, worker);
+    return (
+      (!search.trim() ||
+        `${row.name} ${row.address} ${worker.name}`
+          .toLowerCase()
+          .includes(search.trim().toLowerCase())) &&
+      (filter === "all" ||
+        (filter === "attention" ? ["stale", "unavailable"].includes(state) : state === filter))
+    );
   };
-  const rate = (r: BntRow) =>
-    r.worker
-      ? (r.result?.data?.workers.find((w) => w.name === r.worker)?.hashrate ?? null)
-      : (r.result?.data?.hashrate ?? null);
-  const displayed = p.rows
+  const displayed = groups
+    .map((g) => ({
+      ...g,
+      workers: g.workers
+        .filter((w) => workerMatches(g.account, w))
+        .sort((a, b) => (sort === "rate" ? (b.hashrate ?? -1) - (a.hashrate ?? -1) : 0)),
+    }))
     .filter(
-      (r) =>
-        (!search.trim() ||
-          `${r.name} ${r.address} ${r.worker} ${r.result?.data?.workers.map((w) => w.name).join(" ") ?? ""}`
-            .toLowerCase()
-            .includes(search.trim().toLowerCase())) &&
-        (filter === "all" ||
-          (filter === "attention"
-            ? !["mining", "waiting", "loading"].includes(bntRowState(r))
-            : bntRowState(r) === filter)),
-    )
-    .sort((a, b) => (sort === "rate" ? (rate(b) ?? -1) - (rate(a) ?? -1) : 0));
+      (g) =>
+        g.workers.length ||
+        (!g.workers.length &&
+          filter === "all" &&
+          (!search.trim() ||
+            `${g.account.name} ${g.address}`.toLowerCase().includes(search.trim().toLowerCase()))),
+    );
+  const minerCount = groups.reduce((n, g) => n + g.workers.length, 0);
   const openAdd = (address = "") => {
     setError(null);
     setNotice("");
@@ -293,138 +297,140 @@ export function BntDashboardView(p: Props) {
       main: false,
     },
   ];
-  const card = (r: BntRow, temporary = false) => (
-    <article className="bnt-device-card" key={r.id}>
-      <div className="bnt-card-head">
-        <div className="bnt-device-icon">
-          <Cpu size={20} />
-        </div>
-        <span className="bnt-state" data-state={bntRowState(r)}>
-          {stateLabel(r)}
-        </span>
-      </div>
-      <h3>{r.name}</h3>
-      <code className="bnt-address" title={r.address}>
-        {r.address.slice(0, 10)}…{r.address.slice(-8)}
-        {r.worker ? ` · ${r.worker}` : ""}
-      </code>
-      <div className="bnt-card-rate">
-        <span>{poolCopy.rate[locale]}</span>
-        <strong>{poolHashrate("bnt", rate(r))}</strong>
-      </div>
-      <dl className="bnt-card-balances">
-        <div>
-          <dt>{bntLabels.confirmed[locale]}</dt>
-          <dd>
-            {value(r.result?.data?.balance)} <small>BNT</small>
-          </dd>
-        </div>
-        <div>
-          <dt>{t("paid")}</dt>
-          <dd>
-            {value(r.result?.data?.paid)} <small>BNT</small>
-          </dd>
-        </div>
-      </dl>
-      <details className="bnt-worker-details">
-        <summary>
-          Workers ·{" "}
-          {r.worker
-            ? (r.result?.data?.workers.filter((w) => w.name === r.worker).length ?? "—")
-            : (r.result?.data?.workerCount ?? "—")}
-        </summary>
-        <div className="bnt-worker-rows">
-          {!r.result?.data?.workers.length && <p>{t("noWorkers")}</p>}
-          {r.result?.data?.workers
-            .filter((w) => !r.worker || w.name === r.worker)
-            .slice(0, 100)
-            .map((w, i) => (
-              <div key={`${w.name}:${i}`}>
-                <b>{w.name || "—"}</b>
-                <span
-                  className="bnt-state"
-                  data-state={
-                    r.result?.stale
-                      ? "stale"
-                      : w.online === true
-                        ? "mining"
-                        : w.online === false
-                          ? "waiting"
-                          : "unavailable"
-                  }
-                >
-                  {w.online === true
-                    ? t("shareRecent")
-                    : w.online === false
-                      ? t("shareOld")
-                      : t("never")}
-                </span>
-                <strong>{poolHashrate("bnt", w.hashrate)}</strong>
-                <small>
-                  {t("lastShare")} · {clock(w.lastSeen)}
-                </small>
-              </div>
-            ))}
-        </div>
-        {(r.result?.data?.workers.length ?? 0) > 100 && (
-          <p className="compute-caption">{poolCopy.workerLimit[locale]}</p>
-        )}
-      </details>
-      <details className="bnt-payment-details">
-        <summary>{t("payments")}</summary>
-        <dl className="bnt-card-balances">
+  const addressSection = (g: ReturnType<typeof bntAddressGroups>[number], temporary = false) => {
+    const r = g.account;
+    return (
+      <section className="bnt-address-group" key={g.address}>
+        <header className="bnt-address-heading">
           <div>
-            <dt>{bntLabels.estimated[locale]}</dt>
+            <p className="bnt-eyebrow">{t("addressGroup")}</p>
+            <h3>{r.name}</h3>
+            <code className="bnt-address" title={g.address}>
+              {g.address}
+            </code>
+          </div>
+          <span className="bnt-address-count">
+            {g.workers.length}
+            {g.workers.length !== g.totalWorkers ? ` / ${g.totalWorkers}` : ""} {t("miners")}
+          </span>
+        </header>
+        <dl className="bnt-address-metrics">
+          <div>
+            <dt>{t("rate")}</dt>
+            <dd>{poolHashrate("bnt", r.result?.data?.hashrate ?? null)}</dd>
+          </div>
+          <div>
+            <dt>{t("paid")}</dt>
             <dd>
-              {value(r.result?.data?.pendingEstimate)} <small>BNT</small>
+              {value(r.result?.data?.paid)} <small>BNT</small>
             </dd>
           </div>
           <div>
-            <dt>{bntLabels.queued[locale]}</dt>
+            <dt>{bntLabels.confirmed[locale]}</dt>
             <dd>
-              {value(r.result?.data?.queued)} <small>BNT</small>
+              {value(r.result?.data?.balance)} <small>BNT</small>
             </dd>
           </div>
         </dl>
-      </details>
-      {bntRowState(r) === "notFound" && (
-        <p className="bnt-card-hint">{poolCopy.notFound[locale]}</p>
-      )}
-      <p className="bnt-card-clock">
-        {r.loading ? c.loading : clock(r.result?.fetchedAt)}
-        {r.result?.stale ? ` · ${t("stale")}` : ""}
-      </p>
-      <div className="bnt-card-actions">
-        {temporary ? (
-          <button onClick={() => openAdd(r.address)}>{t("save")}</button>
-        ) : (
-          <>
-            <button
-              disabled={busy}
-              onClick={() => {
-                setRename(r);
-                setNewName(r.name);
-              }}
-            >
-              {t("rename")}
-            </button>
-            <button
-              disabled={busy}
-              onClick={() => {
-                if (window.confirm(`${poolCopy.remove[locale]} ${r.name}?`))
-                  void act(() => p.onRemove(r));
-              }}
-            >
-              {poolCopy.remove[locale]}
-            </button>
-          </>
+        <div className="bnt-address-tools">
+          <details className="bnt-payment-details">
+            <summary>{t("payments")}</summary>
+            <p>
+              {bntLabels.estimated[locale]} · {value(r.result?.data?.pendingEstimate)} BNT
+            </p>
+            <p>
+              {bntLabels.queued[locale]} · {value(r.result?.data?.queued)} BNT
+            </p>
+          </details>
+          <span className="bnt-card-clock">
+            {r.loading ? c.loading : clock(r.result?.fetchedAt)}
+            {r.result?.stale ? ` · ${t("stale")}` : ""}
+          </span>
+          <a href={poolAccountUrl("bnt", r.address)} target="_blank" rel="noreferrer">
+            {t("source")} ↗
+          </a>
+        </div>
+        {!g.workers.length && (
+          <p role="status" className="bnt-no-workers">
+            {r.loading ? c.loading : r.result?.error ? c.unavailable : t("noWorkers")}
+          </p>
         )}
-        <a href={poolAccountUrl("bnt", r.address)} target="_blank" rel="noreferrer">
-          {t("source")} ↗
-        </a>
-      </div>
-    </article>
-  );
+        <div className="bnt-miner-grid" data-layout={layout}>
+          {g.workers.slice(0, 100).map((w, i) => (
+            <article className="bnt-miner-card" key={`${g.address}:${w.name}:${i}`}>
+              <div className="bnt-miner-head">
+                <Cpu size={20} aria-hidden="true" />
+                <span className="bnt-state" data-state={bntWorkerState(r, w)}>
+                  {bntWorkerState(r, w) === "stale"
+                    ? t("stale")
+                    : bntWorkerState(r, w) === "mining"
+                      ? t("mining")
+                      : bntWorkerState(r, w) === "waiting"
+                        ? t("waiting")
+                        : t("never")}
+                </span>
+              </div>
+              <h4>{w.name || "—"}</h4>
+              <div className="bnt-miner-rate">
+                <span>{poolCopy.rate[locale]}</span>
+                <strong>{poolHashrate("bnt", w.hashrate)}</strong>
+              </div>
+              <div className="bnt-miner-share">
+                <span>{t("lastShare")}</span>
+                <time>{clock(w.lastSeen)}</time>
+                <small>
+                  {r.result?.stale || r.result?.error || r.failed
+                    ? t("stale")
+                    : w.online === true
+                      ? t("shareRecent")
+                      : w.online === false
+                        ? t("shareOld")
+                        : t("never")}
+                </small>
+              </div>
+            </article>
+          ))}
+        </div>
+        {g.workers.length > 100 && (
+          <p className="compute-caption">{poolCopy.workerLimit[locale]}</p>
+        )}
+        <div className="bnt-address-actions">
+          {temporary ? (
+            <button onClick={() => openAdd(r.address)}>{t("save")}</button>
+          ) : (
+            g.bindings.map((binding) => (
+              <div key={binding.id}>
+                {g.bindings.length > 1 && (
+                  <span>
+                    {binding.name}
+                    {binding.worker ? ` · ${binding.worker}` : ""}
+                  </span>
+                )}
+                <button
+                  disabled={busy}
+                  onClick={() => {
+                    setRename(binding);
+                    setNewName(binding.name);
+                  }}
+                >
+                  {t("addressName")}
+                </button>
+                <button
+                  disabled={busy}
+                  onClick={() => {
+                    if (window.confirm(`${poolCopy.remove[locale]} ${binding.name}?`))
+                      void act(() => p.onRemove(binding));
+                  }}
+                >
+                  {poolCopy.remove[locale]}
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+    );
+  };
   return (
     <main id="main" className="projects-page bnt-dashboard">
       <header className="bnt-page-header">
@@ -455,7 +461,7 @@ export function BntDashboardView(p: Props) {
       {p.preview && <p className="bnt-preview-note">{t("demo")}</p>}
       {(error || p.error) && <p role="alert">{error || c.unavailable}</p>}
       {notice && <p role="status">{notice}</p>}
-      {(p.rows.length > 0 || transient) && (
+      {bntAddressGroups(p.rows.length ? p.rows : transient ? [transient] : []).length > 1 && (
         <>
           <section className="bnt-summary" aria-label={t("title")}>
             {metrics.map((m, i) => (
@@ -523,13 +529,16 @@ export function BntDashboardView(p: Props) {
       {transient && (
         <section className="bnt-transient">
           <h2>{t("unsaved")}</h2>
-          {card(transient, true)}
+          {bntAddressGroups([transient]).map((g) => addressSection(g, true))}
         </section>
       )}
-      <section className="bnt-devices" aria-label={t("devices")}>
+      <section className="bnt-devices" aria-label={t("miners")}>
         <div className="bnt-section-heading">
           <h2>
-            {t("devices")} <small>{p.rows.length}</small>
+            {t("miners")}{" "}
+            <small>
+              {minerCount} · {groups.length} {t("addressGroup")}
+            </small>
           </h2>
           <a href={`/${locale}/devices?project=bnt`}>{c.title} ↗</a>
         </div>
@@ -538,7 +547,7 @@ export function BntDashboardView(p: Props) {
         ) : !p.rows.length ? (
           <div className="bnt-empty">
             <Cpu size={30} />
-            <h3>{t("empty")}</h3>
+            <h3>{t("addressEmpty")}</h3>
             <p>{t("emptyHint")}</p>
             <button className="site-button" onClick={() => openAdd()}>
               {t("add")}
@@ -557,15 +566,18 @@ export function BntDashboardView(p: Props) {
                 >
                   {t(f)}{" "}
                   <small>
-                    {
-                      p.rows.filter(
-                        (r) =>
-                          f === "all" ||
-                          (f === "attention"
-                            ? !["mining", "waiting", "loading"].includes(bntRowState(r))
-                            : bntRowState(r) === f),
-                      ).length
-                    }
+                    {groups.reduce(
+                      (n, g) =>
+                        n +
+                        g.workers.filter(
+                          (w) =>
+                            f === "all" ||
+                            (f === "attention"
+                              ? ["stale", "unavailable"].includes(bntWorkerState(g.account, w))
+                              : bntWorkerState(g.account, w) === f),
+                        ).length,
+                      0,
+                    )}
                   </small>
                 </button>
               ))}
@@ -606,9 +618,7 @@ export function BntDashboardView(p: Props) {
                 </button>
               </div>
             ) : (
-              <div className="bnt-device-grid" data-layout={layout}>
-                {displayed.map((r) => card(r))}
-              </div>
+              <div className="bnt-address-groups">{displayed.map((g) => addressSection(g))}</div>
             )}
           </>
         )}

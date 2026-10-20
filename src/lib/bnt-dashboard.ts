@@ -55,3 +55,29 @@ export function bntTotals(rows: BntRow[]) {
     stale: accounts.some((r) => !!r.result?.data && (r.result.stale || r.result.error || r.failed)),
   };
 }
+
+export type BntWorker = PoolAccount["workers"][number];
+export function bntWorkerState(row: BntRow, worker: BntWorker) {
+  if (row.result?.stale || row.result?.error || row.failed) return "stale";
+  return worker.hashrate == null ? "unavailable" : worker.hashrate > 0 ? "mining" : "waiting";
+}
+/** A saved address is an account group; each unique Worker beneath it is one mining entry. */
+export function bntAddressGroups(rows: BntRow[]) {
+  const groups = new Map<string, BntRow[]>();
+  for (const row of rows) groups.set(row.address, [...(groups.get(row.address) ?? []), row]);
+  return [...groups.entries()].map(([address, bindings]) => {
+    const account = [...bindings].sort(
+      (a, b) => (b.result?.fetchedAt ?? 0) - (a.result?.fetchedAt ?? 0),
+    )[0]!;
+    const all = bindings.some((b) => !b.worker);
+    const selected = new Set(bindings.map((b) => b.worker));
+    const workers = [
+      ...new Map(
+        (account.result?.data?.workers ?? [])
+          .filter((w) => all || selected.has(w.name))
+          .map((w) => [w.name, w]),
+      ).values(),
+    ];
+    return { address, account, bindings, workers, totalWorkers: workers.length };
+  });
+}
