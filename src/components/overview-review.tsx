@@ -15,8 +15,49 @@ export function OverviewReview() {
       <OverviewWorkspace
         preview
         plan="pro"
-        devices={empty ? [] : reviewDevices()}
-        reading={reviewReading}
+        devices={
+          empty
+            ? []
+            : [
+                ...reviewDevices(),
+                ...["mini-cpu-01", "mini-cpu-02"].map((name) => ({
+                  id: `preview-bnt-${name}`,
+                  name,
+                  hardware: "CPU",
+                  createdAt: 1,
+                  bindings: [
+                    {
+                      id: `preview-bnt-${name}`,
+                      project: "bnt" as const,
+                      identifier: "demo-bnt-address",
+                      worker: name,
+                      pool: "bntpool" as const,
+                    },
+                  ],
+                })),
+              ]
+        }
+        reading={(binding) =>
+          binding.project === "bnt"
+            ? {
+                status: "mining",
+                activity: "7.13 H/s",
+                today: null,
+                lifetime: null,
+                unit: "BNT",
+                scope: "wallet",
+                source: "DEMO",
+                updated: "DEMO",
+                compute: {
+                  value: 7.13,
+                  unit: "H/s",
+                  scope: "worker",
+                  fresh: true,
+                  fetchedAt: Date.now(),
+                },
+              }
+            : reviewReading(binding)
+        }
         history={reviewProHistory(locale)}
       />
     </>

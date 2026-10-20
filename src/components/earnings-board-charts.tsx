@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { ArrowUpRight } from "lucide-react";
+import { BntHashrateTrend } from "./bnt-hashrate-trend";
 import { useAuth } from "@/hooks/use-auth";
 import { getEarningsHistory } from "@/lib/pro-tools.functions";
 import { filterReportProject, earningsTrendValue } from "@/lib/pro-tools";
@@ -187,6 +188,22 @@ export function EarningsBoardCharts({
                     </div>
                   )}
                 </div>
+                {row.project === "bnt" && (
+                  <div className="board-hashrate-history">
+                    {[
+                      ...new Set(
+                        entries
+                          .filter((e) => e.binding.project === "bnt")
+                          .map((e) => e.binding.identifier),
+                      ),
+                    ].map((address) => (
+                      <section key={address}>
+                        <code title={address}>{shortId(address)}</code>
+                        <BntHashrateTrend address={address} preview={preview} />
+                      </section>
+                    ))}
+                  </div>
+                )}
                 <TrendPanel
                   history={filtered}
                   days={days}

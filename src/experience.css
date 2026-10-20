@@ -7204,3 +7204,9 @@ body:has(.site-shell) {
 .bnt-miner-grid[data-layout="list"] .bnt-miner-card { grid-template-columns:130px minmax(100px,1fr) 110px minmax(130px,1fr) minmax(140px,1fr); }
 .bnt-miner-grid[data-layout="list"] .bnt-worker-sparkline { margin:0; }
 @media(max-width:1100px) { .bnt-miner-grid[data-layout="list"] .bnt-miner-card { grid-template-columns:repeat(2,minmax(0,1fr)); } .bnt-miner-grid[data-layout="list"] .bnt-worker-sparkline { grid-column:1 / -1; } }
+
+.board-hashrate-history { min-width:0; margin-top:20px; }
+.board-hashrate-history > section { min-width:0; }
+.board-hashrate-history > section > code { display:block; margin-bottom:8px; color:#9ca8a2; font-size:12px; overflow-wrap:anywhere; }
+.board-hashrate-history .bnt-hashrate-trend { margin-bottom:16px; }
+.board-hashrate-history .bnt-hashrate-chart { min-width:0; }
