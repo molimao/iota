@@ -307,6 +307,9 @@ function readableArticleBlocks(article: Article, locale: SiteLocale) {
     `| ${cells.map((cell) => cell.replace(/\|/g, "\\|").replace(/\n/g, " ")).join(" | ")} |`;
   return [
     ...(article.summary ? [`## ${c.answer}`, article.summary[locale]] : []),
+    ...(article.decision
+      ? [`## ${article.decision.title[locale]}`, article.decision.action[locale]]
+      : []),
     ...(comparison
       ? [
           `## ${article.comparisonTitle?.[locale] ?? c.compare}`,

@@ -1,3 +1,4 @@
+import { refreshIotaGuide, iotaTierGuides } from "./iota-guide-refresh";
 import { csdGuide } from "./csd-guide";
 import { bntGuide } from "./bnt-guide";
 import { mdsGuide } from "./mds-guide";
@@ -34,6 +35,7 @@ export type Article = {
     result: Record<Locale, string>;
     source: string;
   };
+  decision?: { title: Record<Locale, string>; action: Record<Locale, string> };
   summary?: Record<Locale, string>;
   questions?: Record<Locale, Array<{ question: string; answer: string }>>;
   keywords?: Record<Locale, string[]>;
@@ -494,12 +496,14 @@ export const articles: Article[] = [
           }
         : {}),
     }))
-    .map(currentIotaContent),
+    .map(currentIotaContent)
+    .map(refreshIotaGuide),
   ...projectGuides,
   ...computeGuides,
   macStatusGuide,
   ...problemGuides.map(currentIotaContent),
-  ...searchSupportGuides,
+  ...searchSupportGuides.map(refreshIotaGuide),
+  ...iotaTierGuides,
   mdsGuide,
   bntGuide,
   csdGuide,
@@ -560,6 +564,7 @@ export const articleClusterMeta: Record<
       csdGuide.slug,
       ...problemGuides.map((a) => a.slug),
       ...searchSupportGuides.map((a) => a.slug),
+      ...iotaTierGuides.map((a) => a.slug),
     ],
   },
   compute: {

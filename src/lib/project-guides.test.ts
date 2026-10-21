@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
@@ -80,11 +81,15 @@ describe("multi-project content and discovery", () => {
           createElement(
             LocaleContext.Provider,
             { value: locale },
-            createElement(ArticleView, {
-              article: a,
-              section: "learn",
-              related: relatedArticles(a.slug),
-            }),
+            createElement(
+              QueryClientProvider,
+              { client: new QueryClient() },
+              createElement(ArticleView, {
+                article: a,
+                section: "learn",
+                related: relatedArticles(a.slug),
+              }),
+            ),
           ),
         );
         const head = seo(locale, "learn", a.slug),

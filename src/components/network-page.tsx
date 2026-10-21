@@ -25,8 +25,8 @@ const GLOSSARY = withLocales([
   {
     term: { zh: "档位", en: "Tier" },
     body: {
-      zh: "Bronze、Silver、Gold 按机器规格划分，由官方指定。",
-      en: "Bronze, Silver and Gold are hardware grades assigned by the official network.",
+      zh: "运行档位以官方当前任务描述为准，不等于机器型号、在线状态或固定收益。参与资格由官方决定。",
+      en: "Run tiers follow current official run descriptions. They are not hardware models, online states or fixed returns; eligibility is controlled by the project.",
     },
   },
   {

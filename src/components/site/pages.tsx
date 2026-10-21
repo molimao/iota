@@ -1,3 +1,4 @@
+import { GuideNetworkCapacity } from "./guide-network-capacity";
 import { AgentAnalysisLanguage } from "../agent-analysis-language";
 import { logCopy } from "../log-analysis-copy";
 import { BRAND_MARK } from "@/lib/brand";
@@ -515,21 +516,29 @@ export function ArticleView({
       <span className="eyebrow">IOTA WATCH / {article.topic[locale].toUpperCase()}</span>
       <h1>{article.title[locale]}</h1>
       <p className="article-lead">{article.summary?.[locale] ?? article.description[locale]}</p>
-      <div className="article-primary-action">
-        <a
-          className="site-button"
-          href={
-            article.project === "all"
-              ? `/${locale}/projects`
-              : projectPath(locale, article.project ?? "iota")
-          }
-        >
-          {article.project === "all"
-            ? learningCopy[locale].compare
-            : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
-          <ArrowUpRight size={16} aria-hidden="true" />
-        </a>
-      </div>
+      {article.decision && (
+        <section className="article-decision" aria-label={article.decision.title[locale]}>
+          <h2>{article.decision.title[locale]}</h2>
+          <ArticleBlocks blocks={[article.decision.action[locale]]} locale={locale} />
+        </section>
+      )}
+      {!article.decision && (
+        <div className="article-primary-action">
+          <a
+            className="site-button"
+            href={
+              article.project === "all"
+                ? `/${locale}/projects`
+                : projectPath(locale, article.project ?? "iota")
+            }
+          >
+            {article.project === "all"
+              ? learningCopy[locale].compare
+              : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      )}
       <div className="article-meta">
         <p className="article-scope">
           {evidenceLabels.scope[locale]} ·{" "}
@@ -588,6 +597,7 @@ export function ArticleView({
           </table>
         </div>
       )}
+      {article.slug === "iota-queue-and-zero-throughput" && <GuideNetworkCapacity />}
       <div className="article-reading-layout">
         <div className="article-navigation">
           <nav

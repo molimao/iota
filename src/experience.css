@@ -7210,3 +7210,24 @@ body:has(.site-shell) {
 .board-hashrate-history > section > code { display:block; margin-bottom:8px; color:#9ca8a2; font-size:12px; overflow-wrap:anywhere; }
 .board-hashrate-history .bnt-hashrate-trend { margin-bottom:16px; }
 .board-hashrate-history .bnt-hashrate-chart { min-width:0; }
+
+.article-decision { margin:24px 0; padding:20px 24px; border-left:3px solid #6de3b2; border-radius:0 14px 14px 0; background:#6de3b20a; }
+.article-decision h2 { margin:0 0 10px; font-size:1.05rem; line-height:1.5; }
+.article-decision p { margin:0; line-height:1.8; }
+.article-decision a { color:#8be9bf; text-decoration:underline; text-underline-offset:4px; }
+@media(max-width:600px) {
+  .article-decision { padding:16px; }
+  .guide-network-capacity { padding:16px; }
+  .guide-network-capacity dl { gap:20px; flex-wrap:wrap; }
+  .guide-network-capacity dd { font-size:1.6rem; }
+  .guide-network-capacity header a { overflow-wrap:anywhere; }
+}
+
+.guide-network-capacity { margin:24px 0 32px; padding:22px; border:1px solid #ffffff20; border-radius:16px; background:#141a17; }
+.guide-network-capacity header { display:flex; gap:16px; flex-wrap:wrap; align-items:baseline; justify-content:space-between; }
+.guide-network-capacity h2 { font-size:1.05rem; margin:0; }
+.guide-network-capacity header a { font-size:.8rem; color:#8be9bf; }
+.guide-network-capacity dl { display:flex; gap:48px; margin:22px 0 14px; }
+.guide-network-capacity dt,.guide-network-capacity time { font-size:.8rem; color:#a3ada7; }
+.guide-network-capacity dd { margin:6px 0 0; font-size:2rem; font-weight:650; font-variant-numeric:tabular-nums; }
+.guide-network-capacity p { font-size:.85rem; color:#a3ada7; line-height:1.7; margin:14px 0 0; }

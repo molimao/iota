@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-22",
+  "status": "local_verified_not_published",
+  "branch": "main",
+  "developer": "Cursor CLI Grok 4.7 High, with primary-assistant verification",
+  "preview_base": "http://127.0.0.1:8082",
+  "guides": [
+    "iota-queue-and-zero-throughput",
+    "iota-training-stopped-auto-recovery",
+    "how-rewards-work",
+    "iota-tier-promotion",
+    "iota-run-tiers"
+  ],
+  "changes": [
+    "Five-language answer-first decisions, practical comparison tables and contextual actions",
+    "Queue guide includes official occupancy with timestamp, unavailable state and >5min stale warning",
+    "Preserved existing publication dates; only edited guides modified on Oct22",
+    "FAQ answers normalized to plain text shared by HTML/schema/Markdown",
+    "New tier and promotion guides linked from learning/project discovery, sitemap and text index",
+    "Dated official run-metadata check distinguishes current Bronze/Silver/Gold tags from older third-party Iron numbering",
+    "Recovery describes agent behavior separately from official project rules; reward example explicitly illustrative",
+    "Network glossary no longer equates a tier with hardware model"
+  ],
+  "validation": {
+    "typecheck": {
+      "exit_code": 0,
+      "evidence": "/tmp/cursor-iota-guides-grok47-typefix-20261022.jsonl"
+    },
+    "tests": {
+      "files": 4,
+      "passed": 18
+    },
+    "build": {
+      "exit_code": 0,
+      "log": "/tmp/iota-guides-final-build22.log"
+    },
+    "http": {
+      "html_pages": 25,
+      "markdown_exports": 25,
+      "passed": true,
+      "evidence": "/tmp/iota-guide-25page-http-check22.json"
+    },
+    "mobile": {
+      "viewport_width": 390,
+      "document_width": 375,
+      "pages_checked": [
+        "queue",
+        "rewards"
+      ]
+    },
+    "screenshots": [
+      "/tmp/iota-queue-guide-desktop-20261022.png",
+      "/tmp/iota-queue-guide-mobile-20261022.png",
+      "/tmp/iota-recovery-guide-desktop-20261022.png",
+      "/tmp/iota-rewards-guide-desktop-20261022.png"
+    ]
+  },
+  "limits": [
+    "No fabricated user case or fresh crash reproduction; current changes document source-verified behavior and a clearly labeled reward illustration",
+    "Official tier metadata is a dated snapshot, not a permanent numeric mapping or promotion promise",
+    "No billing configuration changes, migration, commit, push, deployment, checkout or payment test"
+  ],
+  "commercial_review": {
+    "source": "https://www.trainathome.ai/en#pricing",
+    "verified_on": "2026-10-22",
+    "free": {
+      "miners": 2,
+      "agents": 2,
+      "metric_history": "4h",
+      "payment_history": "last5",
+      "email_push_telegram_alerts": "included"
+    },
+    "insight": {
+      "monthly_usd": 5,
+      "annual_usd": 36,
+      "miners": 5,
+      "agents": 5,
+      "metric_history": "7d",
+      "annual_saving_pct": 40,
+      "features": "run location, full payments, forecasts, run share, machine/bandwidth telemetry"
+    },
+    "pro": {
+      "monthly_usd": 10,
+      "annual_usd": 96,
+      "miners": "unlimited",
+      "agents": "unlimited",
+      "metric_history": "7d",
+      "annual_saving_pct": 20,
+      "extra": "full log analysis"
+    },
+    "ai_allowance_display_usd_per_month": [
+      2,
+      2,
+      5
+    ],
+    "payments": "Card via Clerk; TAO purchases month/year terms at current conversion, no automatic TAO renewal; no claim about card auto-renewal from this observation",
+    "ours": {
+      "monthly_usd": 2.99,
+      "annual_usd": 16.99,
+      "annual_saving_pct": 52.65,
+      "free_per_project": 5,
+      "pro_per_project": 50
+    },
+    "inference": "Competitor uses public troubleshooting/estimators to attract operators, a working free small fleet to activate them, deeper data at Insight and scale/log analysis at Pro. No private traffic, revenue, conversion or retention data were available.",
+    "recommended": [
+      "Keep existing two tiers and Free5; do not add complexity now",
+      "Show relevant existing paid benefits at daily-report, alert, monthly-report and batch-operation moments, while preserving free dashboard/agent/crash analysis",
+      "Explain current monthly/annual cost and cancellation clearly; do not lower prices or add TAO settlement without demonstrated demand"
+    ],
+    "rejected_grok_suggestions": [
+      "Do not put already-free crash analysis behind a new upsell",
+      "Do not claim competitor sells a multi-project dashboard: that feature was not verified",
+      "Do not call the displayed dollar AI allowance free cash or a verified hard spending cap"
+    ]
+  }
+}

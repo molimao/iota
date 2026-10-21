@@ -1,3 +1,4 @@
+import { iotaTierGuides, refreshIotaGuide } from "./iota-guide-refresh";
 import { csdGuide } from "./csd-guide";
 import { bntGuide } from "./bnt-guide";
 import { mdsGuide } from "./mds-guide";
@@ -1454,12 +1455,20 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         ...projectGuides,
         ...computeGuides,
         ...problemGuides,
-        ...searchSupportGuides,
+        ...searchSupportGuides.map(refreshIotaGuide),
+        ...iotaTierGuides,
         mdsGuide,
         bntGuide,
         csdGuide,
       ].filter((a) => a.project === project || a.project === "all")
-    : [...projectGuides, ...searchSupportGuides, mdsGuide, bntGuide, csdGuide].filter(
+    : [
+        ...projectGuides,
+        ...searchSupportGuides.map(refreshIotaGuide),
+        ...iotaTierGuides,
+        mdsGuide,
+        bntGuide,
+        csdGuide,
+      ].filter(
         (a) =>
           a.project === "all" ||
           a.project === "mds" ||
@@ -1467,6 +1476,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
           a.project === "csd" ||
           a.slug === "xid-mmm-mainnet-setup" ||
           a.slug === "quantus-mainnet-mining-mac" ||
-          searchSupportGuides.some((g) => g.slug === a.slug),
+          searchSupportGuides.some((g) => g.slug === a.slug) ||
+          iotaTierGuides.some((g) => g.slug === a.slug),
       );
 }

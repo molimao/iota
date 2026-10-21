@@ -70,7 +70,7 @@ it("retains publication history and dates only the actual article update", () =>
   });
   expect(articleDates(getArticle("how-rewards-work")!)).toEqual({
     published: "2026-09-12",
-    modified: "2026-10-17",
+    modified: "2026-10-22",
   });
   const original = { ...getArticle("gonka-monitor-guide")! };
   delete original.modified;
