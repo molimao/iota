@@ -18,6 +18,8 @@ import { useLocale } from "./site/locale";
 import { poolCopy as c, poolEditorial } from "./pool-copy";
 import { fleetCopy } from "./fleet-copy";
 import { BntDashboard } from "./bnt-dashboard";
+import { PoolWorkerCards } from "./pool-worker-cards";
+import { poolWorkerCardsCopy } from "./pool-worker-cards-copy";
 export function PoolPage({ project }: { project: PoolProject }) {
   return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
 }
@@ -36,7 +38,6 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
     refetchInterval: 120000,
     retry: 1,
   });
-  const [workerFilter, setWorkerFilter] = useState("");
   const selectSaved = useCallback((id: string) => {
     setAddress(id);
     setInput(id);
@@ -89,7 +90,11 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           {q.isPending && <p>{fc.loading}</p>}
           {(q.isError || q.data?.error) && (
             <p role="alert">
-              {q.data?.error === "not-found" ? c.notFound[locale] : fc.unavailable}
+              {q.data?.error === "not-found"
+                ? poolWorkerCardsCopy.notFound[locale]
+                : q.data?.error === "invalid-data"
+                  ? poolWorkerCardsCopy.unreadable[locale]
+                  : poolWorkerCardsCopy.requestFailed[locale]}
             </p>
           )}
           {q.data?.stale && <p>{fc.stale}</p>}
@@ -141,38 +146,13 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
               <p className="compute-caption">
                 {c.scope[locale]} {d.partial ? c.partial[locale] : ""}
               </p>
-              <details className="pool-workers">
-                <summary>Workers · {d.workerCount}</summary>
-                <label className="pool-worker-search">
-                  {c.search[locale]}
-                  <input
-                    value={workerFilter}
-                    onChange={(e) => setWorkerFilter(e.target.value)}
-                    maxLength={80}
-                  />
-                </label>
-                {d.workers.length > 100 && (
-                  <p className="compute-caption">{c.workerLimit[locale]}</p>
-                )}
-                <div className="pool-worker-list">
-                  {d.workers
-                    .filter((w) => w.name.toLowerCase().includes(workerFilter.toLowerCase()))
-                    .slice(0, 100)
-                    .map((w, i) => (
-                      <div key={`${w.name}:${i}`}>
-                        <b>{w.name || "—"}</b>
-                        <span>
-                          {w.online === true
-                            ? fc.online
-                            : w.online === false
-                              ? fc.offline
-                              : fc.unavailable}
-                        </span>
-                        <span>{poolHashrate(project, w.hashrate)}</span>
-                      </div>
-                    ))}
-                </div>
-              </details>
+              <PoolWorkerCards
+                key={`${project}:${address}`}
+                project={project}
+                address={address}
+                account={d}
+                locale={locale}
+              />
             </>
           )}
           <a href={poolAccountUrl(project, address)} target="_blank" rel="noreferrer">

@@ -1,48 +1,424 @@
-import { isPoolProject, poolName, poolProvider } from "@/lib/pool-projects";
-import { poolCopy } from "./pool-copy";
-import { useEffect, useMemo, useRef, useState } from "react";
+/// <reference types="vite/client" />
+import "./project-address-book.css";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useFleetReadings } from "@/hooks/use-fleet-readings";
 import { FLEET_NAMES, type FleetProject } from "@/lib/fleet";
+import type { FleetMutation } from "@/lib/fleet-policy";
 import { projectAddressInput } from "@/lib/project-address-input";
-import { localized } from "@/lib/product-discovery";
+import { isPoolProject, poolName, poolProvider } from "@/lib/pool-projects";
+import type { SiteLocale } from "@/lib/site";
 import { additionalMetricCopy } from "./additional-platform-copy";
 import { fleetCopy } from "./fleet-copy";
+import type { ProjectReading } from "./fleet-review-data";
+import { poolCopy } from "./pool-copy";
+import { addressBookCopy } from "./project-address-book-copy";
 import { useLocale } from "./site/locale";
-const copy = {
-  title: localized(["已保存设备", "已儲存設備", "Saved devices", "저장된 기기", "保存済み機器"]),
-  input: localized([
-    "公开地址或 ID（每行一个）",
-    "公開地址或 ID（每行一個）",
-    "Public addresses or IDs, one per line",
-    "공개 주소 또는 ID · 한 줄에 하나",
-    "公開アドレス・ID（1行に1つ）",
-  ]),
-  add: localized(["添加并保存", "新增並儲存", "Add and save", "추가 및 저장", "追加して保存"]),
-  sync: localized([
-    "保存在账号中，与“我的设备”同步。",
-    "儲存於帳號，與「我的設備」同步。",
-    "Saved to your account and shared with My devices.",
-    "계정에 저장되며 내 기기와 동기화됩니다.",
-    "アカウントに保存し、マイデバイスと共有します。",
-  ]),
-  login: localized([
-    "登录后保存多个地址",
-    "登入後儲存多個地址",
-    "Sign in to save multiple addresses",
-    "로그인하고 여러 주소 저장",
-    "ログインして複数アドレスを保存",
-  ]),
-  detail: localized(["查看详情", "查看詳情", "View details", "상세 보기", "詳細を見る"]),
-  batch: localized([
-    "无效或重复地址，请检查后再提交。",
-    "地址無效或重複，請檢查後提交。",
-    "Check invalid or duplicate addresses before saving.",
-    "잘못되거나 중복된 주소를 확인하세요.",
-    "無効・重複アドレスを確認してください。",
-  ]),
+
+const ADDRESS_STATUSES = [
+  "online",
+  "mining",
+  "training",
+  "computing",
+  "participating",
+  "waiting",
+  "idle",
+  "offline",
+  "notFound",
+  "refreshFailed",
+  "staleData",
+  "wallet",
+  "loading",
+  "notReported",
+  "unavailable",
+] as const satisfies readonly ProjectReading["status"][];
+
+export type AddressBookEntry = {
+  deviceId: string;
+  deviceName: string;
+  bindingId: string;
+  identifier: string;
+  status: ProjectReading["status"];
+  activity: string;
+  source: string;
+  updated: string;
+  today: string | null;
+  unit: string;
+  note?: string;
+  todayLabel?: string;
+  accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
 };
+
+export function addressStatusTone(status: string): "active" | "waiting" | "attention" | "unknown" {
+  switch (status) {
+    case "online":
+    case "computing":
+    case "participating":
+    case "training":
+    case "mining":
+      return "active";
+    case "waiting":
+      return "waiting";
+    case "offline":
+    case "idle":
+    case "notFound":
+    case "refreshFailed":
+    case "staleData":
+      return "attention";
+    default:
+      return "unknown";
+  }
+}
+
+export function countAddressStatuses(cards: readonly { status: string }[]) {
+  const counts: Record<string, number> = {};
+  for (const card of cards) counts[card.status] = (counts[card.status] ?? 0) + 1;
+  return counts;
+}
+
+export function filterAddressCards<
+  T extends { deviceName: string; identifier: string; status: string },
+>(cards: readonly T[], query: string, status: string): T[] {
+  const needle = query.trim().toLowerCase();
+  return cards.filter((card) => {
+    if (status !== "all" && card.status !== status) return false;
+    if (!needle) return true;
+    return (
+      card.deviceName.toLowerCase().includes(needle) ||
+      card.identifier.toLowerCase().includes(needle)
+    );
+  });
+}
+
+export function unlinkBinding(deviceId: string, bindingId: string): FleetMutation {
+  return { action: "unlink", payload: { id: deviceId, bindingId } };
+}
+
+export function renameDevice(deviceId: string, name: string, hardware: string): FleetMutation {
+  return { action: "rename", payload: { id: deviceId, name: name.trim(), hardware } };
+}
+
+function toEntry(
+  device: { id: string; name: string },
+  binding: { id: string; identifier: string },
+  reading: ProjectReading,
+): AddressBookEntry {
+  return {
+    deviceId: device.id,
+    deviceName: device.name,
+    bindingId: binding.id,
+    identifier: binding.identifier,
+    status: reading.status,
+    activity: reading.activity,
+    source: reading.source,
+    updated: reading.updated,
+    today: reading.today,
+    unit: reading.unit,
+    ...(reading.note ? { note: reading.note } : {}),
+    ...(reading.todayLabel ? { todayLabel: reading.todayLabel } : {}),
+    ...(reading.accountSummary ? { accountSummary: reading.accountSummary } : {}),
+  };
+}
+
+export function ProjectAddressBookView({
+  project,
+  locale,
+  savedCount,
+  limit,
+  cards,
+  signedIn = true,
+  authReady = true,
+  signingIn = false,
+  fleetReady = true,
+  fleetError = false,
+  busy = false,
+  renaming = false,
+  error = null,
+  renameError = null,
+  raw = "",
+  selected = "",
+  query = "",
+  statusFilter = "all",
+  editingId = null,
+  draft = "",
+  showDetail = false,
+  onSignIn = () => {},
+  onRaw = () => {},
+  onAdd = () => {},
+  onQuery = () => {},
+  onStatus = () => {},
+  onClear = () => {},
+  onOpen = () => {},
+  onRemove = () => {},
+  onStartRename = () => {},
+  onDraft = () => {},
+  onSaveRename = () => {},
+  onCancelRename = () => {},
+}: {
+  project: FleetProject;
+  locale: SiteLocale;
+  savedCount: number;
+  limit: number;
+  cards: readonly AddressBookEntry[];
+  signedIn?: boolean;
+  authReady?: boolean;
+  signingIn?: boolean;
+  fleetReady?: boolean;
+  fleetError?: boolean;
+  busy?: boolean;
+  renaming?: boolean;
+  error?: string | null;
+  renameError?: string | null;
+  raw?: string;
+  selected?: string;
+  query?: string;
+  statusFilter?: string;
+  editingId?: string | null;
+  draft?: string;
+  showDetail?: boolean;
+  onSignIn?: () => void;
+  onRaw?: (value: string) => void;
+  onAdd?: () => void;
+  onQuery?: (value: string) => void;
+  onStatus?: (status: string) => void;
+  onClear?: () => void;
+  onOpen?: (identifier: string) => void;
+  onRemove?: (deviceId: string, bindingId: string) => void;
+  onStartRename?: (deviceId: string, name: string) => void;
+  onDraft?: (value: string) => void;
+  onSaveRename?: (deviceId: string) => void;
+  onCancelRename?: () => void;
+}) {
+  const text = addressBookCopy;
+  const labels = fleetCopy(locale);
+  const visible = filterAddressCards(cards, query, statusFilter);
+  const counts = countAddressStatuses(cards);
+  const statuses = ADDRESS_STATUSES.filter(
+    (status) => (counts[status] ?? 0) > 0 || status === statusFilter,
+  );
+  const locked = busy || renaming;
+  return (
+    <section
+      className="project-address-book"
+      aria-label={text.title[locale]}
+      data-selected={selected}
+      data-quota={savedCount}
+    >
+      <div className="project-section-head">
+        <h2>
+          {text.title[locale]} <small>{savedCount}</small>
+        </h2>
+        <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
+      </div>
+      {isPoolProject(project) && (
+        <p className="compute-caption">
+          {poolCopy.pool[locale]} · {poolName(project)}
+        </p>
+      )}
+      {!signedIn ? (
+        <button
+          type="button"
+          className="site-button"
+          disabled={!authReady || signingIn}
+          onClick={onSignIn}
+        >
+          {text.login[locale]}
+        </button>
+      ) : (
+        <>
+          <form
+            className="project-address-add"
+            onSubmit={(event) => {
+              event.preventDefault();
+              onAdd();
+            }}
+          >
+            <label>
+              {text.input[locale]}
+              <textarea
+                maxLength={6000}
+                value={raw}
+                disabled={locked || !fleetReady}
+                onChange={(event) => onRaw(event.target.value)}
+                rows={2}
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </label>
+            <button className="site-button" disabled={locked || !fleetReady || !raw.trim()}>
+              {busy ? labels.loading : text.add[locale]}
+            </button>
+          </form>
+          <p className="compute-caption">
+            {text.sync[locale]} · {savedCount} / {limit}
+          </p>
+          {fleetReady && limit === 5 && savedCount >= 4 && (
+            <p className="pab-upgrade">
+              {text.upgrade[locale]}{" "}
+              <a href={`/${locale}/devices?view=membership`}>{text.upgradeLink[locale]} →</a>
+            </p>
+          )}
+        </>
+      )}
+      {(error || fleetError) && <p role="alert">{error ?? labels.unavailable}</p>}
+      {signedIn && !fleetReady && !fleetError && <p role="status">{labels.loading}</p>}
+      {cards.length > 0 && (
+        <div className="pab-tools">
+          <label className="pab-search">
+            {text.search[locale]}
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => onQuery(event.target.value)}
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </label>
+          <div className="pab-filters" role="group" aria-label={text.search[locale]}>
+            <button
+              type="button"
+              data-status="all"
+              data-count={cards.length}
+              aria-pressed={statusFilter === "all"}
+              onClick={() => onStatus("all")}
+            >
+              {text.all[locale]} <b>{cards.length}</b>
+            </button>
+            {statuses.map((status) => (
+              <button
+                key={status}
+                type="button"
+                data-status={status}
+                data-count={counts[status] ?? 0}
+                data-tone={addressStatusTone(status)}
+                aria-pressed={statusFilter === status}
+                onClick={() => onStatus(status)}
+              >
+                {labels[status]} <b>{counts[status] ?? 0}</b>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {cards.length > 0 && visible.length === 0 && (
+        <div className="pab-empty">
+          <p>{text.empty[locale]}</p>
+          <button type="button" className="pab-clear" onClick={onClear}>
+            {text.clear[locale]}
+          </button>
+        </div>
+      )}
+      <div className="project-address-grid">
+        {visible.map((entry) => {
+          const tone = addressStatusTone(entry.status);
+          const editing = editingId === entry.deviceId;
+          return (
+            <article
+              className="project-address-card"
+              key={entry.bindingId}
+              data-binding={entry.bindingId}
+              data-project={project}
+            >
+              <div className="project-address-heading">
+                <h3 className="pab-name">{entry.deviceName}</h3>
+                <span className="pab-state" data-state={entry.status} data-tone={tone}>
+                  {labels[entry.status]}
+                </span>
+              </div>
+              {editing ? (
+                <form
+                  className="pab-rename"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    onSaveRename(entry.deviceId);
+                  }}
+                >
+                  <label>
+                    {text.name[locale]}
+                    <input
+                      value={draft}
+                      maxLength={40}
+                      disabled={locked}
+                      autoComplete="off"
+                      spellCheck={false}
+                      onChange={(event) => onDraft(event.target.value)}
+                    />
+                  </label>
+                  <p className="pab-note">{text.renameNote[locale]}</p>
+                  <button type="submit" disabled={locked || !draft.trim()}>
+                    {renaming ? text.saving[locale] : text.save[locale]}
+                  </button>
+                  <button type="button" disabled={locked} onClick={onCancelRename}>
+                    {labels.cancel}
+                  </button>
+                  {renaming && <p role="status">{text.saving[locale]}</p>}
+                  {renameError && <p role="alert">{renameError}</p>}
+                </form>
+              ) : (
+                <button
+                  type="button"
+                  className="pab-rename-start"
+                  disabled={locked}
+                  onClick={() => onStartRename(entry.deviceId, entry.deviceName)}
+                >
+                  {text.rename[locale]}
+                </button>
+              )}
+              <code className="pab-id platform-public-id">{entry.identifier}</code>
+              <p>{entry.activity}</p>
+              {entry.accountSummary && (
+                <div>
+                  <span className="compute-caption">
+                    {project === "noid"
+                      ? additionalMetricCopy.balance[locale]
+                      : entry.accountSummary.kind === "month"
+                        ? labels.monthPoints
+                        : labels.balance}
+                  </span>
+                  <strong>
+                    {entry.accountSummary.amount} {entry.accountSummary.unit}
+                  </strong>
+                </div>
+              )}
+              {entry.today !== null && (
+                <p>
+                  {entry.todayLabel ?? labels.today} · {entry.today} {entry.unit}
+                </p>
+              )}
+              <p className="compute-caption">
+                {entry.source} · {entry.updated}
+              </p>
+              {entry.note && <p className="compute-caption">{entry.note}</p>}
+              <div className="pab-actions pool-card-actions">
+                {showDetail && (
+                  <button
+                    type="button"
+                    className="site-button"
+                    aria-pressed={selected === entry.identifier}
+                    onClick={() => onOpen(entry.identifier)}
+                  >
+                    {text.detail[locale]}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  data-action="unlink"
+                  disabled={locked}
+                  onClick={() => onRemove(entry.deviceId, entry.bindingId)}
+                >
+                  {text.remove[locale]}
+                </button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      {cards.length > 0 && <p className="pab-note">{text.removeConfirm[locale]}</p>}
+    </section>
+  );
+}
+
 export function ProjectAddressBook({
   project,
   onSelect,
@@ -53,23 +429,30 @@ export function ProjectAddressBook({
   const auth = useAuth(),
     fleet = useFleet(auth.userId, auth.ready),
     { locale } = useLocale(),
-    c = fleetCopy(locale);
-  const devices = useMemo(
-    () =>
-      (auth.userId ? fleet.devices : [])
-        .map((d) => ({ ...d, bindings: d.bindings.filter((b) => b.project === project) }))
-        .filter((d) => d.bindings.length),
-    [fleet.devices, project, auth.userId],
-  );
+    labels = fleetCopy(locale),
+    text = addressBookCopy;
+  const devices = (auth.userId ? fleet.devices : [])
+    .map((device) => ({
+      ...device,
+      bindings: device.bindings.filter((binding) => binding.project === project),
+    }))
+    .filter((device) => device.bindings.length);
   const read = useFleetReadings(devices, fleet.ready);
   const [raw, setRaw] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState("");
+  const [query, setQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [draft, setDraft] = useState("");
+  const [renaming, setRenaming] = useState(false);
+  const [renameError, setRenameError] = useState<string | null>(null);
   useEffect(() => {
     const next =
-      devices.flatMap((d) => d.bindings).find((b) => b.identifier === selected) ??
-      devices[0]?.bindings[0];
+      devices
+        .flatMap((device) => device.bindings)
+        .find((binding) => binding.identifier === selected) ?? devices[0]?.bindings[0];
     if (fleet.ready && next && next.identifier !== selected) {
       setSelected(next.identifier);
       onSelect?.(next.identifier);
@@ -80,6 +463,9 @@ export function ProjectAddressBook({
     }
   }, [devices, fleet.ready, selected, onSelect]);
   const saving = useRef(false);
+  const entries = devices.flatMap((device) =>
+    device.bindings.map((binding) => toEntry(device, binding, read(binding))),
+  );
   async function add() {
     if (!auth.userId || !fleet.ready || saving.current) return;
     let ids: string[];
@@ -87,11 +473,13 @@ export function ProjectAddressBook({
       ids = projectAddressInput(
         project,
         raw,
-        devices.flatMap((d) => d.bindings.map((b) => b.identifier)),
+        devices.flatMap((device) => device.bindings.map((binding) => binding.identifier)),
         fleet.limit - devices.length,
       );
-    } catch (e) {
-      setError(e instanceof Error && e.message === "quota" ? c.limit : copy.batch[locale]);
+    } catch (caught) {
+      setError(
+        caught instanceof Error && caught.message === "quota" ? labels.limit : text.batch[locale],
+      );
       return;
     }
     saving.current = true;
@@ -116,151 +504,97 @@ export function ProjectAddressBook({
         done++;
         setRaw(ids.slice(done).join("\n"));
       }
-    } catch (e) {
+    } catch (caught) {
       setError(
-        e instanceof Error && e.message === "project_device_limit_reached"
-          ? c.limit
-          : e instanceof Error && e.message === "duplicate_binding"
-            ? c.duplicate
-            : c.unavailable,
+        caught instanceof Error && caught.message === "project_device_limit_reached"
+          ? labels.limit
+          : caught instanceof Error && caught.message === "duplicate_binding"
+            ? labels.duplicate
+            : labels.unavailable,
       );
     } finally {
       saving.current = false;
       setBusy(false);
     }
   }
+  async function removeBinding(deviceId: string, bindingId: string) {
+    const name = entries.find((entry) => entry.bindingId === bindingId)?.deviceName ?? "";
+    const message = name ? `${text.removeConfirm[locale]}\n${name}` : text.removeConfirm[locale];
+    if (!window.confirm(message)) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await fleet.mutate(unlinkBinding(deviceId, bindingId));
+    } catch {
+      setError(labels.unavailable);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function saveRename(deviceId: string) {
+    const device = devices.find((item) => item.id === deviceId);
+    const name = draft.trim();
+    if (!device || !name || renaming || busy) return;
+    setRenaming(true);
+    setRenameError(null);
+    try {
+      await fleet.mutate(renameDevice(device.id, name, device.hardware));
+      setEditingId(null);
+    } catch {
+      setRenameError(text.saveError[locale]);
+    } finally {
+      setRenaming(false);
+    }
+  }
   return (
-    <section className="project-address-book" aria-label={copy.title[locale]}>
-      <div className="project-section-head">
-        <h2>
-          {copy.title[locale]} <small>{devices.length}</small>
-        </h2>
-        <a href={`/${locale}/devices?project=${project}`}>{c.title} →</a>
-      </div>
-      {isPoolProject(project) && (
-        <p className="compute-caption">
-          {poolCopy.pool[locale]} · {poolName(project)}
-        </p>
-      )}
-      {!auth.userId ? (
-        <button
-          type="button"
-          className="site-button"
-          disabled={!auth.ready || auth.signingIn}
-          onClick={() => void auth.signInWithGoogle()}
-        >
-          {copy.login[locale]}
-        </button>
-      ) : (
-        <>
-          <form
-            className="project-address-add"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void add();
-            }}
-          >
-            <label>
-              {copy.input[locale]}
-              <textarea
-                maxLength={6000}
-                value={raw}
-                disabled={busy || !fleet.ready}
-                onChange={(e) => setRaw(e.target.value)}
-                rows={2}
-                autoComplete="off"
-                spellCheck={false}
-              />
-            </label>
-            <button className="site-button" disabled={busy || !fleet.ready || !raw.trim()}>
-              {busy ? c.loading : copy.add[locale]}
-            </button>
-          </form>
-          <p className="compute-caption">
-            {copy.sync[locale]} · {devices.length} / {fleet.limit}
-          </p>
-        </>
-      )}
-      {(error || fleet.error) && <p role="alert">{error ?? c.unavailable}</p>}
-      {auth.userId && !fleet.ready && !fleet.error && <p role="status">{c.loading}</p>}
-      <div className="project-address-grid">
-        {devices.map((d) =>
-          d.bindings.map((b) => {
-            const r = read(b);
-            return (
-              <article className="project-address-card" key={b.id}>
-                <div className="project-address-heading">
-                  <h3>{d.name}</h3>
-                  <span>{c[r.status]}</span>
-                </div>
-                <code className="platform-public-id">{b.identifier}</code>
-                <p>{r.activity}</p>
-                {r.accountSummary && (
-                  <div>
-                    <span className="compute-caption">
-                      {project === "noid"
-                        ? additionalMetricCopy.balance[locale]
-                        : r.accountSummary.kind === "month"
-                          ? c.monthPoints
-                          : c.balance}
-                    </span>
-                    <strong>
-                      {r.accountSummary.amount} {r.accountSummary.unit}
-                    </strong>
-                  </div>
-                )}
-                {r.today !== null && (
-                  <p>
-                    {r.todayLabel ?? c.today} · {r.today} {r.unit}
-                  </p>
-                )}
-                <p className="compute-caption">
-                  {r.source} · {r.updated}
-                </p>
-                {r.note && <p className="compute-caption">{r.note}</p>}
-                <div className="pool-card-actions">
-                  {onSelect && (
-                    <button
-                      type="button"
-                      className="site-button"
-                      aria-pressed={selected === b.identifier}
-                      onClick={() => {
-                        setSelected(b.identifier);
-                        onSelect?.(b.identifier);
-                      }}
-                    >
-                      {copy.detail[locale]}
-                    </button>
-                  )}
-                  {isPoolProject(project) && (
-                    <button
-                      type="button"
-                      disabled={busy}
-                      onClick={async () => {
-                        if (!window.confirm(`${poolCopy.remove[locale]} ${d.name}?`)) return;
-                        setBusy(true);
-                        setError(null);
-                        try {
-                          await fleet.mutate({
-                            action: "unlink",
-                            payload: { id: d.id, bindingId: b.id },
-                          });
-                        } catch {
-                          setError(c.unavailable);
-                        } finally {
-                          setBusy(false);
-                        }
-                      }}
-                    >
-                      {poolCopy.remove[locale]}
-                    </button>
-                  )}
-                </div>
-              </article>
-            );
-          }),
-        )}
-      </div>
-    </section>
+    <ProjectAddressBookView
+      project={project}
+      locale={locale}
+      savedCount={devices.length}
+      limit={fleet.limit}
+      cards={entries}
+      signedIn={Boolean(auth.userId)}
+      authReady={auth.ready}
+      signingIn={auth.signingIn}
+      fleetReady={fleet.ready}
+      fleetError={Boolean(fleet.error)}
+      busy={busy}
+      renaming={renaming}
+      error={error}
+      renameError={renameError}
+      raw={raw}
+      selected={selected}
+      query={query}
+      statusFilter={statusFilter}
+      editingId={editingId}
+      draft={draft}
+      showDetail={onSelect !== undefined}
+      onSignIn={() => void auth.signInWithGoogle()}
+      onRaw={setRaw}
+      onAdd={() => void add()}
+      onQuery={setQuery}
+      onStatus={setStatusFilter}
+      onClear={() => {
+        setQuery("");
+        setStatusFilter("all");
+      }}
+      onOpen={(identifier) => {
+        setSelected(identifier);
+        onSelect?.(identifier);
+      }}
+      onRemove={(deviceId, bindingId) => void removeBinding(deviceId, bindingId)}
+      onStartRename={(deviceId, name) => {
+        setEditingId(deviceId);
+        setDraft(name);
+        setRenameError(null);
+      }}
+      onDraft={setDraft}
+      onSaveRename={(deviceId) => void saveRename(deviceId)}
+      onCancelRename={() => {
+        setEditingId(null);
+        setDraft("");
+        setRenameError(null);
+      }}
+    />
   );
 }

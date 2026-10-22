@@ -1,6 +1,11 @@
 import { parseCsd, normalizeCsdAddress } from "./csd";
 import { parseBnt } from "./bnt";
-import { poolProvider, validPoolAddress, type PoolProject } from "./pool-projects";
+import {
+  poolProvider,
+  twoMinersAccountUrl,
+  validPoolAddress,
+  type PoolProject,
+} from "./pool-projects";
 import { parseKryptex, parseTwoMiners, parseMidstate } from "./pool-monitor";
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
@@ -51,11 +56,11 @@ export function readPoolAccount(project: PoolProject, address: string) {
       if (!config.data || config.error || config.stale) throw new Error("invalid-data");
       return parseMidstate(account, address);
     }
-    if (poolProvider(project) === "2miners")
-      return parseTwoMiners(
-        project,
-        await upstreamJson(`https://${project}.2miners.com/api/accounts/${id}`),
-      );
+    if (poolProvider(project) === "2miners") {
+      const url = twoMinersAccountUrl(project, address);
+      if (!url) throw new Error("invalid-address");
+      return parseTwoMiners(project, await upstreamJson(url));
+    }
     const base = `https://pool.kryptex.com/${project}/api`;
     const [balance, first, rewards, paid] = await Promise.all([
       upstreamJson(`${base}/v1/miner/balance/${id}`),

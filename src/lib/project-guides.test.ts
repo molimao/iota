@@ -21,9 +21,27 @@ import { projectPath } from "./projects";
 const structured = (head: ReturnType<typeof seo>) =>
   head.scripts.map((s) => JSON.parse(s.children));
 
+const expectedGuideSlugs = [
+  "xmr-mining-monitor-guide",
+  "etc-mining-monitor-guide",
+  "rvn-mining-monitor-guide",
+  "zec-mining-monitor-guide",
+  "kas-mining-monitor-guide",
+  "erg-mining-monitor-guide",
+  "zeph-mining-monitor-guide",
+  "xid-mmm-mainnet-setup",
+  "xid-worker-hashrate-shares",
+  "xid-rewards-balance-maturity",
+  "quantus-mainnet-mining-mac",
+  "quantus-wormhole-rewards",
+  "quantus-mining-no-rewards",
+  "iota-miner-id-vs-payout-address",
+  "iota-xid-quantus-compared",
+] as const;
+
 describe("multi-project content and discovery", () => {
   it("covers each guide once with complete native copy and valid internal destinations", () => {
-    expect(projectGuides).toHaveLength(8);
+    expect(projectGuides.map((guide) => guide.slug)).toEqual([...expectedGuideSlugs]);
     expect(new Set(articles.map((a) => a.slug)).size).toBe(articles.length);
     const clustered = Object.values(articleClusterMeta).flatMap((group) => group.slugs);
     for (const article of projectGuides) {
@@ -33,7 +51,9 @@ describe("multi-project content and discovery", () => {
       expect(relatedArticles(article.slug).length).toBe(article.related!.length);
       for (const locale of LOCALES) {
         expect(article.summary?.[locale]).toBeTruthy();
-        expect(article.questions?.[locale]).toHaveLength(2);
+        expect(article.questions?.[locale]).toHaveLength(
+          article.slug.endsWith("-mining-monitor-guide") ? 6 : 2,
+        );
         expect(
           article.body[locale].filter((block) => block.startsWith("## ")).length,
         ).toBeGreaterThanOrEqual(3);

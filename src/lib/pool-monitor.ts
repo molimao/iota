@@ -71,8 +71,19 @@ export function parseKryptex(
         : null,
   };
 }
-// 2Miners account monetary fields use payment units, not block reward units.
-// Official account.js getPaymentsMultiplier: DH=1e-9; KAWPOW/EQ/KHeavyHash=1e-8.
+// Account.js getPaymentsMultiplier. ERG matches Ergo (1e-9). ZEPH matches RandomX (1e-12).
+// ETC stays on its existing DH payment divisor. There is no 1e-8 fallback.
+const TWO_MINERS_PAYMENT_DIVISOR: Partial<Record<PoolProject, number>> = {
+  etc: 1e9,
+  rvn: 1e8,
+  zec: 1e8,
+  kas: 1e8,
+  erg: 1e9,
+  zeph: 1e12,
+};
+export function twoMinersPaymentDivisor(project: PoolProject) {
+  return TWO_MINERS_PAYMENT_DIVISOR[project] ?? null;
+}
 export function parseTwoMiners(project: PoolProject, input: unknown): PoolAccount {
   const a = record(input),
     s = record(a["stats"]);
@@ -85,7 +96,8 @@ export function parseTwoMiners(project: PoolProject, input: unknown): PoolAccoun
     Array.isArray(a["workers"])
   )
     throw new Error("invalid-data");
-  const divisor = project === "etc" ? 1e9 : 1e8;
+  const divisor = twoMinersPaymentDivisor(project);
+  if (!divisor) throw new Error("invalid-data");
   const amount = (v: unknown) => {
     const n = number(v);
     return n !== null && Number.isSafeInteger(n) ? n / divisor : null;

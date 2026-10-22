@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-22",
+  "branch": "main",
+  "committed": false,
+  "production_sql": false,
+  "production_changed": false,
+  "projects": ["erg", "zeph"],
+  "provider": "2Miners regular pools only",
+  "not_in_scope": ["SOLO hosts", "other Ergo or Zephyr pools", "integrated Zephyr addresses", "Zephyr subaddresses", "Ergo testnet", "Ergo P2SH", "Ergo P2S"],
+  "stats_evidence": {
+    "erg": {
+      "file": "/tmp/erg-pool-stats22.json",
+      "url": "https://erg.2miners.com/api/stats",
+      "apiVersion": 200,
+      "minersTotal": 301,
+      "workersTotal": 686
+    },
+    "zeph": {
+      "file": "/tmp/zeph-pool-stats22.json",
+      "url": "https://zeph.2miners.com/api/stats",
+      "apiVersion": 200,
+      "minersTotal": 106,
+      "workersTotal": 319
+    }
+  },
+  "payment_units": {
+    "source": "/tmp/erg-account-js22.txt getPaymentsMultiplier and getRewardsMultiplier",
+    "erg": "1e-9 (Ergo / Autolykos v2). Divisor 1e9. Not 1e8.",
+    "zeph": "1e-12 (RandomX). Divisor 1e12. Not 1e8.",
+    "etc_unchanged": "1e9",
+    "missing_fields": "stay null; not filled with 0",
+    "reward_period": "rolling24h, not IOTA previous-day ledger"
+  },
+  "addresses": {
+    "erg": "Mainnet P2PK only: header 0x01, 33-byte key, 4-byte Blake2b-256 checksum. https://docs.ergoplatform.com/dev/wallet/address/address_types/",
+    "zeph": "Mainnet standard only: CryptoNote base58, prefix 0x6241d18c0 (ZEPHYR), 64-byte keys, Keccak-256 checksum. Integrated 0xc4f7d18c0 and subaddress 0x8dd58c0 are rejected until pool acceptance is confirmed. Testnet and stagenet are rejected.",
+    "public_pool_wallets_used_as_fixtures": [
+      "9hcksqJGwwYP6hwxzs6fAqfu3Qdi7YdHoK9GrUxpYhNDeFCZrPh",
+      "ZEPHYR2u8Zg9uwdHHU5oQRG2ZDniADy71M1m7VwA1T9yHHEirSAJffBGx4QhbsurRX9jK6FgWxD7DHwGmxAQHYqZ7ABLifBAiEM1o"
+    ],
+    "sql": "Charset and length only",
+    "app_rpc": "validBinding checksum runs before watch_mutate_device"
+  },
+  "hosts": [
+    "https://erg.2miners.com/api/accounts/{wallet}",
+    "https://zeph.2miners.com/api/accounts/{wallet}"
+  ],
+  "api_doc": "https://github.com/2miners/apidoc/blob/master/2miners_api.json",
+  "quota": { "free_per_project": 5, "pro_per_project": 50, "changed": false },
+  "workers": "One wallet may have many Workers. Workers are not counted as devices.",
+  "migration": "supabase/migrations/20261022140000_ergo_zephyr_pools.sql",
+  "database_acceptance": "PGlite: old ETC save still works; ERG multi-address and two workers stay one device; ZEPH second address does not add a device; rename, remove, free quota 6th blocked, wrong pool and URL rejected, other user isolated.",
+  "tests_passed": [
+    "src/lib/erg-zeph-validator.test.ts",
+    "src/lib/fleet-database.test.ts",
+    "src/lib/pool-monitor.test.ts",
+    "src/lib/projects.test.ts",
+    "src/lib/history-backfill-collect.test.ts",
+    "src/lib/daily-report-collect.test.ts"
+  ],
+  "test_count": 47,
+  "remaining": [
+    "Project tutorials stay with the other assistant.",
+    "Pool page and worker cards were not edited.",
+    "src/components/site/compute-guides.ts currently fails tsc on PROJECTS[project].monitor; that file was not part of this change.",
+    "Production migration was not applied."
+  ]
+}

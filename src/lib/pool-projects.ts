@@ -1,3 +1,4 @@
+import { validErgP2pkAddress, validZephStandardAddress } from "./erg-zeph-validator";
 import { validCsdAddress } from "./csd";
 import { validBntAddress } from "./bnt";
 export const POOL_PROJECT_IDS = [
@@ -10,6 +11,8 @@ export const POOL_PROJECT_IDS = [
   "mds",
   "bnt",
   "csd",
+  "erg",
+  "zeph",
 ] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
 export type PoolProvider = "kryptex" | "2miners" | "luckypool" | "bntpool" | "gpools";
@@ -108,7 +111,40 @@ export const POOL_PROJECTS = {
     guide: "https://kas.2miners.com/help",
     explorer: "https://kas.2miners.com/",
   },
+  erg: {
+    name: "Ergo",
+    detail: "ERG · Autolykos v2",
+    token: "ERG",
+    website: "https://ergoplatform.org/",
+    guide: "https://docs.ergoplatform.com/dev/wallet/address/address_types/",
+    explorer: "https://erg.2miners.com/",
+  },
+  zeph: {
+    name: "Zephyr",
+    detail: "ZEPH · RandomX",
+    token: "ZEPH",
+    website: "https://zephyrprotocol.com/",
+    guide: "https://zeph.2miners.com/help",
+    explorer: "https://zeph.2miners.com/",
+  },
 } as const;
+const TWO_MINERS_ORIGIN = {
+  etc: "https://etc.2miners.com",
+  rvn: "https://rvn.2miners.com",
+  zec: "https://zec.2miners.com",
+  kas: "https://kas.2miners.com",
+  erg: "https://erg.2miners.com",
+  zeph: "https://zeph.2miners.com",
+} as const;
+export type TwoMinersProject = keyof typeof TWO_MINERS_ORIGIN;
+export function twoMinersOrigin(project: PoolProject): string | null {
+  return project in TWO_MINERS_ORIGIN ? TWO_MINERS_ORIGIN[project as TwoMinersProject] : null;
+}
+export function twoMinersAccountUrl(project: PoolProject, address: string) {
+  const origin = twoMinersOrigin(project);
+  if (!origin || !validPoolAddress(project, address)) return null;
+  return `${origin}/api/accounts/${encodeURIComponent(address)}`;
+}
 // Public mainnet payout addresses only; never URLs, credentials or arbitrary upstream hosts.
 export function validPoolAddress(p: PoolProject, v: string) {
   if (v !== v.trim()) return false;
@@ -131,6 +167,10 @@ export function validPoolAddress(p: PoolProject, v: string) {
       return /^t[13][1-9A-HJ-NP-Za-km-z]{33}$/.test(v);
     case "kas":
       return /^kaspa:[023456789acdefghjklmnpqrstuvwxyz]{61,65}$/.test(v);
+    case "erg":
+      return validErgP2pkAddress(v);
+    case "zeph":
+      return validZephStandardAddress(v);
   }
 }
 export function poolAccountUrl(p: PoolProject, address: string) {
@@ -138,7 +178,8 @@ export function poolAccountUrl(p: PoolProject, address: string) {
   if (p === "bnt") return "https://bntpool.com/stats";
   if (p === "mds")
     return `https://midstate.luckypool.io/miner-stats?address=${encodeURIComponent(address)}`;
-  return poolProvider(p) === "kryptex"
-    ? `https://pool.kryptex.com/${p}/miner/stats/${encodeURIComponent(address)}`
-    : `https://${p}.2miners.com/account/${encodeURIComponent(address)}`;
+  const miners = twoMinersOrigin(p);
+  return miners
+    ? `${miners}/account/${encodeURIComponent(address)}`
+    : `https://pool.kryptex.com/${p}/miner/stats/${encodeURIComponent(address)}`;
 }

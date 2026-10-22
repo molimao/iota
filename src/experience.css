@@ -7142,6 +7142,35 @@ body:has(.site-shell) {
 .sync-saved { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted, #a1a1a1); line-height:1.6; }
 @media(max-width:600px) { .sync-guidance { flex-wrap:wrap; padding:16px; } .sync-guidance > div { flex-basis:calc(100% - 40px); } .sync-guidance button { margin-left:34px; max-width:calc(100% - 34px); white-space:normal; } }
 
+/* :root --muted is a near-white surface. Dark pages keep that light text; the white fleet dialog needs its own ink. */
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance {
+  color: #171717;
+  border-color: #e4e4e4;
+  background: #f6f6f6;
+}
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance > svg { color: #2f6f8f; }
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance strong { color: #171717; }
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance p { color: #555; }
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance p[role="alert"] { color: #a22d2d; }
+.fleet-dialog:not(.iota-add-dialog) .sync-saved { color: #555; }
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance button {
+  background: #fff;
+  color: #171717;
+  border-color: #d0d0d0;
+}
+.fleet-dialog:not(.iota-add-dialog) .sync-guidance button:is(:hover, :focus-visible) {
+  background: #f3f3f3;
+  color: #171717;
+}
+.fleet-dialog:not(.iota-add-dialog) .fleet-outline:is(:hover, :focus-visible) {
+  background: #f3f3f3;
+  color: #171717;
+}
+.fleet-paywall-dialog .fleet-dialog-actions > .fleet-outline:is(:hover, :focus-visible) {
+  background: transparent;
+  color: #171717;
+}
+
 /* BNT: payout addresses group miners; only the address owns balances. */
 .bnt-address-groups { display:grid; gap:34px; }
 .bnt-address-group { min-width:0; padding:24px 0 28px; border-top:1px solid #383838; }

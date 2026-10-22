@@ -94,10 +94,72 @@ export const poolCopy = {
     "Worker（任意、空欄でウォレット全体）",
   ]),
 };
+const ergEditorial = {
+  title: localized([
+    "Ergo 矿机监控：2Miners 算力、Worker 与收益",
+    "Ergo 礦機監控：2Miners 算力、Worker 與收益",
+    "Ergo mining monitor: 2Miners hashrate, Workers and rewards",
+    "Ergo 채굴 모니터: 2Miners 해시레이트, Worker와 보상",
+    "Ergo採掘監視：2Minersのハッシュレート・Worker・報酬",
+  ]),
+  summary: localized([
+    "用 erg.2miners.com 的主网 P2PK 地址查看 Ergo 矿池算力、Worker 和钱包收益。不是全网余额，也不覆盖其他矿池。",
+    "用 erg.2miners.com 的主網 P2PK 地址查看 Ergo 礦池算力、Worker 與錢包收益。不是全網餘額，也不涵蓋其他礦池。",
+    "Check Ergo pool hashrate, Workers and wallet rewards on erg.2miners.com with a mainnet P2PK address. This is not a network-wide balance and does not cover other pools.",
+    "erg.2miners.com의 메인넷 P2PK 주소로 Ergo 풀 해시레이트, Worker와 지갑 보상을 확인합니다. 네트워크 전체 잔액이 아니며 다른 풀은 포함하지 않습니다.",
+    "erg.2miners.comのメインネットP2PKアドレスでErgoプールのハッシュレート・Worker・報酬を確認します。ネットワーク全体の残高ではなく、他プールは対象外です。",
+  ]),
+  identity: localized([
+    "填写 erg.2miners.com 使用的 Ergo 主网收款地址（以 9 开头的 P2PK 地址）。暂不支持测试网、其他地址类型及 SOLO 矿池。",
+    "填寫 erg.2miners.com 使用的 Ergo 主網收款地址（以 9 開頭的 P2PK 地址）。暫不支援測試網、其他地址類型與 SOLO 礦池。",
+    "Enter the Ergo mainnet P2PK payout address you use on erg.2miners.com, beginning with 9. Testnet, other address types and SOLO pools are not supported.",
+    "erg.2miners.com에서 사용하는 9로 시작하는 Ergo 메인넷 P2PK 보상 주소를 입력하세요. 테스트넷, 다른 주소 유형과 SOLO 풀은 아직 지원하지 않습니다.",
+    "erg.2miners.comで使う、9から始まるErgoメインネットのP2PK報酬アドレスを入力してください。テストネット、その他のアドレス形式、SOLOプールは未対応です。",
+  ]),
+  coverage: localized([
+    "展示 erg.2miners.com 普通矿池的算力、Worker 状态、未支付余额、累计已支付及滚动近 24 小时收益，不是全网余额，不含 SOLO 或其他矿池，也不是 IOTA 昨日记账。1 ERG = 1e9 支付单位。收益属于整个地址，多个 Worker 不会各算一台设备；没有数据时保持未知，不显示为 0，也不提供美元报价或保本收益。",
+    "顯示 erg.2miners.com 一般礦池的算力、Worker 狀態、未支付餘額、累計已支付與滾動近 24 小時收益，不是全網餘額，不含 SOLO 或其他礦池，也不是 IOTA 昨日記帳。1 ERG = 1e9 支付單位。收益屬於整個地址，多個 Worker 不會各算一台設備；沒有資料時保持未知，不顯示為 0，也不提供美元報價或保本收益。",
+    "View hashrate, Worker status, unpaid balance, total paid and rolling 24-hour rewards from the regular erg.2miners.com pool. This is not the network balance, not SOLO, not other pools and not IOTA's previous-day ledger. 1 ERG uses 1e9 payment units. Rewards belong to the address; Workers are not extra devices. Missing data stays unknown, is not shown as zero, and no USD quote or guaranteed return is provided.",
+    "erg.2miners.com 일반 풀의 해시레이트, Worker 상태, 미지급 잔액, 누적 지급액과 최근 24시간 보상을 표시합니다. 네트워크 전체 잔액도, SOLO나 다른 풀도, IOTA의 어제 장부도 아닙니다. 1 ERG = 1e9 지급 단위입니다. 보상은 주소 전체이며 Worker를 추가 기기로 세지 않습니다. 빠진 값은 알 수 없음으로 두고 0으로 표시하지 않으며 USD 시세나 원금 보장 수익을 만들지 않습니다.",
+    "erg.2miners.com通常プールのハッシュレート、Worker状態、未払い残高、累計支払額、直近24時間の報酬を表示します。ネットワーク全体の残高でも、SOLOや他プールでも、IOTAの前日台帳でもありません。1 ERG = 1e9 支払い単位です。報酬はアドレス全体で、Workerを追加デバイスとして数えません。欠損値は不明のままにし、0やUSD換算、元本保証の収益にはしません。",
+  ]),
+};
+const zephEditorial = {
+  title: localized([
+    "Zephyr 矿机监控：2Miners 算力、Worker 与收益",
+    "Zephyr 礦機監控：2Miners 算力、Worker 與收益",
+    "Zephyr mining monitor: 2Miners hashrate, Workers and rewards",
+    "Zephyr 채굴 모니터: 2Miners 해시레이트, Worker와 보상",
+    "Zephyr採掘監視：2Minersのハッシュレート・Worker・報酬",
+  ]),
+  summary: localized([
+    "用 zeph.2miners.com 的 Zephyr 主网标准地址查看矿池算力、Worker 和钱包收益。不是全网余额，也不覆盖其他矿池。",
+    "用 zeph.2miners.com 的 Zephyr 主網標準地址查看礦池算力、Worker 與錢包收益。不是全網餘額，也不涵蓋其他礦池。",
+    "Check Zephyr pool hashrate, Workers and wallet rewards on zeph.2miners.com with a mainnet standard address. This is not a network-wide balance and does not cover other pools.",
+    "zeph.2miners.com의 Zephyr 메인넷 표준 주소로 풀 해시레이트, Worker와 지갑 보상을 확인합니다. 네트워크 전체 잔액이 아니며 다른 풀은 포함하지 않습니다.",
+    "zeph.2miners.comのZephyrメインネット標準アドレスでプールのハッシュレート・Worker・報酬を確認します。ネットワーク全体の残高ではなく、他プールは対象外です。",
+  ]),
+  identity: localized([
+    "填写 zeph.2miners.com 使用的主网标准收款地址，以 ZEPHYR 开头。暂不支持集成地址、子地址、测试网或 SOLO 矿池。",
+    "填寫 zeph.2miners.com 使用的主網標準收款地址，以 ZEPHYR 開頭。暫不支援整合地址、子地址、測試網與 SOLO 礦池。",
+    "Enter the mainnet standard payout address you use on zeph.2miners.com, beginning with ZEPHYR. Integrated addresses, subaddresses, testnet and SOLO pools are not supported yet.",
+    "zeph.2miners.com에서 사용하는 ZEPHYR로 시작하는 메인넷 표준 보상 주소를 입력하세요. 통합 주소, 서브주소, 테스트넷과 SOLO 풀은 아직 지원하지 않습니다.",
+    "zeph.2miners.comで使う、ZEPHYRから始まるメインネット標準報酬アドレスを入力してください。統合アドレス、サブアドレス、テストネット、SOLOプールは未対応です。",
+  ]),
+  coverage: localized([
+    "展示 zeph.2miners.com 普通矿池的算力、Worker 状态、未支付余额、累计已支付及滚动近 24 小时收益，不是全网余额，不含 SOLO 或其他矿池，也不是 IOTA 昨日记账。RandomX 按 1 ZEPH = 1e12 支付单位换算。收益属于整个地址，多个 Worker 不会各算一台设备；没有数据时保持未知，不显示为 0，也不提供美元报价或保本收益。",
+    "顯示 zeph.2miners.com 一般礦池的算力、Worker 狀態、未支付餘額、累計已支付與滾動近 24 小時收益，不是全網餘額，不含 SOLO 或其他礦池，也不是 IOTA 昨日記帳。RandomX 按 1 ZEPH = 1e12 支付單位換算。收益屬於整個地址，多個 Worker 不會各算一台設備；沒有資料時保持未知，不顯示為 0，也不提供美元報價或保本收益。",
+    "View hashrate, Worker status, unpaid balance, total paid and rolling 24-hour rewards from the regular zeph.2miners.com pool. This is not the network balance, not SOLO, not other pools and not IOTA's previous-day ledger. RandomX amounts use 1e12 payment units per ZEPH. Rewards belong to the address; Workers are not extra devices. Missing data stays unknown, is not shown as zero, and no USD quote or guaranteed return is provided.",
+    "zeph.2miners.com 일반 풀의 해시레이트, Worker 상태, 미지급 잔액, 누적 지급액과 최근 24시간 보상을 표시합니다. 네트워크 전체 잔액도, SOLO나 다른 풀도, IOTA의 어제 장부도 아닙니다. RandomX는 1 ZEPH = 1e12 지급 단위입니다. 보상은 주소 전체이며 Worker를 추가 기기로 세지 않습니다. 빠진 값은 알 수 없음으로 두고 0으로 표시하지 않으며 USD 시세나 원금 보장 수익을 만들지 않습니다.",
+    "zeph.2miners.com通常プールのハッシュレート、Worker状態、未払い残高、累計支払額、直近24時間の報酬を表示します。ネットワーク全体の残高でも、SOLOや他プールでも、IOTAの前日台帳でもありません。RandomXは1 ZEPH = 1e12 支払い単位です。報酬はアドレス全体で、Workerを追加デバイスとして数えません。欠損値は不明のままにし、0やUSD換算、元本保証の収益にはしません。",
+  ]),
+};
 function editorial(p: PoolProject) {
   if (p === "csd") return csdEditorial;
   if (p === "bnt") return bntEditorial;
   if (p === "mds") return mdsEditorial;
+  if (p === "erg") return ergEditorial;
+  if (p === "zeph") return zephEditorial;
   const name = POOL_PROJECTS[p].name,
     pool = poolName(p);
   return {

@@ -133,5 +133,7 @@ it("excludes background prices, empty queries and arbitrary project names from q
   expect(queryAnalyticsProject(["iota", "usd-price"])).toBe(null);
   expect(queryAnalyticsProject(["iota", "discovery", ""])).toBe(null);
   expect(queryAnalyticsProject(["pool-account", "bnt", "private-wallet"])).toBe("bnt");
+  expect(queryAnalyticsProject(["pool-account", "erg", "private-wallet"])).toBe("erg");
+  expect(queryAnalyticsProject(["pool-account", "zeph", "private-wallet"])).toBe("zeph");
   expect(queryAnalyticsProject(["pool-account", "alice@example.com", "private-wallet"])).toBe(null);
 });

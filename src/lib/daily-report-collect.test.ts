@@ -80,6 +80,9 @@ it("uses historical Vast scope and does not substitute other periods or invalid 
   expect(
     await collectReportBinding("owner", { project: "gonka", identifier: "public-test" }, w),
   ).toMatchObject({ reason: "unsupported" });
+  expect(
+    await collectReportBinding("owner", { project: "erg", identifier: "not-a-ledger" }, w),
+  ).toMatchObject({ reason: "different_period", units: null, usd: null });
   const before = mock.history.mock.calls.length;
   await collectReportBinding("owner", { project: "iota", identifier: "../unsafe" }, w);
   expect(mock.history.mock.calls.length).toBe(before);

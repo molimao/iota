@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-22",
+  "status": "local verified; not published",
+  "executor": "Cursor CLI grok-4.7-high; primary assistant review and integration",
+  "new_projects": [
+    "erg",
+    "zeph"
+  ],
+  "pool_scope": "Normal 2Miners pools only; not SOLO or whole-network coverage",
+  "changes": [
+    "Shared Worker cards/list/search/status filters",
+    "Shared persisted address management, rename and unlink",
+    "Existing Free5/Pro50 quotas retained; contextual existing-benefit guidance",
+    "Seven new mining guides in five languages",
+    "Seven existing compute guides upgraded in five languages",
+    "Learning-center pool category, sitemap and text indexes"
+  ],
+  "verification": {
+    "tests": {
+      "final_ui_content": 48,
+      "regression": 77
+    },
+    "typescript": "passed",
+    "production_build": "passed",
+    "lint": "0 errors; 6 Fast Refresh export warnings",
+    "http_checks": "70 HTML +70 Markdown passed; FAQ/body/schema consistent",
+    "crawl": "87 paths x5 locales=435 URLs",
+    "visual": "desktop and390px preview, card/list/filter and local demo rename checked",
+    "database": "PGlite persistence/auth/isolation checks passed; production migration not executed"
+  },
+  "limitations": [
+    "No claim that every source exposes history or USD prices",
+    "io.net and Vast authenticated real-account integration not newly verified",
+    "Preview contains clearly labeled demo data, not account data",
+    "Production publication and migration require fresh approval"
+  ],
+  "preview": "http://127.0.0.1:8082/zh/review-pools",
+  "grok_final_polish": "Edits received; final CLI connection stalled and was interrupted; independently verified afterwards"
+}

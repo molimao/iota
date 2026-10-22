@@ -267,7 +267,9 @@ export function queryAnalyticsProject(key: readonly unknown[]) {
     key[0] === "pool-account" &&
     typeof key[2] === "string" &&
     key[2] &&
-    ["bnt", "csd", "mds", "prl", "xmr", "rvn", "etc", "kas", "zec"].includes(String(key[1]))
+    ["bnt", "csd", "mds", "prl", "xmr", "rvn", "etc", "kas", "zec", "erg", "zeph"].includes(
+      String(key[1]),
+    )
   )
     return String(key[1]);
   if (

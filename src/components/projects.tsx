@@ -50,7 +50,7 @@ export function ProjectSwitch() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const articleProject = getArticle(path.match(/\/learn\/([^/]+)/)?.[1] ?? "")?.project;
   const selected = (path.match(
-    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem|noid|acurast|prl|xmr|etc|rvn|zec|kas|mds|bnt|csd)(?:\/|$)/,
+    /\/projects\/(xid|quantus|flyai|nosana|gonka|akash|ionet|vast|golem|noid|acurast|prl|xmr|etc|rvn|zec|kas|mds|bnt|csd|erg|zeph)(?:\/|$)/,
   )?.[1] ??
     (articleProject && articleProject !== "iota" && articleProject !== "all"
       ? articleProject

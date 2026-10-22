@@ -1,0 +1,214 @@
+.project-address-book {
+  min-width: 0;
+  max-width: 100%;
+}
+.project-address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+.project-address-book .project-address-card {
+  min-width: 0;
+  max-width: 100%;
+}
+.pab-tools {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 14px 0;
+  min-width: 0;
+}
+.pab-search {
+  flex: 1 1 180px;
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: #aaa;
+  font-size: 12px;
+}
+.pab-search input,
+.pab-rename input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #454545;
+  border-radius: 8px;
+  background: #171717;
+  color: #eee;
+  font: inherit;
+}
+.pab-filters,
+.pab-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.pab-filters button,
+.pab-actions button,
+.pab-clear,
+.pab-rename button {
+  width: auto;
+  flex: 0 1 auto;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  background: transparent;
+  color: #eee;
+  font: inherit;
+  font-size: 13px;
+  white-space: normal;
+}
+.pab-filters button[aria-pressed="true"] {
+  color: #111;
+  background: #eee;
+  border-color: #eee;
+}
+.pab-filters button[data-tone="active"]:not([aria-pressed="true"]) {
+  color: #78dfb3;
+  border-color: #315748;
+}
+.pab-filters button[data-tone="waiting"]:not([aria-pressed="true"]) {
+  color: #93c5fd;
+  border-color: #2a3d55;
+}
+.pab-filters button[data-tone="attention"]:not([aria-pressed="true"]) {
+  color: #fdba74;
+  border-color: #5a3d24;
+}
+.pab-filters button[data-tone="unknown"]:not([aria-pressed="true"]) {
+  color: #d9d0b8;
+  border-color: #4a4638;
+}
+.project-address-book .project-address-heading {
+  min-width: 0;
+}
+.project-address-book .pab-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.project-address-book .pab-state {
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border-radius: 7px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.project-address-book .pab-state[data-tone="active"] {
+  color: #78dfb3;
+  background: #203b32;
+}
+.project-address-book .pab-state[data-tone="waiting"] {
+  color: #93c5fd;
+  background: #1c2a3d;
+}
+.project-address-book .pab-state[data-tone="attention"] {
+  color: #fdba74;
+  background: #3a2a1c;
+}
+.project-address-book .pab-state[data-tone="unknown"] {
+  color: #d9d0b8;
+  background: #33312c;
+}
+.pab-id,
+.pab-note {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.pab-note {
+  margin: 8px 0 0;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pab-rename {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 12px;
+}
+.pab-empty {
+  margin: 0;
+  color: #aaa;
+}
+.pab-clear {
+  margin-top: 12px;
+}
+.pab-upgrade {
+  max-width: 70ch;
+  margin: 10px 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #bdbdbd;
+}
+.pab-upgrade a {
+  color: #eee;
+  white-space: normal;
+  text-decoration: underline;
+}
+@media (max-width: 390px) {
+  .project-address-book,
+  .project-address-card,
+  .pab-search,
+  .pab-search input,
+  .pab-id,
+  .pab-name,
+  .pab-actions {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .project-address-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pab-tools,
+  .pab-filters,
+  .pab-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .pab-filters button,
+  .pab-actions button {
+    width: auto;
+    flex: 0 1 auto;
+    max-width: 100%;
+  }
+  .pab-id,
+  .pab-name,
+  .pab-actions button {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+.project-address-book .pab-rename-start {
+  width: auto;
+  margin: 8px 0 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #bdbdbd;
+  box-shadow: none;
+  font: inherit;
+  font-size: 12px;
+}
+.project-address-book .pab-rename-start:hover {
+  background: transparent;
+  color: #fff;
+  text-decoration: underline;
+}
+.pab-upgrade a {
+  display: inline-block;
+}

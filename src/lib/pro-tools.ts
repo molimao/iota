@@ -30,7 +30,7 @@ export const bulkRowSchema = z
     name: clean(40).refine((v) => v.length > 0),
     hardware: clean(100),
     project: z.union([z.literal(""), z.enum(FLEET_PROJECTS)]),
-    identifier: clean(100),
+    identifier: clean(120),
     worker: clean(80),
   })
   .strict()

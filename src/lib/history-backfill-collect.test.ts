@@ -77,6 +77,17 @@ it("does not create or fetch fictitious daily earnings from monthly/unsupported 
       )
     ).resource,
   ).toMatchObject({ reason: "unsupported", days: [] });
+  expect(
+    (
+      await collectHistoricalResource(
+        "owner",
+        { project: "zeph", identifier: "fixture" },
+        start,
+        end,
+        0,
+      )
+    ).resource,
+  ).toMatchObject({ reason: "different_period", days: [] });
   expect(state.upstream).not.toHaveBeenCalled();
   expect(state.collect).not.toHaveBeenCalled();
 });

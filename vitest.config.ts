@@ -7,5 +7,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  test: { include: ["src/lib/*.test.ts"] },
+  test: { include: ["src/{lib,components}/*.test.{ts,tsx}"] },
 });

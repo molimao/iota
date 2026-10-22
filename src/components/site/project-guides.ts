@@ -5,10 +5,12 @@ import { mdsGuide } from "./mds-guide";
 import { searchSupportGuides } from "./search-support-guides";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
+import { poolMonitorGuides } from "./pool-monitor-guides";
 import type { Article } from "./articles";
 
 /** Native editorial copy; never pass through the legacy two-language expander. */
 export const projectGuides: Article[] = [
+  ...poolMonitorGuides,
   {
     slug: "xid-mmm-mainnet-setup",
     project: "xid",

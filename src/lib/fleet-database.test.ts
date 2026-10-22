@@ -1,5 +1,6 @@
 import { bech32m } from "@scure/base";
 import { readFileSync } from "node:fs";
+import { ergP2pkFromFill, zephStandardFromFill } from "./erg-zeph-validator";
 import { fleetSnapshot } from "./fleet-policy";
 import { PGlite } from "@electric-sql/pglite";
 import { beforeAll, afterAll, describe, it, expect } from "vitest";
@@ -57,6 +58,7 @@ beforeAll(async () => {
   await db.exec(
     readFileSync("supabase/migrations/20261018150000_compute_substrate_csd.sql", "utf8"),
   );
+  await db.exec(readFileSync("supabase/migrations/20261022140000_ergo_zephyr_pools.sql", "utf8"));
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -524,5 +526,103 @@ describe("CSD account storage", () => {
       binding: { project: "csd", identifier: "c3".repeat(20) },
     });
     expect(next.projectCounts["csd"]).toBe(5);
+  });
+});
+
+describe("Ergo and Zephyr saved-address persistence", () => {
+  it("saves several wallets and workers, then renames, removes, quotas and isolates them", async () => {
+    const owner = "44444444-5555-4666-8777-888888888888";
+    const erg = [1, 2, 3, 4, 5, 6, 7].map((fill) => ergP2pkFromFill(fill));
+    const zeph = [zephStandardFromFill(1), zephStandardFromFill(2)];
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
+    await asUser(owner);
+    const created = await mutate("create", {
+      name: "ERG rig",
+      binding: { project: "erg", identifier: erg[0], worker: "w1" },
+    });
+    expect(created.projectDeviceLimit).toBe(5);
+    expect(created.projectCounts["erg"]).toBe(1);
+    const id = created.devices[0]!.id;
+    const workers = await mutate("link", {
+      id,
+      binding: { project: "erg", identifier: erg[0], worker: "w2" },
+    });
+    expect(workers.projectCounts["erg"]).toBe(1);
+    const wallets = await mutate("link", {
+      id,
+      binding: { project: "erg", identifier: erg[1], worker: "" },
+    });
+    expect(wallets.projectCounts["erg"]).toBe(1);
+    const saved = fleetSnapshot(wallets).devices.find((device) => device.id === id)!;
+    expect(saved.bindings.map((binding) => binding.identifier).sort()).toEqual(
+      [erg[0], erg[0], erg[1]].sort(),
+    );
+    expect(saved.bindings.every((binding) => binding.pool === "2miners")).toBe(true);
+    const renamed = fleetSnapshot(
+      await mutate("rename", { id, name: "ERG renamed", hardware: "rx" }),
+    );
+    expect(renamed.devices.find((device) => device.id === id)?.name).toBe("ERG renamed");
+    for (const fill of [2, 3, 4, 5]) {
+      await mutate("create", {
+        name: `ERG ${fill}`,
+        binding: { project: "erg", identifier: erg[fill]!, worker: "solo-label" },
+      });
+    }
+    await expect(
+      mutate("create", {
+        name: "ERG sixth",
+        binding: { project: "erg", identifier: erg[6], worker: "extra" },
+      }),
+    ).rejects.toThrow("project_device_limit_reached");
+    const zephSaved = await mutate("create", {
+      name: "ZEPH rig",
+      binding: { project: "zeph", identifier: zeph[0], worker: "a" },
+    });
+    expect(zephSaved.projectCounts["erg"]).toBe(5);
+    expect(zephSaved.projectCounts["zeph"]).toBe(1);
+    const zephId = zephSaved.devices.find((device) =>
+      device.bindings.some((binding) => binding.project === "zeph"),
+    )!.id;
+    const zephWorkers = await mutate("link", {
+      id: zephId,
+      binding: { project: "zeph", identifier: zeph[1], worker: "b" },
+    });
+    expect(zephWorkers.projectCounts["zeph"]).toBe(1);
+    expect(
+      fleetSnapshot(zephWorkers)
+        .devices.find((device) => device.id === zephId)
+        ?.bindings.every((binding) => binding.pool === "2miners"),
+    ).toBe(true);
+    const legacy = await mutate("create", {
+      name: "ETC still",
+      binding: { project: "etc", identifier: "0x" + "ab".repeat(20), worker: "legacy" },
+    });
+    expect(legacy.projectCounts["etc"]).toBe(1);
+    expect(
+      fleetSnapshot(legacy).devices.find((device) => device.name === "ETC still")?.bindings[0],
+    ).toMatchObject({ project: "etc", pool: "2miners" });
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "erg", identifier: erg[6], pool: "kryptex" },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("create", {
+        name: "URL",
+        binding: { project: "zeph", identifier: "https://zeph.2miners.com/account/x" },
+      }),
+    ).rejects.toThrow();
+    await asUser(other);
+    await expect(mutate("rename", { id, name: "stolen", hardware: "" })).rejects.toThrow(
+      "device_not_found",
+    );
+    await expect(mutate("remove", { id })).rejects.toThrow("device_not_found");
+    await asUser(owner);
+    const removed = await mutate("remove", { id });
+    expect(removed.devices.some((device) => device.id === id)).toBe(false);
+    expect(removed.projectCounts["erg"]).toBe(4);
+    expect(removed.projectCounts["zeph"]).toBe(1);
   });
 });

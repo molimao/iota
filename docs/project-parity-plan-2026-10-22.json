@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-22",
+  "status": "local development; production publication requires fresh confirmation",
+  "business_decisions": {
+    "plans": "Keep Free and Pro; do not add a third plan or change prices and device quotas in this round.",
+    "preserve_free": ["overview", "Agent", "crash analysis", "report export"],
+    "paid_value": ["daily earnings email", "exception alerts", "monthly report", "batch operations", "higher project quota"],
+    "upsell_principle": "Explain existing paid benefits when the user needs them; never claim guaranteed mining returns."
+  },
+  "parity_contract": [
+    "Validated multiple identifiers persist in the existing user-owned fleet database and survive sign-in and refresh.",
+    "A payout account may contain many pool worker records; workers are not automatically saved as physical devices or charged against the quota.",
+    "Current metrics distinguish null, zero, errors, stale data and not-found records.",
+    "Cards and lists have consistent semantic status colors, search and filtering, and usable mobile layouts.",
+    "Preserve each source's reward period and currency units; do not relabel rolling 24h as IOTA yesterday.",
+    "Only render genuine supported history; no fabricated trend or zero-filled missing time.",
+    "Every supported project has a discoverable monitor, specific problem-oriented guide, source links and five-language metadata.",
+    "Visible text, FAQ structured data, Markdown exports and static crawl assets agree."
+  ],
+  "first_delivery": [
+    {"task":"Shared pool worker cards and filtering", "executor":"Cursor CLI grok-4.7-high", "scope":"All existing generic pool pages; keep BNT dashboard intact"},
+    {"task":"Ergo and Zephyr integrations", "executor":"Cursor CLI grok-4.7-high", "scope":"Monitor, fleet persistence migration, aggregation and validation"},
+    {"task":"Seven project guides", "executor":"Cursor CLI grok-4.7-high", "projects":["xmr","etc","rvn","zec","kas","erg","zeph"], "locales":["zh","zh-TW","en","ko","ja"]},
+    {"task":"Full project capability audit", "executor":"Cursor CLI grok-4.7-high", "scope":"Find remaining gaps before claiming complete IOTA parity"}
+  ],
+  "new_project_evidence": {
+    "scope":"Public normal 2Miners pools only; not whole networks or SOLO. Snapshot counts are workers, not unique people or physical machines.",
+    "erg":{"stats":"https://erg.2miners.com/api/stats", "miners":301, "workers":686, "apiVersion":200, "payment_unit_multiplier":1e-9},
+    "zeph":{"stats":"https://zeph.2miners.com/api/stats", "miners":106, "workers":319, "apiVersion":200, "payment_unit_multiplier":1e-12},
+    "api_documentation":"https://github.com/2miners/apidoc",
+    "payment_unit_source":"Official pool /js/account.js getPaymentsMultiplier and getRewardsMultiplier"
+  },
+  "gates": ["Review Grok diffs", "Persistence and isolation tests", "Unit and rendering tests", "Type check", "Build", "Local desktop and 390px visual review", "HTML/Markdown/FAQ/sitemap checks", "User approves concrete release"]
+}

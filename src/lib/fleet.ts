@@ -30,6 +30,8 @@ export const FLEET_PROJECTS = [
   "mds",
   "bnt",
   "csd",
+  "erg",
+  "zeph",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -54,6 +56,8 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   mds: "Midstate",
   bnt: "Blocknet",
   csd: "CSD",
+  erg: "Ergo",
+  zeph: "Zephyr",
 };
 export const bindingSchema = z
   .object({
@@ -84,7 +88,7 @@ export const fleetDeviceSchema = z.object({
   name: z.string().trim().min(1).max(40),
   hardware: z.string().trim().max(100).default(""),
   createdAt: z.number().positive(),
-  bindings: z.array(bindingSchema).max(21),
+  bindings: z.array(bindingSchema).max(FLEET_PROJECTS.length),
 });
 export type FleetBinding = z.infer<typeof bindingSchema>;
 export type FleetDevice = z.infer<typeof fleetDeviceSchema>;

@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -68,6 +68,8 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - Compute Substrate / CSD: https://iotahome.site/en/projects/csd — G-pools (csd.yamaduo.no) only. 40-hex addr20, optional 0x normalized. H/s is 1-hour average; Worker activity is share-based. Unpaid, confirming and cumulative paid stay separate. *_sat fields use 1e8 units per CSD. Pool windowed income is an estimate; no daily reward or USD price is invented. Guide: https://iotahome.site/en/learn/csd-gpools-monitor-guide.
 - Blocknet / BNT: https://iotahome.site/en/projects/bnt — Argon2id mining on bntpool.com, not Bancor or BLOCK. Mainnet full payout addresses only. Pool hashrate, Workers, immature estimates, confirmed unpaid, queued payments and cumulative paid are separate. 1 BNT=100,000,000 atomic units. No verified daily income or USD quote is invented. Guide: https://iotahome.site/en/learn/blocknet-bnt-monitor-guide.
 - Midstate / MDS: https://iotahome.site/en/projects/mds — LuckyPool public MSS payout-address records only. Rates are nonces/s. Amounts use base MDS (coinUnits=1); 1 mMDS=1,048,576 MDS and 1 gMDS=1,073,741,824 MDS. Last-24h block allocations are separate from paid transfers; unpaid includes locked and unlocked amounts. Worker activity is share-based, not a machine heartbeat. Wallet totals are not allocated to Workers, solo/other pools are not covered, and no USD quote is invented.
+- Ergo / ERG: https://iotahome.site/en/projects/erg — regular erg.2miners.com only, not SOLO and not other Ergo pools. Mainnet P2PK addresses only (0x01, 33-byte key, Blake2b-256 checksum). Pool records are not the network-wide balance. Payment and rolling 24-hour reward fields use 1e9 units per ERG. Workers are wallet labels, not extra devices. Missing values stay unknown; no USD quote or guaranteed return is invented. Address rules: https://docs.ergoplatform.com/dev/wallet/address/address_types/. API: https://github.com/2miners/apidoc/blob/master/2miners_api.json.
+- Zephyr / ZEPH: https://iotahome.site/en/projects/zeph — regular zeph.2miners.com only, not SOLO and not other Zephyr pools. Mainnet standard addresses only (prefix 0x6241d18c0, CryptoNote base58, Keccak-256 checksum). Integrated and subaddresses are not accepted. Pool data is not the network balance. RandomX payment units are 1e12 per ZEPH. Rolling 24-hour rewards are not an IOTA-style previous day. Workers are not counted as devices. Missing values stay unknown; no USD quote or guaranteed return is invented.
 
 ## Question guides
 
@@ -201,6 +203,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [CSD monitor: G-pools hashrate, Workers and payments (en)](https://iotahome.site/en/projects/csd)
 - [CSD 모니터: G-pools 해시레이트·Worker·지급 (ko)](https://iotahome.site/ko/projects/csd)
 - [CSD監視：G-poolsハッシュレート・Worker・支払 (ja)](https://iotahome.site/ja/projects/csd)
+- [Ergo 矿机监控：2Miners 算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/erg)
+- [Ergo 礦機監控：2Miners 算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/erg)
+- [Ergo mining monitor: 2Miners hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/erg)
+- [Ergo 채굴 모니터: 2Miners 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/erg)
+- [Ergo採掘監視：2Minersのハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/erg)
+- [Zephyr 矿机监控：2Miners 算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/zeph)
+- [Zephyr 礦機監控：2Miners 算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/zeph)
+- [Zephyr mining monitor: 2Miners hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/zeph)
+- [Zephyr 채굴 모니터: 2Miners 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/zeph)
+- [Zephyr採掘監視：2Minersのハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/zeph)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -306,6 +318,41 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [IOTA Train at Home network status: slots, roster miners and training progress (en)](https://iotahome.site/en/learn/network-status-explained)
 - [IOTA Train at Home 네트워크 상태: 슬롯, 명단 마이너, 훈련 진행 (ko)](https://iotahome.site/ko/learn/network-status-explained)
 - [IOTA Train at Homeのネットワーク状態：枠数・一覧のマイナー・学習進捗 (ja)](https://iotahome.site/ja/learn/network-status-explained)
+- [XMR 监控该填标准地址、子地址还是集成地址？ (zh)](https://iotahome.site/zh/learn/xmr-mining-monitor-guide)
+- [XMR 監控該填標準地址、子地址還是整合地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/xmr-mining-monitor-guide)
+- [Which Monero address should the XMR monitor use? (en)](https://iotahome.site/en/learn/xmr-mining-monitor-guide)
+- [XMR 모니터에는 표준·서브·통합 주소 중 무엇을 넣나요? (ko)](https://iotahome.site/ko/learn/xmr-mining-monitor-guide)
+- [XMR監視には標準・サブ・統合のどれを入れる？ (ja)](https://iotahome.site/ja/learn/xmr-mining-monitor-guide)
+- [ETC 监控为什么不能填以太坊地址或 SOLO 矿池？ (zh)](https://iotahome.site/zh/learn/etc-mining-monitor-guide)
+- [ETC 監控為什麼不能填以太坊地址或 SOLO 礦池？ (zh-TW)](https://iotahome.site/zh-TW/learn/etc-mining-monitor-guide)
+- [Why the ETC monitor rejects an Ethereum address and SOLO (en)](https://iotahome.site/en/learn/etc-mining-monitor-guide)
+- [ETC 모니터가 이더리움 주소와 SOLO를 받지 않는 이유 (ko)](https://iotahome.site/ko/learn/etc-mining-monitor-guide)
+- [ETC監視がイーサリアムアドレスとSOLOを受けない理由 (ja)](https://iotahome.site/ja/learn/etc-mining-monitor-guide)
+- [RVN 的 KawPoW 监控为什么钱包和 Worker 要分开？ (zh)](https://iotahome.site/zh/learn/rvn-mining-monitor-guide)
+- [RVN 的 KawPoW 監控為什麼錢包和 Worker 要分開？ (zh-TW)](https://iotahome.site/zh-TW/learn/rvn-mining-monitor-guide)
+- [Why the RVN KawPoW monitor separates wallet and Worker (en)](https://iotahome.site/en/learn/rvn-mining-monitor-guide)
+- [RVN KawPoW 모니터에서 지갑과 Worker를 나누는 이유 (ko)](https://iotahome.site/ko/learn/rvn-mining-monitor-guide)
+- [RVNのKawPoW監視でウォレットとWorkerを分ける理由 (ja)](https://iotahome.site/ja/learn/rvn-mining-monitor-guide)
+- [ZEC 监控为什么只收透明 t 地址，不收 shielded？ (zh)](https://iotahome.site/zh/learn/zec-mining-monitor-guide)
+- [ZEC 監控為什麼只收透明 t 地址，不收 shielded？ (zh-TW)](https://iotahome.site/zh-TW/learn/zec-mining-monitor-guide)
+- [Why the ZEC monitor accepts only transparent t-addresses (en)](https://iotahome.site/en/learn/zec-mining-monitor-guide)
+- [ZEC 모니터가 투명 t 주소만 받고 shielded는 거르는 이유 (ko)](https://iotahome.site/ko/learn/zec-mining-monitor-guide)
+- [ZEC監視が透明なtアドレスだけを受け、shieldedを受け取らない理由 (ja)](https://iotahome.site/ja/learn/zec-mining-monitor-guide)
+- [KAS 监控为什么是普通矿池，不是 SOLO？ (zh)](https://iotahome.site/zh/learn/kas-mining-monitor-guide)
+- [KAS 監控為什麼是普通礦池，不是 SOLO？ (zh-TW)](https://iotahome.site/zh-TW/learn/kas-mining-monitor-guide)
+- [Why the KAS monitor is the regular pool, not SOLO (en)](https://iotahome.site/en/learn/kas-mining-monitor-guide)
+- [KAS 모니터가 SOLO가 아닌 일반 풀인 이유 (ko)](https://iotahome.site/ko/learn/kas-mining-monitor-guide)
+- [KAS監視がSOLOではなく通常プールである理由 (ja)](https://iotahome.site/ja/learn/kas-mining-monitor-guide)
+- [ERG 监控该填哪种以 9 开头的 Autolykos 地址？ (zh)](https://iotahome.site/zh/learn/erg-mining-monitor-guide)
+- [ERG 監控該填哪種以 9 開頭的 Autolykos 地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/erg-mining-monitor-guide)
+- [Which 9-address belongs on the ERG Autolykos monitor? (en)](https://iotahome.site/en/learn/erg-mining-monitor-guide)
+- [ERG Autolykos 모니터에는 어떤 9 주소를 넣나요? (ko)](https://iotahome.site/ko/learn/erg-mining-monitor-guide)
+- [ERGのAutolykos監視には、どの9アドレスを入れますか？ (ja)](https://iotahome.site/ja/learn/erg-mining-monitor-guide)
+- [ZEPH 用了 RandomX，为什么不能填门罗币地址？ (zh)](https://iotahome.site/zh/learn/zeph-mining-monitor-guide)
+- [ZEPH 用了 RandomX，為什麼不能填門羅幣地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/zeph-mining-monitor-guide)
+- [ZEPH uses RandomX. Why is a Monero address rejected? (en)](https://iotahome.site/en/learn/zeph-mining-monitor-guide)
+- [ZEPH는 RandomX인데 모네로 주소를 넣으면 안 되는 이유 (ko)](https://iotahome.site/ko/learn/zeph-mining-monitor-guide)
+- [ZEPHはRandomXなのにMoneroアドレスを入れられない理由 (ja)](https://iotahome.site/ja/learn/zeph-mining-monitor-guide)
 - [XID / MMM 主网挖矿：Mac 设置与地址监控 (zh)](https://iotahome.site/zh/learn/xid-mmm-mainnet-setup)
 - [XID / MMM 主網挖礦：Mac 設定與地址監控 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-mmm-mainnet-setup)
 - [XID mining with MMM: Mac mainnet setup and monitoring (en)](https://iotahome.site/en/learn/xid-mmm-mainnet-setup)

@@ -24,6 +24,8 @@ export const PROJECT_IDS = [
   "mds",
   "bnt",
   "csd",
+  "erg",
+  "zeph",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 export type MiningProject = "xid" | "quantus";

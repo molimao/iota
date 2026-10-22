@@ -543,7 +543,7 @@ export function articleProjects(article: Article): readonly ProjectId[] {
 }
 
 export type ArticleCluster =
-  "use" | "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute";
+  "use" | "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute" | "pools";
 
 export const articleClusterMeta: Record<
   ArticleCluster,
@@ -566,6 +566,16 @@ export const articleClusterMeta: Record<
       ...searchSupportGuides.map((a) => a.slug),
       ...iotaTierGuides.map((a) => a.slug),
     ],
+  },
+  pools: {
+    title: {
+      zh: "矿池与 Worker",
+      "zh-TW": "礦池與 Worker",
+      en: "Pools and workers",
+      ko: "풀과 워커",
+      ja: "プールとワーカー",
+    },
+    slugs: projectGuides.filter((a) => a.slug.endsWith("-mining-monitor-guide")).map((a) => a.slug),
   },
   compute: {
     title: {

@@ -99,6 +99,8 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
     case "csd":
     case "bnt":
     case "mds":
+    case "erg":
+    case "zeph":
       return {
         status: "unavailable",
         activity: "—",
