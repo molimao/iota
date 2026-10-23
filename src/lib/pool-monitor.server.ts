@@ -3,6 +3,8 @@ import { parseCsd, normalizeCsdAddress } from "./csd";
 import { parseBnt } from "./bnt";
 import {
   poolProvider,
+  validPoolProvider,
+  type PoolProvider,
   twoMinersAccountUrl,
   validPoolAddress,
   type PoolProject,
@@ -11,13 +13,29 @@ import { parseCkPool, parseKryptex, parseTwoMiners, parseMidstate } from "./pool
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
 import { record } from "./projects";
+import { parsePrlLuckyPool } from "./prl-luckypool";
 const cache = new ReadCache(300);
-export function readPoolAccount(project: PoolProject, address: string) {
+export function readPoolAccount(
+  project: PoolProject,
+  address: string,
+  provider: PoolProvider = poolProvider(project),
+) {
+  if (!validPoolProvider(project, provider)) throw new Error("invalid-pool");
   if (!validPoolAddress(project, address)) throw new Error("invalid-address");
   if (project === "csd") address = normalizeCsdAddress(address);
   if (project === "btc") address = normalizeBtcAddress(address);
-  return cache.read(`pool:${project}:${address}`, async () => {
+  return cache.read(`pool:${project}:${provider}:${address}`, async () => {
     const id = encodeURIComponent(address);
+    if (project === "prl" && provider === "luckypool") {
+      const [config, account] = await Promise.all([
+        cache.read("prl:luckypool:units", () =>
+          upstreamJson("https://pearl.luckypool.io/api/stats?v=2"),
+        ),
+        upstreamJson(`https://pearl.luckypool.io/api/stats_address?address=${id}`),
+      ]);
+      if (!config.data || config.error || config.stale) throw new Error("invalid-data");
+      return parsePrlLuckyPool(record(config.data)["config"], account, address);
+    }
     if (project === "csd") {
       const [account, rates] = await Promise.all([
         upstreamJson(`https://csd.yamaduo.no/api/miner/${id}`),

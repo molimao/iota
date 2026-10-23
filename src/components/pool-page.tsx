@@ -7,6 +7,9 @@ import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import { poolHashrate } from "@/lib/pool-monitor";
 import {
   poolAccountUrl,
+  poolProvider,
+  poolAccountKey,
+  type PoolProvider,
   poolName,
   POOL_PROJECTS,
   validPoolAddress,
@@ -20,6 +23,8 @@ import { fleetCopy } from "./fleet-copy";
 import { BntDashboard } from "./bnt-dashboard";
 import { PoolWorkerCards } from "./pool-worker-cards";
 import { poolWorkerCardsCopy } from "./pool-worker-cards-copy";
+import { prlPoolCopy } from "./prl-pool-copy";
+import "./prl-pool.css";
 export function PoolPage({ project }: { project: PoolProject }) {
   return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
 }
@@ -27,12 +32,14 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
   const { locale } = useLocale(),
     fc = fleetCopy(locale),
     info = POOL_PROJECTS[project];
+  const [provider, setProvider] = useState<PoolProvider>(poolProvider(project));
+  const lucky = project === "prl" && provider === "luckypool";
   const [input, setInput] = useState(""),
     [address, setAddress] = useState(""),
     [invalid, setInvalid] = useState(false);
   const q = useQuery({
-    queryKey: ["pool-account", project, address],
-    queryFn: () => getPoolAccount({ data: { project, address } }),
+    queryKey: poolAccountKey(project, address, provider),
+    queryFn: () => getPoolAccount({ data: { project, address, pool: provider } }),
     enabled: validPoolAddress(project, address),
     staleTime: 60000,
     refetchInterval: 120000,
@@ -54,10 +61,29 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
     <main id="main" className="projects-page pool-page">
       <header className="project-heading">
         <h1>
-          {info.name} · {poolName(project)}
+          {info.name} · {poolName(project, provider)}
         </h1>
-        <p>{poolEditorial[project].summary[locale]}</p>
+        <p>
+          {project === "prl" ? prlPoolCopy.summary[locale] : poolEditorial[project].summary[locale]}
+        </p>
       </header>
+      {project === "prl" && (
+        <>
+          <label className="prl-pool-select">
+            {c.pool[locale]}
+            <select
+              value={provider}
+              onChange={(event) => {
+                setProvider(event.target.value as PoolProvider);
+              }}
+            >
+              <option value="kryptex">Kryptex</option>
+              <option value="luckypool">LuckyPool</option>
+            </select>
+          </label>
+          <p className="compute-caption">{prlPoolCopy.scope[locale]}</p>
+        </>
+      )}
       <form
         className="pool-lookup"
         onSubmit={(e) => {
@@ -95,7 +121,9 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           {(q.isError || q.data?.error) && (
             <p role="alert">
               {q.data?.error === "not-found"
-                ? poolWorkerCardsCopy.notFound[locale]
+                ? project === "prl"
+                  ? prlPoolCopy.notFound[locale]
+                  : poolWorkerCardsCopy.notFound[locale]
                 : q.data?.error === "invalid-data"
                   ? poolWorkerCardsCopy.unreadable[locale]
                   : poolWorkerCardsCopy.requestFailed[locale]}
@@ -128,7 +156,9 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                             ? bntLabels.confirmed[locale]
                             : project === "mds"
                               ? mdsLabels.balance[locale]
-                              : c.balance[locale],
+                              : lucky
+                                ? prlPoolCopy.unlocked[locale]
+                                : c.balance[locale],
                           `${value(d.balance)} ${info.token}`,
                         ],
                         [
@@ -136,9 +166,19 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                             ? csdLabels.pending[locale]
                             : project === "bnt"
                               ? bntLabels.estimated[locale]
-                              : c[d.period][locale],
+                              : lucky
+                                ? prlPoolCopy.reward[locale]
+                                : c[d.period][locale],
                           `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
                         ],
+                        ...(lucky
+                          ? [
+                              [
+                                prlPoolCopy.locked[locale],
+                                `${value(d.pendingEstimate)} ${info.token}`,
+                              ],
+                            ]
+                          : []),
                         ...(project === "bnt"
                           ? [[bntLabels.queued[locale], `${value(d.queued)} ${info.token}`]]
                           : []),
@@ -151,6 +191,26 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                   </div>
                 ))}
               </div>
+              {lucky && (
+                <>
+                  <p className="compute-caption">{prlPoolCopy.note[locale]}</p>
+                  <p className="compute-caption">
+                    {prlPoolCopy.accepted[locale]} · {value(d.acceptedShares)}
+                    {d.lastShare != null && (
+                      <>
+                        {" "}
+                        · {poolWorkerCardsCopy.lastShare[locale]}{" "}
+                        {new Intl.DateTimeFormat(locale, {
+                          dateStyle: "short",
+                          timeStyle: "medium",
+                          timeZone: "Asia/Hong_Kong",
+                        }).format(d.lastShare)}{" "}
+                        · UTC+8
+                      </>
+                    )}
+                  </p>
+                </>
+              )}
               {project === "btc" && (
                 <>
                   <p className="compute-caption">{c.ckpoolWindow[locale]}</p>
@@ -174,7 +234,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                 </p>
               )}
               <PoolWorkerCards
-                key={`${project}:${address}`}
+                key={`${project}:${provider}:${address}`}
                 project={project}
                 address={address}
                 account={d}
@@ -182,13 +242,13 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
               />
             </>
           )}
-          <a href={poolAccountUrl(project, address)} target="_blank" rel="noreferrer">
+          <a href={poolAccountUrl(project, address, provider)} target="_blank" rel="noreferrer">
             {c.source[locale]} ↗
           </a>
         </section>
       )}
-      <ProjectAddressBook project={project} onSelect={selectSaved} />
-      <ProjectAbout project={project} />
+      <ProjectAddressBook project={project} pool={provider} onSelect={selectSaved} />
+      {!lucky && <ProjectAbout project={project} />}
     </main>
   );
 }

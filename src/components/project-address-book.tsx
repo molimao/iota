@@ -7,12 +7,13 @@ import { useFleetReadings } from "@/hooks/use-fleet-readings";
 import { FLEET_NAMES, type FleetProject } from "@/lib/fleet";
 import type { FleetMutation } from "@/lib/fleet-policy";
 import { projectAddressInput } from "@/lib/project-address-input";
-import { isPoolProject, poolName, poolProvider } from "@/lib/pool-projects";
+import { isPoolProject, poolName, poolProvider, type PoolProvider } from "@/lib/pool-projects";
 import type { SiteLocale } from "@/lib/site";
 import { additionalMetricCopy } from "./additional-platform-copy";
 import { fleetCopy } from "./fleet-copy";
 import type { ProjectReading } from "./fleet-review-data";
 import { poolCopy } from "./pool-copy";
+import { prlPoolCopy } from "./prl-pool-copy";
 import { addressBookCopy } from "./project-address-book-copy";
 import { useLocale } from "./site/locale";
 
@@ -125,6 +126,7 @@ export function ProjectAddressBookView({
   project,
   locale,
   savedCount,
+  pool,
   limit,
   cards,
   signedIn = true,
@@ -159,6 +161,7 @@ export function ProjectAddressBookView({
   project: FleetProject;
   locale: SiteLocale;
   savedCount: number;
+  pool?: PoolProvider | undefined;
   limit: number;
   cards: readonly AddressBookEntry[];
   signedIn?: boolean;
@@ -213,7 +216,7 @@ export function ProjectAddressBookView({
       </div>
       {isPoolProject(project) && (
         <p className="compute-caption">
-          {poolCopy.pool[locale]} · {poolName(project)}
+          {poolCopy.pool[locale]} · {poolName(project, pool)}
         </p>
       )}
       {!signedIn ? (
@@ -250,6 +253,11 @@ export function ProjectAddressBookView({
               {busy ? labels.loading : text.add[locale]}
             </button>
           </form>
+          {project === "prl" && (
+            <p className="compute-caption">
+              {prlPoolCopy.selected[locale]} · {poolName("prl", pool)}
+            </p>
+          )}
           <p className="compute-caption">
             {text.sync[locale]} · {savedCount} / {limit}
           </p>
@@ -421,9 +429,11 @@ export function ProjectAddressBookView({
 
 export function ProjectAddressBook({
   project,
+  pool,
   onSelect,
 }: {
   project: FleetProject;
+  pool?: PoolProvider | undefined;
   onSelect?: (id: string) => void;
 }) {
   const auth = useAuth(),
@@ -431,12 +441,23 @@ export function ProjectAddressBook({
     { locale } = useLocale(),
     labels = fleetCopy(locale),
     text = addressBookCopy;
-  const devices = (auth.userId ? fleet.devices : [])
+  const projectDevices = (auth.userId ? fleet.devices : [])
     .map((device) => ({
       ...device,
       bindings: device.bindings.filter((binding) => binding.project === project),
     }))
     .filter((device) => device.bindings.length);
+  const devices =
+    project === "prl"
+      ? projectDevices
+          .map((device) => ({
+            ...device,
+            bindings: device.bindings.filter(
+              (binding) => (binding.pool ?? poolProvider("prl")) === (pool ?? poolProvider("prl")),
+            ),
+          }))
+          .filter((device) => device.bindings.length)
+      : projectDevices;
   const read = useFleetReadings(devices, fleet.ready);
   const [raw, setRaw] = useState(""),
     [busy, setBusy] = useState(false),
@@ -474,7 +495,7 @@ export function ProjectAddressBook({
         project,
         raw,
         devices.flatMap((device) => device.bindings.map((binding) => binding.identifier)),
-        fleet.limit - devices.length,
+        fleet.limit - projectDevices.length,
       );
     } catch (caught) {
       setError(
@@ -497,7 +518,7 @@ export function ProjectAddressBook({
               project,
               identifier,
               worker: "",
-              ...(isPoolProject(project) ? { pool: poolProvider(project) } : {}),
+              ...(isPoolProject(project) ? { pool: pool ?? poolProvider(project) } : {}),
             },
           },
         });
@@ -550,7 +571,8 @@ export function ProjectAddressBook({
     <ProjectAddressBookView
       project={project}
       locale={locale}
-      savedCount={devices.length}
+      savedCount={projectDevices.length}
+      pool={pool}
       limit={fleet.limit}
       cards={entries}
       signedIn={Boolean(auth.userId)}

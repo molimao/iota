@@ -60,6 +60,7 @@ beforeAll(async () => {
   );
   await db.exec(readFileSync("supabase/migrations/20261022140000_ergo_zephyr_pools.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261023190000_btc_ethw_pools.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261023220000_prl_luckypool.sql", "utf8"));
 }, 60000);
 afterAll(async () => {
   await db.close();
@@ -717,5 +718,66 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
     await expect(mutate("unlink", { id, bindingId: second.id })).rejects.toThrow(
       "device_not_found",
     );
+  });
+});
+
+describe("PRL accounts keep pool identity in PostgreSQL", () => {
+  it("reloads both pools separately, enforces duplicate and quota rules, and isolates owners", async () => {
+    const owner = "77777777-6666-4777-8888-999999999999";
+    const address = "prl1" + "q".repeat(58);
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
+    await asUser(owner);
+    await mutate("create", { name: "Kryptex", binding: { project: "prl", identifier: address } });
+    const two = await mutate("create", {
+      name: "LuckyPool",
+      binding: { project: "prl", identifier: address, pool: "luckypool" },
+    });
+    expect(two.projectCounts["prl"]).toBe(2);
+    const list = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+    const rows = fleetSnapshot(list.rows[0]!.data).devices;
+    expect(rows.map((d) => d.bindings[0]?.pool).sort()).toEqual(["kryptex", "luckypool"]);
+    const lucky = rows.find((d) => d.name === "LuckyPool")!;
+    await expect(
+      mutate("create", {
+        name: "Duplicate",
+        binding: { project: "prl", identifier: address, pool: "luckypool" },
+      }),
+    ).rejects.toThrow(/duplicate key/);
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "prl", identifier: address, pool: "2miners" },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("create", {
+        name: "XMR wrong pool",
+        binding: { project: "xmr", identifier: "4" + "a".repeat(94), pool: "luckypool" },
+      }),
+    ).rejects.toThrow();
+    for (let i = 1; i <= 3; i++)
+      await mutate("create", {
+        name: "Extra " + i,
+        binding: { project: "prl", identifier: address + "q".repeat(i), pool: "luckypool" },
+      });
+    await expect(
+      mutate("create", {
+        name: "Sixth",
+        binding: { project: "prl", identifier: address + "qqqq", pool: "luckypool" },
+      }),
+    ).rejects.toThrow("project_device_limit_reached");
+    await asUser(other);
+    await expect(
+      mutate("unlink", { id: lucky.id, bindingId: lucky.bindings[0]!.id }),
+    ).rejects.toThrow("device_not_found");
+    await asUser(owner);
+    const freed = await mutate("unlink", { id: lucky.id, bindingId: lucky.bindings[0]!.id });
+    expect(freed.projectCounts["prl"]).toBe(4);
+    const added = await mutate("create", {
+      name: "Replacement",
+      binding: { project: "prl", identifier: address + "qqqq", pool: "luckypool" },
+    });
+    expect(added.projectCounts["prl"]).toBe(5);
   });
 });

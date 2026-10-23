@@ -1,6 +1,6 @@
 import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
-import { isPoolProject, poolProvider } from "./pool-projects";
+import { isPoolProject, poolProvider, validPoolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -40,8 +40,11 @@ export const mutateFleet = createServerFn({ method: "POST" })
     ) {
       const b = value.payload.binding;
       const expected = poolProvider(b.project as import("./pool-projects").PoolProject);
-      if (b.pool && b.pool !== expected) throw new Error("invalid_pool");
-      b.pool = expected;
+      if (
+        !validPoolProvider(b.project as import("./pool-projects").PoolProject, b.pool ?? expected)
+      )
+        throw new Error("invalid_pool");
+      b.pool = b.pool ?? expected;
     }
     return value;
   })

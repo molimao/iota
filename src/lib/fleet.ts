@@ -1,6 +1,6 @@
 import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
-import { isPoolProject, validPoolAddress, poolProvider } from "./pool-projects";
+import { isPoolProject, validPoolAddress, poolProvider, validPoolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { isPlatform, validPlatformId } from "./platforms";
 import { z } from "zod";
@@ -111,7 +111,11 @@ export function validBinding(project: FleetProject, identifier: string) {
   return validProjectAddress(project, identifier);
 }
 
-export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identifier" | "worker">) {
+export function bindingIdentity(
+  binding: Pick<FleetBinding, "project" | "identifier" | "worker"> & {
+    pool?: FleetBinding["pool"];
+  },
+) {
   const identifier =
     binding.project === "csd"
       ? normalizeCsdAddress(binding.identifier)
@@ -122,7 +126,7 @@ export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identif
           : binding.project === "flyai" || binding.project === "etc" || binding.project === "ethw"
             ? binding.identifier.toLowerCase()
             : binding.identifier;
-  return `${binding.project}:${identifier}:${binding.worker}`;
+  return `${binding.project}:${identifier}:${binding.worker}${binding.project === "prl" ? ":" + (binding.pool ?? poolProvider("prl")) : ""}`;
 }
 
 export function parseFleet(input: unknown): FleetDevice[] {
@@ -136,7 +140,7 @@ export function parseFleet(input: unknown): FleetDevice[] {
       const key = bindingIdentity(binding);
       if (
         !validBinding(binding.project, binding.identifier) ||
-        (isPoolProject(binding.project) && binding.pool !== poolProvider(binding.project)) ||
+        (isPoolProject(binding.project) && !validPoolProvider(binding.project, binding.pool)) ||
         sources.has(key)
       )
         throw new Error("invalid-binding");
@@ -175,6 +179,8 @@ export function walletIsShared(devices: FleetDevice[], binding: FleetBinding) {
       .filter(
         (b) =>
           b.project === binding.project &&
+          (binding.project !== "prl" ||
+            (b.pool ?? poolProvider("prl")) === (binding.pool ?? poolProvider("prl"))) &&
           (binding.project === "flyai"
             ? b.identifier.toLowerCase() === binding.identifier.toLowerCase()
             : b.identifier === binding.identifier),

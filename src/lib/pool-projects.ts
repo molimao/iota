@@ -33,18 +33,35 @@ export const poolProvider = (p: PoolProject): PoolProvider =>
           : p === "prl" || p === "xmr"
             ? "kryptex"
             : "2miners";
-export const poolName = (p: PoolProject) =>
-  p === "btc"
-    ? "CKPool"
-    : p === "csd"
-      ? "G-pools"
-      : p === "bnt"
-        ? "bntpool.com"
-        : p === "mds"
-          ? "LuckyPool"
-          : poolProvider(p) === "kryptex"
-            ? "Kryptex"
-            : "2Miners";
+export function validPoolProvider(
+  project: PoolProject,
+  provider: unknown,
+): provider is PoolProvider {
+  return provider === poolProvider(project) || (project === "prl" && provider === "luckypool");
+}
+export function poolAccountKey(
+  project: PoolProject,
+  address: string,
+  provider = poolProvider(project),
+) {
+  return project === "prl"
+    ? ["pool-account", project, address, provider]
+    : ["pool-account", project, address];
+}
+export const poolName = (p: PoolProject, provider = poolProvider(p)) =>
+  p === "prl" && provider === "luckypool"
+    ? "LuckyPool"
+    : p === "btc"
+      ? "CKPool"
+      : p === "csd"
+        ? "G-pools"
+        : p === "bnt"
+          ? "bntpool.com"
+          : p === "mds"
+            ? "LuckyPool"
+            : poolProvider(p) === "kryptex"
+              ? "Kryptex"
+              : "2Miners";
 export const POOL_PROJECTS = {
   csd: {
     name: "Compute Substrate",
@@ -200,7 +217,9 @@ export function validPoolAddress(p: PoolProject, v: string) {
       return validZephStandardAddress(v);
   }
 }
-export function poolAccountUrl(p: PoolProject, address: string) {
+export function poolAccountUrl(p: PoolProject, address: string, provider = poolProvider(p)) {
+  if (p === "prl" && provider === "luckypool")
+    return `https://pearl.luckypool.io/miner-stats?address=${encodeURIComponent(address)}`;
   if (p === "btc")
     return validBtcAddress(address)
       ? `https://stats.ckpool.org/users/${encodeURIComponent(normalizeBtcAddress(address))}`

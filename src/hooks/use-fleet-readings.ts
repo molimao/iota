@@ -1,5 +1,11 @@
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
-import { isPoolProject, poolName, POOL_PROJECTS } from "@/lib/pool-projects";
+import {
+  isPoolProject,
+  poolName,
+  poolProvider,
+  poolAccountKey,
+  POOL_PROJECTS,
+} from "@/lib/pool-projects";
 import { poolHashrate } from "@/lib/pool-monitor";
 import { poolCopy } from "@/components/pool-copy";
 import { additionalMetricCopy } from "@/components/additional-platform-copy";
@@ -64,15 +70,21 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       devices
         .flatMap((d) => d.bindings)
         .filter((b) => isPoolProject(b.project))
-        .map((b) => [`${b.project}:${b.identifier}`, b]),
+        .map((b) => [`${b.project}:${b.pool ?? ""}:${b.identifier}`, b]),
     ).values(),
   ];
   const poolQueries = useQueries({
     queries: poolBindings.map((b) => ({
-      queryKey: ["pool-account", b.project, b.identifier],
+      queryKey: poolAccountKey(
+        b.project as import("@/lib/pool-projects").PoolProject,
+        b.identifier,
+        b.pool,
+      ),
       queryFn: () => {
         if (!isPoolProject(b.project)) throw new Error("invalid");
-        return getPoolAccount({ data: { project: b.project, address: b.identifier } });
+        return getPoolAccount({
+          data: { project: b.project, address: b.identifier, pool: b.pool },
+        });
       },
       enabled: ready,
       staleTime: 60000,
@@ -184,7 +196,13 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       const q =
         poolQueries[
           poolBindings.findIndex(
-            (b) => b.project === binding.project && b.identifier === binding.identifier,
+            (b) =>
+              b.project === binding.project &&
+              b.identifier === binding.identifier &&
+              (b.pool ??
+                poolProvider(binding.project as import("@/lib/pool-projects").PoolProject)) ===
+                (binding.pool ??
+                  poolProvider(binding.project as import("@/lib/pool-projects").PoolProject)),
           )
         ];
       const r = q?.data,
@@ -201,7 +219,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
             : null;
       return {
         ...base,
-        source: poolName(binding.project),
+        source: poolName(binding.project, binding.pool),
         health: current && d ? "fresh" : d ? "stale" : q?.isFetching ? "loading" : "unavailable",
         unit: POOL_PROJECTS[binding.project].token,
         status: q?.isPending

@@ -19,6 +19,7 @@ export type PoolAccount = {
   hashrate: number | null;
   /** Wallet last-share time, when the source publishes one. */
   lastShare?: number | null;
+  acceptedShares?: number | null;
   /** CKPool wallet and worker rates both use this window. */
   hashrateWindow?: "1hr";
 };
