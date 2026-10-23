@@ -17,6 +17,10 @@ export type PoolAccount = {
   workerCount: number;
   partial: boolean;
   hashrate: number | null;
+  /** Wallet last-share time, when the source publishes one. */
+  lastShare?: number | null;
+  /** CKPool wallet and worker rates both use this window. */
+  hashrateWindow?: "1hr";
 };
 const number = (v: unknown) =>
   typeof v === "string" && /^\d+(\.\d+)?$/.test(v) ? finite(Number(v)) : finite(v);
@@ -73,6 +77,8 @@ export function parseKryptex(
 }
 // Account.js getPaymentsMultiplier. ERG matches Ergo (1e-9). ZEPH matches RandomX (1e-12).
 // ETC stays on its existing DH payment divisor. There is no 1e-8 fallback.
+// Public ethw.2miners.com account.js: type "DH", getPaymentsMultiplier returns 1e-9.
+// getRewardsMultiplier 1e-18 is the block-reward display, not balance, paid or 24hreward.
 const TWO_MINERS_PAYMENT_DIVISOR: Partial<Record<PoolProject, number>> = {
   etc: 1e9,
   rvn: 1e8,
@@ -80,6 +86,7 @@ const TWO_MINERS_PAYMENT_DIVISOR: Partial<Record<PoolProject, number>> = {
   kas: 1e8,
   erg: 1e9,
   zeph: 1e12,
+  ethw: 1e9,
 };
 export function twoMinersPaymentDivisor(project: PoolProject) {
   return TWO_MINERS_PAYMENT_DIVISOR[project] ?? null;
@@ -167,6 +174,82 @@ export function parseMidstate(input: unknown, address: string, now = Date.now())
     workerCount: rows.length,
     hashrate: rate !== null && rate >= 0 ? rate : null,
     partial: balance === null || paid === null || earned === null,
+  };
+}
+const CK_SCALE: Record<string, number> = {
+  "": 1,
+  K: 1e3,
+  M: 1e6,
+  G: 1e9,
+  T: 1e12,
+  P: 1e15,
+  E: 1e18,
+};
+/** CKPool prints a decimal and at most one SI letter, such as "954G" or "0". No letter means H/s. */
+export function ckHashrate(value: unknown): number | null {
+  if (value == null || value === "") return null;
+  if (typeof value !== "string" || !/^(\d+(?:\.\d+)?)([KMGTPE])?$/.test(value))
+    throw new Error("invalid-data");
+  const match = /^(\d+(?:\.\d+)?)([KMGTPE])?$/.exec(value)!;
+  const n = Number(match[1]) * CK_SCALE[match[2] ?? ""]!;
+  if (!Number.isFinite(n) || n < 0 || n > 1e24) throw new Error("invalid-data");
+  return n;
+}
+function ckTime(value: unknown): number | null {
+  if (value == null || value === 0 || value === "0") return null;
+  const seen = timestamp(value);
+  if (seen == null) throw new Error("invalid-data");
+  return seen;
+}
+/**
+ * CKPool user JSON has no online flag. A last share older than 10 minutes is not live.
+ * This is an activity heuristic, not a device heartbeat. Missing or future times stay unknown.
+ */
+export const CKPOOL_LAST_SHARE_FRESH_MS = 10 * 60 * 1000;
+const CK_CLOCK_SKEW_MS = 2 * 60 * 1000;
+function ckOnline(lastSeen: number | null, now: number): boolean | null {
+  if (lastSeen == null) return null;
+  if (lastSeen > now + CK_CLOCK_SKEW_MS) return null;
+  return now - lastSeen <= CKPOOL_LAST_SHARE_FRESH_MS;
+}
+export function parseCkPool(input: unknown, address: string, now = Date.now()): PoolAccount {
+  const row = record(input);
+  if ("runtime" in row || "Users" in row || "Disconnected" in row) throw new Error("invalid-data");
+  if (!Array.isArray(row["worker"])) {
+    if (row["hashrate1hr"] == null && row["workers"] == null) throw new Error("not-found");
+    throw new Error("invalid-data");
+  }
+  if (row["worker"].length > 5000) throw new Error("invalid-data");
+  const reported = number(row["workers"]);
+  if (reported !== null && (!Number.isSafeInteger(reported) || reported < 0))
+    throw new Error("invalid-data");
+  const workers = row["worker"].map((item) => {
+    const worker = record(item);
+    const raw = typeof worker["workername"] === "string" ? worker["workername"] : "";
+    const prefix = `${address}.`;
+    const name = (
+      raw === address ? "" : raw.startsWith(prefix) ? raw.slice(prefix.length) : raw
+    ).slice(0, 80);
+    const lastSeen = ckTime(worker["lastshare"]);
+    return {
+      name,
+      hashrate: ckHashrate(worker["hashrate1hr"]),
+      lastSeen,
+      online: ckOnline(lastSeen, now),
+    };
+  });
+  const lastShare = ckTime(row["lastshare"]);
+  return {
+    balance: null,
+    paid: null,
+    reward: null,
+    period: "unknown",
+    workers,
+    workerCount: Math.max(reported ?? 0, workers.length),
+    partial: reported !== null && reported > workers.length,
+    hashrate: ckHashrate(row["hashrate1hr"]),
+    lastShare,
+    hashrateWindow: "1hr",
   };
 }
 export function poolHashrate(project: PoolProject, n: number | null) {

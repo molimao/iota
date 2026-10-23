@@ -1,3 +1,4 @@
+import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
 import { isPoolProject, validPoolAddress, poolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
@@ -32,6 +33,8 @@ export const FLEET_PROJECTS = [
   "csd",
   "erg",
   "zeph",
+  "btc",
+  "ethw",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -58,13 +61,15 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   csd: "CSD",
   erg: "Ergo",
   zeph: "Zephyr",
+  btc: "Bitcoin",
+  ethw: "EthereumPoW",
 };
 export const bindingSchema = z
   .object({
     id: z.string().min(1).max(120),
     project: z.enum(FLEET_PROJECTS),
     identifier: z.string().trim().min(1).max(120),
-    pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools"]).optional(),
+    pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools", "ckpool"]).optional(),
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>
@@ -74,9 +79,11 @@ export const bindingSchema = z
           identifier:
             b.project === "csd"
               ? normalizeCsdAddress(b.identifier)
-              : b.project === "etc"
-                ? b.identifier.toLowerCase()
-                : b.identifier,
+              : b.project === "btc"
+                ? normalizeBtcAddress(b.identifier)
+                : b.project === "etc" || b.project === "ethw"
+                  ? b.identifier.toLowerCase()
+                  : b.identifier,
           pool: b.pool ?? poolProvider(b.project),
         }
       : b.project === "acurast" && acurastPublicKey(b.identifier)
@@ -110,9 +117,11 @@ export function bindingIdentity(binding: Pick<FleetBinding, "project" | "identif
       ? normalizeCsdAddress(binding.identifier)
       : binding.project === "acurast"
         ? "0x" + acurastPublicKey(binding.identifier)
-        : binding.project === "flyai" || binding.project === "etc"
-          ? binding.identifier.toLowerCase()
-          : binding.identifier;
+        : binding.project === "btc"
+          ? normalizeBtcAddress(binding.identifier)
+          : binding.project === "flyai" || binding.project === "etc" || binding.project === "ethw"
+            ? binding.identifier.toLowerCase()
+            : binding.identifier;
   return `${binding.project}:${identifier}:${binding.worker}`;
 }
 

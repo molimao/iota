@@ -598,6 +598,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                                   csd: "40 hex · addr20",
                                   erg: "9… · P2PK",
                                   zeph: "ZEPHYR…",
+                                  btc: "1… / 3… / bc1…",
+                                  ethw: "0x…",
                                 }[selectedProject]
                               : isPlatform(selectedProject)
                                 ? selectedProject === "noid"

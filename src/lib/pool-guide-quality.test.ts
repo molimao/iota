@@ -26,6 +26,8 @@ const SLUGS = [
   "kas-mining-monitor-guide",
   "erg-mining-monitor-guide",
   "zeph-mining-monitor-guide",
+  "btc-mining-monitor-guide",
+  "ethw-mining-monitor-guide",
 ] as const;
 
 const REQUIRED_SOURCES: Record<(typeof SLUGS)[number], string[]> = {
@@ -61,6 +63,16 @@ const REQUIRED_SOURCES: Record<(typeof SLUGS)[number], string[]> = {
   "zeph-mining-monitor-guide": [
     "https://zeph.2miners.com/help",
     "https://www.zephyrprotocol.com/",
+    "https://github.com/2miners/apidoc",
+  ],
+  "btc-mining-monitor-guide": [
+    "https://solo.ckpool.org/",
+    "https://raw.stats.ckpool.org/pool/pool.status",
+    "https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki",
+  ],
+  "ethw-mining-monitor-guide": [
+    "https://ethw.2miners.com/help",
+    "https://ethw.2miners.com/",
     "https://github.com/2miners/apidoc",
   ],
 };
@@ -115,6 +127,20 @@ const MARKS: Record<(typeof SLUGS)[number], Record<SiteLocale, string[]>> = {
     ko: ["ZEPHYR", "RandomX", "solo-zeph.2miners.com", "Monero"],
     ja: ["ZEPHYR", "RandomX", "solo-zeph.2miners.com", "Monero"],
   },
+  "btc-mining-monitor-guide": {
+    zh: ["CKPool", "SHA-256", "bc1", "pool.status"],
+    "zh-TW": ["CKPool", "SHA-256", "bc1", "pool.status"],
+    en: ["CKPool", "SHA-256", "bc1", "pool.status"],
+    ko: ["CKPool", "SHA-256", "bc1", "pool.status"],
+    ja: ["CKPool", "SHA-256", "bc1", "pool.status"],
+  },
+  "ethw-mining-monitor-guide": {
+    zh: ["ETHash", "solo-ethw.2miners.com", "0x", "ETHW"],
+    "zh-TW": ["ETHash", "solo-ethw.2miners.com", "0x", "ETHW"],
+    en: ["ETHash", "solo-ethw.2miners.com", "0x", "ETHW"],
+    ko: ["ETHash", "solo-ethw.2miners.com", "0x", "ETHW"],
+    ja: ["ETHash", "solo-ethw.2miners.com", "0x", "ETHW"],
+  },
 };
 
 function plain(text: string) {
@@ -131,7 +157,7 @@ function schemas(locale: SiteLocale, slug: string) {
 }
 
 describe("pool monitor guides", () => {
-  it("publishes seven guides with distinct official sources in five languages", () => {
+  it("publishes pool guides with distinct official sources in five languages", () => {
     expect(poolMonitorGuides.map((guide) => guide.slug)).toEqual([...SLUGS]);
     const sourceSets = poolMonitorGuides.map((guide) =>
       guide
@@ -142,8 +168,9 @@ describe("pool monitor guides", () => {
     expect(new Set(sourceSets).size).toBe(SLUGS.length);
     for (const guide of poolMonitorGuides) {
       const slug = guide.slug as (typeof SLUGS)[number];
-      expect(guide.published).toBe("2026-10-22");
-      expect(guide.modified).toBe("2026-10-22");
+      const dated = slug === "btc-mining-monitor-guide" || slug === "ethw-mining-monitor-guide";
+      expect(guide.published).toBe(dated ? "2026-10-23" : "2026-10-22");
+      expect(guide.modified).toBe(dated ? "2026-10-23" : "2026-10-22");
       expect(guide.project).toBeTruthy();
       expect(guide.sources!.length).toBeGreaterThanOrEqual(2);
       for (const url of REQUIRED_SOURCES[slug]) {
@@ -233,7 +260,7 @@ describe("pool monitor guides", () => {
         expect(learning).toContain(`href="/${locale}/learn/${guide.slug}"`);
       }
     }
-  });
+  }, 20000);
 
   it("uses project-specific boundaries and does not invent payout figures", () => {
     for (const guide of poolMonitorGuides) {

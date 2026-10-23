@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Gonka, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 5 on Free and 50 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - Gonka: https://iotahome.site/en/projects/gonka — current epoch Host participation, models and weight; membership is not live uptime and weight is not GNK earnings. Source: https://gonka.ai/docs/host/network-node-api/.
@@ -213,6 +213,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [Zephyr mining monitor: 2Miners hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/zeph)
 - [Zephyr 채굴 모니터: 2Miners 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/zeph)
 - [Zephyr採掘監視：2Minersのハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/zeph)
+- [Bitcoin 矿机监控：CKPool 算力与 Worker (zh)](https://iotahome.site/zh/projects/btc)
+- [Bitcoin 礦機監控：CKPool 算力與 Worker (zh-TW)](https://iotahome.site/zh-TW/projects/btc)
+- [Bitcoin mining monitor: CKPool hashrate and Workers (en)](https://iotahome.site/en/projects/btc)
+- [Bitcoin 채굴 모니터: CKPool 해시레이트와 Worker (ko)](https://iotahome.site/ko/projects/btc)
+- [Bitcoin採掘監視：CKPoolのハッシュレートとWorker (ja)](https://iotahome.site/ja/projects/btc)
+- [EthereumPoW 矿机监控：2Miners 算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/ethw)
+- [EthereumPoW 礦機監控：2Miners 算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/ethw)
+- [EthereumPoW mining monitor: 2Miners hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/ethw)
+- [EthereumPoW 채굴 모니터: 2Miners 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/ethw)
+- [EthereumPoW採掘監視：2Minersのハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/ethw)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -353,6 +363,16 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - [ZEPH uses RandomX. Why is a Monero address rejected? (en)](https://iotahome.site/en/learn/zeph-mining-monitor-guide)
 - [ZEPH는 RandomX인데 모네로 주소를 넣으면 안 되는 이유 (ko)](https://iotahome.site/ko/learn/zeph-mining-monitor-guide)
 - [ZEPHはRandomXなのにMoneroアドレスを入れられない理由 (ja)](https://iotahome.site/ja/learn/zeph-mining-monitor-guide)
+- [CKPool 的比特币地址怎么查算力和 Worker？ (zh)](https://iotahome.site/zh/learn/btc-mining-monitor-guide)
+- [CKPool 的比特幣地址怎麼查算力和 Worker？ (zh-TW)](https://iotahome.site/zh-TW/learn/btc-mining-monitor-guide)
+- [How do I check Bitcoin hashrate and Workers on CKPool? (en)](https://iotahome.site/en/learn/btc-mining-monitor-guide)
+- [CKPool에서 비트코인 해시레이트와 Worker를 어떻게 보나요? (ko)](https://iotahome.site/ko/learn/btc-mining-monitor-guide)
+- [CKPoolでビットコインの算力とWorkerを調べるには？ (ja)](https://iotahome.site/ja/learn/btc-mining-monitor-guide)
+- [ETHW 监控该填哪个 0x 地址？ (zh)](https://iotahome.site/zh/learn/ethw-mining-monitor-guide)
+- [ETHW 監控該填哪個 0x 地址？ (zh-TW)](https://iotahome.site/zh-TW/learn/ethw-mining-monitor-guide)
+- [Which 0x address belongs on the ETHW monitor? (en)](https://iotahome.site/en/learn/ethw-mining-monitor-guide)
+- [ETHW 모니터에는 어떤 0x 주소를 넣나요? (ko)](https://iotahome.site/ko/learn/ethw-mining-monitor-guide)
+- [ETHW監視にはどの0xアドレスを入れますか？ (ja)](https://iotahome.site/ja/learn/ethw-mining-monitor-guide)
 - [XID / MMM 主网挖矿：Mac 设置与地址监控 (zh)](https://iotahome.site/zh/learn/xid-mmm-mainnet-setup)
 - [XID / MMM 主網挖礦：Mac 設定與地址監控 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-mmm-mainnet-setup)
 - [XID mining with MMM: Mac mainnet setup and monitoring (en)](https://iotahome.site/en/learn/xid-mmm-mainnet-setup)

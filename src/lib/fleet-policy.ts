@@ -12,7 +12,9 @@ export const fleetMutationSchema = z.discriminatedUnion("action", [
         .object({
           project: z.enum(FLEET_PROJECTS),
           identifier: z.string().trim().min(1).max(120),
-          pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools"]).optional(),
+          pool: z
+            .enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools", "ckpool"])
+            .optional(),
           worker: z.string().trim().max(80).default(""),
         })
         .optional(),
@@ -42,7 +44,7 @@ export const fleetMutationSchema = z.discriminatedUnion("action", [
       binding: z.object({
         project: z.enum(FLEET_PROJECTS),
         identifier: z.string().trim().min(1).max(120),
-        pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools"]).optional(),
+        pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools", "ckpool"]).optional(),
         worker: z.string().trim().max(80).default(""),
       }),
     }),

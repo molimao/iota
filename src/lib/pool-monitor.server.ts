@@ -1,3 +1,4 @@
+import { normalizeBtcAddress } from "./btc-address";
 import { parseCsd, normalizeCsdAddress } from "./csd";
 import { parseBnt } from "./bnt";
 import {
@@ -6,7 +7,7 @@ import {
   validPoolAddress,
   type PoolProject,
 } from "./pool-projects";
-import { parseKryptex, parseTwoMiners, parseMidstate } from "./pool-monitor";
+import { parseCkPool, parseKryptex, parseTwoMiners, parseMidstate } from "./pool-monitor";
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
 import { record } from "./projects";
@@ -14,6 +15,7 @@ const cache = new ReadCache(300);
 export function readPoolAccount(project: PoolProject, address: string) {
   if (!validPoolAddress(project, address)) throw new Error("invalid-address");
   if (project === "csd") address = normalizeCsdAddress(address);
+  if (project === "btc") address = normalizeBtcAddress(address);
   return cache.read(`pool:${project}:${address}`, async () => {
     const id = encodeURIComponent(address);
     if (project === "csd") {
@@ -55,6 +57,14 @@ export function readPoolAccount(project: PoolProject, address: string) {
       ]);
       if (!config.data || config.error || config.stale) throw new Error("invalid-data");
       return parseMidstate(account, address);
+    }
+    if (project === "btc") {
+      return parseCkPool(
+        await upstreamJson(`https://raw.stats.ckpool.org/users/${encodeURIComponent(address)}`, {
+          maxBytes: 1000000,
+        }),
+        address,
+      );
     }
     if (poolProvider(project) === "2miners") {
       const url = twoMinersAccountUrl(project, address);

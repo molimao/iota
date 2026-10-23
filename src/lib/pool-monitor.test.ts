@@ -36,6 +36,7 @@ describe("pool data is not fabricated", () => {
     ["kas", 1e8],
     ["erg", 1e9],
     ["zeph", 1e12],
+    ["ethw", 1e9],
   ] as const)("converts %s account payment units", (project, scale) => {
     const d = parseTwoMiners(project, {
       apiVersion: 200,

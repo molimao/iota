@@ -1,3 +1,4 @@
+import { normalizeBtcAddress, validBtcAddress } from "./btc-address";
 import { validErgP2pkAddress, validZephStandardAddress } from "./erg-zeph-validator";
 import { validCsdAddress } from "./csd";
 import { validBntAddress } from "./bnt";
@@ -13,31 +14,37 @@ export const POOL_PROJECT_IDS = [
   "csd",
   "erg",
   "zeph",
+  "btc",
+  "ethw",
 ] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
-export type PoolProvider = "kryptex" | "2miners" | "luckypool" | "bntpool" | "gpools";
+export type PoolProvider = "kryptex" | "2miners" | "luckypool" | "bntpool" | "gpools" | "ckpool";
 export const isPoolProject = (v: unknown): v is PoolProject =>
   POOL_PROJECT_IDS.includes(v as PoolProject);
 export const poolProvider = (p: PoolProject): PoolProvider =>
-  p === "csd"
-    ? "gpools"
-    : p === "bnt"
-      ? "bntpool"
-      : p === "mds"
-        ? "luckypool"
-        : p === "prl" || p === "xmr"
-          ? "kryptex"
-          : "2miners";
+  p === "btc"
+    ? "ckpool"
+    : p === "csd"
+      ? "gpools"
+      : p === "bnt"
+        ? "bntpool"
+        : p === "mds"
+          ? "luckypool"
+          : p === "prl" || p === "xmr"
+            ? "kryptex"
+            : "2miners";
 export const poolName = (p: PoolProject) =>
-  p === "csd"
-    ? "G-pools"
-    : p === "bnt"
-      ? "bntpool.com"
-      : p === "mds"
-        ? "LuckyPool"
-        : poolProvider(p) === "kryptex"
-          ? "Kryptex"
-          : "2Miners";
+  p === "btc"
+    ? "CKPool"
+    : p === "csd"
+      ? "G-pools"
+      : p === "bnt"
+        ? "bntpool.com"
+        : p === "mds"
+          ? "LuckyPool"
+          : poolProvider(p) === "kryptex"
+            ? "Kryptex"
+            : "2Miners";
 export const POOL_PROJECTS = {
   csd: {
     name: "Compute Substrate",
@@ -127,6 +134,22 @@ export const POOL_PROJECTS = {
     guide: "https://zeph.2miners.com/help",
     explorer: "https://zeph.2miners.com/",
   },
+  btc: {
+    name: "Bitcoin",
+    detail: "BTC · SHA-256",
+    token: "BTC",
+    website: "https://solo.ckpool.org/",
+    guide: "https://solo.ckpool.org/",
+    explorer: "https://solo.ckpool.org/",
+  },
+  ethw: {
+    name: "EthereumPoW",
+    detail: "ETHW · ETHash",
+    token: "ETHW",
+    website: "https://ethw.2miners.com/",
+    guide: "https://ethw.2miners.com/help",
+    explorer: "https://ethw.2miners.com/",
+  },
 } as const;
 const TWO_MINERS_ORIGIN = {
   etc: "https://etc.2miners.com",
@@ -135,6 +158,7 @@ const TWO_MINERS_ORIGIN = {
   kas: "https://kas.2miners.com",
   erg: "https://erg.2miners.com",
   zeph: "https://zeph.2miners.com",
+  ethw: "https://ethw.2miners.com",
 } as const;
 export type TwoMinersProject = keyof typeof TWO_MINERS_ORIGIN;
 export function twoMinersOrigin(project: PoolProject): string | null {
@@ -160,7 +184,10 @@ export function validPoolAddress(p: PoolProject, v: string) {
     case "xmr":
       return /^[48][1-9A-HJ-NP-Za-km-z]{94}$/.test(v) || /^4[1-9A-HJ-NP-Za-km-z]{105}$/.test(v);
     case "etc":
+    case "ethw":
       return /^0x[0-9a-fA-F]{40}$/.test(v);
+    case "btc":
+      return validBtcAddress(v);
     case "rvn":
       return /^R[1-9A-HJ-NP-Za-km-z]{33}$/.test(v);
     case "zec":
@@ -174,6 +201,10 @@ export function validPoolAddress(p: PoolProject, v: string) {
   }
 }
 export function poolAccountUrl(p: PoolProject, address: string) {
+  if (p === "btc")
+    return validBtcAddress(address)
+      ? `https://stats.ckpool.org/users/${encodeURIComponent(normalizeBtcAddress(address))}`
+      : "https://solo.ckpool.org/";
   if (p === "csd") return "https://csd.yamaduo.no/";
   if (p === "bnt") return "https://bntpool.com/stats";
   if (p === "mds")

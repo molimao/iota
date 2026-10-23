@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-23",
+  "scope": "local only",
+  "branch": "main",
+  "committed": false,
+  "published": false,
+  "production_sql": false,
+  "production_changed": false,
+  "projects": [
+    "btc",
+    "ethw"
+  ],
+  "btc": {
+    "provider": "ckpool",
+    "json": "https://raw.stats.ckpool.org/users/{address}",
+    "human_page": "https://stats.ckpool.org/users/{address}",
+    "documented_by": "https://solo.ckpool.org/ links http://raw.stats.ckpool.org/users/",
+    "pool_totals": "https://raw.stats.ckpool.org/pool/pool.status",
+    "pool_totals_shape": "newline-separated JSON, not one document; Users and Workers include idle and disconnected records",
+    "hashrate": "wallet hashrate1hr and each worker hashrate1hr; suffixes are none or one of K M G T P E, 1000-based; no KH/MH guess",
+    "earnings": "no balance, paid, or daily reward fields; they stay null and are not shown as 0",
+    "worker_status": "inferred only: last share within 10 minutes is online, older is offline, missing, zero, or future is unknown; a stale cached response clears online",
+    "partial": "reported workers can exceed the returned array; the count is kept and partial is true; idle rows are kept when the reported count is lower"
+  },
+  "ethw": {
+    "provider": "2miners regular pool",
+    "account": "https://ethw.2miners.com/api/accounts/{address}",
+    "not_queried": "https://solo-ethw.2miners.com",
+    "payment_divisor": "1e9",
+    "payment_source": "https://ethw.2miners.com/js/account.js getPaymentsMultiplier case DH returns 1e-9; pool config type is DH and isSolo is false",
+    "block_reward_multiplier": "getRewardsMultiplier case DH returns 1e-18 and is not applied to balance, paid, or 24hreward",
+    "worker_ranges": "OpenAPI enum is only 5m, 30m, and 6h; no 24h worker history endpoint",
+    "paid": "missing paid stays null; an explicit 24hreward of 0 stays 0"
+  },
+  "local_captures_read": [
+    "/tmp/btc_ckpool-research23.json is pool totals, not a wallet",
+    "/tmp/iota-ck-official-demo23.json was already on disk; this pass read its field names and did not request that wallet again",
+    "/tmp/ethw_2miners-research23.json is public pool stats",
+    "/tmp/iota-ethw-official-demo23.json was already on disk; payments is null and 24hreward is 0; this pass did not request that account again",
+    "/tmp/ethw-account-js23.js is the public account script used for the divisor"
+  ],
+  "quota": {
+    "free_per_project": 5,
+    "pro_per_project": 50,
+    "changed": false
+  },
+  "binding_slots": 25,
+  "migration": "supabase/migrations/20261023190000_btc_ethw_pools.sql",
+  "database_acceptance": "PGlite applies the local migration and calls watch_mutate_device and watch_list_devices. This is not production persistence.",
+  "preview": [
+    "http://localhost:8082/zh/review-pools?project=btc",
+    "http://localhost:8082/zh/review-pools?project=ethw",
+    "http://localhost:8082/en/review-pools?project=btc",
+    "http://localhost:8082/en/review-pools?project=ethw"
+  ],
+  "files": [
+    "src/lib/btc-address.ts",
+    "src/lib/btc-ethw.test.ts",
+    "src/lib/btc-ethw-source-contract.test.ts",
+    "src/lib/pool-monitor.ts",
+    "src/lib/pool-monitor.server.ts",
+    "src/lib/pool-projects.ts",
+    "src/lib/projects.ts",
+    "src/lib/fleet.ts",
+    "src/lib/fleet-policy.ts",
+    "src/lib/fleet.functions.ts",
+    "src/lib/fleet-database.test.ts",
+    "src/lib/analytics.ts",
+    "src/lib/content-dates.ts",
+    "src/lib/ad-article-paths.ts",
+    "src/components/site/btc-ethw-guides.ts",
+    "src/components/pool-page.tsx",
+    "src/components/pool-copy.ts",
+    "src/components/pool-worker-cards.tsx",
+    "src/hooks/use-fleet-readings.ts",
+    "src/routes/$locale.review-pools.tsx",
+    "supabase/migrations/20261023190000_btc_ethw_pools.sql",
+    "public/sitemap.xml",
+    "public/llms.txt",
+    "public/llms-full.txt"
+  ],
+  "preserved_unrelated_diffs": [
+    "src/lib/billing.server.ts",
+    "src/lib/watch-db.ts",
+    "src/routes/$locale.review.tsx"
+  ],
+  "checks": {
+    "tsc": "node ./node_modules/typescript/bin/tsc --noEmit exit 0",
+    "vite_build": "node ./node_modules/vite/bin/vite.js build exit 0; local output only, not deployed",
+    "eslint": "eslint --fix on changed integration files; 0 errors. pool-worker-cards.tsx keeps its existing react-refresh warning because it also exports workerStatus",
+    "vitest_final": "64 passed in btc-ethw, btc-ethw-source-contract, fleet-database, pool-worker-cards, pool-guide-quality, project-guides, core",
+    "vitest_also_passed": [
+      "src/lib/pool-monitor.test.ts",
+      "src/lib/fleet.test.ts",
+      "src/lib/fleet-policy.test.ts",
+      "src/lib/fleet-earnings.test.ts",
+      "src/lib/projects.test.ts",
+      "src/lib/analytics.test.ts",
+      "src/lib/ads.test.ts",
+      "src/lib/project-address-input.test.ts"
+    ]
+  },
+  "limitations": [
+    "The 10-minute online state is a labeled inference. CKPool has no online field.",
+    "SQL accepts BTC shape and length, including uppercase bech32 which it stores lowercase. The checksum gate is validBtcAddress before the RPC.",
+    "Migration 20261023190000_btc_ethw_pools.sql must be applied before any future production release. It was not applied.",
+    "Local PGlite is not production persistence.",
+    "CKPool worker lists can be partial. Wallet hashrate is not the sum of returned workers, and the worker count is not a count of physical machines.",
+    "Pool-wide Users and Workers are not a wallet result.",
+    "Demonstration previews use labeled synthetic data; actual upstream reads were separately verified with pool-published public demonstration addresses. No live-user database writes or production migration were performed."
+  ],
+  "main_acceptance": {
+    "tests_log": "/tmp/iota-btc-ethw-accepted-tests23.log",
+    "types_log": "/tmp/iota-btc-ethw-accepted-types23.log",
+    "build_log": "/tmp/iota-btc-ethw-accepted-build23.log",
+    "target_lint": "0 errors; pre-existing react-refresh warning for workerStatus export",
+    "diff_check": "passed",
+    "unrelated_changes": "exact original patch preserved",
+    "database": "PGlite RPC save, reload, rename, unlink, quota, case normalization and cross-user isolation checked locally",
+    "live_queries": "Actual local BTC and ETHW pages successfully queried pool-published demonstration wallets. No customer addresses or production writes.",
+    "ui": "Worker search, offline filter, card/list switch, rename, unlink and saved-count decrease verified in browser",
+    "mobile": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "screenshot": "/tmp/iota-ethw-workers-mobile23.png"
+    },
+    "desktop_screenshot": "/tmp/iota-btc-preview23.png",
+    "preview": [
+      "http://127.0.0.1:8082/zh/review-pools?project=btc",
+      "http://127.0.0.1:8082/zh/review-pools?project=ethw"
+    ],
+    "sitemap": "20 project/guide URLs across five languages verified",
+    "test_files": 11,
+    "tests_passed": 96,
+    "typecheck": "passed",
+    "build": "passed",
+    "published": false
+  }
+}

@@ -11,6 +11,8 @@ export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
   csd: "2026-10-18",
   erg: "2026-10-22",
   zeph: "2026-10-22",
+  btc: "2026-10-23",
+  ethw: "2026-10-23",
   prl: "2026-10-15",
   xmr: "2026-10-15",
   etc: "2026-10-15",
@@ -30,4 +32,4 @@ export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
   acurast: "2026-10-12",
   golem: "2026-10-09",
 };
-export const PROJECT_INDEX_UPDATED = "2026-10-22";
+export const PROJECT_INDEX_UPDATED = "2026-10-23";

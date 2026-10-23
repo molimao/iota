@@ -78,6 +78,20 @@ export const poolCopy = {
     "報酬はウォレット全体の値です。Worker選択はハッシュレートと状態のみ絞り込みます。",
   ]),
   source: localized(["在矿池核对", "至礦池核對", "Check on pool", "풀에서 확인", "プールで確認"]),
+  ckpoolEarnings: localized([
+    "CKPool 为 Solo 挖矿。当前接口提供算力和份额记录，暂不提供余额及收益。出块与到账请到矿池或链上核对。",
+    "CKPool 為 Solo 挖礦。目前介面提供算力與份額紀錄，暫不提供餘額及收益。出塊與到帳請至礦池或鏈上核對。",
+    "CKPool is a solo pool. Its current API provides hashrate and shares, but not balances or earnings. Check the pool or blockchain for blocks found and payments.",
+    "CKPool은 솔로 풀입니다. 현재 API는 해시레이트와 셰어를 제공하지만 잔액과 수익은 제공하지 않습니다. 블록 발견과 지급은 풀이나 블록체인에서 확인하세요.",
+    "CKPoolはソロプールです。現在のAPIで確認できるのはハッシュレートとシェアで、残高や収益は含まれません。発見ブロックと支払はプールやブロックチェーンで確認してください。",
+  ]),
+  ckpoolWindow: localized([
+    "算力窗口：1 小时。地址和 Worker 使用同一窗口。",
+    "算力視窗：1 小時。地址和 Worker 使用同一視窗。",
+    "Hashrate window: 1 hour, for both the address and each Worker.",
+    "해시레이트 창: 1시간. 주소와 Worker가 같은 창입니다.",
+    "算力の窓: 1時間。アドレスと各Workerは同じ窓です。",
+  ]),
   notFound: localized([
     "当前矿池未找到此地址或 Worker，请检查矿池和挖矿配置。",
     "目前礦池未找到此地址或 Worker，請檢查礦池與挖礦設定。",
@@ -160,6 +174,68 @@ function editorial(p: PoolProject) {
   if (p === "mds") return mdsEditorial;
   if (p === "erg") return ergEditorial;
   if (p === "zeph") return zephEditorial;
+  if (p === "btc")
+    return {
+      title: localized([
+        "Bitcoin 矿机监控：CKPool 算力与 Worker",
+        "Bitcoin 礦機監控：CKPool 算力與 Worker",
+        "Bitcoin mining monitor: CKPool hashrate and Workers",
+        "Bitcoin 채굴 모니터: CKPool 해시레이트와 Worker",
+        "Bitcoin採掘監視：CKPoolのハッシュレートとWorker",
+      ]),
+      summary: localized([
+        "添加 CKPool 的比特币主网地址，查看 1 小时平均算力和地址下的 Worker。",
+        "新增 CKPool 的比特幣主網地址，查看 1 小時平均算力與地址下的 Worker。",
+        "Add a Bitcoin mainnet address from CKPool to see its one-hour average hashrate and Workers.",
+        "CKPool의 비트코인 메인넷 주소를 추가해 1시간 평균 해시레이트와 주소에 속한 Worker를 확인하세요.",
+        "CKPoolのビットコインメインネットアドレスを追加して、1時間平均ハッシュレートとそのアドレスのWorkerを確認できます。",
+      ]),
+      identity: localized([
+        "填写 CKPool 使用的比特币主网地址：1、3、bc1q 或 bc1p。不接受测试网、大小写混用的 bech32、错误校验和或链接。",
+        "填寫 CKPool 使用的比特幣主網地址：1、3、bc1q 或 bc1p。不接受測試網、大小寫混用的 bech32、錯誤校驗和或連結。",
+        "Enter the Bitcoin mainnet address used at CKPool: 1, 3, bc1q, or bc1p. Testnet, mixed-case bech32, a bad checksum, and links are rejected.",
+        "CKPool에 쓰는 비트코인 메인넷 주소를 입력하세요. 1, 3, bc1q, bc1p입니다. 테스트넷, 대소문자 혼합 bech32, 잘못된 체크섬, 링크는 거부합니다.",
+        "CKPoolで使うビットコインのメインネットアドレスを入力します。1、3、bc1q、bc1pです。テストネット、大文字小文字混在のbech32、誤ったチェックサム、リンクは拒否します。",
+      ]),
+      coverage: localized([
+        "只读 raw.stats.ckpool.org/users 返回的该地址记录。算力取 hashrate1hr。Worker 数量含空闲记录，不等于实物矿机。最后份额超过 10 分钟视为离线，时间不明则状态未知。没有余额、已支付或日收益字段，不显示为 0。",
+        "只讀 raw.stats.ckpool.org/users 回傳的該地址紀錄。算力取 hashrate1hr。Worker 數量含閒置紀錄，不等於實物礦機。最後份額超過 10 分鐘視為離線，時間不明則狀態未知。沒有餘額、已支付或日收益欄位，不顯示為 0。",
+        "Reads only the address record from raw.stats.ckpool.org/users. Hashrate is hashrate1hr. The Worker count includes idle records and is not a count of physical machines. A last share older than 10 minutes is offline; an unknown time stays unknown. Balance, paid, and daily rewards are absent and are not shown as zero.",
+        "raw.stats.ckpool.org/users의 해당 주소 기록만 읽습니다. 해시레이트는 hashrate1hr입니다. Worker 수는 유휴 기록을 포함하며 실제 기기 수가 아닙니다. 마지막 셰어가 10분을 넘으면 오프라인이고, 시각이 없으면 알 수 없음입니다. 잔액, 지급, 일일 보상 필드는 없으며 0으로 보이지 않습니다.",
+        "raw.stats.ckpool.org/usersのそのアドレス記録だけを読みます。算力はhashrate1hrです。Worker数はアイドルを含み、実機数ではありません。最終シェアが10分を超えるとオフライン、時刻が無ければ不明です。残高、支払、日次報酬の項目は無く、0にはしません。",
+      ]),
+    };
+  if (p === "ethw")
+    return {
+      title: localized([
+        "EthereumPoW 矿机监控：2Miners 算力、Worker 与收益",
+        "EthereumPoW 礦機監控：2Miners 算力、Worker 與收益",
+        "EthereumPoW mining monitor: 2Miners hashrate, Workers and rewards",
+        "EthereumPoW 채굴 모니터: 2Miners 해시레이트, Worker와 보상",
+        "EthereumPoW採掘監視：2Minersのハッシュレート・Worker・報酬",
+      ]),
+      summary: localized([
+        "用 ethw.2miners.com 的 0x 地址查看 ETHash 算力、Worker 和钱包收益。不是 SOLO，也不是以太坊 ETH 余额。",
+        "用 ethw.2miners.com 的 0x 地址查看 ETHash 算力、Worker 與錢包收益。不是 SOLO，也不是以太坊 ETH 餘額。",
+        "Check ETHash hashrate, Workers and wallet rewards on ethw.2miners.com with a 0x address. This is not SOLO and not an Ethereum ETH balance.",
+        "ethw.2miners.com의 0x 주소로 ETHash 해시레이트, Worker와 지갑 보상을 확인합니다. SOLO도 아니고 이더리움 ETH 잔액도 아닙니다.",
+        "ethw.2miners.comの0xアドレスでETHashのハッシュレート・Worker・報酬を確認します。SOLOでもイーサリアムのETH残高でもありません。",
+      ]),
+      identity: localized([
+        "填写普通矿池 ethw.2miners.com 的 0x 后 40 位十六进制地址。不查询 solo-ethw.2miners.com。",
+        "填寫一般礦池 ethw.2miners.com 的 0x 後 40 位十六進位地址。不查詢 solo-ethw.2miners.com。",
+        "Enter the 0x address with 40 hexadecimal characters from the regular ethw.2miners.com pool. solo-ethw.2miners.com is not queried.",
+        "일반 풀 ethw.2miners.com의 0x와 16진수 40자리를 입력하세요. solo-ethw.2miners.com은 조회하지 않습니다.",
+        "通常プール ethw.2miners.com の0xに続く16進40文字を入力します。solo-ethw.2miners.comは照会しません。",
+      ]),
+      coverage: localized([
+        "余额、已支付和近 24 小时按账户支付单位换算，与 2Miners 账户页的 DH 支付倍率一致。缺少 paid 时不把空的 payments 或 sumrewards 加成累计已支付。收益属于整个地址。Worker 历史只有 5 分钟、30 分钟和 6 小时，不编造 24 小时曲线。",
+        "餘額、已支付和近 24 小時按帳戶支付單位換算，與 2Miners 帳戶頁的 DH 支付倍率一致。缺少 paid 時不把空的 payments 或 sumrewards 加成累計已支付。收益屬於整個地址。Worker 歷史只有 5 分鐘、30 分鐘和 6 小時，不編造 24 小時曲線。",
+        "Balance, paid, and the last 24 hours use the account payment unit, the same DH payment multiplier as the 2Miners account page. A missing paid field is not filled from empty payments or by summing sumrewards. Rewards belong to the address. Worker history is only 5 minutes, 30 minutes, and 6 hours; there is no invented 24-hour chart.",
+        "잔액, 지급, 최근 24시간은 계정 지급 단위이며 2Miners 계정 페이지의 DH 지급 배율과 같습니다. paid가 없으면 빈 payments나 sumrewards 합으로 누적 지급을 만들지 않습니다. 보상은 주소 전체입니다. Worker 이력은 5분, 30분, 6시간뿐이며 24시간 곡선은 만들지 않습니다.",
+        "残高、支払、直近24時間は口座の支払い単位で、2Miners口座ページのDH支払い倍率と同じです。paidが無ければ空のpaymentsやsumrewardsの合計を累計支払にしません。報酬はアドレス全体です。Worker履歴は5分、30分、6時間だけで、24時間の曲線は作りません。",
+      ]),
+    };
   const name = POOL_PROJECTS[p].name,
     pool = poolName(p);
   return {

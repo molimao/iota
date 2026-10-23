@@ -101,6 +101,8 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
     case "mds":
     case "erg":
     case "zeph":
+    case "btc":
+    case "ethw":
       return {
         status: "unavailable",
         activity: "—",

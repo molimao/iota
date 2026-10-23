@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-23",
+  "scope": "local only",
+  "project": "prl",
+  "pool": "Kryptex",
+  "existing_integration": "Shared pool page, saved database addresses, worker cards and project quota already supported PRL. Added same DEV preview as BTC/ETHW.",
+  "preview": "http://127.0.0.1:8082/zh/review-pools?project=prl",
+  "example_data": true,
+  "screenshot": "/tmp/iota-prl-worker-preview23.png",
+  "checks": {
+    "tests": "37 passed in 4 files, including PRL parser/cards and real local PGlite RPC persistence/quota/isolation",
+    "lint": "two changed source files passed",
+    "build": "passed",
+    "types_log": "/tmp/iota-prl-parity-types23.log",
+    "existing_changes": "31 other modified files preserved",
+    "browser": "PRL title, Kryptex source, PRL currency, UTC day period, wallet totals and four workers verified. Offline filter returns one worker."
+  },
+  "production_published": false,
+  "production_database_changed": false
+}

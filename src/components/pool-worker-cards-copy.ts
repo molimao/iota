@@ -3,6 +3,13 @@ import { localized } from "@/lib/product-discovery";
 /** zh, zh-TW, en, ko, ja. Workers are pool activity, not devices or plan slots. */
 export const poolWorkerCardsCopy = {
   account: localized(["收益账户", "收益帳戶", "Payout account", "수익 계정", "報酬口座"]),
+  ckpoolStatus: localized([
+    "在线或离线由最后份额是否在 10 分钟内推断。矿池没有单独的在线字段。Worker 数不是实物矿机数。",
+    "在線或離線由最後份額是否在 10 分鐘內推斷。礦池沒有單獨的在線欄位。Worker 數不是實物礦機數。",
+    "Online or offline is inferred from whether the last share is within 10 minutes. The pool has no separate online field. The Worker count is not a count of physical machines.",
+    "온라인과 오프라인은 마지막 셰어가 10분 안인지로 추정합니다. 풀에 별도 온라인 필드는 없습니다. Worker 수는 실제 기기 수가 아닙니다.",
+    "オンラインとオフラインは最終シェアが10分以内かで推定します。プールに別のオンライン項目はありません。Worker数は実機数ではありません。",
+  ]),
   accountNote: localized([
     "这个地址是矿池里的收益账户。下面的 Worker 是该地址下的活动记录，不会自动加入设备，也不占用设备名额。",
     "這個地址是礦池裡的收益帳戶。下面的 Worker 是該地址下的活動紀錄，不會自動加入設備，也不占用設備名額。",
@@ -27,6 +34,13 @@ export const poolWorkerCardsCopy = {
   hashrate: localized(["算力", "算力", "Hashrate", "해시레이트", "算力"]),
   lastShare: localized(["最后份额", "最後份額", "Last share", "마지막 셰어", "最終シェア"]),
   unnamed: localized(["未命名", "未命名", "Unnamed", "이름 없음", "名前なし"]),
+  oldCkShare: localized([
+    "已超过 24 小时未报告份额。",
+    "已超過 24 小時未回報份額。",
+    "No share reported for over 24 hours.",
+    "24시간 넘게 셰어 보고가 없습니다.",
+    "24時間以上シェアの報告がありません。",
+  ]),
   futureTime: localized([
     "报告时间晚于现在，不据此判断是否在线。",
     "回報時間晚於現在，不據此判斷是否在線。",

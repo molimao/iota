@@ -87,6 +87,7 @@ export function PoolWorkerCards({
       <p className="pwc-kicker">{c.account[locale]}</p>
       <code className="pwc-address">{address}</code>
       <p className="pwc-note">{c.accountNote[locale]}</p>
+      {project === "btc" && <p className="pwc-caption">{c.ckpoolStatus[locale]}</p>}
       {account.workerCount > workers.length && (
         <p className="pwc-caption">
           {c.partialList[locale].replace("{count}", String(account.workerCount))}
@@ -226,7 +227,9 @@ function WorkerCard({
         <span>{c.lastShare[locale]}</span>
         <time>{when}</time>
         {kind === "future" && <small>{c.futureTime[locale]}</small>}
-        {kind === "stale" && <small>{c.staleTime[locale]}</small>}
+        {kind === "stale" && (
+          <small>{project === "btc" ? c.oldCkShare[locale] : c.staleTime[locale]}</small>
+        )}
       </p>
     </article>
   );

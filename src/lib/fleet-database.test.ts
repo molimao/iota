@@ -59,7 +59,8 @@ beforeAll(async () => {
     readFileSync("supabase/migrations/20261018150000_compute_substrate_csd.sql", "utf8"),
   );
   await db.exec(readFileSync("supabase/migrations/20261022140000_ergo_zephyr_pools.sql", "utf8"));
-}, 30000);
+  await db.exec(readFileSync("supabase/migrations/20261023190000_btc_ethw_pools.sql", "utf8"));
+}, 60000);
 afterAll(async () => {
   await db.close();
 });
@@ -624,5 +625,97 @@ describe("Ergo and Zephyr saved-address persistence", () => {
     expect(removed.devices.some((device) => device.id === id)).toBe(false);
     expect(removed.projectCounts["erg"]).toBe(4);
     expect(removed.projectCounts["zeph"]).toBe(1);
+  });
+});
+
+describe("Bitcoin and EthereumPoW saved-address persistence", () => {
+  it("saves, reloads, renames, unlinks, and enforces quota without touching another user", async () => {
+    const owner = "55555555-6666-4777-8888-999999999999";
+    const btc = [
+      "1BcktgV7EjHmxEwQDFFhhztzNqZkd5gdm",
+      "31xwZP1fiFupFbZLiv2yUgrn8b3Zf2otfV",
+      "bc1qqszqgpqyqszqgpqyqszqgpqyqszqgpqy5dl506",
+      "bc1pqcrqvpsxqcrqvpsxqcrqvpsxqcrqvpsxqcrqvpsxqcrqvpsxqcrq47hap7",
+      "bc1qq5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zsjlsnv2",
+      "1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH",
+    ];
+    await db.exec("RESET ROLE");
+    await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
+    await asUser(owner);
+    const created = await mutate("create", {
+      name: "BTC wallet",
+      binding: { project: "btc", identifier: btc[0], worker: "rig-a" },
+    });
+    expect(created.projectCounts["btc"]).toBe(1);
+    const id = fleetSnapshot(created).devices.find((device) => device.name === "BTC wallet")!.id;
+    const workers = await mutate("link", {
+      id,
+      binding: { project: "btc", identifier: btc[0], worker: "rig-b" },
+    });
+    expect(workers.projectCounts["btc"]).toBe(1);
+    const listed = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
+    const reloaded = fleetSnapshot(listed.rows[0]!.data).devices.find(
+      (device) => device.id === id,
+    )!;
+    expect(reloaded.bindings.filter((binding) => binding.project === "btc")).toHaveLength(2);
+    expect(reloaded.bindings.every((binding) => binding.pool === "ckpool")).toBe(true);
+    const renamed = await mutate("rename", { id, name: "BTC renamed", hardware: "s21" });
+    expect(fleetSnapshot(renamed).devices.find((device) => device.id === id)?.name).toBe(
+      "BTC renamed",
+    );
+    const second = reloaded.bindings.find((binding) => binding.worker === "rig-b")!;
+    const unlinked = await mutate("unlink", { id, bindingId: second.id });
+    expect(
+      fleetSnapshot(unlinked).devices.find((device) => device.id === id)?.bindings,
+    ).toHaveLength(1);
+    expect(unlinked.projectCounts["btc"]).toBe(1);
+    await expect(
+      mutate("link", {
+        id,
+        binding: { project: "btc", identifier: "https://solo.ckpool.org/users/1abc" },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("link", { id, binding: { project: "btc", identifier: btc[5], pool: "2miners" } }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("link", { id, binding: { project: "btc", identifier: btc[0], worker: "rig-a" } }),
+    ).rejects.toThrow(/duplicate key/);
+    for (const address of btc.slice(1, 5))
+      await mutate("create", {
+        name: address.slice(0, 8),
+        binding: { project: "btc", identifier: address },
+      });
+    await expect(
+      mutate("create", { name: "Sixth", binding: { project: "btc", identifier: btc[5] } }),
+    ).rejects.toThrow("project_device_limit_reached");
+    const ethw = await mutate("create", {
+      name: "ETHW",
+      binding: { project: "ethw", identifier: "0xAB" + "cd".repeat(19), worker: "" },
+    });
+    expect(ethw.projectCounts["btc"]).toBe(5);
+    expect(ethw.projectCounts["ethw"]).toBe(1);
+    expect(
+      fleetSnapshot(ethw).devices.find((device) => device.name === "ETHW")?.bindings[0]?.identifier,
+    ).toBe(("0xAB" + "cd".repeat(19)).toLowerCase());
+    await expect(
+      mutate("create", {
+        name: "Bad",
+        binding: { project: "btc", identifier: "https://solo.ckpool.org/users/1abc" },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      mutate("create", {
+        name: "Wrong pool",
+        binding: { project: "btc", identifier: btc[5], pool: "2miners" },
+      }),
+    ).rejects.toThrow();
+    await asUser(other);
+    await expect(mutate("rename", { id, name: "stolen", hardware: "" })).rejects.toThrow(
+      "device_not_found",
+    );
+    await expect(mutate("unlink", { id, bindingId: second.id })).rejects.toThrow(
+      "device_not_found",
+    );
   });
 });

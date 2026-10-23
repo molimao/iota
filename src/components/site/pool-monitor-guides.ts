@@ -1,3 +1,4 @@
+import { btcEthwGuides } from "./btc-ethw-guides";
 import type { Article } from "./articles";
 import { localized as l } from "@/lib/product-discovery";
 import { LOCALES } from "@/lib/site";
@@ -11,6 +12,7 @@ function plain(text: string) {
 function poolGuide(input: {
   slug: string;
   project: NonNullable<Article["project"]>;
+  published?: string;
   title: Five;
   summary: Five;
   decision: Five;
@@ -25,8 +27,8 @@ function poolGuide(input: {
   return {
     slug: input.slug,
     project: input.project,
-    published: "2026-10-22",
-    modified: "2026-10-22",
+    published: input.published ?? "2026-10-22",
+    modified: input.published ?? "2026-10-22",
     title: l(input.title),
     description: l(input.summary),
     summary: l(input.summary),
@@ -71,7 +73,7 @@ function poolGuide(input: {
   };
 }
 
-export const poolMonitorGuides: Article[] = [
+const poolMonitorGuideList: Article[] = [
   poolGuide({
     slug: "xmr-mining-monitor-guide",
     project: "xmr",
@@ -1631,3 +1633,4 @@ export const poolMonitorGuides: Article[] = [
     ],
   }),
 ];
+export const poolMonitorGuides: Article[] = [...poolMonitorGuideList, ...btcEthwGuides];

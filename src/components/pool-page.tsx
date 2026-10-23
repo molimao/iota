@@ -43,7 +43,11 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
     setInput(id);
     setInvalid(false);
   }, []);
-  const d = q.data?.data;
+  const raw = q.data?.data;
+  const d =
+    raw && project === "btc" && q.data?.stale
+      ? { ...raw, workers: raw.workers.map((worker) => ({ ...worker, online: null })) }
+      : raw;
   const value = (n: number | null | undefined) =>
     n == null ? "—" : n.toLocaleString(locale, { maximumFractionDigits: 8 });
   return (
@@ -116,26 +120,30 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                     project === "csd" ? csdLabels.rate[locale] : c.rate[locale],
                     poolHashrate(project, d.hashrate),
                   ],
-                  [
-                    project === "bnt"
-                      ? bntLabels.confirmed[locale]
-                      : project === "mds"
-                        ? mdsLabels.balance[locale]
-                        : c.balance[locale],
-                    `${value(d.balance)} ${info.token}`,
-                  ],
-                  [
-                    project === "csd"
-                      ? csdLabels.pending[locale]
-                      : project === "bnt"
-                        ? bntLabels.estimated[locale]
-                        : c[d.period][locale],
-                    `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
-                  ],
-                  ...(project === "bnt"
-                    ? [[bntLabels.queued[locale], `${value(d.queued)} ${info.token}`]]
-                    : []),
-                  [c.paid[locale], `${value(d.paid)} ${info.token}`],
+                  ...(project === "btc"
+                    ? []
+                    : [
+                        [
+                          project === "bnt"
+                            ? bntLabels.confirmed[locale]
+                            : project === "mds"
+                              ? mdsLabels.balance[locale]
+                              : c.balance[locale],
+                          `${value(d.balance)} ${info.token}`,
+                        ],
+                        [
+                          project === "csd"
+                            ? csdLabels.pending[locale]
+                            : project === "bnt"
+                              ? bntLabels.estimated[locale]
+                              : c[d.period][locale],
+                          `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
+                        ],
+                        ...(project === "bnt"
+                          ? [[bntLabels.queued[locale], `${value(d.queued)} ${info.token}`]]
+                          : []),
+                        [c.paid[locale], `${value(d.paid)} ${info.token}`],
+                      ]),
                 ].map(([label, v]) => (
                   <div key={label}>
                     <span>{label}</span>
@@ -143,9 +151,28 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                   </div>
                 ))}
               </div>
-              <p className="compute-caption">
-                {c.scope[locale]} {d.partial ? c.partial[locale] : ""}
-              </p>
+              {project === "btc" && (
+                <>
+                  <p className="compute-caption">{c.ckpoolWindow[locale]}</p>
+                  <p className="compute-caption">{c.ckpoolEarnings[locale]}</p>
+                  {d.lastShare != null && (
+                    <p className="compute-caption">
+                      {poolWorkerCardsCopy.lastShare[locale]}{" "}
+                      {new Intl.DateTimeFormat(locale, {
+                        dateStyle: "short",
+                        timeStyle: "medium",
+                        timeZone: "Asia/Hong_Kong",
+                      }).format(d.lastShare)}{" "}
+                      · UTC+8
+                    </p>
+                  )}
+                </>
+              )}
+              {project !== "btc" && (
+                <p className="compute-caption">
+                  {c.scope[locale]} {d.partial ? c.partial[locale] : ""}
+                </p>
+              )}
               <PoolWorkerCards
                 key={`${project}:${address}`}
                 project={project}

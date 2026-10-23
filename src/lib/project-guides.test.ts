@@ -29,6 +29,8 @@ const expectedGuideSlugs = [
   "kas-mining-monitor-guide",
   "erg-mining-monitor-guide",
   "zeph-mining-monitor-guide",
+  "btc-mining-monitor-guide",
+  "ethw-mining-monitor-guide",
   "xid-mmm-mainnet-setup",
   "xid-worker-hashrate-shares",
   "xid-rewards-balance-maturity",
