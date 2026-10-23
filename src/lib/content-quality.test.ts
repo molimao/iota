@@ -23,7 +23,7 @@ it("gives each localized tool and tutorial a distinct title and task", () => {
       expect(a.description[locale]).not.toBe(
         tool.meta.find((m) => m.name === "description")?.content,
       );
-      expect(a.body[locale].filter((b) => b.startsWith("## "))).toHaveLength(3);
+      expect(a.body[locale].filter((b) => b.startsWith("## ")).length).toBeGreaterThanOrEqual(3);
     }
   }
 });

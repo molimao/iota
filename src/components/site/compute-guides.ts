@@ -4,6 +4,7 @@ import { editorialCopy } from "../project-editorial";
 import { LOCALES, type SiteLocale } from "@/lib/site";
 import { PROJECTS } from "@/lib/projects";
 import { computeGuideCopy, guideSections } from "./compute-guide-copy";
+import { guideDetails, isRemediatedGuide } from "./compute-guide-details";
 import { gonkaEvidence } from "./core-evidence";
 
 const localized = <T>(f: (locale: SiteLocale) => T) =>
@@ -145,7 +146,7 @@ const decisionAction: Record<ComputeProject, Record<SiteLocale, string>> = {
     zh: "先检查 ETH 公开收益地址和来源返回的积分月份，再打开{monitor}对照同一地址，并阅读{guide}。积分是该月记账量，不是可提现金额。",
     "zh-TW":
       "先檢查 ETH 公開收益地址和來源返回的積分月份，再開啟{monitor}對照同一地址，並閱讀{guide}。積分是該月記帳量，不是可提領金額。",
-    en: "Check the public ETH payout address and the month returned by the source, then open the {monitor} for that address and read the {guide}. Points are that month’s accounting figure, not withdrawable cash.",
+    en: "Check the public ETH payout address in the current month response, then open the {monitor} for that address and read the {guide}. The wallet row is not each machine, and points are not withdrawable cash.",
     ko: "공개 ETH 수령 주소와 소스가 반환한 월을 먼저 확인한 뒤 {monitor}에서 같은 주소를 대조하고 {guide}를 읽으세요. 포인트는 해당 월의 기록이며 출금 가능한 현금이 아닙니다.",
     ja: "公開ETH受取アドレスと取得元が返した月を先に確認し、{monitor}で同じアドレスを照合して{guide}を読んでください。ポイントはその月の記帳であり、出金できる現金ではありません。",
   },
@@ -153,7 +154,7 @@ const decisionAction: Record<ComputeProject, Record<SiteLocale, string>> = {
     zh: "先检查节点的 Solana 公开地址，不要改用任务地址。打开{monitor}对照同一节点的任务记录，并阅读{guide}。running 和 completed 是任务计数，不是 NOS 收益。",
     "zh-TW":
       "先檢查節點的 Solana 公開地址，不要改用任務地址。開啟{monitor}對照同一節點的任務紀錄，並閱讀{guide}。running 與 completed 是任務計數，不是 NOS 收益。",
-    en: "Check the node’s public Solana address, not a job address. Open the {monitor} for that node and read the {guide}. running and completed are job counts, not NOS earnings.",
+    en: "Check the node’s public Solana address, not a job address. Open the {monitor} and read the {guide}. The running label stores jobs.totalJobs, and completed stores stats.completed. They are not NOS earnings.",
     ko: "작업 주소가 아닌 노드의 공개 Solana 주소를 먼저 확인하세요. {monitor}에서 같은 노드를 대조하고 {guide}를 읽으세요. running과 completed는 작업 수이며 NOS 수익이 아닙니다.",
     ja: "ジョブではなくノードの公開Solanaアドレスを先に確認します。{monitor}で同じノードを照合し、{guide}を読んでください。runningとcompletedはジョブ数であり、NOS収益ではありません。",
   },
@@ -166,10 +167,10 @@ const decisionAction: Record<ComputeProject, Record<SiteLocale, string>> = {
     ja: "gonka1のHostアドレスを先に確認します。{monitor}で今期の参加記録を照合し、{guide}を読んでください。weightは期の重みであり、GNKでもドル入金でもありません。",
   },
   akash: {
-    zh: "先检查完整的提供商公开地址，不要改用租用者钱包或部署编号。打开{monitor}对照目录记录，并阅读{guide}。租约活动和 GPU 容量不是 AKT 或美元收入。",
+    zh: "先检查小写且以 akash1 开头的提供商地址，不要改用租用者钱包或部署编号。打开{monitor}对照目录记录，并阅读{guide}。这次读取不含租约数量和 AKT 付款。",
     "zh-TW":
       "先檢查完整的提供商公開地址，不要改用租用者錢包或部署編號。開啟{monitor}對照目錄紀錄，並閱讀{guide}。租約活動和 GPU 容量不是 AKT 或美元收入。",
-    en: "Check the complete provider public address, not a tenant wallet or deployment ID. Open the {monitor} for the directory record and read the {guide}. Lease activity and GPU capacity are not AKT or USD income.",
+    en: "Check the lowercase akash1 provider address, not a tenant wallet or deployment ID. Open the {monitor} for the directory record and read the {guide}. This read shows provider status and GPU capacity; use official lease and payment records for AKT income.",
     ko: "임차인 지갑이나 배포 ID가 아닌 공급자 공개 주소 전체를 먼저 확인하세요. {monitor}에서 디렉터리 기록을 대조하고 {guide}를 읽으세요. 리스 활동과 GPU 용량은 AKT나 USD 수익이 아닙니다.",
     ja: "借り手のウォレットやデプロイIDではなく、プロバイダーの公開アドレス全体を先に確認します。{monitor}でディレクトリ記録を照合し、{guide}を読んでください。リース活動とGPU容量はAKTやUSDの収入ではありません。",
   },
@@ -185,7 +186,7 @@ const decisionAction: Record<ComputeProject, Record<SiteLocale, string>> = {
     zh: "先检查 Host 的 Machine ID，不要改用租客 Instance ID。打开{monitor}对照同一机器和期间，并阅读{guide}。接入读取凭据不等于真实 Host 账户已经验证。",
     "zh-TW":
       "先檢查 Host 的 Machine ID，不要改用租客 Instance ID。開啟{monitor}對照同一機器和期間，並閱讀{guide}。接入讀取憑證不等於真實 Host 帳戶已經驗證。",
-    en: "Check the Host Machine ID, not a tenant Instance ID. Open the {monitor} for the same machine and period and read the {guide}. Connecting read credentials does not mean the real Host account is verified.",
+    en: "Check the Host integer Machine ID, not a tenant Instance ID. Open the {monitor} for the same machine and the Hong Kong day, and read the {guide}. Sum the four components only when all are known. Connecting read credentials does not mean the real Host account is verified.",
     ko: "임차인 Instance ID가 아닌 Host Machine ID를 먼저 확인하세요. {monitor}에서 같은 기기와 기간을 대조하고 {guide}를 읽으세요. 읽기 자격 증명을 연결해도 실제 Host 계정이 검증된 것은 아닙니다.",
     ja: "借り手のInstance IDではなくHostのMachine IDを先に確認します。{monitor}で同じ機器と期間を照合し、{guide}を読んでください。読取認証を接続しても、実Hostアカウントが検証済みであることにはなりません。",
   },
@@ -193,7 +194,7 @@ const decisionAction: Record<ComputeProject, Record<SiteLocale, string>> = {
     zh: "先检查官方节点统计中的 Node ID。打开{monitor}对照同一节点、相近读取时刻的记录，并阅读{guide}。近 24 小时 GLM 不是香港自然日收益，也不是钱包余额。",
     "zh-TW":
       "先檢查官方節點統計中的 Node ID。開啟{monitor}對照同一節點、相近讀取時刻的紀錄，並閱讀{guide}。近 24 小時 GLM 不是香港自然日收益，也不是錢包餘額。",
-    en: "Check the Node ID in the official node statistics. Open the {monitor} for the same node and a nearby fetch time, and read the {guide}. Last-24-hour GLM is not a Hong Kong calendar-day total and not a wallet balance.",
+    en: "Check the node id, 0x plus 40 hex characters, in Golem Stats. Open the {monitor} for that id and read the {guide}. earnings is rolling 24-hour GLM and earnings_total is lifetime GLM. Neither is a wallet payout.",
     ko: "공식 노드 통계의 Node ID를 먼저 확인하세요. {monitor}에서 같은 노드와 가까운 조회 시각을 대조하고 {guide}를 읽으세요. 최근 24시간 GLM은 홍콩 달력 일자 수익도 지갑 잔액도 아닙니다.",
     ja: "公式ノード統計のNode IDを先に確認します。{monitor}で同じノードと近い取得時刻を照合し、{guide}を読んでください。直近24時間のGLMは香港の暦日収益でもウォレット残高でもありません。",
   },
@@ -362,7 +363,7 @@ export const computeGuides: Article[] = [
       slug: `${project}-monitor-guide`,
       project,
       published: "2026-10-06",
-      modified: "2026-10-22",
+      modified: isRemediatedGuide(project) ? "2026-10-23" : "2026-10-22",
       title: c.title,
       description: c.description,
       summary: c.description,
@@ -371,24 +372,61 @@ export const computeGuides: Article[] = [
         title: decisionTitle[project],
         action: localized((l) => linkPlaceholders(project, l, decisionAction[project][l])),
       },
-      comparisonTitle,
-      comparison: localized((l) => ({
-        headers: [...comparisonHeaders[l]],
-        rows: [[identifierLabel[project][l], c.fields[l], c.check[l]]],
-      })),
-      questions: localized((l) => [
-        { question: questionText[project][l][0], answer: c.steps[l] },
-        { question: questionText[project][l][1], answer: c.check[l] },
-      ]),
-      body: localized((l) => [
-        `## ${guideSections.input[l]}`,
-        c.steps[l],
-        `## ${guideSections.fields[l]}`,
-        c.fields[l],
-        `## ${guideSections.check[l]}`,
-        c.check[l],
-        `[${monitorLabel[l]}](${monitorPath(project)}) · [${editorialCopy(l).guide}](${PROJECTS[project].guide})`,
-      ]),
+      comparisonTitle: isRemediatedGuide(project)
+        ? guideDetails[project].tableTitle
+        : comparisonTitle,
+      comparison: localized((l) =>
+        isRemediatedGuide(project)
+          ? {
+              headers: [...guideDetails[project].tableHeaders[l]],
+              rows: guideDetails[project].rows[l].map((row) => [...row]),
+            }
+          : {
+              headers: [...comparisonHeaders[l]],
+              rows: [[identifierLabel[project][l], c.fields[l], c.check[l]]],
+            },
+      ),
+      questions: localized((l) =>
+        isRemediatedGuide(project)
+          ? (["query", "fields", "scenario", "check"] as const).map((key) => ({
+              question: guideDetails[project].headings[l][key],
+              answer:
+                key === "query"
+                  ? guideDetails[project].steps[l]
+                  : key === "fields"
+                    ? guideDetails[project].fieldsLead[l]
+                    : key === "scenario"
+                      ? guideDetails[project].scenario[l]
+                      : guideDetails[project].check[l],
+            }))
+          : [
+              { question: questionText[project][l][0], answer: c.steps[l] },
+              { question: questionText[project][l][1], answer: c.check[l] },
+            ],
+      ),
+      body: localized((l) =>
+        isRemediatedGuide(project)
+          ? [
+              `## ${guideDetails[project].headings[l].query}`,
+              guideDetails[project].steps[l],
+              `## ${guideDetails[project].headings[l].fields}`,
+              guideDetails[project].fieldsLead[l],
+              `## ${guideDetails[project].headings[l].scenario}`,
+              guideDetails[project].scenario[l],
+              `## ${guideDetails[project].headings[l].check}`,
+              guideDetails[project].check[l],
+              `[${monitorLabel[l]}](${monitorPath(project)}) · [${editorialCopy(l).guide}](${PROJECTS[project].guide})`,
+            ]
+          : [
+              `## ${guideSections.input[l]}`,
+              c.steps[l],
+              `## ${guideSections.fields[l]}`,
+              c.fields[l],
+              `## ${guideSections.check[l]}`,
+              c.check[l],
+              `[${monitorLabel[l]}](${monitorPath(project)}) · [${editorialCopy(l).guide}](${PROJECTS[project].guide})`,
+            ],
+      ),
       sources: [
         { name: PROJECTS[project].name, url: PROJECTS[project].guide },
         {
@@ -396,10 +434,27 @@ export const computeGuides: Article[] = [
           url: "https://github.com/molimao/iota/tree/main/src/lib",
         },
         ...(project === "nosana"
-          ? [{ name: "Nosana API", url: "https://api.nosana.com/api/docs" }]
+          ? [
+              { name: "Nosana API", url: "https://api.nosana.com/api/docs" },
+              { name: "Nosana dashboard", url: PROJECTS.nosana.explorer },
+            ]
           : project === "gonka"
             ? [{ name: "Gonka Network Node API", url: PROJECTS.gonka.explorer }]
-            : []),
+            : project === "flyai"
+              ? [{ name: "fly.ai month response", url: PROJECTS.flyai.explorer }]
+              : project === "akash"
+                ? [{ name: "Akash provider directory", url: PROJECTS.akash.explorer }]
+                : project === "golem"
+                  ? [{ name: "Golem Stats", url: PROJECTS.golem.explorer }]
+                  : project === "vast"
+                    ? [
+                        { name: "Vast Host machines", url: PROJECTS.vast.explorer },
+                        {
+                          name: "Vast API permissions",
+                          url: "https://docs.vast.ai/api-reference/permissions",
+                        },
+                      ]
+                    : []),
       ],
       related: ["data-sources-and-freshness"],
       ...(project === "gonka" ? { evidence: gonkaEvidence } : {}),

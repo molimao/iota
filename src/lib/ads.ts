@@ -1,4 +1,24 @@
 import type { BillingSummary } from "./plans";
+import { publicArticlePaths } from "./ad-article-paths";
+import { LOCALES } from "./site";
+
+const articlePaths = new Set<string>(publicArticlePaths);
+const localeAlternation = [...LOCALES]
+  .sort((a, b) => b.length - a.length)
+  .map((locale) => locale.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+  .join("|");
+const articlePath = new RegExp(`^/(?:${localeAlternation})(/(?:learn|blog)/[a-z0-9-]+)$`);
+
+/**
+ * Identity is the URL path. Search and hash are not part of it, so an article
+ * with an ordinary query string stays the same page. Query-only tools stay
+ * ineligible because their path is not a public article path. No User-Agent branch.
+ */
+export function isPublicArticlePath(pathname: string) {
+  const pathOnly = pathname.split(/[?#]/, 1)[0] ?? "";
+  const article = articlePath.exec(pathOnly)?.[1];
+  return article !== undefined && articlePaths.has(article);
+}
 
 export function adEligible(input: {
   enabled: boolean;
@@ -15,8 +35,7 @@ export function adEligible(input: {
     input.enabled &&
     ["iotahome.site", "www.iotahome.site"].includes(input.hostname) &&
     /^ca-pub-\d{16}$/.test(input.client) &&
-    /^\/(zh|zh-TW|en|ko|ja)(?:\/|$)/.test(input.pathname) &&
-    !/^\/(zh|zh-TW|en|ko|ja)\/review(?:\/|$)/.test(input.pathname) &&
+    isPublicArticlePath(input.pathname) &&
     input.authReady &&
     !input.privacyBlocked &&
     (!input.userId || (input.billingReady && input.billing?.plan === "free"))
