@@ -622,7 +622,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
             : value.status;
     return { ...value, status, health, note: old ? c.stale : value.note };
   };
-  const queries = [xid, flyai, gonka, ...quantus, ...nosana, ...platformQueries];
+  const queries = [xid, flyai, gonka, ...quantus, ...nosana, ...platformQueries, ...poolQueries];
   const activeProjects = new Set(bindings.map((b) => b.project));
   const refresh = async () => {
     await Promise.allSettled([
@@ -632,6 +632,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       ...(activeProjects.has("gonka") ? [gonka.refetch()] : []),
       ...quantus.map((q) => q.refetch()),
       ...nosana.map((q) => q.refetch()),
+      ...poolQueries.map((q) => q.refetch()),
       ...platformQueries
         .filter((_, i) => !isPrivatePlatform(platformBindings[i]!.project) || !!auth.userId)
         .map((q) => q.refetch()),
