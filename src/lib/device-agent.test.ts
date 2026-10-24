@@ -63,6 +63,31 @@ it("uses the same evidence for card phases and filters, including a stopped trai
   }
 });
 
+it("classifies a live worker without treating a missing GUI as a stop", async () => {
+  const { agentPhase } = await import("./device-agent");
+  const now = Date.parse("2026-10-24T08:00:00Z");
+  const stamp = new Date(now - 1000).toISOString();
+  const base = { deviceId: "mba2", lastSeen: stamp, snapshot: { workerRunning: true as const }, logsEnabled: false, recoveryEnabled: false, pending: null, latestCommand: null };
+  const state = (status: "forward" | "backward" | "idle" | "kicked", phase: "training" | "weights_uploading" | "merging_partitions" = "training") => ({ phase, status, observedAt: stamp });
+  for (const appRunning of [false, undefined] as const) {
+    const gui = appRunning === undefined ? {} : { appRunning };
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: state("forward") } }, now)).toBe("working");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: state("backward") } }, now)).toBe("working");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: state("idle") } }, now)).toBe("running");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, queue: { position: 4, observedAt: stamp }, trainingState: state("idle") } }, now)).toBe("queued");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: state("kicked") } }, now)).toBe("blocked");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: { phase: "weights_uploading", status: "idle", observedAt: stamp } } }, now)).toBe("uploading");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: { phase: "merging_partitions", status: "idle", observedAt: stamp } } }, now)).toBe("merging");
+    expect(agentPhase({ ...base, snapshot: { ...gui, workerRunning: true, trainingState: { ...state("forward"), observedAt: new Date(now - 300001).toISOString() } } }, now)).toBe("running");
+  }
+  expect(agentPhase({ ...base, lastSeen: new Date(now - 90001).toISOString(), snapshot: { appRunning: false, workerRunning: true, trainingState: state("forward") } }, now)).toBe("offline");
+  expect(agentPhase({ ...base, snapshot: { appRunning: false, workerRunning: false } }, now)).toBe("stopped");
+  expect(agentPhase({ ...base, snapshot: { appRunning: true, workerRunning: false } }, now)).toBe("workerStopped");
+  expect(agentPhase({ ...base, snapshot: { workerRunning: false } }, now)).toBe("unknown");
+  expect(agentPhase({ ...base, snapshot: { appRunning: false } }, now)).toBe("stopped");
+  expect(agentPhase({ ...base, snapshot: {} }, now)).toBe("unknown");
+});
+
 it("notifies only for newer releases and never offers a downgrade", async()=>{
   const {agentUpdateAvailable,AGENT_RELEASE}=await import("./device-agent");
   expect(agentUpdateAvailable("1.0.5")).toBe(true);

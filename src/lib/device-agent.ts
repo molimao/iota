@@ -67,7 +67,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
 }
 
-export const AGENT_RELEASE = "1.0.8";
+export const AGENT_RELEASE = "1.0.9";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
@@ -90,10 +90,12 @@ export type AgentPhase = "offline" | "unknown" | "stopped" | "workerStopped" | "
 export function agentPhase(agent: Pick<AgentInfo, "snapshot" | "lastSeen">, now = Date.now()): AgentPhase {
   if (!agentOnline(agent.lastSeen, now)) return "offline";
   const s = agent.snapshot;
-  if (s.appRunning === false) return "stopped";
-  if (s.appRunning !== true) return "unknown";
-  if (s.workerRunning === false) return "workerStopped";
-  if (s.workerRunning !== true) return "unknown";
+  // The worker process is the training executable. GUI presence is not required.
+  if (s.workerRunning !== true) {
+    if (s.appRunning === false) return "stopped";
+    if (s.appRunning !== true || s.workerRunning !== false) return "unknown";
+    return "workerStopped";
+  }
   const queueAge = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
   const queued = !!s.queue && s.queue.position > 0 && queueAge >= 0 && queueAge <= 300000;
   const state = s.trainingState;

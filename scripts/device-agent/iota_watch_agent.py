@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.8'
+VERSION = '1.0.9'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -28,6 +28,9 @@ PLIST = Path.home() / 'Library/LaunchAgents' / (LABEL + '.plist')
 APP = next((p for p in [Path('/Applications/IOTA Train at Home.app'), Path.home() / 'Applications/IOTA Train at Home.app'] if p.is_dir()), Path('/Applications/IOTA Train at Home.app'))
 EXEC = str(APP / 'Contents/MacOS/IOTA Train at Home')
 WORKER = str(APP / 'Contents/Frameworks/iota-cli/main_pool')
+# TAH replaces the worker process title with this exact string. Observation may
+# treat it as a training root only with installed GUI or worker ancestry.
+TRAINING_TITLE = 'main_pool:ai.macrocosmos.iota.tah.worker'
 
 
 def redact(text):
@@ -100,9 +103,7 @@ def processes():
     return result
 
 
-def training_resources():
-    """Sum the training process tree, excluding the GUI, helpers and this agent."""
-    text = subprocess.check_output(['/bin/ps', '-axo', 'pid=,ppid=,%cpu=,rss=,comm='], text=True, timeout=5)
+def parse_process_table(text):
     rows = {}
     for line in text.splitlines():
         parts = line.strip().split(None, 4)
@@ -114,30 +115,69 @@ def training_resources():
                 rows[pid] = (parent, cpu, rss, parts[4])
         except ValueError:
             continue
-    # TAH changes its worker process title. Accept that exact title only when
-    # descended from the installed application or an identified training worker.
-    selected = {pid for pid, row in rows.items() if row[3] == WORKER}
+    return rows
+
+
+def trusted_training_roots(rows):
+    """Training root identities for observation.
+
+    An exact installed worker path is a root. The exact renamed title is a root
+    only when walking parents reaches that path or the installed GUI. Generic
+    helper names, CPU, and a GUI TRAINING label are not evidence. Cycles stop.
+    """
+    path_workers = {pid for pid, row in rows.items() if row[3] == WORKER}
     apps = {pid for pid, row in rows.items() if row[3] == EXEC}
+    roots = []
     for pid, row in rows.items():
-        if row[3] != 'main_pool:ai.macrocosmos.iota.tah.worker':
+        if row[3] == WORKER:
+            roots.append(pid)
+            continue
+        if row[3] != TRAINING_TITLE:
             continue
         parent, seen = row[0], {pid}
-        while parent in rows and parent not in seen:
-            if parent in apps or parent in selected:
-                selected.add(pid)
+        while parent in rows and parent not in seen and len(seen) <= len(rows):
+            if parent in apps or parent in path_workers:
+                roots.append(pid)
                 break
             seen.add(parent)
             parent = rows[parent][0]
-    while True:
-        children = {pid for pid, row in rows.items() if row[0] in selected}
-        if children <= selected:
+    return roots
+
+
+def training_tree(rows, roots):
+    """Ancestry-selected roots plus their descendants. Name alone never adds a pid."""
+    selected = set(roots)
+    for _ in range(len(rows) + 1):
+        children = {pid for pid, row in rows.items() if row[0] in selected and pid not in selected}
+        if not children:
             break
         selected |= children
+    return selected
+
+
+def resources_from_rows(rows):
+    selected = training_tree(rows, trusted_training_roots(rows))
     selected.discard(os.getpid())
     if not selected:
         return None, None
     return (sum(rows[pid][1] for pid in selected),
             round(sum(rows[pid][2] for pid in selected) / 1024, 1))
+
+
+def load_process_table():
+    text = subprocess.check_output(['/bin/ps', '-axo', 'pid=,ppid=,%cpu=,rss=,comm='], text=True, timeout=5)
+    return parse_process_table(text)
+
+
+def training_resources():
+    """Sum the training process tree, excluding the GUI, helpers and this agent."""
+    return resources_from_rows(load_process_table())
+
+
+def observed_training_workers():
+    """Selected training roots only, for snapshot and local status. Not control."""
+    rows = load_process_table()
+    return [(pid, rows[pid][1], rows[pid][2], rows[pid][3]) for pid in trusted_training_roots(rows)]
 
 
 def logs():
@@ -213,7 +253,7 @@ def parse_training_state(text, now, started):
     return result[1] if result else None
 
 def local_training_status(rows):
-    workers = [r for r in rows if r[3] == WORKER]
+    workers = [r for r in rows if r[3] in (WORKER, TRAINING_TITLE)]
     if not workers:
         return None, None
     try:
@@ -328,11 +368,14 @@ def crashed_training(rows, now=None):
 def snapshot(include_logs=False):
     rows = processes()
     cpu, memory = training_resources()
-    payload = {'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': any(r[3] == WORKER for r in rows),
+    # Keep already verified executable identities; consult the ancestry-based
+    # observer only when the worker has changed its process title.
+    workers = [r for r in rows if r[3] == WORKER] or observed_training_workers()
+    payload = {'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': bool(workers),
                'appCpu': cpu,
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
-    payload['queue'], payload['trainingState'] = local_training_status(rows)
+    payload['queue'], payload['trainingState'] = local_training_status(workers)
     if payload['workerRunning'] and crashed_training(rows):
         payload['workerRunning'] = False
         payload['queue'], payload['trainingState'] = None, None

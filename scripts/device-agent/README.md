@@ -60,3 +60,7 @@ This is crash recovery, not a general hang detector: lack of compute or lack of 
 
 ## Automatic crash interpretation (1.0.8+)
 When log uploads are enabled, fatal Rust/P2P/abort and OOM excerpts are included in the bounded, redacted upload. All accounts automatically receive an AI interpretation on the corresponding device page. Normal queueing and high memory alone do not trigger analysis. The server deduplicates incidents, limits usage to ten analyses per day, and uses the account's last selected website language. Uploaded excerpts wait at most 24 hours; completed analyses keep only findings and cited lines. No AI recommendation is executed by the agent. Turning log uploads off also cancels queued analyses.
+
+## Renamed worker ancestry (1.0.9)
+
+Observation treats the exact installed `main_pool` path as a training root. The exact renamed worker title counts only when walking its parents reaches that installed path or the installed TAH GUI. Generic helper names, CPU, and a GUI TRAINING label are not evidence. Remote control still uses the same executable allowlist; this release does not add or remove allowlisted targets.

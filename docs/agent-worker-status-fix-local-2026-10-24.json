@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-24",
+  "status": "local release candidate, not published or installed",
+  "scope": [
+    "Trust ancestry-verified renamed training roots for Agent observation, resource readings and queue/state PID selection",
+    "Live training worker no longer classified as stopped solely because GUI not detected",
+    "Agent 1.0.9 archive and web update prompt metadata prepared"
+  ],
+  "liveObservation": {
+    "observedAt": "2026-10-24T16:19:06+08:00",
+    "version": "1.0.8",
+    "appRunning": true,
+    "workerRunning": false,
+    "trainingState": null,
+    "recoveryEnabled": false,
+    "rootCauseConfirmedForLiveDevice": false,
+    "uploadedExcerpt": "Network errors and earlier01:22 warnings; no current crash/compute proof; raw private excerpt not saved here"
+  },
+  "reproduction": {
+    "fixture": "Installed GUI with ancestry-verified renamed worker;12.8 CPU and75MB",
+    "before": {
+      "workerRunning": false
+    },
+    "after": {
+      "workerRunning": true
+    },
+    "actualDeviceProcessInspection": "not performed"
+  },
+  "verification": {
+    "agentUnitTests": 64,
+    "webUnitTests": 18,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "archive": "six allowlisted files match source; manifest SHA256 and length match",
+    "remoteControlRecoveryCrashFunctionBodies": "AST-equivalent to HEAD",
+    "unrelatedWork": "preserved"
+  },
+  "package": {
+    "version": "1.0.9",
+    "sha256": "bca5adaa60310d96b77f2353d41aefc8337278516280bbcbe00a8b931c29c6ce",
+    "bytes": 19217
+  },
+  "authorizationNeeded": "Fresh approval for website/1.0.9 download release and remote update of affected owner device; do not restart training or enable recovery."
+}

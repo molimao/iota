@@ -12,7 +12,7 @@ it('never treats a running process or missing queue as proof of training',()=>{
  expect(agentPhase({...agent,snapshot:{...agent.snapshot,queue:q}},now)).toBe('queued');
  for(const age of [-1000,300001]) expect(agentPhase({...agent,snapshot:{...agent.snapshot,queue:{...q,observedAt:new Date(now-age).toISOString()}}},now)).toBe('running');
  expect(agentPhase({...agent,lastSeen:new Date(now-90001).toISOString()},now)).toBe('offline');
- expect(agentPhase({...agent,snapshot:{appRunning:false,workerRunning:true}},now)).toBe('stopped');
+ expect(agentPhase({...agent,snapshot:{appRunning:false,workerRunning:true}},now)).toBe('running');
  expect(agentPhase({...agent,snapshot:{appRunning:true,workerRunning:false}},now)).toBe('workerStopped');
  expect(agentPhase({...agent,snapshot:{}},now)).toBe('unknown');
 });

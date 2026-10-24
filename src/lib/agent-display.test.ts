@@ -16,11 +16,25 @@ describe("combined IOTA training display", () => {
   });
   it("preserves explicit stop, offline, queue and transition evidence", () => {
     expect(agentDisplayPhase({...agent, lastSeen: null}, positive, now)).toBe("offline");
-    expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, appRunning: false}}, positive, now)).toBe("stopped");
+    expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, appRunning: false, workerRunning: false}}, positive, now)).toBe("stopped");
     expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, workerRunning: false}}, positive, now)).toBe("workerStopped");
     expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, queue: {position: 5, observedAt: stamp}}}, positive, now)).toBe("queued");
     for (const [phase, status, expected] of [["weights_uploading", "idle", "uploading"], ["merging_partitions", "idle", "merging"], ["training", "frozen", "preparing"], ["training", "kicked", "blocked"]] as const)
       expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, trainingState: {phase, status, observedAt: stamp}}}, positive, now)).toBe(expected);
+  });
+  it("lets a live worker train without a GUI and ignores official throughput when the worker is absent or offline", () => {
+    const headless = { ...agent, snapshot: { ...agent.snapshot, appRunning: false as const } };
+    const noGui = { ...agent, snapshot: { workerRunning: true as const, trainingState: agent.snapshot.trainingState } };
+    expect(agentDisplayPhase(headless, positive, now)).toBe("training");
+    expect(agentDisplayPhase(noGui, positive, now)).toBe("training");
+    expect(agentDisplayPhase({ ...agent, snapshot: { appRunning: false, workerRunning: true, trainingState: { phase: "training", status: "forward", observedAt: stamp } } }, positive, now)).toBe("training");
+    expect(agentDisplayPhase({ ...agent, snapshot: { appRunning: false, workerRunning: true, trainingState: { phase: "training", status: "forward", observedAt: stamp } } }, { ...positive, status: "waiting" }, now)).toBe("working");
+    expect(agentDisplayPhase({ ...agent, snapshot: { appRunning: false, workerRunning: true, queue: { position: 5, observedAt: stamp }, trainingState: agent.snapshot.trainingState } }, positive, now)).toBe("queued");
+    expect(agentDisplayPhase({ ...agent, snapshot: {} }, positive, now)).toBe("unknown");
+    expect(agentDisplayPhase({ ...agent, snapshot: { appRunning: true } }, positive, now)).toBe("unknown");
+    expect(agentDisplayPhase({ ...agent, snapshot: { appRunning: false } }, positive, now)).toBe("stopped");
+    expect(agentDisplayPhase({ ...agent, snapshot: { workerRunning: false } }, positive, now)).toBe("unknown");
+    expect(agentDisplayPhase({ ...agent, lastSeen: new Date(now - 90001).toISOString(), snapshot: { workerRunning: true, trainingState: agent.snapshot.trainingState } }, positive, now)).toBe("offline");
   });
   it("does not erase positive local computation with a zero statistics sample", () => {
     expect(agentDisplayPhase({...agent, snapshot: {...agent.snapshot, trainingState: {phase: "training", status: "forward", observedAt: stamp}}}, {...positive, status: "waiting"}, now)).toBe("working");
