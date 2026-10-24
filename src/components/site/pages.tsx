@@ -401,7 +401,15 @@ export function ArticlePage({ page }: { page: "guide" | "faq" | "privacy" }) {
   );
 }
 
-function LearnGrid({ locale, allProjects = false }: { locale: Locale; allProjects?: boolean }) {
+function LearnGrid({
+  locale,
+  allProjects = false,
+  project = "",
+}: {
+  locale: Locale;
+  allProjects?: boolean;
+  project?: string;
+}) {
   return (
     <div className="learn-clusters">
       {(Object.keys(articleClusterMeta) as Array<keyof typeof articleClusterMeta>).map(
@@ -409,11 +417,16 @@ function LearnGrid({ locale, allProjects = false }: { locale: Locale; allProject
           if (!allProjects && (cluster === "xid" || cluster === "quantus" || cluster === "compare"))
             return null;
           const meta = articleClusterMeta[cluster];
+          if (!meta) return null;
+          const slugs = meta.slugs.filter(
+            (slug) => !project || getArticle(slug)?.project === project,
+          );
+          if (!slugs.length) return null;
           return (
             <section key={cluster} id={cluster} className="learn-cluster">
               <h2 className="learn-cluster-title">{meta.title[locale]}</h2>
               <div className="learn-grid">
-                {meta.slugs.map((slug) => {
+                {slugs.map((slug) => {
                   const article = getArticle(slug);
                   if (!article) return null;
                   return (
@@ -438,6 +451,14 @@ function LearnGrid({ locale, allProjects = false }: { locale: Locale; allProject
 
 export function LearnIndex() {
   const { locale, en } = useLocale();
+  const [project, setProject] = useState("");
+  const filterCopy = {
+    zh: ["按项目查找教程", "全部项目"],
+    "zh-TW": ["按專案尋找教學", "全部專案"],
+    en: ["Find guides by project", "All projects"],
+    ko: ["프로젝트별 가이드 찾기", "모든 프로젝트"],
+    ja: ["プロジェクトからガイドを探す", "すべてのプロジェクト"],
+  }[locale];
   return (
     <article className="article-page learn-page">
       <a className="back-link" href={`/${locale}`}>
@@ -461,14 +482,31 @@ export function LearnIndex() {
           ) : null;
         })}
       </div>
+      <label className="guide-project-filter">
+        <span>{filterCopy[0]}</span>
+        <select value={project} onChange={(event) => setProject(event.target.value)}>
+          <option value="">{filterCopy[1]}</option>
+          {PROJECT_IDS.map((id) => (
+            <option key={id} value={id}>
+              {PROJECTS[id].name}
+            </option>
+          ))}
+        </select>
+      </label>
       <nav className="guide-jump-links" aria-label={learningCopy[locale].title}>
-        {Object.entries(articleClusterMeta).map(([id, group]) => (
-          <a key={id} href={`#${id}`}>
-            {group.title[locale]}
-          </a>
-        ))}
+        {Object.entries(articleClusterMeta).map(([id, group]) => {
+          if (!group) return null;
+          if (project && !group.slugs.some((slug) => getArticle(slug)?.project === project)) {
+            return null;
+          }
+          return (
+            <a key={id} href={`#${id}`}>
+              {group.title[locale]}
+            </a>
+          );
+        })}
       </nav>
-      <LearnGrid locale={locale} allProjects />
+      <LearnGrid locale={locale} allProjects project={project} />
       <p className="article-updated">
         <a href={`/${locale}/blog`}>
           {localizeValue(
@@ -483,10 +521,10 @@ export function LearnIndex() {
   );
 }
 
-export function LearnArticle({ slug }: { slug: string }) {
-  const article = getArticle(slug);
-  return article ? (
-    <ArticleView article={article} section="learn" related={relatedArticles(slug)} />
+export function LearnArticle({ slug, article }: { slug: string; article?: Article | null }) {
+  const resolved = article === undefined ? getArticle(slug) : article;
+  return resolved ? (
+    <ArticleView article={resolved} section="learn" related={relatedArticles(slug)} />
   ) : null;
 }
 
@@ -522,23 +560,21 @@ export function ArticleView({
           <ArticleBlocks blocks={[article.decision.action[locale]]} locale={locale} />
         </section>
       )}
-      {!article.decision && (
-        <div className="article-primary-action">
-          <a
-            className="site-button"
-            href={
-              article.project === "all"
-                ? `/${locale}/projects`
-                : projectPath(locale, article.project ?? "iota")
-            }
-          >
-            {article.project === "all"
-              ? learningCopy[locale].compare
-              : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
-            <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
-        </div>
-      )}
+      <div className="article-primary-action">
+        <a
+          className="site-button"
+          href={
+            article.project === "all"
+              ? `/${locale}/projects`
+              : projectPath(locale, article.project ?? "iota")
+          }
+        >
+          {article.project === "all"
+            ? learningCopy[locale].compare
+            : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
       <div className="article-meta">
         <p className="article-scope">
           {evidenceLabels.scope[locale]} ·{" "}

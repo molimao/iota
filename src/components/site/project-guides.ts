@@ -6,7 +6,8 @@ import { searchSupportGuides } from "./search-support-guides";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import { poolMonitorGuides } from "./pool-monitor-guides";
-import type { Article } from "./articles";
+import { articles, type Article } from "./articles";
+import { mergeProjectDepth, withProjectDepth } from "./project-depth";
 
 /** Native editorial copy; never pass through the legacy two-language expander. */
 export const projectGuides: Article[] = [
@@ -1451,18 +1452,40 @@ export const projectGuides: Article[] = [
   },
 ];
 
+function dedupeGuides(guides: Article[]): Article[] {
+  const seen = new Set<string>();
+  return guides.filter((guide) => {
+    if (seen.has(guide.slug)) return false;
+    seen.add(guide.slug);
+    return true;
+  });
+}
+
+/** Live IOTA articles. Read only after module init so the articles cycle stays safe. */
+function originalIotaCatalog(): Article[] {
+  return articles.filter((guide) => guide.project === "iota");
+}
+
 export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
+  const library = [
+    ...projectGuides,
+    ...computeGuides,
+    ...problemGuides,
+    ...searchSupportGuides.map(refreshIotaGuide),
+    ...iotaTierGuides,
+    mdsGuide,
+    bntGuide,
+    csdGuide,
+  ];
   return project
-    ? [
-        ...projectGuides,
-        ...computeGuides,
-        ...problemGuides,
-        ...searchSupportGuides.map(refreshIotaGuide),
-        ...iotaTierGuides,
-        mdsGuide,
-        bntGuide,
-        csdGuide,
-      ].filter((a) => a.project === project || a.project === "all")
+    ? mergeProjectDepth(
+        dedupeGuides([...(project === "iota" ? originalIotaCatalog() : []), ...library]),
+      ).filter((guide) => {
+        if (guide.project === project) return true;
+        if (guide.project !== "all") return false;
+        if (guide.slug !== "iota-xid-quantus-compared") return true;
+        return project === "iota" || project === "xid" || project === "quantus";
+      })
     : [
         ...projectGuides,
         ...searchSupportGuides.map(refreshIotaGuide),
@@ -1470,15 +1493,17 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         mdsGuide,
         bntGuide,
         csdGuide,
-      ].filter(
-        (a) =>
-          a.project === "all" ||
-          a.project === "mds" ||
-          a.project === "bnt" ||
-          a.project === "csd" ||
-          a.slug === "xid-mmm-mainnet-setup" ||
-          a.slug === "quantus-mainnet-mining-mac" ||
-          searchSupportGuides.some((g) => g.slug === a.slug) ||
-          iotaTierGuides.some((g) => g.slug === a.slug),
-      );
+      ]
+        .filter(
+          (a) =>
+            a.project === "all" ||
+            a.project === "mds" ||
+            a.project === "bnt" ||
+            a.project === "csd" ||
+            a.slug === "xid-mmm-mainnet-setup" ||
+            a.slug === "quantus-mainnet-mining-mac" ||
+            searchSupportGuides.some((g) => g.slug === a.slug) ||
+            iotaTierGuides.some((g) => g.slug === a.slug),
+        )
+        .map(withProjectDepth);
 }

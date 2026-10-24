@@ -11,7 +11,7 @@ function localizeHref(href: string, locale: Locale) {
 
 function renderInline(text: string, locale: Locale): ReactNode[] {
   const nodes: ReactNode[] = [];
-  const pattern = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g;
+  const pattern = /(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
   let last = 0;
   let match: RegExpExecArray | null;
   let key = 0;
@@ -20,6 +20,8 @@ function renderInline(text: string, locale: Locale): ReactNode[] {
     const token = match[0];
     if (token.startsWith("**")) {
       nodes.push(<strong key={key++}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith("`")) {
+      nodes.push(<code key={key++}>{token.slice(1, -1)}</code>);
     } else {
       const link = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (link?.[1] && link[2]) {
@@ -60,19 +62,70 @@ export function ArticleBlocks({ blocks, locale }: { blocks: string[]; locale: Lo
     list = [];
   };
 
-  blocks.forEach((block, i) => {
+  const expanded = blocks.flatMap((block, blockIndex) =>
+    (block.trimStart().startsWith("|")
+      ? block.split("\n").filter((line) => line.trim())
+      : [block]
+    ).map((text) => ({ text, blockIndex })),
+  );
+  const content = expanded.map((block) => block.text);
+  for (let i = 0; i < content.length; i++) {
+    const block = content[i]!;
     if (block.startsWith("- ")) {
       list.push(block.slice(2));
-      return;
+      continue;
     }
     flush();
+    if (block.trimStart().startsWith("|") && /^\s*\|\s*:?-{3,}/.test(content[i + 1] ?? "")) {
+      const cells = (row: string) =>
+        row
+          .trim()
+          .replace(/^\||\|$/g, "")
+          .split("|")
+          .map((cell) => cell.trim());
+      const headers = cells(block);
+      const rows: string[][] = [];
+      i += 2;
+      while (i < content.length && content[i]!.trimStart().startsWith("|")) {
+        rows.push(cells(content[i]!));
+        i++;
+      }
+      i--;
+      out.push(
+        <div className="article-comparison" key={`table-${i}`} tabIndex={0}>
+          <table>
+            <thead>
+              <tr>
+                {headers.map((header, n) => (
+                  <th scope="col" key={n}>
+                    <RichText text={header} locale={locale} />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, n) => (
+                <tr key={n}>
+                  {headers.map((_, column) => (
+                    <td key={column}>
+                      <RichText text={row[column] ?? ""} locale={locale} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>,
+      );
+      continue;
+    }
     if (block.startsWith("## ")) {
       out.push(
-        <h2 id={`section-${i}`} key={`h-${i}`}>
+        <h2 id={`section-${expanded[i]!.blockIndex}`} key={`h-${i}`}>
           {block.slice(3)}
         </h2>,
       );
-      return;
+      continue;
     }
     if (block.startsWith("> ")) {
       out.push(
@@ -80,14 +133,14 @@ export function ArticleBlocks({ blocks, locale }: { blocks: string[]; locale: Lo
           <RichText text={block.slice(2)} locale={locale} />
         </aside>,
       );
-      return;
+      continue;
     }
     out.push(
       <p key={`p-${i}`}>
         <RichText text={block} locale={locale} />
       </p>,
     );
-  });
+  }
   flush();
   return <>{out}</>;
 }

@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-24T06:26:47.730004+00:00",
+  "branch": "main",
+  "scope": "All 25 projects, five locales; technical crawl and submission readiness",
+  "local": {
+    "sitemapUrls": 910,
+    "dedicatedGuides": 131,
+    "authoredNew": 91,
+    "authoredRevised": 34,
+    "verifiedHtml": 655,
+    "verifiedMarkdown": 655,
+    "testsPassed": 49,
+    "build": "passed",
+    "canonicalHreflangFaq": "passed in prior full HTTP acceptance",
+    "report": "docs/project-depth-acceptance-2026-10-24.json"
+  },
+  "live": {
+    "sitemapUrls": 455,
+    "indexnowOwnershipProof": "valid; submit-indexnow.mjs --check",
+    "newBatchPublished": false
+  },
+  "submission": {
+    "google": {
+      "status": "not submitted this round",
+      "blocker": "Search Console sign-in required in current browser"
+    },
+    "bing": {
+      "status": "not submitted this round",
+      "blocker": "Webmaster sign-in required in current browser"
+    },
+    "indexnow": {
+      "status": "ready; not submitted this round",
+      "reason": "wait for new batch live sitemap, avoid resubmitting old 455 URLs as new batch"
+    },
+    "baidu": {
+      "status": "not submitted",
+      "reason": "No verified console access or successful submission evidence"
+    },
+    "yandex": {
+      "status": "no independent console submission",
+      "note": "IndexNow participating-engine notification must be reported separately from console verification"
+    },
+    "aiSearch": {
+      "status": "crawlable through robots, HTML, Markdown and llms documents; no citation claim"
+    }
+  },
+  "review": {
+    "executor": "Grok 4.7 Low Fast, read-only",
+    "mainVerified": [
+      "Read actual code and Grok report",
+      "Live IndexNow check returns455 and valid proof",
+      "Google redirects to sign-in",
+      "Bing shows signed-out landing page"
+    ],
+    "correction": "Grok report references last recorded Oct17 submission; this does not prove current production code is the Oct17 version. Actual current live sitemap has455 URLs.",
+    "nonIssues": [
+      "Markdown intentionally canonicalizes to HTML; no need to submit duplicate Markdown URLs",
+      "Unchanged guide lastmod should not be bumped solely to look fresh"
+    ]
+  },
+  "productionAuthorization": "awaiting explicit response to current batch release confirmation",
+  "references": [
+    "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+    "https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping",
+    "https://www.indexnow.org/documentation"
+  ]
+}

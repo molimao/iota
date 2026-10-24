@@ -1,0 +1,522 @@
+{
+  "completedAt": "2026-10-24T06:18:46.558280+00:00",
+  "scope": "Local acceptance of all25-project SEO/GEO content; no production deployment",
+  "delivery": {
+    "projects": 25,
+    "newDedicatedUrls": 91,
+    "revisedExistingArticles": 34,
+    "authoredGuides": 125,
+    "retainedOtherIotaGuides": 6,
+    "dedicatedTotal": 131,
+    "locales": [
+      "zh",
+      "zh-TW",
+      "en",
+      "ko",
+      "ja"
+    ]
+  },
+  "verification": {
+    "tests": {
+      "files": 11,
+      "passed": 49,
+      "failed": 0,
+      "log": "/tmp/iota-depth24/final-tests-verified.log"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": "/tmp/iota-depth24/typecheck-verified.log"
+    },
+    "productionBuild": {
+      "exitCode": 0,
+      "log": "/tmp/iota-depth24/production-build.log"
+    },
+    "developmentHttp": {
+      "dedicated": 131,
+      "expectedDedicated": 131,
+      "locales": 5,
+      "html": 655,
+      "md": 655,
+      "htmlOk": 655,
+      "mdOk": 655,
+      "baselineIota": 6,
+      "packSlugs": 125,
+      "sitemapLocs": 910,
+      "llms": {
+        "/llms.txt": 200,
+        "/llms-full.txt": 200
+      }
+    },
+    "cloudflareWorkerHttp": {
+      "dedicated": 131,
+      "expectedDedicated": 131,
+      "locales": 5,
+      "html": 655,
+      "md": 655,
+      "htmlOk": 655,
+      "mdOk": 655,
+      "baselineIota": 6,
+      "packSlugs": 125,
+      "sitemapLocs": 910,
+      "llms": {
+        "/llms.txt": 200,
+        "/llms-full.txt": 200
+      }
+    },
+    "httpFailures": 0,
+    "workerRuntime": "Official Wrangler local workerd, config .output/server/wrangler.json; temporary port8083 stopped after verification",
+    "browser": [
+      "Built Worker English full body and FAQ survived hydration",
+      "Related Bitcoin article opened successfully",
+      "English/Japanese and previous zh/zh-TW navigation verified",
+      "390px viewport: document width390, table scrolling contained at352px for580px content",
+      "Final local Chinese Pearl filter shows5guides"
+    ],
+    "browserAssetEvidence": "/tmp/iota-depth24/browser-built-asset-evidence.json",
+    "metadataGzipBefore": 298132,
+    "metadataGzipAfter": 74699,
+    "separateProjectBodyChunks": 25,
+    "initialProjectBodyChunksFetched": 0,
+    "originalPublishedDatesPreserved": true,
+    "historicalEvidencePreserved": "/images/tutorials/iota-rewards-2026-10-09.png and immutable public response excerpt; historical Oct9 ledger/current Oct8 attribution explained",
+    "mainBranch": true,
+    "unrelatedChangesPreserved": true,
+    "privateOwnerDataInPublicGuides": false,
+    "temporaryWorkerStopped": true,
+    "sourceChangedSinceBuild": false
+  },
+  "manualReviewNotes": [
+    "Golem quota regex flag reviewed: counts saved device records, automatically listed workers do not create records",
+    "Capture time in IOTA reward reconciliation is data freshness, not source-scraping narration",
+    "Shorter Traditional Chinese passages reviewed for key facts, conditions, actions and examples; native paragraph grouping need not be identical",
+    "Only verified direct competitor/operator references used; inferred questions are not measured keyword volume or AI citations"
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:8082/zh/learn",
+    "screenshot": "/tmp/iota-depth24/final-prl-guides-full.png",
+    "tabId": "16",
+    "keptLocalServer": 8082,
+    "screenshotProject": "Pearl",
+    "filter": "All25 projects are selectable; live selection is user-controlled"
+  },
+  "release": {
+    "published": false,
+    "searchEngineSubmission": "Pending fresh production approval and successful deployment"
+  },
+  "projects": [
+    {
+      "project": "iota",
+      "guideSlugs": [
+        "iota-queue-and-zero-throughput",
+        "iota-training-stopped-auto-recovery",
+        "how-rewards-work",
+        "iota-tier-promotion",
+        "iota-run-tiers"
+      ],
+      "sha256": "097e49d4aefc6e68272fcfae81babd57d1fc96cac3fe71cff7315cda19e00dad",
+      "sources": [
+        "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+        "https://docs.macrocosmos.ai/subnets/subnet-9-iota/scoring-rewards-and-kicking",
+        "https://github.com/molimao/iota",
+        "https://github.com/molimao/iota/blob/main/scripts/device-agent/iota_watch_agent.py",
+        "https://iota.macrocosmos.ai/train-at-home/apply"
+      ]
+    },
+    {
+      "project": "xid",
+      "guideSlugs": [
+        "xid-mmm-mainnet-setup",
+        "xid-worker-hashrate-shares",
+        "xid-rewards-balance-maturity",
+        "xid-mainnet-vs-testnet",
+        "xid-worker-offline-checklist"
+      ],
+      "sha256": "99384b6ff58e326da544d204371e33d6b02296030af16c450a502fa5775fb3a7",
+      "sources": [
+        "https://github.com/SystemThreat/MMM",
+        "https://github.com/molimao/iota",
+        "https://macmetalminer.com/",
+        "https://xcoinproject.com/",
+        "https://xcoinproject.com/whitepaper"
+      ]
+    },
+    {
+      "project": "quantus",
+      "guideSlugs": [
+        "quantus-mainnet-mining-mac",
+        "quantus-wormhole-rewards",
+        "quantus-mining-no-rewards",
+        "quantus-qpow-hashrate-vs-blocks",
+        "quantus-wallet-mining-address-safety"
+      ],
+      "sha256": "4c833b6765d9b789e896bb99a5188a4d3a75d92abeb15158fdc104d874c57547",
+      "sources": [
+        "https://docs.quantus.com/guides/mining/",
+        "https://explorer.quantus.com/",
+        "https://github.com/Quantus-Network/quantus-miner",
+        "https://github.com/molimao/iota",
+        "https://www.quantus.com/"
+      ]
+    },
+    {
+      "project": "flyai",
+      "guideSlugs": [
+        "flyai-monitor-guide",
+        "flyai-public-wallet-vs-token",
+        "flyai-monthly-points-vs-income",
+        "flyai-multiple-machines-one-wallet",
+        "flyai-zero-points-data-delay"
+      ],
+      "sha256": "d27666c86b8872f8dbd6d069dec80f636b750c15bca0ecb023a117414c17c7e3",
+      "sources": [
+        "https://flyai-mine.fly.dev/api/month",
+        "https://www.flyaiworld.com/compute/"
+      ]
+    },
+    {
+      "project": "nosana",
+      "guideSlugs": [
+        "nosana-monitor-guide",
+        "nosana-host-id-vs-wallet",
+        "nosana-gpu-idle-vs-offline",
+        "nosana-jobs-nos-rewards",
+        "nosana-host-job-troubleshooting"
+      ],
+      "sha256": "02ab87196aa2875674fc194fe40968e6d741114dfc021575783e502c1c42778c",
+      "sources": [
+        "https://learn.nosana.com/",
+        "https://nosana.com/"
+      ]
+    },
+    {
+      "project": "gonka",
+      "guideSlugs": [
+        "gonka-monitor-guide",
+        "gonka-host-id-api",
+        "gonka-poc-inference-status",
+        "gonka-epoch-rewards-accounting",
+        "gonka-host-not-found"
+      ],
+      "sha256": "6357be156382d5fdec508e6edbe5c3770b22b87aa6b4367f1178c6013e3c8c59",
+      "sources": [
+        "https://gonka.ai/",
+        "https://gonka.ai/docs/host/network-node-api/",
+        "https://gonka.ai/docs/host/quickstart/"
+      ]
+    },
+    {
+      "project": "akash",
+      "guideSlugs": [
+        "akash-monitor-guide",
+        "akash-provider-vs-wallet",
+        "akash-active-leases-earnings",
+        "akash-akt-usdc-balances",
+        "akash-provider-offline"
+      ],
+      "sha256": "fbd717139e193ab80328ee28b3e51f6a30d0dd2e6130fd634099097adbc32a2d",
+      "sources": [
+        "https://akash.network/",
+        "https://akash.network/docs/providers/getting-started/",
+        "https://console.akash.network/providers"
+      ]
+    },
+    {
+      "project": "ionet",
+      "guideSlugs": [
+        "ionet-monitor-guide",
+        "ionet-device-id-vs-worker-key",
+        "ionet-idle-vs-hired-gpu",
+        "ionet-rewards-vs-uptime",
+        "ionet-private-api-connection"
+      ],
+      "sha256": "abe6469c1a0ab59ca1d1299257eda66ed129d80581af1cf134019948c0bc438a",
+      "sources": [
+        "https://io.net/",
+        "https://io.net/docs/reference/io-explorer/get-device-details"
+      ]
+    },
+    {
+      "project": "vast",
+      "guideSlugs": [
+        "vast-monitor-guide",
+        "vast-host-machine-vs-contract",
+        "vast-gpu-occupancy-and-offers",
+        "vast-host-revenue-vs-balance",
+        "vast-api-key-read-only-monitoring"
+      ],
+      "sha256": "b1689ba2ad7707925d5e8b2517d9d3b341be0c08b3013dbc9207f2defc5cee3a",
+      "sources": [
+        "https://console.vast.ai/host/machines",
+        "https://docs.vast.ai/api-reference/permissions",
+        "https://docs.vast.ai/host/hosting-overview",
+        "https://vast.ai/"
+      ]
+    },
+    {
+      "project": "golem",
+      "guideSlugs": [
+        "golem-monitor-guide",
+        "golem-node-id-vs-wallet",
+        "golem-offers-tasks-availability",
+        "golem-glm-payments-vs-capacity",
+        "golem-provider-offline-checks"
+      ],
+      "sha256": "d547edeafa1bb492f16d33554cd69663b216c5cea62eee47ffb26db1e648f3d8",
+      "sources": [
+        "https://docs.golem.network/docs/providers/provider-installation",
+        "https://golem.network/",
+        "https://stats.golem.network/"
+      ]
+    },
+    {
+      "project": "noid",
+      "guideSlugs": [
+        "noid-monitor-guide",
+        "noid-address-not-found",
+        "noid-wallet-workers-hashrate",
+        "noid-balance-rewards-payments",
+        "noid-pool-network-identity"
+      ],
+      "sha256": "98424a637f81d8650b757e4955a7846821a5e05a689743c246c9ab0d4b328977",
+      "sources": [
+        "https://docs.parano1d.org/reference/rpc",
+        "https://noid.innovlab.cc/",
+        "https://parano1d.org/",
+        "https://www.parano1d-pool.fun/"
+      ]
+    },
+    {
+      "project": "acurast",
+      "guideSlugs": [
+        "acurast-monitor-guide",
+        "acurast-processor-owner-identity",
+        "acurast-phone-job-status",
+        "acurast-rewards-settlement",
+        "acurast-processor-offline"
+      ],
+      "sha256": "83c343364d4753d38222d7bae7853e553e6423ae67a0c3d3f60db19512c17069",
+      "sources": [
+        "https://acurast.com/",
+        "https://docs.acurast.com/processors/",
+        "https://docs.acurast.com/processors/rewards/",
+        "https://github.com/Acurast/acurast-indexer"
+      ]
+    },
+    {
+      "project": "prl",
+      "guideSlugs": [
+        "pearl-prl-mac-monitoring",
+        "prl-luckypool-vs-kryptex",
+        "prl-worker-accepted-shares",
+        "prl-locked-balance-payouts",
+        "prl-mac-gpu-miner-compatibility"
+      ],
+      "sha256": "5920951e3700be287e73b3ac5b81ed8a4821d596c5e1c073df7367dbb8c949df",
+      "sources": [
+        "https://github.com/Breakwater-ecosystem/pearl-metal-miner",
+        "https://minerstat.com/coin/prl",
+        "https://pearl.luckypool.io/",
+        "https://pool.kryptex.com/en/prl"
+      ]
+    },
+    {
+      "project": "xmr",
+      "guideSlugs": [
+        "xmr-mining-monitor-guide",
+        "xmr-kryptex-address-types",
+        "xmr-randomx-cpu-hashrate",
+        "xmr-unpaid-balance-payouts",
+        "xmr-accepted-shares-offline"
+      ],
+      "sha256": "cd89e324d43c95cfee82256e7550fd08c57176a2c8e6e49233ff4135e92535d3",
+      "sources": [
+        "https://pool.kryptex.com/en/xmr",
+        "https://www.getmonero.org/",
+        "https://www.getmonero.org/resources/moneropedia/address.html"
+      ]
+    },
+    {
+      "project": "etc",
+      "guideSlugs": [
+        "etc-mining-monitor-guide",
+        "etc-vs-ethw-address-network",
+        "etc-etchash-worker-monitoring",
+        "etc-24h-rewards-and-balance",
+        "etc-pool-hashrate-zero"
+      ],
+      "sha256": "568a5705278ed9f32988a3a8becaeebd580d49dff2463447244c0c5aaa5f7258",
+      "sources": [
+        "https://etc.2miners.com/help",
+        "https://ethereumclassic.org/",
+        "https://github.com/2miners/apidoc"
+      ]
+    },
+    {
+      "project": "rvn",
+      "guideSlugs": [
+        "rvn-mining-monitor-guide",
+        "rvn-wallet-and-worker-format",
+        "rvn-kawpow-effective-hashrate",
+        "rvn-rewards-confirmations-payouts",
+        "rvn-worker-offline-rejected-shares"
+      ],
+      "sha256": "d3dafa595199d520ed00481feef5515d2244d4fb17075bf68036c7ca33773f4b",
+      "sources": [
+        "https://github.com/2miners/apidoc",
+        "https://ravencoin.org/",
+        "https://rvn.2miners.com/help"
+      ]
+    },
+    {
+      "project": "zec",
+      "guideSlugs": [
+        "zec-mining-monitor-guide",
+        "zec-transparent-addresses",
+        "zec-solutions-vs-hashes",
+        "zec-pool-rewards-and-payments",
+        "zec-worker-not-found"
+      ],
+      "sha256": "c585debe6333c4338b719afad888d7f85a8d4fc4affd6248f69544a54de86aed",
+      "sources": [
+        "https://github.com/2miners/apidoc",
+        "https://z.cash/learn/what-is-the-difference-between-shielded-and-transparent-zcash/",
+        "https://zec.2miners.com/help"
+      ]
+    },
+    {
+      "project": "kas",
+      "guideSlugs": [
+        "kas-mining-monitor-guide",
+        "kas-kaspa-address-and-pool",
+        "kas-asic-worker-hashrate",
+        "kas-unpaid-balance-payments",
+        "kas-worker-offline-diagnostics"
+      ],
+      "sha256": "b44aca5cee90a3564e25c113bd95ebc7b10759c85f0326c7046047d786a85e1a",
+      "sources": [
+        "https://github.com/2miners/apidoc",
+        "https://kas.2miners.com/help",
+        "https://kaspa.org/"
+      ]
+    },
+    {
+      "project": "mds",
+      "guideSlugs": [
+        "midstate-mds-monitor-guide",
+        "mds-wallet-luckypool-setup",
+        "mds-nonces-hashrate-units",
+        "mds-locked-unlocked-paid",
+        "mds-worker-share-troubleshooting"
+      ],
+      "sha256": "fab254ab99c4f39b4671ba63e6f6a9c27b899cc0eae2e67b95994537e0b7f6dc",
+      "sources": [
+        "https://github.com/ciphernom/midstate/blob/main/pools.md",
+        "https://github.com/molimao/iota/blob/main/src/lib/pool-monitor.ts",
+        "https://midstate.cash/",
+        "https://midstate.luckypool.io/"
+      ]
+    },
+    {
+      "project": "bnt",
+      "guideSlugs": [
+        "blocknet-bnt-monitor-guide",
+        "bnt-seine-cpu-nvidia-setup",
+        "bnt-address-workers-devices",
+        "bnt-pending-queued-payouts",
+        "bnt-24h-hashrate-drops"
+      ],
+      "sha256": "6f75ac1da0bccfd004d683128f3745b8f1a2cc2763dfe4bf38479aab6a0254c4",
+      "sources": [
+        "https://blocknetcrypto.com/",
+        "https://bntpool.com/start",
+        "https://github.com/zpalmtree/seine",
+        "https://github.com/zpalmtree/seine/blob/master/src/address.rs"
+      ]
+    },
+    {
+      "project": "csd",
+      "guideSlugs": [
+        "csd-gpools-monitor-guide",
+        "csd-gpools-address-setup",
+        "csd-worker-throughput-units",
+        "csd-pending-paid-rewards",
+        "csd-worker-not-found"
+      ],
+      "sha256": "a0010455f357b9be53ca41a08ae2d1d41c62d10bcb8bed304d20d87f951f9c64",
+      "sources": [
+        "https://computesubstrate.org/",
+        "https://csd.yamaduo.no/#mine",
+        "https://github.com/dangraagu/CSD-Mining-pool-public"
+      ]
+    },
+    {
+      "project": "erg",
+      "guideSlugs": [
+        "erg-mining-monitor-guide",
+        "erg-p2pk-address-monitoring",
+        "erg-autolykos-worker-hashrate",
+        "erg-rewards-balances-payments",
+        "erg-miner-no-shares"
+      ],
+      "sha256": "708c3bcba491c6848dc7cbdea459c4c84bb04227301605e0e9bc523c048a552a",
+      "sources": [
+        "https://docs.ergoplatform.com/dev/wallet/address/address_types/",
+        "https://erg.2miners.com/help",
+        "https://ergoplatform.org/",
+        "https://github.com/2miners/apidoc"
+      ]
+    },
+    {
+      "project": "zeph",
+      "guideSlugs": [
+        "zeph-mining-monitor-guide",
+        "zeph-standard-address-vs-integrated",
+        "zeph-randomx-cpu-workers",
+        "zeph-mature-rewards-payments",
+        "zeph-worker-zero-hashrate"
+      ],
+      "sha256": "fc7f3d5bb47dbe92165bd81901aae458594906d87220a6a7d3f9245f93cff460",
+      "sources": [
+        "https://github.com/2miners/apidoc",
+        "https://www.zephyrprotocol.com/",
+        "https://zeph.2miners.com/help",
+        "https://zephyrprotocol.com/"
+      ]
+    },
+    {
+      "project": "btc",
+      "guideSlugs": [
+        "btc-mining-monitor-guide",
+        "btc-ckpool-solo-rewards",
+        "btc-ckpool-worker-names",
+        "btc-ckpool-hashrate-window",
+        "btc-ckpool-address-not-found"
+      ],
+      "sha256": "c338ce01176885a81862dd8211759b6a4a7a0b3645402a949d8fef8e2b90a317",
+      "sources": [
+        "https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki",
+        "https://mempool.space/mining/pool/solock",
+        "https://raw.stats.ckpool.org/pool/pool.status",
+        "https://solo.ckpool.org/"
+      ]
+    },
+    {
+      "project": "ethw",
+      "guideSlugs": [
+        "ethw-mining-monitor-guide",
+        "ethw-wallet-network-check",
+        "ethw-workers-hashrate-shares",
+        "ethw-rewards-balance-payouts",
+        "ethw-miner-offline-checklist"
+      ],
+      "sha256": "092ecf3b16093b034ac69a74d6e0799b4cf95aeb539bd8faa7198adf2cbb6f08",
+      "sources": [
+        "https://ethw.2miners.com/",
+        "https://ethw.2miners.com/help",
+        "https://github.com/2miners/apidoc",
+        "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+        "https://minerstat.com/coin/ethw"
+      ]
+    }
+  ]
+}

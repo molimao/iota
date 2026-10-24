@@ -1933,6 +1933,30 @@ body:has(.site-shell) {
   gap: 10px;
   margin: 24px 0 32px;
 }
+.guide-project-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0 16px;
+  max-width: 100%;
+  font-size: 14px;
+}
+.guide-project-filter select {
+  width: min(100%, 320px);
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 36px 10px 14px;
+  border: 1px solid var(--border, #444);
+  border-radius: 10px;
+  color: #f5f5f5;
+  background-color: #161616;
+  color-scheme: dark;
+}
+.guide-project-filter select option {
+  color: #f5f5f5;
+  background-color: #161616;
+}
 .guide-jump-links a {
   padding: 8px 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);

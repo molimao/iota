@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { articleDates, getArticle } from "@/components/site/articles";
 import { additionalGuides } from "@/components/site/additional-guides";
 import { computeGuides } from "@/components/site/compute-guides";
 import { guideSections } from "@/components/site/compute-guide-copy";
@@ -205,6 +206,9 @@ describe("compute guide parity", () => {
             expect(index).toBeGreaterThanOrEqual(0);
             expect(body[index + 1]).toBe(item.answer);
           }
+          const current = getArticle(article.slug)!;
+          const modified = articleDates(current, locale).modified;
+          const currentQuestions = current.questions?.[locale] ?? [];
           const html = renderToStaticMarkup(
             createElement(
               LocaleContext.Provider,
@@ -212,35 +216,37 @@ describe("compute guide parity", () => {
               createElement(
                 QueryClientProvider,
                 { client: new QueryClient() },
-                createElement(ArticleView, { article, section: "learn", related: [] }),
+                createElement(ArticleView, { article: current, section: "learn", related: [] }),
               ),
             ),
           );
-          const markdown = buildArticleMarkdown(article, locale);
+          const markdown = buildArticleMarkdown(current, locale);
           const schemas = seo(locale, "learn", article.slug).scripts.map((script) =>
             JSON.parse(script.children as string),
           );
           const faq = schemas.find((item) => item["@type"] === "FAQPage");
           const articleSchema = schemas.find((item) => item["@type"] === "Article");
-          expect(articleSchema.dateModified).toBe("2026-10-23");
-          expect(articleSchema.headline).toBe(article.title[locale]);
-          expect(articleSchema.description).toBe(article.description[locale]);
+          expect(current.published).toBe(published[project]);
+          expect(modified).toBe("2026-10-24");
+          expect(articleSchema.dateModified).toBe(modified);
+          expect(articleSchema.headline).toBe(current.title[locale]);
+          expect(articleSchema.description).toBe(current.description[locale]);
           expect(
             faq.mainEntity.map((item: { name: string; acceptedAnswer: { text: string } }) => ({
               question: item.name,
               answer: item.acceptedAnswer.text,
             })),
-          ).toEqual(questions);
-          expect(markdown).toContain("Updated: 2026-10-23");
-          expect(markdown).toContain(article.comparisonTitle?.[locale]);
-          expect(html).toContain(`dateTime="2026-10-23"`);
-          for (const row of comparison?.rows ?? []) {
+          ).toEqual(currentQuestions);
+          expect(markdown).toContain(`Updated: ${modified}`);
+          expect(markdown).toContain(current.comparisonTitle?.[locale]);
+          expect(html).toContain(`dateTime="${modified}"`);
+          for (const row of current.comparison?.[locale].rows ?? []) {
             for (const cell of row) {
               expect(markdown).toContain(cell);
               expect(html).toContain(cell);
             }
           }
-          for (const item of questions) {
+          for (const item of currentQuestions) {
             expect(html).toContain(renderToStaticMarkup(createElement("p", null, item.answer)));
             expect(markdown).toContain(item.question);
             expect(markdown).toContain(item.answer);

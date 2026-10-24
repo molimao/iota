@@ -1,0 +1,876 @@
+{
+  "checkedAt": "2026-10-24",
+  "sources": "88 URLs identical in /tmp/iota-seo-sources23 and /tmp/iota-seo-sources24; facts below are from the 24 extracts. Small 2Miners/minerstat/flyai-month length changes were not verified as rule changes. Material extract deltas: io.net device-details much longer but still an API example; MMM GitHub extract shorter and still says macOS 14+ to build; Parano1d RPC length changed with no new miner-support fact used.",
+  "projects": [
+    {
+      "id": "iota",
+      "officialFacts": [
+        {
+          "claim": "Train at Home is Macrocosmos IOTA on Bittensor subnet 9, macOS now, Linux later, Windows not on the roadmap; a Bittensor coldkey is optional and rewards go to it only after it is connected.",
+          "url": "https://docs.macrocosmos.ai/product-and-services/tah/faqs",
+          "extractedEvidenceShort": "FAQ: MacOS at launch; wallet only to receive rewards; coldkey is the reward address."
+        },
+        {
+          "claim": "Emissions follow validator scores of forward-pass work inside a run, with burn and per-run allocation; exact kick thresholds live in code and can change per run.",
+          "url": "https://docs.macrocosmos.ai/subnets/subnet-9-iota/scoring-rewards-and-kicking",
+          "extractedEvidenceShort": "weight is score share times (1-burn) times run allocation; thresholds not fixed on the page."
+        }
+      ],
+      "sourceGaps": [
+        "mainnet/runs fetch is binary, not a readable run list",
+        "no official sentence that yesterday email, USD, or Miner ID equals on-chain emissions"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://www.trainathome.ai/en/guide/promotion",
+          "patternUseful": "Third-party page splits Iron/Bronze/Silver and says Gold is inactive.",
+          "limits": "Not Macrocosmos; batch example 4.12.16 is dated 26 Sep 2026."
+        },
+        {
+          "url": "https://subnera.com/guides/optimal-tah-setup-mac",
+          "patternUseful": "States there is no official minimum-spec sheet.",
+          "limits": "Author setup notes, not a capability spec."
+        }
+      ],
+      "distinctIntents": [
+        "Is this the same IOTA as the layer-1 token?",
+        "Do I need a coldkey before the app will train?",
+        "Why can two Macs in one run earn different amounts?",
+        "Does a low score kick me every epoch?",
+        "Where do I read Miner ID versus the payout coldkey?"
+      ],
+      "mustNotClaim": [
+        "IOTA layer-1",
+        "fixed daily IOTA",
+        "Windows support",
+        "thresholds copied from a third-party tier guide"
+      ]
+    },
+    {
+      "id": "xid",
+      "officialFacts": [
+        {
+          "claim": "Mainnet genesis 26 Sep 2026 00:00 UTC; testnet A balances did not carry; pool pool.xcoinminer.com port 3335; payout address form xpa1r; block pays after 1,000 confirmations.",
+          "url": "https://macmetalminer.com/",
+          "extractedEvidenceShort": "Mainnet setup values and 1,000-confirmation payout; pool never asks for a seed."
+        },
+        {
+          "claim": "Published emission is 50 XID after warm-up, then 10% less about every 382 days, 300s blocks, 100,000,000 cap; GitHub build requirement is macOS 14+ and Xcode CLT, ad-hoc signature not Apple notarization.",
+          "url": "https://github.com/SystemThreat/MMM",
+          "extractedEvidenceShort": "README excerpt: macOS 14+ to build; automatic mining on open is default."
+        }
+      ],
+      "sourceGaps": [
+        "No fetched sentence that current macOS 26/Tahoe is supported",
+        "GitHub page is a file listing plus README fragments, not a compatibility matrix"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Did testnet XID move to mainnet?",
+        "Which pool host and port does MMM use?",
+        "When is a found block spendable?",
+        "What macOS version is required to build MMM?",
+        "Is the app notarized by Apple?"
+      ],
+      "mustNotClaim": [
+        "Current macOS compatibility beyond macOS 14+ build text",
+        "fixed daily XID",
+        "testnet balance migration"
+      ]
+    },
+    {
+      "id": "quantus",
+      "officialFacts": [
+        {
+          "claim": "Mine with node v1.0.1+ and --chain mainnet; Planck is a retired chain and its history and rewards do not carry.",
+          "url": "https://docs.quantus.com/guides/mining/",
+          "extractedEvidenceShort": "Do not reuse chains/planck; keep the same wormhole inner hash to stay on the same reward address."
+        },
+        {
+          "claim": "The chain accumulates mining rewards only to wormhole addresses, not regular wallet addresses.",
+          "url": "https://docs.quantus.com/guides/mining/",
+          "extractedEvidenceShort": "Wormhole balance is what the wallet spends."
+        }
+      ],
+      "sourceGaps": [
+        "explorer.quantus.com extract is 16 characters",
+        "no numeric reward period or per-machine emission in the mining guide extract"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Does Planck mining history pay on mainnet?",
+        "Which address type actually receives rewards?",
+        "Which node version has the mainnet spec?",
+        "Can I paste a normal wallet address into the miner?",
+        "Where do I see a synced explorer balance?"
+      ],
+      "mustNotClaim": [
+        "Planck rewards",
+        "regular-address payouts",
+        "a daily QUAN amount"
+      ]
+    },
+    {
+      "id": "flyai",
+      "officialFacts": [
+        {
+          "claim": "Checked jobs earn points; each month a $FLYAI pool is split by points. Unlinked wallet cannot be credited.",
+          "url": "https://www.flyaiworld.com/compute/",
+          "extractedEvidenceShort": "Page: points, monthly pool split, wallet-not-linked warning; phone mining only while the tab is on screen."
+        }
+      ],
+      "sourceGaps": [
+        "month API is a large JSON dump, not a documented payout rule",
+        "no official hashrate unit or block interval"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Are points the same as a coin payout?",
+        "When is the $FLYAI pool split?",
+        "Why did jobs run but credit stay zero?",
+        "Does phone mining continue with the screen off?",
+        "Is the month API a personal earnings statement?"
+      ],
+      "mustNotClaim": [
+        "Hashrate revenue",
+        "a fixed monthly FLYAI amount",
+        "API rows as a user's payout"
+      ]
+    },
+    {
+      "id": "nosana",
+      "officialFacts": [
+        {
+          "claim": "Learn docs separate paying for deployments with credits from hosting GPUs to earn $NOS on the grid.",
+          "url": "https://learn.nosana.com/",
+          "extractedEvidenceShort": "Host GPUs: earn $NOS by joining the Nosana Grid."
+        }
+      ],
+      "sourceGaps": [
+        "api.nosana.com/api/docs and dashboard extracts are 10 and 13 characters",
+        "homepage does not state a host payout period or minimum"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://docs.vast.ai/host/hosting-overview",
+          "patternUseful": "Analogy: a GPU host sets an hourly rental price on a marketplace.",
+          "limits": "Vast is not Nosana and pays rental bids, not $NOS emissions."
+        }
+      ],
+      "distinctIntents": [
+        "Do deployment credits equal host earnings?",
+        "What does the grid pay a GPU host?",
+        "Is the public dashboard text enough to audit a node?",
+        "Where is the host API schema?",
+        "Can I treat uptime as $NOS?"
+      ],
+      "mustNotClaim": [
+        "A Nosana payout interval or minimum",
+        "dashboard earnings",
+        "equating credits with $NOS"
+      ]
+    },
+    {
+      "id": "gonka",
+      "officialFacts": [
+        {
+          "claim": "A host is rewarded for amount and quality of compute; mainnet models are governance-approved, with separate PoC groups and reward tracking since v0.2.12.",
+          "url": "https://gonka.ai/docs/host/quickstart/",
+          "extractedEvidenceShort": "Quickstart: inference models and PoC models are listed separately, including epoch numbers for specific model IDs."
+        }
+      ],
+      "sourceGaps": [
+        "gonka.ai homepage extract is 641 characters of marketing",
+        "no numeric GNK per GPU or epoch length used as a stable rate"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Is hosting paid like an inference API bill?",
+        "Do all approved models share one reward pool?",
+        "Which model is the PoC model versus the served model?",
+        "What hardware does the quickstart actually require?",
+        "Can I quote a daily GNK figure?"
+      ],
+      "mustNotClaim": [
+        "Fixed daily GNK",
+        "one reward rate for every model",
+        "homepage marketing as a payout schedule"
+      ]
+    },
+    {
+      "id": "akash",
+      "officialFacts": [
+        {
+          "claim": "Providers list CPU/GPU and earn from deployments; a lease opens when a bid is accepted.",
+          "url": "https://akash.network/",
+          "extractedEvidenceShort": "Become a provider: list hardware and earn from deployments. Getting-started extract is only 1,465 characters."
+        }
+      ],
+      "sourceGaps": [
+        "console.akash.network/providers extract is 13 characters",
+        "no audited AKT-per-hour schedule in the fetched provider page"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://docs.vast.ai/host/hosting-overview",
+          "patternUseful": "Analogy: hosts publish an hourly GPU price and an interruptible bid.",
+          "limits": "Different marketplace and token."
+        }
+      ],
+      "distinctIntents": [
+        "Is provider income a lease bid or a block reward?",
+        "Why is the provider console blank in a static fetch?",
+        "What does the short getting-started page actually specify?",
+        "Do idle GPUs earn AKT with no lease?",
+        "Which account is the provider account?"
+      ],
+      "mustNotClaim": [
+        "Hashrate or block rewards",
+        "a daily AKT amount",
+        "console stats from the empty extract"
+      ]
+    },
+    {
+      "id": "ionet",
+      "officialFacts": [
+        {
+          "claim": "The device-details document describes fields such as earned, uptime percent, and hire rate. The fetched body includes an example dated 2023-09-12 with earned 0.",
+          "url": "https://io.net/docs/reference/io-explorer/get-device-details",
+          "extractedEvidenceShort": "Example object: total_hire_rate 10.8, uptime_percent 100, earned 0, end_time 2023-09-12."
+        }
+      ],
+      "sourceGaps": [
+        "io.net homepage extract is 60 characters",
+        "24-vs-23 growth is longer docs text, not a new earnings policy"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://docs.vast.ai/host/hosting-overview",
+          "patternUseful": "Analogy: hire rate is a rental price field, documented separately from mining.",
+          "limits": "Example JSON is not a live io.net quote."
+        }
+      ],
+      "distinctIntents": [
+        "Is uptime percent the same as earnings?",
+        "Is the sample hire rate a live price?",
+        "What does a hired minute versus a served minute mean?",
+        "Why does the marketing homepage fetch as a shell?",
+        "Can explorer example rows be cited as current income?"
+      ],
+      "mustNotClaim": [
+        "The sample 10.8 hire rate as current",
+        "uptime as revenue",
+        "mining hashrate"
+      ]
+    },
+    {
+      "id": "vast",
+      "officialFacts": [
+        {
+          "claim": "Host earnings are GPU rental prices per hour; on-demand can preempt interruptible bids. Hosting must use a separate host account.",
+          "url": "https://docs.vast.ai/host/hosting-overview",
+          "extractedEvidenceShort": "On-demand price is per hour; client accounts must not be reused for hosting."
+        }
+      ],
+      "sourceGaps": [
+        "console.vast.ai/host/machines extract is 17 characters",
+        "no coin or block reward in the hosting overview"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://akash.network/",
+          "patternUseful": "Analogy: another marketplace pays providers for leases.",
+          "limits": "AKT leases are not Vast dollars."
+        }
+      ],
+      "distinctIntents": [
+        "Why set an hourly price instead of a hashrate?",
+        "What does interruptible min bid change?",
+        "Can my renter login host machines?",
+        "Why is the machines console empty in a static fetch?",
+        "When is offline disk cleanup not instant?"
+      ],
+      "mustNotClaim": [
+        "Mining revenue",
+        "a coin payout",
+        "console balances"
+      ]
+    },
+    {
+      "id": "golem",
+      "officialFacts": [
+        {
+          "claim": "The referenced provider tutorial requires Linuxx86-64 withKVM, excludesARM/macOS, and recommendsDocker while also linkingdirectinstallation. Browsermonitorclients neednotbeproviderhosts. Paymentnetwork mustbechosenforrealGLM.",
+          "url": "https://docs.golem.network/docs/providers/provider-installation",
+          "extractedEvidenceShort": "YA_PAYMENT_NETWORK_GROUP mainnet; ARM and macOS unsupported."
+        }
+      ],
+      "sourceGaps": [
+        "stats.golem.network extract shows version charts still loading, no earnings table"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://docs.vast.ai/host/hosting-overview",
+          "patternUseful": "Analogy: published provider pricing, not a block subsidy.",
+          "limits": "Golem prices are GLM offers on Linux only."
+        }
+      ],
+      "distinctIntents": [
+        "Will a Mac be a Golem provider?",
+        "Which setting switches pay to mainnet GLM?",
+        "Are stats-page earnings loaded?",
+        "What CPU, RAM, and disk did I offer?",
+        "Is testnet pay the same token?"
+      ],
+      "mustNotClaim": [
+        "macOS or Apple Silicon providers",
+        "stats numbers from the loading page",
+        "hashrate income"
+      ]
+    },
+    {
+      "id": "noid",
+      "officialFacts": [
+        {
+          "claim": "Parano1d is a proof-native chain; the pool site is separate and pays proportional to shares since the previous block, current-round fee 3%, unlock after 18 confirmations, o1 payout address.",
+          "url": "https://www.parano1d-pool.fun/",
+          "extractedEvidenceShort": "Stratum main.parano1d-pool.fun:3784; missing payout address is described as a donation."
+        },
+        {
+          "claim": "Chain economics on the project site are proof and fee parameters, not the pool's 3% split.",
+          "url": "https://parano1d.org/",
+          "extractedEvidenceShort": "Emission step language and 18-block suffix; no pool fee."
+        }
+      ],
+      "sourceGaps": [
+        "Pool hashrate, miner counts, and block ETAs on the pool page are live widgets",
+        "RPC doc length changed without a new payout rule"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy: a share is a proxy for work, and PPLNS/PPS are different formulas.",
+          "limits": "Hiveon is not a NOID pool."
+        }
+      ],
+      "distinctIntents": [
+        "Is the pool the same site as the chain?",
+        "What happens if I mine with no o1 address?",
+        "When do found-block rewards unlock?",
+        "Does the 3% apply every round?",
+        "Are the on-page MH/s figures stable specs?"
+      ],
+      "mustNotClaim": [
+        "Pool widget hashrate or the 1-block-per-3-days line as a guarantee",
+        "chain emission as the pool fee"
+      ]
+    },
+    {
+      "id": "acurast",
+      "officialFacts": [
+        {
+          "claim": "Phone processors get base benchmark rewards from inflation each epoch, about every 1.5 hours, independent of staked compute, plus a bonus when a deployment heartbeat is seen.",
+          "url": "https://docs.acurast.com/processors/rewards/",
+          "extractedEvidenceShort": "Mainnet pool named as 856.164 ACU per epoch, 10% of inflation, split across providers."
+        }
+      ],
+      "sourceGaps": [
+        "Per-phone split formula is not a fixed daily ACU",
+        "indexer page lists account queries, not a payout calendar"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Does benchmark reward require an active deployment?",
+        "How often is an epoch?",
+        "Is Canary cACU the same as mainnet ACU?",
+        "What is the busy bonus trigger?",
+        "Is the epoch total my phone's payout?"
+      ],
+      "mustNotClaim": [
+        "856.164 ACU as one phone's earnings",
+        "staked-compute rewards as the same pool"
+      ]
+    },
+    {
+      "id": "prl",
+      "officialFacts": [
+        {
+          "claim": "Kryptex PRL pool publishes PPS+ 3% and SOLO 1%, minimum payout 1 PRL, wallet/worker, and solo:wallet for SOLO.",
+          "url": "https://pool.kryptex.com/en/prl",
+          "extractedEvidenceShort": "Endpoints such as prl.kryptex.network:7048; page hashrate is a live pool statistic."
+        },
+        {
+          "claim": "pearl-metal-miner is a no-software-fee Apple Silicon miner; author note says LuckyPool accepted a share and Kryptex fixed difficulty had not accepted a share in that test. Verified machine cited: M1 Max, macOS 14.4.1.",
+          "url": "https://github.com/Breakwater-ecosystem/pearl-metal-miner",
+          "extractedEvidenceShort": "Two pools are tested separately; self-test is required on other Macs."
+        }
+      ],
+      "sourceGaps": [
+        "pearl.luckypool.io extract is only the title Pearl + Nock merge-mining pool",
+        "minerstat network EH/s and price are a third-party snapshot with identity score 0"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://minerstat.com/coin/prl",
+          "patternUseful": "Publishes a calculator and separates network hashrate from a price chart.",
+          "limits": "Pool coverage 0; do not treat EH/s or the $0.10 line as official."
+        }
+      ],
+      "distinctIntents": [
+        "Does Kryptex balance include LuckyPool shares?",
+        "Is the miner's no fee the pool fee?",
+        "Which address and worker string does Kryptex expect?",
+        "Was this Mac model actually tested?",
+        "Why is minerstat hashrate different from the Kryptex pool hashrate?"
+      ],
+      "mustNotClaim": [
+        "One combined PRL balance",
+        "LuckyPool payout rules from the title-only page",
+        "fixed daily PRL",
+        "current macOS beyond the cited 14.4.1 test"
+      ]
+    },
+    {
+      "id": "xmr",
+      "officialFacts": [
+        {
+          "claim": "A standard address encodes public spend and view keys, Base58, network byte 18.",
+          "url": "https://www.getmonero.org/resources/moneropedia/address.html",
+          "extractedEvidenceShort": "Moneropedia address definition; it does not set a pool minimum."
+        },
+        {
+          "claim": "Kryptex XMR pool publishes PPS+ 1%, SOLO 1%, minimum 0.01 XMR, RandomX.",
+          "url": "https://pool.kryptex.com/en/xmr",
+          "extractedEvidenceShort": "xmr.kryptex.network:7029 and solo:wallet; displayed GH/s is pool telemetry."
+        }
+      ],
+      "sourceGaps": [
+        "Official site does not name Kryptex",
+        "subaddress versus integrated-address pool acceptance not in these extracts"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://minerstat.com/coin/xmr",
+          "patternUseful": "Calculator labels RandomX, block time, and network hashrate separately.",
+          "limits": "Snapshot figures, not a payout rule."
+        }
+      ],
+      "distinctIntents": [
+        "Is a standard address the same as a view-only wallet?",
+        "What is Kryptex's minimum and fee?",
+        "Does SOLO use the same endpoint username?",
+        "Which hashrate is network versus this pool?",
+        "Can I assume every pool pays 0.01 XMR?"
+      ],
+      "mustNotClaim": [
+        "Kryptex rules as Monero protocol rules",
+        "minerstat revenue as earnings"
+      ]
+    },
+    {
+      "id": "etc",
+      "officialFacts": [
+        {
+          "claim": "2Miners ETC help specifies ETCHash and says share difficulty does not change rewards; payouts can be BTC, TON, or ETC, with ETC payout fee stated as $0.",
+          "url": "https://etc.2miners.com/help",
+          "extractedEvidenceShort": "Regional servers and miner command templates; fee sentence is pool-specific."
+        }
+      ],
+      "sourceGaps": [
+        "No numeric minimum payout verified in the help extract",
+        "ethereumclassic.org extract has no current reward schedule"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy: explains shares versus PPS/PPLNS.",
+          "limits": "Not an ETC payout table for 2Miners."
+        }
+      ],
+      "distinctIntents": [
+        "Does a higher share difficulty pay more ETC?",
+        "Can this pool pay BTC instead of ETC?",
+        "What fee does an ETC-denominated payout carry?",
+        "Which algorithm string does the miner need?",
+        "Is the chain site's news the pool minimum?"
+      ],
+      "mustNotClaim": [
+        "A minimum ETC amount not present in the extract",
+        "share difficulty as a reward multiplier"
+      ]
+    },
+    {
+      "id": "rvn",
+      "officialFacts": [
+        {
+          "claim": "Ravencoin.org says a block reward of 5,000 RVN and asset features, without a halving clock in the extract.",
+          "url": "https://ravencoin.org/",
+          "extractedEvidenceShort": "Marketing comparison with Bitcoin; treat 5,000 as what that page still prints, not a checked current emission."
+        },
+        {
+          "claim": "2Miners RVN help uses KawPOW and offers BTC, TON, or RVN payouts, RVN fee stated as $0.",
+          "url": "https://rvn.2miners.com/help",
+          "extractedEvidenceShort": "GPU versus NiceHash ports differ; share difficulty text matches the shared 2Miners template."
+        }
+      ],
+      "sourceGaps": [
+        "Current post-halving reward not in the fetched chain page",
+        "minimum RVN payout not extracted"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy for share-based pool accounting.",
+          "limits": "Hiveon coins listed in the nav are not a RVN spec."
+        }
+      ],
+      "distinctIntents": [
+        "Is 5,000 RVN still the live block reward?",
+        "Which KawPOW port is for a GPU versus NiceHash?",
+        "Will the pool pay RVN or convert to BTC?",
+        "Does share difficulty change the reward?",
+        "Are asset-issuance features the same as mining payout?"
+      ],
+      "mustNotClaim": [
+        "5,000 RVN as a verified current subsidy",
+        "a pool minimum that was not in the extract"
+      ]
+    },
+    {
+      "id": "zec",
+      "officialFacts": [
+        {
+          "claim": "Shielded addresses hide amounts; transparent addresses publish them.",
+          "url": "https://z.cash/learn/what-is-the-difference-between-shielded-and-transparent-zcash/",
+          "extractedEvidenceShort": "Official learn page contrast; it does not say which type 2Miners pays."
+        },
+        {
+          "claim": "2Miners ZEC help uses Equihash and shows a t1 transparent example address; ZEC payout fee stated as $0, or BTC/TON.",
+          "url": "https://zec.2miners.com/help",
+          "extractedEvidenceShort": "Example username is a t1 address."
+        }
+      ],
+      "sourceGaps": [
+        "No explicit sentence that shielded addresses are rejected"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Will a shielded address receive 2Miners ZEC?",
+        "Why is the help example a t1 address?",
+        "What fee is a ZEC payout versus a BTC payout?",
+        "Which algorithm name should the miner use?",
+        "Does transparent payout make the balance public?"
+      ],
+      "mustNotClaim": [
+        "Shielded pool payouts",
+        "a ZEC minimum not in the extract"
+      ]
+    },
+    {
+      "id": "kas",
+      "officialFacts": [
+        {
+          "claim": "kaspa.org describes a fair-launch proof-of-work blockDAG and does not publish a pool minimum.",
+          "url": "https://kaspa.org/",
+          "extractedEvidenceShort": "Homepage is consensus and genesis language, 582 characters."
+        },
+        {
+          "claim": "2Miners KAS help uses kHeavyHash, with different ports for GPU and KS0, and payouts in BTC, TON, or KAS.",
+          "url": "https://kas.2miners.com/help",
+          "extractedEvidenceShort": "KAS payout fee stated as $0; share-difficulty disclaimer is the shared template."
+        }
+      ],
+      "sourceGaps": [
+        "No Kaspa emission number in the homepage extract",
+        "KS0 versus GPU port must not be swapped"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy only for how pools count shares.",
+          "limits": "Hiveon nav includes KAS but this fetch is the general FAQ, not a KAS payout page."
+        }
+      ],
+      "distinctIntents": [
+        "Where is the official block reward documented?",
+        "Which port is for a KS0?",
+        "Can payouts be KAS rather than BTC?",
+        "Does the chain homepage set the pool minimum?",
+        "Is kHeavyHash the same as KawPOW?"
+      ],
+      "mustNotClaim": [
+        "RVN or ETC reward numbers as KAS",
+        "a KAS minimum not extracted"
+      ]
+    },
+    {
+      "id": "mds",
+      "officialFacts": [
+        {
+          "claim": "This MDS is Midstate: about 1.05M gMDS max, initial reward 1 gMDS, halving interval 525,600 blocks described as one year, denominations gMDS, mMDS, kMDS. Pools must be paid to a reusable MSS address, not a one-time WOTS address.",
+          "url": "https://midstate.cash/",
+          "extractedEvidenceShort": "Homepage supply and denominations."
+        },
+        {
+          "claim": "Pool guide: WOTS keys are one-time; many payouts require an MSS address.",
+          "url": "https://github.com/ciphernom/midstate/blob/main/pools.md",
+          "extractedEvidenceShort": "Critical requirement section for MSS pool addresses."
+        }
+      ],
+      "sourceGaps": [
+        "midstate.luckypool.io extract is the title only",
+        "do not import another asset that used the ticker MDS"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Is this the same MDS as an older unrelated coin?",
+        "Why must the pool address be MSS?",
+        "What is a gMDS versus an MDS unit?",
+        "How long is the published halving interval?",
+        "What does LuckyPool pay if the page is only a title?"
+      ],
+      "mustNotClaim": [
+        "LuckyPool minimums or fees",
+        "WOTS address as a reusable pool payout",
+        "another chain's MDS"
+      ]
+    },
+    {
+      "id": "bnt",
+      "officialFacts": [
+        {
+          "claim": "Seine is an external miner for this Blocknet, default pool stratum+tcp://bntpool.com:3333, payout is a Blocknet address or @name or $name. macOS ARM is marked Metal experimental.",
+          "url": "https://github.com/zpalmtree/seine",
+          "extractedEvidenceShort": "README: ~/.config/bnt for daemon mode; CPU and NVIDIA called out; macOS ARM experimental."
+        },
+        {
+          "claim": "The project site in the fetch describes a zero-knowledge blocknet and a Faraday upgrade, not a pool payout table.",
+          "url": "https://blocknetcrypto.com/",
+          "extractedEvidenceShort": "Short product page; wallet downloads listed, no reward number."
+        }
+      ],
+      "sourceGaps": [
+        "bntpool.com/start extract is 24 characters",
+        "address.rs fetch did not include a readable prefix table"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "Is this the old Blocknet asset?",
+        "What is the default pool URL?",
+        "Can I mine with a short name instead of an address?",
+        "Is Apple Silicon Metal supported or experimental?",
+        "What does the pool start page actually specify?"
+      ],
+      "mustNotClaim": [
+        "Old Blocknet reward or address rules",
+        "a bntpool.com fee or minimum",
+        "stable macOS ARM mining"
+      ]
+    },
+    {
+      "id": "csd",
+      "officialFacts": [
+        {
+          "claim": "The public pool pays an addr20, 40 hex characters, about every 30 minutes above 0.001 CSD, fee 2.5%. The miner has no pool URL flag; the address is the setting.",
+          "url": "https://csd.yamaduo.no/",
+          "extractedEvidenceShort": "Steps on the pool site; per-GPU CSD/day table was still a loading widget in the extract."
+        },
+        {
+          "claim": "computesubstrate.org describes proposal ranking by epoch, not miner payouts.",
+          "url": "https://computesubstrate.org/",
+          "extractedEvidenceShort": "The network surface is a ranked view for a domain and epoch."
+        }
+      ],
+      "sourceGaps": [
+        "On-page hashrate and CSD/day figures were not populated in the text extract",
+        "ticker CSD must not be reused from an unrelated coin"
+      ],
+      "competitorOrBenchmark": [],
+      "distinctIntents": [
+        "What address shape gets a payout?",
+        "How often and above what balance does the pool pay?",
+        "Why is there no stratum URL flag?",
+        "Is the epoch ranking site my earnings?",
+        "Can I quote the CSD-per-day table before it loads?"
+      ],
+      "mustNotClaim": [
+        "Loaded earnings estimates",
+        "CSD as a generic Substrate token",
+        "a user-chosen pool host"
+      ]
+    },
+    {
+      "id": "erg",
+      "officialFacts": [
+        {
+          "claim": "Ergo protocol mining rewards use a P2S locking script. This does not prohibit a pool from paying the user a supported P2PK address; our monitor accepts supported9-prefixP2PK pool payout addresses.",
+          "url": "https://docs.ergoplatform.com/dev/wallet/address/address_types/",
+          "extractedEvidenceShort": "P2S is explicitly where mining rewards go."
+        },
+        {
+          "claim": "2Miners ERG help uses Autolykos and can pay BTC, TON, or ERG, with ERG fee stated as $0.",
+          "url": "https://erg.2miners.com/help",
+          "extractedEvidenceShort": "Help page does not repeat the P2S requirement."
+        }
+      ],
+      "sourceGaps": [
+        "ergoplatform.org extract shows a block-reward widget and a zeroed hashrate, not a clean emission spec"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy for share accounting only.",
+          "limits": "Not an Ergo address guide."
+        }
+      ],
+      "distinctIntents": [
+        "Which Ergo address type can receive mining rewards?",
+        "Does the 2Miners help repeat that address rule?",
+        "Can the pool pay BTC instead?",
+        "Is the homepage block-reward widget a spec?",
+        "What algorithm name should the miner use?"
+      ],
+      "mustNotClaim": [
+        "EveryErgoaddressclassissupportedbyourmonitor",
+        "P2PKcannotreceivepoolpayoutsbecausecoinbaseusesP2S",
+        "Homepagewidgetascurrentprotocolspecification"
+      ]
+    },
+    {
+      "id": "zeph",
+      "officialFacts": [
+        {
+          "claim": "2Miners ZEPH help specifies RandomX and separate NiceHash ports; the chain homepage extract does not add a payout minimum.",
+          "url": "https://zeph.2miners.com/help",
+          "extractedEvidenceShort": "zeph.2miners.com:2222 versus :3333 for NiceHash; wallet step points at an official wallet or an exchange example."
+        }
+      ],
+      "sourceGaps": [
+        "zephyrprotocol.com extract has no reward period",
+        "minimum ZEPH not in the help extract"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://pool.kryptex.com/en/xmr",
+          "patternUseful": "Analogy: another RandomX pool publishes its own fee and minimum, which are not ZEPH's.",
+          "limits": "Explicitly a different coin."
+        }
+      ],
+      "distinctIntents": [
+        "Is Zephyr the same payout as Monero because both are RandomX?",
+        "Which port is for NiceHash?",
+        "What minimum does 2Miners publish for ZEPH?",
+        "Where is the chain's own reward schedule?",
+        "Can an exchange address be the pool user?"
+      ],
+      "mustNotClaim": [
+        "XMR minimum 0.01 or Kryptex fees as ZEPH",
+        "a ZEPH minimum that was not extracted"
+      ]
+    },
+    {
+      "id": "btc",
+      "officialFacts": [
+        {
+          "claim": "solo.ckpool.org says it is not a pooled payout service: miners solo-mine to their own address, shares are cosmetic, fee is 2% of the block reward, and below about 100 GH/s is called unrealistic.",
+          "url": "https://solo.ckpool.org/",
+          "extractedEvidenceShort": "Username is the Bitcoin address; user stats can stay hidden until difficulty 10,000 shares appear."
+        },
+        {
+          "claim": "BIP173 defines bech32 for native witness outputs; the pool example uses a bc1 address.",
+          "url": "https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki",
+          "extractedEvidenceShort": "BIP text is the address format, not a payout policy."
+        }
+      ],
+      "sourceGaps": [
+        "raw pool status hashrate is the service aggregate, about 220 PH/s in this fetch, not a user income"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://hiveon.com/knowledge-base/hiveon-pool/general_pool_faq/general_faq/",
+          "patternUseful": "Analogy: a normal pool splits a block by shares; CKPool's own page says it does not.",
+          "limits": "Do not describe CKPool as PPS or daily pay."
+        }
+      ],
+      "distinctIntents": [
+        "Does CKPool pay every day?",
+        "Why are shares not a balance?",
+        "What fee is taken if I find a block?",
+        "Why might my address show no hashrate yet?",
+        "Is the public PH/s figure my miner?"
+      ],
+      "mustNotClaim": [
+        "Fixed daily BTC",
+        "PPS/PPLNS income",
+        "CPU or GPU mining as recommended",
+        "pool hashrate as personal earnings"
+      ]
+    },
+    {
+      "id": "ethw",
+      "officialFacts": [
+        {
+          "claim": "2Miners ETHW help uses ETHash, can pay BTC, TON, or ETHW, and says share difficulty does not change rewards. ETHW payout fee is described as under $0.01.",
+          "url": "https://ethw.2miners.com/help",
+          "extractedEvidenceShort": "Regional host ethw.2miners.com:2020; homepage also shows a live DAG and epoch widget."
+        }
+      ],
+      "sourceGaps": [
+        "Homepage epoch, DAG size, and hashrate are live pool stats",
+        "minerstat identity score in the extract is 0 and pool coverage 0"
+      ],
+      "competitorOrBenchmark": [
+        {
+          "url": "https://minerstat.com/coin/ethw",
+          "patternUseful": "Labels Ethash, network hashrate, and a calculator separately from a pool.",
+          "limits": "Third-party snapshot; not 2Miners' minimum."
+        }
+      ],
+      "distinctIntents": [
+        "Is ETHW the same payout as Ethereum?",
+        "Does share difficulty change ETHW pay?",
+        "What fee is an ETHW payout versus BTC?",
+        "Which numbers on the pool homepage are live?",
+        "Can minerstat revenue be cited as the pool rule?"
+      ],
+      "mustNotClaim": [
+        "ETH mainnet rewards",
+        "frozen DAG or hashrate from the homepage",
+        "minerstat profit as official earnings"
+      ]
+    }
+  ],
+  "crossProjectFindings": [
+    "Same 88 URLs in the 23 and 24 indexes. Do not treat HTTP 200 or a longer extract as a new product capability. io.net, several dashboards, LuckyPool, bntpool.com/start, and the Nosana API docs are shells or title-only pages.",
+    "2Miners help pages share one template: regional hosts, share difficulty does not change rewards, optional BTC or TON payout with small stated fees. Coin, algorithm, port, and native-payout fee still differ; do not copy ETC, RVN, KAS, ERG, ZEC, ZEPH, or ETHW rules across rows. API doc lists both PPLNS and SOLO pools but is not a minimum-payout table.",
+    "Hiveon general FAQ is a valid analogy for what a share means. It is not a source for these coins' fees or minima.",
+    "Compute marketplaces, Akash, io.net, Vast, Golem, Nosana, Gonka, FlyAI, and Acurast, publish hire price, credits, GLM, points, or benchmark epochs. Those are not mining revenue. Golem's fetched guide excludes macOS.",
+    "Solo CKPool is the clearest income-model risk: a block lottery to the miner's address plus a 2% fee, not daily pool pay. Parano1d pool is proportional per found block and is not the chain homepage.",
+    "PRL Kryptex and LuckyPool are separate. The miner README's no fee is the software fee. CSD payout rules were on the pool site; the Compute Substrate org site is a different surface. MDS requires MSS pool addresses and uses gMDS units. BNT in these sources is Seine's Blocknet, with Apple Silicon marked experimental, not an older coin of the same ticker.",
+    "XID mainnet dates and the macOS 14+ build line are in the fetched MMM text; a current-OS compatibility pass is still a gap. IOTA in these sources is Macrocosmos Train at Home, not IOTA layer 1, and score thresholds are documented as changeable.",
+    "No search volumes, rankings, or AI-citation counts were available in the source files, so none are reported."
+  ],
+  "reviewStatus": "Main reviewed critical scope distinctions; factual claims still require per-pack acceptance, not automatic product copy.",
+  "mainCorrections": [
+    {
+      "project": "erg",
+      "status": "context_correction_required",
+      "issue": "Source analyst's blanket mustNotClaim P2PK as mining destination conflates protocol coinbase reward-locking P2S script with the user's pool payout address. Our tool accepts supported P2PK payout addresses; do not describe those as direct solo coinbase script destinations. Verify pool help and address documentation in context."
+    },
+    {
+      "project": "all",
+      "status": "scope_guard",
+      "issue": "Competitor keyword lists are inferred content intents, not measured search queries, search volumes, rankings or actual AI citations."
+    },
+    {
+      "project": "all",
+      "status": "source_guard",
+      "issue": "Same88URLs does not mean identical page content. source-diff.json records actual changes; HTTP200 and JSshell are not factual verification."
+    },
+    {
+      "project": "golem",
+      "status": "wording_correction",
+      "issue": "Officialguide recommendsDocker andlinks directinstallation; Linuxx86-64 isproviderplatformrequirement, Dockerisnottheonlyinstallationpath. Distinguishprerequisitesforthistutorialfromeverypossibleinstallation."
+    }
+  ]
+}

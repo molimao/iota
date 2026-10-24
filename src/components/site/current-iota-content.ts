@@ -106,61 +106,83 @@ export function currentIotaContent(article: Article): Article {
         ]),
       ) as NonNullable<Article["questions"]>,
     };
-  let changed = false;
-  const fix = (text: string, locale: (typeof LOCALES)[number]) => {
+  let legacyChanged = false;
+  let alignmentChanged = false;
+  const localeFix = (text: string, locale: (typeof LOCALES)[number]) => {
     if (
       /(?:cannot (?:read|access|restart|start)|can.t (?:read|access|restart)|not a remote control|cannot.*logs|cannot register a miner or start|不能(?:直接)?(?:读取|讀取|启动|啟動|重启|重啟)|无法(?:读取|控制)|無法(?:讀取|控制)|網頁不能|网页监控不直接|읽을 수 없|재시작할 수 없|ログ.{0,8}(?:読|取得).{0,10}できません)/i.test(
         text,
       )
-    ) {
-      changed = true;
+    )
       return facts.agent[locale];
-    }
     if (
       /(?:pending|settled)/.test(text) &&
       /(?:今日|today|오늘|本日)/i.test(text) &&
       /(?:00:00|midnight|자정|深夜)/i.test(text)
-    ) {
-      changed = true;
+    )
       return facts.day[locale];
-    }
     if (
       /(?:IOTA 今日收益|IOTA 今日收益使用|IOTA 有效的今日|IOTA uses the Hong Kong accounting day)/.test(
         text,
       )
-    ) {
-      changed = true;
+    )
       return facts.day[locale];
-    }
     return text;
   };
+  const englishKind = (text: string | undefined) => {
+    if (text == null) return null;
+    const normalized = localeFix(text, "en");
+    if (normalized === facts.agent.en) return "agent" as const;
+    if (normalized === facts.day.en) return "day" as const;
+    return null;
+  };
+  const align = (text: string, locale: (typeof LOCALES)[number], english: string | undefined) => {
+    const legacy = localeFix(text, locale);
+    const kind = englishKind(english);
+    const value = kind ? facts[kind][locale] : legacy;
+    if (legacy !== text) legacyChanged = true;
+    if (value !== legacy) alignmentChanged = true;
+    return value;
+  };
   const body = Object.fromEntries(
-    LOCALES.map((locale) => [locale, article.body[locale].map((text) => fix(text, locale))]),
+    LOCALES.map((locale) => [
+      locale,
+      article.body[locale].map((text, index) => align(text, locale, article.body.en[index])),
+    ]),
   ) as Article["body"];
   const summary =
     article.summary &&
     (Object.fromEntries(
-      LOCALES.map((locale) => [locale, fix(article.summary![locale], locale)]),
+      LOCALES.map((locale) => [
+        locale,
+        align(article.summary![locale], locale, article.summary!.en),
+      ]),
     ) as Article["summary"]);
   const description = Object.fromEntries(
-    LOCALES.map((locale) => [locale, fix(article.description[locale], locale)]),
+    LOCALES.map((locale) => [
+      locale,
+      align(article.description[locale], locale, article.description.en),
+    ]),
   ) as Article["description"];
   const questions =
     article.questions &&
     (Object.fromEntries(
       LOCALES.map((locale) => [
         locale,
-        article.questions![locale].map((q) => ({ ...q, answer: fix(q.answer, locale) })),
+        article.questions![locale].map((q, index) => ({
+          ...q,
+          answer: align(q.answer, locale, article.questions!.en?.[index]?.answer),
+        })),
       ]),
     ) as Article["questions"]);
-  return changed
+  return legacyChanged || alignmentChanged
     ? {
         ...article,
         body,
         description,
         ...(summary ? { summary } : {}),
         ...(questions ? { questions } : {}),
-        modified: "2026-10-17",
+        modified: alignmentChanged ? "2026-10-24" : "2026-10-17",
       }
     : article;
 }

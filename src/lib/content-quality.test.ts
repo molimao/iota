@@ -70,14 +70,27 @@ it("retains publication history and dates only the actual article update", () =>
   });
   expect(articleDates(getArticle("how-rewards-work")!)).toEqual({
     published: "2026-09-12",
-    modified: "2026-10-22",
+    modified: "2026-10-24",
   });
   const original = { ...getArticle("gonka-monitor-guide")! };
   delete original.modified;
   expect(articleDates(original)).toEqual({ published: "2026-10-06", modified: "2026-10-06" });
 });
 it("renders real public evidence in HTML, schema and Markdown without localizing asset paths", () => {
-  for (const a of articles.filter((a) => a.evidence)) {
+  const withEvidence = articles.filter((a) => a.evidence);
+  expect(withEvidence.length).toBeGreaterThanOrEqual(1);
+  const rewards = getArticle("how-rewards-work")!;
+  expect(rewards.evidence).toMatchObject({
+    image: "/images/tutorials/iota-rewards-2026-10-09.png",
+    source: "/evidence/iota-2026-10-09.json",
+    capturedAt: "2026-10-09T19:55:04+08:00",
+  });
+  for (const locale of LOCALES) {
+    const note = rewards.body[locale].at(-1)!;
+    expect(note).toContain("2026-10-09");
+    expect(note).toMatch(/10 月 8 日|10月8日|10월 8일|October 8/);
+  }
+  for (const a of withEvidence) {
     const e = a.evidence!,
       source = JSON.parse(readFileSync("public" + e.source, "utf8"));
     expect(existsSync("public" + e.image)).toBe(true);

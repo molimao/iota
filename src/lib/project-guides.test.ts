@@ -9,6 +9,12 @@ import {
   relatedArticles,
 } from "../components/site/articles";
 import { projectGuides, guidesForProject } from "../components/site/project-guides";
+import { projectDepthGuides, withProjectDepth } from "../components/site/project-depth";
+import { bntGuide } from "../components/site/bnt-guide";
+import { csdGuide } from "../components/site/csd-guide";
+import { iotaTierGuides, refreshIotaGuide } from "../components/site/iota-guide-refresh";
+import { mdsGuide } from "../components/site/mds-guide";
+import { searchSupportGuides } from "../components/site/search-support-guides";
 import { ProjectLearning } from "../components/site/project-learning";
 import { ArticleView } from "../components/site/pages";
 import { LocaleContext } from "../components/site/locale";
@@ -20,6 +26,14 @@ import { projectPath } from "./projects";
 
 const structured = (head: ReturnType<typeof seo>) =>
   head.scripts.map((s) => JSON.parse(s.children));
+
+/** Same absolute-link rewrite as the project-depth markdown check, parameterized by locale. */
+function absoluteGuideLinks(text: string, locale: string) {
+  return text.replace(/\]\(\/(?!\/)([^)]+)\)/g, (_, linked: string) => {
+    const alreadyPrefixed = /^(?:zh-TW|en|zh|ko|ja|images|evidence)(?:\/|$)/.test(linked);
+    return `](https://iotahome.site/${alreadyPrefixed ? linked : `${locale}/${linked}`})`;
+  });
+}
 
 const expectedGuideSlugs = [
   "xmr-mining-monitor-guide",
@@ -46,20 +60,22 @@ describe("multi-project content and discovery", () => {
     expect(projectGuides.map((guide) => guide.slug)).toEqual([...expectedGuideSlugs]);
     expect(new Set(articles.map((a) => a.slug)).size).toBe(articles.length);
     const clustered = Object.values(articleClusterMeta).flatMap((group) => group.slugs);
-    for (const article of projectGuides) {
-      expect(clustered.filter((slug) => slug === article.slug)).toHaveLength(1);
-      expect(crawlPages.some((p) => p.path === `learn/${article.slug}`)).toBe(true);
-      expect(article.sources!.length).toBeGreaterThanOrEqual(2);
-      expect(relatedArticles(article.slug).length).toBe(article.related!.length);
+    for (const original of projectGuides) {
+      const article = getArticle(original.slug);
+      expect(article?.slug).toBe(original.slug);
+      expect(clustered.filter((slug) => slug === original.slug)).toHaveLength(1);
+      expect(crawlPages.some((p) => p.path === `learn/${original.slug}`)).toBe(true);
+      expect(article!.sources!.length).toBeGreaterThanOrEqual(2);
+      expect(relatedArticles(original.slug).length).toBe(article!.related!.length);
+      const nativeFaqs = article!.questions?.en?.length ?? 0;
+      expect(nativeFaqs).toBeGreaterThanOrEqual(2);
       for (const locale of LOCALES) {
-        expect(article.summary?.[locale]).toBeTruthy();
-        expect(article.questions?.[locale]).toHaveLength(
-          article.slug.endsWith("-mining-monitor-guide") ? 6 : 2,
-        );
+        expect(article!.summary?.[locale]).toBeTruthy();
+        expect(article!.questions?.[locale]).toHaveLength(nativeFaqs);
         expect(
-          article.body[locale].filter((block) => block.startsWith("## ")).length,
+          article!.body[locale].filter((block) => block.startsWith("## ")).length,
         ).toBeGreaterThanOrEqual(3);
-        for (const match of article.body[locale]
+        for (const match of article!.body[locale]
           .join("\n")
           .matchAll(/\]\(\/(learn\/[^)#]+|projects(?:\/[^)#]+)?|app)\)/g)) {
           const path = match[1]!;
@@ -127,12 +143,13 @@ describe("multi-project content and discovery", () => {
           })),
         ).toEqual(a.questions![locale]);
         const md = buildArticleMarkdown(a, locale);
-        expect(md).toContain(a.summary![locale]);
-        expect(full).toContain(a.summary![locale]);
+        const summary = absoluteGuideLinks(a.summary![locale], locale);
+        expect(md).toContain(summary);
+        expect(full).toContain(summary);
         for (const q of a.questions![locale]) {
           expect(html).toContain(renderToStaticMarkup(createElement("h3", null, q.question)));
           expect(html).toContain(renderToStaticMarkup(createElement("p", null, q.answer)));
-          expect(md).toContain(q.answer);
+          expect(md).toContain(absoluteGuideLinks(q.answer, locale));
         }
         expect(html).toContain(
           `href="${a.project === "all" ? `/${locale}/projects` : projectPath(locale, a.project ?? "iota")}"`,
@@ -157,6 +174,90 @@ describe("multi-project content and discovery", () => {
       }
     }
   });
+});
+
+function curatedDefaultGuides() {
+  return [
+    ...projectGuides,
+    ...searchSupportGuides.map(refreshIotaGuide),
+    ...iotaTierGuides,
+    mdsGuide,
+    bntGuide,
+    csdGuide,
+  ].filter(
+    (guide) =>
+      guide.project === "all" ||
+      guide.project === "mds" ||
+      guide.project === "bnt" ||
+      guide.project === "csd" ||
+      guide.slug === "xid-mmm-mainnet-setup" ||
+      guide.slug === "quantus-mainnet-mining-mac" ||
+      searchSupportGuides.some((item) => item.slug === guide.slug) ||
+      iotaTierGuides.some((item) => item.slug === guide.slug),
+  );
+}
+
+it("refreshes accepted default guides by slug and keeps the curated order", () => {
+  const curated = curatedDefaultGuides();
+  const shown = guidesForProject(undefined);
+  const accepted = new Map(projectDepthGuides.map((guide) => [guide.slug, guide]));
+  const curatedSlugs = curated.map((guide) => guide.slug);
+
+  expect(shown.map((guide) => guide.slug)).toEqual(curatedSlugs);
+  expect(shown).toEqual(curated.map((guide) => withProjectDepth(guide)));
+  expect(projectDepthGuides.some((guide) => !curatedSlugs.includes(guide.slug))).toBe(true);
+  for (const guide of projectDepthGuides) {
+    if (!curatedSlugs.includes(guide.slug)) {
+      expect(shown.some((item) => item.slug === guide.slug)).toBe(false);
+    }
+  }
+
+  const absent = curated.filter((guide) => !accepted.has(guide.slug));
+  expect(absent.length).toBeGreaterThan(0);
+  for (const original of absent) {
+    const guide = shown[curatedSlugs.indexOf(original.slug)]!;
+    expect(guide.title).toEqual(original.title);
+    expect(guide.summary).toEqual(original.summary);
+    expect(guide.modified).toEqual(original.modified);
+    expect(shown.indexOf(guide)).toBe(curatedSlugs.indexOf(original.slug));
+    if (
+      projectGuides.includes(original) ||
+      iotaTierGuides.includes(original) ||
+      searchSupportGuides.includes(original) ||
+      original === mdsGuide ||
+      original === bntGuide ||
+      original === csdGuide
+    ) {
+      expect(guide).toBe(original);
+    }
+  }
+
+  for (const original of curated) {
+    const replacement = accepted.get(original.slug);
+    if (!replacement) continue;
+    const guide = shown[curatedSlugs.indexOf(original.slug)]!;
+    expect(guide.title).toEqual(replacement.title);
+    expect(guide.summary).toEqual(replacement.summary);
+    expect(guide.modified).toEqual(replacement.modified);
+    expect(guide.published).toBe(original.published);
+  }
+});
+
+it("reaches every dedicated IOTA guide from the project tool without duplicate cards", () => {
+  const cluster = articleClusterMeta["iota"]?.slugs ?? [];
+  const shown = guidesForProject("iota");
+  const slugs = shown.map((guide) => guide.slug);
+  expect(cluster).toHaveLength(11);
+  expect(new Set(slugs).size).toBe(slugs.length);
+  for (const slug of cluster) expect(slugs).toContain(slug);
+  expect(slugs).toContain("find-miner-id");
+  expect(guidesForProject("btc").some((guide) => guide.slug === "iota-xid-quantus-compared")).toBe(
+    false,
+  );
+  expect(guidesForProject("xid").some((guide) => guide.slug === "find-miner-id")).toBe(false);
+  expect(guidesForProject(undefined).map((guide) => guide.slug)).toEqual(
+    curatedDefaultGuides().map((guide) => guide.slug),
+  );
 });
 
 it("puts a direct query action before the reading column and keeps new guide facts aligned", () => {

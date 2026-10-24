@@ -1,0 +1,603 @@
+{
+  "projects": [
+    {
+      "id": "iota",
+      "projectSpecificBenchmark": {
+        "url": "https://www.trainathome.ai/en/guide/promotion",
+        "kind": "directcompetitor",
+        "observedPatterns": [
+          "Opens on the question “How do I get out of Iron?”, then a dated check line “Checked 26 September 2026”.",
+          "Splits what the dashboard shows (diamond ladder) from what the app shows (run ID), and maps one named batch, 4.12.16, as .1–.5 Iron, .6–.8 Bronze, .9–.10 Silver.",
+          "States Gold exists but no Gold run is active. Hardware alone is not the promotion rule."
+        ],
+        "evidence": "Stored extract is 1,733 characters of article body, not a title shell."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://docs.macrocosmos.ai/product-and-services/tah/faqs",
+        "relation": "official answer-first FAQ, not a competitor",
+        "observedPatterns": [
+          "Left nav is Subnets versus Product and Services, with TAH User Guide, Hardware & OS Requirements, and this FAQ as siblings.",
+          "FAQ answers in place: what TAH is, how to get the app, then platforms: macOS at launch, Linux later, Windows not on the roadmap."
+        ]
+      },
+      "guideImplications": [
+        "Lead each IOTA guide with one FAQ-style answer, then a three-column table for Miner ID, payout coldkey, and yesterday/lifetime/USD, matching the official FAQ’s question order.",
+        "Keep the third-party Iron/Bronze/Silver batch map in a dated aside. Do not promote 4.12.16 suffix numbers into the official tier definition."
+      ],
+      "limitations": "No fresh fetch this session. Official mainnet/runs extract is 339 characters and is not a readable run table.",
+      "mainReviewedSourceClass": "direct competitor"
+    },
+    {
+      "id": "xid",
+      "projectSpecificBenchmark": {
+        "url": "https://macmetalminer.com/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Page is an operator cockpit, not a pool account table: banner “LOCAL MAC / MAINNET LIVE” with genesis 26 Sep 2026 00:00 UTC, then pool-waiting state.",
+          "Trust model is ordered: GitHub source, pool details on this page checked against superknet.com, wallet address only. It says no seed and no private key.",
+          "No second-product worker grid, payout stages, or FAQ block was in the extract."
+        ],
+        "evidence": "5,907-character extract of the MMM marketing/setup page."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Open the XID guide with the page’s own order: mainnet-live date, retired testnet, then pool host, then address-only. Put hashrate/workers in a later section because this page does not show that hierarchy.",
+        "Add an explicit source line to superknet.com and the GitHub README. There is no verified second XID dashboard to mirror."
+      ],
+      "limitations": "No other XID miner dashboard was in the source index. GitHub extract is a file list plus README fragments, not a compatibility matrix.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "quantus",
+      "projectSpecificBenchmark": {
+        "url": "https://explorer.quantus.com/",
+        "kind": "none_verified",
+        "observedPatterns": [
+          "Extract is the title “Quantus Explorer” only, 16 characters. No address, balance, or reward-period labels rendered."
+        ],
+        "evidence": "Title shell. The readable operator page is the mining guide, 15,448 characters."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://docs.quantus.com/guides/mining/",
+        "relation": "official guide information architecture",
+        "observedPatterns": [
+          "Opens with scope, chain flag, and a “Copy Context” control for the whole guide as Markdown.",
+          "First section is “Migrating from Planck”, before install steps. Wormhole inner hash is how the same reward address is kept."
+        ]
+      },
+      "guideImplications": [
+        "Answer Planck-versus-mainnet and wormhole-versus-regular address in the first screen, the same way the mining guide orders those sections, and do not invent explorer columns.",
+        "Point the balance check at the explorer URL and say the static fetch showed no balance UI, so the guide cannot name explorer fields."
+      ],
+      "limitations": "Explorer body unverified. No numeric reward period was on the mining-guide opening.",
+      "mainReviewedSourceClass": "unverified page shell"
+    },
+    {
+      "id": "flyai",
+      "projectSpecificBenchmark": {
+        "url": "https://www.flyaiworld.com/compute/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Nav is Mine, Buy compute, Stake, Claims, Leaderboard, Results. The working surface splits THIS MACHINE from THIS MONTH.",
+          "Machine column: Name, Engine, CPU batch 8/16/32, threads, status idle, session jobs, and an inline “Wallet not linked: credit can't be paid”.",
+          "Today row is jobs, checked, credited units, and share of today. Month row is standing, share, stake, and FlightPass. Stake changes the next day at 00:00 UTC and multiplies points, not jobs per minute.",
+          "Phone callout: mining runs only while the tab is on screen. A checked wrong answer zeroes the day. Claim is after the monthly pool split."
+        ],
+        "evidence": "2,186-character readable compute page. Month API extract is a JSON dump, not this layout."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Match the guide to the two columns: today/session on the machine versus this-month standing, and name the stages points, monthly pool, then claim.",
+        "Put the wallet-not-linked warning and the phone tab rule above any month-API field list. There is no worker tree on this page."
+      ],
+      "limitations": "No second FlyAI operator dashboard was verified. Do not map GPU-rental hourly prices onto this points page.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "nosana",
+      "projectSpecificBenchmark": {
+        "url": "https://dashboard.nosana.com/",
+        "kind": "none_verified",
+        "observedPatterns": [
+          "Extract is “Nosana Deploy”, 13 characters, after redirect to deploy.nosana.com. No host earnings table, node row, or period toggle."
+        ],
+        "evidence": "Shell. Readable IA is https://learn.nosana.com/ at 1,800 characters."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://learn.nosana.com/",
+        "relation": "official docs hub, not a host dashboard",
+        "observedPatterns": [
+          "Docs are grouped by job: Deploy AI Workloads (credits, per-token inference) versus Host GPUs (earn $NOS on the grid, Ubuntu setup, troubleshooting).",
+          "Advanced section lists programs for staking, jobs, nodes, pools, and rewards, without a payout calendar on this index."
+        ]
+      },
+      "guideImplications": [
+        "Start the Nosana guide by separating the deployments/credits track from the Host GPUs track, because the docs index does that before any metric.",
+        "Do not describe dashboard columns. The host page that would show them did not render, and no payout interval is on the index."
+      ],
+      "limitations": "api.nosana.com/api/docs extract is 10 characters. Vast’s hourly host price is a different product and is not Nosana evidence.",
+      "mainReviewedSourceClass": "unverified page shell"
+    },
+    {
+      "id": "gonka",
+      "projectSpecificBenchmark": {
+        "url": "https://gonka.ai/docs/host/quickstart/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "First definition is Host as hardware provider or node, then two services: Network Node (Chain Node plus API Node) and Inference ML node. At least one ML node.",
+          "Same-machine scenario is explicit. Services are Docker containers. A “Live Demo” video sits above the written steps and the page says the video can differ from the text.",
+          "Opening does not show an account-versus-worker table or an epoch earnings ledger."
+        ],
+        "evidence": "66,987-character quickstart. Homepage extract is 641 characters of marketing."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Lead with the two-service split and “text overrides the demo video”, then where weight and models are read. Do not open with a rental-price table.",
+        "Keep epoch and model lists in the guide only where this quickstart states them. No public host earnings dashboard was verified."
+      ],
+      "limitations": "No Gonka explorer or provider console with period chips was in the fetched set. Akash and Vast prices are not Gonka evidence.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "akash",
+      "projectSpecificBenchmark": {
+        "url": "https://console.akash.network/providers",
+        "kind": "none_verified",
+        "observedPatterns": [
+          "Extract is 13 characters. No provider row, online flag, GPU column, or lease list rendered."
+        ],
+        "evidence": "Console shell. Docs hub https://akash.network/docs/providers/getting-started/ is 1,465 characters and is readable."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://akash.network/docs/providers/getting-started/",
+        "relation": "official provider docs index",
+        "observedPatterns": [
+          "Order is Evaluate First, Hardware Requirements, Provider Earn Calculator, then Setup Methods: Provider Playbook, Kubespray, Provider Console.",
+          "Operations is a separate item and names lease management, monitoring, and maintenance. Homepage “Become a Compute Provider” is marketing and repeats the GPU/CPU listing pitch."
+        ]
+      },
+      "guideImplications": [
+        "Structure the Akash guide as the docs index does: provider identity and hardware, then console, then leases. Do not invent console columns from the empty extract.",
+        "Treat the earn calculator as a linked tool, not as figures inside the guide. Idle-hardware marketing on the homepage is not a lease record."
+      ],
+      "limitations": "Provider console UI unverified. A Vast hourly-bid page is not an Akash layout.",
+      "mainReviewedSourceClass": "unverified page shell"
+    },
+    {
+      "id": "ionet",
+      "projectSpecificBenchmark": {
+        "url": "https://io.net/docs/reference/io-explorer/get-device-details",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Page is an API reference with a docs index link to /docs/llms.txt, a cURL block, and an AI-assistant disclaimer. It is not a rendered device table.",
+          "The example object includes device id, earned, uptime_percent, and hire-rate fields, and the sample end time in the extract is 2023-09-12.",
+          "Authorization bearer is required in the sample. Homepage extract is 60 characters."
+        ],
+        "evidence": "43,203-character API page. The example is documentation, not a live device."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Label the guide’s fields as API example fields and put the example date next to earned and hire rate so they are not read as current income.",
+        "Separate uptime percent from earned in the first answer. There is no verified public device dashboard layout to copy."
+      ],
+      "limitations": "io.net homepage did not render a product UI. Do not treat the sample hire-rate number as a live quote.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "vast",
+      "projectSpecificBenchmark": {
+        "url": "https://docs.vast.ai/host/hosting-overview",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Docs index points at /llms.txt before the article. The article defines hosts as sellers of GPU time.",
+          "Host duties are setup, troubleshooting, offer pricing and offer end dates, and maintenance that must not break an active rental.",
+          "It requires a host account and points that account at a host-only Discord. The machines console extract is 17 characters."
+        ],
+        "evidence": "21,153-character overview. https://console.vast.ai/host/machines redirected to cloud.vast.ai and did not render a machine table."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Open with host account versus renter account, then the four income components the product guide already tracks, and say the machines table itself was not readable.",
+        "Document on-demand versus interruptible as offer settings on this page. Do not add a coin or block-reward stage."
+      ],
+      "limitations": "Machine-list columns, periods, and units on the host console are unverified.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "golem",
+      "projectSpecificBenchmark": {
+        "url": "https://stats.golem.network/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Visible modules are Network Version Adoption and Computing on the Network.",
+          "Toggles are 24h, 7d, and 30d. Copy says 24h at 5-minute resolution, 7d hourly, 30d daily peaks UTC.",
+          "Both charts say Loading. The computing module also shows Right now 0 Providers and 7-day peak 0 Providers, which sits next to Loading and is not a finished count."
+        ],
+        "evidence": "616-character stats extract. Installation guide is a separate 11,745-character page."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://docs.golem.network/docs/providers/provider-installation",
+        "relation": "official setup IA",
+        "observedPatterns": [
+          "First sentence recommends Docker and explains why a container is convenient, then links “installing directly on your system” at the end of the guide.",
+          "Prerequisites for this tutorial are an x86-64 Linux machine, nested virtualization, and Docker Engine with Compose. That is the tutorial’s prerequisite list, not a statement that Docker is the only possible install."
+        ]
+      },
+      "guideImplications": [
+        "In the GLM 24h-versus-lifetime guide, say the public stats toggles are provider-count windows and were still loading, so they are not GLM earning stages.",
+        "State Docker as the recommended path on that page and keep the direct-install link. Do not write that Docker is the only installation."
+      ],
+      "limitations": "No earnings table rendered on stats. Vast’s hourly price page is not a GLM layout.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "noid",
+      "projectSpecificBenchmark": {
+        "url": "https://noid.innovlab.cc/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Labels present: pool versus network hashrate, block interval, payout ranking by payout address, recent blocks, daily blocks, effort, and distribution.",
+          "Block rows are All, Pending, Confirmed, Orphan, with page sizes 15, 30, 50.",
+          "“My dashboard” says enter a payout address or worker to see rigs, shares, balances, and payments. The lookup body itself is not in the 570-character extract."
+        ],
+        "evidence": "Short but labeled InnovLab front end. Parano1d Pool at parano1d-pool.fun is a different 13,457-character page."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://www.parano1d-pool.fun/",
+        "relation": "other official NOID pool surface",
+        "observedPatterns": [
+          "Header shows stratum host, live tip height, block and share difficulty, miner count, and worker count as separate figures.",
+          "Current-round fee is printed as 3%. The page is a live ticker, so those counts are widgets."
+        ]
+      },
+      "guideImplications": [
+        "Use InnovLab’s Pending / Confirmed / Orphan and address-or-worker lookup as the stage model for the payouts-versus-daily guide.",
+        "Name Parano1d Pool and InnovLab as two surfaces: one is a live pool ticker with a worker count, the other is the lookup dashboard. Do not use a generic Hiveon FAQ as the layout source."
+      ],
+      "limitations": "InnovLab lookup results after an address submit were not in the extract. Widget counts are not stable specs.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "acurast",
+      "projectSpecificBenchmark": {
+        "url": "https://docs.acurast.com/processors/rewards/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Title is Processor Rewards. First section is Reward Types, then Base Benchmark Rewards (Compute Pool).",
+          "Period is an epoch, stated as 900 blocks, roughly 1.5 hours. Benchmark rewards are described as independent of Staked Compute, with a separate busy bonus later in the page.",
+          "Mainnet and Canary are named as different units, ACU and cACU. The epoch total is a pool, then split across benchmark pools."
+        ],
+        "evidence": "2,589-character rewards page. Indexer page lists queries, not a payout calendar."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Open with processor address versus the epoch pool: the page’s unit is the epoch, and the published epoch amount is the pool, not one phone.",
+        "Put Canary cACU and mainnet ACU in a two-row table before any benchmark formula. No public per-phone dashboard was verified."
+      ],
+      "limitations": "No Acurast processor UI with worker rows was fetched. Job-rental pricing from other networks is not this reward page.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "prl",
+      "projectSpecificBenchmark": {
+        "url": "https://pool.kryptex.com/en/prl",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Nav: Connection, About PRL, Top Miners, Calculators, Charts, Pool, Blocks.",
+          "Stats labels: Min. payout, Algorithm PearlHash, Hashrate, Miners, Workers, Auto-convert. Miners and Workers are separate counts.",
+          "Connection copy: wallet/worker or username/worker, and solo:wallet for SOLO. PPS+ and SOLO are separate fee labels. A revenue calculator has year, month, and day readouts.",
+          "Start-mining block lists Windows, Linux, Docker, HiveOS, MMPOS."
+        ],
+        "evidence": "2,652-character Kryptex PRL page. Live hashrate and miner counts are widgets and are not repeated as specs."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://minerstat.com/coin/prl",
+        "relation": "verified coin calculator, not a pool account",
+        "observedPatterns": [
+          "Title is “PRL mining calculator”. Algorithm label on this page is Pearl, not PearlHash.",
+          "History toggles are 7d, 30d, 3m, All, for price, network hashrate, difficulty, and revenue per hash.",
+          "Confidence block shows Pool coverage 0 and Identity 0, with Freshness, Market data, Network data, and Source coverage at 100."
+        ]
+      },
+      "guideImplications": [
+        "Answer wallet versus worker, and solo:wallet, in the first block, using the Kryptex connection line. Put Miners and Workers as two counters, not one hashrate.",
+        "If linking Minerstat, label it as a network calculator with 7d/30d/3m charts and say its algorithm word is Pearl while Kryptex says PearlHash. Do not treat Pool coverage 0 as a ranking."
+      ],
+      "limitations": "https://pearl.luckypool.io/ extract is only the title “Pearl + Nock Merge Mining Pool - LuckyPool.IO”, 45 characters, so LuckyPool columns are unverified. Calculator dollar outputs omitted.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "xmr",
+      "projectSpecificBenchmark": {
+        "url": "https://pool.kryptex.com/en/xmr",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Same Kryptex chrome as PRL: About, Calculators, Charts, Pool, Blocks, and a stats row with Min. payout, Algorithm RandomX, Hashrate, Miners, Workers, Auto-convert.",
+          "Wallet format line is wallet/worker or username/worker, plus solo:wallet.",
+          "Extra block not on the PRL extract: if more than 100 devices, use xmrig-proxy instead of one connection per device. Start targets include Windows, HiveOS, Linux, ASIC/FPGA, MMPOS."
+        ],
+        "evidence": "2,759-character page. Counts and hashrate are live widgets."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://minerstat.com/coin/xmr",
+        "relation": "verified coin calculator",
+        "observedPatterns": [
+          "“XMR mining calculator - RandomX”. History windows 7d, 30d, 3m, All. Block time and last height are network fields.",
+          "Confidence subscores include Pool coverage 100 and Identity 67, unlike the PRL and ETHW pages’ zeros.",
+          "No wallet, worker, or payout-stage control on the visible calculator."
+        ]
+      },
+      "guideImplications": [
+        "Answer which Monero address the monitor accepts before any calculator. Then show Kryptex’s wallet/worker line and the 100-device proxy note.",
+        "Link the Moneropedia address page for address type, and link Minerstat only as a network chart with those windows, not as a worker dashboard."
+      ],
+      "limitations": "No other Monero pool UI was compared. Minerstat revenue figures omitted.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "etc",
+      "projectSpecificBenchmark": {
+        "url": "https://etc.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "H1 pattern: How to Start Mining ETC, then a server table with Region, Share Diff, Server, Status, and Europe/USA/Asia rows.",
+          "Share-difficulty note says difficulty does not change rewards, with a high-diff hint for large GPU farms and for NiceHash.",
+          "Algorithm line is ETCHash. Step 1 is create a wallet and offers payout in BTC, TON, or ETC before any miner config. The visible opening does not yet show the worker field."
+        ],
+        "evidence": "4,909-character help page. Account fields are on the shared API doc, not drawn as a UI here."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Put the monitor’s address-versus-SOLO answer above the region table, because this help page spends the first screen on servers and payout-coin choice.",
+        "Document the account as the wallet id, with workers nested, and cite share windows 5m, 30m, and 6h plus block states candidate, immature, and matured from the 2Miners API page."
+      ],
+      "limitations": "No discovered Minerstat ETC URL in the source index, and live search was unavailable, so no calculator page is cited. Hiveon’s general FAQ is not an ETC layout.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "rvn",
+      "projectSpecificBenchmark": {
+        "url": "https://rvn.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Same 2Miners help skeleton as ETC, with algorithm KawPOW in the H1 path.",
+          "Server table is not only regions: each region has a GPU port and a separate NiceHash port, with two share-diff values.",
+          "Step 1 still offers payout in BTC, TON, or RVN. Worker name is not in the visible opening."
+        ],
+        "evidence": "4,753-character help extract."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Open with wallet address versus worker name, then show that this help page’s first table is region plus GPU-versus-NiceHash ports.",
+        "Keep the shared 2Miners account object for periods: workers under the wallet, share ranges 5m/30m/6h, block states candidate/immature/matured."
+      ],
+      "limitations": "No discovered Minerstat RVN page. Do not describe Hiveon nav coins as an RVN spec.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "zec",
+      "projectSpecificBenchmark": {
+        "url": "https://zec.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "H1 path says Zcash on EquiHash. A pool-versus-solo profitability link sits above the server table.",
+          "Each region has a normal port and a “for Nicehash” port with a higher share diff.",
+          "Step 1 is still the generic create-a-wallet step with BTC, TON, or ZEC payout choice. The shielded-versus-transparent explanation is a different page on z.cash."
+        ],
+        "evidence": "3,313-character help extract, shorter than ETC/RVN. z.cash learn article is 3,340 characters."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://z.cash/learn/what-is-the-difference-between-shielded-and-transparent-zcash/",
+        "relation": "official concept page, answer-first",
+        "observedPatterns": [
+          "The learn URL itself is the distinction the pool help does not lead with."
+        ]
+      },
+      "guideImplications": [
+        "First sentence: the monitor takes a transparent t-address. Link the z.cash learn article, then the 2Miners server table.",
+        "Do not let Step 1’s BTC/TON payout option be read as an address-type option. State workers under the ZEC wallet using the shared API account object."
+      ],
+      "limitations": "No discovered Minerstat ZEC URL. The help opening does not print “t-address”; that constraint stays tied to the address guide and the z.cash article, not to a guessed pool sentence.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "kas",
+      "projectSpecificBenchmark": {
+        "url": "https://kas.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Longest 2Miners help of this set, 5,817 characters. Algorithm line is KHeavyHash.",
+          "Server table is hardware-class ports, not one port per region: GPU, KS0, KS1/KS2, and KS3/KS3L, repeated for Europe, USA, and Asia, each with its own share diff.",
+          "Step 1 wallet and payout-coin choice follows that table. kaspa.org extract is only 582 characters."
+        ],
+        "evidence": "Readable help body. Official coin site extract is too short to be a second dashboard."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Show the port table as GPU versus named ASIC classes before any generic three-region diagram. Say the monitor is the regular pool endpoint, not a SOLO port, because this page’s first choice is port class.",
+        "Use the shared account/workers/5m-30m-6h/immature-matured model, and do not pull a Kaspa payout rule from a general Hiveon FAQ."
+      ],
+      "limitations": "No discovered Minerstat KAS URL. kaspa.org body was not a feature-complete page.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "mds",
+      "projectSpecificBenchmark": {
+        "url": "https://midstate.luckypool.io/",
+        "kind": "none_verified",
+        "observedPatterns": [
+          "Extract is the title “Midstate Mining Pool - LuckyPool.IO”, 35 characters. No wallet, worker, period, or payout label rendered."
+        ],
+        "evidence": "Title only. Readable Midstate operator text is the GitHub pools guide, 6,942 characters."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://github.com/ciphernom/midstate/blob/main/pools.md",
+        "relation": "official stratum guide, not a dashboard",
+        "observedPatterns": [
+          "Title “Midstate Stratum Pool Guide”. First requirement heading is “Critical Requirement: Use MSS Addresses”.",
+          "The visible opening explains Merkle precommitment in the block template. It does not show LuckyPool’s account table."
+        ]
+      },
+      "guideImplications": [
+        "Say the LuckyPool screen did not render, then answer MSS address versus worker from pools.md only where that file states it. Do not copy Kryptex’s wallet/worker line onto LuckyPool.",
+        "Keep units and reward stages in the guide sourced to midstate.cash or pools.md sentences, not to an imagined pool UI."
+      ],
+      "limitations": "LuckyPool body unverified. midstate.cash extract is 87,700 characters of protocol text, not a pool account page, and was not re-read as a dashboard this pass.",
+      "mainReviewedSourceClass": "unverified page shell"
+    },
+    {
+      "id": "bnt",
+      "projectSpecificBenchmark": {
+        "url": "https://bntpool.com/start",
+        "kind": "none_verified",
+        "observedPatterns": [
+          "Extract is “Mine Blocknet With Seine”, 24 characters. No address form, worker list, confirmation count, or payment table."
+        ],
+        "evidence": "Title shell. Seine GitHub extract is a repository file list, including README.md and screenshots named enter-address.png and address-entered.png, 16,358 characters of listing chrome."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Do not describe bntpool columns. Point the guide at the Seine README and address.rs for the address check, and say the pool start page did not render.",
+        "If a payment-versus-confirmation section stays, tie each stage to a sentence in those GitHub sources. There is no verified second BNT dashboard."
+      ],
+      "limitations": "Screenshot filenames are not proof of the UI. No period or worker labels were readable.",
+      "mainReviewedSourceClass": "unverified page shell"
+    },
+    {
+      "id": "csd",
+      "projectSpecificBenchmark": {
+        "url": "https://csd.yamaduo.no/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Pool overview windows are 1h, 6h, 12h, and 24h for pool hashrate, dominance, connected miners, and paid CSD. A 5-minute hashrate is marked approximate.",
+          "Your Miner lookup has three stages: Pending (confirming), Confirmed (payable), Paid (lifetime), plus next payable and confirming blocks.",
+          "Rigs and Workers are separate tables. Copy says rig name comes from the worker name as address.rigname, legacy miners show as default, and payouts go to the bare address.",
+          "How-to-mine is on the same page: Step 1 addr20, Step 2 installer, HiveOS flight sheet with wallet/worker template left blank. It says --worker solo is the reserved switch into solo mining, and every other worker name is display-only."
+        ],
+        "evidence": "9,178-character page. The #mine URL is the same body. Several overview numbers are em dashes or “loading…”, so those counts are not cited."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "Mirror the three payout stages and the 1h/6h/12h/24h chips, and say the worker is a rig label except the reserved name solo.",
+        "Keep the HiveOS note: wallet/worker template does not apply, and the address is the --address argument. Link the installer steps instead of a generic pool FAQ."
+      ],
+      "limitations": "Top-miner and pool-hashrate widgets were loading. The casino promo in the header is not part of the mining UI to copy.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "erg",
+      "projectSpecificBenchmark": {
+        "url": "https://erg.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "Same 2Miners skeleton: pool-versus-solo profitability link, then Region / Share Diff / Server / Status for Europe, USA, and Asia.",
+          "Algorithm line is Autolykos. Step 1 offers payout in BTC, TON, or ERG. That is a pool payout-coin choice.",
+          "The Ergo address-types document is a separate page and is the protocol address reference, not this pool’s first screen."
+        ],
+        "evidence": "4,354-character help extract. ergoplatform.org extract is 452 characters."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://docs.ergoplatform.com/dev/wallet/address/address_types/",
+        "relation": "official address reference",
+        "observedPatterns": [
+          "Address types live on the docs site. They are not the 2Miners Step 1 payout-coin list."
+        ]
+      },
+      "guideImplications": [
+        "First answer: which 9-address the monitor accepts as a pool payout address. Then show that 2Miners Step 1 is choosing ERG versus BTC or TON payout, which is a different choice.",
+        "Link address_types for protocol context. Do not collapse a coinbase script rule into “P2PK cannot be a payout address.”"
+      ],
+      "limitations": "No discovered Minerstat ERG URL. The help opening does not display a worker example; worker nesting comes from the shared 2Miners API account object.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "zeph",
+      "projectSpecificBenchmark": {
+        "url": "https://zeph.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "H1 path says Zephyr on RandomX. Server table has a normal port and a NiceHash port per region.",
+          "Step 1 is not the BTC/TON payout paragraph used on ETC, RVN, and ERG. It says use the official Zephyr wallet or an exchange address, with MEXC as the example.",
+          "Step 2 is download mining software. The visible opening does not mention a Monero address."
+        ],
+        "evidence": "2,932-character help extract, the shortest 2Miners help in this set. zephyrprotocol.com extract is 2,450 characters and is the project site, not this pool UI."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://minerstat.com/coin/xmr",
+        "relation": "verified RandomX calculator for a different coin",
+        "observedPatterns": [
+          "The only verified Minerstat RandomX page in the index is Monero. It has network charts and no address-type control."
+        ]
+      },
+      "guideImplications": [
+        "Open with the Zephyr help Step 1: official Zephyr wallet or exchange address. State that RandomX on this page does not make a Monero address valid.",
+        "Keep workers under the ZEPH wallet via the shared API. Do not send readers to the XMR calculator as if it were a ZEPH pool page."
+      ],
+      "limitations": "No discovered Minerstat ZEPH URL. Inventing /coin/zeph was not allowed.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    },
+    {
+      "id": "btc",
+      "projectSpecificBenchmark": {
+        "url": "https://solo.ckpool.org/",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "First note: this is not a pool, despite the name. It is solo mining because Bitcoin Core is not the endpoint.",
+          "Graphical statistics are a link to stats.ckpool.org. Solved blocks link out to mempool.space. Those two pages were not fetched.",
+          "Configuration: one hostname with automatic region failover, port 3333, and a rental-only high-diff port 4334. Username is the Bitcoin address plus any worker extension or none. Password can be anything.",
+          "pool.status extract is 413 characters of JSON, not a rendered user table."
+        ],
+        "evidence": "5,505-character solo.ckpool.org page. An example address appears in the page and is omitted here."
+      },
+      "analogousBenchmarkIfNeeded": null,
+      "guideImplications": [
+        "First line: CKPool solo is one Bitcoin address, and the worker extension is optional and not a separate account. Link stats.ckpool.org for graphs and say that UI was not read.",
+        "Do not reuse 2Miners immature/matured stages or a PPS payout ladder. Document the rental port as a different endpoint, not a second wallet."
+      ],
+      "limitations": "stats.ckpool.org labels were not in the extract. No discovered Minerstat BTC coin page. BIP173 is the address-format spec, not a dashboard.",
+      "mainReviewedSourceClass": "operator dashboard / product page"
+    },
+    {
+      "id": "ethw",
+      "projectSpecificBenchmark": {
+        "url": "https://ethw.2miners.com/help",
+        "kind": "officialdashboardbenchmark",
+        "observedPatterns": [
+          "H1 path: Ethereum PoW on ETHash. Region table is one share diff and one port per Europe, USA, and Asia, like ETC rather than like KAS or RVN.",
+          "Step 1 offers payout in BTC, TON, or ETHW. The coin-site homepage extract is 1,005 characters and is not a second help article.",
+          "Worker text is not in the visible opening."
+        ],
+        "evidence": "5,047-character help page."
+      },
+      "analogousBenchmarkIfNeeded": {
+        "url": "https://minerstat.com/coin/ethw",
+        "relation": "verified coin calculator",
+        "observedPatterns": [
+          "Title “ETHW mining calculator - Ethash”. The algorithm word here is Ethash. The 2Miners line says ETHash.",
+          "Same calculator chrome as PRL: 7d, 30d, 3m, All, and confidence with Pool coverage 0 and Identity 0."
+        ]
+      },
+      "guideImplications": [
+        "Answer which 0x address the monitor accepts before the region table and before Step 1’s BTC/TON payout choice.",
+        "If Minerstat is linked, call it a network calculator and note the Ethash versus ETHash label difference. Use the shared API for workers and for 5m/30m/6h and immature/matured."
+      ],
+      "limitations": "ethw.2miners.com pool homepage extract is 1,005 characters and was not used as the layout source. No earnings figures copied from the calculator.",
+      "mainReviewedSourceClass": "official documentation / operator reference"
+    }
+  ],
+  "mainReview": {
+    "reviewed": "2026-10-24",
+    "qualification": "Only trainathome.ai is classified as a verified direct competitor here. Other entries are operator dashboards, official documentation, or unverified shells; not 24 independent competitors. Search terms are inferred user questions, not Search Console rankings or measured AI citations.",
+    "appliedPatterns": [
+      "Direct answer before diagnostics",
+      "Separate address, worker, payment, and period fields",
+      "Explicit illustrative examples rather than invented measurements",
+      "Link diagnosis to correct project tool and related guides"
+    ],
+    "limitations": [
+      "No fee/income forecasts copied from calculators",
+      "Title-only pages cannot substantiate product capabilities",
+      "Dated tier maps from third parties are not official promotion rules"
+    ]
+  }
+}

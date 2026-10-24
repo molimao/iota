@@ -17,6 +17,8 @@ import { iotaGuideAnswers } from "./iota-guide-answers";
 import { iotaEvidence, rewardChecks } from "./core-evidence";
 import { LOCALES } from "@/lib/site";
 import { editionDate } from "@/lib/content-dates";
+import { mergeDepthArticle, mergeProjectDepth, projectDepthGuides } from "./project-depth";
+import { PROJECTS } from "@/lib/projects";
 
 export type Article = {
   slug: string;
@@ -481,7 +483,7 @@ const iotaArticles = withLocales([
   ...dataGuides,
 ]);
 
-export const articles: Article[] = [
+export const articles: Article[] = mergeProjectDepth([
   ...iotaArticles
     .map((article) => ({
       ...article,
@@ -507,7 +509,7 @@ export const articles: Article[] = [
   mdsGuide,
   bntGuide,
   csdGuide,
-];
+]);
 
 export function articleDates(article: Article, locale?: Locale) {
   const published = editionDate(article.published ?? "2026-09-12", locale);
@@ -545,7 +547,7 @@ export function articleProjects(article: Article): readonly ProjectId[] {
 export type ArticleCluster =
   "use" | "understand" | "start" | "read" | "xid" | "quantus" | "compare" | "compute" | "pools";
 
-export const articleClusterMeta: Record<
+const baseArticleClusterMeta: Record<
   ArticleCluster,
   { title: Record<Locale, string>; slugs: string[] }
 > = {
@@ -646,6 +648,43 @@ export const articleClusterMeta: Record<
   },
 };
 
+// Keep full project packs together instead of spreading a wallet's questions across
+// generic categories. The stable project anchor also works from project tool pages.
+const depthProjects = new Set(projectDepthGuides.map((guide) => guide.project));
+export const articleClusterMeta: Record<
+  string,
+  { title: Record<Locale, string>; slugs: string[] }
+> = {
+  ...Object.fromEntries(
+    Object.entries(baseArticleClusterMeta)
+      .map(
+        ([id, group]) =>
+          [
+            id,
+            {
+              ...group,
+              slugs: group.slugs.filter(
+                (slug) => !depthProjects.has(articles.find((a) => a.slug === slug)?.project),
+              ),
+            },
+          ] as const,
+      )
+      .filter(([, group]) => group.slugs.length),
+  ),
+  ...Object.fromEntries(
+    PROJECT_IDS.filter((id) => depthProjects.has(id)).map((id) => [
+      id,
+      {
+        title: Object.fromEntries(LOCALES.map((locale) => [locale, PROJECTS[id].name])) as Record<
+          Locale,
+          string
+        >,
+        slugs: articles.filter((article) => article.project === id).map((article) => article.slug),
+      },
+    ]),
+  ),
+};
+
 const relatedBySlug: Record<string, string[]> = {
   "data-sources-and-freshness": [
     "what-refresh-interrupted-means",
@@ -696,6 +735,15 @@ const relatedBySlug: Record<string, string[]> = {
 
 export function getArticle(slug: string) {
   return articles.find((article) => article.slug === slug);
+}
+
+export function adoptDepthArticle(full: Article): Article | null {
+  const index = articles.findIndex((article) => article.slug === full.slug);
+  const current = articles[index];
+  if (!current) return null;
+  const next = mergeDepthArticle(current, full);
+  articles[index] = next;
+  return next;
 }
 
 export function relatedArticles(slug: string) {

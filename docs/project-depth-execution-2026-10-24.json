@@ -1,0 +1,345 @@
+{
+  "date": "2026-10-24",
+  "goal": "All25projects min5reviewedguides/project; IOTA5coredeepened; 5locales; localpreviewandfullacceptance; productionrequiresfreshapproval",
+  "refreshRelease": "Completed2026-10-23 inclFirefoxownerrefreshtest; do not redeploy",
+  "projects": [
+    {
+      "id": "iota",
+      "existingDedicated": 11,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/iota.json"
+    },
+    {
+      "id": "xid",
+      "existingDedicated": 3,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "feedback": [
+        "Localeparitygaps",
+        "Incorrectprefixcharactercount",
+        "Unnecessarygenesis/sourceauditnarration",
+        "Meaningfulheadingstructure",
+        "Verifieddevicequota"
+      ],
+      "reviewFile": "/tmp/iota-depth24/review/xid.json"
+    },
+    {
+      "id": "quantus",
+      "existingDedicated": 3,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/quantus.json"
+    },
+    {
+      "id": "flyai",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/flyai.json"
+    },
+    {
+      "id": "nosana",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/nosana.json"
+    },
+    {
+      "id": "gonka",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/gonka.json"
+    },
+    {
+      "id": "akash",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/akash.json"
+    },
+    {
+      "id": "ionet",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/ionet.json"
+    },
+    {
+      "id": "vast",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/vast.json"
+    },
+    {
+      "id": "golem",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/golem.json"
+    },
+    {
+      "id": "noid",
+      "existingDedicated": 2,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/noid.json"
+    },
+    {
+      "id": "acurast",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/acurast.json"
+    },
+    {
+      "id": "prl",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "feedback": [
+        "Correctdevicequotawording",
+        "Remove source-scrape narration",
+        "PRLratefallbacksemantics",
+        "ETHWonlychangeconfigonverifiedmismatch",
+        "DirecttoolCTAineachguide"
+      ],
+      "reviewFile": "/tmp/iota-depth24/review/prl.json"
+    },
+    {
+      "id": "xmr",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/xmr.json"
+    },
+    {
+      "id": "etc",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/etc.json"
+    },
+    {
+      "id": "rvn",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/rvn.json"
+    },
+    {
+      "id": "zec",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/zec.json"
+    },
+    {
+      "id": "kas",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/kas.json"
+    },
+    {
+      "id": "mds",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/mds.json"
+    },
+    {
+      "id": "bnt",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/bnt.json"
+    },
+    {
+      "id": "csd",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/csd.json"
+    },
+    {
+      "id": "erg",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/erg.json"
+    },
+    {
+      "id": "zeph",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "reviewFile": "/tmp/iota-depth24/review/zeph.json"
+    },
+    {
+      "id": "btc",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "feedback": [
+        "Unresolvedtemplatevariable",
+        "Irrelevantvolatilepoolstatssnapshots",
+        "Repeatedlongsampleaddress",
+        "Internalparserdetailincustomerprose",
+        "Evidencefilemissingatmainreview"
+      ],
+      "review": {
+        "by": "main",
+        "actualArticlesRead": 5,
+        "factualChecks": [
+          "SOLOnotdailyincome",
+          "1hrhashratewindow",
+          "addressvsWorker",
+          "missingnotzero",
+          "devicequota",
+          "primarysourceURLs"
+        ],
+        "structuralAuditIssues": [],
+        "runtimeValidation": {
+          "SSR": "HTTP200fullbodyFAQcanonical",
+          "browser": "Englishandzh-TWfullbody; relatednavigationandlanguagechange",
+          "desktopOverflow": false,
+          "screenshot": "/tmp/iota-depth24/btc-zh-TW-desktop.png",
+          "remaining": "mobile/fullbuild/fullcoverage"
+        }
+      },
+      "reviewFile": "/tmp/iota-depth24/review/btc.json"
+    },
+    {
+      "id": "ethw",
+      "existingDedicated": 1,
+      "targetArticles": 5,
+      "stage": "local_accepted",
+      "accepted": true,
+      "feedback": [
+        "Correctdevicequotawording",
+        "Remove source-scrape narration",
+        "PRLratefallbacksemantics",
+        "ETHWonlychangeconfigonverifiedmismatch",
+        "DirecttoolCTAineachguide"
+      ],
+      "reviewFile": "/tmp/iota-depth24/review/ethw.json"
+    }
+  ],
+  "sourceRefresh": {
+    "date": "2026-10-24",
+    "publicUrlsFetched": 88,
+    "http200": 88,
+    "semanticReview": "25project source review completed with main corrections; separate benchmark matrix qualifies official/operator references versus direct competitors"
+  },
+  "verificationProgress": {
+    "tests": {
+      "files": 11,
+      "passed": 49,
+      "failed": 0,
+      "log": "/tmp/iota-depth24/final-tests-verified.log"
+    },
+    "typecheck": {
+      "exitCode": 0,
+      "log": "/tmp/iota-depth24/typecheck-verified.log"
+    },
+    "productionBuild": {
+      "exitCode": 0,
+      "log": "/tmp/iota-depth24/production-build.log"
+    },
+    "developmentHttp": {
+      "dedicated": 131,
+      "expectedDedicated": 131,
+      "locales": 5,
+      "html": 655,
+      "md": 655,
+      "htmlOk": 655,
+      "mdOk": 655,
+      "baselineIota": 6,
+      "packSlugs": 125,
+      "sitemapLocs": 910,
+      "llms": {
+        "/llms.txt": 200,
+        "/llms-full.txt": 200
+      }
+    },
+    "cloudflareWorkerHttp": {
+      "dedicated": 131,
+      "expectedDedicated": 131,
+      "locales": 5,
+      "html": 655,
+      "md": 655,
+      "htmlOk": 655,
+      "mdOk": 655,
+      "baselineIota": 6,
+      "packSlugs": 125,
+      "sitemapLocs": 910,
+      "llms": {
+        "/llms.txt": 200,
+        "/llms-full.txt": 200
+      }
+    },
+    "httpFailures": 0,
+    "workerRuntime": "Official Wrangler local workerd, config .output/server/wrangler.json; temporary port8083 stopped after verification",
+    "browser": [
+      "Built Worker English full body and FAQ survived hydration",
+      "Related Bitcoin article opened successfully",
+      "English/Japanese and previous zh/zh-TW navigation verified",
+      "390px viewport: document width390, table scrolling contained at352px for580px content",
+      "Final local Chinese Pearl filter shows5guides"
+    ],
+    "browserAssetEvidence": "/tmp/iota-depth24/browser-built-asset-evidence.json",
+    "metadataGzipBefore": 298132,
+    "metadataGzipAfter": 74699,
+    "separateProjectBodyChunks": 25,
+    "initialProjectBodyChunksFetched": 0,
+    "originalPublishedDatesPreserved": true,
+    "historicalEvidencePreserved": "/images/tutorials/iota-rewards-2026-10-09.png and immutable public response excerpt; historical Oct9 ledger/current Oct8 attribution explained",
+    "mainBranch": true,
+    "unrelatedChangesPreserved": true
+  },
+  "reviewFeedbackResolved": [
+    "Saved-device quotas distinctfromwallet/automaticworkerrows",
+    "PRL avg30m/current fallback and separate poolledgers",
+    "ETHW no configuration changes without verified mismatch",
+    "MDS binary coin denominations versus decimal nonces/s",
+    "NOID fullownaddress vs invalidillustrativeplaceholder",
+    "ERG protocolP2S vs poolP2PK; neverchangeintentionalBTC/TONpayoutforourmonitor",
+    "ZEC diagnostic branches and miner-specificreloadrequirements",
+    "Akash provider mayaggregate physicalhosts",
+    "IOTA localmanualstop/autorecover/retry matchescurrentAgent; MinerID rewarddeduping",
+    "CSD belowthreshold example accrues above minimum before hypotheticalpayment"
+  ],
+  "completedLocalAcceptance": "2026-10-24T06:18:46.558280+00:00",
+  "verificationReport": "docs/project-depth-acceptance-2026-10-24.json",
+  "release": {
+    "published": false,
+    "searchEngineSubmission": "Pending fresh production approval and successful deployment"
+  }
+}
