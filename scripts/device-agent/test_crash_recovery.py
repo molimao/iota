@@ -56,7 +56,7 @@ class CrashRecoveryTests(unittest.TestCase):
         self.assertFalse(agent.crashed_training([],self.now))
 
     def test_snapshot_clears_stale_training_after_crash_even_with_residual_worker(self):
-        with patch.object(agent,'processes',return_value=[(1,0,0,agent.EXEC),(2,0,0,agent.WORKER)]),patch.object(agent,'training_resources',return_value=(0,42)),patch.object(agent,'local_training_status',return_value=({'position':5},None)),patch.object(agent,'crashed_training',return_value=True):
+        with patch.object(agent,'processes',return_value=[(1,0,0,agent.EXEC),(2,0,0,agent.WORKER)]),patch.object(agent,'observed_training_workers',return_value=[(2,0,0,agent.WORKER)]),patch.object(agent,'training_resources',return_value=(0,42)),patch.object(agent,'local_training_status',return_value=({'position':5},None)),patch.object(agent,'crashed_training',return_value=True):
             snap=agent.snapshot()
             self.assertTrue(snap['appRunning']);self.assertFalse(snap['workerRunning'])
             self.assertIsNone(snap['queue']);self.assertNotIn('logs',snap)
@@ -86,5 +86,49 @@ class CrashRecoveryTests(unittest.TestCase):
             with patch.object(agent,'ROOT',Path(folder)),patch.object(agent,'STATE',Path(folder)/'state.json'),patch.object(agent,'snapshot',return_value={'appRunning':False,'workerRunning':True}),patch.object(agent,'post',return_value={'recoveryEnabled':True}),patch.object(agent,'control') as control:
                 agent.step({'server':'https://iotahome.site','credential':'fake'},{'trainingMissingSince':1000},1120)
                 control.assert_called_once_with('restart',resume_training=True)
+
+class WorkerGenerationTests(unittest.TestCase):
+    now = datetime.datetime(2026, 10, 24, 12).timestamp()
+
+    def check(self, launches, expected, workers=None, report=False):
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as folder:
+            home = Path(folder)
+            if report:
+                logs = home/'Library/Logs/DiagnosticReports'
+                logs.mkdir(parents=True)
+                stamp = datetime.datetime.fromtimestamp(self.now-60).astimezone().isoformat()
+                (logs/'main_pool-test.ips').write_text(json.dumps({'procPath': agent.WORKER, 'captureTime': stamp, 'exception': {'signal': 'SIGABRT'}}))
+            else:
+                logs = home/'Library/Logs/IOTA Train at Home'
+                logs.mkdir(parents=True)
+                stamp = datetime.datetime.fromtimestamp(self.now-60).strftime('%Y-%m-%d %H:%M:%S.000')
+                (logs/'test-main.log').write_text('['+stamp+'] Training process exited with code=null, signal=SIGABRT')
+            def started(pid, now):
+                value = launches[pid]
+                if isinstance(value, Exception):
+                    raise value
+                return value
+            rows = [(1,0,0,agent.EXEC), (2,0,0,agent.WORKER)]
+            with patch.object(agent.Path, 'home', return_value=home), patch.object(agent, 'process_started', side_effect=started):
+                args = {} if workers is None else {'workers': workers}
+                self.assertEqual(agent.crashed_training(rows, self.now, **args), expected)
+
+    def test_previous_worker_exit_does_not_kill_new_generation(self):
+        self.check({1: self.now-10000, 2: self.now-47}, False)
+
+    def test_old_report_does_not_kill_replacement_but_current_report_still_counts(self):
+        self.check({1: self.now-10000, 2: self.now-47}, False, report=True)
+        self.check({1: self.now-10000, 2: self.now-120}, True, report=True)
+
+    def test_newer_child_cannot_hide_crash_of_oldest_renamed_root(self):
+        roots = [(2,0,0,agent.WORKER), (3,0,0,agent.TRAINING_TITLE)]
+        for order in [roots, list(reversed(roots))]:
+            self.check({1: self.now-10000, 2: self.now-30, 3: self.now-120}, True, workers=order)
+            self.check({1: self.now-10000, 2: self.now-20, 3: self.now-47}, False, workers=order)
+
+    def test_unreadable_or_future_worker_age_does_not_erase_crash(self):
+        for value in [OSError('unavailable'), self.now+60, float('nan')]:
+            self.check({1: self.now-10000, 2: value}, True)
+
 
 if __name__=='__main__':unittest.main()

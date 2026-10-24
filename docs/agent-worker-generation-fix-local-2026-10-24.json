@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-24",
+  "scope": "Only count crash evidence in current observed worker generation; oldest trusted root wins, not newest child; unknown/future start age retains GUI boundary",
+  "rootCause": "Long-lived GUI launch date kept a previous worker exit in scope after replacement",
+  "regression": {
+    "oldVersion": "1.0.9",
+    "oldVersionReproduced": true,
+    "case": "previous exit at t-100; current oldest root t-87; GUI t-10000",
+    "beforeLog": "/tmp/iota-mba2-generation-before.log"
+  },
+  "validation": {
+    "agentTests": 68,
+    "webTests": 18,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "package": "6 allowlisted files match source and SHA256",
+    "existingPublished1.0.9Files": "unchanged",
+    "remoteControlAndRecoveryFunctionBodies": "unchanged",
+    "unrelatedWork": "preserved"
+  },
+  "package": {
+    "version": "1.0.10",
+    "sha256": "91ce22b19c643ef1c0b6cb22f93ab3e88c4faaefd3f212df1b4f9576715820d4",
+    "bytes": 19638
+  },
+  "release": {
+    "published": false,
+    "installed": false,
+    "required": "fresh specific production approval for1.0.10 and the single affected owner Agent update"
+  },
+  "checkedAt": "2026-10-24T08:51:47.974390+00:00"
+}

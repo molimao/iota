@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.9'
+VERSION = '1.0.10'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -329,9 +329,9 @@ def diagnostic_crash_at(text, started, now):
         return None
 
 
-def crashed_training(rows, now=None):
+def crashed_training(rows, now=None, workers=None):
     """A surviving executable is not proof of a live training engine.
-    Scope crash evidence to this GUI launch and cancel it on subsequent real activity.
+    Scope crash evidence to this worker generation and cancel it on subsequent real activity.
     Missing/unreadable evidence alone never triggers recovery.
     """
     now = time.time() if now is None else now
@@ -340,6 +340,20 @@ def crashed_training(rows, now=None):
         return False
     try:
         started = min(process_started(r[0], now) for r in apps)
+        # A long-lived GUI can launch several worker generations. An exit from
+        # an earlier generation must not mark its replacement as crashed. Use
+        # the oldest trusted root, never a younger child left after a crash.
+        roots = workers if workers is not None else [r for r in rows if r[3] == WORKER]
+        roots = [r for r in roots if r[3] in (WORKER, TRAINING_TITLE)]
+        if roots:
+            try:
+                launches = [process_started(r[0], now) for r in roots]
+                if all(0 <= at <= now for at in launches):
+                    started = max(started, min(launches))
+            except (OSError, ValueError, TypeError, subprocess.SubprocessError):
+                # Uncertain worker ages cannot erase otherwise valid crash
+                # evidence; retain the existing GUI launch boundary.
+                pass
         crash, progress = None, None
         folder = Path.home() / 'Library/Logs/IOTA Train at Home'
         for pattern in ('*main.log', '*cli.log'):
@@ -368,15 +382,15 @@ def crashed_training(rows, now=None):
 def snapshot(include_logs=False):
     rows = processes()
     cpu, memory = training_resources()
-    # Keep already verified executable identities; consult the ancestry-based
-    # observer only when the worker has changed its process title.
-    workers = [r for r in rows if r[3] == WORKER] or observed_training_workers()
+    # Include renamed roots even when exact-path descendants also exist: the
+    # oldest root establishes the current generation's launch boundary.
+    workers = observed_training_workers()
     payload = {'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': bool(workers),
                'appCpu': cpu,
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
     payload['queue'], payload['trainingState'] = local_training_status(workers)
-    if payload['workerRunning'] and crashed_training(rows):
+    if payload['workerRunning'] and crashed_training(rows, workers=workers):
         payload['workerRunning'] = False
         payload['queue'], payload['trainingState'] = None, None
     if include_logs:

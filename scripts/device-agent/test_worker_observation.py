@@ -41,14 +41,16 @@ class WorkerObservationTests(unittest.TestCase):
         text = table(f'14 1 0 1024 {agent.WORKER}')
         self.assertEqual(self.roots(text), [14])
 
-    def test_fixed_worker_snapshot_does_not_consult_the_host_again(self):
+    def test_snapshot_keeps_renamed_root_alongside_fixed_path_children(self):
         rows = [(1, 0, 0, agent.EXEC), (14, 0, 1024, agent.WORKER)]
+        roots = [(12, 0, 1024, TITLE), rows[1]]
         with patch.object(agent, 'processes', return_value=rows), \
              patch.object(agent, 'training_resources', return_value=(0, 1)), \
-             patch.object(agent, 'observed_training_workers', side_effect=AssertionError('unexpected host read')), \
+             patch.object(agent, 'observed_training_workers', return_value=roots), \
              patch.object(agent, 'local_training_status', return_value=(None, None)), \
-             patch.object(agent, 'crashed_training', return_value=False):
+             patch.object(agent, 'crashed_training', return_value=False) as crash:
             self.assertTrue(agent.snapshot()['workerRunning'])
+            self.assertEqual(crash.call_args.kwargs['workers'], roots)
 
     def test_renamed_descendant_requires_verified_ancestry_and_cycles_stop(self):
         text = table(

@@ -64,3 +64,7 @@ When log uploads are enabled, fatal Rust/P2P/abort and OOM excerpts are included
 ## Renamed worker ancestry (1.0.9)
 
 Observation treats the exact installed `main_pool` path as a training root. The exact renamed worker title counts only when walking its parents reaches that installed path or the installed TAH GUI. Generic helper names, CPU, and a GUI TRAINING label are not evidence. Remote control still uses the same executable allowlist; this release does not add or remove allowlisted targets.
+
+## Worker-generation crash evidence (1.0.10)
+
+An older worker's exit no longer marks its replacement as stopped while the GUI remains open. Crash evidence is scoped to the oldest currently observed trusted training root. A newer child cannot hide a crash in that generation. If a worker's start time is unavailable or invalid, the agent keeps the GUI launch boundary rather than clearing crash evidence. Remote controls and automatic recovery settings remain unchanged.

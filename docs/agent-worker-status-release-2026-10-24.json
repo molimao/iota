@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-24",
+  "target": "https://iotahome.site",
+  "commit": "e8dc05444e1eb53fa6443667bc45a822b8225dc5",
+  "deploymentId": "7f5cc499-92b7-4470-92a7-ba5586eec0ee",
+  "agent": "1.0.9",
+  "productionPackage": "HTTP200; SHA256 and bytes match acceptance",
+  "ownerUpdate": {
+    "scope": "only affected owner device",
+    "result": "done; new1.0.9 heartbeat confirmed",
+    "recoveryEnabled": false,
+    "trainingRestartRequested": false
+  },
+  "liveVerification": "Not resolved: worker discovery succeeds but crash detector overwrites status. Direct local read-only inspection confirms prior-generation exit was applied to a replacement worker.",
+  "nextCandidate": "1.0.10; not published",
+  "checkedAt": "2026-10-24T08:51:47.974390+00:00"
+}
