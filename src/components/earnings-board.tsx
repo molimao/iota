@@ -43,20 +43,25 @@ export function EarningsBoard({
           );
           const native = new Map<string, number>();
           for (const m of metrics) native.set(m.unit, (native.get(m.unit) ?? 0) + m.amount);
+          const nativeHeadline =
+            !board.totals[day].count && native.size === 1 ? [...native][0] : null;
           return (
             <article key={day}>
               <span>{c[day][locale]}</span>
               <strong>
-                {formatUsd(board.totals[day].count ? board.totals[day].usd : null)}{" "}
-                <small>USD</small>
+                {nativeHeadline
+                  ? nf.format(nativeHeadline[1])
+                  : formatUsd(board.totals[day].count ? board.totals[day].usd : null)}{" "}
+                <small>{nativeHeadline ? nativeHeadline[0] : "USD"}</small>
               </strong>
               {!board.totals[day].count && (
                 <>
-                  {[...native].map(([unit, amount]) => (
-                    <span key={unit}>
-                      {nf.format(amount)} {unit}
-                    </span>
-                  ))}
+                  {!nativeHeadline &&
+                    [...native].map(([unit, amount]) => (
+                      <span key={unit}>
+                        {nf.format(amount)} {unit}
+                      </span>
+                    ))}
                   <small className="board-total-context">
                     {metrics.length
                       ? c.noConversion[locale]
@@ -105,7 +110,13 @@ export function EarningsBoard({
                 <tr key={row.project}>
                   <th>
                     <a href={projectPath(locale, row.project)}>{FLEET_NAMES[row.project]} ↗</a>
-                    {row.project === "iota" && <IotaRunLabels runs={entries.filter((e) => e.binding.project === "iota").map((e) => e.data.officialRun)} />}
+                    {row.project === "iota" && (
+                      <IotaRunLabels
+                        runs={entries
+                          .filter((e) => e.binding.project === "iota")
+                          .map((e) => e.data.officialRun)}
+                      />
+                    )}
                   </th>
                   <td className="earnings-board-devices" data-label={c.devices[locale]}>
                     {row.devices.size}

@@ -103,3 +103,40 @@ it("charts observed zeroes without inventing missing days or including the incom
   expect(series.at(-1)).toEqual({ day: "2026-10-17", value: 2.5, partial: true });
   expect(series.some((r) => r.value === 99)).toBe(false);
 });
+
+it("counts a manager and its processor reward only once, retaining all three ACU periods", () => {
+  const now = Date.now(),
+    dayStart = Math.floor((now + 28800000) / 86400000) * 86400000 - 28800000;
+  const data: BoardReading = {
+    scope: "wallet",
+    unit: "",
+    source: "Acurast",
+    updated: "now",
+    health: "fresh",
+    acurastRewards: {
+      dayStart,
+      observedAt: now,
+      blockHash: "x",
+      managers: [{ id: "67279", today: "0.5", yesterday: "1.25", cumulative: "5.75" }],
+    },
+  };
+  const rows = earningsBoard([
+    { binding: b("acurast", "manager"), deviceId: "1", data },
+    { binding: b("acurast", "processor"), deviceId: "2", data },
+  ]);
+  expect(rows.projects[0]?.total).toBe(1);
+  expect(rows.projects[0]?.devices.size).toBe(2);
+  expect(rows.projects[0]?.metrics.get("today:ACU")?.amount).toBe(0.5);
+  expect(rows.projects[0]?.metrics.get("yesterday:ACU")?.amount).toBe(1.25);
+  expect(rows.projects[0]?.metrics.get("cumulative:ACU")?.amount).toBe(5.75);
+  expect(rows.totals.today.count).toBe(0);
+  const older = earningsBoard([
+    {
+      binding: b("acurast", "manager"),
+      deviceId: "1",
+      data: { ...data, acurastRewards: { ...data.acurastRewards!, dayStart: dayStart - 86400000 } },
+    },
+  ]);
+  expect(older.projects[0]?.metrics.has("today:ACU")).toBe(false);
+  expect(older.projects[0]?.metrics.has("cumulative:ACU")).toBe(true);
+});

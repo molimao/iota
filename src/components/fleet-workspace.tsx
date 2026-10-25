@@ -1,3 +1,4 @@
+import { AcurastRewards } from "./acurast-rewards";
 import { SyncGuidance } from "./sync-guidance";
 import { IotaDeviceRun } from "./iota-device-run";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
@@ -939,6 +940,8 @@ function FleetCard({
   const accountStale = device.bindings.some((b) => reading(b).health === "stale");
   const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
   const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
+  const onlyAcurast =
+    device.bindings.length > 0 && device.bindings.every((b) => b.project === "acurast");
   const hasIota = device.bindings.some((b) => b.project === "iota");
   const hasOtherDaily = device.bindings.some((b) => {
     const r = reading(b);
@@ -975,52 +978,54 @@ function FleetCard({
           {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
         </span>
       </header>
-      <section className="fleet-device-earnings" aria-label={headlineLabel}>
-        <div>
-          <span>{headlineLabel}</span>
-          <strong>
-            {retained
-              ? retained.amount
-              : account
-                ? account.amount
-                : nativeHeadline
-                  ? nativeHeadline.amount
-                  : formatUsd(daily.usd)}
+      {!onlyAcurast && (
+        <section className="fleet-device-earnings" aria-label={headlineLabel}>
+          <div>
+            <span>{headlineLabel}</span>
+            <strong>
+              {retained
+                ? retained.amount
+                : account
+                  ? account.amount
+                  : nativeHeadline
+                    ? nativeHeadline.amount
+                    : formatUsd(daily.usd)}
+              <small>
+                {retained
+                  ? retained.unit
+                  : account
+                    ? account.unit
+                    : nativeHeadline
+                      ? nativeHeadline.unit
+                      : daily.usd !== null
+                        ? "USD"
+                        : ""}
+              </small>
+            </strong>
+          </div>
+          <div className="fleet-device-earnings-detail">
+            {!nativeHeadline &&
+              daily.native.map((value, index) => (
+                <span key={index}>
+                  {value.amount} <b>{value.unit}</b>
+                </span>
+              ))}
             <small>
               {retained
-                ? retained.unit
+                ? c.stale
                 : account
-                  ? account.unit
-                  : nativeHeadline
-                    ? nativeHeadline.unit
-                    : daily.usd !== null
-                      ? "USD"
-                      : ""}
+                  ? `${c.wallet}${accountStale ? " · " + c.stale : ""}`
+                  : daily.usd !== null
+                    ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
+                    : daily.known
+                      ? c.noEarningsPrice
+                      : initialLoading
+                        ? c.loading
+                        : c.noDeviceEarnings}
             </small>
-          </strong>
-        </div>
-        <div className="fleet-device-earnings-detail">
-          {!nativeHeadline &&
-            daily.native.map((value, index) => (
-              <span key={index}>
-                {value.amount} <b>{value.unit}</b>
-              </span>
-            ))}
-          <small>
-            {retained
-              ? c.stale
-              : account
-                ? `${c.wallet}${accountStale ? " · " + c.stale : ""}`
-                : daily.usd !== null
-                  ? `${daily.partial ? c.partialTotal + " · " : ""}${c.usdEstimate}${daily.priceStale ? " · " + c.quoteOlder : ""}`
-                  : daily.known
-                    ? c.noEarningsPrice
-                    : initialLoading
-                      ? c.loading
-                      : c.noDeviceEarnings}
-          </small>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
       {trend}
       <div className="fleet-project-readings">
         {!device.bindings.length && (
@@ -1061,6 +1066,12 @@ function FleetCard({
                   layout="row"
                 />
               )}
+              {binding.project === "acurast" && (
+                <AcurastRewards
+                  rewards={data.acurastRewards}
+                  stale={data.health === "stale" || data.health === "unavailable"}
+                />
+              )}
               {(data.health === "stale" ||
                 data.health === "unavailable" ||
                 data.note === c.stale) && (
@@ -1077,34 +1088,36 @@ function FleetCard({
               )}
               {expanded && (
                 <div id={`fleet-reading-${binding.id}`}>
-                  <div className="fleet-reading-metrics">
-                    <div>
-                      <span>
-                        {data.todayLabel ?? (binding.project === "iota" ? c.yesterday : c.today)}
-                        {data.scope === "wallet" && <small>{c.wallet}</small>}
-                      </span>
-                      <strong>
-                        {data.today ?? "—"}
-                        <small>{data.today !== null ? data.unit : ""}</small>
-                      </strong>
-                      {data.todayUsd && (
-                        <small className="fleet-usd-estimate">
-                          ≈ ${data.todayUsd} USD · {c.usdEstimate}
-                          {data.priceStale ? " · " + c.quoteOlder : ""}
-                        </small>
-                      )}
+                  {binding.project !== "acurast" && (
+                    <div className="fleet-reading-metrics">
+                      <div>
+                        <span>
+                          {data.todayLabel ?? (binding.project === "iota" ? c.yesterday : c.today)}
+                          {data.scope === "wallet" && <small>{c.wallet}</small>}
+                        </span>
+                        <strong>
+                          {data.today ?? "—"}
+                          <small>{data.today !== null ? data.unit : ""}</small>
+                        </strong>
+                        {data.todayUsd && (
+                          <small className="fleet-usd-estimate">
+                            ≈ ${data.todayUsd} USD · {c.usdEstimate}
+                            {data.priceStale ? " · " + c.quoteOlder : ""}
+                          </small>
+                        )}
+                      </div>
+                      <div>
+                        <span>
+                          {data.totalLabel ?? c.total}
+                          {data.scope === "wallet" && <small>{c.wallet}</small>}
+                        </span>
+                        <strong>
+                          {data.lifetime ?? "—"}
+                          <small>{data.lifetime !== null ? data.unit : ""}</small>
+                        </strong>
+                      </div>
                     </div>
-                    <div>
-                      <span>
-                        {data.totalLabel ?? c.total}
-                        {data.scope === "wallet" && <small>{c.wallet}</small>}
-                      </span>
-                      <strong>
-                        {data.lifetime ?? "—"}
-                        <small>{data.lifetime !== null ? data.unit : ""}</small>
-                      </strong>
-                    </div>
-                  </div>
+                  )}
                   {data.note &&
                     !["stale", "unavailable"].includes(data.health ?? "") &&
                     data.note !== c.stale && <p className="fleet-reading-note">{data.note}</p>}

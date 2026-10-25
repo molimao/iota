@@ -287,7 +287,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         d = r?.data;
       const current = !!r?.fetchedAt && iota.now - r.fetchedAt < 600000 && !r.error && !q?.isError;
       const sourceFresh =
-        (binding.project === "noid" || binding.project === "acurast")
+        binding.project === "noid" || binding.project === "acurast"
           ? current && d?.sourceUpdatedAt != null
           : !!d?.sourceUpdatedAt && iota.now - d.sourceUpdatedAt < 900000;
       const daily =
@@ -310,6 +310,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                     ? "Acurast Mainnet"
                     : "Golem Stats",
         scope: d?.scope === "provider" ? "wallet" : "device",
+        ...(d?.acurastRewards ? { acurastRewards: d.acurastRewards } : {}),
         ...(binding.project === "noid" && d?.balance != null
           ? {
               accountSummary: { kind: "balance" as const, amount: String(d.balance), unit: "NOID" },
@@ -321,7 +322,10 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
             : current && sourceFresh && d?.online === false
               ? "offline"
               : "unavailable",
-        activity: d?.acurast?.role === "manager" ? `${d.acurast.processors.length} ${additionalMetricCopy.processors[locale]}` : d?.activity ?? d?.hardware ?? "—",
+        activity:
+          d?.acurast?.role === "manager"
+            ? `${d.acurast.processors.length} ${additionalMetricCopy.processors[locale]}`
+            : (d?.activity ?? d?.hardware ?? "—"),
         today: d?.reward === null || d?.reward === undefined ? null : String(d.reward),
         rewardAmount: d?.reward ?? null,
         earningsWindow: d?.period === "hkDay" ? "today" : (d?.period ?? "unknown"),

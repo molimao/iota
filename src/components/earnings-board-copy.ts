@@ -238,6 +238,7 @@ export const boardCopy = {
     "月間アカウント指標",
   ]),
   windows: {
+    cumulative: l(["累计到账", "累計到帳", "Total received", "누적 수령", "累計受取"]),
     today: l([
       "今日 · 北京时间",
       "今日 · 北京時間",

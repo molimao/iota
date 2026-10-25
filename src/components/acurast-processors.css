@@ -1,5 +1,129 @@
-.acurast-processors { margin-top: 1.5rem; min-width: 0; }
-.acurast-processor-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 1rem; margin-top: 1rem; }
-.acurast-processor-grid article { display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; min-width: 0; padding: 1rem; border: 1px solid currentColor; border-color: color-mix(in srgb,currentColor 20%,transparent); border-radius: 12px; }
-.acurast-processor-grid code { max-width: 100%; overflow-wrap: anywhere; font-size: .85rem; line-height: 1.6; color: inherit; }
-.acurast-processor-grid strong { font-size: .9rem; color: inherit; }
+.acurast-processors {
+  margin-top: 1.5rem;
+  min-width: 0;
+}
+.acurast-processor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.acurast-processor-grid article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 12px;
+}
+.acurast-processor-grid code {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: inherit;
+}
+.acurast-processor-grid strong {
+  font-size: 0.9rem;
+  color: inherit;
+}
+.acu-rewards {
+  container-type: inline-size;
+  margin-block: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 14px;
+  min-width: 0;
+}
+.acu-rewards header {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.acu-rewards h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+.acu-manager {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin: 0.75rem 0;
+}
+.acu-reward-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.acu-reward-grid dt {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+.acu-reward-grid dt small {
+  display: block;
+  margin-top: 0.25rem;
+}
+.acu-reward-grid dd {
+  margin: 0.5rem 0 0;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.acu-reward-grid dd small {
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.7;
+}
+.acu-rewards summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+.acu-rewards .compute-caption {
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+@media (max-width: 480px) {
+  .acu-rewards {
+    padding: 0.9rem;
+  }
+  .acu-reward-grid {
+    gap: 0.5rem;
+  }
+  .acu-reward-grid dd small {
+    display: block;
+    margin-top: 0.25rem;
+  }
+}
+
+@container (max-width: 370px) {
+  .acu-reward-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .acu-reward-grid > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .acu-reward-grid dd {
+    margin: 0;
+    text-align: right;
+    font-size: 1.1rem;
+  }
+  .acu-reward-grid dd small {
+    display: inline;
+  }
+}
+
+.acu-exact {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  margin-top: 0.75rem;
+}

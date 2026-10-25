@@ -2,6 +2,7 @@ import { expect, it, vi } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+vi.mock("../components/bnt-hashrate-trend", () => ({ BntHashrateTrend: () => null }));
 vi.mock("@/lib/pro-tools.functions", () => ({ getEarningsHistory: () => {} }));
 vi.mock("@/hooks/use-auth", () => ({ useAuth: () => ({ userId: null }) }));
 vi.mock("@tanstack/react-start", () => ({ useServerFn: () => () => {} }));

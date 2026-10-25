@@ -1,3 +1,4 @@
+import { AcurastRewards } from "./acurast-rewards";
 import { AcurastProcessors } from "./acurast-processors";
 import { additionalMetricCopy as extra } from "./additional-platform-copy";
 import { readQuery } from "@/lib/read-query";
@@ -101,6 +102,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
   const sourceStale =
     !demo &&
     project !== "noid" &&
+    project !== "acurast" &&
     data?.sourceUpdatedAt != null &&
     Date.now() - data.sourceUpdatedAt > 900000;
   const online =
@@ -313,12 +315,17 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
                     : c.unknown}
             </span>
           </div>
+          {project === "acurast" && (
+            <AcurastRewards rewards={data.acurastRewards} stale={!!result?.stale} />
+          )}
           {data.acurast && <AcurastProcessors data={data.acurast} />}
           {data.sourcePool && <p className="compute-caption">{data.sourcePool}</p>}
           <div className="compute-metrics">
             {project === "acurast" ? (
               <>
-                {data.acurast?.role === "manager" ? metric(extra.managerIdentity[locale], data.acurast.managerIds.join(", ")) : metric(extra.registration[locale], extra.registered[locale])}
+                {data.acurast?.role === "manager"
+                  ? metric(extra.managerIdentity[locale], data.acurast.managerIds.join(", "))
+                  : metric(extra.registration[locale], extra.registered[locale])}
                 {data.hardware && metric(extra.classification[locale], data.hardware)}
               </>
             ) : project === "noid" ? (

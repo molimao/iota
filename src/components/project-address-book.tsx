@@ -1,3 +1,4 @@
+import { AcurastRewards } from "./acurast-rewards";
 /// <reference types="vite/client" />
 import "./project-address-book.css";
 import { useEffect, useRef, useState } from "react";
@@ -36,6 +37,7 @@ const ADDRESS_STATUSES = [
 ] as const satisfies readonly ProjectReading["status"][];
 
 export type AddressBookEntry = {
+  acurastRewards?: ProjectReading["acurastRewards"];
   deviceId: string;
   deviceName: string;
   bindingId: string;
@@ -118,6 +120,7 @@ function toEntry(
     unit: reading.unit,
     ...(reading.note ? { note: reading.note } : {}),
     ...(reading.todayLabel ? { todayLabel: reading.todayLabel } : {}),
+    ...(reading.acurastRewards ? { acurastRewards: reading.acurastRewards } : {}),
     ...(reading.accountSummary ? { accountSummary: reading.accountSummary } : {}),
   };
 }
@@ -375,6 +378,12 @@ export function ProjectAddressBookView({
               )}
               <code className="pab-id platform-public-id">{entry.identifier}</code>
               <p>{entry.activity}</p>
+              {project === "acurast" && (
+                <AcurastRewards
+                  rewards={entry.acurastRewards}
+                  stale={["staleData", "refreshFailed", "unavailable"].includes(entry.status)}
+                />
+              )}
               {entry.accountSummary && (
                 <div>
                   <span className="compute-caption">

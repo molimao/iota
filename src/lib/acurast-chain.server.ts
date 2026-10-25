@@ -25,20 +25,32 @@ const u128 = (v: unknown): string | null => {
 const integer = (little: string) => BigInt("0x" + (little.match(/../g) ?? []).reverse().join(""));
 function address(publicKey: string) {
   const body = new Uint8Array([42, ...bytes(publicKey)]);
-  const checksum = blake2b(new Uint8Array([...new TextEncoder().encode("SS58PRE"), ...body]), { dkLen: 64 });
+  const checksum = blake2b(new Uint8Array([...new TextEncoder().encode("SS58PRE"), ...body]), {
+    dkLen: 64,
+  });
   return base58.encode(new Uint8Array([...body, ...checksum.slice(0, 2)]));
 }
 export function acurastStorageKey(kind: "processor" | "heartbeat", publicKey: string) {
   return PREFIX[kind] + hash(publicKey);
 }
-export async function readAcurastChain(id: string, fetcher: typeof fetch = fetch, now = Date.now()): Promise<PlatformNode> {
+export async function readAcurastChain(
+  id: string,
+  fetcher: typeof fetch = fetch,
+  now = Date.now(),
+): Promise<PlatformNode> {
   const key = acurastPublicKey(id);
   if (!key) throw new Error("invalid-data");
   async function rpc(method: string, params: unknown[]) {
-    const value = await upstreamJson(ACURAST_RPC, { body: { jsonrpc: "2.0", id: 1, method, params }, maxBytes: 200000 }, fetcher);
-    if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("invalid-data");
+    const value = await upstreamJson(
+      ACURAST_RPC,
+      { body: { jsonrpc: "2.0", id: 1, method, params }, maxBytes: 200000 },
+      fetcher,
+    );
+    if (!value || typeof value !== "object" || Array.isArray(value))
+      throw new Error("invalid-data");
     const r = value as Record<string, unknown>;
-    if (r["jsonrpc"] !== "2.0" || r["id"] !== 1 || r["error"] || !("result" in r)) throw new Error("invalid-data");
+    if (r["jsonrpc"] !== "2.0" || r["id"] !== 1 || r["error"] || !("result" in r))
+      throw new Error("invalid-data");
     return r["result"];
   }
   const block = await rpc("chain_getFinalizedHead", []);
@@ -50,9 +62,17 @@ export async function readAcurastChain(id: string, fetcher: typeof fetch = fetch
     let after: string | null = null;
     for (let page = 0; page < 5; page++) {
       const values = await rpc("state_getKeysPaged", [prefix, 100, after, block]);
-      if (!Array.isArray(values) || values.length > 100 || values.some((v) => typeof v !== "string" || !/^0x[0-9a-f]+$/.test(v) || !v.startsWith(prefix))) throw new Error("invalid-data");
+      if (
+        !Array.isArray(values) ||
+        values.length > 100 ||
+        values.some(
+          (v) => typeof v !== "string" || !/^0x[0-9a-f]+$/.test(v) || !v.startsWith(prefix),
+        )
+      )
+        throw new Error("invalid-data");
       const batch = values as string[];
-      if (batch.some((v, i) => (i > 0 && v <= batch[i - 1]!) || (after !== null && v <= after))) throw new Error("invalid-data");
+      if (batch.some((v, i) => (i > 0 && v <= batch[i - 1]!) || (after !== null && v <= after)))
+        throw new Error("invalid-data");
       result.push(...batch);
       if (batch.length < 100) return result;
       after = batch.at(-1)!;
@@ -69,7 +89,8 @@ export async function readAcurastChain(id: string, fetcher: typeof fetch = fetch
     const prefix = PREFIX.owner + concat(key) + concat("00".repeat(16));
     for (const entry of await keys(prefix)) {
       const suffix = entry.slice(prefix.length);
-      if (!/^[0-9a-f]{64}$/.test(suffix) || hash(suffix.slice(32)) !== suffix.slice(0, 32)) throw new Error("invalid-data");
+      if (!/^[0-9a-f]{64}$/.test(suffix) || hash(suffix.slice(32)) !== suffix.slice(0, 32))
+        throw new Error("invalid-data");
       managerIds.push(suffix.slice(32));
     }
     if (!managerIds.length) throw new Error("not-found");
@@ -81,7 +102,8 @@ export async function readAcurastChain(id: string, fetcher: typeof fetch = fetch
       const prefix = PREFIX.managed + concat(mid);
       for (const entry of await keys(prefix)) {
         const suffix = entry.slice(prefix.length);
-        if (!/^[0-9a-f]{96}$/.test(suffix) || hash(suffix.slice(32)) !== suffix.slice(0, 32)) throw new Error("invalid-data");
+        if (!/^[0-9a-f]{96}$/.test(suffix) || hash(suffix.slice(32)) !== suffix.slice(0, 32))
+          throw new Error("invalid-data");
         processors.add(suffix.slice(32));
       }
     }
@@ -91,20 +113,49 @@ export async function readAcurastChain(id: string, fetcher: typeof fetch = fetch
   const all = [...processors].slice(0, 100);
   // Fixed concurrency; never query unrelated accounts or the entire chain.
   for (let i = 0; i < all.length; i += 4) {
-    list.push(...await Promise.all(all.slice(i, i + 4).map(async (pub) => {
-      const raw = u128(await storage(acurastStorageKey("heartbeat", pub)));
-      const n = raw === null ? null : integer(raw);
-      const seen = n !== null && n <= BigInt(Number.MAX_SAFE_INTEGER) && n > 0n && n <= BigInt(now) ? Number(n) : null;
-      // Same 31-minute active window used by the official Hub.
-      return { id: address(pub), lastSeen: seen, online: seen === null ? null : now - seen < 31 * 60000 };
-    })));
+    list.push(
+      ...(await Promise.all(
+        all.slice(i, i + 4).map(async (pub) => {
+          const raw = u128(await storage(acurastStorageKey("heartbeat", pub)));
+          const n = raw === null ? null : integer(raw);
+          const seen =
+            n !== null && n <= BigInt(Number.MAX_SAFE_INTEGER) && n > 0n && n <= BigInt(now)
+              ? Number(n)
+              : null;
+          // Same 31-minute active window used by the official Hub.
+          return {
+            id: address(pub),
+            lastSeen: seen,
+            online: seen === null ? null : now - seen < 31 * 60000,
+          };
+        }),
+      )),
+    );
   }
+  const { readAcurastRewards } = await import("./acurast-rewards.server");
+  const rewards = await readAcurastRewards(
+    managerIds.map((m) => integer(m).toString()),
+    fetcher,
+    now,
+  ).catch(() => null);
   return {
     ...emptyNode(id),
+    ...(rewards ? { acurastRewards: rewards } : {}),
     scope: manager !== null ? "device" : "provider",
-    online: list.some((p) => p.online === true) ? true : list.length > 0 && list.every((p) => p.online === false) ? false : null,
-    sourceUpdatedAt: list.some((p) => p.lastSeen !== null) ? Math.max(...list.map((p) => p.lastSeen ?? 0)) : null,
+    online: list.some((p) => p.online === true)
+      ? true
+      : list.length > 0 && list.every((p) => p.online === false)
+        ? false
+        : null,
+    sourceUpdatedAt: list.some((p) => p.lastSeen !== null)
+      ? Math.max(...list.map((p) => p.lastSeen ?? 0))
+      : null,
     partial: true,
-    acurast: { role: manager !== null ? "processor" : "manager", managerIds: managerIds.map((m) => integer(m).toString()), processors: list, complete },
+    acurast: {
+      role: manager !== null ? "processor" : "manager",
+      managerIds: managerIds.map((m) => integer(m).toString()),
+      processors: list,
+      complete,
+    },
   };
 }

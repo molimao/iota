@@ -1,6 +1,8 @@
 import { bindingIdentity, type FleetBinding, type FleetProject } from "./fleet";
-export type EarningsWindow = "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown";
+export type EarningsWindow =
+  "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown" | "cumulative";
 export type BoardReading = {
+  acurastRewards?: import("./acurast-rewards").AcurastRewards;
   scope: "device" | "wallet";
   rewardAmount?: number | null;
   earningsWindow?: EarningsWindow;
@@ -17,6 +19,16 @@ export function earningsBoard(
   entries: { binding: FleetBinding; deviceId: string; data: BoardReading }[],
 ) {
   const seen = new Set<string>();
+  const bestAcu = new Map<string, BoardReading>();
+  for (const { binding, data } of entries) {
+    if (binding.project !== "acurast" || !data.acurastRewards) continue;
+    for (const manager of data.acurastRewards.managers) {
+      const previous = bestAcu.get(manager.id);
+      const rank = (d: BoardReading) =>
+        (d.health === "fresh" ? 1e15 : 0) + (d.acurastRewards?.observedAt ?? 0);
+      if (!previous || rank(data) > rank(previous)) bestAcu.set(manager.id, data);
+    }
+  }
   const projects = new Map<
     FleetProject,
     {
@@ -65,6 +77,38 @@ export function earningsBoard(
       projects.set(b.project, row);
     }
     row.devices.add(deviceId);
+    if (b.project === "acurast" && d.acurastRewards) {
+      const currentDay = Math.floor((Date.now() + 28800000) / 86400000) * 86400000 - 28800000;
+      for (const manager of d.acurastRewards.managers) {
+        const managerKey = `acurast:manager:${manager.id}`;
+        if (bestAcu.get(manager.id) !== d || seen.has(managerKey)) continue;
+        seen.add(managerKey);
+        row.total++;
+        row.sources.add(d.source);
+        for (const period of ["today", "yesterday", "cumulative"] as const) {
+          if (period !== "cumulative" && currentDay !== d.acurastRewards.dayStart) continue;
+          const raw = manager[period];
+          if (raw === null || !/^\d+(?:\.\d{1,12})?$/.test(raw)) continue;
+          const value = Number(raw);
+          if (!Number.isFinite(value) || value < 0) continue;
+          const key = `${period}:ACU`;
+          const metric = row.metrics.get(key) ?? {
+            window: period,
+            unit: "ACU",
+            amount: 0,
+            usd: null,
+            count: 0,
+            stale: false,
+          };
+          metric.amount += value;
+          metric.count++;
+          metric.stale ||= d.health !== "fresh";
+          row.metrics.set(key, metric);
+        }
+        row.known++;
+      }
+      continue;
+    }
     const key =
       d.scope === "wallet" ? `${b.project}:${b.pool ?? ""}:${b.identifier}` : bindingIdentity(b);
     if (seen.has(key)) continue;
