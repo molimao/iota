@@ -22,6 +22,10 @@ export const agentSnapshot = z
       .strict()
       .nullable()
       .optional(),
+    appSelectedRun: z.object({
+      id: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/),
+      observedAt: z.string().datetime({ offset: true }),
+    }).strict().nullable().optional(),
     trainingState: trainingStateSchema.nullable().optional(),
     logs: z.string().max(12000).optional(),
     recovery: z.enum(["idle", "restarted", "cooldown", "paused"]).default("idle"),
@@ -67,7 +71,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
 }
 
-export const AGENT_RELEASE = "1.0.10";
+export const AGENT_RELEASE = "1.0.11";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;

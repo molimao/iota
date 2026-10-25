@@ -1,0 +1,20 @@
+{
+  "status": "awaiting production approval",
+  "agentVersion": "1.0.11",
+  "local_readonly_evidence": {
+    "device": "公司电脑 (local Mac)",
+    "source": "Official desktop netlog: exact HTTPS API host /mainnet/phase_snapshots run_id",
+    "selectedRun": "4.13.7.11-tah",
+    "observedAt": "2026-10-25T03:50:57.894Z"
+  },
+  "behavior": "Fresh app-selected run preferred on per-device run display; explicitly labelled APP 当前轮次, not roster membership. Public roster/reference fallback remains.",
+  "limits": "Requires running desktop with compatible netlog; reads bounded 512 KB tail and constants header. Drops evidence after 90 seconds.",
+  "validation": {
+    "agentTests": 71,
+    "webTests": 26,
+    "typecheck": "passed",
+    "package": "verified"
+  },
+  "productionChanged": false,
+  "trainingRestarted": false
+}

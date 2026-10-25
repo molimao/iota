@@ -1,5 +1,5 @@
 import type { RunInfo } from "./iota-types";
-export type OfficialRun = { id: string; stale: boolean; kind?: "reference" };
+export type OfficialRun = { id: string; stale: boolean; kind?: "reference" | "app" };
 
 /** Same public fallback as the official desktop Global Overview, not a miner assignment. */
 export function appReferenceRun(

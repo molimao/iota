@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.10'
+VERSION = '1.0.11'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -379,6 +379,50 @@ def crashed_training(rows, now=None, workers=None):
         return False
 
 
+def parse_app_selected_run(header, text, now):
+    """Read only the run selected for the desktop's Global Overview.
+    Never return raw network events, URLs, headers or wallet identifiers.
+    """
+    try:
+        constants = json.loads(header.rstrip().rstrip(',') + '}')['constants']
+        offset = float(constants['timeTickOffset'])
+    except (ValueError, KeyError, TypeError):
+        return None
+    latest = None
+    for line in text.splitlines():
+        try:
+            event = json.loads(line.rstrip().rstrip(','))
+            params = event.get('params', {})
+            url = urllib.parse.urlsplit(params.get('url', ''))
+            if url.scheme != 'https' or url.netloc != 'iota-web.api.macrocosmos.ai' or url.path != '/mainnet/phase_snapshots':
+                continue
+            ids = urllib.parse.parse_qs(url.query).get('run_id', [])
+            observed = (offset + float(event['time'])) / 1000
+            if len(ids) != 1 or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,63}', ids[0]) or not 0 <= now-observed <= 90:
+                continue
+            if latest is None or observed > latest[0]:
+                latest = (observed, ids[0])
+        except (ValueError, KeyError, TypeError, AttributeError):
+            continue
+    return {'id': latest[1], 'observedAt': datetime.datetime.fromtimestamp(latest[0], datetime.timezone.utc).isoformat()} if latest else None
+
+
+def app_selected_run():
+    try:
+        folder = Path.home() / 'Library/Logs/IOTA Train at Home'
+        files = [p for p in folder.glob('*netlog.log') if p.is_file() and not p.is_symlink()]
+        if not files:
+            return None
+        path = max(files, key=lambda p: p.stat().st_mtime)
+        with path.open('rb') as f:
+            header = f.readline(262144).decode('utf-8', errors='replace')
+            f.seek(max(f.tell(), path.stat().st_size - 512000))
+            text = f.read(512000).decode('utf-8', errors='replace')
+        return parse_app_selected_run(header, text, time.time())
+    except (OSError, ValueError):
+        return None
+
+
 def snapshot(include_logs=False):
     rows = processes()
     cpu, memory = training_resources()
@@ -390,6 +434,7 @@ def snapshot(include_logs=False):
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
     payload['queue'], payload['trainingState'] = local_training_status(workers)
+    payload['appSelectedRun'] = app_selected_run() if payload['appRunning'] else None
     if payload['workerRunning'] and crashed_training(rows, workers=workers):
         payload['workerRunning'] = False
         payload['queue'], payload['trainingState'] = None, None

@@ -28,7 +28,12 @@ export function IotaDeviceRun({
     ja: "待機中 · 公開ラン未確認",
     ko: "대기 중 · 공개 Run 미확인",
   }[locale];
-  return <IotaPublicRunLabels runs={[run]} layout={layout} emptyText={queued ? pending : undefined} preview={!!preview} />;
+  const selected = agent?.snapshot.appSelectedRun;
+  const age = selected ? Date.now() - Date.parse(selected.observedAt) : Infinity;
+  const appRun: OfficialRun | null = !query.isError && agent && agent.snapshot.appRunning &&
+    Date.now() - Date.parse(agent.lastSeen ?? "") <= 90_000 && age >= 0 && age <= 90_000 && selected
+      ? { id: selected.id, stale: false, kind: "app" } : null;
+  return <IotaPublicRunLabels runs={[appRun ?? run]} layout={layout} emptyText={queued ? pending : undefined} preview={!!preview} />;
 }
 
 export function IotaRosterStatus({

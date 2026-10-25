@@ -68,3 +68,7 @@ Observation treats the exact installed `main_pool` path as a training root. The 
 ## Worker-generation crash evidence (1.0.10)
 
 An older worker's exit no longer marks its replacement as stopped while the GUI remains open. Crash evidence is scoped to the oldest currently observed trusted training root. A newer child cannot hide a crash in that generation. If a worker's start time is unavailable or invalid, the agent keeps the GUI launch boundary rather than clearing crash evidence. Remote controls and automatic recovery settings remain unchanged.
+
+## Desktop selected run (1.0.11)
+
+Reads a bounded tail of the official desktop netlog while the TAH app is running. Only HTTPS phase-snapshot requests to the exact official API host qualify. The agent uploads only the selected run ID and observation time, never request URLs, headers or network event contents. This is the run displayed by the app, not proof of roster membership or training contribution. Observations older than 90 seconds are omitted. Older builds without compatible netlogs keep public roster/reference information. No application preferences or training processes are modified.

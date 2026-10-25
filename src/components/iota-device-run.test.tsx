@@ -54,3 +54,12 @@ describe("queued device run evidence", () => {
     ).toContain("尚未找到");
   });
 });
+
+it("uses fresh desktop selection instead of the public record and drops expired selection", () => {
+  context.agent!.snapshot.appSelectedRun = { id: "4.13.7.11-tah", observedAt: new Date().toISOString() };
+  const view = () => renderToStaticMarkup(<IotaDeviceRun run={{ id: "4.13.7.10-tah", stale: false }} />);
+  expect(view()).toContain("APP 当前轮次");
+  expect(view()).toContain("4.13.7.11-tah");
+  context.agent!.snapshot.appSelectedRun.observedAt = new Date(Date.now() - 91000).toISOString();
+  expect(view()).not.toContain("4.13.7.11-tah");
+});
