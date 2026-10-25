@@ -2,7 +2,8 @@ import { SyncGuidance } from "./sync-guidance";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import { IotaDeviceRun, IotaRosterStatus } from "./iota-device-run";
 import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
-import { agentPhase } from "@/lib/device-agent";
+import { iotaDeviceDisplay } from "@/lib/iota-device-display";
+import { useAgentClock } from "@/hooks/use-agent-clock";
 import { officialRun } from "@/lib/iota-run";
 import { DailyRewardsSummary } from "./daily-rewards-summary";
 import { ReportEntry } from "./daily-report-discovery";
@@ -151,19 +152,12 @@ function SavedIotaDashboard() {
   const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const agentEvidence = useMatchedDeviceAgent();
-  const queuedIds = new Set(
-    !agentEvidence.enabled || agentEvidence.query.isError
-      ? []
-      : (agentEvidence.devices ?? []).flatMap((device) => {
-          const agent = agentEvidence.query.data?.find((a) => a.deviceId === device.id);
-          return agent && agentPhase(agent) === "queued"
-            ? device.bindings.filter((b) => b.project === "iota").map((b) => b.identifier)
-            : [];
-        }),
-  );
-  const displayViews = dash.views.map((view) =>
-    queuedIds.has(view.entry.hotkey) ? { ...view, bucket: "waiting" as const } : view,
-  );
+  const agentNow=useAgentClock();
+  const displayViews = dash.views.map(view=>{
+    const device=agentEvidence.devices?.find(d=>d.bindings.some(b=>b.project==="iota"&&b.identifier===view.entry.hotkey));
+    const agent=agentEvidence.enabled ? agentEvidence.query.data?.find(a=>a.deviceId===device?.id) : undefined;
+    return {...view,bucket:iotaDeviceDisplay(view.status,agent,agentEvidence.query.isError,agentNow || Date.now()).bucket};
+  });
   const displayCounts = { contributing: 0, waiting: 0, attention: 0, pending: 0 };
   for (const view of displayViews) displayCounts[view.bucket]++;
   const [removeTarget, setRemoveTarget] = useState<string | null>(null);

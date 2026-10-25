@@ -2,7 +2,7 @@ import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastRewards } from "./acurast-rewards";
 import { SyncGuidance } from "./sync-guidance";
-import { IotaDeviceRun } from "./iota-device-run";
+import { IotaRosterStatus, IotaDeviceRun } from "./iota-device-run";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
@@ -1052,10 +1052,10 @@ function FleetCard({
                 onClick={() => setExpandedBinding(expanded ? null : binding.id)}
               >
                 <b>{FLEET_NAMES[binding.project]}</b>
-                <span className={`fleet-status fleet-status-${data.status}`}>
+                {binding.project === "iota" ? <IotaRosterStatus deviceId={device.id} miner={binding.identifier} preview={!!preview} status={data.officialTraining?.status ?? "unknown"}/> : <span className={`fleet-status fleet-status-${data.status}`}>
                   <i />
                   {c[data.status]}
-                </span>
+                </span>}
                 <small>{binding.project === "flyai" && data.flyai ? data.flyai.month : data.activity}</small>
                 <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>

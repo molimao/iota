@@ -75,3 +75,18 @@ it("never substitutes a network reference for missing actual device evidence", (
   expect(html).not.toContain("wrong-network-default");
   expect(html).toContain("实际轮次未读到");
 });
+
+it("shows a live worker even when the official roster cannot find it, with source context",()=>{
+ delete context.agent!.snapshot.queue;
+ const html=renderToStaticMarkup(<IotaRosterStatus miner="test" status="not_found" onClick={()=>{}}/>);
+ expect(html).toContain("进程运行中");
+ expect(html).not.toContain(">尚未找到<");
+ expect(html).toContain("官方当前训练名单未收录此 ID");
+ context.query.isError=true;
+ expect(renderToStaticMarkup(<IotaRosterStatus miner="test" status="not_found"/>)).toContain("尚未找到");
+});
+it("does not keep a stale Agent run labeled current after the heartbeat cutoff",()=>{
+ context.agent!.snapshot.appSelectedRun={id:"4.13.7.11-tah",observedAt:new Date().toISOString()};
+ context.agent!.lastSeen=new Date(Date.now()-61000).toISOString();
+ expect(renderToStaticMarkup(<IotaDeviceRun miner="test"/>)).not.toContain("4.13.7.11-tah");
+});
