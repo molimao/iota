@@ -212,33 +212,33 @@
 .pab-upgrade a {
   display: inline-block;
 }
-.project-address-book[data-project="acurast"] .project-address-grid {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .project-address-grid {
   grid-template-columns: minmax(0, 1fr);
 }
-.project-address-book[data-project="acurast"] .project-address-card {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .project-address-card {
   margin-top: 0;
   padding: clamp(18px, 3vw, 28px);
 }
-.project-address-book[data-project="acurast"] .project-address-heading {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .project-address-heading {
   margin-bottom: 0.4rem;
 }
-.project-address-book[data-project="acurast"] .pab-name {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-name {
   font-size: 1rem;
 }
-.project-address-book[data-project="acurast"] .pab-state {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-state {
   flex: 0 0 auto;
   white-space: nowrap;
 }
-.project-address-book[data-project="acurast"] .pab-id {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-id {
   margin: 0;
   font-size: 0.75rem;
 }
-.project-address-book[data-project="acurast"] .pab-actions {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-actions {
   padding-top: 0.8rem;
   border-top: 1px solid #ffffff14;
   justify-content: flex-end;
 }
-.project-address-book[data-project="acurast"] .pab-actions button {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-actions button {
   font-size: 0.75rem;
   padding: 0.4rem 0.65rem;
 }

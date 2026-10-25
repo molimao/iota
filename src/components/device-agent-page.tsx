@@ -1,3 +1,4 @@
+import { useAgentClock } from "@/hooks/use-agent-clock";
 import { crashPreviewResult } from "./agent-crash-preview";
 import { AgentCrashAnalysis } from "./agent-crash-analysis";
 import { AgentUpdate } from "./agent-update";
@@ -51,7 +52,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     refetchOnWindowFocus: true,
     retry: false,
   });
-  const [now, setNow] = useState(Date.now());
+  const now = useAgentClock();
   const examples: AgentInfo[] = [
     {
       deviceId: "demo-mac",
@@ -77,10 +78,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null),
     [confirm, setConfirm] = useState<string | null>(null);
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 15000);
-    return () => clearInterval(timer);
-  }, []);
+
   useEffect(() => {
     if (!confirm) return;
     const timer = setTimeout(() => setConfirm(null), 30000);

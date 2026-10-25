@@ -1,3 +1,4 @@
+import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { acuCopy } from "./acurast-rewards";
 import { useId, useState } from "react";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
@@ -186,9 +187,10 @@ export function EarningsBoardCharts({
                       </span>
                       {[...row.accounts.values()].map((a) => (
                         <div key={a.identifier}>
-                          <strong>
+                          {a.flyai ? <FlyaiWalletStats data={a.flyai} stale={a.stale} compact /> : <strong>
                             {a.amount} <small>{a.unit}</small>
-                          </strong>
+                          </strong>}
+                          {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
                           <small>
                             {shortId(a.identifier)} ·{" "}
                             {a.kind === "month" ? c.month[locale] : c.balance[locale]}
@@ -220,7 +222,7 @@ export function EarningsBoardCharts({
                     ))}
                   </div>
                 )}
-                <TrendPanel
+                {(row.project !== "flyai" || filtered.length > 0) && <TrendPanel
                   history={filtered}
                   days={days}
                   title={c.trend[locale]}
@@ -228,7 +230,7 @@ export function EarningsBoardCharts({
                   tone={color(row.project)}
                   native
                   empty={empty}
-                />
+                />}
               </article>
             );
           })}

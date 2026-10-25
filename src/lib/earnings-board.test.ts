@@ -166,3 +166,15 @@ it("shows ACU wallet balances separately and deduplicates the same manager walle
   expect(result.projects[0]?.metrics.size).toBe(0);
   expect(result.totals.today.count).toBe(0);
 });
+
+it("converts deduplicated ACU rewards and balance without treating wallet funds as daily earnings", () => {
+ const now=Date.now(), dayStart=Math.floor((now+28800000)/86400000)*86400000-28800000;
+ const data: BoardReading={scope:"wallet",unit:"ACU",source:"chain",updated:"now",health:"fresh",acurastQuote:{usd:.1,quotedAt:now,source:"test"},acurastBalances:[{address:"wallet",total:"2.37",free:"2.34",reserved:".03",frozen:"0"}],acurastRewards:{dayStart,observedAt:now,blockHash:"0x1",managers:[{id:"67279",today:".3",yesterday:".5",cumulative:"5.23"}]}};
+ // Chain reward decimals always include the leading zero.
+ data.acurastRewards!.managers[0]!.today="0.3";data.acurastRewards!.managers[0]!.yesterday="0.5";
+ const result=earningsBoard([{binding:b("acurast","manager"),deviceId:"a",data},{binding:b("acurast","processor"),deviceId:"b",data}]);
+ expect(result.totals.today.usd).toBeCloseTo(.03);expect(result.totals.today.count).toBe(1);
+ expect(result.totals.yesterday.usd).toBeCloseTo(.05);
+ expect(result.projects[0]?.metrics.get("cumulative:ACU")?.usd).toBeCloseTo(.523);
+ expect([...result.projects[0]!.accounts.values()][0]?.usd).toBeCloseTo(.237);
+});

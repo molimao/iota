@@ -1,3 +1,5 @@
+import { useAgentClock } from "@/hooks/use-agent-clock";
+import { LANGUAGE_TAG } from "@/lib/site";
 import { AgentUpdate } from "./agent-update";
 import { AgentStatus } from "./agent-insights";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +14,7 @@ import { agentCopy } from "./device-agent-copy";
 /** Both card views share the account-scoped query with Mac management. */
 export function DeviceAgentSummary({ deviceId, miner, official, preview = false, compact = false }: { deviceId?: string; miner?: string; official?: OfficialTrainingEvidence | undefined; preview?: boolean; compact?: boolean }) {
   const auth = useAuth();
+  const now = useAgentClock();
   const { locale } = useLocale();
   const t = Object.fromEntries(Object.entries(agentCopy).map(([key, value]) => [key, value[locale]])) as Record<keyof typeof agentCopy, string>;
   const list = useServerFn(getDeviceAgents);
@@ -22,10 +25,10 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const id = deviceId ?? devices.data?.devices.find((d) => d.bindings.some((b) => b.project === "iota" && b.identifier === miner))?.id;
   const agent = enabled ? query.data?.find((a) => a.deviceId === id) : undefined;
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
-  const online = !!agent && !query.isError && agentOnline(agent.lastSeen);
+  const online = !!agent && !query.isError && agentOnline(agent.lastSeen, now);
   const s = agent?.snapshot;
-  const queue = agent && !query.isError && agentPhase(agent) === "queued" ? s?.queue?.position : undefined;
-  if (compact) return agent && !query.isError ? <a href={url} className="agent-table-status"><AgentStatus agent={agent} official={official} compact />{agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
+  const queue = agent && !query.isError && agentPhase(agent, now) === "queued" ? s?.queue?.position : undefined;
+  if (compact) return agent && !query.isError ? <a href={url} className="agent-table-status"><AgentStatus agent={agent} now={now} official={official} compact />{agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
     <a href={url}>{t.connectCompact} ↗</a>
@@ -33,8 +36,9 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   return <section className="fleet-agent-connect agent-card-summary" aria-label={t.title}>
     <>
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
-      {!query.isError && <AgentStatus agent={agent} official={official} concise />}
+      {!query.isError && <AgentStatus agent={agent} now={now} official={official} concise />}
       {!query.isError && <AgentUpdate agent={agent} />}
+      <p className="compute-caption agent-last-report">{t.lastReport} · {agent.lastSeen ? new Date(agent.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}</p>
       <dl className="agent-card-metrics">
         <div><dt>{t.queue}</dt><dd>{queue == null ? "—" : `#${queue}`}</dd></div>
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>

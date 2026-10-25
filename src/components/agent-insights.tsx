@@ -1,3 +1,4 @@
+import { useAgentClock } from "@/hooks/use-agent-clock";
 import { agentEvents, agentCommandStatus } from '@/lib/agent-insights';
 import { agentDisplayPhase, type OfficialTrainingEvidence, type AgentInfo } from '@/lib/device-agent';
 import { useLocale } from './site/locale';
@@ -5,7 +6,8 @@ import { insightCopy as c } from './agent-insight-copy';
 import { LANGUAGE_TAG } from '@/lib/site';
 import { agentCopy } from './device-agent-copy';
 export function AgentStatus({agent, official, now, compact = false, concise = false}: {agent: AgentInfo; official?: OfficialTrainingEvidence | undefined; now?: number; compact?: boolean; concise?: boolean}) {
-  const {locale}=useLocale(); const phase=agentDisplayPhase(agent, official, now);
+  const clock=useAgentClock();
+  const {locale}=useLocale(); const phase=agentDisplayPhase(agent, official, now ?? clock);
   return <div className="agent-insight" data-phase={phase}>
     <strong>{c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
     {!compact && <>{(!concise || phase === 'training') && <p>{c[`${phase}Help`][locale]}</p>}<a href={`/${locale}/learn/${phase === 'queued' ? 'iota-queue-and-zero-throughput' : 'mac-status-and-restart'}`}>{c[phase === 'queued' ? 'queueHelpLink' : ['running','working','training','waiting','uploading','merging'].includes(phase) ? 'runningHelpLink' : 'help'][locale]} ↗</a></>}

@@ -1,7 +1,10 @@
+import { acurastUsd } from "./acurast-rewards";
 import { bindingIdentity, type FleetBinding, type FleetProject } from "./fleet";
 export type EarningsWindow =
   "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown" | "cumulative";
 export type BoardReading = {
+  flyai?: import("@/lib/flyai").FlyaiWalletStats;
+  acurastQuote?: import("./acurast-rewards").AcurastQuote;
   acurastBalances?: import("./acurast-rewards").AcurastBalance[];
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
   scope: "device" | "wallet";
@@ -53,6 +56,8 @@ export function earningsBoard(
           amount: string;
           unit: string;
           identifier: string;
+          flyai?: import("./flyai").FlyaiWalletStats;
+          usd?: number | null;
           stale: boolean;
         }
       >;
@@ -85,6 +90,7 @@ export function earningsBoard(
           row.accounts.set(key, {
             kind: "balance",
             amount: balance.total,
+            usd: d.health === "fresh" ? acurastUsd(balance.total, d.acurastQuote) : null,
             unit: "ACU",
             identifier: balance.address,
             stale: d.health !== "fresh",
@@ -113,6 +119,9 @@ export function earningsBoard(
             count: 0,
             stale: false,
           };
+          const usd = d.health === "fresh" ? acurastUsd(value, d.acurastQuote) : null;
+          metric.usd = metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
+          if (usd !== null && period !== "cumulative") { totals[period].usd += usd; totals[period].count++; }
           metric.amount += value;
           metric.count++;
           metric.stale ||= d.health !== "fresh";
@@ -131,6 +140,7 @@ export function earningsBoard(
     if (d.accountSummary)
       row.accounts.set(key, {
         ...d.accountSummary,
+        ...(d.flyai ? {flyai: d.flyai} : {}),
         identifier: b.identifier,
         stale: d.health === "stale" || d.health === "unavailable",
       });

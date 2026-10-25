@@ -1,9 +1,13 @@
+import { acurastUsd, type AcurastQuote } from "@/lib/acurast-rewards";
+import { formatUsd } from "@/lib/earnings";
 import type { AcurastRewards as Rewards } from "@/lib/acurast-rewards";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { useLocale } from "./site/locale";
 import { localized as l } from "@/lib/product-discovery";
 import "./acurast-processors.css";
 export const acuCopy = {
+  estimate: l(["美元估值", "美元估值", "USD estimate", "USD 추정", "米ドル評価額"]),
+  quoteUnavailable: l(["报价暂不可用", "報價暫不可用", "Price unavailable", "시세 조회 불가", "価格を取得できません"]),
   balanceUnavailable: l(["余额暂未读到", "餘額暫未讀到", "Balance unavailable", "잔액 조회 불가", "残高を取得できません"]),
   walletBalance: l(["钱包余额", "錢包餘額", "Wallet balance", "지갑 잔액", "ウォレット残高"]),
   balanceParts: l(["余额构成", "餘額組成", "Balance breakdown", "잔액 구성", "残高の内訳"]),
@@ -63,15 +67,18 @@ export const acuCopy = {
 };
 export function AcurastRewards({
   balances,
+  quote,
   rewards,
   stale = false,
 }: {
+  quote?: AcurastQuote | undefined;
   balances?: import("@/lib/acurast-rewards").AcurastBalance[] | undefined;
   rewards?: Rewards | undefined;
   stale?: boolean;
 }) {
   const { locale } = useLocale(),
     nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
+  const usd = (amount: string | null) => <span className="acu-usd">{acuCopy.estimate[locale]} · {formatUsd(stale ? null : acurastUsd(amount, quote))} USD</span>;
   const date = (time: number) =>
     new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
       timeZone: "Asia/Shanghai",
@@ -87,6 +94,7 @@ export function AcurastRewards({
           <strong title={`${b.total} ACU`}>
             {nf.format(Number(b.total))} <small>ACU</small>
           </strong>
+          {usd(b.total)}
           <details>
             <summary>{acuCopy.balanceParts[locale]}</summary>
             <p className="compute-caption">{acuCopy.balanceNote[locale]}</p>
@@ -132,6 +140,7 @@ export function AcurastRewards({
                         ? m[period]
                         : nf.format(Number(m[period]))}{" "}
                     <small>ACU</small>
+                    {usd(m[period])}
                   </dd>
                 </div>
               ))}
@@ -142,6 +151,7 @@ export function AcurastRewards({
           </div>
         ))
       )}
+      <p className="acu-quote compute-caption">{quote && acurastUsd(1, quote) !== null ? `${quote.source} · $${quote.usd} / ACU · ${new Date(quote.quotedAt).toLocaleString(LANGUAGE_TAG[locale])}` : acuCopy.quoteUnavailable[locale]}</p>
       <details className="acu-basis">
         <summary>{acuCopy.basisLabel[locale]}</summary>
         <p className="compute-caption">

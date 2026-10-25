@@ -2,6 +2,8 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  flyai?: import("@/lib/flyai").FlyaiWalletStats;
+  acurastQuote?: import("@/lib/acurast-rewards").AcurastQuote;
   acurastBalances?: import("@/lib/acurast-rewards").AcurastBalance[];
   acurast?: import("@/lib/platforms").PlatformNode["acurast"];
   acurastRewards?: import("@/lib/acurast-rewards").AcurastRewards;

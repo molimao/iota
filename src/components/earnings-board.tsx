@@ -1,3 +1,4 @@
+import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { EarningsBoardCharts } from "./earnings-board-charts";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import type { DailyReport } from "@/lib/daily-report";
@@ -136,9 +137,10 @@ export function EarningsBoard({
                     {row.accounts.size === 1 ? (
                       [...row.accounts.values()].map((m, i) => (
                         <div key={i} className="earnings-board-metric">
-                          <span>
+                          {m.flyai ? <FlyaiWalletStats data={m.flyai} stale={m.stale} compact /> : <span>
                             {m.amount} {m.unit}
-                          </span>
+                          </span>}
+                          {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
                           <small>
                             {c[m.kind][locale]}
                             {m.stale ? ` · ${c.older[locale]}` : ""}
@@ -153,9 +155,10 @@ export function EarningsBoard({
                         {[...row.accounts.entries()].map(([key, m]) => (
                           <div key={key} className="earnings-board-metric">
                             <code>{shortId(m.identifier)}</code>
-                            <span>
+                            {m.flyai ? <FlyaiWalletStats data={m.flyai} stale={m.stale} compact /> : <span>
                               {m.amount} {m.unit}
-                            </span>
+                            </span>}
+                            {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
                             <small>
                               {c[m.kind][locale]}
                               {m.stale ? ` · ${c.older[locale]}` : ""}

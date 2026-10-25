@@ -56,3 +56,9 @@ it("labels current wallet balance and cumulative payouts separately", () => {
   expect(html).toContain("5.23603088");
   expect(html.indexOf("钱包余额")).toBeLessThan(html.indexOf("累计奖励"));
 });
+
+it("shows USD estimates for wallet and received rewards with quote provenance", () => {
+ state.locale="zh";
+ const html=renderToStaticMarkup(<AcurastRewards quote={{usd:.113,quotedAt:Date.now(),source:"CoinGecko · Acurast"}} balances={[{address:"wallet",total:"2.37",free:"2.37",reserved:"0",frozen:"0"}]} rewards={{dayStart:Date.now(),observedAt:Date.now(),blockHash:"0x1",managers:[{id:"67279",today:"0.3",yesterday:null,cumulative:"5.23"}]}}/>);
+ expect(html).toContain("$0.59");expect(html).toContain("$0.27");expect(html).toContain("CoinGecko");expect(html).toContain("— USD");
+});

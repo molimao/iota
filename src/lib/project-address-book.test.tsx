@@ -275,3 +275,9 @@ it("keeps Acurast rewards and processors in one address panel without redundant 
   expect(html).toContain("改名");
   expect(html).toContain('data-action="unlink"');
 });
+
+it("shows fly.ai monthly wallet points once with collapsed address tools",()=>{
+ const html=render({project:"flyai",cards:[{...entry({deviceName:"mac",identifier:longId,status:"wallet"}),today:"100",activity:"100 points",flyai:{month:"2026-10",points:100,share:.1,rank:2,wallets:20},accountSummary:{kind:"month",amount:"100",unit:""}}]});
+ expect(html.match(/class="fly-points"/g)).toHaveLength(1);
+ expect(html).not.toContain('class="pab-tools"');expect(html).toContain('<details class="pab-add-drawer">');expect(html).toContain("2026-10");expect(html).toContain("#2");expect(html).toContain('data-action="unlink"');
+});

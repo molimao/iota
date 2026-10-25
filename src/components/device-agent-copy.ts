@@ -109,7 +109,8 @@ export const agentCopy = {
     "먼저 내 기기에 이 Mac의 IOTA Miner ID를 추가하세요.",
     "先にマイデバイスでこのMacのIOTA Miner IDを追加します。",
   ]),
-  live: l(["设备在线", "設備在線", "Device online", "기기 온라인", "機器オンライン"]),
+  lastReport: l(["最后上报", "最後回報", "Last report", "마지막 보고", "最終報告"]),
+  live: l(["代理在线", "代理在線", "Agent online", "에이전트 온라인", "エージェント接続中"]),
   offline: l([
     "设备未上报",
     "設備未回報",

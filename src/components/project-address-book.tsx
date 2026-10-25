@@ -1,3 +1,4 @@
+import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastProcessors } from "./acurast-processors";
 import { shortId } from "@/lib/ss58";
 import { AcurastRewards, acuCopy } from "./acurast-rewards";
@@ -39,6 +40,8 @@ const ADDRESS_STATUSES = [
 ] as const satisfies readonly ProjectReading["status"][];
 
 export type AddressBookEntry = {
+  flyai?: ProjectReading["flyai"];
+  acurastQuote?: ProjectReading["acurastQuote"];
   acurastBalances?: ProjectReading["acurastBalances"];
   acurast?: ProjectReading["acurast"];
   acurastRewards?: ProjectReading["acurastRewards"];
@@ -124,6 +127,8 @@ function toEntry(
     unit: reading.unit,
     ...(reading.note ? { note: reading.note } : {}),
     ...(reading.todayLabel ? { todayLabel: reading.todayLabel } : {}),
+    ...(reading.flyai ? { flyai: reading.flyai } : {}),
+    ...(reading.acurastQuote ? { acurastQuote: reading.acurastQuote } : {}),
     ...(reading.acurastBalances ? { acurastBalances: reading.acurastBalances } : {}),
     ...(reading.acurast ? { acurast: reading.acurast } : {}),
     ...(reading.acurastRewards ? { acurastRewards: reading.acurastRewards } : {}),
@@ -209,6 +214,7 @@ export function ProjectAddressBookView({
   const statuses = ADDRESS_STATUSES.filter(
     (status) => (counts[status] ?? 0) > 0 || status === statusFilter,
   );
+  const walletLayout = project === "acurast" || project === "flyai";
   const locked = busy || renaming;
   const addForm = (
     <>
@@ -255,13 +261,13 @@ export function ProjectAddressBookView({
     <section
       className="project-address-book"
       data-project={project}
-      aria-label={project === "acurast" ? acuCopy.addresses[locale] : text.title[locale]}
+      aria-label={walletLayout ? acuCopy.addresses[locale] : text.title[locale]}
       data-selected={selected}
       data-quota={savedCount}
     >
       <div className="project-section-head">
         <h2>
-          {project === "acurast" ? acuCopy.addresses[locale] : text.title[locale]}{" "}
+          {walletLayout ? acuCopy.addresses[locale] : text.title[locale]}{" "}
           <small>{savedCount}</small>
         </h2>
         <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
@@ -280,7 +286,7 @@ export function ProjectAddressBookView({
         >
           {text.login[locale]}
         </button>
-      ) : project === "acurast" ? (
+      ) : walletLayout ? (
         <details className="pab-add-drawer" open={cards.length === 0}>
           <summary>{acuCopy.addAddress[locale]}</summary>
           {addForm}
@@ -290,7 +296,7 @@ export function ProjectAddressBookView({
       )}
       {(error || fleetError) && <p role="alert">{error ?? labels.unavailable}</p>}
       {signedIn && !fleetReady && !fleetError && <p role="status">{labels.loading}</p>}
-      {cards.length > (project === "acurast" ? 1 : 0) && (
+      {cards.length > (walletLayout ? 1 : 0) && (
         <div className="pab-tools">
           <label className="pab-search">
             {text.search[locale]}
@@ -384,18 +390,20 @@ export function ProjectAddressBookView({
                 </form>
               ) : null}
               <code className="pab-id platform-public-id" title={entry.identifier}>
-                {project === "acurast" ? shortId(entry.identifier) : entry.identifier}
+                {walletLayout ? shortId(entry.identifier) : entry.identifier}
               </code>
-              {project !== "acurast" && <p>{entry.activity}</p>}
+              {!walletLayout && <p>{entry.activity}</p>}
+              {project === "flyai" && entry.flyai && <FlyaiWalletStats data={entry.flyai} stale={entry.status !== "wallet"} />}
               {project === "acurast" && (
                 <AcurastRewards
                   rewards={entry.acurastRewards}
                   balances={entry.acurastBalances}
+                  quote={entry.acurastQuote}
                   stale={["staleData", "refreshFailed", "unavailable"].includes(entry.status)}
                 />
               )}
               {project === "acurast" && entry.acurast && <AcurastProcessors data={entry.acurast} />}
-              {entry.accountSummary && (
+              {entry.accountSummary && project !== "flyai" && (
                 <div>
                   <span className="compute-caption">
                     {project === "noid"
@@ -409,12 +417,12 @@ export function ProjectAddressBookView({
                   </strong>
                 </div>
               )}
-              {entry.today !== null && (
+              {entry.today !== null && project !== "flyai" && (
                 <p>
                   {entry.todayLabel ?? labels.today} · {entry.today} {entry.unit}
                 </p>
               )}
-              {project === "acurast" ? (
+              {walletLayout ? (
                 <details className="pab-source">
                   <summary>
                     {entry.source} · {entry.updated}
@@ -426,7 +434,7 @@ export function ProjectAddressBookView({
                   {entry.source} · {entry.updated}
                 </p>
               )}
-              {project !== "acurast" && entry.note && (
+              {!walletLayout && entry.note && (
                 <p className="compute-caption">{entry.note}</p>
               )}
               <div className="pab-actions pool-card-actions">
@@ -452,7 +460,8 @@ export function ProjectAddressBookView({
                 )}
                 <button
                   type="button"
-                  data-action="unlink"
+                  title={project === "flyai" ? text.removeConfirm[locale] : undefined}
+                    data-action="unlink"
                   disabled={locked}
                   onClick={() => onRemove(entry.deviceId, entry.bindingId)}
                 >
@@ -463,7 +472,7 @@ export function ProjectAddressBookView({
           );
         })}
       </div>
-      {project !== "acurast" && cards.length > 0 && (
+      {!walletLayout && cards.length > 0 && (
         <p className="pab-note">{text.removeConfirm[locale]}</p>
       )}
     </section>

@@ -326,6 +326,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             <AcurastRewards
               rewards={data.acurastRewards}
               balances={data.acurastBalances}
+              quote={data.acurastQuote}
               stale={!!result?.stale}
             />
           )}

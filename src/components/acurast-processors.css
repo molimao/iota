@@ -194,3 +194,6 @@
   overflow-wrap: anywhere;
   font-size: 0.7rem;
 }
+
+.acu-usd { display: block; margin-top: .35rem; font-size: .75rem; font-weight: 400; color: #aaa; }
+.acu-quote { font-size: .7rem; overflow-wrap: anywhere; }

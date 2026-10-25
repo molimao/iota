@@ -37,3 +37,10 @@ export function parseFlyaiMonth(input: unknown): FlyaiMonth {
     wallets,
   };
 }
+
+export type FlyaiWalletStats = {month: string; points: number; share: number; rank: number; wallets: number};
+export function flyaiWalletStats(data: FlyaiMonth, address: string): FlyaiWalletStats | undefined {
+  const wallet = data.wallets.find(w => w.wallet.toLowerCase() === address.toLowerCase());
+  if (!wallet) return undefined;
+  return {month: data.month, points: wallet.points, share: wallet.share, rank: 1 + data.wallets.filter(w => w.points > wallet.points).length, wallets: data.wallets.length};
+}

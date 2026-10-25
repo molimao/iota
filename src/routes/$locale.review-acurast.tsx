@@ -124,6 +124,7 @@ function Review() {
                   updated: new Date(query.data.fetchedAt ?? Date.now()).toLocaleTimeString(),
                   today: null,
                   unit: "ACU",
+                  ...(query.data.data.acurastQuote ? { acurastQuote: query.data.data.acurastQuote } : {}),
                   ...(query.data.data.acurastBalances
                     ? { acurastBalances: query.data.data.acurastBalances }
                     : {}),

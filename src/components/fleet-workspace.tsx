@@ -1,3 +1,4 @@
+import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastRewards } from "./acurast-rewards";
 import { SyncGuidance } from "./sync-guidance";
 import { IotaDeviceRun } from "./iota-device-run";
@@ -940,8 +941,8 @@ function FleetCard({
   const accountStale = device.bindings.some((b) => reading(b).health === "stale");
   const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
   const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
-  const onlyAcurast =
-    device.bindings.length > 0 && device.bindings.every((b) => b.project === "acurast");
+  const onlyWalletPanels =
+    device.bindings.length > 0 && device.bindings.every((b) => b.project === "acurast" || b.project === "flyai");
   const hasIota = device.bindings.some((b) => b.project === "iota");
   const hasOtherDaily = device.bindings.some((b) => {
     const r = reading(b);
@@ -978,7 +979,7 @@ function FleetCard({
           {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
         </span>
       </header>
-      {!onlyAcurast && (
+      {!onlyWalletPanels && (
         <section className="fleet-device-earnings" aria-label={headlineLabel}>
           <div>
             <span>{headlineLabel}</span>
@@ -1055,7 +1056,7 @@ function FleetCard({
                   <i />
                   {c[data.status]}
                 </span>
-                <small>{data.activity}</small>
+                <small>{binding.project === "flyai" && data.flyai ? data.flyai.month : data.activity}</small>
                 <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>
               {binding.project === "iota" && (
@@ -1066,10 +1067,12 @@ function FleetCard({
                   layout="row"
                 />
               )}
+              {binding.project === "flyai" && data.flyai && <FlyaiWalletStats data={data.flyai} stale={data.health !== "fresh"} />}
               {binding.project === "acurast" && (
                 <AcurastRewards
                   rewards={data.acurastRewards}
                   balances={data.acurastBalances}
+              quote={data.acurastQuote}
                   stale={data.health === "stale" || data.health === "unavailable"}
                 />
               )}
@@ -1089,7 +1092,7 @@ function FleetCard({
               )}
               {expanded && (
                 <div id={`fleet-reading-${binding.id}`}>
-                  {binding.project !== "acurast" && (
+                  {binding.project !== "acurast" && binding.project !== "flyai" && (
                     <div className="fleet-reading-metrics">
                       <div>
                         <span>

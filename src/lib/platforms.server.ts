@@ -19,8 +19,11 @@ async function cached(
 ): Promise<PlatformResult> {
   return (await cache.read(key, read, { ttl: 300000, classify: safeError })) as PlatformResult;
 }
-export const publicPlatform = (project: "akash" | "golem" | "noid" | "acurast", id: string) =>
-  cached(`public:${project}:${id}`, () => readPublicPlatform(project, id));
+export const publicPlatform = async (project: "akash" | "golem" | "noid" | "acurast", id: string) => {
+  const quote = project === "acurast" ? import("./acurast-price.server").then(m => m.acurastPrice()) : Promise.resolve(undefined);
+  const [result, acurastQuote] = await Promise.all([cached(`public:${project}:${id}`, () => readPublicPlatform(project, id)), quote]);
+  return result.data && acurastQuote ? {...result, data: {...result.data, acurastQuote}} : result;
+};
 function encryptionKey() {
   const key = process.env["WATCH_CONNECTION_ENCRYPTION_KEY"];
   if (!key || !/^[A-Za-z0-9+/]{43}=$/.test(key)) throw new Error("not-configured");

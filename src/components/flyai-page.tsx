@@ -1,14 +1,14 @@
+import type { ReactNode } from "react";
 import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { ProjectAddressBook } from "./project-address-book";
 import { ProjectAbout } from "./project-about";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Cpu, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getFlyaiMonth } from "@/lib/flyai.functions";
 import { PROJECTS } from "@/lib/projects";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { projectsCopy } from "./projects-copy";
-import { fleetCopy } from "./fleet-copy";
 import { useLocale } from "./site/locale";
 
 const text = {
@@ -57,10 +57,9 @@ const text = {
   },
 };
 
-export function FlyaiPage() {
+export function FlyaiPage({ addressBook }: { addressBook?: ReactNode } = {}) {
   const { locale } = useLocale(),
     c = projectsCopy[locale],
-    f = fleetCopy(locale),
     t = text[locale];
   const client = useQueryClient();
   const query = useQuery({
@@ -84,59 +83,59 @@ export function FlyaiPage() {
           <p>{simpleCopy(locale).projectSummary.flyai}</p>
         </div>
         <div className="project-heading-links">
-          <a className="site-button" href={`/${locale}/devices?project=flyai&add=1`}>
-            <Cpu size={17} />
-            {f.title}
-          </a>
           <a href={PROJECTS.flyai.website} target="_blank" rel="noreferrer">
             {c.website}
             <ArrowUpRight size={16} />
           </a>
         </div>
       </header>
-      <section
-        className="project-network flyai-network"
-        id="network"
-        aria-labelledby="flyai-network"
-      >
-        <div className="project-section-head">
-          <h2 id="flyai-network">{c.network}</h2>
-          <button
-            className="project-outline"
-            onClick={() => void query.refetch()}
-            disabled={query.isFetching}
-          >
-            {query.isFetching ? c.refreshing : c.refresh}
-          </button>
-        </div>
-        <p className="project-freshness">
-          {c.fetched} ·{" "}
-          {result?.fetchedAt
-            ? new Date(result.fetchedAt).toLocaleString(LANGUAGE_TAG[locale], {
-                timeZone: "Asia/Hong_Kong",
-                hour12: false,
-              })
-            : "—"}{" "}
-          (UTC+8) {stale ? ` · ${c.cached}` : ""}
-        </p>
-        {(result?.error || query.isError) && <p role="status">{c.failed}</p>}
-        <div className="project-stats">
-          <div className="project-stat">
-            <span>{t.period}</span>
-            <strong>{data?.month ?? "—"}</strong>
+      {addressBook ?? <ProjectAddressBook project="flyai" />}
+      <QuietDetails title={c.network}>
+        <section
+          className="project-network flyai-network"
+          id="network"
+          aria-labelledby="flyai-network"
+        >
+          <div className="project-section-head">
+            <h2 id="flyai-network">{c.network}</h2>
+            <button
+              className="project-outline"
+              onClick={() => void query.refetch()}
+              disabled={query.isFetching}
+            >
+              {query.isFetching ? c.refreshing : c.refresh}
+            </button>
           </div>
-          <div className="project-stat">
-            <span>{t.total}</span>
-            <strong>{data ? data.totalPoints.toLocaleString(LANGUAGE_TAG[locale]) : "—"}</strong>
+          <p className="project-freshness">
+            {c.fetched} ·{" "}
+            {result?.fetchedAt
+              ? new Date(result.fetchedAt).toLocaleString(LANGUAGE_TAG[locale], {
+                  timeZone: "Asia/Hong_Kong",
+                  hour12: false,
+                })
+              : "—"}{" "}
+            (UTC+8) {stale ? ` · ${c.cached}` : ""}
+          </p>
+          {(result?.error || query.isError) && <p role="status">{c.failed}</p>}
+          <div className="project-stats">
+            <div className="project-stat">
+              <span>{t.period}</span>
+              <strong>{data?.month ?? "—"}</strong>
+            </div>
+            <div className="project-stat">
+              <span>{t.total}</span>
+              <strong>{data ? data.totalPoints.toLocaleString(LANGUAGE_TAG[locale]) : "—"}</strong>
+            </div>
+            <div className="project-stat">
+              <span>{t.wallets}</span>
+              <strong>
+                {data ? data.wallets.length.toLocaleString(LANGUAGE_TAG[locale]) : "—"}
+              </strong>
+            </div>
           </div>
-          <div className="project-stat">
-            <span>{t.wallets}</span>
-            <strong>{data ? data.wallets.length.toLocaleString(LANGUAGE_TAG[locale]) : "—"}</strong>
-          </div>
-        </div>
-        <p>{t.scope}</p>
-      </section>
-      <ProjectAddressBook project="flyai" />
+          <p>{t.scope}</p>
+        </section>
+      </QuietDetails>
       <QuietDetails title={c.setup}>
         <section className="project-panel flyai-panel" id="setup">
           <h2>{c.setup}</h2>

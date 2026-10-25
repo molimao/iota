@@ -1,3 +1,4 @@
+import { useAgentClock } from "@/hooks/use-agent-clock";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -20,13 +21,14 @@ const copy={
   download:l(["旧版需下载安装更新","舊版需下載安裝更新","Download to update this older agent","이전 버전은 다운로드 후 설치 필요","旧版はダウンロードして更新"]),
 };
 export function AgentUpdate({agent,disabled=false,onPreviewUpdate}:{agent:AgentInfo;disabled?:boolean;onPreviewUpdate?:(()=>void)|undefined}) {
+  const now=useAgentClock();
   const auth=useAuth(),client=useQueryClient(),send=useServerFn(deviceAgentCommand),{locale}=useLocale();
   const [confirm,setConfirm]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(false);
   useEffect(()=>{setConfirm(false);setError(false);},[auth.userId,agent.deviceId,agent.snapshot.version,agent.pending?.id]);
   const available=agentUpdateAvailable(agent.snapshot.version);
   const pending=agent.pending?.action==="update" ? agent.pending : null;
   if(!available&&!pending) return null;
-  const online=agentOnline(agent.lastSeen),locked=disabled||busy||!!agent.pending||!online;
+  const online=agentOnline(agent.lastSeen, now),locked=disabled||busy||!!agent.pending||!online;
   async function update(){
     if(!confirm||locked)return;
     setBusy(true);setError(false);

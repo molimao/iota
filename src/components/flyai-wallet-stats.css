@@ -1,0 +1,68 @@
+.fly-wallet-stats {
+  min-width: 0;
+  margin: 1.2rem 0;
+}
+.fly-wallet-stats header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: #aaa;
+  font-size: 0.8rem;
+}
+.fly-wallet-stats .fly-points {
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin: 0.65rem 0 1.25rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.fly-wallet-stats dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0 0 0.8rem;
+}
+.fly-wallet-stats dt {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+.fly-wallet-stats dd {
+  margin: 0.3rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.fly-wallet-stats dd small {
+  color: #999;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.fly-share-track {
+  height: 5px;
+  background: #ffffff12;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.fly-share-track span {
+  display: block;
+  height: 100%;
+  background: #7dd3fc;
+}
+.fly-wallet-stats details {
+  margin-top: 0.85rem;
+  color: #aaa;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.fly-wallet-stats summary {
+  cursor: pointer;
+}
+.fly-wallet-stats[data-compact="true"] {
+  margin: 0.75rem 0;
+}
+.fly-wallet-stats[data-compact="true"] .fly-points {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+}

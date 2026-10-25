@@ -68,7 +68,7 @@ export function redactAgentLog(input: string) {
 }
 export function agentOnline(lastSeen: string | null, now = Date.now()) {
   const t = lastSeen ? Date.parse(lastSeen) : NaN;
-  return Number.isFinite(t) && t <= now + 5000 && now - t < 90000;
+  return Number.isFinite(t) && t <= now + 5000 && now - t < 60000;
 }
 
 export const AGENT_RELEASE = "1.0.12";

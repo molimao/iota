@@ -1,3 +1,4 @@
+import { flyaiWalletStats } from "@/lib/flyai";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import {
   isPoolProject,
@@ -310,6 +311,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                     ? "Acurast Mainnet"
                     : "Golem Stats",
         scope: d?.scope === "provider" ? "wallet" : "device",
+        ...(d?.acurastQuote ? { acurastQuote: d.acurastQuote } : {}),
         ...(d?.acurastBalances ? { acurastBalances: d.acurastBalances } : {}),
         ...(d?.acurast ? { acurast: d.acurast } : {}),
         ...(d?.acurastRewards ? { acurastRewards: d.acurastRewards } : {}),
@@ -540,8 +542,10 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       month = result?.data,
       wallet = month?.wallets.find((w) => w.wallet === binding.identifier.toLowerCase());
     const sameMonth = month?.month === hongKongMonth(iota.now);
+    const stats = sameMonth && month ? flyaiWalletStats(month, binding.identifier) : undefined;
     return {
       ...base,
+      ...(stats ? {flyai: stats} : {}),
       status:
         sameMonth && wallet && fresh(result?.fetchedAt, result?.stale) && !flyai.isError
           ? "wallet"
