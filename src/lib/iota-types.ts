@@ -3,6 +3,7 @@ export type RunInfo = {
   name: string;
   state: string;
   metadata?: {
+    is_miner_pool?: boolean;
     description?: string;
     n_splits?: number;
     model_name?: string;

@@ -1,5 +1,5 @@
 import { EarningsBoardCharts } from "./earnings-board-charts";
-import { IotaRunLabels } from "./iota-run-labels";
+import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import type { DailyReport } from "@/lib/daily-report";
 import { shortId } from "@/lib/ss58";
 import { earningsBoard } from "@/lib/earnings-board";

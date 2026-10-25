@@ -1,5 +1,8 @@
 import { SyncGuidance } from "./sync-guidance";
-import { IotaRunLabels } from "./iota-run-labels";
+import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
+import { IotaDeviceRun, IotaRosterStatus } from "./iota-device-run";
+import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
+import { agentPhase } from "@/lib/device-agent";
 import { officialRun } from "@/lib/iota-run";
 import { DailyRewardsSummary } from "./daily-rewards-summary";
 import { ReportEntry } from "./daily-report-discovery";
@@ -147,6 +150,22 @@ function SavedIotaDashboard() {
   const billing = useBilling(auth.userId, auth.ready);
   const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
+  const agentEvidence = useMatchedDeviceAgent();
+  const queuedIds = new Set(
+    !agentEvidence.enabled || agentEvidence.query.isError
+      ? []
+      : (agentEvidence.devices ?? []).flatMap((device) => {
+          const agent = agentEvidence.query.data?.find((a) => a.deviceId === device.id);
+          return agent && agentPhase(agent) === "queued"
+            ? device.bindings.filter((b) => b.project === "iota").map((b) => b.identifier)
+            : [];
+        }),
+  );
+  const displayViews = dash.views.map((view) =>
+    queuedIds.has(view.entry.hotkey) ? { ...view, bucket: "waiting" as const } : view,
+  );
+  const displayCounts = { contributing: 0, waiting: 0, attention: 0, pending: 0 };
+  for (const view of displayViews) displayCounts[view.bucket]++;
   const [removeTarget, setRemoveTarget] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -173,8 +192,8 @@ function SavedIotaDashboard() {
   }, [watch.loaded, watch.devices.length]);
   const [filter, setFilter] = useState<StatusBucket | "all">("all");
   const file = useRef<HTMLInputElement>(null);
-  const active = dash.views.find((v) => v.entry.hotkey === selected);
-  const visible = dash.views
+  const active = displayViews.find((v) => v.entry.hotkey === selected);
+  const visible = displayViews
     .filter(
       (view) =>
         (filter === "all" || view.bucket === filter) &&
@@ -474,7 +493,7 @@ function SavedIotaDashboard() {
                   key={bucket}
                   data-bucket={bucket}
                   style={{
-                    width: `${dash.views.length ? (dash.counts[bucket] / dash.views.length) * 100 : 0}%`,
+                    width: `${displayViews.length ? (displayCounts[bucket] / displayViews.length) * 100 : 0}%`,
                   }}
                 />
               ))}
@@ -494,7 +513,7 @@ function SavedIotaDashboard() {
                   aria-pressed={filter === bucket}
                   onClick={() => setFilter(bucket)}
                 >
-                  {t(BUCKET_LABEL[bucket])} <b>{dash.counts[bucket]}</b>
+                  {t(BUCKET_LABEL[bucket])} <b>{displayCounts[bucket]}</b>
                 </button>
               ))}
             </div>
@@ -571,16 +590,14 @@ function SavedIotaDashboard() {
                             {view.entry.label}
                           </button>
                           <code>{shortId(view.entry.hotkey)}</code>
-                          <IotaRunLabels runs={[officialRun(view)]} />
+                          <IotaDeviceRun run={officialRun(view)} miner={view.entry.hotkey} />
                         </td>
                         <td>
-                          <button
-                            className={`badge ${STATUS_META[view.status].tone}`}
-                            data-bucket={view.bucket}
+                          <IotaRosterStatus
+                            miner={view.entry.hotkey}
+                            status={view.status}
                             onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                          >
-                            {t(STATUS_META[view.status].label)}
-                          </button>
+                          />
                         </td>
                         <td>
                           {view.miner
@@ -617,12 +634,7 @@ function SavedIotaDashboard() {
                               )
                             }
                           >
-                            {
-                              iotaAddCopy[view.status === "not_found" ? "inspect" : "status"][
-                                locale
-                              ]
-                            }{" "}
-                            <ArrowUpRight size={14} />
+                            {iotaAddCopy["status"][locale]} <ArrowUpRight size={14} />
                           </button>
                         </td>
                       </tr>
@@ -633,21 +645,17 @@ function SavedIotaDashboard() {
             ) : (
               <div className="devices">
                 {visible.map((view) => {
-                  const meta = STATUS_META[view.status];
                   return (
                     <article className="device" key={view.entry.hotkey}>
                       <div className="device-top">
                         <span className="device-icon">
                           <Monitor size={22} />
                         </span>
-                        <button
-                          className={`badge ${meta.tone}`}
-                          data-bucket={view.bucket}
-                          title={localizeValue(en ? "Status details" : "状态说明", locale)}
+                        <IotaRosterStatus
+                          miner={view.entry.hotkey}
+                          status={view.status}
                           onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                        >
-                          {t(meta.label)}
-                        </button>
+                        />
                       </div>
                       <h3>
                         <button
@@ -666,7 +674,11 @@ function SavedIotaDashboard() {
                               : "—"}
                           </b>
                         </p>
-                        <IotaRunLabels runs={[officialRun(view)]} layout="row" />
+                        <IotaDeviceRun
+                          run={officialRun(view)}
+                          miner={view.entry.hotkey}
+                          layout="row"
+                        />
                       </div>
                       <div className="device-earnings">
                         <div>
@@ -701,9 +713,7 @@ function SavedIotaDashboard() {
                             )
                           }
                         >
-                          {view.status === "not_found"
-                            ? iotaAddCopy.inspect[locale]
-                            : t("查看详情")}
+                          {t("查看详情")}
                           <ArrowUpRight size={16} />
                         </button>
                       </div>

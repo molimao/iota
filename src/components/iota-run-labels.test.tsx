@@ -7,6 +7,17 @@ const context = vi.hoisted(() => ({ locale: "zh" as SiteLocale }));
 vi.mock("./site/locale", () => ({ useLocale: () => context }));
 
 describe("run metadata rendering", () => {
+  it("labels the public desktop fallback as a network reference", () => {
+    context.locale = "zh";
+    const html = renderToStaticMarkup(
+      <IotaRunLabels
+        layout="row"
+        runs={[{ id: "4.13.7.10-tah", stale: false, kind: "reference" }]}
+      />,
+    );
+    expect(html).toContain("全网参考轮次");
+    expect(html).not.toContain("参与轮次");
+  });
   it.each(["zh", "zh-TW", "en", "ja", "ko"] as const)(
     "shows exact official IDs in %s",
     (locale) => {

@@ -1,0 +1,25 @@
+{
+  "published": false,
+  "userConfirmedField": "Official desktop Global Overview / Run ID",
+  "desktopCodeEvidence": {
+    "source": "Read-only inspection of installed official app.asar main and renderer JavaScript",
+    "selectedRunPriority": "register.best_run -> register:did-get-run -> selectedRunId; otherwise selected run; otherwise first public run whose metadata.is_miner_pool is true",
+    "implication": "A visible Global Overview Run ID alone is not a verified per-device assignment. The public fallback is available even for queued devices."
+  },
+  "livePublicApiCheck": {"appDefaultReference":"4.13.7.10-tah","agentNeededForPublicFallback":false},
+  "changes": [
+    "Preserve is_miner_pool in public API schema and types",
+    "Shared cached public runs query supplies the same desktop fallback when device roster run is absent",
+    "Label fallback as network reference run and actual roster data as participating run",
+    "Cover project and device cards, list, overview cards and details",
+    "Use existing owner-matched fresh Agent queue evidence to show queued status and classify waiting instead of attention",
+    "Replace misleading check-ID actions with status/details actions"
+  ],
+  "agentModified": false,
+  "trainingControlCommandsIssued": false,
+  "testsPassed":25,
+  "typecheck":"passed",
+  "build":"passed",
+  "visualVerification":"Local browser preview remains blocked by URL policy; no workaround attempted",
+  "unrelatedChangesPreserved": true
+}

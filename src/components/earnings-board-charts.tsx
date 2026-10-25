@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { IotaRunLabels } from "./iota-run-labels";
+import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {

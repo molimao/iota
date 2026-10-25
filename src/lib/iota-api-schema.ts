@@ -10,6 +10,7 @@ const run = z.object({
   state: z.string(),
   metadata: z
     .object({
+      is_miner_pool: z.boolean().optional(),
       description: z.string().optional(),
       n_splits: count.optional(),
       model_name: z.string().optional(),
