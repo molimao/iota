@@ -1,4 +1,5 @@
 import { SyncGuidance } from "./sync-guidance";
+import { IotaRunLabels } from "./iota-run-labels";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
@@ -1052,6 +1053,7 @@ function FleetCard({
                 <small>{data.activity}</small>
                 <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>
+              {binding.project === "iota" && <IotaRunLabels runs={[data.officialRun]} layout="row" />}
               {(data.health === "stale" ||
                 data.health === "unavailable" ||
                 data.note === c.stale) && (

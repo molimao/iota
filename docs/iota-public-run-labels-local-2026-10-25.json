@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-25",
+  "published": false,
+  "source": "Existing official public run roster discovery; no Agent changes or additional per-device requests",
+  "liveCheck": {"run":"4.13.7.11-tah","rosterCount":100,"runIdPresentInSample":true},
+  "surfaces": ["IOTA project device cards", "IOTA project device list", "IOTA project run summary", "public device lookup", "my devices IOTA binding", "overview IOTA project card", "overview project details"],
+  "display": "Full exact Run ID, five locales, stale marker, absent-roster placeholder; overview deduplicates identical runs",
+  "testsPassed": 16,
+  "typecheck": "passed",
+  "localPreview": "http://127.0.0.1:8080/zh/review",
+  "overviewPreview": "http://127.0.0.1:8080/zh/review?overview=1",
+  "visualVerification": "Blocked by in-app browser URL security policy. No alternate browser or indirect workaround attempted.",
+  "unrelatedChangesPreserved": true
+}

@@ -2,6 +2,7 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  officialRun?: import("@/lib/iota-run").OfficialRun | null;
   compute?: import("@/lib/compute-summary").ComputeReading;
   rewardAmount?: number | null;
   earningsWindow?: import("@/lib/earnings-board").EarningsWindow;
@@ -115,6 +116,7 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
       };
     case "iota":
       return {
+        officialRun: { id: idle ? "4.13.7.10-tah" : "4.13.7.11-tah", stale: false },
         status: idle ? "waiting" : "training",
         activity: idle ? "—" : "24.8 tokens/s",
         compute: {

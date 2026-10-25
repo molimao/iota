@@ -1,4 +1,6 @@
 import { SyncGuidance } from "./sync-guidance";
+import { IotaRunLabels } from "./iota-run-labels";
+import { officialRun } from "@/lib/iota-run";
 import { DailyRewardsSummary } from "./daily-rewards-summary";
 import { ReportEntry } from "./daily-report-discovery";
 import { agentCopy } from "./device-agent-copy";
@@ -365,6 +367,7 @@ function SavedIotaDashboard() {
               {t("设备")}
               <span>{watch.devices.length}</span>
             </h2>
+            <IotaRunLabels runs={dash.views.map(officialRun)} showEmpty={false} />
             <a className="agent-entry" href={`/${locale}/machines`}>
               {agentCopy.title[locale]} ↗
             </a>
@@ -568,6 +571,7 @@ function SavedIotaDashboard() {
                             {view.entry.label}
                           </button>
                           <code>{shortId(view.entry.hotkey)}</code>
+                          <IotaRunLabels runs={[officialRun(view)]} />
                         </td>
                         <td>
                           <button
@@ -653,14 +657,17 @@ function SavedIotaDashboard() {
                           {view.entry.label}
                         </button>
                       </h3>
-                      <p className="iota-device-rate">
-                        {iotaAddCopy.rate[locale]}{" "}
-                        <b>
-                          {view.miner
-                            ? `${formatCount(view.miner.throughput, locale)} tokens/s`
-                            : "—"}
-                        </b>
-                      </p>
+                      <div className="iota-device-operation">
+                        <p className="iota-device-rate">
+                          {iotaAddCopy.rate[locale]}{" "}
+                          <b>
+                            {view.miner
+                              ? `${formatCount(view.miner.throughput, locale)} tokens/s`
+                              : "—"}
+                          </b>
+                        </p>
+                        <IotaRunLabels runs={[officialRun(view)]} layout="row" />
+                      </div>
                       <div className="device-earnings">
                         <div>
                           <span>{iotaAddCopy.today[locale]}</span>
@@ -1080,6 +1087,7 @@ function IotaLookup({ id }: { id: string }) {
               {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
               {view.miner ? ` · ${view.miner.throughput} tokens/s` : ""}
             </p>
+            <IotaRunLabels runs={[officialRun(view)]} />
             <div className="device-earnings">
               <div>
                 <span>{iotaAddCopy.today[locale]}</span>

@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { IotaRunLabels } from "./iota-run-labels";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -34,7 +35,7 @@ export function EarningsBoardCharts({
   preview = false,
 }: {
   board: Board;
-  entries: ComputeEntry[];
+  entries: Array<ComputeEntry & { officialRun?: import("@/lib/iota-run").OfficialRun | null | undefined }>;
   previewHistory?: DailyReport[] | undefined;
   preview?: boolean | undefined;
 }) {
@@ -126,6 +127,7 @@ export function EarningsBoardCharts({
                     </span>
                   </div>
                 </header>
+                {row.project === "iota" && <IotaRunLabels runs={entries.filter((e) => e.binding.project === "iota").map((e) => e.officialRun)} />}
                 <div className="board-project-metrics">
                   {groups.length ? (
                     groups.map((g) => {

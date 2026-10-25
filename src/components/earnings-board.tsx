@@ -1,4 +1,5 @@
 import { EarningsBoardCharts } from "./earnings-board-charts";
+import { IotaRunLabels } from "./iota-run-labels";
 import type { DailyReport } from "@/lib/daily-report";
 import { shortId } from "@/lib/ss58";
 import { earningsBoard } from "@/lib/earnings-board";
@@ -80,6 +81,7 @@ export function EarningsBoard({
           binding: e.binding,
           name: e.name,
           compute: e.data.compute,
+          officialRun: e.data.officialRun,
         }))}
         previewHistory={previewHistory}
         preview={preview}
@@ -103,6 +105,7 @@ export function EarningsBoard({
                 <tr key={row.project}>
                   <th>
                     <a href={projectPath(locale, row.project)}>{FLEET_NAMES[row.project]} ↗</a>
+                    {row.project === "iota" && <IotaRunLabels runs={entries.filter((e) => e.binding.project === "iota").map((e) => e.data.officialRun)} />}
                   </th>
                   <td className="earnings-board-devices" data-label={c.devices[locale]}>
                     {row.devices.size}

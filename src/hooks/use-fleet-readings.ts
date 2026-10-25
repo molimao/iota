@@ -11,6 +11,7 @@ import { poolCopy } from "@/components/pool-copy";
 import { additionalMetricCopy } from "@/components/additional-platform-copy";
 import { readQuery, hongKongMonth } from "@/lib/read-query";
 import { fleetIotaStatus } from "@/lib/fleet-iota-status";
+import { officialRun } from "@/lib/iota-run";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "./use-auth";
 import { getPublicPlatform, getPrivatePlatform } from "@/lib/platforms.functions";
@@ -364,6 +365,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         status: fleetIotaStatus(view.status, view.statusStale),
+        officialRun: officialRun(view),
         rewardAmount: today === null ? null : today / 1e8,
         earningsWindow: "yesterday",
         officialTraining: {

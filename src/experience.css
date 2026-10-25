@@ -7284,3 +7284,24 @@ body:has(.site-shell) {
 .guide-network-capacity dt,.guide-network-capacity time { font-size:.8rem; color:#a3ada7; }
 .guide-network-capacity dd { margin:6px 0 0; font-size:2rem; font-weight:650; font-variant-numeric:tabular-nums; }
 .guide-network-capacity p { font-size:.85rem; color:#a3ada7; line-height:1.7; margin:14px 0 0; }
+
+/* Shared official run metadata across project and device surfaces. */
+.iota-run-labels { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; min-width:0; margin:8px 0; text-align:left; }
+.iota-run-label { display:inline-flex; flex-wrap:wrap; align-items:baseline; gap:6px; max-width:100%; color:#c7c7c7; font-size:12px; line-height:1.6; }
+.iota-run-label > span,.iota-run-field-name { color:#929292; font-size:12px; font-weight:400; }
+.iota-run-label b { color:inherit; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:12px; font-weight:500; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.iota-run-label small,.iota-run-empty { font-size:11px; color:#929292; }
+.iota-run-label[data-stale] { color:#929292; }
+.iota-run-labels-row { display:grid; grid-template-columns:minmax(48px,auto) minmax(0,1fr); align-items:baseline; gap:6px 12px; }
+.iota-run-labels-row > :not(.iota-run-field-name) { justify-self:end; text-align:right; justify-content:flex-end; }
+.iota-run-labels-row > .iota-run-label:nth-child(n+3) { grid-column:2; }
+.iota-device-operation { display:grid; gap:10px; margin:18px 0 20px; padding:14px 0; border-top:1px solid #ffffff12; border-bottom:1px solid #ffffff12; }
+.iota-device-operation .iota-device-rate { margin:0; gap:12px; line-height:1.6; }
+.iota-device-operation .iota-run-labels { margin:0; }
+.iota-device-operation + .device-earnings { border-top:0; padding-top:0; }
+.iota-device-table .iota-run-labels { margin-bottom:0; }
+.fleet-project-reading > .iota-run-labels { margin:10px 0 0; padding-top:10px; border-top:1px solid #ffffff0a; }
+.fleet-project-reading:has(> .iota-run-labels) .fleet-project-toggle[aria-expanded="true"] { margin-bottom:0; }
+.fleet-project-reading > .iota-run-labels + div { margin-top:16px; }
+.board-project-panel > .iota-run-labels { margin:0 0 16px; }
+.earnings-board th .iota-run-labels { text-align:left; }
