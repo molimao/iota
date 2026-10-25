@@ -2,6 +2,7 @@ import { emptyNode, type Platform, type PlatformNode } from "./platforms";
 /** Review-only samples. Never returned by an upstream adapter or persisted as device data. */
 export function platformSample(project: Platform): PlatformNode {
   const base = emptyNode("sample-device");
+  if (project === "tsc") return {...base,scope:"provider",balanceExact:"2.375",pendingBalanceExact:null,balanceUnit:"TSC",rewardUnit:"TSC"};
   if (project === "noid")
     return {
       ...base,

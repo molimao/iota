@@ -16,7 +16,10 @@ async function asUser(id: string) {
 async function mutate(action: string, payload: object) {
   const result = await db.query<{
     data: {
-      devices: { id: string; bindings: { id: string; project: string }[] }[];
+      devices: {
+        id: string;
+        bindings: { id: string; project: string; pool?: string; identifier?: string }[];
+      }[];
       projectDeviceLimit: number;
       projectCounts: Record<string, number>;
     };
@@ -61,6 +64,7 @@ beforeAll(async () => {
   await db.exec(readFileSync("supabase/migrations/20261022140000_ergo_zephyr_pools.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261023190000_btc_ethw_pools.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261023220000_prl_luckypool.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261025220000_tensorcash_tsc.sql", "utf8"));
 }, 60000);
 afterAll(async () => {
   await db.close();
@@ -780,4 +784,52 @@ describe("PRL accounts keep pool identity in PostgreSQL", () => {
     });
     expect(added.projectCounts["prl"]).toBe(5);
   });
+});
+
+it("persists multiple TensorCash addresses with owner scope and project counts", async () => {
+  await asUser(other);
+  const a = "tc1qmvalge7mnhct9qj5uua8rn0dmjcyh6fmvrr46j",
+    b = "tc1qh3rce3jqcf7an5uljx9gnxreckdl7juf56l2rh";
+  const first = await mutate("create", {
+    name: "TSC one",
+    hardware: "",
+    binding: { project: "tsc", identifier: a, worker: "" },
+  });
+  const second = await mutate("create", {
+    name: "TSC two",
+    hardware: "",
+    binding: { project: "tsc", identifier: b, worker: "" },
+  });
+  expect(first.projectCounts["tsc"]).toBe(1);
+  expect(second.projectCounts["tsc"]).toBe(2);
+  expect(second.devices.filter((d) => d.bindings.some((b) => b.project === "tsc"))).toHaveLength(2);
+  await asUser(user);
+  const listed = await db.query<{ data: { devices: { bindings: { project: string }[] }[] } }>(
+    "SELECT watch_list_devices() AS data",
+  );
+  expect(
+    listed.rows[0]!.data.devices.some((d) => d.bindings.some((b) => b.project === "tsc")),
+  ).toBe(false);
+});
+
+it("persists TSC pool per address and isolates the same wallet across pools", async () => {
+  await asUser(user);
+  const address = "tc1qmvalge7mnhct9qj5uua8rn0dmjcyh6fmvrr46j";
+  for (const pool of ["tigerpool", "boblabs", "ariapool", "luckypool", "suprnova"]) {
+    const state = await mutate("create", {
+      name: `TSC ${pool}`,
+      binding: { project: "tsc", identifier: address, pool, worker: "" },
+    });
+    expect(
+      state.devices.some((d) =>
+        d.bindings.some((b) => b.project === "tsc" && b.pool === pool && b.identifier === address),
+      ),
+    ).toBe(true);
+  }
+  await expect(
+    mutate("create", {
+      name: "wrong",
+      binding: { project: "tsc", identifier: address, pool: "kryptex" },
+    }),
+  ).rejects.toThrow();
 });

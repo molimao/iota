@@ -14,10 +14,11 @@ export function platformJson(url: string, token?: string, fetcher: typeof fetch 
   return upstreamJson(url, { token, authErrors: !!token, maxBytes: 1000000 }, fetcher);
 }
 export async function readPublicPlatform(
-  project: "akash" | "golem" | "noid" | "acurast",
+  project: "akash" | "golem" | "noid" | "acurast" | "tsc",
   id: string,
   fetcher: typeof fetch = fetch,
 ): Promise<PlatformNode> {
+  if (project === "tsc") { const {readTscBalance}=await import("./tensorcash.server");return readTscBalance(id,fetcher); }
   if (project === "noid") {
     // Keep the existing source first; a miss/failure also checks InnovLab.
     // Never combine one pool's balance with another pool's activity.

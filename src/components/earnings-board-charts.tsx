@@ -139,22 +139,22 @@ export function EarningsBoardCharts({
                   />
                 )}
                 <div className="board-project-metrics">
-                  {groups.length ? (
-                    groups.map((g) => {
-                      const amount = formatCompute(g.total, g.unit, LANGUAGE_TAG[locale]);
-                      return (
-                        <div key={g.unit}>
-                          <span>{c.compute[locale]}</span>
-                          <strong>
-                            {g.known ? amount.value : "—"} <small>{amount.unit}</small>
-                          </strong>
-                          <small>
-                            {g.known}/{g.count} {c.computeCoverage[locale]}
-                          </small>
-                        </div>
-                      );
-                    })
-                  ) : null}
+                  {groups.length
+                    ? groups.map((g) => {
+                        const amount = formatCompute(g.total, g.unit, LANGUAGE_TAG[locale]);
+                        return (
+                          <div key={g.unit}>
+                            <span>{c.compute[locale]}</span>
+                            <strong>
+                              {g.known ? amount.value : "—"} <small>{amount.unit}</small>
+                            </strong>
+                            <small>
+                              {g.known}/{g.count} {c.computeCoverage[locale]}
+                            </small>
+                          </div>
+                        );
+                      })
+                    : null}
                   {[...row.metrics.values()].map((m) => (
                     <div key={m.window + m.unit}>
                       <span>{c.windows[m.window][locale]}</span>
@@ -180,14 +180,18 @@ export function EarningsBoardCharts({
                         {row.accounts.size} {c.accounts[locale]}
                       </span>
                       {[...row.accounts.values()].map((a) => (
-                        <div key={a.identifier}>
-                          {a.flyai ? <FlyaiWalletStats data={a.flyai} stale={a.stale} compact /> : <strong>
-                            {a.amount} <small>{a.unit}</small>
-                          </strong>}
+                        <div key={`${a.source ?? ""}:${a.identifier}:${a.kind}`}>
+                          {a.flyai ? (
+                            <FlyaiWalletStats data={a.flyai} stale={a.stale} compact />
+                          ) : (
+                            <strong>
+                              {a.amount} <small>{a.unit}</small>
+                            </strong>
+                          )}
                           {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
                           <small>
-                            {shortId(a.identifier)} ·{" "}
-                            {a.kind === "month" ? c.month[locale] : c.balance[locale]}
+                            {a.source ? `${a.source} · ` : ""}
+                            {shortId(a.identifier)} · {c[a.kind][locale]}
                             {a.stale ? ` · ${c.older[locale]}` : ""}
                           </small>
                         </div>
@@ -216,15 +220,17 @@ export function EarningsBoardCharts({
                     ))}
                   </div>
                 )}
-                {filtered.some(r => earningsTrendValue(r, true) !== null) && <TrendPanel
-                  history={filtered}
-                  days={days}
-                  title={c.trend[locale]}
-                  unit={unit}
-                  tone={color(row.project)}
-                  native
-                  empty={empty}
-                />}
+                {filtered.some((r) => earningsTrendValue(r, true) !== null) && (
+                  <TrendPanel
+                    history={filtered}
+                    days={days}
+                    title={c.trend[locale]}
+                    unit={unit}
+                    tone={color(row.project)}
+                    native
+                    empty={empty}
+                  />
+                )}
               </article>
             );
           })}

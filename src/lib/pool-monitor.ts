@@ -1,12 +1,16 @@
 import { record, finite } from "./projects";
 import type { PoolProject } from "./pool-projects";
 export type PoolWorker = {
+  rateUnit?: "PoI/s" | "N/s";
   name: string;
   hashrate: number | null;
   online: boolean | null;
   lastSeen: number | null;
 };
 export type PoolAccount = {
+  rateUnit?: "PoI/s" | "N/s";
+  chainBalanceExact?: string;
+  sourceUnavailable?: boolean;
   balance: number | null;
   paid: number | null;
   reward: number | null;
@@ -253,8 +257,8 @@ export function parseCkPool(input: unknown, address: string, now = Date.now()): 
     hashrateWindow: "1hr",
   };
 }
-export function poolHashrate(project: PoolProject, n: number | null) {
+export function poolHashrate(project: PoolProject, n: number | null, rateUnit?: "PoI/s" | "N/s") {
   if (n === null) return "—";
   const i = n > 0 ? Math.min(6, Math.max(0, Math.floor(Math.log10(n) / 3))) : 0;
-  return `${Number((n / 1000 ** i).toFixed(2))} ${["", "K", "M", "G", "T", "P", "E"][i]}${project === "mds" ? "nonces/s" : project === "zec" ? "S/s" : "H/s"}`;
+  return `${Number((n / 1000 ** i).toFixed(2))} ${["", "K", "M", "G", "T", "P", "E"][i]}${rateUnit ?? (project === "tsc" ? "PoI/s" : project === "mds" ? "nonces/s" : project === "zec" ? "S/s" : "H/s")}`;
 }

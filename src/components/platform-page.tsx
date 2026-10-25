@@ -1,3 +1,4 @@
+import { tscCopy } from "./tensorcash-copy";
 import { AcurastRewards } from "./acurast-rewards";
 import { AcurastProcessors } from "./acurast-processors";
 import { additionalMetricCopy as extra } from "./additional-platform-copy";
@@ -101,6 +102,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
   const data = result?.data;
   const sourceStale =
     !demo &&
+    project !== "tsc" &&
     project !== "noid" &&
     project !== "acurast" &&
     data?.sourceUpdatedAt != null &&
@@ -195,6 +197,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           {...(project !== "acurast" ? { onSelect: selectSaved } : {})}
         />
       )}
+      {project === "tsc" && <p className="compute-caption">{tscCopy.coverage[locale]}</p>}
       {!demo && (secured || !auth.userId) && (
         <section className="compute-panel">
           <form
@@ -215,17 +218,19 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             }}
           >
             <label htmlFor="platform-id">
-              {project === "ionet"
-                ? "Device ID"
-                : project === "vast"
-                  ? "Machine ID"
-                  : project === "akash"
-                    ? `${c.provider} · akash1…`
-                    : project === "noid"
-                      ? "NOID · o1…"
-                      : project === "acurast"
-                        ? "Acurast · Processor / Manager · SS58 / 0x…"
-                        : `Golem Node ID · 0x…`}
+              {project === "tsc"
+                ? "TSC · tc1…"
+                : project === "ionet"
+                  ? "Device ID"
+                  : project === "vast"
+                    ? "Machine ID"
+                    : project === "akash"
+                      ? `${c.provider} · akash1…`
+                      : project === "noid"
+                        ? "NOID · o1…"
+                        : project === "acurast"
+                          ? "Acurast · Processor / Manager · SS58 / 0x…"
+                          : `Golem Node ID · 0x…`}
             </label>
             <div>
               <input
@@ -313,15 +318,17 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
         <section className="compute-panel" aria-live="polite">
           <div className="platform-result-head">
             <h2>{data.name || `${data.id.slice(0, 12)}${data.id.length > 12 ? "…" : ""}`}</h2>
-            <span>
-              {project === "acurast"
-                ? extra.registered[locale]
-                : online === true
-                  ? c.online
-                  : online === false
-                    ? c.offline
-                    : c.unknown}
-            </span>
+            {project !== "tsc" && (
+              <span>
+                {project === "acurast"
+                  ? extra.registered[locale]
+                  : online === true
+                    ? c.online
+                    : online === false
+                      ? c.offline
+                      : c.unknown}
+              </span>
+            )}
           </div>
           {project === "acurast" && (
             <AcurastRewards
@@ -333,8 +340,19 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           )}
           {data.acurast && <AcurastProcessors data={data.acurast} />}
           {data.sourcePool && <p className="compute-caption">{data.sourcePool}</p>}
-          <div className="compute-metrics">
-            {project === "acurast" ? null : project === "noid" ? (
+          <div className={`compute-metrics${project === "tsc" ? " tsc-balance-metrics" : ""}`}>
+            {project === "tsc" ? (
+              <>
+                {metric(
+                  tscCopy.confirmed[locale],
+                  data.balanceExact == null ? null : `${data.balanceExact} TSC`,
+                )}
+                {metric(
+                  tscCopy.pending[locale],
+                  data.pendingBalanceExact == null ? null : `${data.pendingBalanceExact} TSC`,
+                )}
+              </>
+            ) : project === "acurast" ? null : project === "noid" ? (
               <>
                 {metric(extra.hashrate[locale], data.activity)}
                 {metric(
@@ -400,6 +418,14 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             <p className="platform-public-id">{data.id}</p>
           </QuietDetails>
         </section>
+      )}
+      {project === "tsc" && (
+        <QuietDetails title={tscCopy.explorer[locale]}>
+          <p>{tscCopy.mac[locale]}</p>
+          <a href="https://scan.tensorcash.org/" target="_blank" rel="noreferrer">
+            {tscCopy.explorer[locale]} ↗
+          </a>
+        </QuietDetails>
       )}
       <ProjectAbout project={project} />
     </main>

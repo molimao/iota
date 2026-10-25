@@ -1,3 +1,4 @@
+import { tscGuide } from "../components/site/tsc-guide";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -184,12 +185,14 @@ function curatedDefaultGuides() {
     mdsGuide,
     bntGuide,
     csdGuide,
+    tscGuide,
   ].filter(
     (guide) =>
       guide.project === "all" ||
       guide.project === "mds" ||
       guide.project === "bnt" ||
       guide.project === "csd" ||
+      guide.project === "tsc" ||
       guide.slug === "xid-mmm-mainnet-setup" ||
       guide.slug === "quantus-mainnet-mining-mac" ||
       searchSupportGuides.some((item) => item.slug === guide.slug) ||

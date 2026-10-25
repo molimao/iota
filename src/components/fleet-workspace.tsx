@@ -591,6 +591,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                           placeholder={
                             isPoolProject(selectedProject)
                               ? {
+                                  tsc: "tc1…",
                                   prl: "prl1…",
                                   xmr: "4… / 8…",
                                   etc: "0x…",
@@ -1051,7 +1052,7 @@ function FleetCard({
                 aria-controls={`fleet-reading-${binding.id}`}
                 onClick={() => setExpandedBinding(expanded ? null : binding.id)}
               >
-                <b>{FLEET_NAMES[binding.project]}</b>
+                <b>{FLEET_NAMES[binding.project]}{binding.project === "tsc" ? ` · ${poolName("tsc", binding.pool)}` : ""}</b>
                 {binding.project === "iota" ? <IotaRosterStatus deviceId={device.id} miner={binding.identifier} preview={!!preview} status={data.officialTraining?.status ?? "unknown"}/> : <span className={`fleet-status fleet-status-${data.status}`}>
                   <i />
                   {c[data.status]}

@@ -1,0 +1,106 @@
+{
+  "capturedOn": "2026-10-25",
+  "note": "Public pool records; wallet identifiers and worker labels replaced. Numeric source fields retained unchanged. Not live telemetry.",
+  "address": "tc1qmvalge7mnhct9qj5uua8rn0dmjcyh6fmvrr46j",
+  "bob": {
+    "connected": true,
+    "n_machines": 4,
+    "total_shares": 1964,
+    "owed": 0.0,
+    "paid": 92.05780071,
+    "pending": 0,
+    "draws_per_sec": 102.24,
+    "wallet": "tc1qmvalge7mnhct9qj5uua8rn0dmjcyh6fmvrr46j",
+    "machines": [
+      {
+        "draws_per_sec": 45.44,
+        "connected": true,
+        "last_share": 1792942219.524917,
+        "label": "public-worker-1"
+      },
+      {
+        "draws_per_sec": 37.86,
+        "connected": true,
+        "last_share": 1792942513.268491,
+        "label": "public-worker-2"
+      },
+      {
+        "draws_per_sec": 11.36,
+        "connected": true,
+        "last_share": 1792942627.139306,
+        "label": "public-worker-3"
+      },
+      {
+        "draws_per_sec": 7.57,
+        "connected": true,
+        "last_share": 1792942617.948236,
+        "label": "public-worker-4"
+      }
+    ]
+  },
+  "lucky": {
+    "stats": {
+      "lastShare": "1789093806659",
+      "acceptedShares": 250588,
+      "paid": 256549228096,
+      "unlocked": 0,
+      "locked": 0,
+      "hashrate": 0,
+      "wallet": "tc1qmvalge7mnhct9qj5uua8rn0dmjcyh6fmvrr46j"
+    },
+    "workers": [],
+    "rewardStats": [
+      {
+        "period": "1h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792939027501,
+        "endTime": 1792942627501
+      },
+      {
+        "period": "6h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792921027501,
+        "endTime": 1792942627501
+      },
+      {
+        "period": "12h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792899427501,
+        "endTime": 1792942627501
+      },
+      {
+        "period": "24h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792856227501,
+        "endTime": 1792942627501
+      },
+      {
+        "period": "48h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792769827501,
+        "endTime": 1792942627501
+      },
+      {
+        "period": "72h",
+        "blocks": 0,
+        "amount": 0,
+        "startTime": 1792683427501,
+        "endTime": 1792942627501
+      }
+    ]
+  },
+  "suprnova": {
+    "pendingBalance": 0,
+    "totalPaid": "15.4372945911",
+    "unconfirmedBalance": "0.0000000000",
+    "performance": {
+      "workers": {}
+    },
+    "performanceSamples": []
+  }
+}

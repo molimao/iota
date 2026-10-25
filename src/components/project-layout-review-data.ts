@@ -1,3 +1,6 @@
+import tscSnapshot from "@/lib/fixtures/tsc-public-pool-2026-10-25.json";
+import { parseTscBob } from "@/lib/tensorcash-pools";
+import { poolHashrate } from "@/lib/pool-monitor";
 import { FLEET_PROJECTS, type FleetProject, type FleetDevice } from "@/lib/fleet";
 import { PROJECTS } from "@/lib/projects";
 import { fleetCopy } from "./fleet-copy";
@@ -28,6 +31,31 @@ export function layoutReading(
     updated: "DEMO",
     todayUsable: false,
   };
+  if (project === "tsc") {
+    // Recorded public response, anonymized and explicitly marked DEMO. Never queried or saved.
+    const d = parseTscBob(tscSnapshot.bob, tscSnapshot.address);
+    return {
+      ...base,
+      source: "Bob Labs · DEMO",
+      status: stale ? "staleData" : "online",
+      activity: poolHashrate("tsc", d.hashrate, d.rateUnit),
+      lifetime: String(d.paid),
+      totalLabel: poolCopy.paid[locale],
+      accountSummary: { kind: "balance", amount: String(d.balance), unit: "TSC" },
+      poolWorkers: {
+        count: d.workerCount,
+        workers: d.workers.map((w) => (stale ? { ...w, online: null } : w)),
+        rateUnit: d.rateUnit,
+      },
+      compute: {
+        value: d.hashrate,
+        unit: "PoI/s",
+        scope: "account",
+        fresh: !stale,
+        fetchedAt: Date.now(),
+      },
+    };
+  }
   if (isPoolProject(project) || project === "noid")
     return {
       ...base,
@@ -111,6 +139,7 @@ export function layoutDevices(project: FleetProject): FleetDevice[] {
         {
           id: `binding-${project}`,
           project,
+          ...(project === "tsc" ? { pool: "boblabs" as const } : {}),
           identifier: `DEMO-${project}-abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz`,
           worker: "",
         },

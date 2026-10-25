@@ -7336,3 +7336,9 @@ body:has(.site-shell) {
   font: inherit;
   font-size: .8rem;
 }
+
+/* Preserve exact chain amounts without breaking their digits on phones. */
+@media (max-width: 600px) {
+  .tsc-balance-metrics { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .tsc-balance-metrics .compute-metric strong { font-size: clamp(20px, 5.8vw, 30px); }
+}

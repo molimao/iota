@@ -18,7 +18,7 @@ export function PoolWorkerPreview({
   data: NonNullable<ProjectReading["poolWorkers"]>;
   locale: SiteLocale;
 }) {
-  const [expanded,setExpanded]=useState(false);
+  const [expanded, setExpanded] = useState(false);
   return (
     <section className="pab-workers" aria-label={c.workers[locale]}>
       <h4>
@@ -44,7 +44,7 @@ export function PoolWorkerPreview({
                 <strong title={worker.name}>{worker.name}</strong>
               </div>
               <div>
-                <b>{poolHashrate(project, worker.hashrate)}</b>
+                <b>{poolHashrate(project, worker.hashrate, data.rateUnit)}</b>
                 <small>
                   {worker.online === true
                     ? c.online[locale]
@@ -57,8 +57,21 @@ export function PoolWorkerPreview({
           ))}
         </ul>
       )}
-      {data.workers.length > 3 && <button type="button" className="pab-worker-more" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded ? collapse[locale] : `${c.all[locale]} ${data.workers.length} ${c.workers[locale]}`}</button>}
-      {data.count > data.workers.length && <small>{c.partialList[locale].replace("{count}", String(data.count))}</small>}
+      {data.workers.length > 3 && (
+        <button
+          type="button"
+          className="pab-worker-more"
+          aria-expanded={expanded}
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded
+            ? collapse[locale]
+            : `${c.all[locale]} ${data.workers.length} ${c.workers[locale]}`}
+        </button>
+      )}
+      {data.count > data.workers.length && (
+        <small>{c.partialList[locale].replace("{count}", String(data.count))}</small>
+      )}
     </section>
   );
 }

@@ -2,7 +2,11 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
-  poolWorkers?: { count: number; workers: import("@/lib/pool-monitor").PoolWorker[] };
+  poolWorkers?: {
+    rateUnit?: "PoI/s" | "N/s" | undefined;
+    count: number;
+    workers: import("@/lib/pool-monitor").PoolWorker[];
+  };
   flyai?: import("@/lib/flyai").FlyaiWalletStats;
   acurastQuote?: import("@/lib/acurast-rewards").AcurastQuote;
   acurastBalances?: import("@/lib/acurast-rewards").AcurastBalance[];
@@ -97,6 +101,17 @@ export function reviewReading(binding: FleetBinding): ProjectReading {
   }
   const idle = binding.id === "laptop-iota";
   switch (binding.project) {
+    case "tsc":
+      return {
+        status: "unavailable",
+        activity: "—",
+        today: null,
+        lifetime: null,
+        unit: "TSC",
+        scope: "wallet",
+        source: "TensorCash Mainnet",
+        updated: "—",
+      };
     case "prl":
     case "xmr":
     case "etc":

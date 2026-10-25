@@ -137,11 +137,16 @@ export function EarningsBoard({
                     {row.accounts.size === 1 ? (
                       [...row.accounts.values()].map((m, i) => (
                         <div key={i} className="earnings-board-metric">
-                          {m.flyai ? <FlyaiWalletStats data={m.flyai} stale={m.stale} compact /> : <span>
-                            {m.amount} {m.unit}
-                          </span>}
+                          {m.flyai ? (
+                            <FlyaiWalletStats data={m.flyai} stale={m.stale} compact />
+                          ) : (
+                            <span>
+                              {m.amount} {m.unit}
+                            </span>
+                          )}
                           {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
                           <small>
+                            {m.source ? `${m.source} · ` : ""}
                             {c[m.kind][locale]}
                             {m.stale ? ` · ${c.older[locale]}` : ""}
                           </small>
@@ -155,11 +160,16 @@ export function EarningsBoard({
                         {[...row.accounts.entries()].map(([key, m]) => (
                           <div key={key} className="earnings-board-metric">
                             <code>{shortId(m.identifier)}</code>
-                            {m.flyai ? <FlyaiWalletStats data={m.flyai} stale={m.stale} compact /> : <span>
-                              {m.amount} {m.unit}
-                            </span>}
+                            {m.flyai ? (
+                              <FlyaiWalletStats data={m.flyai} stale={m.stale} compact />
+                            ) : (
+                              <span>
+                                {m.amount} {m.unit}
+                              </span>
+                            )}
                             {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
                             <small>
+                              {m.source ? `${m.source} · ` : ""}
                               {c[m.kind][locale]}
                               {m.stale ? ` · ${c.older[locale]}` : ""}
                             </small>

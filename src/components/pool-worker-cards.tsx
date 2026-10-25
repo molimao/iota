@@ -208,7 +208,10 @@ function WorkerCard({
 }) {
   const state = workerStatus(worker.online);
   const kind = shareKind(worker.lastSeen, now);
-  const rate = worker.hashrate == null ? c.unknown[locale] : poolHashrate(project, worker.hashrate);
+  const rate =
+    worker.hashrate == null
+      ? c.unknown[locale]
+      : poolHashrate(project, worker.hashrate, worker.rateUnit);
   const when =
     kind === "unknown" || worker.lastSeen == null
       ? c.unknown[locale]

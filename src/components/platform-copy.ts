@@ -1,3 +1,5 @@
+import { tscPoolCopy } from "./tensorcash-pool-copy";
+import { tscEditorial } from "./tensorcash-copy";
 import { additionalPlatformEditorial } from "./additional-platform-copy";
 import type { SiteLocale } from "@/lib/site";
 const labels = {
@@ -225,6 +227,12 @@ export const platformCopy = (locale: SiteLocale) =>
     [K in keyof typeof labels]: string;
   };
 export const platformEditorial = {
+  tsc: {
+    ...tscEditorial,
+    title: tscPoolCopy.title,
+    summary: tscPoolCopy.summary,
+    coverage: tscPoolCopy.scope,
+  },
   ...additionalPlatformEditorial,
   akash: {
     title: {

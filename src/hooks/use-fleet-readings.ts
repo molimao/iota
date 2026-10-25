@@ -43,7 +43,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     ...new Map(
       devices
         .flatMap((d) => d.bindings)
-        .filter((b) => isPlatform(b.project))
+        .filter((b) => isPlatform(b.project) && !isPoolProject(b.project))
         .map((b) => [`${b.project}:${b.identifier}`, b]),
     ).values(),
   ];
@@ -222,23 +222,42 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         source: poolName(binding.project, binding.pool),
-        ...(d && !binding.worker ? { poolWorkers: { count: d.workerCount, workers: d.workers.map(w => current ? w : {...w, online: null}) } } : {}),
+        ...(d && !binding.worker
+          ? {
+              poolWorkers: {
+                rateUnit: d.rateUnit,
+                count: d.workerCount,
+                workers: d.workers.map((w) => (current ? w : { ...w, online: null })),
+              },
+            }
+          : {}),
         health: current && d ? "fresh" : d ? "stale" : q?.isFetching ? "loading" : "unavailable",
         unit: POOL_PROJECTS[binding.project].token,
-        status: q?.isPending
-          ? "loading"
-          : !current
-            ? "unavailable"
-            : binding.worker && !worker && !d?.partial
-              ? "notFound"
-              : online === true
-                ? "online"
-                : online === false
-                  ? "offline"
-                  : "unavailable",
+        status:
+          d?.chainBalanceExact != null && current
+            ? "wallet"
+            : q?.isPending
+              ? "loading"
+              : !current
+                ? "unavailable"
+                : binding.worker && !worker && !d?.partial
+                  ? "notFound"
+                  : online === true
+                    ? "online"
+                    : online === false
+                      ? "offline"
+                      : "unavailable",
         compute: {
           value: binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
-          unit: binding.project === "zec" ? "S/s" : binding.project === "mds" ? "nonces/s" : "H/s",
+          unit:
+            d?.rateUnit ??
+            (binding.project === "tsc"
+              ? "PoI/s"
+              : binding.project === "zec"
+                ? "S/s"
+                : binding.project === "mds"
+                  ? "nonces/s"
+                  : "H/s"),
           scope: binding.worker ? "worker" : "account",
           fresh: current,
           fetchedAt: r?.fetchedAt ?? null,
@@ -246,6 +265,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         activity: poolHashrate(
           binding.project,
           binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
+          d?.rateUnit,
         ),
         scope: "wallet",
         today: d?.reward == null ? null : String(d.reward),
@@ -256,6 +276,15 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         todaySameDay: false,
         lifetime: d?.paid == null ? null : String(d.paid),
         totalLabel: poolCopy.paid[locale],
+        ...(d?.chainBalanceExact != null
+          ? {
+              accountSummary: {
+                kind: "balance" as const,
+                amount: d.chainBalanceExact,
+                unit: "TSC",
+              },
+            }
+          : {}),
         ...(d?.balance == null
           ? {}
           : {
@@ -546,7 +575,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     const stats = sameMonth && month ? flyaiWalletStats(month, binding.identifier) : undefined;
     return {
       ...base,
-      ...(stats ? {flyai: stats} : {}),
+      ...(stats ? { flyai: stats } : {}),
       status:
         sameMonth && wallet && fresh(result?.fetchedAt, result?.stale) && !flyai.isError
           ? "wallet"

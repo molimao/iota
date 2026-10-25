@@ -72,9 +72,10 @@ export function parsePrlLuckyPool(
   input: unknown,
   address: string,
   now = Date.now(),
+  expectedSymbol = "PRL",
 ): PoolAccount {
   const cfg = record(config);
-  if (!cfg || cfg["symbol"] !== "PRL" || cfg["coinUnits"] !== COIN_UNITS)
+  if (!cfg || cfg["symbol"] !== expectedSymbol || cfg["coinUnits"] !== COIN_UNITS)
     throw new Error("invalid-data");
 
   const doc = record(input);

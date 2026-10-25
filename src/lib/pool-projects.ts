@@ -1,3 +1,4 @@
+import { validTscAddress } from "./tensorcash-address";
 import { normalizeBtcAddress, validBtcAddress } from "./btc-address";
 import { validErgP2pkAddress, validZephStandardAddress } from "./erg-zeph-validator";
 import { validCsdAddress } from "./csd";
@@ -16,27 +17,45 @@ export const POOL_PROJECT_IDS = [
   "zeph",
   "btc",
   "ethw",
+  "tsc",
 ] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
-export type PoolProvider = "kryptex" | "2miners" | "luckypool" | "bntpool" | "gpools" | "ckpool";
+export type PoolProvider =
+  | "kryptex"
+  | "2miners"
+  | "luckypool"
+  | "bntpool"
+  | "gpools"
+  | "ckpool"
+  | "chain"
+  | "tigerpool"
+  | "boblabs"
+  | "ariapool"
+  | "suprnova";
 export const isPoolProject = (v: unknown): v is PoolProject =>
   POOL_PROJECT_IDS.includes(v as PoolProject);
 export const poolProvider = (p: PoolProject): PoolProvider =>
-  p === "btc"
-    ? "ckpool"
-    : p === "csd"
-      ? "gpools"
-      : p === "bnt"
-        ? "bntpool"
-        : p === "mds"
-          ? "luckypool"
-          : p === "prl" || p === "xmr"
-            ? "kryptex"
-            : "2miners";
+  p === "tsc"
+    ? "boblabs"
+    : p === "btc"
+      ? "ckpool"
+      : p === "csd"
+        ? "gpools"
+        : p === "bnt"
+          ? "bntpool"
+          : p === "mds"
+            ? "luckypool"
+            : p === "prl" || p === "xmr"
+              ? "kryptex"
+              : "2miners";
 export function validPoolProvider(
   project: PoolProject,
   provider: unknown,
 ): provider is PoolProvider {
+  if (project === "tsc")
+    return ["chain", "tigerpool", "boblabs", "ariapool", "luckypool", "suprnova"].includes(
+      String(provider),
+    );
   return provider === poolProvider(project) || (project === "prl" && provider === "luckypool");
 }
 export function poolAccountKey(
@@ -44,25 +63,44 @@ export function poolAccountKey(
   address: string,
   provider = poolProvider(project),
 ) {
-  return project === "prl"
+  return project === "prl" || project === "tsc"
     ? ["pool-account", project, address, provider]
     : ["pool-account", project, address];
 }
 export const poolName = (p: PoolProject, provider = poolProvider(p)) =>
-  p === "prl" && provider === "luckypool"
-    ? "LuckyPool"
-    : p === "btc"
-      ? "CKPool"
-      : p === "csd"
-        ? "G-pools"
-        : p === "bnt"
-          ? "bntpool.com"
-          : p === "mds"
-            ? "LuckyPool"
-            : poolProvider(p) === "kryptex"
-              ? "Kryptex"
-              : "2Miners";
+  p === "tsc"
+    ? (
+        {
+          chain: "TensorCash Mainnet",
+          tigerpool: "Tigerpool",
+          boblabs: "Bob Labs",
+          ariapool: "AriaPool",
+          luckypool: "LuckyPool",
+          suprnova: "Suprnova",
+        } as Record<string, string>
+      )[provider]!
+    : p === "prl" && provider === "luckypool"
+      ? "LuckyPool"
+      : p === "btc"
+        ? "CKPool"
+        : p === "csd"
+          ? "G-pools"
+          : p === "bnt"
+            ? "bntpool.com"
+            : p === "mds"
+              ? "LuckyPool"
+              : poolProvider(p) === "kryptex"
+                ? "Kryptex"
+                : "2Miners";
 export const POOL_PROJECTS = {
+  tsc: {
+    name: "TensorCash",
+    detail: "Proof of inference",
+    token: "TSC",
+    website: "https://tensorcash.org/",
+    guide: "https://tensorcash.org/pools",
+    explorer: "https://scan.tensorcash.org/",
+  },
   csd: {
     name: "Compute Substrate",
     detail: "CSD · SHA-256d",
@@ -190,6 +228,8 @@ export function twoMinersAccountUrl(project: PoolProject, address: string) {
 export function validPoolAddress(p: PoolProject, v: string) {
   if (v !== v.trim()) return false;
   switch (p) {
+    case "tsc":
+      return validTscAddress(v);
     case "csd":
       return validCsdAddress(v);
     case "bnt":
@@ -218,6 +258,18 @@ export function validPoolAddress(p: PoolProject, v: string) {
   }
 }
 export function poolAccountUrl(p: PoolProject, address: string, provider = poolProvider(p)) {
+  if (p === "tsc")
+    return provider === "chain"
+      ? "https://scan.tensorcash.org/"
+      : (
+          {
+            tigerpool: "https://tsc-miner.tiger-pool.com/",
+            boblabs: "https://pool.tensorcash.boblabs.eu/",
+            ariapool: "https://pool.ariabrain.com/tsc.html",
+            luckypool: "https://tensorcash.luckypool.io/",
+            suprnova: "https://tsc.suprnova.cc/",
+          } as Record<string, string>
+        )[provider]!;
   if (p === "prl" && provider === "luckypool")
     return `https://pearl.luckypool.io/miner-stats?address=${encodeURIComponent(address)}`;
   if (p === "btc")

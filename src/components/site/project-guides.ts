@@ -1,3 +1,4 @@
+import { tscGuide } from "./tsc-guide";
 import { iotaTierGuides, refreshIotaGuide } from "./iota-guide-refresh";
 import { csdGuide } from "./csd-guide";
 import { bntGuide } from "./bnt-guide";
@@ -6,7 +7,10 @@ import { searchSupportGuides } from "./search-support-guides";
 import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import { poolMonitorGuides } from "./pool-monitor-guides";
-import { articles, type Article } from "./articles";
+import type { Article } from "./articles";
+import { coreIotaArticles } from "./iota-core-articles";
+import { currentIotaContent } from "./current-iota-content";
+import { macStatusGuide } from "./mac-status-guide";
 import { mergeProjectDepth, withProjectDepth } from "./project-depth";
 
 /** Native editorial copy; never pass through the legacy two-language expander. */
@@ -1461,9 +1465,15 @@ function dedupeGuides(guides: Article[]): Article[] {
   });
 }
 
-/** Live IOTA articles. Read only after module init so the articles cycle stays safe. */
+/** Shared IOTA catalog without depending on the complete article registry. */
 function originalIotaCatalog(): Article[] {
-  return articles.filter((guide) => guide.project === "iota");
+  return mergeProjectDepth([
+    ...coreIotaArticles,
+    macStatusGuide,
+    ...problemGuides.map(currentIotaContent),
+    ...searchSupportGuides.map(refreshIotaGuide),
+    ...iotaTierGuides,
+  ]).filter((guide) => guide.project === "iota");
 }
 
 export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
@@ -1476,6 +1486,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
     mdsGuide,
     bntGuide,
     csdGuide,
+    tscGuide,
   ];
   return project
     ? mergeProjectDepth(
@@ -1493,6 +1504,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         mdsGuide,
         bntGuide,
         csdGuide,
+        tscGuide,
       ]
         .filter(
           (a) =>
@@ -1500,6 +1512,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
             a.project === "mds" ||
             a.project === "bnt" ||
             a.project === "csd" ||
+            a.project === "tsc" ||
             a.slug === "xid-mmm-mainnet-setup" ||
             a.slug === "quantus-mainnet-mining-mac" ||
             searchSupportGuides.some((g) => g.slug === a.slug) ||

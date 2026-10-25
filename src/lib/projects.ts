@@ -28,6 +28,7 @@ export const PROJECT_IDS = [
   "zeph",
   "btc",
   "ethw",
+  "tsc",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 export type MiningProject = "xid" | "quantus";
@@ -151,7 +152,7 @@ export function isMonitorProject(value: unknown): value is MonitorProject {
     value === "vast" ||
     value === "golem" ||
     value === "noid" ||
-    value === "acurast"
+    value === "acurast" || value === "tsc"
   );
 }
 

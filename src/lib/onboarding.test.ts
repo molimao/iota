@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { isPoolProject, POOL_PROJECTS } from "./pool-projects";
 import { describe, it, expect, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -18,7 +19,13 @@ import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
 import { getArticle } from "../components/site/articles";
 function html(locale: (typeof LOCALES)[number], child: ReturnType<typeof createElement>) {
-  return renderToStaticMarkup(createElement(LocaleContext.Provider, { value: locale }, child));
+  return renderToStaticMarkup(
+    createElement(
+      QueryClientProvider,
+      { client: new QueryClient() },
+      createElement(LocaleContext.Provider, { value: locale }, child),
+    ),
+  );
 }
 describe("public lookup and onboarding", () => {
   it("rejects a malformed or script-like lookup before querying device data", () => {
@@ -79,7 +86,6 @@ describe("public lookup and onboarding", () => {
     cached.usdPerIota = 7;
     const stale = html("en", createElement(Dashboard));
     expect(stale).not.toContain("$0.00");
-
   });
   it("keeps sample data clearly labelled and routes project-specific help to real articles", () => {
     for (const locale of LOCALES) {

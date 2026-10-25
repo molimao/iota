@@ -1,7 +1,7 @@
 import type { FleetBinding, FleetProject } from "./fleet";
 export type ComputeReading = {
   value: number | null;
-  unit: "tokens/s" | "H/s" | "S/s" | "nonces/s";
+  unit: "tokens/s" | "H/s" | "S/s" | "nonces/s" | "PoI/s" | "N/s";
   scope: "device" | "worker" | "account";
   fresh: boolean;
   fetchedAt: number | null;

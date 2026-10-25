@@ -1,7 +1,8 @@
+import { validTscAddress } from "./tensorcash-address";
 import { validAdditionalId } from "./additional-platforms";
 import { bech32 } from "@scure/base";
 import { record, finite } from "./projects";
-export const PLATFORM_IDS = ["akash", "ionet", "vast", "golem", "noid", "acurast"] as const;
+export const PLATFORM_IDS = ["akash", "ionet", "vast", "golem", "noid", "acurast", "tsc"] as const;
 export type Platform = (typeof PLATFORM_IDS)[number];
 export type PrivatePlatform = "ionet" | "vast";
 export const isPlatform = (v: unknown): v is Platform => PLATFORM_IDS.includes(v as Platform);
@@ -9,6 +10,7 @@ export const isPrivatePlatform = (v: unknown): v is PrivatePlatform =>
   v === "ionet" || v === "vast";
 export function validPlatformId(project: Platform, id: string) {
   if (id !== id.trim() || id.length > 100) return false;
+  if (project === "tsc") return validTscAddress(id);
   if (project === "noid" || project === "acurast") return validAdditionalId(project, id);
   if (project === "ionet")
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -26,6 +28,8 @@ export function validPlatformId(project: Platform, id: string) {
   }
 }
 export type PlatformNode = {
+  balanceExact?: string;
+  pendingBalanceExact?: string | null;
   acurastQuote?: import("./acurast-rewards").AcurastQuote;
   acurastBalances?: import("./acurast-rewards").AcurastBalance[];
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
@@ -49,7 +53,7 @@ export type PlatformNode = {
   activeGpu: number | null;
   cpuCount: number | null;
   reward: number | null;
-  rewardUnit: "GLM" | "USD" | "IO" | "NOID" | "ACU" | null;
+  rewardUnit: "GLM" | "USD" | "IO" | "NOID" | "ACU" | "TSC" | null;
   period: "rolling24h" | "hkDay" | "utcDay" | null;
   periodStart: number | null;
   periodEnd: number | null;

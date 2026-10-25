@@ -1,3 +1,5 @@
+import { tscPoolCopy } from "./tensorcash-pool-copy";
+import { tscCopy } from "./tensorcash-copy";
 import { csdEditorial } from "./csd-copy";
 import { bntEditorial } from "./bnt-copy";
 import { mdsEditorial } from "./mds-copy";
@@ -169,6 +171,13 @@ const zephEditorial = {
   ]),
 };
 function editorial(p: PoolProject) {
+  if (p === "tsc")
+    return {
+      title: tscPoolCopy.title,
+      summary: tscPoolCopy.summary,
+      identity: tscCopy.identity,
+      coverage: tscPoolCopy.scope,
+    };
   if (p === "csd") return csdEditorial;
   if (p === "bnt") return bntEditorial;
   if (p === "mds") return mdsEditorial;

@@ -35,6 +35,7 @@ export const FLEET_PROJECTS = [
   "zeph",
   "btc",
   "ethw",
+  "tsc",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
 export const FLEET_NAMES: Record<FleetProject, string> = {
@@ -63,13 +64,28 @@ export const FLEET_NAMES: Record<FleetProject, string> = {
   zeph: "Zephyr",
   btc: "Bitcoin",
   ethw: "EthereumPoW",
+  tsc: "TensorCash",
 };
 export const bindingSchema = z
   .object({
     id: z.string().min(1).max(120),
     project: z.enum(FLEET_PROJECTS),
     identifier: z.string().trim().min(1).max(120),
-    pool: z.enum(["kryptex", "2miners", "luckypool", "bntpool", "gpools", "ckpool"]).optional(),
+    pool: z
+      .enum([
+        "kryptex",
+        "2miners",
+        "luckypool",
+        "bntpool",
+        "gpools",
+        "ckpool",
+        "chain",
+        "tigerpool",
+        "boblabs",
+        "ariapool",
+        "suprnova",
+      ])
+      .optional(),
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>
@@ -126,7 +142,7 @@ export function bindingIdentity(
           : binding.project === "flyai" || binding.project === "etc" || binding.project === "ethw"
             ? binding.identifier.toLowerCase()
             : binding.identifier;
-  return `${binding.project}:${identifier}:${binding.worker}${binding.project === "prl" ? ":" + (binding.pool ?? poolProvider("prl")) : ""}`;
+  return `${binding.project}:${identifier}:${binding.worker}${binding.project === "prl" || binding.project === "tsc" ? ":" + (binding.pool ?? poolProvider(binding.project)) : ""}`;
 }
 
 export function parseFleet(input: unknown): FleetDevice[] {
@@ -179,8 +195,10 @@ export function walletIsShared(devices: FleetDevice[], binding: FleetBinding) {
       .filter(
         (b) =>
           b.project === binding.project &&
-          (binding.project !== "prl" ||
-            (b.pool ?? poolProvider("prl")) === (binding.pool ?? poolProvider("prl"))) &&
+          ((binding.project !== "prl" && binding.project !== "tsc") ||
+            (b.pool ?? poolProvider(binding.project as import("./pool-projects").PoolProject)) ===
+              (binding.pool ??
+                poolProvider(binding.project as import("./pool-projects").PoolProject))) &&
           (binding.project === "flyai"
             ? b.identifier.toLowerCase() === binding.identifier.toLowerCase()
             : b.identifier === binding.identifier),

@@ -253,9 +253,9 @@ export function ProjectAddressBookView({
           {busy ? labels.loading : text.add[locale]}
         </button>
       </form>
-      {project === "prl" && (
+      {(project === "prl" || project === "tsc") && (
         <p className="compute-caption">
-          {prlPoolCopy.selected[locale]} · {poolName("prl", pool)}
+          {prlPoolCopy.selected[locale]} · {poolName(project as import("@/lib/pool-projects").PoolProject, pool)}
         </p>
       )}
       <p className="compute-caption">
@@ -506,12 +506,12 @@ export function ProjectAddressBook({
     }))
     .filter((device) => device.bindings.length);
   const devices =
-    project === "prl"
+    (project === "prl" || project === "tsc")
       ? projectDevices
           .map((device) => ({
             ...device,
             bindings: device.bindings.filter(
-              (binding) => (binding.pool ?? poolProvider("prl")) === (pool ?? poolProvider("prl")),
+              (binding) => (binding.pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)) === (pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)),
             ),
           }))
           .filter((device) => device.bindings.length)

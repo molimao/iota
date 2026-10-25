@@ -3,6 +3,7 @@ import { bindingIdentity, type FleetBinding, type FleetProject } from "./fleet";
 export type EarningsWindow =
   "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown" | "cumulative";
 export type BoardReading = {
+  lifetime?: string | null;
   flyai?: import("@/lib/flyai").FlyaiWalletStats;
   acurastQuote?: import("./acurast-rewards").AcurastQuote;
   acurastBalances?: import("./acurast-rewards").AcurastBalance[];
@@ -52,10 +53,11 @@ export function earningsBoard(
       accounts: Map<
         string,
         {
-          kind: "month" | "balance";
+          kind: "month" | "balance" | "paid";
           amount: string;
           unit: string;
           identifier: string;
+          source?: string;
           flyai?: import("./flyai").FlyaiWalletStats;
           usd?: number | null;
           stale: boolean;
@@ -120,8 +122,16 @@ export function earningsBoard(
             stale: false,
           };
           const usd = d.health === "fresh" ? acurastUsd(value, d.acurastQuote) : null;
-          metric.usd = metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
-          if (usd !== null && period !== "cumulative") { totals[period].usd += usd; totals[period].count++; }
+          metric.usd =
+            metric.count === 0
+              ? usd
+              : metric.usd !== null && usd !== null
+                ? metric.usd + usd
+                : null;
+          if (usd !== null && period !== "cumulative") {
+            totals[period].usd += usd;
+            totals[period].count++;
+          }
           metric.amount += value;
           metric.count++;
           metric.stale ||= d.health !== "fresh";
@@ -140,10 +150,27 @@ export function earningsBoard(
     if (d.accountSummary)
       row.accounts.set(key, {
         ...d.accountSummary,
-        ...(d.flyai ? {flyai: d.flyai} : {}),
+        ...(d.flyai ? { flyai: d.flyai } : {}),
         identifier: b.identifier,
+        source: d.source,
         stale: d.health === "stale" || d.health === "unavailable",
       });
+    if (
+      b.project === "tsc" &&
+      b.pool !== "chain" &&
+      d.scope === "wallet" &&
+      typeof d.lifetime === "string" &&
+      /^\d+(?:\.\d+)?$/.test(d.lifetime)
+    ) {
+      row.accounts.set(`${key}:paid`, {
+        kind: "paid",
+        amount: d.lifetime,
+        unit: "TSC",
+        identifier: b.identifier,
+        source: d.source,
+        stale: d.health !== "fresh",
+      });
+    }
     if (d.rewardAmount == null || !Number.isFinite(d.rewardAmount) || d.rewardAmount < 0 || !d.unit)
       continue;
     const window = d.earningsWindow ?? "unknown";
