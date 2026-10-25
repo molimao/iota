@@ -1,3 +1,4 @@
+import "./project-reading-metrics.css";
 import { isPoolProject } from "@/lib/pool-projects";
 import { poolEditorial } from "./pool-copy";
 import { ProjectAccessLabel } from "./onboarding";
@@ -560,6 +561,8 @@ function AddressMonitor({
           </button>
         )}
       </div>
+      <details className="project-disclosure" open={!saved.length}>
+      <summary>{c.add}</summary>
       <form
         className="project-address-form"
         onSubmit={async (e) => {
@@ -627,6 +630,7 @@ function AddressMonitor({
         </button>
       </form>
       <p className="project-footnote">{c.noSecrets}</p>
+      </details>
       {error && (
         <p className="project-warning" role="alert">
           {error}
@@ -734,6 +738,7 @@ export function MiningProjectPage({
         </div>
       </header>
       <AddressMonitor key={project} project={project} network={n} />
+      <QuietDetails title={c.network}>
       <section className="project-network" id="network">
         <div className="project-section-head">
           <h2>{c.network}</h2>
@@ -786,6 +791,7 @@ export function MiningProjectPage({
           </div>
         )}
       </section>
+      </QuietDetails>
       <QuietDetails title={simpleCopy(locale).help}>
         <ProjectLearning project={project} />
         <section id="setup" className="project-panel project-setup">

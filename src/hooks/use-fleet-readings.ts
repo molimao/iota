@@ -222,6 +222,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
       return {
         ...base,
         source: poolName(binding.project, binding.pool),
+        ...(d && !binding.worker ? { poolWorkers: { count: d.workerCount, workers: d.workers.map(w => current ? w : {...w, online: null}) } } : {}),
         health: current && d ? "fresh" : d ? "stale" : q?.isFetching ? "loading" : "unavailable",
         unit: POOL_PROJECTS[binding.project].token,
         status: q?.isPending

@@ -1,3 +1,4 @@
+import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastRewards } from "./acurast-rewards";
 import { SyncGuidance } from "./sync-guidance";
@@ -941,8 +942,7 @@ function FleetCard({
   const accountStale = device.bindings.some((b) => reading(b).health === "stale");
   const account = daily.known === 0 ? singleAccountSummary(device.bindings.map(reading)) : null;
   const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
-  const onlyWalletPanels =
-    device.bindings.length > 0 && device.bindings.every((b) => b.project === "acurast" || b.project === "flyai");
+  const onlyWalletPanels = device.bindings.length === 1 && device.bindings[0]?.project !== "iota";
   const hasIota = device.bindings.some((b) => b.project === "iota");
   const hasOtherDaily = device.bindings.some((b) => {
     const r = reading(b);
@@ -1067,6 +1067,7 @@ function FleetCard({
                   layout="row"
                 />
               )}
+              {!["iota","acurast","flyai"].includes(binding.project) && <ProjectReadingMetrics project={binding.project} data={data} activity={false} />}
               {binding.project === "flyai" && data.flyai && <FlyaiWalletStats data={data.flyai} stale={data.health !== "fresh"} />}
               {binding.project === "acurast" && (
                 <AcurastRewards
@@ -1092,7 +1093,7 @@ function FleetCard({
               )}
               {expanded && (
                 <div id={`fleet-reading-${binding.id}`}>
-                  {binding.project !== "acurast" && binding.project !== "flyai" && (
+                  {binding.project === "iota" && (
                     <div className="fleet-reading-metrics">
                       <div>
                         <span>
@@ -1132,9 +1133,7 @@ function FleetCard({
                     )}
                     <ArrowUpRight size={13} />
                   </a>
-                  <p className="fleet-card-freshness">
-                    {c.updatedAt} · {data.updated}
-                  </p>
+
                   <details className="fleet-reading-details">
                     <summary>
                       {c.details}

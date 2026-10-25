@@ -190,6 +190,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
       </header>
       {!demo && (
         <ProjectAddressBook
+          autoSelect={false}
           project={project}
           {...(project !== "acurast" ? { onSelect: selectSaved } : {})}
         />

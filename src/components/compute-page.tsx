@@ -1,3 +1,5 @@
+import { QuietDetails } from "./simple-ui";
+import { projectsCopy } from "./projects-copy";
 import { readQuery } from "@/lib/read-query";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { useState } from "react";
@@ -67,6 +69,8 @@ export function ComputeProjectPage({
           <a href={`/${locale}/devices?project=${project}&add=1`}>{f.add} →</a>
         </div>
       </header>
+      <ProjectAddressBook project={project} autoSelect={false} onSelect={setAddress} />
+      <QuietDetails title={projectsCopy[locale].network}>
       <section className="compute-panel">
         <p className="compute-caption">
           {project === "nosana" ? c.networkScope : c.epoch}
@@ -83,8 +87,8 @@ export function ComputeProjectPage({
           )}
         </div>
       </section>
-      <section className="compute-panel">
-        <ProjectAddressBook project={project} onSelect={setAddress} />
+      </QuietDetails>
+      <section>
         {address && (
           <div aria-live="polite">
             <p className="compute-caption">

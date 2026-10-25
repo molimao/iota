@@ -27,6 +27,7 @@ import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
 import { Route as LocaleReviewAcurastRouteImport } from './routes/$locale.review-acurast'
 import { Route as LocaleReviewFlyaiRouteImport } from './routes/$locale.review-flyai'
 import { Route as LocaleReviewPoolsRouteImport } from './routes/$locale.review-pools'
+import { Route as LocaleReviewProjectLayoutsRouteImport } from './routes/$locale.review-project-layouts'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
 import { Route as LocaleProjectsChar123ProjectChar125RouteImport } from './routes/$locale.projects.{-$project}'
@@ -121,6 +122,12 @@ const LocaleReviewPoolsRoute = LocaleReviewPoolsRouteImport.update({
   path: '/review-pools',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleReviewProjectLayoutsRoute =
+  LocaleReviewProjectLayoutsRouteImport.update({
+    id: '/review-project-layouts',
+    path: '/review-project-layouts',
+    getParentRoute: () => LocaleRoute,
+  } as any)
 const LocaleBlogChar123SlugChar125Route =
   LocaleBlogChar123SlugChar125RouteImport.update({
     id: '/blog/{-$slug}',
@@ -158,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -180,6 +188,7 @@ export interface FileRoutesByTo {
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -204,6 +213,7 @@ export interface FileRoutesById {
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
     | '/$locale/review-pools'
+    | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
     | '/$locale/review-pools'
+    | '/$locale/review-project-layouts'
     | '/$locale'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -274,6 +286,7 @@ export interface FileRouteTypes {
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
     | '/$locale/review-pools'
+    | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
     | '/$locale/learn/{-$slug}'
@@ -414,6 +427,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleReviewPoolsRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/review-project-layouts': {
+      id: '/$locale/review-project-layouts'
+      path: '/review-project-layouts'
+      fullPath: '/$locale/review-project-layouts'
+      preLoaderRoute: typeof LocaleReviewProjectLayoutsRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/blog/{-$slug}': {
       id: '/$locale/blog/{-$slug}'
       path: '/blog/{-$slug}'
@@ -453,6 +473,7 @@ interface LocaleRouteChildren {
   LocaleReviewAcurastRoute: typeof LocaleReviewAcurastRoute
   LocaleReviewFlyaiRoute: typeof LocaleReviewFlyaiRoute
   LocaleReviewPoolsRoute: typeof LocaleReviewPoolsRoute
+  LocaleReviewProjectLayoutsRoute: typeof LocaleReviewProjectLayoutsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
@@ -474,6 +495,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleReviewAcurastRoute: LocaleReviewAcurastRoute,
   LocaleReviewFlyaiRoute: LocaleReviewFlyaiRoute,
   LocaleReviewPoolsRoute: LocaleReviewPoolsRoute,
+  LocaleReviewProjectLayoutsRoute: LocaleReviewProjectLayoutsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,

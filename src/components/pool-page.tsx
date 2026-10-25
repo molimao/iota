@@ -1,3 +1,5 @@
+import { useAuth } from "@/hooks/use-auth";
+import { QuietDetails } from "./simple-ui";
 import { csdLabels } from "./csd-copy";
 import { bntLabels } from "./bnt-copy";
 import { mdsLabels } from "./mds-copy";
@@ -29,6 +31,7 @@ export function PoolPage({ project }: { project: PoolProject }) {
   return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
 }
 function PoolLookupPage({ project }: { project: PoolProject }) {
+  const auth=useAuth();
   const { locale } = useLocale(),
     fc = fleetCopy(locale),
     info = POOL_PROJECTS[project];
@@ -84,6 +87,8 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           <p className="compute-caption">{prlPoolCopy.scope[locale]}</p>
         </>
       )}
+      <ProjectAddressBook project={project} pool={provider} autoSelect={false} onSelect={selectSaved} />
+      <QuietDetails title={c.query[locale]} open={!!address || !auth.userId}>
       <form
         className="pool-lookup"
         onSubmit={(e) => {
@@ -247,7 +252,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           </a>
         </section>
       )}
-      <ProjectAddressBook project={project} pool={provider} onSelect={selectSaved} />
+      </QuietDetails>
       {!lucky && <ProjectAbout project={project} />}
     </main>
   );

@@ -2,6 +2,7 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  poolWorkers?: { count: number; workers: import("@/lib/pool-monitor").PoolWorker[] };
   flyai?: import("@/lib/flyai").FlyaiWalletStats;
   acurastQuote?: import("@/lib/acurast-rewards").AcurastQuote;
   acurastBalances?: import("@/lib/acurast-rewards").AcurastBalance[];

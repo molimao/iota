@@ -7305,3 +7305,34 @@ body:has(.site-shell) {
 .fleet-project-reading > .iota-run-labels + div { margin-top:16px; }
 .board-project-panel > .iota-run-labels { margin:0 0 16px; }
 .earnings-board th .iota-run-labels { text-align:left; }
+
+/* Native option popups must not inherit light text on the OS light menu. */
+.site-shell select {
+  color-scheme: dark;
+  background-color: #171717;
+  color: #eeeeee;
+}
+.site-shell select option,
+.site-shell select optgroup {
+  background-color: #171717;
+  color: #eeeeee;
+}
+.site-shell .fleet-dialog select {
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #171717;
+}
+.site-shell .fleet-dialog select option,
+.site-shell .fleet-dialog select optgroup {
+  background-color: #ffffff;
+  color: #171717;
+}
+.pab-tools > select {
+  min-width: 0;
+  max-width: 100%;
+  border: 1px solid #414747;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: .8rem;
+}

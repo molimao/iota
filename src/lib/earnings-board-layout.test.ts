@@ -11,7 +11,7 @@ import { EarningsBoardCharts } from "../components/earnings-board-charts";
 import { reviewDevices, reviewReading } from "../components/fleet-review-data";
 import { reviewProHistory } from "../components/pro-tools-review";
 import { earningsBoard } from "@/lib/earnings-board";
-it("renders every saved project without a selector, including missing history and formatted monthly points", () => {
+it("renders every saved project without a selector, keeping formatted monthly points without empty history panels", () => {
   const devices = reviewDevices();
   const data = devices.flatMap((d) =>
     d.bindings.map((binding) => ({ binding, deviceId: d.id, data: reviewReading(binding) })),
@@ -35,5 +35,5 @@ it("renders every saved project without a selector, including missing history an
   expect(markup).not.toContain("<textarea");
   expect(markup).toContain("总收益趋势");
   expect(markup).toContain("624,000");
-  expect(markup).toContain("该项目还没有可绘制的历史收益");
+  expect(markup).not.toContain("该项目还没有可绘制的历史收益");
 });

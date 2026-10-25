@@ -154,13 +154,7 @@ export function EarningsBoardCharts({
                         </div>
                       );
                     })
-                  ) : (
-                    <div>
-                      <span>{c.compute[locale]}</span>
-                      <strong>—</strong>
-                      <small>{c.computeUnsupported[locale]}</small>
-                    </div>
-                  )}
+                  ) : null}
                   {[...row.metrics.values()].map((m) => (
                     <div key={m.window + m.unit}>
                       <span>{c.windows[m.window][locale]}</span>
@@ -222,7 +216,7 @@ export function EarningsBoardCharts({
                     ))}
                   </div>
                 )}
-                {(row.project !== "flyai" || filtered.length > 0) && <TrendPanel
+                {filtered.some(r => earningsTrendValue(r, true) !== null) && <TrendPanel
                   history={filtered}
                   days={days}
                   title={c.trend[locale]}

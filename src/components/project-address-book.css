@@ -4,7 +4,7 @@
 }
 .project-address-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
   gap: 16px;
   min-width: 0;
 }
@@ -219,7 +219,8 @@
   margin-top: 0;
   padding: clamp(18px, 3vw, 28px);
 }
-.project-address-book:is([data-project="acurast"], [data-project="flyai"]) .project-address-heading {
+.project-address-book:is([data-project="acurast"], [data-project="flyai"])
+  .project-address-heading {
   margin-bottom: 0.4rem;
 }
 .project-address-book:is([data-project="acurast"], [data-project="flyai"]) .pab-name {
@@ -258,6 +259,221 @@
   border-bottom: 1px solid #ffffff14;
 }
 
-.pab-source { font-size: .75rem; color: #aaa; margin-top: .75rem; }
-.pab-source summary { cursor: pointer; }
-.pab-source code { margin-top: .5rem; }
+.pab-source {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 0.75rem;
+}
+.pab-source summary {
+  cursor: pointer;
+}
+.pab-source code {
+  margin-top: 0.5rem;
+}
+
+/* Keep the account, its earnings and its workers together. */
+.project-address-book {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+.project-address-book .project-section-head {
+  margin: 0;
+  align-items: center;
+}
+.project-address-book .project-section-head h2 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+.project-address-book .project-section-head > a {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+.project-address-book .pab-add-drawer {
+  margin: 0;
+}
+.project-address-book .project-address-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+}
+.project-address-book .project-address-card {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #303030;
+  border-radius: 16px;
+  background: #181919;
+}
+.project-address-book .project-address-heading {
+  margin: 0 0 8px;
+  gap: 12px;
+  align-items: center;
+}
+.project-address-book .pab-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.project-address-book .pab-id {
+  display: block;
+  margin: 0;
+  color: #929797;
+  font-size: 0.75rem;
+}
+.pab-reading-body {
+  display: grid;
+  gap: 24px;
+}
+.pab-reading-body[data-workers="true"] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+.pab-workers {
+  min-width: 0;
+  padding-left: 24px;
+  border-left: 1px solid #ffffff12;
+  margin: 22px 0;
+}
+.pab-workers h4 {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  color: #b5bbbb;
+  font-weight: 500;
+}
+.pab-workers h4 span {
+  margin-left: 6px;
+  color: #eee;
+}
+.pab-workers ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.pab-workers li {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid #ffffff0b;
+}
+.pab-workers li > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.pab-workers strong {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pab-workers li > div:last-child {
+  flex-shrink: 0;
+  text-align: right;
+}
+.pab-workers b {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #e6eeee;
+}
+.pab-workers small,
+.pab-workers p {
+  color: #969f9f;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+.pab-worker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #909696;
+  flex-shrink: 0;
+}
+.pab-worker-dot[data-state="online"] {
+  background: #72d9b5;
+}
+.pab-worker-dot[data-state="offline"] {
+  background: #e6a66b;
+}
+.project-address-book .pab-source {
+  font-size: 0.72rem;
+  color: #8f9898;
+  margin: 0;
+}
+.project-address-book .pab-actions {
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  justify-content: flex-end;
+}
+@media (max-width: 700px) {
+  .project-address-book .project-address-card {
+    padding: 20px;
+  }
+  .pab-reading-body[data-workers="true"] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .pab-workers {
+    padding: 18px 0 0;
+    border-left: 0;
+    border-top: 1px solid #ffffff12;
+    margin: 0 0 18px;
+  }
+}
+.pab-manage {
+  position: relative;
+}
+.pab-manage > summary {
+  cursor: pointer;
+  list-style: none;
+  color: #9ca5a5;
+  font-size: 0.75rem;
+  padding: 8px 0 8px 12px;
+}
+.pab-manage > summary::-webkit-details-marker {
+  display: none;
+}
+.pab-manage > div {
+  display: grid;
+  gap: 6px;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 150px;
+  padding: 8px;
+  border: 1px solid #414747;
+  border-radius: 10px;
+  background: #242828;
+  box-shadow: 0 10px 28px #0008;
+  z-index: 10;
+}
+.project-address-book .pab-manage button {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.75rem;
+  background: transparent;
+  color: #e6eeee;
+}
+.project-address-book .pab-manage button:hover {
+  background: #363d3d;
+  color: #fff;
+  text-decoration: none;
+}
+.project-address-book .pab-manage [data-action="unlink"] {
+  color: #e6aa8c;
+}
+.project-address-book { grid-template-columns: minmax(0,1fr) auto; gap:16px; }
+.project-address-book > * { grid-column:1 / -1; }
+.project-address-book > .project-section-head { grid-column:1; grid-row:1; justify-content:flex-start; gap:18px; }
+.project-address-book > .pab-add-drawer:not([open]) { grid-column:2; grid-row:1; align-self:center; }
+.project-address-book > .pab-add-drawer:not([open]) > summary { list-style:none; border:1px solid #3e4646; padding:8px 12px; border-radius:8px; font-size:.75rem; }
+.pab-add-drawer > summary::-webkit-details-marker { display:none; }
+.pab-workers { margin-top:20px; margin-bottom:14px; }
+.pab-workers li { padding:9px 0; }
+@media(max-width:480px) { .project-address-book > .project-section-head > a { display:none; } }
+.pab-worker-more { padding:8px 0; color:#b2d1c8; background:transparent; border:0; font:inherit; font-size:.72rem; cursor:pointer; }
+.pab-worker-more:hover { color:#edfff8; text-decoration:underline; }

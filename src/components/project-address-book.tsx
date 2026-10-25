@@ -1,3 +1,5 @@
+import { PoolWorkerPreview } from "./pool-worker-preview";
+import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastProcessors } from "./acurast-processors";
 import { shortId } from "@/lib/ss58";
@@ -40,6 +42,11 @@ const ADDRESS_STATUSES = [
 ] as const satisfies readonly ProjectReading["status"][];
 
 export type AddressBookEntry = {
+  poolWorkers?: ProjectReading["poolWorkers"];
+  lifetime?: string | null;
+  totalLabel?: string;
+  scope?: ProjectReading["scope"];
+  todayUsd?: string;
   flyai?: ProjectReading["flyai"];
   acurastQuote?: ProjectReading["acurastQuote"];
   acurastBalances?: ProjectReading["acurastBalances"];
@@ -55,7 +62,7 @@ export type AddressBookEntry = {
   updated: string;
   today: string | null;
   unit: string;
-  note?: string;
+  note?: string | undefined;
   todayLabel?: string;
   accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
 };
@@ -121,8 +128,13 @@ function toEntry(
     identifier: binding.identifier,
     status: reading.status,
     activity: reading.activity,
+    ...(reading.poolWorkers ? { poolWorkers: reading.poolWorkers } : {}),
     source: reading.source,
     updated: reading.updated,
+    lifetime: reading.lifetime,
+    ...(reading.totalLabel ? { totalLabel: reading.totalLabel } : {}),
+    scope: reading.scope,
+    ...(reading.todayUsd ? { todayUsd: reading.todayUsd } : {}),
     today: reading.today,
     unit: reading.unit,
     ...(reading.note ? { note: reading.note } : {}),
@@ -214,7 +226,7 @@ export function ProjectAddressBookView({
   const statuses = ADDRESS_STATUSES.filter(
     (status) => (counts[status] ?? 0) > 0 || status === statusFilter,
   );
-  const walletLayout = project === "acurast" || project === "flyai";
+  const walletLayout = project !== "iota";
   const locked = busy || renaming;
   const addForm = (
     <>
@@ -272,11 +284,6 @@ export function ProjectAddressBookView({
         </h2>
         <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
       </div>
-      {isPoolProject(project) && (
-        <p className="compute-caption">
-          {poolCopy.pool[locale]} · {poolName(project, pool)}
-        </p>
-      )}
       {!signedIn ? (
         <button
           type="button"
@@ -392,8 +399,20 @@ export function ProjectAddressBookView({
               <code className="pab-id platform-public-id" title={entry.identifier}>
                 {walletLayout ? shortId(entry.identifier) : entry.identifier}
               </code>
-              {!walletLayout && <p>{entry.activity}</p>}
-              {project === "flyai" && entry.flyai && <FlyaiWalletStats data={entry.flyai} stale={entry.status !== "wallet"} />}
+              {project !== "acurast" && project !== "flyai" && (
+                <div className="pab-reading-body" data-workers={!!entry.poolWorkers}>
+                  <ProjectReadingMetrics
+                    project={project}
+                    data={{ ...entry, lifetime: entry.lifetime ?? null }}
+                  />
+                  {isPoolProject(project) && entry.poolWorkers && (
+                    <PoolWorkerPreview project={project} data={entry.poolWorkers} locale={locale} />
+                  )}
+                </div>
+              )}
+              {project === "flyai" && entry.flyai && (
+                <FlyaiWalletStats data={entry.flyai} stale={entry.status !== "wallet"} />
+              )}
               {project === "acurast" && (
                 <AcurastRewards
                   rewards={entry.acurastRewards}
@@ -403,51 +422,21 @@ export function ProjectAddressBookView({
                 />
               )}
               {project === "acurast" && entry.acurast && <AcurastProcessors data={entry.acurast} />}
-              {entry.accountSummary && project !== "flyai" && (
-                <div>
-                  <span className="compute-caption">
-                    {project === "noid"
-                      ? additionalMetricCopy.balance[locale]
-                      : entry.accountSummary.kind === "month"
-                        ? labels.monthPoints
-                        : labels.balance}
-                  </span>
-                  <strong>
-                    {entry.accountSummary.amount} {entry.accountSummary.unit}
-                  </strong>
-                </div>
-              )}
-              {entry.today !== null && project !== "flyai" && (
-                <p>
-                  {entry.todayLabel ?? labels.today} · {entry.today} {entry.unit}
-                </p>
-              )}
               {walletLayout ? (
                 <details className="pab-source">
                   <summary>
                     {entry.source} · {entry.updated}
                   </summary>
                   <code>{entry.identifier}</code>
+                  {entry.note && <p>{entry.note}</p>}
                 </details>
               ) : (
                 <p className="compute-caption">
                   {entry.source} · {entry.updated}
                 </p>
               )}
-              {!walletLayout && entry.note && (
-                <p className="compute-caption">{entry.note}</p>
-              )}
+              {!walletLayout && entry.note && <p className="compute-caption">{entry.note}</p>}
               <div className="pab-actions pool-card-actions">
-                {!editing && (
-                  <button
-                    type="button"
-                    className="pab-rename-start"
-                    disabled={locked}
-                    onClick={() => onStartRename(entry.deviceId, entry.deviceName)}
-                  >
-                    {text.rename[locale]}
-                  </button>
-                )}
                 {showDetail && (
                   <button
                     type="button"
@@ -458,15 +447,30 @@ export function ProjectAddressBookView({
                     {text.detail[locale]}
                   </button>
                 )}
-                <button
-                  type="button"
-                  title={project === "flyai" ? text.removeConfirm[locale] : undefined}
-                    data-action="unlink"
-                  disabled={locked}
-                  onClick={() => onRemove(entry.deviceId, entry.bindingId)}
-                >
-                  {text.remove[locale]}
-                </button>
+                <details className="pab-manage">
+                  <summary>{text.manage[locale]} ···</summary>
+                  <div>
+                    {!editing && (
+                      <button
+                        type="button"
+                        className="pab-rename-start"
+                        disabled={locked}
+                        onClick={() => onStartRename(entry.deviceId, entry.deviceName)}
+                      >
+                        {text.rename[locale]}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      title={project !== "acurast" ? text.removeConfirm[locale] : undefined}
+                      data-action="unlink"
+                      disabled={locked}
+                      onClick={() => onRemove(entry.deviceId, entry.bindingId)}
+                    >
+                      {text.remove[locale]}
+                    </button>
+                  </div>
+                </details>
               </div>
             </article>
           );
@@ -483,9 +487,11 @@ export function ProjectAddressBook({
   project,
   pool,
   onSelect,
+  autoSelect = true,
 }: {
   project: FleetProject;
   pool?: PoolProvider | undefined;
+  autoSelect?: boolean;
   onSelect?: (id: string) => void;
 }) {
   const auth = useAuth(),
@@ -522,6 +528,7 @@ export function ProjectAddressBook({
   const [renaming, setRenaming] = useState(false);
   const [renameError, setRenameError] = useState<string | null>(null);
   useEffect(() => {
+    if (!autoSelect) return;
     const next =
       devices
         .flatMap((device) => device.bindings)
@@ -534,7 +541,7 @@ export function ProjectAddressBook({
       setSelected("");
       onSelect?.("");
     }
-  }, [devices, fleet.ready, selected, onSelect]);
+  }, [devices, fleet.ready, selected, onSelect, autoSelect]);
   const saving = useRef(false);
   const entries = devices.flatMap((device) =>
     device.bindings.map((binding) => toEntry(device, binding, read(binding))),

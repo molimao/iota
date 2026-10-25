@@ -1,6 +1,7 @@
 import { localized } from "@/lib/product-discovery";
 
 export const addressBookCopy = {
+  manage: localized(["管理地址", "管理地址", "Manage address", "주소 관리", "アドレス管理"]),
   title: localized(["已保存设备", "已儲存設備", "Saved devices", "저장된 기기", "保存済み機器"]),
   input: localized([
     "公开地址或 ID（每行一个）",
