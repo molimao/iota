@@ -4,6 +4,22 @@ import { useLocale } from "./site/locale";
 import { localized as l } from "@/lib/product-discovery";
 import "./acurast-processors.css";
 export const acuCopy = {
+  balanceUnavailable: l(["余额暂未读到", "餘額暫未讀到", "Balance unavailable", "잔액 조회 불가", "残高を取得できません"]),
+  walletBalance: l(["钱包余额", "錢包餘額", "Wallet balance", "지갑 잔액", "ウォレット残高"]),
+  balanceParts: l(["余额构成", "餘額組成", "Balance breakdown", "잔액 구성", "残高の内訳"]),
+  free: l(["普通余额", "一般餘額", "Free balance", "일반 잔액", "フリー残高"]),
+  reserved: l(["预留金额", "預留金額", "Reserved", "예약 금액", "予約残高"]),
+  frozen: l(["冻结限制", "凍結限制", "Frozen amount", "동결 금액", "凍結額"]),
+  balanceNote: l([
+    "余额为普通余额与预留金额之和；冻结金额不重复相加。累计奖励是历史到账记录，不代表现在还剩多少钱。",
+    "餘額為一般餘額與預留金額之和，凍結額不重複加總。累計獎勵是歷史到帳紀錄，非目前餘額。",
+    "Balance is free plus reserved; frozen amounts are not added again. Cumulative rewards record past payouts, not the funds currently held.",
+    "잔액은 일반 잔액과 예약 금액의 합계입니다. 동결액은 다시 더하지 않습니다. 누적 보상은 과거 지급 기록으로 현재 잔액과 다릅니다.",
+    "残高はフリー残高と予約残高の合計。凍結額は重複加算しません。累計報酬は過去の支払い記録で、現在の残高ではありません。",
+  ]),
+  addresses: l(["已保存地址", "已儲存地址", "Saved addresses", "저장된 주소", "保存済みアドレス"]),
+  addAddress: l(["添加地址", "新增地址", "Add address", "주소 추가", "アドレス追加"]),
+  basisLabel: l(["统计口径", "統計口徑", "How rewards are counted", "집계 기준", "集計方法"]),
   title: l([
     "ACU 已到账奖励",
     "ACU 已到帳獎勵",
@@ -13,7 +29,7 @@ export const acuCopy = {
   ]),
   today: l(["今日到账", "今日到帳", "Received today", "오늘 수령", "本日の受取"]),
   yesterday: l(["昨日到账", "昨日到帳", "Received yesterday", "어제 수령", "昨日の受取"]),
-  cumulative: l(["累计到账", "累計到帳", "Total received", "누적 수령", "累計受取"]),
+  cumulative: l(["累计奖励", "累計獎勵", "Total rewards received", "누적 보상", "累計報酬"]),
   manager: l(["管理身份", "管理身分", "Manager", "관리 ID", "管理ID"]),
   scope: l([
     "同一管理身份下设备合计，不是单台收益。总览只计算一次。",
@@ -46,9 +62,11 @@ export const acuCopy = {
   older: l(["较早数据", "較早資料", "Older data", "이전 데이터", "過去のデータ"]),
 };
 export function AcurastRewards({
+  balances,
   rewards,
   stale = false,
 }: {
+  balances?: import("@/lib/acurast-rewards").AcurastBalance[] | undefined;
   rewards?: Rewards | undefined;
   stale?: boolean;
 }) {
@@ -62,6 +80,28 @@ export function AcurastRewards({
     }).format(time);
   return (
     <section className="acu-rewards" aria-label={acuCopy.title[locale]}>
+      {!balances?.length && <div className="acu-wallet"><span>{acuCopy.walletBalance[locale]}</span><strong>— <small>ACU</small></strong><p className="compute-caption">{acuCopy.balanceUnavailable[locale]}</p></div>}
+      {balances?.map((b) => (
+        <div className="acu-wallet" key={b.address}>
+          <span>{acuCopy.walletBalance[locale]}</span>
+          <strong title={`${b.total} ACU`}>
+            {nf.format(Number(b.total))} <small>ACU</small>
+          </strong>
+          <details>
+            <summary>{acuCopy.balanceParts[locale]}</summary>
+            <p className="compute-caption">{acuCopy.balanceNote[locale]}</p>
+            <dl>
+              {(["free", "reserved", "frozen"] as const).map((k) => (
+                <div key={k}>
+                  <dt>{acuCopy[k][locale]}</dt>
+                  <dd>{b[k]} ACU</dd>
+                </div>
+              ))}
+            </dl>
+            <code>{b.address}</code>
+          </details>
+        </div>
+      ))}
       <header>
         <h3>{acuCopy.title[locale]}</h3>
         {stale && <small>{acuCopy.older[locale]}</small>}
@@ -102,22 +142,11 @@ export function AcurastRewards({
           </div>
         ))
       )}
-      <p className="compute-caption">{acuCopy.scope[locale]}</p>
-      <details>
-        <summary>
-          {acuCopy.manager[locale]} · {locale === "zh" ? "统计说明" : "ACU"}
-        </summary>
-        <p className="compute-caption">{acuCopy.basis[locale]}</p>
-        {rewards?.managers.map((m) => (
-          <div className="acu-exact" key={m.id}>
-            <b>#{m.id}</b>
-            {(["yesterday", "today", "cumulative"] as const).map((p) => (
-              <p key={p}>
-                {acuCopy[p][locale]} · {m[p] ?? "—"} ACU
-              </p>
-            ))}
-          </div>
-        ))}
+      <details className="acu-basis">
+        <summary>{acuCopy.basisLabel[locale]}</summary>
+        <p className="compute-caption">
+          {acuCopy.scope[locale]} {acuCopy.basis[locale]}
+        </p>
       </details>
     </section>
   );

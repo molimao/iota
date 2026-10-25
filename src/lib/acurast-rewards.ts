@@ -8,3 +8,11 @@ export type AcurastRewards = {
   observedAt: number;
   blockHash: string;
 };
+
+export type AcurastBalance = {
+  address: string;
+  total: string;
+  free: string;
+  reserved: string;
+  frozen: string;
+};

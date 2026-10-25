@@ -140,3 +140,29 @@ it("counts a manager and its processor reward only once, retaining all three ACU
   expect(older.projects[0]?.metrics.has("today:ACU")).toBe(false);
   expect(older.projects[0]?.metrics.has("cumulative:ACU")).toBe(true);
 });
+
+it("shows ACU wallet balances separately and deduplicates the same manager wallet", () => {
+  const balance = {
+    address: "manager-wallet",
+    total: "2.379246287508",
+    free: "2.34696615042",
+    reserved: "0.032280137088",
+    frozen: "0",
+  };
+  const data: BoardReading = {
+    scope: "wallet",
+    unit: "ACU",
+    source: "Acurast Mainnet",
+    updated: "now",
+    health: "fresh",
+    acurastBalances: [balance],
+  };
+  const result = earningsBoard([
+    { binding: b("acurast", "processor"), deviceId: "a", data },
+    { binding: b("acurast", "manager"), deviceId: "b", data },
+  ]);
+  expect(result.projects[0]?.accounts.size).toBe(1);
+  expect([...result.projects[0]!.accounts.values()][0]?.amount).toBe("2.379246287508");
+  expect(result.projects[0]?.metrics.size).toBe(0);
+  expect(result.totals.today.count).toBe(0);
+});

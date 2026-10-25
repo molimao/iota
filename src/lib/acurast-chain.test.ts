@@ -128,3 +128,58 @@ it("decodes little-endian heartbeat timestamps and uses the official 31-minute w
     expect(node.online).toBe(online);
   }
 });
+
+it("reads the current manager wallet for either address, without confusing rewards or frozen funds with balance", async () => {
+  const { decodeAcurastBalance } = await import("./acurast-chain.server");
+  const le = (n: bigint) => n.toString(16).padStart(32, "0").match(/../g)!.reverse().join("");
+  const raw =
+    "0x" +
+    "00".repeat(16) +
+    le(2346966150420n) +
+    le(32280137088n) +
+    le(1000000000000n) +
+    le(1n << 127n);
+  expect(decodeAcurastBalance(raw)).toEqual({
+    free: 2346966150420n,
+    reserved: 32280137088n,
+    frozen: 1000000000000n,
+  });
+  expect(() => decodeAcurastBalance("0x1234")).toThrow("invalid-data");
+  const wrapped = () => {
+    const base = fetcher();
+    return async (url: string | URL | Request, options?: RequestInit) => {
+      const r = JSON.parse(String(options?.body));
+      if (r.method === "state_getStorage") {
+        if (
+          r.params[0].startsWith(
+            "0x5e8a19e3cd1b7c148b33880c479c0281d34371a193a751eea5883e9553457b2e",
+          )
+        )
+          return new Response(
+            JSON.stringify({ jsonrpc: "2.0", id: 1, result: "0x" + ownerKey + "00".repeat(18) }),
+          );
+        if (
+          r.params[0].startsWith(
+            "0x26aa394eea5630e07c48ae0c9558cef7b99d880ec681799c0cf30e8886371da9",
+          )
+        ) {
+          expect(r.params[0]).toContain(ownerKey);
+          return new Response(JSON.stringify({ jsonrpc: "2.0", id: 1, result: raw }));
+        }
+      }
+      return base(url, options);
+    };
+  };
+  for (const id of [device, manager]) {
+    const n = await readAcurastChain(id, wrapped());
+    expect(n.acurastBalances).toEqual([
+      {
+        address: manager,
+        total: "2.379246287508",
+        free: "2.34696615042",
+        reserved: "0.032280137088",
+        frozen: "1",
+      },
+    ]);
+  }
+});

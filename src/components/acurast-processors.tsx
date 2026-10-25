@@ -1,3 +1,4 @@
+import { shortId } from "@/lib/ss58";
 import type { PlatformNode } from "@/lib/platforms";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { useLocale } from "./site/locale";
@@ -65,28 +66,41 @@ export function AcurastProcessors({ data }: { data: NonNullable<PlatformNode["ac
   return (
     <section className="acurast-processors">
       <h3>
-        {data.role === "manager" ? c.manager : c.processor} · {c.list} {data.processors.length}
+        {c.list} <small>{data.processors.length}</small>
       </h3>
-      <p className="compute-caption">{c.note}</p>
       {!data.complete && <p role="status">{c.partial}</p>}
-      <div className="acurast-processor-grid">
+      <div className="acurast-processor-list">
         {data.processors.map((p) => (
           <article key={p.id}>
+            <code title={p.id}>{shortId(p.id)}</code>
             <span
-              className={`badge ${p.online === true ? "success" : p.online === false ? "warning" : ""}`}
+              className="acu-heartbeat"
+              data-state={p.online === true ? "active" : p.online === false ? "older" : "unknown"}
             >
+              <i />
               {p.online === true ? c.active : p.online === false ? c.inactive : c.unknown}
             </span>
-            <code>{p.id}</code>
-            <span>{c.last}</span>
-            <strong>
+            <time
+              dateTime={p.lastSeen === null ? undefined : new Date(p.lastSeen).toISOString()}
+              title={c.last}
+            >
               {p.lastSeen === null
                 ? "—"
-                : new Date(p.lastSeen).toLocaleString(LANGUAGE_TAG[locale])}
-            </strong>
+                : new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  }).format(p.lastSeen)}
+            </time>
           </article>
         ))}
       </div>
+      <details className="acu-heartbeat-note">
+        <summary>{c.last}</summary>
+        <p className="compute-caption">{c.note}</p>
+      </details>
     </section>
   );
 }

@@ -310,6 +310,8 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                     ? "Acurast Mainnet"
                     : "Golem Stats",
         scope: d?.scope === "provider" ? "wallet" : "device",
+        ...(d?.acurastBalances ? { acurastBalances: d.acurastBalances } : {}),
+        ...(d?.acurast ? { acurast: d.acurast } : {}),
         ...(d?.acurastRewards ? { acurastRewards: d.acurastRewards } : {}),
         ...(binding.project === "noid" && d?.balance != null
           ? {

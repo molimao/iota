@@ -2,6 +2,8 @@ import { PROJECTS } from "@/lib/projects";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
+  acurastBalances?: import("@/lib/acurast-rewards").AcurastBalance[];
+  acurast?: import("@/lib/platforms").PlatformNode["acurast"];
   acurastRewards?: import("@/lib/acurast-rewards").AcurastRewards;
   officialRun?: import("@/lib/iota-run").OfficialRun | null;
   compute?: import("@/lib/compute-summary").ComputeReading;

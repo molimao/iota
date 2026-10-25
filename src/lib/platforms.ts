@@ -26,6 +26,7 @@ export function validPlatformId(project: Platform, id: string) {
   }
 }
 export type PlatformNode = {
+  acurastBalances?: import("./acurast-rewards").AcurastBalance[];
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
   acurast?: {
     role: "processor" | "manager";

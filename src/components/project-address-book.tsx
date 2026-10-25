@@ -1,4 +1,6 @@
-import { AcurastRewards } from "./acurast-rewards";
+import { AcurastProcessors } from "./acurast-processors";
+import { shortId } from "@/lib/ss58";
+import { AcurastRewards, acuCopy } from "./acurast-rewards";
 /// <reference types="vite/client" />
 import "./project-address-book.css";
 import { useEffect, useRef, useState } from "react";
@@ -37,6 +39,8 @@ const ADDRESS_STATUSES = [
 ] as const satisfies readonly ProjectReading["status"][];
 
 export type AddressBookEntry = {
+  acurastBalances?: ProjectReading["acurastBalances"];
+  acurast?: ProjectReading["acurast"];
   acurastRewards?: ProjectReading["acurastRewards"];
   deviceId: string;
   deviceName: string;
@@ -120,6 +124,8 @@ function toEntry(
     unit: reading.unit,
     ...(reading.note ? { note: reading.note } : {}),
     ...(reading.todayLabel ? { todayLabel: reading.todayLabel } : {}),
+    ...(reading.acurastBalances ? { acurastBalances: reading.acurastBalances } : {}),
+    ...(reading.acurast ? { acurast: reading.acurast } : {}),
     ...(reading.acurastRewards ? { acurastRewards: reading.acurastRewards } : {}),
     ...(reading.accountSummary ? { accountSummary: reading.accountSummary } : {}),
   };
@@ -204,16 +210,59 @@ export function ProjectAddressBookView({
     (status) => (counts[status] ?? 0) > 0 || status === statusFilter,
   );
   const locked = busy || renaming;
+  const addForm = (
+    <>
+      <form
+        className="project-address-add"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onAdd();
+        }}
+      >
+        <label>
+          {text.input[locale]}
+          <textarea
+            maxLength={6000}
+            value={raw}
+            disabled={locked || !fleetReady}
+            onChange={(event) => onRaw(event.target.value)}
+            rows={2}
+            autoComplete="off"
+            spellCheck={false}
+          />
+        </label>
+        <button className="site-button" disabled={locked || !fleetReady || !raw.trim()}>
+          {busy ? labels.loading : text.add[locale]}
+        </button>
+      </form>
+      {project === "prl" && (
+        <p className="compute-caption">
+          {prlPoolCopy.selected[locale]} · {poolName("prl", pool)}
+        </p>
+      )}
+      <p className="compute-caption">
+        {text.sync[locale]} · {savedCount} / {limit}
+      </p>
+      {fleetReady && limit === 5 && savedCount >= 4 && (
+        <p className="pab-upgrade">
+          {text.upgrade[locale]}{" "}
+          <a href={`/${locale}/devices?view=membership`}>{text.upgradeLink[locale]} →</a>
+        </p>
+      )}
+    </>
+  );
   return (
     <section
       className="project-address-book"
-      aria-label={text.title[locale]}
+      data-project={project}
+      aria-label={project === "acurast" ? acuCopy.addresses[locale] : text.title[locale]}
       data-selected={selected}
       data-quota={savedCount}
     >
       <div className="project-section-head">
         <h2>
-          {text.title[locale]} <small>{savedCount}</small>
+          {project === "acurast" ? acuCopy.addresses[locale] : text.title[locale]}{" "}
+          <small>{savedCount}</small>
         </h2>
         <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
       </div>
@@ -231,50 +280,17 @@ export function ProjectAddressBookView({
         >
           {text.login[locale]}
         </button>
+      ) : project === "acurast" ? (
+        <details className="pab-add-drawer" open={cards.length === 0}>
+          <summary>{acuCopy.addAddress[locale]}</summary>
+          {addForm}
+        </details>
       ) : (
-        <>
-          <form
-            className="project-address-add"
-            onSubmit={(event) => {
-              event.preventDefault();
-              onAdd();
-            }}
-          >
-            <label>
-              {text.input[locale]}
-              <textarea
-                maxLength={6000}
-                value={raw}
-                disabled={locked || !fleetReady}
-                onChange={(event) => onRaw(event.target.value)}
-                rows={2}
-                autoComplete="off"
-                spellCheck={false}
-              />
-            </label>
-            <button className="site-button" disabled={locked || !fleetReady || !raw.trim()}>
-              {busy ? labels.loading : text.add[locale]}
-            </button>
-          </form>
-          {project === "prl" && (
-            <p className="compute-caption">
-              {prlPoolCopy.selected[locale]} · {poolName("prl", pool)}
-            </p>
-          )}
-          <p className="compute-caption">
-            {text.sync[locale]} · {savedCount} / {limit}
-          </p>
-          {fleetReady && limit === 5 && savedCount >= 4 && (
-            <p className="pab-upgrade">
-              {text.upgrade[locale]}{" "}
-              <a href={`/${locale}/devices?view=membership`}>{text.upgradeLink[locale]} →</a>
-            </p>
-          )}
-        </>
+        addForm
       )}
       {(error || fleetError) && <p role="alert">{error ?? labels.unavailable}</p>}
       {signedIn && !fleetReady && !fleetError && <p role="status">{labels.loading}</p>}
-      {cards.length > 0 && (
+      {cards.length > (project === "acurast" ? 1 : 0) && (
         <div className="pab-tools">
           <label className="pab-search">
             {text.search[locale]}
@@ -366,24 +382,19 @@ export function ProjectAddressBookView({
                   {renaming && <p role="status">{text.saving[locale]}</p>}
                   {renameError && <p role="alert">{renameError}</p>}
                 </form>
-              ) : (
-                <button
-                  type="button"
-                  className="pab-rename-start"
-                  disabled={locked}
-                  onClick={() => onStartRename(entry.deviceId, entry.deviceName)}
-                >
-                  {text.rename[locale]}
-                </button>
-              )}
-              <code className="pab-id platform-public-id">{entry.identifier}</code>
-              <p>{entry.activity}</p>
+              ) : null}
+              <code className="pab-id platform-public-id" title={entry.identifier}>
+                {project === "acurast" ? shortId(entry.identifier) : entry.identifier}
+              </code>
+              {project !== "acurast" && <p>{entry.activity}</p>}
               {project === "acurast" && (
                 <AcurastRewards
                   rewards={entry.acurastRewards}
+                  balances={entry.acurastBalances}
                   stale={["staleData", "refreshFailed", "unavailable"].includes(entry.status)}
                 />
               )}
+              {project === "acurast" && entry.acurast && <AcurastProcessors data={entry.acurast} />}
               {entry.accountSummary && (
                 <div>
                   <span className="compute-caption">
@@ -403,11 +414,32 @@ export function ProjectAddressBookView({
                   {entry.todayLabel ?? labels.today} · {entry.today} {entry.unit}
                 </p>
               )}
-              <p className="compute-caption">
-                {entry.source} · {entry.updated}
-              </p>
-              {entry.note && <p className="compute-caption">{entry.note}</p>}
+              {project === "acurast" ? (
+                <details className="pab-source">
+                  <summary>
+                    {entry.source} · {entry.updated}
+                  </summary>
+                  <code>{entry.identifier}</code>
+                </details>
+              ) : (
+                <p className="compute-caption">
+                  {entry.source} · {entry.updated}
+                </p>
+              )}
+              {project !== "acurast" && entry.note && (
+                <p className="compute-caption">{entry.note}</p>
+              )}
               <div className="pab-actions pool-card-actions">
+                {!editing && (
+                  <button
+                    type="button"
+                    className="pab-rename-start"
+                    disabled={locked}
+                    onClick={() => onStartRename(entry.deviceId, entry.deviceName)}
+                  >
+                    {text.rename[locale]}
+                  </button>
+                )}
                 {showDetail && (
                   <button
                     type="button"
@@ -431,7 +463,9 @@ export function ProjectAddressBookView({
           );
         })}
       </div>
-      {cards.length > 0 && <p className="pab-note">{text.removeConfirm[locale]}</p>}
+      {project !== "acurast" && cards.length > 0 && (
+        <p className="pab-note">{text.removeConfirm[locale]}</p>
+      )}
     </section>
   );
 }

@@ -234,3 +234,44 @@ it("states unlink and rename limits in five locales and keeps 390px controls in 
   expect(css).toContain('.pab-state[data-tone="active"]');
   expect(css).toContain("#78dfb3");
 });
+
+it("keeps Acurast rewards and processors in one address panel without redundant tools", () => {
+  const card: AddressBookEntry = {
+    ...entry({ deviceName: "Acurast manager", identifier: longId, status: "online" }),
+    acurastRewards: {
+      dayStart: 1792857600000,
+      observedAt: 1792900000000,
+      blockHash: "block",
+      managers: [
+        {
+          id: "67279",
+          today: "0.336517913898",
+          yesterday: "0.54636809281",
+          cumulative: "5.236030884927",
+        },
+      ],
+    },
+    acurast: {
+      role: "manager",
+      managerIds: ["67279"],
+      complete: true,
+      processors: [
+        {
+          id: "5GP4RwiW81Pxo47eFpGdEnNUsGyjE9HehcqqQT28KbyW7Kek",
+          lastSeen: 1792900000000,
+          online: false,
+        },
+      ],
+    },
+  };
+  const html = render({ project: "acurast", cards: [card] });
+  expect(html.match(/<h3>ACU 已到账奖励/g)).toHaveLength(1);
+  expect(html).toContain("关联设备");
+  expect(html).toContain('data-state="older"');
+  expect(html).not.toContain('class="pab-tools"');
+  expect(html).toContain('<details class="pab-add-drawer">');
+  expect(html).not.toContain('class="acu-exact"');
+  expect(html).not.toContain("不会停止矿工");
+  expect(html).toContain("改名");
+  expect(html).toContain('data-action="unlink"');
+});

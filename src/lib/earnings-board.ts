@@ -2,6 +2,7 @@ import { bindingIdentity, type FleetBinding, type FleetProject } from "./fleet";
 export type EarningsWindow =
   "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown" | "cumulative";
 export type BoardReading = {
+  acurastBalances?: import("./acurast-rewards").AcurastBalance[];
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
   scope: "device" | "wallet";
   rewardAmount?: number | null;
@@ -77,6 +78,18 @@ export function earningsBoard(
       projects.set(b.project, row);
     }
     row.devices.add(deviceId);
+    if (b.project === "acurast")
+      for (const balance of d.acurastBalances ?? []) {
+        const key = `acurast:wallet:${balance.address}`;
+        if (!row.accounts.has(key) || d.health === "fresh")
+          row.accounts.set(key, {
+            kind: "balance",
+            amount: balance.total,
+            unit: "ACU",
+            identifier: balance.address,
+            stale: d.health !== "fresh",
+          });
+      }
     if (b.project === "acurast" && d.acurastRewards) {
       const currentDay = Math.floor((Date.now() + 28800000) / 86400000) * 86400000 - 28800000;
       for (const manager of d.acurastRewards.managers) {

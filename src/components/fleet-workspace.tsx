@@ -1069,6 +1069,7 @@ function FleetCard({
               {binding.project === "acurast" && (
                 <AcurastRewards
                   rewards={data.acurastRewards}
+                  balances={data.acurastBalances}
                   stale={data.health === "stale" || data.health === "unavailable"}
                 />
               )}

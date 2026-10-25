@@ -184,9 +184,16 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
           <h1>{PROJECTS[project].name}</h1>
           <p>{platformEditorial[project].summary[locale]}</p>
         </div>
-        <a href={`/${locale}/devices?project=${project}&add=1`}>{f.add} →</a>
+        {project !== "acurast" && (
+          <a href={`/${locale}/devices?project=${project}&add=1`}>{f.add} →</a>
+        )}
       </header>
-      {!demo && <ProjectAddressBook project={project} onSelect={selectSaved} />}
+      {!demo && (
+        <ProjectAddressBook
+          project={project}
+          {...(project !== "acurast" ? { onSelect: selectSaved } : {})}
+        />
+      )}
       {!demo && (secured || !auth.userId) && (
         <section className="compute-panel">
           <form
@@ -301,7 +308,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
       )}
       {!demo && id && lookup.isFetching && !data && <p role="status">{f.loading}</p>}
       {(result?.error || lookup.isError) && <p role="alert">{errorText(result?.error)}</p>}
-      {data && (
+      {data && !(project === "acurast" && auth.userId && !demo) && (
         <section className="compute-panel" aria-live="polite">
           <div className="platform-result-head">
             <h2>{data.name || `${data.id.slice(0, 12)}${data.id.length > 12 ? "…" : ""}`}</h2>
@@ -316,19 +323,16 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             </span>
           </div>
           {project === "acurast" && (
-            <AcurastRewards rewards={data.acurastRewards} stale={!!result?.stale} />
+            <AcurastRewards
+              rewards={data.acurastRewards}
+              balances={data.acurastBalances}
+              stale={!!result?.stale}
+            />
           )}
           {data.acurast && <AcurastProcessors data={data.acurast} />}
           {data.sourcePool && <p className="compute-caption">{data.sourcePool}</p>}
           <div className="compute-metrics">
-            {project === "acurast" ? (
-              <>
-                {data.acurast?.role === "manager"
-                  ? metric(extra.managerIdentity[locale], data.acurast.managerIds.join(", "))
-                  : metric(extra.registration[locale], extra.registered[locale])}
-                {data.hardware && metric(extra.classification[locale], data.hardware)}
-              </>
-            ) : project === "noid" ? (
+            {project === "acurast" ? null : project === "noid" ? (
               <>
                 {metric(extra.hashrate[locale], data.activity)}
                 {metric(
@@ -377,7 +381,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
             </p>
           )}
           {project === "akash" && <p className="compute-caption">{c.capacityOnly}</p>}
-          {data.partial && <p role="status">{c.partial}</p>}
+          {data.partial && project !== "acurast" && <p role="status">{c.partial}</p>}
           <QuietDetails title={f.source}>
             <p>
               {data.sourcePool ?? PROJECTS[project].name} ·{" "}

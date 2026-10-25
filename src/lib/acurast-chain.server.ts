@@ -12,6 +12,8 @@ const PREFIX = {
   heartbeat: "0xc698b31ad72d251a494de23e0dd6684690ede7a772410f47186f66100c0bf9ec",
   managed: "0xc698b31ad72d251a494de23e0dd66846211ec8b3b481a558895c57086b3d085d",
   owner: "0x5e8a19e3cd1b7c148b33880c479c0281b99d880ec681799c0cf30e8886371da9",
+  asset: "0x5e8a19e3cd1b7c148b33880c479c0281d34371a193a751eea5883e9553457b2e",
+  account: "0x26aa394eea5630e07c48ae0c9558cef7b99d880ec681799c0cf30e8886371da9",
 } as const;
 const hex = (v: Uint8Array) => Array.from(v, (b) => b.toString(16).padStart(2, "0")).join("");
 const bytes = (v: string) => Uint8Array.from(v.match(/../g) ?? [], (p) => parseInt(p, 16));
@@ -32,6 +34,17 @@ function address(publicKey: string) {
 }
 export function acurastStorageKey(kind: "processor" | "heartbeat", publicKey: string) {
   return PREFIX[kind] + hash(publicKey);
+}
+export function decodeAcurastBalance(raw: unknown) {
+  if (raw === null) return { free: 0n, reserved: 0n, frozen: 0n };
+  // AccountInfo: four u32 counters then AccountData (four u128 fields).
+  // The fourth AccountData field is flags, not additional tokens.
+  if (typeof raw !== "string" || !/^0x[0-9a-f]{160}$/.test(raw)) throw new Error("invalid-data");
+  return {
+    free: integer(raw.slice(34, 66)),
+    reserved: integer(raw.slice(66, 98)),
+    frozen: integer(raw.slice(98, 130)),
+  };
 }
 export async function readAcurastChain(
   id: string,
@@ -132,7 +145,44 @@ export async function readAcurastChain(
       )),
     );
   }
-  const { readAcurastRewards } = await import("./acurast-rewards.server");
+  const { readAcurastRewards, acuAmount } = await import("./acurast-rewards.server");
+  const balances: import("./acurast-rewards").AcurastBalance[] = [];
+  try {
+    const owners = new Set<string>();
+    if (manager === null) owners.add(key);
+    else {
+      const asset = await storage(PREFIX.asset + concat("00".repeat(16)) + concat(manager));
+      // ItemDetails { owner:AccountId32, approved:Option<AccountId32>, frozen:bool, deposit:u128 }.
+      if (
+        typeof asset !== "string" ||
+        !/^0x[0-9a-f]+$/.test(asset) ||
+        ![102, 166].includes(asset.length)
+      )
+        throw new Error("invalid-data");
+      const approved = asset.slice(66, 68),
+        frozen = asset.slice(asset.length - 34, asset.length - 32);
+      if (
+        (approved !== "00" && approved !== "01") ||
+        (approved === "00") !== (asset.length === 102) ||
+        !["00", "01"].includes(frozen)
+      )
+        throw new Error("invalid-data");
+      owners.add(asset.slice(2, 66));
+    }
+    for (const owner of owners) {
+      const b = decodeAcurastBalance(await storage(PREFIX.account + concat(owner)));
+      balances.push({
+        address: address(owner),
+        total: acuAmount(b.free + b.reserved),
+        free: acuAmount(b.free),
+        reserved: acuAmount(b.reserved),
+        frozen: acuAmount(b.frozen),
+      });
+    }
+  } catch {
+    /* A balance read failure never becomes zero or hides known rewards. */
+  }
+
   const rewards = await readAcurastRewards(
     managerIds.map((m) => integer(m).toString()),
     fetcher,
@@ -141,6 +191,7 @@ export async function readAcurastChain(
   return {
     ...emptyNode(id),
     ...(rewards ? { acurastRewards: rewards } : {}),
+    ...(balances.length ? { acurastBalances: balances } : {}),
     scope: manager !== null ? "device" : "provider",
     online: list.some((p) => p.online === true)
       ? true
