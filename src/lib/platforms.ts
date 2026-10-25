@@ -26,6 +26,13 @@ export function validPlatformId(project: Platform, id: string) {
   }
 }
 export type PlatformNode = {
+  acurast?: {
+    role: "processor" | "manager";
+    managerIds: string[];
+    processors: Array<{ id: string; lastSeen: number | null; online: boolean | null }>;
+    complete: boolean;
+  };
+
   sourcePool?: "Parano1d Pool" | "InnovLab";
   id: string;
   activity?: string | null;

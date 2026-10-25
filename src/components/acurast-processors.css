@@ -1,0 +1,5 @@
+.acurast-processors { margin-top: 1.5rem; min-width: 0; }
+.acurast-processor-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 1rem; margin-top: 1rem; }
+.acurast-processor-grid article { display: flex; flex-direction: column; align-items: flex-start; gap: .75rem; min-width: 0; padding: 1rem; border: 1px solid currentColor; border-color: color-mix(in srgb,currentColor 20%,transparent); border-radius: 12px; }
+.acurast-processor-grid code { max-width: 100%; overflow-wrap: anywhere; font-size: .85rem; line-height: 1.6; color: inherit; }
+.acurast-processor-grid strong { font-size: .9rem; color: inherit; }

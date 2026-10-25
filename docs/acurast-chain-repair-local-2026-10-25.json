@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-25",
+  "status": "local repair, awaiting production approval",
+  "rootCauses": [
+    "Existing dev.indexer.mainnet.acurast.com presents certificate for acurast-extra-main-1.papers.tech; TLS hostname verification fails",
+    "Existing getAccounts request restricts is_processor=true and parser rejects manager accounts"
+  ],
+  "officialSources": [
+    "https://hub.acurast.com/",
+    "https://github.com/Acurast/acurast-substrate/blob/main/pallets/processor-manager/src/lib.rs",
+    "https://github.com/Acurast/acurast-substrate/blob/main/runtime/acurast-mainnet/src/pallets/pallet_uniques_config.rs"
+  ],
+  "dataSource": "https://frontend-rpc.mainnet.acurast.com",
+  "rpcMethods": [
+    "chain_getFinalizedHead",
+    "state_getStorage",
+    "state_getKeysPaged"
+  ],
+  "liveResults": {
+    "device": {
+      "id": "5GP4RwiW81Pxo47eFpGdEnNUsGyjE9HehcqqQT28KbyW7Kek",
+      "name": null,
+      "hardware": null,
+      "online": true,
+      "sourceUpdatedAt": 1792904934000,
+      "gpuCount": null,
+      "activeGpu": null,
+      "cpuCount": null,
+      "reward": null,
+      "rewardUnit": null,
+      "period": null,
+      "periodStart": null,
+      "periodEnd": null,
+      "lifetime": null,
+      "partial": true,
+      "scope": "device",
+      "acurast": {
+        "role": "processor",
+        "managerIds": [
+          "67279"
+        ],
+        "processors": [
+          {
+            "id": "5GP4RwiW81Pxo47eFpGdEnNUsGyjE9HehcqqQT28KbyW7Kek",
+            "lastSeen": 1792904934000,
+            "online": true
+          }
+        ],
+        "complete": true
+      }
+    },
+    "manager": {
+      "id": "5EvGVRCfYqpqBC4DWZLPjrhDaUcrqq7dQzMPwvvmhaky4NrH",
+      "name": null,
+      "hardware": null,
+      "online": true,
+      "sourceUpdatedAt": 1792905384000,
+      "gpuCount": null,
+      "activeGpu": null,
+      "cpuCount": null,
+      "reward": null,
+      "rewardUnit": null,
+      "period": null,
+      "periodStart": null,
+      "periodEnd": null,
+      "lifetime": null,
+      "partial": true,
+      "scope": "provider",
+      "acurast": {
+        "role": "manager",
+        "managerIds": [
+          "67279"
+        ],
+        "processors": [
+          {
+            "id": "5HZSeKBSHmtukHroHwehahn6AVtdjtTvFTDY3VF5F4pzQJ5P",
+            "lastSeen": 1792905114000,
+            "online": true
+          },
+          {
+            "id": "5GP4RwiW81Pxo47eFpGdEnNUsGyjE9HehcqqQT28KbyW7Kek",
+            "lastSeen": 1792904934000,
+            "online": true
+          },
+          {
+            "id": "5D6e7DtgNm3a8KsFcPADbtDwgK6KqzdXcX1p7mw8G55JcpdA",
+            "lastSeen": 1792905384000,
+            "online": true
+          }
+        ],
+        "complete": true
+      }
+    }
+  },
+  "behavior": [
+    "SS58 and hex public keys normalize identically",
+    "Processor address reads exact manager index and heartbeat",
+    "Manager owner identity in Uniques collection 0 resolves owned processors",
+    "All reads pinned to one finalized block",
+    "Paginated owned storage keys validated by prefix and Blake2 hashes; bounded requests and concurrency",
+    "Each child processor displays its address and heartbeat; 31-minute active window matches Hub",
+    "No transaction, wallet signature or credential required",
+    "Address saving uses existing database-backed fleet bindings"
+  ],
+  "validation": {
+    "offlineTests": 18,
+    "liveTests": 5,
+    "typecheck": "passed",
+    "buildLog": "/tmp/iota-acurast-chain-build.log"
+  },
+  "productionChanged": false,
+  "agentReleaseIncluded": false,
+  "databaseMigrationRequired": false
+}

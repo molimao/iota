@@ -19,7 +19,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.11'
+VERSION = '1.0.12'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -379,7 +379,7 @@ def crashed_training(rows, now=None, workers=None):
         return False
 
 
-def parse_app_selected_run(header, text, now):
+def parse_app_selected_run(header, text, now, started):
     """Read only the run selected for the desktop's Global Overview.
     Never return raw network events, URLs, headers or wallet identifiers.
     """
@@ -390,6 +390,8 @@ def parse_app_selected_run(header, text, now):
         return None
     latest = None
     for line in text.splitlines():
+        if 'phase_snapshots' not in line:
+            continue
         try:
             event = json.loads(line.rstrip().rstrip(','))
             params = event.get('params', {})
@@ -398,7 +400,7 @@ def parse_app_selected_run(header, text, now):
                 continue
             ids = urllib.parse.parse_qs(url.query).get('run_id', [])
             observed = (offset + float(event['time'])) / 1000
-            if len(ids) != 1 or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,63}', ids[0]) or not 0 <= now-observed <= 90:
+            if len(ids) != 1 or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,63}', ids[0]) or not started <= observed <= now:
                 continue
             if latest is None or observed > latest[0]:
                 latest = (observed, ids[0])
@@ -407,19 +409,78 @@ def parse_app_selected_run(header, text, now):
     return {'id': latest[1], 'observedAt': datetime.datetime.fromtimestamp(latest[0], datetime.timezone.utc).isoformat()} if latest else None
 
 
-def app_selected_run():
+_APP_RUN_CACHE = {'generation': None, 'value': None, 'files': {}}
+
+
+def app_selected_run(rows=None, now=None):
+    """Keep observed selection within the same GUI launch, not chart poll age.
+    Initial search is limited to 64 MiB/file; subsequent reads only scan additions.
+    No raw network event, URL or log text is stored in the cache or uploaded.
+    """
+    global _APP_RUN_CACHE
+    now = time.time() if now is None else now
     try:
+        rows = processes() if rows is None else rows
+        gui = [r for r in rows if r[3] == EXEC]
+        generation = tuple(sorted(r[0] for r in gui))
+        if not gui:
+            _APP_RUN_CACHE = {'generation': None, 'value': None, 'files': {}}
+            return None
+        started = min(process_started(r[0], now) for r in gui)
+        if not 0 < started <= now:
+            return None
+        if _APP_RUN_CACHE['generation'] != generation:
+            _APP_RUN_CACHE = {'generation': generation, 'value': None, 'files': {}}
         folder = Path.home() / 'Library/Logs/IOTA Train at Home'
-        files = [p for p in folder.glob('*netlog.log') if p.is_file() and not p.is_symlink()]
+        files = sorted((p for p in folder.glob('*netlog.log') if p.is_file() and not p.is_symlink()), key=lambda p: p.stat().st_mtime)[-2:]
         if not files:
             return None
-        path = max(files, key=lambda p: p.stat().st_mtime)
-        with path.open('rb') as f:
-            header = f.readline(262144).decode('utf-8', errors='replace')
-            f.seek(max(f.tell(), path.stat().st_size - 512000))
-            text = f.read(512000).decode('utf-8', errors='replace')
-        return parse_app_selected_run(header, text, time.time())
-    except (OSError, ValueError):
+        latest = _APP_RUN_CACHE['value']
+        positions = {}
+        for path in files:
+            stat = path.stat()
+            key = (str(path), stat.st_ino)
+            previous = _APP_RUN_CACHE['files'].get(key)
+            # A truncated file invalidates the previous selection as well.
+            if previous is not None and stat.st_size < previous:
+                latest = None
+                previous = None
+            with path.open('rb') as f:
+                header = f.readline(262144).decode('utf-8', errors='replace')
+                head_end = f.tell()
+                end = stat.st_size
+                lower = max(head_end, end - 64 * 1024 * 1024, previous or 0)
+                # A larger gap could hide a newer selection: do not retain old cache.
+                if previous is not None and previous < lower:
+                    latest = None
+                suffix = b''
+                while end > lower:
+                    begin = max(lower, end - 512000)
+                    f.seek(begin)
+                    chunk = f.read(end - begin) + suffix
+                    split = chunk.find(b'\n')
+                    complete = chunk[split + 1:] if begin > head_end and begin != previous and split >= 0 else chunk
+                    value = parse_app_selected_run(header, complete.decode('utf-8', errors='replace'), now, started)
+                    if value:
+                        if latest is None or value['observedAt'] > latest['observedAt']:
+                            latest = value
+                        break
+                    suffix = chunk[:split + 1] if split >= 0 else chunk
+                    end = begin
+                # Re-read the final partial line next time, including events appended mid-write.
+                f.seek(max(head_end, stat.st_size - 512000))
+                final = f.read(stat.st_size - f.tell())
+                last_newline = final.rfind(b'\n')
+                positions[key] = stat.st_size - len(final) + last_newline + 1 if last_newline >= 0 else max(head_end, stat.st_size - len(final))
+        if latest:
+            at = datetime.datetime.fromisoformat(latest['observedAt']).timestamp()
+            if not started <= at <= now:
+                latest = None
+        _APP_RUN_CACHE = {'generation': generation, 'value': latest, 'files': positions}
+        return latest
+    except (OSError, ValueError, subprocess.SubprocessError):
+        # No readable observation is safer than claiming an old selection after an error.
+        _APP_RUN_CACHE = {'generation': None, 'value': None, 'files': {}}
         return None
 
 
@@ -434,7 +495,7 @@ def snapshot(include_logs=False):
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
     payload['queue'], payload['trainingState'] = local_training_status(workers)
-    payload['appSelectedRun'] = app_selected_run() if payload['appRunning'] else None
+    payload['appSelectedRun'] = app_selected_run(rows) if payload['appRunning'] else None
     if payload['workerRunning'] and crashed_training(rows, workers=workers):
         payload['workerRunning'] = False
         payload['queue'], payload['trainingState'] = None, None

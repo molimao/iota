@@ -1,4 +1,4 @@
-import { parseNoid, parseAcurast, parseInnovlabNoid } from "./additional-platforms";
+import { parseNoid, parseInnovlabNoid } from "./additional-platforms";
 import { upstreamJson } from "./upstream-json.server";
 import {
   parseAkash,
@@ -53,22 +53,10 @@ export async function readPublicPlatform(
       throw e;
     }
   }
-  if (project === "acurast")
-    return parseAcurast(
-      await upstreamJson(
-        "https://dev.indexer.mainnet.acurast.com/api/v1/rpc",
-        {
-          body: {
-            jsonrpc: "2.0",
-            id: 1,
-            method: "getAccounts",
-            params: { account_id: id, is_processor: true, limit: 1 },
-          },
-        },
-        fetcher,
-      ),
-      id,
-    );
+  if (project === "acurast") {
+    const { readAcurastChain } = await import("./acurast-chain.server");
+    return readAcurastChain(id, fetcher);
+  }
   if (project === "akash")
     return parseAkash(
       await platformJson(

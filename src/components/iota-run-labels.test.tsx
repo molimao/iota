@@ -35,7 +35,7 @@ describe("run metadata rendering", () => {
     expect(
       renderToStaticMarkup(<IotaRunLabels runs={[{ id: "4.13.7.11-tah", stale: true }]} />),
     ).toContain("旧数据");
-    expect(renderToStaticMarkup(<IotaRunLabels runs={[null]} />)).toContain("尚未查到轮次");
+    expect(renderToStaticMarkup(<IotaRunLabels runs={[null]} />)).toContain("实际轮次未读到");
     expect(renderToStaticMarkup(<IotaRunLabels runs={[null]} showEmpty={false} />)).toBe("");
   });
   it("renders card metadata as one aligned field with no repeated label", () => {

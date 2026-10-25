@@ -83,23 +83,16 @@ it("uses fixed read-only endpoints and never sends wallet credentials", async ()
   );
   expect((await readPublicPlatform("noid", address, f)).rewardUnit).toBe("NOID");
   expect(f.mock.calls[0]?.[0]).toBe(`https://www.parano1d-pool.fun/miner?a=${address}`);
-  const rpc = {
-    jsonrpc: "2.0",
-    id: 1,
-    result: { items: [{ account_id: key, is_processor: true }] },
-  };
-  const a = vi.fn(
-    async (_url: string | URL | Request, _options?: RequestInit) =>
-      new Response(JSON.stringify(rpc)),
-  );
-  await readPublicPlatform("acurast", key, a);
-  const req = a.mock.calls[0] as unknown as [string, RequestInit];
-  expect(req[0]).toBe("https://dev.indexer.mainnet.acurast.com/api/v1/rpc");
-  expect(JSON.parse(String(req[1].body))).toMatchObject({
-    method: "getAccounts",
-    params: { account_id: key, is_processor: true, limit: 1 },
+  const a = vi.fn(async (_url: string | URL | Request, options?: RequestInit) => {
+    const request = JSON.parse(String(options?.body));
+    const result = request.method === "chain_getFinalizedHead" ? "0x" + "11".repeat(32)
+      : request.method === "state_getStorage" && request.params[0].includes("f3a728ad8efdeffd18f039142abe31b2") ? "0x" + "00".repeat(16) : null;
+    return new Response(JSON.stringify({ jsonrpc: "2.0", id: 1, result }));
   });
-  expect(req[1].headers).not.toHaveProperty("Authorization");
+  await readPublicPlatform("acurast", key, a);
+  expect(a.mock.calls.every(([url]) => url === "https://frontend-rpc.mainnet.acurast.com")).toBe(true);
+  expect(a.mock.calls.some(([, options]) => JSON.parse(String(options?.body)).method === "state_getStorage")).toBe(true);
+  expect(a.mock.calls.every(([, options]) => !Object.keys(options?.headers ?? {}).some((h) => h.toLowerCase() === "authorization"))).toBe(true);
 });
 it("does not include rolling pool payments or unavailable Acurast rewards in daily reports", async () => {
   const window = { start: 0, end: 86400000 } as Parameters<typeof collectReportBinding>[2];

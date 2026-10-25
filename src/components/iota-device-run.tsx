@@ -22,17 +22,17 @@ export function IotaDeviceRun({
   const { agent, query } = useMatchedDeviceAgent(deviceId, miner, preview);
   const queued = !query.isError && !!agent && agentPhase(agent) === "queued";
   const pending = {
-    zh: "排队中 · 暂无公开轮次",
-    "zh-TW": "排隊中 · 暫無公開輪次",
-    en: "Queued · no public run yet",
-    ja: "待機中 · 公開ラン未確認",
-    ko: "대기 중 · 공개 Run 미확인",
+    zh: "排队中 · 实际轮次未读到",
+    "zh-TW": "排隊中 · 尚未讀取實際輪次",
+    en: "Queued · actual run unavailable",
+    ja: "待機中 · 実際のラン未取得",
+    ko: "대기 중 · 실제 Run 미확인",
   }[locale];
   const selected = agent?.snapshot.appSelectedRun;
   const age = selected ? Date.now() - Date.parse(selected.observedAt) : Infinity;
   const appRun: OfficialRun | null = !query.isError && agent && agent.snapshot.appRunning &&
-    Date.now() - Date.parse(agent.lastSeen ?? "") <= 90_000 && age >= 0 && age <= 90_000 && selected
-      ? { id: selected.id, stale: false, kind: "app" } : null;
+    Date.now() - Date.parse(agent.lastSeen ?? "") <= 90_000 && age >= 0 && Number.isFinite(age) && selected
+      ? { id: selected.id, stale: age > 300_000, kind: "app" } : null;
   return <IotaPublicRunLabels runs={[appRun ?? run]} layout={layout} emptyText={queued ? pending : undefined} preview={!!preview} />;
 }
 

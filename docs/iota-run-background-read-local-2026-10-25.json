@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-25",
+  "version": "1.0.12",
+  "status": "local repair, not published",
+  "root_causes": [
+    "90-second expiry rejects genuine app selections when charts stop polling in background",
+    "512KB tail misses older selection in large netlog",
+    "device UI substituted network default for missing device evidence"
+  ],
+  "remote_readonly_observations": [
+    {
+      "device": "macmini2 (UU fitz的Mac mini; identity based on existing session public ID)",
+      "run": "4.13.7.12-tah",
+      "ageSeconds": 133,
+      "netlogBytes": 61610614
+    },
+    {
+      "device": "macmini (UU Fitz的Mac mini; existing public 5G67Db session evidence)",
+      "run": "4.13.7.10-tah",
+      "ageSeconds": 438,
+      "netlogBytes": 79403114
+    },
+    {
+      "device": "UU MacBook Pro (old public 5H6ag9 session evidence; user later called remaining device 无头, mapping needs current verification)",
+      "run": "4.13.7.10-tah",
+      "ageSeconds": 4412,
+      "netlogBytes": 58524815
+    },
+    {
+      "device": "mba (UU MacBook Air; existing public 5E2bJqv2 prefix evidence)",
+      "run": "4.13.7.10-tah",
+      "ageSeconds": 5229,
+      "netlogBytes": 57341898
+    }
+  ],
+  "repair": [
+    "Scope selections to running GUI generation; reject previous launches and future records",
+    "Search last 64MiB of two netlogs in bounded chunks then scan appended records only",
+    "Reassemble partial records; clear cached evidence after log gaps or unavailable reads",
+    "Remove automatic network reference fallback on device/project/overview metadata",
+    "Show old selections as APP 最近轮次 with old-data annotation; do not imply a fresh observation"
+  ],
+  "validation": {
+    "agentTests": 74,
+    "webTests": 27,
+    "typecheck": "passed",
+    "buildLog": "/tmp/iota-run-background-1.0.12-build.log",
+    "packageSHA256": "5d664aa5da751faf7c80f7dea9c1d419332872ca409be01b5d0a163d3b928f03",
+    "packageSourceVerified": true,
+    "localInitialScanSeconds": 0.357,
+    "localIncrementalScanSeconds": 0.127
+  },
+  "trainingControlIssued": false,
+  "settingsChanged": false,
+  "productionChanged": false,
+  "remaining": "After separate release approval, update owner Agents and verify each returned selection against current GUI/log evidence; final MacBookpro physical mapping was not conclusively established from old sessions."
+}

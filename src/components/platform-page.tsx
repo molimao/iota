@@ -1,3 +1,4 @@
+import { AcurastProcessors } from "./acurast-processors";
 import { additionalMetricCopy as extra } from "./additional-platform-copy";
 import { readQuery } from "@/lib/read-query";
 import { hongKongDayStartSeconds } from "@/lib/earnings";
@@ -213,7 +214,7 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
                     : project === "noid"
                       ? "NOID · o1…"
                       : project === "acurast"
-                        ? "Acurast Processor · SS58 / 0x…"
+                        ? "Acurast · Processor / Manager · SS58 / 0x…"
                         : `Golem Node ID · 0x…`}
             </label>
             <div>
@@ -312,12 +313,13 @@ export function PlatformPage({ project, demo = false }: { project: Platform; dem
                     : c.unknown}
             </span>
           </div>
+          {data.acurast && <AcurastProcessors data={data.acurast} />}
           {data.sourcePool && <p className="compute-caption">{data.sourcePool}</p>}
           <div className="compute-metrics">
             {project === "acurast" ? (
               <>
-                {metric(extra.registration[locale], extra.registered[locale])}
-                {metric(extra.classification[locale], data.hardware)}
+                {data.acurast?.role === "manager" ? metric(extra.managerIdentity[locale], data.acurast.managerIds.join(", ")) : metric(extra.registration[locale], extra.registered[locale])}
+                {data.hardware && metric(extra.classification[locale], data.hardware)}
               </>
             ) : project === "noid" ? (
               <>

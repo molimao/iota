@@ -72,3 +72,7 @@ An older worker's exit no longer marks its replacement as stopped while the GUI 
 ## Desktop selected run (1.0.11)
 
 Reads a bounded tail of the official desktop netlog while the TAH app is running. Only HTTPS phase-snapshot requests to the exact official API host qualify. The agent uploads only the selected run ID and observation time, never request URLs, headers or network event contents. This is the run displayed by the app, not proof of roster membership or training contribution. Observations older than 90 seconds are omitted. Older builds without compatible netlogs keep public roster/reference information. No application preferences or training processes are modified.
+
+## Background-window run observations (1.0.12)
+
+A selected run is no longer discarded after 90 seconds: chart requests can stop while the desktop window is in the background. Observations must belong to the currently running TAH GUI process generation. Initial lookup scans at most the most recent 64 MiB of each of two daily netlogs, in bounded chunks; later reads consume only appended records. The cache contains only the observed ID, timestamp, process identity and read offsets. A GUI exit/relaunch, unreadable logs, or a detected logging gap clears unverified state. Partial network-event writes are reassembled on later reads. The website marks older observations and no longer inserts a network-wide reference as device evidence. A selection is still not proof of work or roster membership. These changes do not control or restart training.
