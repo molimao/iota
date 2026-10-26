@@ -17,7 +17,8 @@ export const agentBatchSchema = z.array(
         lastSeen: z.string().nullable(),
         snapshot: agentSnapshot
           .pick({ workerRunning: true, appRunning: true, queue: true, trainingState: true })
-          .partial(),
+          .partial()
+          .strip(),
       }),
     ),
   }),

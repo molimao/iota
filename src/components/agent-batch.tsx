@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { agentOnline, type AgentInfo } from "@/lib/device-agent";
@@ -67,6 +67,15 @@ export function AgentBatchPanel({
     retry: false,
   });
   const batches = preview ? demo : (q.data ?? []);
+  useEffect(() => {
+    if (!error || !request.current || !q.data?.some((batch) => batch.id === request.current?.id)) return;
+    // A lost response must not leave an already accepted request stuck in confirmation.
+    request.current = null;
+    setError(false);
+    setSelected([]);
+    setReview(false);
+    setOpen(false);
+  }, [error, q.data]);
   function eligible(a: AgentInfo) {
     return agentOnline(a.lastSeen, now) && !a.pending;
   }

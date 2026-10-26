@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, afterAll, it, expect } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
 import { readFileSync } from "node:fs";
+import { agentBatchSchema } from "./agent-batch";
 let db: PGlite;
 const u = "11111111-1111-4111-8111-111111111111",
   other = "22222222-2222-4222-8222-222222222222";
@@ -63,6 +64,21 @@ beforeEach(async () => {
   await owner();
 });
 afterAll(async () => db.close());
+it("parses real full heartbeat receipts and reads retries without new commands", async () => {
+  await admin();
+  await db.query(`UPDATE watch_device_agents SET snapshot=$1::jsonb`, [JSON.stringify({
+    appRunning:true,workerRunning:true,appCpu:1.4,processMemoryMb:646.1,load:2.5,
+    version:"1.0.13",recovery:"idle",queue:null,trainingState:null,
+    appSelectedRun:{id:"4.13.7.11-tah",observedAt:new Date().toISOString()},miners:[],logs:"private",
+  })]);
+  await owner();
+  const first=agentBatchSchema.parse(await call());
+  expect(first[0]!.items[0]!.snapshot).toEqual({appRunning:true,workerRunning:true,queue:null,trainingState:null});
+  expect(agentBatchSchema.parse(await call("list"))).toEqual(first);
+  expect(agentBatchSchema.parse(await call())).toEqual(first);
+  await admin();
+  expect((await db.query<{n:number}>("SELECT count(*)::int n FROM watch_agent_commands")).rows[0]!.n).toBe(2);
+});
 it("keeps four devices' receipts independent and retries only the failed target", async () => {
   const c = "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee",
     d = "ffffffff-ffff-4fff-8fff-ffffffffffff";

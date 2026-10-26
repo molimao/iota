@@ -60,6 +60,15 @@
 .agent-batch-panel .fleet-outline:hover:not(:disabled) {
   background: #303030;
 }
+.agent-batch-panel .site-button {
+  background: #303030;
+  color: #fff;
+  border: 1px solid #666;
+}
+.agent-batch-panel .site-button:hover:not(:disabled) {
+  background: #444;
+  color: #fff;
+}
 .agent-batch-panel button:disabled {
   opacity: 0.45;
   cursor: default;
