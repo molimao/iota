@@ -52,18 +52,71 @@ it("stores only hashed credentials and redacted log excerpts", async () => {
   expect(JSON.stringify(args.p_payload)).not.toContain("supersecret");
   expect(JSON.stringify(args.p_payload)).not.toContain("alice");
 });
+it("returns validated device binding descriptors only on explicit collection requests", async () => {
+  const binding = {
+    id: "11111111-1111-4111-8111-111111111111",
+    project: "bnt",
+    identifier: "public-wallet",
+    worker: "Mac",
+  };
+  mock.rpc
+    .mockResolvedValueOnce({ data: { command: null }, error: null })
+    .mockResolvedValueOnce({ data: [binding], error: null });
+  const response = await deviceAgentHttp(
+    new Request("https://iotahome.site/api/device-agent/heartbeat", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
+      body: JSON.stringify({ snapshot, requestBindings: true }),
+    }),
+  );
+  expect(response.status).toBe(200);
+  expect((await response.json()).bindings).toEqual([binding]);
+  expect(mock.rpc.mock.calls[1]![0]).toBe("watch_agent_binding_manifest");
+  expect(mock.rpc.mock.calls[1]![1].p_hash).toHaveLength(64);
+});
+it("keeps normal command delivery when optional binding discovery is unavailable", async () => {
+  const command = {
+    id: "11111111-1111-4111-8111-111111111111",
+    action: "restart",
+    expiresAt: "2026-10-26T08:00:00.1+00:00",
+  };
+  mock.rpc
+    .mockResolvedValueOnce({ data: { command }, error: null })
+    .mockRejectedValueOnce(new Error("not deployed"));
+  const response = await deviceAgentHttp(
+    new Request("https://iotahome.site/api/device-agent/heartbeat", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
+      body: JSON.stringify({ snapshot, requestBindings: true }),
+    }),
+  );
+  expect(response.status).toBe(200);
+  expect(await response.json()).toEqual({
+    command: { ...command, expiresAt: "2026-10-26T08:00:00.100Z" },
+    bindings: [],
+  });
+});
 it.each([
   ["2026-10-15T07:11:17.42363+00:00", "2026-10-15T07:11:17.423Z"],
   ["2026-10-15T07:08:17.09349+00:00", "2026-10-15T07:08:17.093Z"],
   ["2026-10-15T15:11:17.1+08:00", "2026-10-15T07:11:17.100Z"],
 ])("normalizes command expiry %s for installed Python 3.9 agents", async (expiresAt, expected) => {
   const command = { id: "11111111-1111-4111-8111-111111111111", action: "restart", expiresAt };
-  mock.rpc.mockResolvedValue({ data: { command, logsEnabled: false, recoveryEnabled: false }, error: null });
-  const r = await deviceAgentHttp(new Request("https://iotahome.site/api/device-agent/heartbeat", {
-    method: "POST",
-    headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
-    body: JSON.stringify({ snapshot }),
-  }));
+  mock.rpc.mockResolvedValue({
+    data: { command, logsEnabled: false, recoveryEnabled: false },
+    error: null,
+  });
+  const r = await deviceAgentHttp(
+    new Request("https://iotahome.site/api/device-agent/heartbeat", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
+      body: JSON.stringify({ snapshot }),
+    }),
+  );
   expect(r.status).toBe(200);
-  expect(await r.json()).toEqual({ command: { ...command, expiresAt: expected }, logsEnabled: false, recoveryEnabled: false });
+  expect(await r.json()).toEqual({
+    command: { ...command, expiresAt: expected },
+    logsEnabled: false,
+    recoveryEnabled: false,
+  });
 });

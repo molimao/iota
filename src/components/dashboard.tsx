@@ -1,4 +1,6 @@
 import { SyncGuidance } from "./sync-guidance";
+import "./project-device-views.css";
+import { ProjectAgentControls } from "./project-agent-controls";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import { IotaDeviceRun, IotaRosterStatus } from "./iota-device-run";
 import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
@@ -564,165 +566,9 @@ function SavedIotaDashboard() {
                 ))}
               </div>
             </div>
-            {layout === "list" ? (
-              <div className="iota-table-scroll">
-                <table className="iota-device-table">
-                  <thead>
-                    <tr>
-                      {(["name", "state", "rate", "today"] as const).map((key) => (
-                        <th key={key}>{iotaAddCopy[key][locale]}</th>
-                      ))}
-                      <th>Mac</th>
-                      <th>{iotaAddCopy.action[locale]}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {visible.map((view) => (
-                      <tr key={view.entry.hotkey}>
-                        <td>
-                          <button onClick={() => openDevice(view.entry.hotkey)}>
-                            {view.entry.label}
-                          </button>
-                          <code>{shortId(view.entry.hotkey)}</code>
-                          <IotaDeviceRun run={officialRun(view)} miner={view.entry.hotkey} />
-                        </td>
-                        <td>
-                          <IotaRosterStatus
-                            miner={view.entry.hotkey}
-                            status={view.status}
-                            onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                          />
-                        </td>
-                        <td>
-                          {view.miner
-                            ? `${formatCount(view.miner.throughput, locale)} tokens/s`
-                            : "—"}
-                        </td>
-                        <td>
-                          <MoneyPair
-                            units={view.todayUsable ? view.earnings?.todayUnits : null}
-                            usdPerIota={dash.usdPerIota}
-                          />
-                        </td>
-                        <td>
-                          <DeviceAgentSummary
-                            miner={view.entry.hotkey}
-                            official={{
-                              status: view.statusStale ? "refresh_interrupted" : view.status,
-                              fetchedAt: view.statusFetchedAt,
-                            }}
-                            compact
-                          />
-                        </td>
-                        <td>
-                          <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
-                            {t("移除设备")}
-                          </button>
-                          <button
-                            onClick={() =>
-                              openDevice(
-                                view.entry.hotkey,
-                                view.status === "contributing" || view.status === "waiting"
-                                  ? "overview"
-                                  : "diagnose",
-                              )
-                            }
-                          >
-                            {iotaAddCopy["status"][locale]} <ArrowUpRight size={14} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="devices">
-                {visible.map((view) => {
-                  return (
-                    <article className="device" key={view.entry.hotkey}>
-                      <div className="device-top">
-                        <span className="device-icon">
-                          <Monitor size={22} />
-                        </span>
-                        <IotaRosterStatus
-                          miner={view.entry.hotkey}
-                          status={view.status}
-                          onClick={() => openDevice(view.entry.hotkey, "diagnose")}
-                        />
-                      </div>
-                      <h3>
-                        <button
-                          className="device-name"
-                          onClick={() => openDevice(view.entry.hotkey)}
-                        >
-                          {view.entry.label}
-                        </button>
-                      </h3>
-                      <div className="iota-device-operation">
-                        <p className="iota-device-rate">
-                          {iotaAddCopy.rate[locale]}{" "}
-                          <b>
-                            {view.miner
-                              ? `${formatCount(view.miner.throughput, locale)} tokens/s`
-                              : "—"}
-                          </b>
-                        </p>
-                        <IotaDeviceRun
-                          run={officialRun(view)}
-                          miner={view.entry.hotkey}
-                          layout="row"
-                        />
-                      </div>
-                      <div className="device-earnings">
-                        <div>
-                          <span>{iotaAddCopy.today[locale]}</span>
-                          <MoneyPair
-                            units={view.todayUsable ? view.earnings?.todayUnits : null}
-                            usdPerIota={dash.usdPerIota}
-                          />
-                        </div>
-                        <div>
-                          <span>{t("累计收益")}</span>
-                          <MoneyPair
-                            units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
-                            usdPerIota={dash.usdPerIota}
-                          />
-                        </div>
-                      </div>
-                      <div className="device-foot">
-                        <button onClick={() => setRemoveTarget(view.entry.hotkey)}>
-                          {t("移除设备")}
-                        </button>
-                        <span>
-                          {formatAgo(view.statusFetchedAt, dash.now, locale)}
-                          {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
-                          {view.earnings && !view.earningsUsable ? ` · ${t("收益为旧数据")}` : ""}
-                        </span>
-                        <button
-                          onClick={() =>
-                            openDevice(
-                              view.entry.hotkey,
-                              view.status === "not_found" ? "diagnose" : "overview",
-                            )
-                          }
-                        >
-                          {t("查看详情")}
-                          <ArrowUpRight size={16} />
-                        </button>
-                      </div>
-                      <DeviceAgentSummary
-                        miner={view.entry.hotkey}
-                        official={{
-                          status: view.statusStale ? "refresh_interrupted" : view.status,
-                          fetchedAt: view.statusFetchedAt,
-                        }}
-                      />
-                    </article>
-                  );
-                })}
-              </div>
-            )}
+            <ProjectAgentControls miners={visible.map(view=>view.entry.hotkey)} devices={agentEvidence.devices}
+              agents={agentEvidence.query.data} userId={auth.userId} now={agentNow} error={agentEvidence.query.isError}/>
+            <IotaProjectDeviceViews views={visible} layout={layout} usdPerIota={dash.usdPerIota} now={dash.now} onOpen={openDevice} onRemove={setRemoveTarget}/>
           </>
         )}
       </section>
@@ -1132,4 +978,167 @@ function IotaLookup({ id }: { id: string }) {
       </div>
     </main>
   );
+}
+
+export function IotaProjectDeviceViews({views,layout,usdPerIota,now,onOpen,onRemove,preview=false,previewAgents}:{views:DeviceView[];layout:"cards"|"list";usdPerIota:number|null;now:number;onOpen:(id:string,tab?:DetailTab)=>void;onRemove:(id:string)=>void;preview?:boolean;previewAgents?:Record<string,import("@/lib/device-agent").AgentInfo>}) {
+ const {locale,t}=useLocale();
+ return (layout === "list" ? (
+              <div className="iota-table-scroll">
+                <table className="iota-device-table">
+                  <thead>
+                    <tr>
+                      {(["name", "state", "rate", "today"] as const).map((key) => (
+                        <th key={key}>{iotaAddCopy[key][locale]}</th>
+                      ))}
+                      <th>Mac</th>
+                      <th>{iotaAddCopy.action[locale]}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {views.map((view) => (
+                      <tr key={view.entry.hotkey}>
+                        <td>
+                          <button onClick={() => onOpen(view.entry.hotkey)}>
+                            {view.entry.label}
+                          </button>
+                          <code>{shortId(view.entry.hotkey)}</code>
+                          <IotaDeviceRun preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]} run={officialRun(view)} miner={view.entry.hotkey} />
+                        </td>
+                        <td>
+                          <IotaRosterStatus preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]}
+                            miner={view.entry.hotkey}
+                            status={view.status}
+                            onClick={() => onOpen(view.entry.hotkey, "diagnose")}
+                          />
+                        </td>
+                        <td>
+                          {view.miner
+                            ? `${formatCount(view.miner.throughput, locale)} tokens/s`
+                            : "—"}
+                        </td>
+                        <td>
+                          <MoneyPair
+                            units={view.todayUsable ? view.earnings?.todayUnits : null}
+                            usdPerIota={usdPerIota}
+                          />
+                        </td>
+                        <td>
+                          <DeviceAgentSummary preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]}
+                            miner={view.entry.hotkey}
+                            official={{
+                              status: view.statusStale ? "refresh_interrupted" : view.status,
+                              fetchedAt: view.statusFetchedAt,
+                            }}
+                            compact
+                          />
+                        </td>
+                        <td>
+                          <button onClick={() => onRemove(view.entry.hotkey)}>
+                            {t("移除设备")}
+                          </button>
+                          <button
+                            onClick={() =>
+                              onOpen(
+                                view.entry.hotkey,
+                                view.status === "contributing" || view.status === "waiting"
+                                  ? "overview"
+                                  : "diagnose",
+                              )
+                            }
+                          >
+                            {iotaAddCopy["status"][locale]} <ArrowUpRight size={14} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="devices">
+                {views.map((view) => {
+                  return (
+                    <article className="device" key={view.entry.hotkey}>
+                      <div className="device-top">
+                        <span className="device-icon">
+                          <Monitor size={22} />
+                        </span>
+                        <IotaRosterStatus preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]}
+                          miner={view.entry.hotkey}
+                          status={view.status}
+                          onClick={() => onOpen(view.entry.hotkey, "diagnose")}
+                        />
+                      </div>
+                      <h3>
+                        <button
+                          className="device-name"
+                          onClick={() => onOpen(view.entry.hotkey)}
+                        >
+                          {view.entry.label}
+                        </button>
+                      </h3>
+                      <div className="iota-device-operation">
+                        <p className="iota-device-rate">
+                          {iotaAddCopy.rate[locale]}{" "}
+                          <b>
+                            {view.miner
+                              ? `${formatCount(view.miner.throughput, locale)} tokens/s`
+                              : "—"}
+                          </b>
+                        </p>
+                        <IotaDeviceRun preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]}
+                          run={officialRun(view)}
+                          miner={view.entry.hotkey}
+                          layout="row"
+                        />
+                      </div>
+                      <div className="device-earnings">
+                        <div>
+                          <span>{iotaAddCopy.today[locale]}</span>
+                          <MoneyPair
+                            units={view.todayUsable ? view.earnings?.todayUnits : null}
+                            usdPerIota={usdPerIota}
+                          />
+                        </div>
+                        <div>
+                          <span>{t("累计收益")}</span>
+                          <MoneyPair
+                            units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
+                            usdPerIota={usdPerIota}
+                          />
+                        </div>
+                      </div>
+                      <div className="device-foot">
+                        <button onClick={() => onRemove(view.entry.hotkey)}>
+                          {t("移除设备")}
+                        </button>
+                        <span>
+                          {formatAgo(view.statusFetchedAt, now, locale)}
+                          {view.statusStale ? ` · ${t("状态为旧数据")}` : ""}
+                          {view.earnings && !view.earningsUsable ? ` · ${t("收益为旧数据")}` : ""}
+                        </span>
+                        <button
+                          onClick={() =>
+                            onOpen(
+                              view.entry.hotkey,
+                              view.status === "not_found" ? "diagnose" : "overview",
+                            )
+                          }
+                        >
+                          {t("查看详情")}
+                          <ArrowUpRight size={16} />
+                        </button>
+                      </div>
+                      <DeviceAgentSummary preview={preview} previewAgent={previewAgents?.[view.entry.hotkey]}
+                        miner={view.entry.hotkey}
+                        official={{
+                          status: view.statusStale ? "refresh_interrupted" : view.status,
+                          fetchedAt: view.statusFetchedAt,
+                        }}
+                      />
+                    </article>
+                  );
+                })}
+              </div>
+            ));
 }

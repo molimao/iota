@@ -1,4 +1,7 @@
 import { PoolWorkerPreview } from "./pool-worker-preview";
+import { DeviceMinerSummary } from "./device-miner-summary";
+import { ProjectAgentConnect } from "./project-agent-connect";
+import type { ReactNode } from "react";
 import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastProcessors } from "./acurast-processors";
@@ -183,6 +186,7 @@ export function ProjectAddressBookView({
   onDraft = () => {},
   onSaveRename = () => {},
   onCancelRename = () => {},
+  localMetrics,
 }: {
   project: FleetProject;
   locale: SiteLocale;
@@ -218,6 +222,7 @@ export function ProjectAddressBookView({
   onDraft?: (value: string) => void;
   onSaveRename?: (deviceId: string) => void;
   onCancelRename?: () => void;
+  localMetrics?: ((entry: AddressBookEntry) => ReactNode) | undefined;
 }) {
   const text = addressBookCopy;
   const labels = fleetCopy(locale);
@@ -255,7 +260,8 @@ export function ProjectAddressBookView({
       </form>
       {(project === "prl" || project === "tsc") && (
         <p className="compute-caption">
-          {prlPoolCopy.selected[locale]} · {poolName(project as import("@/lib/pool-projects").PoolProject, pool)}
+          {prlPoolCopy.selected[locale]} ·{" "}
+          {poolName(project as import("@/lib/pool-projects").PoolProject, pool)}
         </p>
       )}
       <p className="compute-caption">
@@ -436,6 +442,7 @@ export function ProjectAddressBookView({
                 </p>
               )}
               {!walletLayout && entry.note && <p className="compute-caption">{entry.note}</p>}
+              {localMetrics?.(entry)}
               <div className="pab-actions pool-card-actions">
                 {showDetail && (
                   <button
@@ -506,12 +513,15 @@ export function ProjectAddressBook({
     }))
     .filter((device) => device.bindings.length);
   const devices =
-    (project === "prl" || project === "tsc")
+    project === "prl" || project === "tsc"
       ? projectDevices
           .map((device) => ({
             ...device,
             bindings: device.bindings.filter(
-              (binding) => (binding.pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)) === (pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)),
+              (binding) =>
+                (binding.pool ??
+                  poolProvider(project as import("@/lib/pool-projects").PoolProject)) ===
+                (pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)),
             ),
           }))
           .filter((device) => device.bindings.length)
@@ -634,6 +644,21 @@ export function ProjectAddressBook({
       pool={pool}
       limit={fleet.limit}
       cards={entries}
+      localMetrics={(entry) => (
+        <>
+          <DeviceMinerSummary
+            deviceId={entry.deviceId}
+            bindings={[{ id: entry.bindingId, project, identifier: entry.identifier, worker: "" }]}
+          />
+          <ProjectAgentConnect
+            deviceId={entry.deviceId}
+            bindingId={entry.bindingId}
+            project={project}
+            devices={fleet.devices}
+            onLinked={() => fleet.reload()}
+          />
+        </>
+      )}
       signedIn={Boolean(auth.userId)}
       authReady={auth.ready}
       signingIn={auth.signingIn}

@@ -1,0 +1,104 @@
+.project-agent-connect {
+  margin: 12px 0;
+  color: #ccc;
+  font-size: 12px;
+}
+.project-agent-connect summary {
+  cursor: pointer;
+  width: max-content;
+  max-width: 100%;
+}
+.project-agent-connect > div {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #3b3b3b;
+  border-radius: 10px;
+  max-width: 440px;
+}
+.project-agent-connect label {
+  display: grid;
+  gap: 8px;
+}
+.project-agent-connect select {
+  width: 100%;
+  max-width: 100%;
+  background: #191919;
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 9px;
+  color-scheme: dark;
+}
+.project-agent-connect option {
+  background: #191919;
+  color: #eee;
+}
+.project-agent-connect p {
+  margin: 0;
+  color: #aaa;
+  line-height: 1.6;
+}
+.project-agent-connect button {
+  width: max-content;
+  max-width: 100%;
+}
+.bnt-worker-agent {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #363936;
+  min-width: 0;
+}
+.bnt-worker-computer {
+  display: block;
+  font-size: 13px;
+  color: #eee;
+  margin-bottom: 10px;
+}
+.bnt-worker-computer small {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 400;
+  color: #aaa;
+}
+.bnt-worker-computer small[data-online="true"] {
+  color: #71d8b7;
+}
+.bnt-worker-agent .agent-card-summary {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+.bnt-worker-install {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11px;
+  color: #aaa;
+}
+.bnt-miner-grid[data-layout="list"] .bnt-worker-agent {
+  grid-column: 1 / -1;
+}
+.bnt-miner-grid[data-layout="list"] > article.bnt-miner-card {
+  grid-template-columns: minmax(130px, 1fr) 120px minmax(180px, 1.4fr) 160px;
+  grid-template-areas: "identity rate chart share" "name rate chart share" "agent agent agent agent";
+  gap: 10px 20px;
+}
+.bnt-miner-grid[data-layout="list"] .bnt-miner-head { grid-area:identity; }
+.bnt-miner-grid[data-layout="list"] h4 { grid-area:name; }
+.bnt-miner-grid[data-layout="list"] .bnt-miner-rate { grid-area:rate; }
+.bnt-miner-grid[data-layout="list"] .bnt-worker-sparkline { grid-area:chart; }
+.bnt-miner-grid[data-layout="list"] .bnt-miner-share { grid-area:share; }
+.bnt-miner-grid[data-layout="list"] .bnt-worker-agent { grid-area:agent; display:flex; flex-wrap:wrap; gap:12px 24px; align-items:center; margin-top:8px; }
+.bnt-miner-grid[data-layout="list"] .bnt-worker-agent > strong { margin:0; }
+.bnt-miner-grid[data-layout="list"] .bnt-worker-agent .agent-card-metrics { margin:8px 0 0; }
+.bnt-miner-grid[data-layout="list"] .bnt-worker-agent .project-agent-connect { margin:0; }
+@media(max-width:800px) {
+  .bnt-miner-grid[data-layout="list"] > article.bnt-miner-card {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-areas:"identity name" "rate share" "chart chart" "agent agent";
+    gap:14px;
+  }
+  .bnt-miner-grid[data-layout="list"] .bnt-worker-agent { align-items:flex-start; }
+}

@@ -47,11 +47,13 @@ class InstallTests(unittest.TestCase):
         self.assertTrue(self.app.exists())
 
     def test_upgrade_preserves_pairing_and_state(self):
-        agent.store(self.config, {'server': 'https://iotahome.site', 'credential': 'E'*43})
+        miners=[{'project':'bnt','software':'seine','bindingId':'11111111-1111-4111-8111-111111111111','port':9977}]
+        agent.store(self.config, {'server': 'https://iotahome.site', 'credential': 'E'*43,'miners':miners})
         agent.store(self.state, {'executed': ['old'], 'logsEnabled': True})
         agent.install('https://iotahome.site')
         self.post.assert_not_called()
         self.assertEqual(agent.read(self.config)['credential'], 'E'*43)
+        self.assertEqual(agent.read(self.config)['miners'],miners)
         self.assertEqual(agent.read(self.state)['executed'], ['old'])
 
     def test_bad_pairing_keeps_existing_installation(self):

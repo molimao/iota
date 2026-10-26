@@ -2,6 +2,8 @@ import { useBntWorkerHistory } from "@/hooks/use-bnt-worker-history";
 import { BntWorkerSparkline, WorkerSamplingNote } from "./bnt-worker-sparkline";
 import { BntHashrateTrend } from "./bnt-hashrate-trend";
 import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { BntWorkerAgent } from "./bnt-worker-agent";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { Cpu, Plus, RefreshCw, Search } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
@@ -30,6 +32,7 @@ type Props = {
   limit: number;
   error?: string | null;
   preview?: boolean;
+  workerAgent?: (row: BntRow, worker: string) => ReactNode;
   targets: { id: string; name: string }[];
   onLookup: (address: string) => void;
   onRefresh: () => Promise<unknown>;
@@ -89,6 +92,7 @@ export function BntDashboard() {
   return (
     <BntDashboardView
       rows={entries.map(reading)}
+      workerAgent={(row, worker) => <BntWorkerAgent address={row.address} worker={worker} sourceBindingId={row.id} devices={fleet.devices} onLinked={() => fleet.reload()} />}
       {...(lookupAddress
         ? { lookup: reading({ id: "lookup", name: "BNT", address: lookupAddress, worker: "" }) }
         : {})}
@@ -412,6 +416,7 @@ export function BntDashboardView(p: Props) {
                         : t("never")}
                 </small>
               </div>
+              {!temporary && p.workerAgent?.(g.bindings.find(b => b.worker === w.name) ?? g.bindings.find(b => !b.worker) ?? r, w.name)}
             </article>
           ))}
         </div>
@@ -422,7 +427,7 @@ export function BntDashboardView(p: Props) {
           {temporary ? (
             <button onClick={() => openAdd(r.address)}>{t("save")}</button>
           ) : (
-            g.bindings.map((binding) => (
+            (g.bindings.some(b => !b.worker) ? g.bindings.filter(b => !b.worker) : g.bindings).map((binding) => (
               <div key={binding.id}>
                 {g.bindings.length > 1 && (
                   <span>

@@ -42,6 +42,13 @@ const pricingCopy = {
     "기기 및 프로젝트 모니터링",
     "デバイスとプロジェクトの監視",
   ]),
+  bulkAgent: localized([
+    "IOTA 设备批量启动、停止与重启",
+    "IOTA 設備批次啟動、停止與重啟",
+    "Bulk start, stop and restart for IOTA devices",
+    "IOTA 기기 일괄 시작·중지·재시작",
+    "IOTA 端末の一括起動・停止・再起動",
+  ]),
   start: localized(["开通 Pro", "開通 Pro", "Get Pro", "Pro 시작", "Proを始める"]),
 };
 
@@ -158,6 +165,10 @@ export function FleetPricing({
           <li>
             <Check size={18} aria-hidden="true" />
             <b>{proCopy.bulk[locale]}</b>
+          </li>
+          <li>
+            <Check size={18} aria-hidden="true" />
+            <b>{pricingCopy.bulkAgent[locale]}</b>
           </li>
           <li>
             <Check size={18} aria-hidden="true" />

@@ -1,0 +1,28 @@
+.site-shell .badge[data-bucket="contributing"] {
+  --status-color: #6ee7b7;
+  --status-rgb: 110, 231, 183;
+}
+.site-shell .badge[data-bucket="waiting"] {
+  --status-color: #93c5fd;
+  --status-rgb: 147, 197, 253;
+}
+.site-shell .badge[data-bucket="attention"] {
+  --status-color: #fdba74;
+  --status-rgb: 253, 186, 116;
+}
+.site-shell .badge[data-bucket="pending"] {
+  --status-color: #c4b5fd;
+  --status-rgb: 196, 181, 253;
+}
+.site-shell .badge[data-bucket] {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(var(--status-rgb), 0.16);
+  color: var(--status-color);
+  border: 1px solid rgba(var(--status-rgb), 0.35);
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 5px 8px;
+  white-space: nowrap;
+}

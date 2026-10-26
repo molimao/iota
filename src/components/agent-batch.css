@@ -1,0 +1,271 @@
+.agent-batch-panel {
+  border: 1px solid #343434;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  color: #ededed;
+  background: #191919;
+  min-width: 0;
+}
+.agent-batch-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.agent-bulk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.agent-pro-badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border: 1px solid #797065;
+  border-radius: 5px;
+  padding: 3px 5px;
+  vertical-align: middle;
+  margin-left: 6px;
+  color: #dfc6a6;
+}
+.agent-pro-note a {
+  color: #dfc6a6;
+  text-decoration: underline;
+}
+.agent-batch-heading h2 {
+  font-size: 17px;
+  margin: 0;
+}
+.agent-batch-panel p {
+  font-size: 13px;
+  color: #b5b5b5;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+.agent-batch-heading > button {
+  flex-shrink: 0;
+}
+.agent-batch-panel .fleet-outline {
+  border: 1px solid #555;
+  border-radius: 999px;
+  background: transparent;
+  color: #eee;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.agent-batch-panel .fleet-outline:hover:not(:disabled) {
+  background: #303030;
+}
+.agent-batch-panel button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.agent-batch-unpaired {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #202020;
+  border: 1px dashed #454545;
+  border-radius: 9px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.agent-batch-unpaired span {
+  font-size: 12px;
+  color: #aaa;
+  margin-left: auto;
+}
+.agent-batch-unpaired a {
+  font-size: 12px;
+  color: #b8eedb;
+}
+.agent-quick-actions {
+  margin-top: 10px;
+  min-width: 0;
+  font-size: 12px;
+  color: #ddd;
+}
+.agent-quick-actions summary {
+  cursor: pointer;
+  width: max-content;
+  max-width: 100%;
+  color: #c9c9c9;
+}
+.agent-quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.agent-quick-actions button {
+  font: inherit !important;
+  color: #e8e8e8 !important;
+  background: #222 !important;
+  border: 1px solid #484848 !important;
+  border-radius: 999px !important;
+  padding: 7px 12px !important;
+  cursor: pointer;
+  min-height: 34px;
+}
+.agent-quick-actions button:hover:not(:disabled) {
+  background: #383838 !important;
+}
+.agent-quick-actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.agent-quick-confirm {
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #6b5235;
+  border-radius: 10px;
+  max-width: 360px;
+  white-space: normal;
+}
+.agent-quick-actions p {
+  white-space: normal;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 8px 0;
+  color: #c4c4c4;
+}
+.agent-quick-confirm p {
+  color: #e0bb8c;
+}
+.agent-quick-confirm button {
+  margin: 4px 8px 0 0;
+}
+@media (max-width: 600px) {
+  .agent-quick-actions button {
+    min-height: 44px;
+  }
+}
+.agent-batch-picker {
+  border-top: 1px solid #353535;
+  margin-top: 18px;
+  padding-top: 16px;
+}
+.agent-batch-targets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 320px;
+  overflow: auto;
+  margin: 12px 0;
+}
+.agent-batch-targets label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #222;
+  border: 1px solid #353535;
+  border-radius: 9px;
+  min-width: 0;
+}
+.agent-batch-targets strong {
+  overflow-wrap: anywhere;
+}
+.agent-batch-targets input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: #70d9b6;
+}
+.agent-batch-targets span {
+  font-size: 12px;
+  color: #b0b0b0;
+  margin-left: auto;
+}
+.agent-batch-text {
+  font: inherit;
+  color: #b8eedb;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+}
+.agent-batch-panel .agent-batch-warning {
+  color: #f4c080;
+}
+.agent-batch-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.agent-batch-history {
+  margin-top: 16px;
+}
+.agent-batch-history h3 {
+  font-size: 14px;
+  margin: 0;
+}
+.agent-batch-history details {
+  border-top: 1px solid #353535;
+  padding: 12px 0;
+}
+.agent-batch-history summary {
+  font-size: 13px;
+  color: #b5b5b5;
+  cursor: pointer;
+}
+.agent-batch-history ul {
+  padding: 0;
+  margin: 8px 0 0;
+  list-style: none;
+}
+.agent-batch-history li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  font-size: 13px;
+}
+.agent-batch-history li strong {
+  overflow-wrap: anywhere;
+}
+.agent-batch-history li span {
+  color: #b0cbe8;
+  text-align: right;
+}
+.agent-batch-history li[data-state="working"] span,
+.agent-batch-history li[data-state="running"] span {
+  color: #7eddb7;
+}
+.agent-batch-history li[data-state="failed"] span,
+.agent-batch-history li[data-state="workerStopped"] span {
+  color: #f0a19e;
+}
+@media (max-width: 600px) {
+  .agent-batch-panel {
+    padding: 16px;
+  }
+  .agent-batch-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .agent-batch-targets {
+    grid-template-columns: 1fr;
+  }
+  .agent-batch-history li {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .agent-batch-history li span {
+    text-align: left;
+  }
+  .agent-batch-buttons > button {
+    min-height: 44px;
+  }
+  .agent-batch-heading > button {
+    min-height: 44px;
+  }
+}

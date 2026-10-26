@@ -26,7 +26,9 @@ import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
 import { Route as LocaleReviewAcurastRouteImport } from './routes/$locale.review-acurast'
 import { Route as LocaleReviewFlyaiRouteImport } from './routes/$locale.review-flyai'
+import { Route as LocaleReviewOperationsRouteImport } from './routes/$locale.review-operations'
 import { Route as LocaleReviewPoolsRouteImport } from './routes/$locale.review-pools'
+import { Route as LocaleReviewProjectControlsRouteImport } from './routes/$locale.review-project-controls'
 import { Route as LocaleReviewProjectLayoutsRouteImport } from './routes/$locale.review-project-layouts'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
@@ -117,11 +119,22 @@ const LocaleReviewFlyaiRoute = LocaleReviewFlyaiRouteImport.update({
   path: '/review-flyai',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleReviewOperationsRoute = LocaleReviewOperationsRouteImport.update({
+  id: '/review-operations',
+  path: '/review-operations',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleReviewPoolsRoute = LocaleReviewPoolsRouteImport.update({
   id: '/review-pools',
   path: '/review-pools',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleReviewProjectControlsRoute =
+  LocaleReviewProjectControlsRouteImport.update({
+    id: '/review-project-controls',
+    path: '/review-project-controls',
+    getParentRoute: () => LocaleRoute,
+  } as any)
 const LocaleReviewProjectLayoutsRoute =
   LocaleReviewProjectLayoutsRouteImport.update({
     id: '/review-project-layouts',
@@ -164,7 +177,9 @@ export interface FileRoutesByFullPath {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
@@ -187,7 +202,9 @@ export interface FileRoutesByTo {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
@@ -212,7 +229,9 @@ export interface FileRoutesById {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
+  '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
@@ -238,7 +257,9 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-operations'
     | '/$locale/review-pools'
+    | '/$locale/review-project-controls'
     | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
@@ -261,7 +282,9 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-operations'
     | '/$locale/review-pools'
+    | '/$locale/review-project-controls'
     | '/$locale/review-project-layouts'
     | '/$locale'
     | '/$locale/blog/{-$slug}'
@@ -285,7 +308,9 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-operations'
     | '/$locale/review-pools'
+    | '/$locale/review-project-controls'
     | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
@@ -420,11 +445,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleReviewFlyaiRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/review-operations': {
+      id: '/$locale/review-operations'
+      path: '/review-operations'
+      fullPath: '/$locale/review-operations'
+      preLoaderRoute: typeof LocaleReviewOperationsRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/review-pools': {
       id: '/$locale/review-pools'
       path: '/review-pools'
       fullPath: '/$locale/review-pools'
       preLoaderRoute: typeof LocaleReviewPoolsRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/review-project-controls': {
+      id: '/$locale/review-project-controls'
+      path: '/review-project-controls'
+      fullPath: '/$locale/review-project-controls'
+      preLoaderRoute: typeof LocaleReviewProjectControlsRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/review-project-layouts': {
@@ -472,7 +511,9 @@ interface LocaleRouteChildren {
   LocaleReviewRoute: typeof LocaleReviewRoute
   LocaleReviewAcurastRoute: typeof LocaleReviewAcurastRoute
   LocaleReviewFlyaiRoute: typeof LocaleReviewFlyaiRoute
+  LocaleReviewOperationsRoute: typeof LocaleReviewOperationsRoute
   LocaleReviewPoolsRoute: typeof LocaleReviewPoolsRoute
+  LocaleReviewProjectControlsRoute: typeof LocaleReviewProjectControlsRoute
   LocaleReviewProjectLayoutsRoute: typeof LocaleReviewProjectLayoutsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
@@ -494,7 +535,9 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleReviewRoute: LocaleReviewRoute,
   LocaleReviewAcurastRoute: LocaleReviewAcurastRoute,
   LocaleReviewFlyaiRoute: LocaleReviewFlyaiRoute,
+  LocaleReviewOperationsRoute: LocaleReviewOperationsRoute,
   LocaleReviewPoolsRoute: LocaleReviewPoolsRoute,
+  LocaleReviewProjectControlsRoute: LocaleReviewProjectControlsRoute,
   LocaleReviewProjectLayoutsRoute: LocaleReviewProjectLayoutsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,

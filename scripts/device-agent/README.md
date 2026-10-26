@@ -76,3 +76,122 @@ Reads a bounded tail of the official desktop netlog while the TAH app is running
 ## Background-window run observations (1.0.12)
 
 A selected run is no longer discarded after 90 seconds: chart requests can stop while the desktop window is in the background. Observations must belong to the currently running TAH GUI process generation. Initial lookup scans at most the most recent 64 MiB of each of two daily netlogs, in bounded chunks; later reads consume only appended records. The cache contains only the observed ID, timestamp, process identity and read offsets. A GUI exit/relaunch, unreadable logs, or a detected logging gap clears unverified state. Partial network-event writes are reassembled on later reads. The website marks older observations and no longer inserts a network-wide reference as device evidence. A selection is still not proof of work or roster membership. These changes do not control or restart training.
+
+
+### Development: opt-in XMRig observation
+
+This source-only adapter is not included in the currently published installer.
+It has fixture tests; a real miner verification and a versioned Agent package
+are required before rollout. Existing paired Agents remain unchanged.
+
+For development, an existing paired Agent may opt in through its private local
+`config.json` by adding `xmrig` with an explicit `bindingId` (the XMR binding on
+that exact account device) and `port` (1024–65535). If the restricted XMRig API
+requires authentication, `accessToken` stays in that private local file.
+Do not post credentials or the complete configuration to the website.
+
+The adapter reads only `GET http://127.0.0.1:<port>/1/summary`, uses a one-second
+timeout, disables system proxies and rejects redirects. It never changes the
+miner's configuration, stops a process, opens a public port or reads its wallet.
+Only the binding ID, observation time, API status, bounded hashrates, cumulative
+accepted/rejected counts and uptime enter the existing device heartbeat. The
+website displays these readings only for the matching XMR binding on that
+device. Missing or expired readings remain unknown rather than zero. XMRig can
+serve other coins, so this mapping must be chosen explicitly; it is not inferred
+from the software name. An unavailable API does not interrupt IOTA heartbeats.
+
+References: https://xmrig.com/docs/miner/config/api and the upstream
+`doc/API.md` plus `doc/api/1/summary.json`.
+
+### One Agent, multiple miners (1.0.13)
+
+The Agent accepts up to eight explicit `miners` entries.
+Each has `software`, `project` and the database `bindingId` for that exact device.
+Duplicate bindings and duplicate local sources are not collected twice. The
+1.0.13 package includes these collectors. Local opt-in configuration is separate from log-upload
+consent: only allowlisted numeric observations leave the computer, never raw miner
+logs, wallet settings, local paths or API tokens.
+
+Supported collection profiles:
+
+| Software | Project | Read source | Meaning |
+| --- | --- | --- | --- |
+| XMRig | XMR | Loopback `/1/summary` | 10s/60s H/s, accepted/rejected shares |
+| Seine | BNT | Loopback `/v1/health` and `/v1/runtime/state` | Session average H/s from fresh STATS events; accepted-block counter; deferred work is not rejection |
+| Seine | BNT | Explicit owner-owned `YYYYMMDD-HHMMSS.log` | Existing launcher profile; timestamp-anchored session average and accepted shares; works without restarting the miner to enable an API |
+| pearl-metal-miner | PRL | Explicit owner-owned plain `.log` | 60s tiles/s, accepted/rejected shares; tiles are never converted to hashes |
+| NOID Miner for Mac | NOID | Exact installed compute executable paths | Compute process presence and CPU/RSS only; no hashrate or revenue inferred from presence |
+
+NOID compute executables are `Contents/Resources/miner/bin/noid-cpu` and
+`noid-metal` under `/Applications/NOID Miner.app` or the user's `Applications`
+folder. The GUI, arbitrary similarly named binaries and the Watch Agent are
+excluded. NOID's public pool continues to supply hashrate and earnings. Fly.ai
+and Acurast continue to use existing public provider/chain data; these profiles
+do not claim a Mac Agent can control an Android processor or a hosted service.
+
+Local source setup in an already paired Agent:
+
+```sh
+python3 iota_watch_agent.py --configure-miner seine --binding <binding-uuid> --log-path <absolute-dated-log-path>
+python3 iota_watch_agent.py --configure-miner pearl-metal --binding <binding-uuid> --log-path <absolute-log-path>
+python3 iota_watch_agent.py --configure-miner xmrig --binding <binding-uuid> --port 18088
+python3 iota_watch_agent.py --configure-miner noid-mac --binding <binding-uuid>
+```
+
+Setup modifies only the private Agent configuration and takes effect on its next
+heartbeat. It does not start/stop the miner, enable its API, edit the wallet, or
+enable remote commands for these profiles. Standalone non-IOTA pairing,
+real PRL/NOID running-miner verification and non-IOTA fixed operations
+remain to be implemented and verified before a complete rollout.
+
+### Card association and bounded automatic discovery
+
+The existing project card can link its saved binding to an already paired Mac.
+This moves only that binding, preserving its address, ID, pool and Worker. Other
+projects and source device records are retained. The database checks both owners,
+the 12-binding capacity and the unchanged per-project device quota. It does not
+queue miner commands. A device credential then receives only that device's
+supported binding identities, not the whole account. Browser roles cannot call
+the credential lookup. These two new migrations and the server/Agent changes are
+local only, not installed or deployed.
+
+New Agents opt in to the read-only manifest in their normal heartbeat. Existing
+Agents retain their wire format. Missing/invalid manifests cannot interrupt IOTA
+command delivery. Removed associations and expired permissions disable cached
+observations. Discovery runs at most once per minute after command handling, has
+a short work budget, and does not scan ports or restart processes.
+
+- Seine: identify the running miner and its own working directory; match the
+  public payout and optional Worker in a bounded dated launcher log. Its start
+  timestamp must match the current process generation. The owner's real Mac was
+  read-only verified using an illustrative binding ID, with no configuration or
+  production writes.
+- PRL Metal: identify the exact Python module and a plain log; match the most
+  recent pool connection identity, not an old wallet earlier in the same file.
+  A terminal-only run with no supported log remains unconfigured.
+- NOID Mac: compare only the installed app's public `wallet` preference with
+  the saved binding, then observe its fixed compute executables. Public identity
+  matching was verified locally; this is not a live hashrate or revenue reading.
+- XMRig: require the explicitly running payout/Worker and API port flags. No
+  ports are probed; authenticated APIs retain explicit private configuration.
+
+Ambiguous identities remain unlinked. No raw command lines, paths, preferences,
+wallet files or API tokens are uploaded. Upgrades preserve existing private miner
+configuration. Production rollout must publish the server and migrations before
+any new Agent package; the current public package remains unchanged.
+
+Sources: Seine `docs/API.md`, `docs/schemas/runtime-state.schema.json`,
+`src/miner/stats.rs`; pearl-metal-miner `README.md` and `miner.py`; the user's
+NOID Miner 0.4.0 bundled usage guide and executable layout (read only, not run).
+
+### BNT Worker association (local correction, pending release)
+
+A saved BNT address is a wallet group, not a single computer. Each named Worker
+links separately to an existing paired Mac through its Worker card. The link is
+stored as an explicit wallet+Worker binding on that computer. Linking or changing
+one Worker leaves the wallet record, sibling Workers and their Agents unchanged.
+Account-level balance, payments and pool hashrate remain deduplicated by wallet.
+The server manifest and Agent cache exclude wallet-wide BNT bindings; only an
+exact Worker identity may authorize local collection. This does not install one
+Agent per software process: one physical computer still uses one Agent for all
+its supported projects. No miner start, stop or restart is part of association.

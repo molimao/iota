@@ -2,6 +2,7 @@ import { useAgentClock } from "@/hooks/use-agent-clock";
 import { crashPreviewResult } from "./agent-crash-preview";
 import { AgentCrashAnalysis } from "./agent-crash-analysis";
 import { AgentUpdate } from "./agent-update";
+import { AgentBatchPanel } from "./agent-batch";
 import { AgentHistory } from "./agent-history";
 import { insightCopy } from "./agent-insight-copy";
 import { AgentStatus, AgentCommandResult, AgentTimeline } from "./agent-insights";
@@ -53,7 +54,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     retry: false,
   });
   const now = useAgentClock();
-  const examples: AgentInfo[] = [
+  const example: AgentInfo =
     {
       deviceId: "demo-mac",
       lastSeen: new Date(now).toISOString(),
@@ -71,8 +72,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
       recoveryEnabled: false,
       pending: null,
       latestCommand: null,
-    },
-  ];
+    };
+  const examples: AgentInfo[] = Array.from({length:4},(_,i)=>({...example,
+    deviceId:`00000000-0000-4000-8000-00000000000${i+1}`,
+    lastSeen:new Date(now-(i===3?180000:0)).toISOString(),
+    snapshot:{...example.snapshot,...(i===1?{queue:{position:182,observedAt:new Date(now).toISOString()}}:{})},
+  }));
   const [demo, setDemo] = useState<AgentInfo[] | null>(null),
     [device, setDevice] = useState(""),
     [busy, setBusy] = useState(false),
@@ -96,6 +101,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
+  const agentNames = Object.fromEntries(agents.map((a,i)=>[a.deviceId,preview?["Mac Studio","Mac mini","MacBook Pro","MacBook Air"][i]??"Mac":fleet.devices.find(d=>d.id===a.deviceId)?.name??"Mac"]));
   useEffect(() => {
     if (code && q.data?.some((a) => a.deviceId === code.deviceId)) {
       setPairedDevice(code.deviceId);
@@ -111,7 +117,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   }, [copied]);
   const visibleAgents = agents.filter(a => {
     const d = fleet.devices.find(d => d.id === a.deviceId);
-    const text = `${preview ? "Mac Studio" : d?.name ?? "Mac"} ${d?.bindings.map(b => b.identifier).join(" ") ?? ""}`.toLowerCase();
+    const text = `${agentNames[a.deviceId]} ${d?.bindings.map(b => b.identifier).join(" ") ?? ""}`.toLowerCase();
     return text.includes(search.trim().toLowerCase()) && matchesAgentFilter(a, statusFilter, now);
   });
   const candidates = fleet.devices.filter(
@@ -238,6 +244,10 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
           )}
           {q.isError && !preview && <p role="alert">{t.unavailable}</p>}
           {error && <p role="alert">{error}</p>}
+          {(preview || !!auth.userId) && agents.length > 0 && <AgentBatchPanel
+            key={auth.userId ?? "preview"} agents={agents} now={now} locale={locale} preview={preview} userId={auth.userId}
+            names={agentNames}
+          />}
           <div className="agent-filter-toolbar">
             <input type="search" aria-label={agentFilterCopy.search[locale]} placeholder={agentFilterCopy.search[locale]} value={search} onChange={e=>setSearch(e.target.value)} />
             <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} unpaired={false} />
@@ -249,9 +259,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
             {visibleAgents.map((a) => {
               const online = agentOnline(a.lastSeen, now),
                 s = a.snapshot,
-                name = preview
-                  ? "Mac Studio"
-                  : (fleet.devices.find((d) => d.id === a.deviceId)?.name ?? "Mac");
+                name = agentNames[a.deviceId] ?? "Mac";
               return (
                 <section className="compute-panel" key={a.deviceId}>
                   <div className="project-address-heading">

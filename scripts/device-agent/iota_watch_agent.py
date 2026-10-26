@@ -15,11 +15,16 @@ import subprocess
 import sys
 import time
 import tempfile
+import math
+import uuid
+import stat
+import shlex
+from concurrent.futures import ThreadPoolExecutor
 import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.12'
+VERSION = '1.0.13'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -507,6 +512,233 @@ def snapshot(include_logs=False):
     return payload
 
 
+def xmrig_observation(config, now=None):
+    """Opt-in, read-only loopback API. Binding is explicitly selected, not guessed.
+
+    Only summary metrics leave the computer; pool URLs, wallet addresses, worker
+    hostnames, credentials and configuration responses are never uploaded.
+    """
+    options = config.get('xmrig')
+    if not isinstance(options, dict):
+        return None
+    try:
+        binding = str(uuid.UUID(options.get('bindingId', '')))
+        port = options.get('port')
+        if type(port) is not int or not 1024 <= port <= 65535:
+            return None
+    except (ValueError, TypeError, AttributeError):
+        return None
+    observed = datetime.datetime.fromtimestamp(time.time() if now is None else now, datetime.timezone.utc).isoformat()
+    result = {'project': 'xmr', 'software': 'xmrig', 'bindingId': binding,
+              'observedAt': observed, 'status': 'unavailable', 'hashrate10s': None,
+              'hashrate60s': None, 'accepted': None, 'rejected': None, 'uptime': None}
+
+    def number(value, integer=False):
+        if type(value) not in (int, float) or not math.isfinite(value) or value < 0 or value > 1e15:
+            return None
+        return int(value) if integer and value == int(value) else None if integer else value
+
+    try:
+        headers = {'Accept': 'application/json'}
+        token = options.get('accessToken')
+        if token:
+            if not isinstance(token, str) or len(token) > 256 or any(ord(c) < 33 or ord(c) > 126 for c in token):
+                return result
+            headers['Authorization'] = 'Bearer ' + token
+        request = urllib.request.Request('http://127.0.0.1:%d/1/summary' % port,
+                                         headers=headers, method='GET')
+        # Ignore system proxies and reject redirects before forwarding credentials.
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
+        with opener.open(request, timeout=1) as response:
+            raw = response.read(32769)
+        if len(raw) > 32768:
+            return result
+        data = json.loads(raw)
+        if not isinstance(data, dict) or not str(data.get('ua', '')).startswith('XMRig/'):
+            return result
+        rates = data.get('hashrate', {}).get('total', [])
+        shares = data.get('results', {})
+        if not isinstance(rates, list) or not isinstance(shares, dict):
+            return result
+        good, total = number(shares.get('shares_good'), True), number(shares.get('shares_total'), True)
+        result.update(status='ok', hashrate10s=number(rates[0]) if rates else None,
+                      hashrate60s=number(rates[1]) if len(rates) > 1 else None,
+                      accepted=good, rejected=total-good if good is not None and total is not None and total >= good else None,
+                      uptime=number(data.get('uptime'), True))
+    except urllib.error.HTTPError as error:
+        result['status'] = 'unauthorized' if error.code in (401, 403) else 'unavailable'
+    except (OSError, ValueError, TypeError, AttributeError, IndexError):
+        pass
+    return result
+
+
+def _local_json(port, path, token=None):
+    """Fixed loopback routes, bounded reads, no redirects or system proxies."""
+    if type(port) is not int or not 1024 <= port <= 65535:
+        raise ValueError('invalid local port')
+    headers = {'Accept': 'application/json'}
+    if token:
+        if not isinstance(token, str) or len(token) > 256 or any(not 33 <= ord(c) <= 126 for c in token):
+            raise ValueError('invalid local authorization')
+        headers['Authorization'] = 'Bearer ' + token
+    request = urllib.request.Request('http://127.0.0.1:%d%s' % (port, path), headers=headers, method='GET')
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
+    with opener.open(request, timeout=1) as response:
+        raw = response.read(32769)
+    if len(raw) > 32768:
+        raise ValueError('summary too large')
+    value = json.loads(raw)
+    if not isinstance(value, dict):
+        raise ValueError('invalid summary')
+    return value
+
+
+def _metric_number(value, integer=False):
+    if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1e15:
+        return None
+    return int(value) if integer and value == int(value) else None if integer else value
+
+
+def _miner_log(path):
+    if not isinstance(path, str) or len(path) > 4096 or not Path(path).is_absolute() or Path(path).suffix != '.log':
+        raise ValueError('invalid log path')
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, 'rb') as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_size > 1000000000:
+            raise ValueError('invalid log file')
+        stream.seek(max(0, info.st_size-32768))
+        text = stream.read(32768).decode('utf-8', errors='replace')
+    return info, re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', text)
+
+
+def local_miner_observation(options, now=None):
+    """Explicit project bindings; observations never grant control permission."""
+    if not isinstance(options, dict):
+        return None
+    software = options.get('software')
+    if not isinstance(software, str):
+        return None
+    project = {'xmrig': 'xmr', 'seine': 'bnt', 'pearl-metal': 'prl', 'noid-mac': 'noid'}.get(software)
+    if project is None or options.get('project') != project:
+        return None
+    try:
+        binding = str(uuid.UUID(options.get('bindingId', '')))
+    except (ValueError, TypeError, AttributeError):
+        return None
+    now = time.time() if now is None else now
+    if software == 'xmrig':
+        return xmrig_observation({'xmrig': options}, now)
+    result = {'bindingId': binding, 'project': project, 'software': software,
+              'observedAt': datetime.datetime.fromtimestamp(now, datetime.timezone.utc).isoformat(),
+              'status': 'unavailable', 'hashrate10s': None, 'hashrate60s': None,
+              'accepted': None, 'rejected': None, 'uptime': None,
+              'rateUnit': 'tiles/s' if software == 'pearl-metal' else 'H/s',
+              'rateWindow': '60s' if software == 'pearl-metal' else 'session', 'counterUnit': 'shares' if software == 'pearl-metal' else 'blocks'}
+    try:
+        if software == 'noid-mac':
+            roots = [Path('/Applications/NOID Miner.app'), Path.home()/'Applications/NOID Miner.app']
+            trusted = {str(root/'Contents/Resources/miner/bin'/name) for root in roots for name in ('noid-cpu','noid-metal')}
+            rows = subprocess.check_output(['/bin/ps','-axo','pid=,%cpu=,rss=,comm='],text=True,timeout=2)
+            cpu, rss, count = 0.0, 0, 0
+            for line in rows.splitlines():
+                parts = line.strip().split(None,3)
+                if len(parts) == 4 and parts[3] in trusted:
+                    c, r = _metric_number(float(parts[1])), _metric_number(int(parts[2]),True)
+                    if c is not None and r is not None:
+                        cpu += c
+                        rss += r
+                        count += 1
+            result.update(status='process' if count else 'stopped',appCpu=min(cpu,10000),processMemoryMb=min(round(rss/1024,1),1e6))
+            return result
+        if software == 'seine' and options.get('logPath'):
+            info, text = _miner_log(options['logPath'])
+            # This launcher profile uses YYYYMMDD-HHMMSS.log per session.
+            # An unanchored elapsed-only log cannot provide a live timestamp.
+            origin = datetime.datetime.strptime(Path(options['logPath']).stem, '%Y%m%d-%H%M%S').astimezone().timestamp()
+            matches = list(re.finditer(r'^\s*(\d+(?:\.\d+)?)s\s+INFO\s+STATS\s+elapsed=\d+(?:\.\d+)?s hashes=\d+ rate=(\d+(?:\.\d+)?) (K|M|G)?H/s[^\n]*?\baccepted=(\d+)', text, re.M))
+            if not matches:
+                return result
+            match = matches[-1]
+            stamp = origin+float(match.group(1))
+            result['observedAt'] = datetime.datetime.fromtimestamp(stamp, datetime.timezone.utc).isoformat()
+            if -5 <= now-stamp < 60 and -5 <= now-info.st_mtime < 60:
+                result.update(status='ok', counterUnit='shares',
+                              hashrateSession=_metric_number(float(match.group(2))*{None:1,'K':1e3,'M':1e6,'G':1e9}[match.group(3)]),
+                              accepted=_metric_number(int(match.group(4)), True))
+            return result
+        if software == 'seine':
+            port, token = options.get('port'), options.get('accessToken')
+            health = _local_json(port, '/v1/health', token)
+            data = _local_json(port, '/v1/runtime/state', token)
+            if health.get('status') != 'ok' or type(data.get('running')) is not bool or data.get('lifecycle') not in ('idle', 'starting', 'running', 'stopping', 'error'):
+                return result
+            result['status'] = 'ok' if data['running'] else 'stopped'
+            metrics = data.get('metrics', {})
+            result['accepted'] = _metric_number(metrics.get('accepted_blocks'), True)
+            # Pending/deferred submissions are not rejected blocks.
+            started = _metric_number(health.get('started_unix_ms'))
+            clock = _metric_number(health.get('now_unix_ms'))
+            recent = data.get('recent_logs', [])
+            if started is not None and clock is not None and isinstance(recent, list):
+                for entry in reversed(recent[-128:]):
+                    if not isinstance(entry, dict):
+                        continue
+                    elapsed, message = _metric_number(entry.get('elapsed_secs')), entry.get('message')
+                    if elapsed is None or not isinstance(message, str) or len(message) > 4096:
+                        continue
+                    age = (clock-started)/1000-elapsed
+                    match = re.search(r'\brate=(\d+(?:\.\d+)?) (K|M|G)?H/s\b', message)
+                    if match and -5 <= age < 60 and data['running']:
+                        result['hashrateSession'] = _metric_number(float(match.group(1))*{'K': 1e3, 'M': 1e6, 'G': 1e9, None: 1}[match.group(2)])
+                        break
+        else:
+            info, text = _miner_log(options.get('logPath'))
+            pattern = re.compile(r'^\[(\d\d:\d\d:\d\d)\] (\d+(?:\.\d+)?)M tiles/s \(60s\) \| [^\n]{0,80}?shares (\d+) acc / (\d+) rej[^\n]*$', re.M)
+            matches = list(pattern.finditer(text))
+            if not matches:
+                return result
+            match = matches[-1]
+            local = datetime.datetime.fromtimestamp(info.st_mtime).astimezone()
+            parts = [int(n) for n in match.group(1).split(':')]
+            stamp = local.replace(hour=parts[0], minute=parts[1], second=parts[2], microsecond=0)
+            if stamp.timestamp() > info.st_mtime+5:
+                stamp -= datetime.timedelta(days=1)
+            result['observedAt'] = stamp.astimezone(datetime.timezone.utc).isoformat()
+            if -5 <= now-stamp.timestamp() < 60 and -5 <= now-info.st_mtime < 60:
+                result.update(status='ok', hashrate60s=_metric_number(float(match.group(2))*1e6),
+                              accepted=_metric_number(int(match.group(3)), True), rejected=_metric_number(int(match.group(4)), True))
+            if re.search(r'stopped by user|session: shares|connection lost|WATCHDOG:', text[match.end():]):
+                result.update(status='unavailable', hashrate60s=None)
+    except urllib.error.HTTPError as error:
+        result['status'] = 'unauthorized' if error.code in (401, 403) else 'unavailable'
+    except (OSError, ValueError, TypeError, AttributeError, OverflowError, subprocess.SubprocessError):
+        pass
+    return result
+
+
+def local_miner_observations(config, now=None):
+    options = config.get('miners', [])
+    if not isinstance(options, list):
+        options = []
+    options = options[:8]
+    if not options and isinstance(config.get('xmrig'), dict):
+        options = [dict(config['xmrig'], software='xmrig', project='xmr')]
+    valid, bindings, sources = [], set(), set()
+    for item in options:
+        if not isinstance(item, dict):
+            continue
+        source = ('process','noid-mac') if item.get('software') == 'noid-mac' else ('log', item.get('logPath')) if item.get('logPath') else ('port', item.get('port'))
+        binding = item.get('bindingId')
+        if not isinstance(binding, str) or not isinstance(source[1], (str, int)) or binding in bindings or source in sources:
+            continue
+        bindings.add(binding)
+        sources.add(source)
+        valid.append(item)
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        return [value for value in executor.map(lambda v: local_miner_observation(v, now), valid) if value is not None]
+
+
 def enable_training_on_launch():
     """Use the official app preference; never patch app code or wallet data.
 
@@ -588,12 +820,221 @@ def control(action, resume_training=False):
         raise ValueError('training did not start' if resume_training else 'app did not start')
 
 
+def _binding_manifest(value):
+    """Only collection identities. The server cannot supply paths or commands."""
+    if not isinstance(value, list) or len(value) > 8:
+        return []
+    result = []
+    for item in value:
+        if not isinstance(item, dict) or set(item) != {'id','project','identifier','worker'}:
+            return []
+        try:
+            identity = str(uuid.UUID(item['id']))
+        except (ValueError, TypeError, AttributeError):
+            return []
+        if item['project'] not in ('bnt','prl','noid','xmr') or not isinstance(item['identifier'],str) or not 1 <= len(item['identifier']) <= 200 or not isinstance(item['worker'],str) or len(item['worker']) > 80:
+            return []
+        if item['project'] == 'bnt' and not item['worker'].strip():
+            continue  # Wallet aggregates cannot authorize one computer's data.
+        result.append(dict(item,id=identity))
+    return result
+
+
+def _local_process_files(pid):
+    raw = subprocess.check_output(['/usr/sbin/lsof','-a','-p',str(pid),'-d','cwd,1','-Fn'],text=True,timeout=1)
+    current, result = None, {}
+    for line in raw[:8192].splitlines():
+        if line.startswith('f'):
+            current = line[1:]
+        elif line.startswith('n/') and current in ('cwd','1'):
+            result[current] = line[1:]
+    return result
+
+
+def _log_identity_text(filename):
+    # Read a bounded head as well as the tail: launchers print the public payout
+    # identity at startup. No wallet/private-key files or raw content are sent.
+    _info, tail = _miner_log(str(filename))
+    fd = os.open(str(filename),os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    with os.fdopen(fd,'rb') as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid():
+            return ''
+        head = stream.read(8192).decode('utf-8',errors='replace')
+    return head+'\n'+tail
+
+
+def _noid_payout_identity():
+    # This installed app stores its public payout in the single `wallet` key.
+    # Read neither keychain nor wallet/key files; return no other preferences.
+    if not any(p.is_dir() for p in (Path('/Applications/NOID Miner.app'),Path.home()/'Applications/NOID Miner.app')):
+        return None
+    path=Path.home()/'Library/Preferences/local.noid.metalminer.plist'
+    fd=os.open(str(path),os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    with os.fdopen(fd,'rb') as stream:
+        info=os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_size > 65536:
+            return None
+        data=plistlib.loads(stream.read(65537))
+    wallet=data.get('wallet') if isinstance(data,dict) else None
+    return wallet if isinstance(wallet,str) and re.fullmatch(r'o1[a-z0-9]{40,100}',wallet) else None
+
+
+def discover_local_miners(manifest):
+    """Match only this device's bindings against identified running miners.
+
+    A software name or a similar Worker name is never enough to attach a wallet.
+    Ambiguous sources remain unconfigured. Discovery never controls a process.
+    """
+    bindings = [b for b in _binding_manifest(manifest) if b['project'] != 'bnt' or b['worker'].strip()]
+    if not bindings:
+        return []
+    deadline = time.monotonic()+2
+    sources, checked = [], 0
+    if any(b['project']=='noid' for b in bindings):
+        try:
+            payout=_noid_payout_identity()
+            matches=[b for b in bindings if b['project']=='noid' and b['identifier']==payout and not b['worker']]
+            if len(matches)==1:
+                sources.append({'project':'noid','software':'noid-mac','bindingId':matches[0]['id']})
+        except (OSError,ValueError,TypeError,plistlib.InvalidFileException):
+            pass
+    if not any(b['project'] in ('bnt','prl','xmr') for b in bindings):
+        return sources
+    rows = subprocess.check_output(['/bin/ps','-axo','pid=,comm='],text=True,timeout=1)
+    ordered = sorted(rows[:262144].splitlines(), key=lambda line: not line.rstrip().endswith('seine'))
+    for line in ordered:
+        if time.monotonic() >= deadline:
+            break
+        parts = line.strip().split(None,1)
+        if len(parts) != 2 or not parts[0].isdigit():
+            continue
+        name = Path(parts[1]).name.lower()
+        if name not in ('seine','xmrig') and not name.startswith('python'):
+            continue
+        if name == 'seine' and not any(b['project']=='bnt' for b in bindings):
+            continue
+        if name.startswith('python') and not any(b['project']=='prl' for b in bindings):
+            continue
+        if name == 'xmrig' and not any(b['project']=='xmr' for b in bindings):
+            continue
+        if checked >= 8:
+            break
+        checked += 1
+        try:
+            if name == 'xmrig':
+                command = subprocess.check_output(['/bin/ps','-p',parts[0],'-o','args='],text=True,timeout=1)
+                if len(command)>8192:
+                    continue
+                argv=shlex.split(command)
+                def option(names):
+                    values=[]
+                    for i, value in enumerate(argv):
+                        if value in names and i+1<len(argv): values.append(argv[i+1])
+                        elif '=' in value and value.split('=',1)[0] in names: values.append(value.split('=',1)[1])
+                    return values[0] if len(values)==1 else None
+                # Do not infer API ports or copy access credentials. Authenticated
+                # APIs can retain their explicit private Agent configuration.
+                if any(v.split('=',1)[0]=='--http-access-token' for v in argv):
+                    continue
+                payout=option(('-u','--user'))
+                port=option(('--http-port',))
+                if not payout or not port or not port.isdigit() or not 1024<=int(port)<=65535:
+                    continue
+                matches=[b for b in bindings if b['project']=='xmr' and (payout==b['identifier']+'.'+b['worker'] if b['worker'] else payout==b['identifier'] or payout.startswith(b['identifier']+'.'))]
+                if len(matches)==1:
+                    sources.append({'project':'xmr','software':'xmrig','bindingId':matches[0]['id'],'port':int(port)})
+                continue
+            project, software = 'bnt', 'seine'
+            if name.startswith('python'):
+                command = subprocess.check_output(['/bin/ps','-p',parts[0],'-o','args='],text=True,timeout=1)
+                if len(command) > 8192:
+                    continue
+                argv = shlex.split(command)
+                if not any(argv[i:i+2] == ['-m','pearl_metal_miner.miner'] for i in range(len(argv)-1)):
+                    continue
+                project, software = 'prl', 'pearl-metal'
+            if not any(b['project'] == project for b in bindings):
+                continue
+            files = _local_process_files(int(parts[0]))
+            candidates = []
+            output = files.get('1','')
+            if output.endswith('.log'):
+                candidates.append(Path(output))
+            cwd = files.get('cwd')
+            if cwd:
+                folder = Path(cwd)
+                if project == 'bnt' and (folder/'logs').is_dir():
+                    names = []
+                    with os.scandir(folder/'logs') as entries:
+                        for i, entry in enumerate(entries):
+                            if i >= 256:
+                                break
+                            if re.fullmatch(r'\d{8}-\d{6}\.log',entry.name):
+                                names.append(entry.name)
+                    candidates.extend(folder/'logs'/n for n in sorted(names,reverse=True)[:1])
+                elif project == 'prl':
+                    candidates.extend(folder/n for n in ('mining.log','pearl.log'))
+            for path in candidates[:4]:
+                if time.monotonic() >= deadline:
+                    break
+                if project == 'bnt':
+                    # A different run in the same working directory must not
+                    # inherit an older wallet's log. Require this generation.
+                    elapsed = subprocess.check_output(['/bin/ps','-p',parts[0],'-o','etime='],text=True,timeout=1).strip()
+                    days, clock = elapsed.split('-',1) if '-' in elapsed else ('0',elapsed)
+                    seconds = 0
+                    for value in clock.split(':'):
+                        seconds = seconds*60+int(value)
+                    started = time.time()-(int(days)*86400+seconds)
+                    origin = datetime.datetime.strptime(path.stem,'%Y%m%d-%H%M%S').astimezone().timestamp()
+                    if abs(origin-started) > 15:
+                        continue
+                text = _log_identity_text(path)
+                if project == 'prl':
+                    connections = re.findall(r'connecting to[^\n]{0,300}?\bas (\S+)',text)
+                    current = connections[-1] if connections else None
+                    matches = [b for b in bindings if b['project']=='prl' and current and
+                               (current==b['identifier']+'.'+b['worker'] if b['worker'] else current==b['identifier'] or current.startswith(b['identifier']+'.'))]
+                else:
+                    matches = [b for b in bindings if b['project'] == project and
+                           re.search(r'(?<![A-Za-z0-9])'+re.escape(b['identifier'])+r'(?![A-Za-z0-9])',text) and
+                           (not b['worker'] or re.search(r'(?<![A-Za-z0-9])'+re.escape(b['worker'])+r'(?![A-Za-z0-9])',text))]
+                if len(matches) == 1:
+                    sources.append({'project':project,'software':software,'bindingId':matches[0]['id'],'logPath':str(path)})
+                    break
+        except (OSError, ValueError, TypeError, subprocess.SubprocessError):
+            continue
+    return sources[:8]
+
+
+def effective_miner_config(config, state, now):
+    """Revoked/expired server associations must not stay attached via cache."""
+    result = dict(config)
+    if 'bindingManifest' not in state:
+        return result  # Backward-compatible explicit local configuration.
+    manifest = _binding_manifest(state['bindingManifest']) if state.get('permissionsUntil',0) > now else []
+    allowed = {(b['id'],b['project']) for b in manifest}
+    manual = result.get('miners',[])
+    if not manual and isinstance(result.get('xmrig'),dict):
+        manual = [dict(result['xmrig'],project='xmr',software='xmrig')]
+    manual = manual if isinstance(manual,list) else []
+    auto = state.get('discoveredMiners',[])
+    auto = auto if isinstance(auto,list) else []
+    result['miners'] = [m for m in manual+auto if isinstance(m,dict) and isinstance(m.get('bindingId'),str) and isinstance(m.get('project'),str) and (m['bindingId'],m['project']) in allowed][:8]
+    result.pop('xmrig',None)
+    return result
+
+
 def step(config, state, now=None):
     now = time.time() if now is None else now
     payload = snapshot(state.get('logsEnabled', False) and state.get('permissionsUntil', 0) > now)
     payload['recovery'] = state.pop('recovery', 'idle')
+    miners = local_miner_observations(effective_miner_config(config,state,now), now)
+    if miners:
+        payload['miners'] = miners
     try:
-        result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack')}, config['credential'])
+        result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack'), 'requestBindings':True}, config['credential'])
     except urllib.error.HTTPError as e:
         if e.code == 401:
             state['permissionsUntil'] = 0
@@ -652,6 +1093,16 @@ def step(config, state, now=None):
                     state['recovery'] = 'restarted'
                 except (OSError, ValueError, subprocess.SubprocessError):
                     state['recovery'] = 'paused'
+    if 'bindings' in result:
+        manifest = _binding_manifest(result['bindings'])
+        changed = manifest != state.get('bindingManifest')
+        state['bindingManifest'] = manifest
+        if changed or now-state.get('lastMinerDiscovery',0) >= 60:
+            state['lastMinerDiscovery'] = now
+            try:
+                state['discoveredMiners'] = discover_local_miners(manifest)
+            except (OSError, ValueError, TypeError, subprocess.SubprocessError):
+                state['discoveredMiners'] = []
     return state
 
 
@@ -703,7 +1154,13 @@ def install(server):
         if not re.fullmatch(r'[A-Za-z0-9_-]{43}', credential):
             raise ValueError('pairing failed')
     subprocess.run(['/bin/launchctl', 'bootout', 'gui/' + str(os.getuid()), str(PLIST)], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    store(CONFIG, {'server': endpoint(server), 'credential': credential})
+    saved = {'server': endpoint(server), 'credential': credential}
+    if upgrading:
+        # Reinstalling an existing Agent must not erase its miner observations.
+        for key in ('miners','xmrig'):
+            if key in existing:
+                saved[key] = existing[key]
+    store(CONFIG, saved)
     # A new pairing must not inherit log consent or queued acknowledgements.
     if not upgrading:
         store(STATE, {})
@@ -737,6 +1194,50 @@ def uninstall():
     print('Removed locally. Revoke the pairing in IOTA Watch as well.')
 
 
+def configure_miner(software, binding_id, port=None, log_path=None):
+    project = {'xmrig':'xmr', 'seine':'bnt', 'pearl-metal':'prl', 'noid-mac':'noid'}.get(software)
+    if not isinstance(binding_id, str):
+        raise ValueError('binding UUID required')
+    binding_id = str(uuid.UUID(binding_id))
+    if project is None:
+        raise ValueError('unsupported miner')
+    if software == 'noid-mac':
+        item = {'software':software,'project':project,'bindingId':binding_id}
+    elif log_path:
+        if software == 'xmrig':
+            raise ValueError('XMRig requires its local API')
+        _miner_log(log_path)  # Validate a bounded owner-owned regular file.
+        item = {'software':software, 'project':project, 'bindingId':binding_id, 'logPath':log_path}
+    else:
+        if software == 'pearl-metal' or type(port) is not int or not 1024 <= port <= 65535:
+            raise ValueError('local API port or log path required')
+        item = {'software':software, 'project':project, 'bindingId':binding_id, 'port':port}
+    config = read(CONFIG)
+    if not config.get('credential') or not config.get('server'):
+        raise ValueError('pair this Mac first')
+    endpoint(config['server'])
+    previous = config.get('miners', [])
+    if not isinstance(previous, list):
+        raise ValueError('invalid miner configuration')
+    if not previous and isinstance(config.get('xmrig'), dict):
+        previous = [dict(config['xmrig'],software='xmrig',project='xmr')]
+    if any(not isinstance(v, dict) for v in previous):
+        raise ValueError('invalid miner configuration')
+    for current in previous:
+        if current.get('bindingId') == binding_id and current.get('software') == software and port is not None and current.get('port') == port and current.get('accessToken'):
+            item['accessToken'] = current['accessToken']
+    remaining = [v for v in previous if v.get('bindingId') != binding_id]
+    if len(remaining) >= 8:
+        raise ValueError('maximum eight local miners per Mac')
+    for other in remaining:
+        if (software == 'noid-mac' and other.get('software') == software) or (log_path and other.get('logPath') == log_path) or (port is not None and other.get('port') == port):
+            raise ValueError('this local source is already bound')
+    config['miners'] = remaining+[item]
+    config.pop('xmrig', None)
+    store(CONFIG, config)
+    print('Local observation configured; miner unchanged. / 采集已配置，未修改矿工。')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--self-test', action='store_true')
@@ -744,9 +1245,15 @@ def main():
     parser.add_argument('--uninstall', action='store_true')
     parser.add_argument('--run', action='store_true')
     parser.add_argument('--status', action='store_true')
+    parser.add_argument('--configure-miner', choices=['xmrig', 'seine', 'pearl-metal', 'noid-mac'])
+    parser.add_argument('--binding')
+    parser.add_argument('--port', type=int)
+    parser.add_argument('--log-path')
     parser.add_argument('--server', default='https://iotahome.site')
     args = parser.parse_args()
-    if args.self_test:
+    if args.configure_miner:
+        configure_miner(args.configure_miner, args.binding, args.port, args.log_path)
+    elif args.self_test:
         print(VERSION)
     elif args.install:
         install(args.server)
@@ -764,6 +1271,10 @@ def main():
         config = read(CONFIG)
         endpoint(config['server'])
         while True:
+            # Local setup changes take effect on the next heartbeat, without
+            # restarting the miner or the background service.
+            config = read(CONFIG)
+            endpoint(config['server'])
             state = read(STATE)
             try:
                 state = step(config, state)

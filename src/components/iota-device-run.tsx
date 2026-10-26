@@ -2,29 +2,33 @@ import { useAgentClock } from "@/hooks/use-agent-clock";
 import { iotaDeviceDisplay } from "@/lib/iota-device-display";
 import { insightCopy } from "./agent-insight-copy";
 import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
-import { agentOnline, agentPhase } from "@/lib/device-agent";
+import { agentOnline, agentPhase, type AgentInfo } from "@/lib/device-agent";
 import type { OfficialRun } from "@/lib/iota-run";
 import { useLocale } from "./site/locale";
 import { IotaPublicRunLabels } from "./iota-public-run-labels";
 import { STATUS_META, statusBucket, type DeviceStatus } from "@/lib/device-status";
+import "./iota-status-badge.css";
 
 export function IotaDeviceRun({
   run,
   deviceId,
   miner,
   preview,
+  previewAgent,
   layout = "inline",
 }: {
   run?: OfficialRun | null | undefined;
   deviceId?: string | undefined;
   miner?: string | undefined;
   preview?: boolean | undefined;
+  previewAgent?:AgentInfo|undefined;
   layout?: "inline" | "row";
 }) {
   const { locale } = useLocale();
   const clock = useAgentClock(),
     now = clock || Date.now();
-  const { agent, query } = useMatchedDeviceAgent(deviceId, miner, preview);
+  const { agent:matchedAgent, query } = useMatchedDeviceAgent(deviceId, miner, preview);
+  const agent=preview?previewAgent:matchedAgent;
   const queued = !query.isError && !!agent && agentPhase(agent, now) === "queued";
   const pending = {
     zh: "排队中 · 实际轮次未读到",
@@ -61,16 +65,19 @@ export function IotaRosterStatus({
   onClick,
   deviceId,
   preview = false,
+  previewAgent,
 }: {
   miner?: string;
   deviceId?: string;
   status: DeviceStatus;
   onClick?: () => void;
   preview?: boolean;
+  previewAgent?:AgentInfo|undefined;
 }) {
   const { locale, t } = useLocale();
   const now = useAgentClock();
-  const { agent, query } = useMatchedDeviceAgent(deviceId, miner, preview);
+  const { agent:matchedAgent, query } = useMatchedDeviceAgent(deviceId, miner, preview);
+  const agent=preview?previewAgent:matchedAgent;
   const display = iotaDeviceDisplay(status, agent, query.isError, now || Date.now());
   const label = display.phase ? insightCopy[display.phase][locale] : t(STATUS_META[status].label);
   const rosterNote = {

@@ -92,5 +92,6 @@ it("notifies only for newer releases and never offers a downgrade", async()=>{
   const {agentUpdateAvailable,AGENT_RELEASE}=await import("./device-agent");
   expect(agentUpdateAvailable("1.0.5")).toBe(true);
   expect(agentUpdateAvailable("1.0.11")).toBe(true);
-  for(const version of [AGENT_RELEASE,"1.0.12","1.1.0","2.0.0","invalid",undefined]) expect(agentUpdateAvailable(version)).toBe(false);
+  expect(agentUpdateAvailable("1.0.12")).toBe(true);
+  for(const version of [AGENT_RELEASE,"1.1.0","2.0.0","invalid",undefined]) expect(agentUpdateAvailable(version)).toBe(false);
 });

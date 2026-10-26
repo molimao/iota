@@ -1,7 +1,7 @@
 import { withDeadline } from "./deadline";
 import { createHash, randomBytes } from "node:crypto";
 import { z } from "zod";
-import { agentBeat, redactAgentLog } from "./device-agent";
+import { agentBeat, agentBindingManifest, redactAgentLog } from "./device-agent";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { watchDb } from "./watch-db";
 const hash = (v: string) => createHash("sha256").update(v).digest("hex");
@@ -72,8 +72,31 @@ export async function deviceAgentHttp(request: Request) {
     // while Postgres omits trailing zeroes. Keep the existing agent wire format compatible.
     const result = r.data;
     if (result && typeof result === "object" && !Array.isArray(result)) {
+      if (data.requestBindings) {
+        // Optional: a missing migration must not block an IOTA heartbeat/command.
+        try {
+          const manifest = await withDeadline(
+            Promise.resolve(
+              watchDb(supabaseAdmin).rpc("watch_agent_binding_manifest", {
+                p_hash: hash(auth.slice(7)),
+              }),
+            ),
+            1500,
+            "manifest_timeout",
+          );
+          const parsed = agentBindingManifest.safeParse(manifest.data);
+          result["bindings"] = !manifest.error && parsed.success ? parsed.data : [];
+        } catch {
+          result["bindings"] = [];
+        }
+      }
       const command = result["command"];
-      if (command && typeof command === "object" && !Array.isArray(command) && typeof command["expiresAt"] === "string") {
+      if (
+        command &&
+        typeof command === "object" &&
+        !Array.isArray(command) &&
+        typeof command["expiresAt"] === "string"
+      ) {
         command["expiresAt"] = new Date(command["expiresAt"]).toISOString();
       }
     }

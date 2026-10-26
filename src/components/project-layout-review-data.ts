@@ -12,6 +12,73 @@ import { editorialCopy } from "./project-editorial";
 export const REVIEW_PROJECTS = FLEET_PROJECTS.filter(
   (p) => p !== "iota" && p !== "acurast" && p !== "flyai",
 );
+/** Isolated sample for one project's normal card; never used by live queries. */
+export function layoutAgent(
+  device: FleetDevice,
+  now: number,
+): import("@/lib/device-agent").AgentInfo | undefined {
+  const binding = device.bindings[0];
+  if (!binding || !["xmr", "bnt", "prl", "noid"].includes(binding.project)) return undefined;
+  const common = {
+    bindingId: binding.id,
+    observedAt: new Date(now - 5000).toISOString(),
+    status: "ok" as const,
+    hashrate10s: null,
+    hashrate60s: null,
+    accepted: 100,
+    rejected: null,
+    uptime: null,
+  };
+  const miner: import("@/lib/device-agent").AgentSnapshot["miners"] =
+    binding.project === "bnt"
+      ? [
+          {
+            ...common,
+            project: "bnt",
+            software: "seine",
+            hashrateSession: 2.82,
+            rateWindow: "session",
+            counterUnit: "shares",
+            accepted: 383,
+          },
+        ]
+      : binding.project === "prl"
+        ? [
+            {
+              ...common,
+              project: "prl",
+              software: "pearl-metal",
+              hashrate60s: 1075000,
+              rateWindow: "60s",
+              rateUnit: "tiles/s",
+              counterUnit: "shares",
+              accepted: 2,
+              rejected: 1,
+            },
+          ]
+        : binding.project === "noid"
+          ? [
+              {
+                ...common,
+                project: "noid",
+                software: "noid-mac",
+                status: "process",
+                appCpu: 180.5,
+                processMemoryMb: 256,
+                accepted: null,
+              },
+            ]
+          : [{ ...common, project: "xmr", software: "xmrig", hashrate10s: 3240.2, rejected: 3 }];
+  return {
+    deviceId: device.id,
+    lastSeen: common.observedAt,
+    snapshot: { miners: miner },
+    pending: null,
+    latestCommand: null,
+    logsEnabled: false,
+    recoveryEnabled: false,
+  };
+}
 export function layoutReading(
   project: FleetProject,
   locale: SiteLocale,
@@ -56,6 +123,24 @@ export function layoutReading(
       },
     };
   }
+  if (project === "bnt")
+    return {
+      ...base,
+      status: stale ? "staleData" : "online",
+      activity: "6 H/s",
+      lifetime: "14.82",
+      totalLabel: poolCopy.paid[locale],
+      accountSummary: { kind: "balance", amount: "1.25", unit: "BNT" },
+      poolWorkers: {
+        count: 3,
+        workers: [
+          { name: "Mac-Studio", hashrate: 2.82, online: true, lastSeen: null },
+          { name: "Mac-mini", hashrate: 3.18, online: true, lastSeen: null },
+          { name: "MacBook-Pro", hashrate: 0, online: false, lastSeen: null },
+        ],
+      },
+      compute: { value: 6, unit: "H/s", scope: "account", fresh: !stale, fetchedAt: Date.now() },
+    };
   if (isPoolProject(project) || project === "noid")
     return {
       ...base,
