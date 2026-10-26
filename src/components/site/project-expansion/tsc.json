@@ -1,0 +1,80 @@
+[
+  {
+    "project": "tsc",
+    "slug": "tsc-nonces-vs-proofs-comparison",
+    "title": {
+      "zh": "TSC 的 N/s 与 PoI/s，能换算成同一个速度吗？",
+      "zh-TW": "TSC 的 N/s 與 PoI/s，可換成同一速度嗎？",
+      "en": "TensorCash N/s versus PoI/s: compare the source units",
+      "ko": "TensorCash N/s와 PoI/s 단위 비교",
+      "ja": "TensorCashのN/sとPoI/sを比較する前に"
+    },
+    "answer": {
+      "zh": "不同矿工和池可能显示不同处理量单位。N/s 和 PoI/s 不应仅凭名称中的“每秒”就直接相加；换算必须有来源明确给出的定义和条件。",
+      "zh-TW": "不同礦工及池有不同單位，N/s 與 PoI/s 不因同為每秒就可相加，換算需明確定義及條件。",
+      "en": "Miners and pools can expose different throughput units. N/s and PoI/s are not interchangeable merely because both are rates per second. Conversion requires an explicit source definition and the conditions under which it applies.",
+      "ko": "마이너·풀 처리량 단위는 다를 수 있습니다. N/s·PoI/s가 초당 값이어도 바로 더할 수 없으며 명확한 정의와 조건이 필요합니다.",
+      "ja": "マイナーとプールで単位が異なります。N/s・PoI/sは毎秒でも同一ではなく、換算には出典の明確な定義と条件が必要です。"
+    },
+    "checks": {
+      "zh": "保存矿工版本、池、单位、当前或平均窗口与时间。在相同来源、版本和窗口内比较趋势；跨来源时保留原单位分别展示。链上证明或付款统计不是即时 Worker 速度，也不能据此推算 GPU 数量。",
+      "zh-TW": "存版本、池、單位、窗口及時間，同來源版本窗口比趨勢；跨來源分列原單位。鏈上證明付款非即時 Worker 速度，也不反推 GPU 數。",
+      "en": "Record miner version, pool, unit, averaging window and observation time. Compare trends within matching source definitions. Across sources, keep original units in separate rows. Chain proof or payout statistics are not live worker speed and do not establish a physical GPU count. A different chart magnitude alone is not evidence of lost work.",
+      "ko": "버전·풀·단위·평균 구간·시각을 저장하고 같은 정의 안에서 추세를 비교하세요. 체인 증명·지급은 실시간 속도나 GPU 수가 아닙니다.",
+      "ja": "バージョン・プール・単位・窓・時刻を保存し、同定義の中で傾向を比べます。チェーン証明・支払いは現在速度やGPU台数ではありません。"
+    },
+    "example": {
+      "zh": "示例：本地显示 N/s、网站显示 PoI/s，应先查各自定义，不用随意乘常数把两条曲线画成一致。缺可核实换算时，分行显示比给出伪精确总速率更有用。",
+      "zh-TW": "示例：本機 N/s、網站 PoI/s，先查定義，不任乘常數；無可靠換算就分列。",
+      "en": "Example: a local miner reports N/s while a site reports PoI/s. Read both definitions instead of multiplying by an arbitrary constant to align the curves. Separate labeled readings are more useful than a falsely precise total.",
+      "ko": "예: 로컬 N/s와 사이트 PoI/s를 임의 상수로 맞추지 말고 정의를 확인해 별도 표시하세요.",
+      "ja": "例：ローカルN/sとサイトPoI/sを任意定数で合わせず、定義を確認して別表示にします。"
+    },
+    "sources": [
+      "https://tensorcash.org/pools",
+      "https://tensorcash.org/docs/api/tscscan/addresses-address-balance"
+    ],
+    "related": [
+      "tsc-pool-paused-historical-records",
+      "tsc-monitor-guide",
+      "tsc-pool-worker-monitor"
+    ]
+  },
+  {
+    "project": "tsc",
+    "slug": "tsc-pool-paused-historical-records",
+    "title": {
+      "zh": "TensorCash 矿池暂停，历史记录还能看吗？",
+      "zh-TW": "TensorCash 礦池暫停，歷史紀錄還能看嗎？",
+      "en": "TensorCash paused pools and historical payout records",
+      "ko": "TensorCash 풀 일시 중단과 이전 기록",
+      "ja": "TensorCashのプール休止と旧履歴の確認"
+    },
+    "answer": {
+      "zh": "矿池保留网页或旧统计，不代表仍接受新挖矿。当前暂停状态、接口是否可读和历史付款是否存在是三项独立信息，不能只看静态“在线”字样。",
+      "zh-TW": "池保留網頁或統計不代表仍收新挖礦。暫停、可讀與歷史付款獨立，勿只看靜態在線字樣。",
+      "en": "A retained pool website or old statistics page does not prove that it still accepts mining. Current operation, API readability and historical payouts are separate facts. A static online label is insufficient when a current notice says otherwise.",
+      "ko": "웹페이지·과거 통계가 남아도 새 채굴을 받는다는 뜻은 아닙니다. 운영·API 접근·과거 지급을 나눠 확인하세요.",
+      "ja": "ページや旧統計が残っても新採掘受付の証拠ではありません。営業状態・API読取・旧支払いを分け、静的オンライン表記だけで判断しません。"
+    },
+    "checks": {
+      "zh": "先查 TensorCash 官方矿池目录，再查该池当前公告、最近区块与份额时间。保存历史地址、待付与付款原始记录。API 失效时保留来源不可用，勿自动填零；更换到其他池后，旧账本仍应单独跟踪。",
+      "zh-TW": "查官方池目錄、當前公告、最近區塊與份額，存舊地址待付付款。API 失效保留不可用不填 0；換池後舊帳另追。",
+      "en": "Check the official TensorCash pool directory, the pool’s current notice and recent block/share timestamps. Preserve historical address, unpaid and payment records. If an API becomes unavailable, mark the source unavailable rather than zeroing its history. Moving to another pool leaves the old ledger as a separate reconciliation task.",
+      "ko": "공식 목록·현재 공지·최근 블록·셰어 시각을 확인하고 주소·미지급·지급을 보관하세요. API 실패를 0으로 바꾸지 말고 전환 후에도 이전 장부를 따로 추적합니다.",
+      "ja": "公式一覧・現行告知・直近ブロックとシェア時刻を確認し、住所・未払い・支払いを保存します。API不可をゼロへ変換せず、移転後も旧台帳を別追跡します。"
+    },
+    "example": {
+      "zh": "示例：池页有旧余额，但公告暂停。历史余额可继续留作对账，不能因此把设备标成当前挖矿，也不推定停池一定会在某天结清。",
+      "zh-TW": "示例：舊餘額存在但公告暫停，保留對帳，不標目前挖礦或承諾結清日期。",
+      "en": "Example: an old balance remains visible alongside a pause notice. Retain it as historical evidence, not proof of current mining or a guarantee of settlement on a particular date.",
+      "ko": "예: 잔액과 중단 공지가 함께 있으면 과거 근거로 보관하되 현재 채굴·특정 정산일을 보장하지 마세요.",
+      "ja": "例：旧残高と休止告知が併存したら過去の根拠として残し、現在採掘や特定清算日を保証しません。"
+    },
+    "sources": [
+      "https://tensorcash.org/pools",
+      "https://tensorcash.org/docs/api/tscscan/addresses-address-balance"
+    ],
+    "related": ["tsc-nonces-vs-proofs-comparison", "tsc-monitor-guide", "tsc-pool-worker-monitor"]
+  }
+]

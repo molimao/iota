@@ -1,3 +1,5 @@
+import { expansionGuides } from "./project-expansion";
+import { tscSearchGuides } from "./tsc-search-guides";
 import { withLocales } from "./localization";
 import { LOCALES } from "@/lib/site";
 import { coreIotaArticles } from "./iota-core-articles";
@@ -61,6 +63,8 @@ export const articles: Article[] = mergeProjectDepth([
   bntGuide,
   csdGuide,
   tscGuide,
+  ...tscSearchGuides,
+  ...expansionGuides,
 ]);
 
 export function articleDates(article: Article, locale?: Locale) {
@@ -202,7 +206,9 @@ const baseArticleClusterMeta: Record<
 
 // Keep full project packs together instead of spreading a wallet's questions across
 // generic categories. The stable project anchor also works from project tool pages.
-const depthProjects = new Set(projectDepthGuides.map((guide) => guide.project));
+const depthProjects = new Set(
+  [...projectDepthGuides, tscGuide, ...tscSearchGuides].map((guide) => guide.project),
+);
 export const articleClusterMeta: Record<
   string,
   { title: Record<Locale, string>; slugs: string[] }

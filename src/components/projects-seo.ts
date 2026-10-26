@@ -1,3 +1,8 @@
+import {
+  projectSearchDescriptions,
+  projectSearchTitles,
+  projectVerification,
+} from "./project-verification";
 import { brandTitle } from "@/lib/brand";
 import { PROJECT_CONTENT_DATES, PROJECT_INDEX_UPDATED } from "@/lib/content-dates";
 import { projectEditorial, projectQuestions } from "./project-editorial";
@@ -11,8 +16,14 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
     name = project ? PROJECTS[project].name : c.projects;
   const path = `projects${project ? `/${project}` : ""}`,
     url = `${ORIGIN}/${locale}/${path}`;
-  const title = brandTitle(project ? projectEditorial[project].title[locale] : c.title);
-  const description = project ? projectEditorial[project].summary[locale] : c.intro;
+  const title = brandTitle(
+    project
+      ? (projectSearchTitles[project]?.[locale] ?? projectEditorial[project].title[locale])
+      : c.title,
+  );
+  const description = project
+    ? (projectSearchDescriptions[project]?.[locale] ?? projectEditorial[project].summary[locale])
+    : c.intro;
   const robots = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
   const page = {
     "@context": "https://schema.org",
@@ -26,6 +37,7 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
     ...(project
       ? {
           about: projectEntity(project),
+          abstract: projectVerification[project][locale],
           citation: [
             PROJECTS[project].website,
             PROJECTS[project].explorer,

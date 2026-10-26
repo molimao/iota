@@ -1,0 +1,78 @@
+[
+  {
+    "project": "zeph",
+    "slug": "zeph-assets-zsd-zrs-identity",
+    "title": {
+      "zh": "ZEPH、ZSD、ZRS 能当同一种挖矿收益吗？",
+      "zh-TW": "ZEPH、ZSD、ZRS 可當同一挖礦收益嗎？",
+      "en": "Keep ZEPH mining rewards separate from ZSD and ZRS",
+      "ko": "ZEPH 채굴 보상과 ZSD·ZRS 구분",
+      "ja": "ZEPH採掘報酬とZSD・ZRSの区別"
+    },
+    "answer": {
+      "zh": "同属 Zephyr 生态不表示资产单位相同。本站 ZEPH 矿池统计的原生币种，不能直接与稳定资产或储备份额数量相加，也不能共用一个价格。",
+      "zh-TW": "同 Zephyr 生態不代表單位相同。原生 ZEPH 不與穩定資產或儲備份額直接相加，也不共用價格。",
+      "en": "Assets in the Zephyr ecosystem do not share one unit simply because they share a protocol. Native ZEPH mining statistics cannot be added directly to stable-asset or reserve-share quantities, nor valued with one interchangeable quote.",
+      "ko": "같은 Zephyr 생태계여도 자산 단위는 다릅니다. ZEPH 채굴량과 안정 자산·준비금 지분을 직접 더하거나 같은 가격으로 평가하지 마세요.",
+      "ja": "同じZephyr圏でも資産単位は別です。ZEPH採掘量と安定資産・準備持分を直接加算したり、同じ価格で評価したりしません。"
+    },
+    "checks": {
+      "zh": "核对池的付款币种、公开地址与钱包中的资产标签。钱包有转换操作时，保留输入、输出和交易记录，不将转换得到的资产再次记成新增挖矿。价格不可用时分别展示原币，不补美元 0。",
+      "zh-TW": "對池付款幣種、公開地址和錢包標籤。轉換保留輸入輸出及交易，勿把換得資產再算新增挖礦；缺價格分列原幣不補美元 0。",
+      "en": "Match the pool payout asset, public address and wallet asset labels. For conversions, retain inputs, outputs and transaction records rather than treating the output as another mining reward. If a correct quote is unavailable, keep native amounts separate without inventing a zero-dollar valuation.",
+      "ko": "풀 지급 자산·공개 주소·지갑 라벨을 확인하세요. 변환 입출력과 거래를 남기고 변환 결과를 새 채굴 보상으로 중복 집계하지 않습니다.",
+      "ja": "プール支払資産・公開アドレス・ウォレットラベルを確認します。交換の入出力と取引を残し、交換後資産を新採掘報酬に再計上しません。"
+    },
+    "example": {
+      "zh": "示例：收到 ZEPH 后转换成 ZSD，钱包显示 ZSD 不代表矿池改为产出 ZSD。对账应保留原始 ZEPH 付款和后续转换两段。",
+      "zh-TW": "示例：ZEPH 換 ZSD 不表示池產出改 ZSD，保留原付款與轉換兩段。",
+      "en": "Example: ZEPH is received and later converted to ZSD. The wallet’s ZSD balance does not mean the pool mined ZSD. Preserve the original payout and subsequent conversion as separate events.",
+      "ko": "예: ZEPH 수령 후 ZSD 변환은 풀의 ZSD 채굴이 아닙니다. 지급과 전환을 별도로 남기세요.",
+      "ja": "例：ZEPH受取後のZSD交換はプールによるZSD採掘ではありません。支払いと交換を別イベントで残します。"
+    },
+    "sources": ["https://zeph.2miners.com/help", "https://zephyrprotocol.com/"],
+    "related": [
+      "zeph-switch-pool-maturing-balance",
+      "zeph-mining-monitor-guide",
+      "zeph-standard-address-vs-integrated"
+    ]
+  },
+  {
+    "project": "zeph",
+    "slug": "zeph-switch-pool-maturing-balance",
+    "title": {
+      "zh": "ZEPH 换矿池后，确认中的奖励怎么办？",
+      "zh-TW": "ZEPH 換池後，確認中的獎勵怎麼辦？",
+      "en": "ZEPH immature balances after changing pools",
+      "ko": "ZEPH 풀 변경 후 미성숙 보상 확인",
+      "ja": "ZEPHプール変更後の未成熟報酬"
+    },
+    "answer": {
+      "zh": "换池不会让旧池确认中的奖励自动成熟或转入新池。余额阶段和成熟规则属于原始来源，必须继续在旧池跟踪。",
+      "zh-TW": "換池不讓舊確認中自動成熟或轉入新池，成熟與餘額階段仍依舊池。",
+      "en": "Switching pools does not automatically mature an old pool balance or move it to the new source. Its accounting stage and maturation rules remain those of the original pool.",
+      "ko": "풀 전환은 이전 보상을 자동 성숙·이전시키지 않습니다. 이전 풀 규칙과 단계를 계속 확인하세요.",
+      "ja": "プール変更で旧報酬が自動成熟・移行するわけではありません。旧側の段階と条件を追跡します。"
+    },
+    "checks": {
+      "zh": "保存原池、ZEPH 地址、确认中与未付原值，以及切换时间。新池查 RandomX 新份额，旧池查是否成熟和付款。不能因同用 RandomX 就把门罗币矿池或地址拿来替代查询；算法相同不是同一条链。",
+      "zh-TW": "存原池、ZEPH 地址、確認中未付及時間。新池查份額，舊池查成熟付款；RandomX 相同不代表可用門羅池或地址替代。",
+      "en": "Save the old pool, ZEPH address, immature and unpaid fields and switch time. Check fresh RandomX shares on the new pool while following maturation and payout on the old one. Monero pools and addresses are not substitutes merely because both projects use RandomX.",
+      "ko": "이전 풀·ZEPH 주소·미성숙·미지급·시각을 저장하세요. 새 셰어와 이전 성숙·지급을 나눠 봅니다. RandomX가 같아도 Monero 풀·주소로 대체하지 않습니다.",
+      "ja": "旧プール・ZEPH住所・未成熟・未払い・切替時刻を保存します。新シェアと旧成熟・支払いを分け、RandomX共通だけでMoneroのプールや住所に代用しません。"
+    },
+    "example": {
+      "zh": "示例：旧池有确认中，新池 Worker 已在线。两份来源可并存；原池最后何时付款要按其当前记录核对，不给出来源未承诺的固定时间。",
+      "zh-TW": "示例：舊池確認中、新池在線可並存；付款依原池記錄，不猜固定時間。",
+      "en": "Example: an old pool shows immature rewards while the new worker is active. Both records can be correct. Follow the original pool’s current payment evidence rather than promising an unsupported completion time.",
+      "ko": "예: 이전 미성숙과 새 워커 활동은 공존합니다. 원풀 기록 없이 완료 시각을 약속하지 마세요.",
+      "ja": "例：旧未成熟と新Worker稼働は両立します。元プール根拠なしに完了時刻を約束しません。"
+    },
+    "sources": ["https://zeph.2miners.com/help", "https://zephyrprotocol.com/"],
+    "related": [
+      "zeph-assets-zsd-zrs-identity",
+      "zeph-mining-monitor-guide",
+      "zeph-standard-address-vs-integrated"
+    ]
+  }
+]

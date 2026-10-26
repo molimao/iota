@@ -1,0 +1,84 @@
+[
+  {
+    "project": "ionet",
+    "slug": "ionet-reinstall-device-id-history",
+    "title": {
+      "zh": "io.net 重装后 Device ID 变了，历史奖励在哪？",
+      "zh-TW": "io.net 重裝後 Device ID 變了，歷史獎勵在哪？",
+      "en": "io.net reward history after a Device ID change",
+      "ko": "io.net Device ID 변경 후 보상 기록",
+      "ja": "io.netのDevice ID変更後の報酬履歴"
+    },
+    "answer": {
+      "zh": "设备名称相同，不代表 IO Explorer 的 Device ID 相同。若重装或重新注册后 ID 变化，旧 ID 的奖励记录不会因为别名相同而自动归到新 ID。",
+      "zh-TW": "設備名稱相同不代表 Device ID 相同。重裝或重註冊換 ID 後，舊獎勵不會因別名相同自動搬移。",
+      "en": "A device nickname is not the IO Explorer Device ID. If reinstallation or registration changes that ID, a shared nickname does not automatically move the old ID’s rewards into the new record.",
+      "ko": "기기 별명과 IO Explorer Device ID는 다릅니다. 재설치·재등록으로 ID가 바뀌면 같은 이름이어도 이전 보상이 자동 이전되지 않습니다.",
+      "ja": "機器名とIO Explorer Device IDは別です。再導入・再登録でIDが変わると、同じ名前でも旧報酬が新IDへ自動移動するわけではありません。"
+    },
+    "checks": {
+      "zh": "变更前保存旧 ID、最后奖励日期与来源时间。变更后从官方设备页复制当前 ID，分别查询两份历史；需要授权读取时，在连接界面配置对应凭据，不把 Worker 私钥当成设备 ID。确认归属后再调整设备视角的关联，避免新旧记录重复汇总。",
+      "zh-TW": "先保存舊 ID、最後獎勵日期與時間，再複製官方新 ID 分查。需授權時於連接介面設定憑據，不以 Worker 私鑰作 ID。確認歸屬後改設備關聯，避免重複匯總。",
+      "en": "Save the old ID, last reward date and source time before replacing the configuration. Copy the current ID from the official device page and query both histories. Where authorized access is required, use the connection interface, not a Worker private key in the identifier field. Adjust device associations only after checking ownership and overlapping history.",
+      "ko": "이전 ID·마지막 보상 날짜·시각을 저장하고 공식 새 ID를 복사해 두 기록을 조회하세요. 인증은 연결 화면에서 설정하며 Worker 개인키를 ID로 넣지 않습니다. 귀속과 중복 기간을 확인한 뒤 기기 연결을 수정하세요.",
+      "ja": "旧ID・最終報酬日・出典時刻を保存し、公式の新IDをコピーして両履歴を照会します。認証は接続画面で設定し、Worker秘密鍵をIDに入力しません。帰属と期間重複を確認して関連付けを調整します。"
+    },
+    "example": {
+      "zh": "示例：旧 ID 有昨日奖励、新 ID 今天刚出现。应保留两段记录；新记录显示 0 不足以认定昨天奖励丢失。不要为了“合并”把同一笔奖励复制到新 ID。",
+      "zh-TW": "示例：舊 ID 有昨日日誌、新 ID 今日才出現，保留兩段，不因新值 0 認定丟失，亦勿複製同一筆獎勵。",
+      "en": "Example: the old ID has yesterday’s rewards while the new ID first appears today. Preserve both segments. A zero on the new identity does not erase yesterday’s record, and manually copying the same reward would double-count it.",
+      "ko": "예: 이전 ID에 어제 보상이 있고 새 ID는 오늘 생겼다면 두 구간을 보관합니다. 새 값 0은 삭제 증거가 아니며 보상 복사는 중복입니다.",
+      "ja": "例：旧IDに前日報酬があり新IDが今日発生したなら、両期間を残します。新IDのゼロは消失の証拠ではなく、報酬コピーは重複になります。"
+    },
+    "sources": [
+      "https://io.net/docs/reference/io-explorer/get-device-details",
+      "https://explorer.io.net/"
+    ],
+    "related": [
+      "ionet-utc-hong-kong-day-boundary",
+      "ionet-monitor-guide",
+      "ionet-device-id-vs-worker-key"
+    ]
+  },
+  {
+    "project": "ionet",
+    "slug": "ionet-utc-hong-kong-day-boundary",
+    "title": {
+      "zh": "io.net 今日奖励为什么和香港日期对不上？",
+      "zh-TW": "io.net 今日獎勵為何與香港日期不同？",
+      "en": "io.net UTC rewards versus Hong Kong calendar dates",
+      "ko": "io.net UTC 보상과 홍콩 날짜의 차이",
+      "ja": "io.netのUTC報酬と香港日付の違い"
+    },
+    "answer": {
+      "zh": "本站 io.net 今日区块奖励按 UTC 日读取。香港时间比 UTC 快 8 小时，香港凌晨看到的“今日”仍可能属于 UTC 前一天的窗口，不能与香港零点起的其他项目直接按日期对账。",
+      "zh-TW": "本站 io.net 區塊獎勵依 UTC 日。香港快 8 小時，凌晨所見可仍屬 UTC 前一天窗口，勿和香港零點項目直接按日期對帳。",
+      "en": "This monitor reads io.net daily block rewards by UTC date. Hong Kong is eight hours ahead. During early Hong Kong hours, the source’s UTC day differs from the local calendar date, so date labels across projects may refer to different intervals.",
+      "ko": "이 모니터의 io.net 일일 블록 보상은 UTC 날짜입니다. 홍콩은 8시간 빠르므로 이른 시간에는 날짜 구간이 다릅니다.",
+      "ja": "当モニターのio.net日次ブロック報酬はUTC日です。香港は8時間先なので早朝は暦日が異なり、他プロジェクトの同じ日付と期間が一致しません。"
+    },
+    "checks": {
+      "zh": "对账时记录 Device ID、来源的 UTC 日期和读取时间。若要比较香港某一天，需要来源支持对应时间范围，不能把一个 UTC 日总量按 8 小时比例拆分。任务收入、出租价和区块奖励也分开，不用在线时长补出奖励。",
+      "zh-TW": "保存 Device ID、UTC 日期與讀取時間。香港整日對帳需來源支援該範圍，不能按 8 小時比例拆 UTC 總額。工作收入、租價及區塊獎勵分開。",
+      "en": "Record the Device ID, UTC reward date and observation time. To reconcile a Hong Kong calendar day, the source must expose the corresponding time interval; a UTC daily total cannot be split accurately using an eight-hour fraction. Keep job income, rental rates and block rewards separate rather than deriving rewards from uptime.",
+      "ko": "Device ID·UTC 보상일·조회 시각을 저장하세요. 홍콩 하루를 맞추려면 그 구간의 원본이 필요하며 UTC 합계를 8시간 비율로 나눌 수 없습니다. 작업 수입·임대료·블록 보상도 분리하세요.",
+      "ja": "Device ID・UTC報酬日・取得時刻を記録します。香港一日分には対応区間の原本が必要で、UTC合計を8時間比で分割できません。Job収入・レンタル単価・ブロック報酬も分けます。"
+    },
+    "example": {
+      "zh": "示例：香港 10 月 27 日 02:00，是 UTC 10 月 26 日 18:00。此时核对的是 UTC 26 日奖励；不能因为香港已是 27 日就把金额算成新一天缺失。",
+      "zh-TW": "示例：香港 10 月 27 日 02:00 為 UTC 26 日 18:00，此時查 UTC 26 日，勿誤判 27 日缺額。",
+      "en": "Example: October 27 at 02:00 in Hong Kong is October 26 at 18:00 UTC. The UTC 26 reward view is therefore expected. A local date change alone does not show a missing day of income.",
+      "ko": "예: 홍콩 10월 27일 02시는 UTC 26일 18시입니다. UTC 26일 보상 조회가 정상이며 현지 날짜 전환만으로 수입 누락을 판단하지 마세요.",
+      "ja": "例：香港10月27日02時はUTC26日18時です。UTC26日の報酬照会となり、現地日付の変更だけで欠損と判断しません。"
+    },
+    "sources": [
+      "https://io.net/docs/reference/io-explorer/get-device-details",
+      "https://explorer.io.net/"
+    ],
+    "related": [
+      "ionet-reinstall-device-id-history",
+      "ionet-monitor-guide",
+      "ionet-device-id-vs-worker-key"
+    ]
+  }
+]

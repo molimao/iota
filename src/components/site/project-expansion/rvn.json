@@ -1,0 +1,78 @@
+[
+  {
+    "project": "rvn",
+    "slug": "rvn-worker-rename-window",
+    "title": {
+      "zh": "RVN Worker 改名后，为什么新旧都显示算力？",
+      "zh-TW": "RVN Worker 改名後，新舊為何都有算力？",
+      "en": "RVN worker renaming and overlapping hashrate windows",
+      "ko": "RVN 워커 이름 변경과 속도 창 중복",
+      "ja": "RVNのWorker名変更で新旧に算力が出る理由"
+    },
+    "answer": {
+      "zh": "矿池平均算力保留历史窗口，改名后旧标签不会立刻变成 0。RVN 的 KawPoW Worker 名称是份额标签，不是经过验证的物理设备编号。",
+      "zh-TW": "礦池平均保留歷史窗口，改名後舊名不即刻為 0。KawPoW Worker 是份額標籤而非實機編號。",
+      "en": "Pool averages retain historical shares, so an old RVN worker label may not drop to zero immediately after a rename. A KawPoW worker name is a share label rather than a verified physical-device identifier.",
+      "ko": "풀 평균은 과거 셰어를 포함해 이름 변경 직후 이전 RVN 워커가 0이 아닐 수 있습니다. 이름은 실제 기기 번호가 아닙니다.",
+      "ja": "プール平均に過去シェアが残るため、RVN改名直後の旧名は即ゼロになりません。名前は実機番号ではありません。"
+    },
+    "checks": {
+      "zh": "记录改名时刻，确认相同 RVN 地址、池和新 Worker 生效。比较新旧行的最近份额时间，而不是只加两行平均算力。旧行仍持续更新时，再查另一进程或复用名称的机器。",
+      "zh-TW": "記改名時間並確認同地址、池、新名。比最近份額時間，不只加平均；舊行續更新再查另程序或同名機。",
+      "en": "Record the rename time and verify the active RVN address, pool and new label. Compare last-share timestamps before summing averages. If the old label continues receiving fresh shares, investigate another process or a machine reusing that label. Keep the source’s averaging window attached to the values you compare.",
+      "ko": "변경 시각·RVN 주소·풀·새 이름을 확인하고 마지막 셰어 시간을 비교하세요. 이전 이름이 계속 갱신되면 다른 프로세스·동명 기기를 확인합니다.",
+      "ja": "改名時刻・RVNアドレス・プール・新名を確認し、最終シェア時刻を比較します。旧名が更新され続けるなら別プロセスや同名実機を調べます。"
+    },
+    "example": {
+      "zh": "示例：rig1 改 rig2 后两个平均值并存，但只有 rig2 有新份额。记录为一次名称切换，不把 Worker 行数增加当成多了一台显卡矿机。",
+      "zh-TW": "示例：rig1 改 rig2，僅後者有新份額，是改名而非多一台礦機。",
+      "en": "Example: rig1 and rig2 both have averages, but only rig2 has new shares after the change. Treat this as a label transition, not evidence of an additional GPU rig.",
+      "ko": "예: rig1·rig2 평균이 남고 rig2만 새 셰어를 내면 이름 전환이지 기기 추가가 아닙니다.",
+      "ja": "例：両名に平均が残ってもrig2だけ新シェアなら名前の切替であり、実機追加ではありません。"
+    },
+    "sources": ["https://rvn.2miners.com/help"],
+    "related": [
+      "rvn-payment-transaction-reconcile",
+      "rvn-mining-monitor-guide",
+      "rvn-wallet-and-worker-format"
+    ]
+  },
+  {
+    "project": "rvn",
+    "slug": "rvn-payment-transaction-reconcile",
+    "title": {
+      "zh": "RVN 钱包到账，怎样找到对应矿池付款？",
+      "zh-TW": "RVN 錢包到帳，如何找對應礦池付款？",
+      "en": "Match RVN pool payouts with wallet transactions",
+      "ko": "RVN 풀 지급과 지갑 거래 일치시키기",
+      "ja": "RVNプール支払いとウォレット取引の照合"
+    },
+    "answer": {
+      "zh": "矿池付款是一笔转账，近 24 小时收益是一段记账窗口。付款可能覆盖更早积累的余额，不能因为今天到账就把全额当成今天挖到。",
+      "zh-TW": "付款是一筆轉帳，近 24 小時收益是一段窗口。付款可涵蓋較早累積，不全算今日挖得。",
+      "en": "A pool payout is a transfer, while rolling 24-hour rewards are an accounting window. A payment can include earlier accumulated balances, so receipt today does not mean the entire amount was earned today.",
+      "ko": "풀 지급은 송금, 24시간 보상은 집계 구간입니다. 이전 누적분도 지급되므로 오늘 입금 전체가 오늘 채굴량은 아닙니다.",
+      "ja": "支払いは送金、24時間報酬は集計窓です。以前の蓄積を含むため、今日着金した全額が今日採掘分とは限りません。"
+    },
+    "checks": {
+      "zh": "从矿池付款列表取交易编号、RVN 数量和时间，再到 Ravencoin 网络核对目标地址。保存与这笔付款对应的余额阶段，避免将未付、已付和钱包持有量同时加总。浏览器查不到时先核对网络和交易编号，不补成已确认。",
+      "zh-TW": "取付款交易編號、RVN 數與時間，在 Ravencoin 查目標。保存對應餘額階段，勿把未付、已付、持有量重加；查無先核網路與編號。",
+      "en": "Take the transaction identifier, native RVN amount and time from the pool payout list and inspect the destination on Ravencoin. Preserve the related balance stage, avoiding a sum of unpaid, paid and wallet holdings. If a transaction is absent from the explorer, verify network and identifier before claiming confirmation.",
+      "ko": "풀 지급 ID·RVN 수량·시각을 Ravencoin에서 대조하세요. 미지급·지급·보유량을 중복 더하지 말고 거래가 없으면 네트워크·ID부터 확인합니다.",
+      "ja": "支払ID・RVN枚数・時刻をRavencoinで照合します。未払い・支払済み・保有を重複加算せず、探索で未検出ならネットワークとIDを先に確認します。"
+    },
+    "example": {
+      "zh": "示例：今天收到 10 RVN，今日窗口只有 3 RVN。可先查 10 是否含此前累计；两个数字不同并不自动构成漏记或收益异常。",
+      "zh-TW": "示例：今日收 10、窗口 3，先查是否含此前累積，不直接判漏記。",
+      "en": "Example: a wallet receives 10 RVN while the current daily window shows 3. Check whether the payout included older accruals before diagnosing missing rewards.",
+      "ko": "예: 오늘 10 RVN 입금, 당일 창 3이면 이전 누적 포함 여부를 확인하고 누락으로 단정하지 마세요.",
+      "ja": "例：着金10 RVN、当日窓3なら過去蓄積を含むか確認し、欠損と即断しません。"
+    },
+    "sources": ["https://rvn.2miners.com/help"],
+    "related": [
+      "rvn-worker-rename-window",
+      "rvn-mining-monitor-guide",
+      "rvn-wallet-and-worker-format"
+    ]
+  }
+]

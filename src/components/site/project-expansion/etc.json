@@ -1,0 +1,78 @@
+[
+  {
+    "project": "etc",
+    "slug": "etc-switch-pool-unpaid-history",
+    "title": {
+      "zh": "ETC 换矿池后，旧余额为什么没合并？",
+      "zh-TW": "ETC 換礦池後，舊餘額為何未合併？",
+      "en": "ETC pool switching without losing track of unpaid balances",
+      "ko": "ETC 풀 전환과 이전 미지급 잔액",
+      "ja": "ETCプール変更後に旧残高が合算されない理由"
+    },
+    "answer": {
+      "zh": "同一 ETC 0x 地址在不同池有独立账本。换连接地址改变后续份额去向，不会自动清空旧池待付，也不会把它转入新池。",
+      "zh-TW": "同 ETC 0x 地址跨池有獨立帳本，換連線改後續份額，不自動清舊待付或移入新池。",
+      "en": "The same ETC 0x address can have independent ledgers on different pools. Changing the connection routes future shares; it does not automatically clear the old unpaid balance or transfer it into the new pool.",
+      "ko": "같은 ETC 0x라도 풀별 장부는 다릅니다. 접속 변경은 이후 셰어만 바꾸며 이전 미지급을 새 풀로 옮기지 않습니다.",
+      "ja": "同じETC 0xでもプール台帳は別です。接続変更は今後のシェア先を変え、旧未払いを新側へ移しません。"
+    },
+    "checks": {
+      "zh": "切换前保存旧池名称、未付、已付与最后份额时间。切换后到旧池继续查成熟和付款，到新池查 ETCHash 新份额。本站当前源覆盖范围之外的数据应回原池读取，不能用别的网络或 SOLO 结果代替。",
+      "zh-TW": "切換前存池、未付、已付和最後份額時間；之後舊池查成熟付款，新池查 ETCHash 份額。未覆蓋來源回原池查，勿用別鏈或 SOLO 補。",
+      "en": "Save the old pool, unpaid and paid fields and last-share time before switching. Follow maturation and payments on the old pool, then verify new ETCHash shares on the new one. If a source is outside this monitor’s coverage, inspect it directly rather than substituting another chain or a SOLO result.",
+      "ko": "이전 풀·미지급·지급·마지막 셰어 시각을 저장하세요. 이전 성숙·지급과 새 ETCHash 셰어를 각각 봅니다. 지원 밖 출처는 원풀에서 확인하며 다른 체인·SOLO로 채우지 않습니다.",
+      "ja": "旧プール・未払い・支払済み・最終シェア時刻を保存します。旧成熟・支払いと新ETCHashシェアを別確認し、未対応出典は元プールで調べて別チェーンやSOLOで代用しません。"
+    },
+    "example": {
+      "zh": "示例：新池 0 ETC、旧池仍有未付，两者可同时成立。对账先按池列两行；钱包到账后再用实际交易核对，不重复把那笔付款加到“已付”和钱包持有量之和。",
+      "zh-TW": "示例：新池 0、舊池未付可並存，按池分行；付款用交易核對，不把已付與持有量重加。",
+      "en": "Example: zero on the new pool and unpaid ETC on the old pool can both be correct. Keep one record per pool. When paid, reconcile the transaction without adding the same payment again as both paid history and wallet holdings.",
+      "ko": "예: 새 풀 0과 이전 미지급은 모두 맞을 수 있습니다. 풀별로 남기고 지급 이력과 지갑 보유량을 중복 더하지 마세요.",
+      "ja": "例：新プール0と旧未払いは両立します。プール別に残し、支払履歴とウォレット保有へ同じ金額を二重加算しません。"
+    },
+    "sources": ["https://etc.2miners.com/help"],
+    "related": [
+      "etc-payment-threshold-not-received",
+      "etc-mining-monitor-guide",
+      "etc-vs-ethw-address-network"
+    ]
+  },
+  {
+    "project": "etc",
+    "slug": "etc-payment-threshold-not-received",
+    "title": {
+      "zh": "ETC 超过付款门槛，为什么还没到账？",
+      "zh-TW": "ETC 超過付款門檻，為何仍未到帳？",
+      "en": "ETC payment thresholds, payout cycles and receipt checks",
+      "ko": "ETC 지급 기준 도달 후 입금 확인",
+      "ja": "ETC支払条件を超えても未着金の場合"
+    },
+    "answer": {
+      "zh": "达到页面显示的金额，不一定表示已经发起链上付款。还需确认是可支付余额、矿池当前条件、付款批次，以及是否已有实际交易。",
+      "zh-TW": "達到顯示金額不一定已發鏈上付款，須看可支付餘額、現行條件、批次及交易。",
+      "en": "Reaching a displayed amount does not establish that an on-chain payout was sent. Check whether it is payable balance, the pool’s current conditions, its payment cycle and whether a transaction actually exists.",
+      "ko": "표시 금액 도달이 체인 송금을 뜻하지 않습니다. 지급 가능 잔액·현재 조건·주기·실제 거래를 확인하세요.",
+      "ja": "表示額が条件を超えても送金済みとは限りません。支払可能残高・現行条件・支払周期・実取引を確認します。"
+    },
+    "checks": {
+      "zh": "对照同一 ETC 矿池与 0x 地址，读取该池当前付款说明，区分确认中与已解锁。若付款列表有交易编号，再查 ETC 网络的收款方和确认；不要到 Ethereum 或 ETHW 浏览器，仅凭同样 0x 格式判断到账。",
+      "zh-TW": "同池同 ETC 0x 查現行付款說明，分確認中與解鎖。付款有交易再查 ETC 收款方及確認，勿用 Ethereum 或 ETHW 因同 0x 就判到帳。",
+      "en": "Match the ETC pool and 0x address, then read that pool’s current payout rules and distinguish immature from payable funds. If the payout list supplies a transaction, inspect the destination and confirmations on ETC. Identical address formatting on Ethereum or ETHW does not prove receipt on the correct network.",
+      "ko": "같은 ETC 풀·0x와 지급 안내를 맞추고 미성숙·지급 가능을 구분하세요. 거래 ID가 있으면 ETC에서 확인하며 Ethereum·ETHW의 같은 형식으로 판단하지 않습니다.",
+      "ja": "同じETCプールと0xで現行支払条件を読み、未成熟と支払可能を分けます。取引IDがあればETCで確認し、Ethereum・ETHWの同形式アドレスで着金判断しません。"
+    },
+    "example": {
+      "zh": "示例：总余额超过门槛，但大部分仍在确认中。应先看可支付部分；不要把“总余额达到”写成“矿池拖欠”，也不凭猜测给出固定到账时间。",
+      "zh-TW": "示例：總額過門檻但多數確認中，先查可支付部分，不直接判拖欠或猜固定到帳時間。",
+      "en": "Example: total balance exceeds a threshold while most of it is still immature. Inspect the payable portion first. A total alone cannot establish overdue payment or support an exact promised arrival time.",
+      "ko": "예: 총잔액은 기준 초과지만 대부분 미성숙이면 지급 가능액부터 봅니다. 총액만으로 연체나 정확한 도착 시간을 단정하지 마세요.",
+      "ja": "例：総額は条件超えでも大半が未成熟なら支払可能部分を確認します。総額だけで延滞や着金時刻を断定しません。"
+    },
+    "sources": ["https://etc.2miners.com/help"],
+    "related": [
+      "etc-switch-pool-unpaid-history",
+      "etc-mining-monitor-guide",
+      "etc-vs-ethw-address-network"
+    ]
+  }
+]

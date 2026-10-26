@@ -1,0 +1,78 @@
+[
+  {
+    "project": "vast",
+    "slug": "vast-machine-replacement-income-history",
+    "title": {
+      "zh": "Vast.ai 换机器后，同名 Host 的收入怎么保留？",
+      "zh-TW": "Vast.ai 換機後，同名 Host 的收入怎麼保留？",
+      "en": "Vast.ai Machine ID changes and host income history",
+      "ko": "Vast.ai Machine ID 변경과 수입 기록",
+      "ja": "Vast.aiのMachine ID変更と旧収入履歴"
+    },
+    "answer": {
+      "zh": "Host 账户、机器名称和 Machine ID 不是同一个范围。替换硬件或重新登记后先核对 ID；相同名称不能证明是同一条机器收入记录。",
+      "zh-TW": "Host 帳戶、名稱及 Machine ID 範圍不同。換硬體或重登記先核對 ID，同名不代表同筆機器收入。",
+      "en": "Host accounts, nicknames and Machine IDs describe different scopes. After hardware replacement or registration, compare IDs before attributing income. A reused name does not establish continuity of a machine’s revenue record.",
+      "ko": "Host 계정·별명·Machine ID는 다른 범위입니다. 교체·재등록 후 이름보다 ID를 대조하세요.",
+      "ja": "Hostアカウント・別名・Machine IDは別範囲です。交換・再登録後は名前よりIDを照合します。"
+    },
+    "checks": {
+      "zh": "保存旧 Machine ID、退役时间和当天收入报表，再核对新机器 ID 与报表区间。账户余额可包括多台机器，不用它填补单机缺失记录。本站关联设备不会移动官方合同或收入。",
+      "zh-TW": "保存舊 ID、退役時間及日報，再查新 ID 與報表期間。帳戶餘額含多機，勿補單機缺值；本站關聯不移動合約或收入。",
+      "en": "Save the old Machine ID, retirement time and income report, then query the new ID over the relevant interval. Account balances can include several machines and cannot fill an absent machine report. Linking records locally does not transfer official contracts or revenue.",
+      "ko": "이전 ID·종료 시각·수입 보고서를 보관하고 새 ID의 구간을 확인하세요. 계정 잔액으로 단일 기기 빈값을 채우지 않습니다. 로컬 연결은 계약 이전이 아닙니다.",
+      "ja": "旧ID・終了時刻・収入報告を保存して新IDの期間を確認します。複数機を含む残高で単機欠損を埋めず、監視の関連付けを契約移行と扱いません。"
+    },
+    "example": {
+      "zh": "示例：名为 gpu-host 的旧机器 A 被 B 替换。分别保留 A 停机前和 B 上线后的报表；如果两份报表期间重叠，要核对是否不同实际机器，不能仅凭名称去重或相加。",
+      "zh-TW": "示例：同名 gpu-host 的 A 換 B，分留停機前後報表。區間重疊先查實機，不按名稱去重或相加。",
+      "en": "Example: gpu-host changes from machine A to B. Preserve reports before and after replacement. If their intervals overlap, verify whether they represent separate hardware before deduplicating or summing them by nickname.",
+      "ko": "예: gpu-host A를 B로 바꾸면 전후 보고서를 남깁니다. 기간 중복은 실제 하드웨어를 확인한 뒤 합산하세요.",
+      "ja": "例：gpu-hostのAをBへ交換したら前後の報告を残します。期間重複は実機の別を確かめてから集計します。"
+    },
+    "sources": ["https://docs.vast.ai/host/hosting-overview", "https://vast.ai/hosting/calculator"],
+    "related": [
+      "vast-income-report-date-range",
+      "vast-monitor-guide",
+      "vast-host-machine-vs-contract"
+    ]
+  },
+  {
+    "project": "vast",
+    "slug": "vast-income-report-date-range",
+    "title": {
+      "zh": "Vast.ai 日收入报表，怎么和租约时间对账？",
+      "zh-TW": "Vast.ai 日收入報表，怎麼和租約時間對帳？",
+      "en": "Reconcile Vast.ai machine income report intervals",
+      "ko": "Vast.ai 기기 수입 보고서 기간 대조",
+      "ja": "Vast.ai機器収入報告と契約期間の照合"
+    },
+    "answer": {
+      "zh": "租约价格、租用时长与收入报表是不同记录。当前报价不会重写过去的实际收入；报表还须核对 Machine ID 和起止时间。",
+      "zh-TW": "租約價格、時長與收入報表不同。目前報價不改寫過去實收，報表須對 Machine ID 和起止時間。",
+      "en": "Contract rates, rental duration and income reports are different records. A current offer does not rewrite historical revenue. Reconcile reports by Machine ID and explicit start and end times, not only a date label.",
+      "ko": "계약 단가·기간·수입 보고서는 다릅니다. 현재 호가가 과거 수입을 바꾸지 않으며 Machine ID와 시작·종료 시각을 맞춰야 합니다.",
+      "ja": "契約単価・期間・収入報告は別です。現在の提示価格で過去収入は変わらず、Machine IDと開始・終了時刻を合わせます。"
+    },
+    "checks": {
+      "zh": "本站今日按香港日界线查询时，先换算到来源使用的时间戳，再核对各收入分量与合计。缺少任一报表字段时保留不完整状态，不用当前时薪乘 GPU 数补值。账户提现是资金流出，也不等于该机器当天收入。",
+      "zh-TW": "本站按香港日界線查詢時先換算來源時間戳，再對分量與合計。缺欄位保留不完整，不用時薪乘 GPU 補值；帳戶提領也非單機日收入。",
+      "en": "For a Hong Kong calendar-day report, match the corresponding source timestamps and inspect both revenue components and total. Missing fields should remain incomplete rather than being replaced by current hourly prices times GPU count. A withdrawal from the host account is a separate cash movement, not that machine’s daily income.",
+      "ko": "홍콩 하루를 조회하면 대응하는 원본 타임스탬프와 구성액·합계를 확인하세요. 누락을 현재 시급×GPU로 채우지 말고 출금과 일일 기기 수입도 구분합니다.",
+      "ja": "香港日付で照会する場合は対応する出典タイムスタンプと内訳・合計を確認します。欠損を現在時給×GPUで補わず、出金と単機の日次収入も分けます。"
+    },
+    "example": {
+      "zh": "示例：租约跨过香港午夜。两天收入应以各自报表区间为准，不能把整份租约金额都归到启动那一天。对账时保存报表原值，不用图表四舍五入值替代。",
+      "zh-TW": "示例：租約跨香港午夜，以兩天各自區間計，不把整份金額放啟動日。保存原值，不用圖表四捨五入值。",
+      "en": "Example: a rental crosses Hong Kong midnight. Use each day’s report interval instead of assigning the entire contract to its starting day. Preserve original report values rather than using rounded chart labels for reconciliation.",
+      "ko": "예: 임대가 홍콩 자정을 넘으면 각 날짜 보고서를 씁니다. 전체 계약을 시작일에 몰거나 반올림 차트 값으로 원본을 대체하지 마세요.",
+      "ja": "例：契約が香港深夜をまたぐ場合は両日の報告区間を使います。全額を開始日に載せず、丸めたグラフ値で原値を置き換えません。"
+    },
+    "sources": ["https://docs.vast.ai/host/hosting-overview", "https://vast.ai/hosting/calculator"],
+    "related": [
+      "vast-machine-replacement-income-history",
+      "vast-monitor-guide",
+      "vast-host-machine-vs-contract"
+    ]
+  }
+]

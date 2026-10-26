@@ -70,6 +70,7 @@ describe("separate project identities and currencies", () => {
       "zeph",
       "btc",
       "ethw",
+      "tsc",
     ]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {

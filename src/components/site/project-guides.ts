@@ -1,3 +1,5 @@
+import { expansionGuides } from "./project-expansion";
+import { tscSearchGuides } from "./tsc-search-guides";
 import { tscGuide } from "./tsc-guide";
 import { iotaTierGuides, refreshIotaGuide } from "./iota-guide-refresh";
 import { csdGuide } from "./csd-guide";
@@ -1487,6 +1489,8 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
     bntGuide,
     csdGuide,
     tscGuide,
+    ...tscSearchGuides,
+    ...expansionGuides,
   ];
   return project
     ? mergeProjectDepth(
@@ -1505,9 +1509,12 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         bntGuide,
         csdGuide,
         tscGuide,
+        ...tscSearchGuides,
+        ...expansionGuides,
       ]
         .filter(
           (a) =>
+            expansionGuides.some((guide) => guide.slug === a.slug) ||
             a.project === "all" ||
             a.project === "mds" ||
             a.project === "bnt" ||

@@ -1,0 +1,86 @@
+[
+  {
+    "project": "bnt",
+    "slug": "bnt-blocknet-vs-block-bancor",
+    "title": {
+      "zh": "BNT 挖矿的 Blocknet，和 BLOCK、Bancor 一样吗？",
+      "zh-TW": "BNT 挖礦的 Blocknet，與 BLOCK、Bancor 一樣嗎？",
+      "en": "Identify privacy Blocknet BNT versus BLOCK and Bancor",
+      "ko": "프라이버시 Blocknet BNT와 BLOCK·Bancor 구분",
+      "ja": "採掘BNTのBlocknetとBLOCK・Bancorの識別"
+    },
+    "answer": {
+      "zh": "本站 BNT 项目指 blocknetcrypto.com 的隐私 PoW 网络，不能仅凭 Blocknet 或 BNT 名称就套用旧 BLOCK 项目或 Bancor 的价格、浏览器和收益说明。",
+      "zh-TW": "本站 BNT 為 blocknetcrypto.com 隱私 PoW，勿只按名稱套舊 BLOCK 或 Bancor 價格、瀏覽器及收益說明。",
+      "en": "Here BNT refers to the privacy PoW network at blocknetcrypto.com. The names Blocknet and BNT also appear in unrelated projects. Prices, explorers and reward rules from old BLOCK or Bancor must not be substituted.",
+      "ko": "여기 BNT는 blocknetcrypto.com의 프라이버시 PoW입니다. 동명의 이전 BLOCK·Bancor 가격·탐색기·보상 규칙을 적용하지 마세요.",
+      "ja": "当サイトのBNTはblocknetcrypto.comのプライバシーPoWです。同名の旧BLOCKやBancorの価格・探索画面・報酬規則を代用しません。"
+    },
+    "checks": {
+      "zh": "先核对官网域名、Argon2id 算法、当前矿工与矿池来源，再查完整公开地址。搜索结果即使写着 Blocknet Monitor，也要看它服务哪条链。第三方行情只有资产身份明确时才可用于估值；同名代码不够。",
+      "zh-TW": "先對官網、Argon2id、礦工及池再查地址。搜尋即使名為 Blocknet Monitor 也查鏈別；行情需明確資產身份，不只同代碼。",
+      "en": "Match the official domain, Argon2id algorithm and current miner/pool source before looking up the public address. A result titled Blocknet Monitor can serve another chain. Use a market quote only after establishing the exact asset identity; matching a ticker alone is insufficient.",
+      "ko": "공식 도메인·Argon2id·현재 마이너·풀을 먼저 맞추세요. Blocknet Monitor란 검색 결과도 체인을 확인하며 같은 티커만으로 시세를 적용하지 않습니다.",
+      "ja": "公式ドメイン・Argon2id・現行マイナー・プールを照合します。Blocknet Monitorという検索名でも対象チェーンを確認し、ティッカー一致だけで相場を使いません。"
+    },
+    "example": {
+      "zh": "示例：某行情页写 BNT，但介绍的是 Bancor。该报价不能乘以本项目挖得数量。没有可靠对应报价时，保留原生 BNT 数量比错误美元总额更清楚。",
+      "zh-TW": "示例：BNT 行情介紹 Bancor，不能乘本項目數量；缺對應報價就保留原生數量。",
+      "en": "Example: a BNT price page describes Bancor. Multiplying that quote by privacy-network mining rewards would produce an unrelated valuation. Retain native BNT amounts when no correctly identified quote is available.",
+      "ko": "예: BNT 시세 설명이 Bancor라면 이 채굴량에 곱하지 마세요. 정확한 시세가 없으면 원생 BNT를 유지합니다.",
+      "ja": "例：BNT相場の説明がBancorなら採掘量に掛けません。対応相場がなければネイティブ枚数を保ちます。"
+    },
+    "sources": [
+      "https://blocknetcrypto.com/",
+      "https://bntpool.com/",
+      "https://github.com/blocknetprivacy/bntop"
+    ],
+    "related": [
+      "bnt-local-daemon-vs-pool-work",
+      "blocknet-bnt-monitor-guide",
+      "bnt-seine-cpu-nvidia-setup"
+    ]
+  },
+  {
+    "project": "bnt",
+    "slug": "bnt-local-daemon-vs-pool-work",
+    "title": {
+      "zh": "BNT 节点在线，为什么矿池没新份额？",
+      "zh-TW": "BNT 節點在線，為何礦池無新份額？",
+      "en": "BNT local daemon status versus pool share activity",
+      "ko": "BNT 로컬 노드와 풀 셰어 활동 구분",
+      "ja": "BNTのローカルノード稼働とプールシェア"
+    },
+    "answer": {
+      "zh": "节点进程在线、钱包同步和矿工向池提交份额是不同状态。bntop 这类本地观察与公共矿池统计范围不同，不能拿节点响应直接证明池中 Worker 在工作。",
+      "zh-TW": "節點在線、錢包同步、礦工交份額不同。本地 bntop 與公共池範圍不同，節點回應不證明 Worker 工作。",
+      "en": "Daemon reachability, wallet synchronization and miner share submission are different states. A local tool such as bntop and a public pool observe different scopes. A responding node alone does not prove that a pool worker is submitting work.",
+      "ko": "노드 응답·지갑 동기화·풀 셰어 제출은 별도입니다. bntop 같은 로컬 관찰과 풀 통계 범위를 구분하세요.",
+      "ja": "ノード応答・ウォレット同期・シェア提出は別状態です。bntopなどローカル観測と公開プール統計の範囲を分けます。"
+    },
+    "checks": {
+      "zh": "检查矿工实际进程、池地址、公开收款地址和最近接受份额时间，再回原池查同一 Worker。保存失败日志中的错误类型，分享前去掉凭据。若查询源超时，保留最近成功数据，不将超时记成 0 H/s。",
+      "zh-TW": "查實際礦工、池、地址、接受份額時間，再對原池 Worker。分享錯誤先刪憑據；來源逾時保留最後成功資料，不填 0 H/s。",
+      "en": "Check the active miner process, pool endpoint, payout address and last accepted share, then match the same worker on the pool. Preserve the error category from logs while removing credentials before sharing. A source timeout should retain the last successful observation rather than turning into a measured zero hashrate.",
+      "ko": "실제 마이너·풀·주소·최근 수락 셰어를 확인하세요. 로그 공유 전 인증정보를 지우고 조회 시간초과를 0 H/s로 바꾸지 않습니다.",
+      "ja": "有効マイナー・プール・宛先・最終受理シェアを確認します。ログ共有前に認証を除き、出典タイムアウトを0 H/sへ変換しません。"
+    },
+    "example": {
+      "zh": "示例：daemon 正常但矿工连错池，节点仍可同步，正确矿池不会出现新份额。先修正本地配置并观察新份额，不因为同步正常就给设备标为正在贡献。",
+      "zh-TW": "示例：daemon 正常但礦工連錯池，正確池無份額；先查設定，不因同步正常就標貢獻。",
+      "en": "Example: the daemon syncs normally while the miner points to the wrong pool. Correct-pool shares can remain absent. Verify configuration and fresh shares before marking the device as contributing.",
+      "ko": "예: 노드는 동기화해도 마이너가 다른 풀을 쓰면 해당 풀 셰어는 없습니다. 설정과 새 셰어로 확인하세요.",
+      "ja": "例：ノード同期が正常でも接続先プールを誤れば該当シェアはありません。設定と新シェアで貢献を確認します。"
+    },
+    "sources": [
+      "https://blocknetcrypto.com/",
+      "https://bntpool.com/",
+      "https://github.com/blocknetprivacy/bntop"
+    ],
+    "related": [
+      "bnt-blocknet-vs-block-bancor",
+      "blocknet-bnt-monitor-guide",
+      "bnt-seine-cpu-nvidia-setup"
+    ]
+  }
+]

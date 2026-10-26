@@ -1,0 +1,70 @@
+[
+  {
+    "project": "gonka",
+    "slug": "gonka-epoch-rollover-weight-history",
+    "title": {
+      "zh": "Gonka 换 epoch 后，权重下降怎么核对？",
+      "zh-TW": "Gonka 換 epoch 後，權重下降怎麼核對？",
+      "en": "Gonka weight changes at epoch boundaries",
+      "ko": "Gonka epoch 전환 시 가중치 변화 확인",
+      "ja": "Gonkaのepoch切替時の重み変化を確認する"
+    },
+    "answer": {
+      "zh": "权重属于指定 Host 和 epoch。新周期名单、模型或权重不同，不能直接当成上一轮被扣款；GNK 付款需要另查实际结算记录。",
+      "zh-TW": "權重屬指定 Host 和 epoch。新週期名單、模型或權重不同不代表上一輪扣款；GNK 另查實際結算。",
+      "en": "Weight belongs to a host within an epoch. A new participant list, model assignment or weight is not itself a deduction from the previous epoch. GNK payment requires separate settlement records.",
+      "ko": "가중치는 Host와 epoch에 속합니다. 새 참여 목록·모델·가중치는 이전 epoch 차감과 다르며 GNK 지급은 별도 정산을 확인합니다.",
+      "ja": "重みはHostとepochに属します。新参加一覧・モデル・重みは前期の減額を意味せず、GNK支払いは別に照合します。"
+    },
+    "checks": {
+      "zh": "保存相同 Host 在前后两个 epoch 的编号、阶段、模型、权重及来源时间。只在相同 epoch 比较不同面板；若当前数据仍是上一轮缓存，应先等待该来源刷新，不用较旧数值填新轮空白。",
+      "zh-TW": "保存同 Host 前後 epoch、階段、模型、權重及時間。面板須同 epoch 才能比較；來源仍是上一輪快取時先等更新，勿以舊值填新輪空白。",
+      "en": "Capture the host address, epoch number, phase, model, weight and source time on each side of the boundary. Compare dashboards only after matching epochs. If one source still serves the previous epoch, preserve its timestamp rather than carrying that value into a blank current-epoch field. This distinguishes a stale snapshot from a change in participation.",
+      "ko": "전후 epoch 번호·단계·모델·가중치·출처 시각을 저장하세요. 같은 epoch끼리 비교하고 이전 캐시를 새 epoch 빈칸에 복사하지 마세요.",
+      "ja": "切替前後のepoch番号・段階・モデル・重み・出典時刻を保存します。同じepoch同士で比較し、前期のキャッシュを今期の欠損に補いません。"
+    },
+    "example": {
+      "zh": "示例：epoch 100 有权重，101 尚未出现该 Host。能确认的是 101 当前名单没有对应记录；是否会在后续阶段参与，要继续查 101，不能据此算出“少赚多少 GNK”。",
+      "zh-TW": "示例：100 有權重，101 暫無 Host，只能說目前名單未見；續查 101，不推算少賺 GNK。",
+      "en": "Example: a host has weight in epoch 100 but is absent from the current view of 101. Record the absence at that observation time and follow 101’s later stages. The weight difference does not provide a measured GNK loss.",
+      "ko": "예: 100에는 있지만 101 목록에 없으면 관측 시점의 부재로 기록하세요. 이후 단계를 추적하며 가중치 차이로 GNK 손실을 계산하지 마세요.",
+      "ja": "例：100に重みがあり101の一覧にまだ無い場合、観測時の不在を記録して101の後続段階を確認します。差からGNK損失を計算しません。"
+    },
+    "sources": ["https://gonka.ai/docs/host/network-node-api/", "https://gonka.gg/network"],
+    "related": ["gonka-api-reachable-vs-participating", "gonka-monitor-guide", "gonka-host-id-api"]
+  },
+  {
+    "project": "gonka",
+    "slug": "gonka-api-reachable-vs-participating",
+    "title": {
+      "zh": "Gonka API 能访问，就代表 Host 在参与吗？",
+      "zh-TW": "Gonka API 可存取，就代表 Host 在參與嗎？",
+      "en": "Gonka API reachability versus epoch participation",
+      "ko": "Gonka API 응답과 epoch 참여의 차이",
+      "ja": "GonkaのAPI応答とepoch参加は同じか"
+    },
+    "answer": {
+      "zh": "API 能返回数据，只证明那个入口能响应。Host 是否在本轮名单、承担哪个模型、具有什么权重，要分别查链上或网络名单；推理网址也不是 Host 标识。",
+      "zh-TW": "API 回應只證明入口可用。本輪名單、模型及權重另查網路紀錄，推理網址亦不是 Host 標識。",
+      "en": "A responding API establishes reachability of that endpoint. It does not establish current-epoch participation, model assignment or weight for a particular host. An inference URL is also not a host identifier.",
+      "ko": "API 응답은 해당 엔드포인트 도달성을 보여줍니다. 현재 epoch 참여·모델·가중치와는 별개이며 추론 URL은 Host ID가 아닙니다.",
+      "ja": "API応答は入口への到達性を示します。特定Hostの今期参加・モデル・重みとは別で、推論URLもHost識別子ではありません。"
+    },
+    "checks": {
+      "zh": "先复制官方记录中的 Host 地址，再核对 epoch 与参与名单。另记录 API 请求成功或失败的时间，避免把查询网关故障记成矿机离线。若第三方面板给出“健康度”，先读其定义，不把它当成本站已计算的指标。",
+      "zh-TW": "先取官方 Host 地址並核對 epoch 名單，再記 API 成敗時間。網關失敗不等於礦機離線。第三方健康度須查定義，不當本站已計算指標。",
+      "en": "Start with the host address from official records and match its epoch participation. Record endpoint success or failure separately with a timestamp. A gateway outage can prevent lookup without proving that the host stopped. If another dashboard publishes a health score, read its methodology before comparing it with a monitor that reports only source fields.",
+      "ko": "공식 Host 주소와 epoch 목록을 먼저 확인하고 API 성패·시각은 따로 기록하세요. 게이트웨이 장애가 기기 중단을 증명하지 않습니다. 타사 건강 점수는 정의부터 확인하세요.",
+      "ja": "公式Hostとepoch一覧を先に照合し、API成否と時刻は別に保存します。ゲートウェイ障害だけで機器停止とは判断できません。他社の健康スコアは定義を先に読みます。"
+    },
+    "example": {
+      "zh": "示例：公共 API 超时，官方名单仍有你的 Host。页面应保留最近成功时间和未知状态；不能因这次超时把参与权重改成 0。",
+      "zh-TW": "示例：公共 API 逾時但官方名單仍有 Host，保留成功時間與未知狀態，勿把權重改 0。",
+      "en": "Example: a public gateway times out while official epoch records still contain the host. Preserve the last successful observation and an unknown refresh state. Converting that timeout to zero weight would confuse access failure with network data.",
+      "ko": "예: API 시간초과 중 공식 목록에 Host가 있으면 최근 성공 시각과 알 수 없음 상태를 보관하세요. 가중치를 0으로 바꾸지 마세요.",
+      "ja": "例：公共APIがタイムアウトしても公式一覧にHostがある場合、最終成功時刻と取得不明を保ちます。重みゼロへ変換しません。"
+    },
+    "sources": ["https://gonka.ai/docs/host/network-node-api/", "https://gonka.gg/network"],
+    "related": ["gonka-epoch-rollover-weight-history", "gonka-monitor-guide", "gonka-host-id-api"]
+  }
+]

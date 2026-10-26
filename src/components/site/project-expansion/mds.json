@@ -1,0 +1,78 @@
+[
+  {
+    "project": "mds",
+    "slug": "mds-miner-upgrade-mss-address",
+    "title": {
+      "zh": "MDS 升级矿工后，怎样确认仍用原 MSS 地址？",
+      "zh-TW": "MDS 升級礦工後，如何確認仍用原 MSS 地址？",
+      "en": "MDS miner upgrades and reusable MSS payout identity",
+      "ko": "MDS 채굴기 업그레이드 후 MSS 주소 확인",
+      "ja": "MDSマイナー更新後のMSS受取先確認"
+    },
+    "answer": {
+      "zh": "升级程序和更换收款身份是两件事。Midstate 的可复用 MSS 地址与一次性 WOTS 地址不能互换；沿用旧配置前要重新核对当前矿池说明。",
+      "zh-TW": "升級與換收款身份不同。可重用 MSS 與一次性 WOTS 不互換，沿用設定前核對現行池說明。",
+      "en": "A software upgrade and a payout-identity change are different actions. Midstate reusable MSS addresses and one-time WOTS addresses are not interchangeable. Check current pool instructions before carrying an old configuration into a new miner.",
+      "ko": "소프트웨어 갱신과 지급 ID 변경은 별도입니다. 재사용 MSS와 일회용 WOTS는 다르므로 현재 풀 안내를 확인하세요.",
+      "ja": "更新と受取ID変更は別です。再利用可能MSSと一回用WOTSを取り違えず、旧設定を流用する前に現行プール案内を確認します。"
+    },
+    "checks": {
+      "zh": "升级前保存公开 MSS 地址、池、Worker 和最后份额时间。启动后看实际生效的配置，而非只看文件名；确认新份额到达原池原地址。不要为了使查询通过而把一次性地址当作可复用地址反复使用。",
+      "zh-TW": "升級前存公開 MSS、池、Worker 及時間；啟動後看生效設定，新份額須到原池原址。勿為通過查詢重用一次性地址。",
+      "en": "Save the public MSS address, pool, worker and last-share time before upgrading. After startup, inspect the active configuration rather than assuming a similarly named file was loaded. Verify fresh shares at the intended pool and address. Do not repeatedly reuse a one-time address merely to satisfy a lookup field.",
+      "ko": "업그레이드 전 공개 MSS·풀·워커·시각을 보관하고 시작 후 실제 설정과 새 셰어를 확인하세요. 조회를 맞추려고 일회용 주소를 반복 사용하지 마세요.",
+      "ja": "更新前に公開MSS・プール・Worker・時刻を保存し、起動後の有効設定と新シェアを確認します。照会を通すため一回用アドレスを使い回しません。"
+    },
+    "example": {
+      "zh": "示例：升级后 Worker 出现但地址不同，应先查新版本加载了哪个配置。旧池余额仍按旧 MSS 查询，不能凭设备名称相同就合并。",
+      "zh-TW": "示例：升級後 Worker 有但地址異，先查載入設定；舊餘額依舊 MSS，不按設備名合併。",
+      "en": "Example: a worker reappears after upgrade under a different address. Check which configuration was loaded first. Retain the old MSS pool record rather than merging balances by device nickname.",
+      "ko": "예: 갱신 후 다른 주소에 워커가 보이면 설정부터 확인하고 이전 MSS 잔액을 이름으로 병합하지 마세요.",
+      "ja": "例：更新後に別アドレスへWorkerが出たら読込設定を確認し、旧MSS残高を機器名で統合しません。"
+    },
+    "sources": ["https://midstate.cash/", "https://midstate.luckypool.io/how-to-mine"],
+    "related": [
+      "mds-solo-prefix-accounting",
+      "midstate-mds-monitor-guide",
+      "mds-wallet-luckypool-setup"
+    ]
+  },
+  {
+    "project": "mds",
+    "slug": "mds-solo-prefix-accounting",
+    "title": {
+      "zh": "MDS 的 solo: 前缀会影响统计入口吗？",
+      "zh-TW": "MDS 的 solo: 前綴會影響統計入口嗎？",
+      "en": "MDS solo: payout labels and pool statistics",
+      "ko": "MDS solo: 접두사와 풀 통계",
+      "ja": "MDSのsolo:指定と統計入口"
+    },
+    "answer": {
+      "zh": "矿池挖矿配置中的模式前缀与钱包本身不是同一层。LuckyPool 当前说明将 SOLO 使用的标识写为 solo:ADDRESS；不能因底层地址相同就混用不同模式的统计。",
+      "zh-TW": "模式前綴與錢包本體不同。LuckyPool 說明用 solo:ADDRESS 標識 SOLO，底層地址同亦不可混用模式統計。",
+      "en": "A mining-mode prefix is distinct from the underlying wallet address. LuckyPool instructions identify SOLO with solo:ADDRESS. Sharing an underlying address does not make statistics from different payment modes interchangeable.",
+      "ko": "채굴 모드 접두사와 지갑 주소는 별개입니다. LuckyPool의 SOLO 표기 solo:ADDRESS와 다른 모드 통계를 구분하세요.",
+      "ja": "採掘方式の接頭辞とウォレット本体は別です。LuckyPoolのSOLO表記solo:ADDRESSと他方式の統計を分けます。"
+    },
+    "checks": {
+      "zh": "先在矿池官方说明确认当前模式和正确的查询链接。本站地址校验要求与矿工登录格式可能不同，不要靠反复增删前缀绕过校验；若该模式未被监控覆盖，回原池读取，保留模式和来源标签。",
+      "zh-TW": "先依池說明確認模式與查詢連結。本站校驗與礦工登入格式可不同，勿增刪前綴繞過；模式未覆蓋就回原池，保留來源及模式。",
+      "en": "Verify the mode and statistics URL in the pool’s current instructions. A monitor’s address validation can differ from the miner’s login syntax; do not repeatedly edit prefixes to force acceptance. If a mode is not covered by the integration, inspect the source pool and preserve both mode and source labels.",
+      "ko": "현재 풀 안내로 모드·통계 URL을 확인하세요. 모니터 주소 검증과 채굴 로그인 형식은 다를 수 있습니다. 접두사 수정으로 우회하지 말고 미지원 모드는 원풀에서 봅니다.",
+      "ja": "現行プール案内で方式と統計URLを確認します。監視の住所検証と採掘ログイン形式は異なる場合があります。接頭辞変更で無理に通さず、未対応方式は元プールで確認します。"
+    },
+    "example": {
+      "zh": "示例：普通池有历史、切 SOLO 后普通页没有新份额。先检查是否进入模式对应入口，不将“普通页无新份额”直接判成整台机器离线。",
+      "zh-TW": "示例：切 SOLO 後普通頁無新份額，先查模式入口，不直接判機器離線。",
+      "en": "Example: after switching to SOLO, the ordinary pool page stops receiving fresh shares. Check the mode-specific statistics before declaring the entire device offline.",
+      "ko": "예: SOLO 변경 후 일반 페이지 새 셰어가 없으면 모드별 통계부터 봅니다.",
+      "ja": "例：SOLO変更後に通常ページの新シェアが止まったら、まず方式別統計を確認します。"
+    },
+    "sources": ["https://midstate.cash/", "https://midstate.luckypool.io/how-to-mine"],
+    "related": [
+      "mds-miner-upgrade-mss-address",
+      "midstate-mds-monitor-guide",
+      "mds-wallet-luckypool-setup"
+    ]
+  }
+]

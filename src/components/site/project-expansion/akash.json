@@ -1,0 +1,76 @@
+[
+  {
+    "project": "akash",
+    "slug": "akash-gpu-allocation-ratio",
+    "title": {
+      "zh": "Akash GPU 已分配比例，能当设备利用率吗？",
+      "zh-TW": "Akash GPU 已分配比例，能當設備利用率嗎？",
+      "en": "Akash GPU allocation ratio versus actual utilization",
+      "ko": "Akash GPU 할당 비율과 실제 사용률",
+      "ja": "AkashのGPU割当比率と実使用率の違い"
+    },
+    "answer": {
+      "zh": "目录的已分配 GPU / GPU 总数是同一快照下的容量比例。它不是 GPU 内核使用率、过去一天占用时长，也不是已结算收入比例。",
+      "zh-TW": "目錄已分配 GPU / 總 GPU 是同快照的容量比例，不是核心使用率、昨日佔用時長或已結算收入比例。",
+      "en": "Allocated GPUs divided by total GPUs describe a capacity snapshot. They do not measure kernel utilization, hours occupied over the day or the share of revenue already settled.",
+      "ko": "할당 GPU/총 GPU는 용량 스냅샷 비율입니다. 코어 사용률·일일 점유 시간·수입 정산 비율은 아닙니다.",
+      "ja": "割当GPU÷総GPUは容量スナップショットの比率で、コア使用率・一日の占有時間・収入精算率ではありません。"
+    },
+    "checks": {
+      "zh": "核对同一 akash1 提供商地址、同一来源时间和两个容量字段。总数缺失或为零时不要计算比例。提供商可能包括多台服务器，不能把提供商比例直接贴到其中一台；运行负载需去实际监控与租约记录查。",
+      "zh-TW": "核對相同 akash1、來源時間及兩個容量欄位。總數缺失或為零勿算比例。供應商可含多台伺服器，不能把整體比例貼給單機；負載另查監控和租約。",
+      "en": "Match the akash1 provider address, source time and both capacity fields. Do not calculate a ratio with a missing or zero denominator. A provider may span several servers, so its aggregate ratio cannot be assigned to each physical device. Consult actual workload telemetry and lease records for activity over time.",
+      "ko": "같은 akash1·출처 시각·두 용량 값을 대조하세요. 분모가 없거나 0이면 계산하지 않습니다. 여러 서버의 공급자 비율을 각 기기 사용률로 붙이지 말고 실제 부하와 리스를 확인하세요.",
+      "ja": "同じakash1・出典時刻・二つの容量値を照合し、分母欠損やゼロでは比率を出しません。複数サーバーの全体比率を各実機に適用せず、実負荷とリース記録を確認します。"
+    },
+    "example": {
+      "zh": "示例：8 张 GPU 中 3 张已分配，快照比例为 37.5%。这不说明每张卡都运行了全天的 37.5%，也无法据此推算电费或净收入。",
+      "zh-TW": "示例：8 張中 3 張分配為 37.5%，不表示每張卡全天運行 37.5%，亦不能估電費或淨收入。",
+      "en": "Example: 3 allocated GPUs out of 8 yield a 37.5% capacity ratio at that instant. This does not mean every GPU ran for 37.5% of the day, and it cannot establish electricity cost or net income.",
+      "ko": "예: 8개 중 3개 할당은 순간 용량 비율 37.5%입니다. 각 GPU의 일일 실행 시간이나 전기료·순수입을 뜻하지 않습니다.",
+      "ja": "例：8台中3台割当ならその瞬間の容量比率は37.5%です。各GPUの一日稼働割合や電気代・純収入は分かりません。"
+    },
+    "sources": [
+      "https://akash.network/docs/providers/getting-started/",
+      "https://console.akash.network/providers"
+    ],
+    "related": ["akash-provider-endpoint-change", "akash-monitor-guide", "akash-provider-vs-wallet"]
+  },
+  {
+    "project": "akash",
+    "slug": "akash-provider-endpoint-change",
+    "title": {
+      "zh": "Akash 提供商入口改了，旧租约会转到新地址吗？",
+      "zh-TW": "Akash 供應商入口改了，舊租約會轉新地址嗎？",
+      "en": "Akash provider endpoint changes versus identity changes",
+      "ko": "Akash 공급자 엔드포인트 변경과 ID 변경",
+      "ja": "Akashの提供者URL変更とID変更の違い"
+    },
+    "answer": {
+      "zh": "入口网址变化和 akash1 提供商身份变化是两件事。仅改访问网址，不应据此新建一份收益历史；若身份地址变了，也不能假定旧租约自动转入。",
+      "zh-TW": "入口網址變動與 akash1 身份變動不同。只改網址勿新建收益歷史；身份改變也勿假定舊租約自動轉入。",
+      "en": "A provider endpoint change is different from an akash1 identity change. A new access URL alone does not establish a new earnings history. A new identity likewise does not prove that old leases migrated automatically.",
+      "ko": "접속 URL 변경과 akash1 ID 변경은 다릅니다. URL만 바뀌었다고 수입 이력을 새로 만들거나 새 ID로 기존 리스가 자동 이전됐다고 보지 마세요.",
+      "ja": "入口URL変更とakash1識別子変更は別です。URLだけで収入履歴を新設したり、新IDへ旧リースが自動移行したと考えたりしません。"
+    },
+    "checks": {
+      "zh": "保存旧地址、旧入口、变更时间及官方租约编号。更新后先查目录中的提供商地址，再回官方控制台按租约 ID 核对归属。本站修改设备别名或保存记录，只影响展示，不会执行链上迁移或改变租约条款。",
+      "zh-TW": "保存舊地址、入口、時間及官方租約編號。變更後先查目錄地址，再以租約 ID 對歸屬。本站別名與記錄修改只影響顯示，不做鏈上遷移或改條款。",
+      "en": "Preserve the old address, endpoint, change time and official lease identifiers. After the change, compare the directory identity, then inspect each lease in the provider console. Editing a nickname or saved monitoring record affects organization only; it does not execute an on-chain migration or amend contract terms.",
+      "ko": "이전 주소·URL·변경 시각·공식 리스 ID를 저장하세요. 변경 후 디렉터리 ID와 콘솔의 리스 귀속을 확인합니다. 모니터 별명 수정은 체인 이전이나 계약 변경을 실행하지 않습니다.",
+      "ja": "旧アドレス・入口・変更時刻・公式リースIDを保存します。更新後に一覧の提供者IDとコンソール上のリース帰属を確認します。監視の別名編集はチェーン移行や契約変更を実行しません。"
+    },
+    "example": {
+      "zh": "示例：同一 akash1 改了 API 域名，目录暂时无法读取。应检查新入口与最近成功时间，不把旧租约收入归零，也不凭网址不同重复计算一个提供商。",
+      "zh-TW": "示例：同 akash1 改 API 網域暫不可讀，查新入口和成功時間，不歸零舊收入、不重複算供應商。",
+      "en": "Example: the same akash1 provider changes its API domain and temporarily becomes unreadable. Check the endpoint and last successful observation. Neither zeroing old revenue nor duplicating the provider follows from a different URL.",
+      "ko": "예: 같은 akash1의 API 도메인 변경으로 읽기가 실패하면 새 URL과 최근 성공 시각을 확인합니다. 이전 수입을 0으로 만들거나 공급자를 중복 집계하지 마세요.",
+      "ja": "例：同じakash1がAPIドメイン変更で一時取得不能なら、新入口と最終成功時刻を確認します。旧収入のゼロ化や二重登録は根拠がありません。"
+    },
+    "sources": [
+      "https://akash.network/docs/providers/getting-started/",
+      "https://console.akash.network/providers"
+    ],
+    "related": ["akash-gpu-allocation-ratio", "akash-monitor-guide", "akash-provider-vs-wallet"]
+  }
+]

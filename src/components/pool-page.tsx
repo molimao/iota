@@ -294,7 +294,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           </section>
         )}
       </QuietDetails>
-      {!lucky && <ProjectAbout project={project} />}
+      <ProjectAbout project={project} />
     </main>
   );
 }

@@ -1,0 +1,86 @@
+[
+  {
+    "project": "xmr",
+    "slug": "xmr-payout-address-rotation-history",
+    "title": {
+      "zh": "XMR 换收款地址后，旧池余额怎么查？",
+      "zh-TW": "XMR 換收款地址後，舊池餘額怎麼查？",
+      "en": "XMR payout address changes and old pool balances",
+      "ko": "XMR 지급 주소 변경과 이전 풀 잔액",
+      "ja": "XMR受取先変更後の旧プール残高"
+    },
+    "answer": {
+      "zh": "矿池按提交的收款标识记账。更换地址不会把旧记录合并到新地址；不同子地址即使属于同一钱包，也不能假定矿池将它们视为同一账户。",
+      "zh-TW": "礦池依收款標識記帳，換地址不合併舊紀錄；同錢包的不同子地址也不能假定為同帳戶。",
+      "en": "Pools account by the payout identifier supplied to them. Changing it does not merge the old record into the new one. Different subaddresses may belong to one wallet without becoming one pool account.",
+      "ko": "풀은 제출한 지급 ID로 집계합니다. 주소 변경은 이력 병합이 아니며 같은 지갑의 하위 주소도 별도 풀 계정일 수 있습니다.",
+      "ja": "プールは提出された受取識別子で計上します。変更で履歴は統合されず、同じウォレットのサブアドレスも同一プール口座とは限りません。"
+    },
+    "checks": {
+      "zh": "保存旧地址、来源矿池和未付记录，按该池支持的地址类型查询。新配置生效后分别核对两份记录及实际付款。不要通过“钱包属于我”推算池中未付已转走，也不要把私有 view key 或种子填入公开查询。",
+      "zh-TW": "存舊地址、池與未付，依該池支援類型查詢；新設定生效後分查及核對付款。勿推定未付已搬移，亦勿填 view key 或種子。",
+      "en": "Keep the old address, pool and unpaid record, and use the address types supported by that source. After activating the new configuration, inspect both records and actual payments. Ownership of one wallet does not prove that its pool balances moved. Public monitoring does not require a private view key or seed phrase.",
+      "ko": "이전 주소·풀·미지급 기록을 보관하고 지원 주소 유형으로 조회하세요. 새 설정 후 양쪽 지급을 확인하며 개인 view key나 시드를 넣지 않습니다.",
+      "ja": "旧アドレス・プール・未払いを保存し、対応アドレス種別で照会します。新設定後は両記録と実支払いを確認し、秘密view keyやシードは入力しません。"
+    },
+    "example": {
+      "zh": "示例：旧地址有未付，新子地址显示 0。先回旧池账户核对，不能用新地址 0 说明余额丢失；是否达到付款条件仍按旧池当前规则。",
+      "zh-TW": "示例：舊地址未付、新子地址 0，回舊帳戶查，不代表丟失；付款依舊池現行規則。",
+      "en": "Example: the old address has unpaid XMR and the new subaddress shows zero. Check the old pool account before diagnosing loss. Payment eligibility remains subject to that pool’s current rules.",
+      "ko": "예: 이전 주소 미지급과 새 하위 주소 0은 공존합니다. 손실 판단 전 이전 계정과 현재 지급 조건을 확인하세요.",
+      "ja": "例：旧未払いと新サブアドレスのゼロは両立します。消失と判断する前に旧口座と現行支払条件を確認します。"
+    },
+    "sources": [
+      "https://pool.kryptex.com/en/xmr",
+      "https://minerstat.com/coin/xmr",
+      "https://www.getmonero.org/resources/moneropedia/address.html"
+    ],
+    "related": [
+      "xmr-pool-dashboard-privacy",
+      "xmr-mining-monitor-guide",
+      "xmr-kryptex-address-types"
+    ]
+  },
+  {
+    "project": "xmr",
+    "slug": "xmr-pool-dashboard-privacy",
+    "title": {
+      "zh": "XMR 矿池监控链接能公开分享吗？",
+      "zh-TW": "XMR 礦池監控連結能公開分享嗎？",
+      "en": "Privacy when sharing an XMR pool monitoring link",
+      "ko": "XMR 풀 모니터 링크 공유 시 개인정보",
+      "ja": "XMRプール監視リンクを公開する前の確認"
+    },
+    "answer": {
+      "zh": "门罗币链上的隐私，不等于矿池统计链接没有信息。公开地址查询页仍可能展示 Worker 名、算力和付款统计，设备别名也可能泄露使用地点。",
+      "zh-TW": "門羅幣鏈上隱私不代表礦池頁無資訊。公開頁可顯示 Worker、算力及付款統計，別名也可暴露地點。",
+      "en": "Monero’s on-chain privacy does not make a pool statistics link information-free. A public lookup can expose worker labels, hashrate and payment statistics. A device nickname may also reveal a location or employer.",
+      "ko": "Monero 체인 프라이버시가 풀 통계 링크까지 숨기지는 않습니다. 워커 이름·속도·지급 통계와 장소를 드러내는 별명이 노출될 수 있습니다.",
+      "ja": "Moneroのチェーン上のプライバシーとプール統計公開は別です。Worker名・算力・支払い統計や場所を示す別名が表示されることがあります。"
+    },
+    "checks": {
+      "zh": "分享前用未登录视角检查链接实际展示内容。截图遮去不必要的完整地址、公司名和 Worker 标签；不要分享含登录令牌的链接。查询来源的公开字段即可，勿上传钱包文件或私钥换取所谓完整监控。",
+      "zh-TW": "分享前以未登入視角檢查內容，截圖遮完整地址、公司名及不必要 Worker；不分享登入令牌，也不交錢包檔或私鑰換監控。",
+      "en": "Inspect the link as a signed-out viewer before sharing it. Redact unnecessary full addresses, company names and worker labels in screenshots, and avoid links containing login tokens. Use the source’s public fields. A promise of complete monitoring is not a reason to upload wallet files or private keys.",
+      "ko": "공유 전 로그아웃 관점으로 확인하고 불필요한 주소·회사명·워커를 가리세요. 로그인 토큰 링크나 지갑 파일·개인키는 공유하지 않습니다.",
+      "ja": "公開前にログアウト状態で内容を確認し、不要な完全アドレス・会社名・Worker名を伏せます。ログイントークン付きURLやウォレットファイル・秘密鍵を共有しません。"
+    },
+    "example": {
+      "zh": "示例：截图里的 Worker 叫 company-floor3。即便看不到链上交易细节，该名称仍暴露环境。可改用中性别名；改名只影响后续标签，不保证清除矿池历史。",
+      "zh-TW": "示例：Worker 名 company-floor3 暴露環境，可用中性名；改名不保證刪除歷史。",
+      "en": "Example: a worker named company-floor3 reveals context without revealing a chain transaction. Use a neutral label where appropriate. Renaming future activity does not guarantee removal of historical pool records.",
+      "ko": "예: company-floor3는 환경을 드러냅니다. 중립 이름을 쓰되 변경이 기존 풀 이력 삭제를 보장하지는 않습니다.",
+      "ja": "例：company-floor3は環境を明かします。中立名に変更しても、過去プール記録の削除保証にはなりません。"
+    },
+    "sources": [
+      "https://pool.kryptex.com/en/xmr",
+      "https://minerstat.com/coin/xmr",
+      "https://www.getmonero.org/resources/moneropedia/address.html"
+    ],
+    "related": [
+      "xmr-payout-address-rotation-history",
+      "xmr-mining-monitor-guide",
+      "xmr-kryptex-address-types"
+    ]
+  }
+]

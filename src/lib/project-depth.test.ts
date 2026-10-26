@@ -31,7 +31,6 @@ import { buildArticleMarkdown } from "./crawl";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const generator = path.join(root, "scripts/generate-project-depth.mjs");
-const REQUIRED_PROJECTS = 25;
 
 function label(value: string): Article["title"] {
   return { zh: value, "zh-TW": value, en: value, ko: value, ja: value };
@@ -282,18 +281,18 @@ describe("project guide packs", () => {
     }
   });
 
-  it("does not treat a partial acceptance list as all 25 projects", () => {
+  it("does not treat a partial depth-pack list as the full project catalog", () => {
     const loaded = [...new Set(projectDepthGuides.map((guide) => guide.project))].sort();
     const accepted = [...acceptedDepthProjectIds].sort();
     expect(new Set(acceptedDepthProjectIds).size).toBe(acceptedDepthProjectIds.length);
     expect(loaded).toEqual(accepted);
     const catalog = [...PROJECT_IDS].sort();
     const missing = catalog.filter((id) => !loaded.includes(id));
-    if (accepted.length === REQUIRED_PROJECTS) {
+    if (accepted.length === catalog.length) {
       expect(loaded).toEqual(catalog);
       expect(missing).toEqual([]);
     } else {
-      expect(accepted.length).toBeLessThan(REQUIRED_PROJECTS);
+      expect(accepted.length).toBeLessThan(catalog.length);
       expect(missing.length).toBeGreaterThan(0);
     }
   });

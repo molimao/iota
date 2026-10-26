@@ -1,0 +1,78 @@
+[
+  {
+    "project": "quantus",
+    "slug": "quantus-local-node-vs-network-height",
+    "title": {
+      "zh": "Quantus 本机节点高度和全网高度怎么对？",
+      "zh-TW": "Quantus 本機節點高度與全網高度怎麼對？",
+      "en": "Compare Quantus local sync height with the network",
+      "ko": "Quantus 로컬 동기화 높이와 네트워크 높이 비교",
+      "ja": "Quantusローカル同期高とネットワーク高の照合"
+    },
+    "answer": {
+      "zh": "全网继续出块，不代表你的本机节点已追上。浏览器提供网络侧视图，本机日志或节点状态提供本地同步进度；两边必须属于同一主网。",
+      "zh-TW": "全網持續出塊不代表本機已追上。瀏覽器是網路視圖，本機日誌或節點狀態是本地進度，兩邊須為同一主網。",
+      "en": "A progressing network does not establish that your local node is synchronized. The explorer shows the network view; local node status or logs show your own progress. Both records must refer to the same mainnet.",
+      "ko": "네트워크 블록이 늘어도 로컬 노드 동기화는 별도입니다. 탐색기와 로컬 로그의 높이를 같은 메인넷에서 비교하세요.",
+      "ja": "全網が進んでも自分のノードの同期完了は別です。探索画面とローカルログの高さを同じメインネットで比較します。"
+    },
+    "checks": {
+      "zh": "同时记录两边的区块高度、区块哈希和读取时间，先确认主网而非 Planck。高度差逐步缩小可继续观察；高度接近但哈希或网络不符，应先查节点网络配置。不要仅凭全网出块图重装钱包。",
+      "zh-TW": "同時記錄高度、區塊雜湊與時間，先確認主網而非 Planck。差距縮小可觀察；高度接近但雜湊或網路不符，先查節點設定。勿只因全網圖表重裝錢包。",
+      "en": "Record block height, hash and observation time on both sides, and verify mainnet rather than retired Planck. A shrinking gap suggests progress worth observing. Similar heights with different network identities require a configuration check before interpreting mining results. A network chart alone does not justify reinstalling a wallet.",
+      "ko": "양쪽 높이·해시·시각과 메인넷 여부를 기록하세요. 차이가 줄면 진행을 관찰하고 네트워크가 다르면 설정부터 확인합니다. 전역 차트만 보고 지갑을 재설치하지 마세요.",
+      "ja": "高さ・ハッシュ・時刻とメインネット識別を保存します。差が縮むなら経過を観察し、ネットワークが違えば設定を確認します。全網グラフだけでウォレットを再導入しません。"
+    },
+    "example": {
+      "zh": "示例：浏览器高度 1000、本机 900，只说明读取时本地落后；不能把少的 100 块换成你少赚的 QTC。奖励仍须按实际奖励地址和记录核对。",
+      "zh-TW": "示例：瀏覽器 1000、本機 900，只表示本機落後，不能把差額 100 塊換成少賺的 QTC。獎勵另依地址紀錄核對。",
+      "en": "Example: explorer height 1000 and local height 900 show a local gap at observation time. The missing 100 heights are not 100 personal rewards. Reconcile actual rewards separately using the reward address and its records.",
+      "ko": "예: 탐색기 1000, 로컬 900은 높이 차이이며 100개 개인 보상 손실이 아닙니다. 보상 주소 기록은 별도로 대조하세요.",
+      "ja": "例：探索側1000、ローカル900は観測時の高さ差であり、個人報酬100回分ではありません。実報酬は報酬アドレスで別に照合します。"
+    },
+    "sources": ["https://docs.quantus.com/guides/mining/", "https://qtcscan.com/pools/"],
+    "related": [
+      "quantus-reward-address-change-history",
+      "quantus-mainnet-mining-mac",
+      "quantus-wormhole-rewards"
+    ]
+  },
+  {
+    "project": "quantus",
+    "slug": "quantus-reward-address-change-history",
+    "title": {
+      "zh": "Quantus 更换奖励地址后，旧 QTC 记录怎么保留？",
+      "zh-TW": "Quantus 更換獎勵地址後，舊 QTC 紀錄怎麼保留？",
+      "en": "Keep Quantus reward history when changing addresses",
+      "ko": "Quantus 보상 주소 변경 시 이전 기록 보관",
+      "ja": "Quantus報酬アドレス変更時の旧記録の残し方"
+    },
+    "answer": {
+      "zh": "更换配置不会把旧地址的奖励历史自动搬到新地址。矿池收款标识与 Wormhole 奖励地址还可能属于不同查询入口，要先记录它们的对应关系。",
+      "zh-TW": "更換設定不會自動搬移舊獎勵。礦池收款標識和 Wormhole 獎勵地址也可能用不同入口，先記錄對應關係。",
+      "en": "Changing configuration does not migrate reward history to a new address. A pool payout identifier and a Wormhole reward address can also belong to different lookup paths. Record their relationship before replacing either saved record.",
+      "ko": "설정 변경으로 이전 보상 기록이 새 주소로 옮겨지지 않습니다. 풀 지급 ID와 Wormhole 보상 주소의 조회 경로도 구분하세요.",
+      "ja": "設定変更で旧報酬履歴が新アドレスに移るわけではありません。プール受取IDとWormhole報酬アドレスの対応も先に記録します。"
+    },
+    "checks": {
+      "zh": "保存旧地址、矿池、切换时间与尚未完成的奖励记录；在软件确认新配置生效后，再看新地址是否出现新活动。核对时分开两段历史，不把旧地址待付填进新地址余额，不用退役网络结果补缺口。",
+      "zh-TW": "保存舊地址、礦池、切換時間與未完成獎勵。確認新設定生效，再查新活動。兩段歷史分開，勿把舊待付填成新餘額，也勿用退役網路補缺。",
+      "en": "Save the old address, pool, change time and any outstanding rewards. Confirm that the miner is actually using the new configuration before expecting new activity. Keep the two histories distinct. Old pending amounts do not become a new address balance, and records from a retired network cannot fill a mainnet gap.",
+      "ko": "이전 주소·풀·전환 시각·미완료 보상을 보관하고 새 설정이 실제 적용됐는지 봅니다. 이전 미지급액을 새 잔액으로 넣거나 종료된 네트워크 기록으로 빈칸을 메우지 마세요.",
+      "ja": "旧アドレス・プール・切替時刻・未完了報酬を保存し、新設定の有効化を確認します。旧未払いを新残高に入れたり、終了ネットワークの結果で欠損を埋めたりしません。"
+    },
+    "example": {
+      "zh": "示例：上午用 A，下午改 B。当天核对需要 A、B 两份原始记录；只有来源确实分别记账时才按一致时间范围汇总，不能把同一 Wormhole 记录重复算两次。",
+      "zh-TW": "示例：上午 A、下午 B，需兩份原始紀錄。同一時間範圍且各自記帳才可匯總，同一 Wormhole 紀錄勿重複計算。",
+      "en": "Example: A was configured in the morning and B in the afternoon. Preserve both source records. Combine only distinct accounting entries over matching intervals; the same Wormhole record must not be counted twice through different lookup paths.",
+      "ko": "예: 오전 A, 오후 B라면 두 원본을 보관합니다. 같은 기간의 독립 기록만 합산하고 동일 Wormhole 보상을 두 경로로 중복 계산하지 마세요.",
+      "ja": "例：午前A、午後Bなら両方の原本を保存します。同じ期間の別々の計上だけ合算し、同一Wormhole記録を別経路で重複計上しません。"
+    },
+    "sources": ["https://docs.quantus.com/guides/mining/", "https://qtcscan.com/pools/"],
+    "related": [
+      "quantus-local-node-vs-network-height",
+      "quantus-mainnet-mining-mac",
+      "quantus-wormhole-rewards"
+    ]
+  }
+]

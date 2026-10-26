@@ -1,0 +1,74 @@
+[
+  {
+    "project": "xid",
+    "slug": "xid-worker-rename-history",
+    "title": {
+      "zh": "MMM 改 Worker 名后，旧记录为什么还在？",
+      "zh-TW": "MMM 改 Worker 名後，舊紀錄為何還在？",
+      "en": "MMM worker renaming and XID pool history",
+      "ko": "MMM 워커 이름 변경 후 XID 기록 확인",
+      "ja": "MMMのWorker名変更後もXID旧記録が残る理由"
+    },
+    "answer": {
+      "zh": "Worker 名是矿池识别份额来源的标签，不是设备硬件编号。改名后，矿池可能在统计窗口内同时保留新旧标签；两行不一定是两台机器。",
+      "zh-TW": "Worker 是礦池辨識份額來源的標籤，不是硬體編號。改名後，統計窗口可同時保留新舊名稱；兩行不一定是兩台機器。",
+      "en": "A worker name labels the origin of pool shares; it is not a hardware serial number. After a rename, the pool may retain the old label while new shares arrive under the new one. Two rows during that reporting window do not establish that two machines are mining.",
+      "ko": "워커 이름은 셰어 출처 라벨이며 하드웨어 번호가 아닙니다. 이름을 바꾸면 집계 기간에 이전·새 이름이 함께 남을 수 있습니다. 두 행이 실제 두 기기를 뜻하지는 않습니다.",
+      "ja": "Worker名はシェア送信元のラベルで、ハードウェア番号ではありません。変更直後は統計期間内に新旧名が併存することがあり、2行あっても2台とは限りません。"
+    },
+    "checks": {
+      "zh": "记录改名时间，确认 MMM 实际运行配置中的主网收款地址、矿池和新名称。然后在同一矿池看新标签最近份额是否推进、旧标签是否停止更新。若新旧都持续有新份额，再检查是否存在第二个进程或另一台复用旧名称的机器。",
+      "zh-TW": "記錄改名時間，確認 MMM 生效設定的主網收款地址、礦池和新名稱。在同一池看新標籤份額是否推進、舊標籤是否停更。兩者持續更新時，再查第二個程序或沿用舊名稱的其他機器。",
+      "en": "Record the rename time and check the active MMM configuration: mainnet payout address, pool endpoint and new worker label. On that same pool, check whether the new label receives recent shares and the old label stops advancing. If both continue to submit fresh shares, investigate another running process or a second machine still using the old label. Do not diagnose duplication from a cached worker count alone.",
+      "ko": "변경 시각과 실제 MMM 설정의 메인넷 주소·풀·새 이름을 확인하세요. 같은 풀에서 새 이름의 최근 셰어가 갱신되고 이전 이름이 멈추는지 봅니다. 둘 다 새 셰어를 내면 별도 프로세스나 이전 이름을 쓰는 다른 기기를 확인하세요.",
+      "ja": "変更時刻とMMMの有効設定にあるメインネット受取先・プール・新名を確認します。同じプールで新名の直近シェアが進み、旧名が停止するかを見ます。両方更新され続ける場合は別プロセスや旧名を使う別機器を調べます。"
+    },
+    "example": {
+      "zh": "示例：把 mac 改成 office-mac，旧行仍显示一段时间平均算力。先看最后份额时间，不把两行平均值当作当前总速度。本站可保留原设备名称，更新它对应的项目记录，避免因改标签重复添加设备。",
+      "zh-TW": "示例：mac 改為 office-mac，舊行仍顯示窗口平均算力。先看最後份額時間，不把兩行平均值當即時總速度。可保留本站原設備名稱並更新項目記錄，避免重複新增。",
+      "en": "Example: mac becomes office-mac, but mac still shows an average hashrate. Check its last-share time before adding those averages together. Keep a single physical-device record in the overview where appropriate, and update the related project record rather than creating a second machine merely because its pool label changed.",
+      "ko": "예: mac을 office-mac으로 바꿔도 mac에 평균 속도가 남습니다. 마지막 셰어 시각을 먼저 확인하고 두 평균을 현재 총속도로 더하지 마세요. 물리 기기는 하나로 유지하고 연결된 프로젝트 기록을 수정하세요.",
+      "ja": "例：macをoffice-macに変更しても旧名に平均算力が残ります。最終シェア時刻を先に確認し、平均値同士を現在速度として足しません。実機の登録は一つに保ち、関連プロジェクト記録を更新します。"
+    },
+    "sources": ["https://xcoinproject.com/", "https://macmetalminer.com/"],
+    "related": [
+      "xid-pool-payout-explorer-check",
+      "xid-mmm-mainnet-setup",
+      "xid-worker-hashrate-shares"
+    ]
+  },
+  {
+    "project": "xid",
+    "slug": "xid-pool-payout-explorer-check",
+    "title": {
+      "zh": "XID 矿池显示已付，钱包没看到怎么查？",
+      "zh-TW": "XID 礦池顯示已付，錢包未見怎麼查？",
+      "en": "Trace an XID pool payout to the mainnet explorer",
+      "ko": "XID 풀 지급을 메인넷 거래와 대조하기",
+      "ja": "XIDプールの支払済みをメインネット取引で確認する"
+    },
+    "answer": {
+      "zh": "矿池的已付统计、付款交易和钱包显示是三个核对点。先找这一笔付款对应的公开交易，而不是拿矿池累计已付直接对钱包当前余额。",
+      "zh-TW": "礦池已付統計、付款交易及錢包顯示是三個核對點。先找該筆公開交易，不以累計已付直接對目前餘額。",
+      "en": "Pool paid totals, payout transactions and wallet displays are three separate reconciliation points. Start with the individual payment and its public transaction reference. Comparing a lifetime paid total directly with the wallet’s current spendable balance mixes payment history with later transfers and other wallet activity.",
+      "ko": "풀 지급 합계, 지급 거래, 지갑 표시는 서로 다른 확인 지점입니다. 개별 지급과 공개 거래를 먼저 찾으세요. 누적 지급과 현재 잔액을 바로 비교하면 이후 송금 등 다른 활동이 섞입니다.",
+      "ja": "プール支払済み合計・支払い取引・ウォレット表示は別の確認点です。まず個別支払いの公開取引を探します。累計支払額と現在残高の直接比較では、その後の送金などが混ざります。"
+    },
+    "checks": {
+      "zh": "核对矿池、付款时间、原生 XID 数量及目标主网 xpa1r 地址。用官方入口指向的主网浏览器检查交易收款方与确认状态；不要切到退役 txa1r 测试网。如果池没有提供交易编号，先记录原始付款行，等待来源补全，不编造到账状态。",
+      "zh-TW": "核對礦池、付款時間、XID 數量和主網 xpa1r 地址。透過官方入口的主網瀏覽器查收款方及確認，勿切換退役 txa1r 測試網。池未提供交易編號時保存原始付款行，勿補成已到帳。",
+      "en": "Match the pool, payment time, native XID amount and destination xpa1r mainnet address. Follow the official mainnet explorer link and inspect the destination and confirmation state. A retired txa1r testnet record is not interchangeable. If the source provides no transaction identifier, preserve the original payment row and treat chain arrival as unverified rather than inventing a successful transfer.",
+      "ko": "풀·지급 시각·XID 수량·xpa1r 메인넷 목적지를 맞추세요. 공식 메인넷 탐색기에서 수신자와 확인 상태를 봅니다. 종료된 txa1r 테스트넷 기록은 대체할 수 없습니다. 거래 ID가 없으면 원본 지급 행을 보관하고 체인 도착은 미확인으로 둡니다.",
+      "ja": "プール・支払時刻・XID枚数・xpa1rメインネット宛先を照合します。公式入口のメインネット探索画面で受取先と承認を確認し、終了済みtxa1rテストネットと混同しません。取引ID未提供なら原本を保存し、着金確認済みと補いません。"
+    },
+    "example": {
+      "zh": "示例：累计已付增加，但钱包曾把资金转走。应对照新增那笔交易，而非要求钱包余额等于累计已付。核对只需公开地址与交易编号；不要向监控网站提交钱包种子或 MMM 私密配置。",
+      "zh-TW": "示例：累計已付增加，但錢包已轉出資金。核對新增交易，不要求餘額等於累計已付。只需公開地址及交易編號，不提交種子或 MMM 私密設定。",
+      "en": "Example: the pool’s paid total rises after a payout, but that wallet previously sent funds elsewhere. Reconcile the new transaction, not the entire lifetime total. Public addresses and transaction references are sufficient for this check; wallet seeds and private MMM configuration are unnecessary.",
+      "ko": "예: 지급 합계는 늘었지만 지갑이 이전에 송금했습니다. 새 거래를 대조하고 잔액과 누적 지급을 같게 맞추지 마세요. 공개 주소와 거래 ID만 필요하며 시드나 비공개 MMM 설정은 필요 없습니다.",
+      "ja": "例：支払合計は増えたものの、以前にウォレットから送金しています。新規取引を照合し、残高を累計支払額に一致させようとしません。公開アドレスと取引IDで足り、シードやMMM秘密設定は不要です。"
+    },
+    "sources": ["https://xcoinproject.com/", "https://macmetalminer.com/"],
+    "related": ["xid-worker-rename-history", "xid-mmm-mainnet-setup", "xid-worker-hashrate-shares"]
+  }
+]

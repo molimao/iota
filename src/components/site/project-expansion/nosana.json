@@ -1,0 +1,80 @@
+[
+  {
+    "project": "nosana",
+    "slug": "nosana-job-retry-counting",
+    "title": {
+      "zh": "Nosana 同一个 Job 重试，能算两份收益吗？",
+      "zh-TW": "Nosana 同一 Job 重試，能算兩份收益嗎？",
+      "en": "Nosana job retries, executions and reward counting",
+      "ko": "Nosana 작업 재시도와 중복 보상 집계",
+      "ja": "NosanaのJob再試行と報酬の重複集計"
+    },
+    "answer": {
+      "zh": "Job、执行尝试和付款不能按行数一一对应。失败后的重试可能属于同一任务生命周期；仅凭两条运行日志，不能记作两份已结算 NOS。",
+      "zh-TW": "Job、執行嘗試和付款並非逐行對應。失敗重試可屬同一生命週期，兩行日誌不代表兩筆已結算 NOS。",
+      "en": "Jobs, execution attempts and payments are not interchangeable row counts. A retry after a failure can belong to one job lifecycle. Two log entries alone do not establish two settled NOS rewards.",
+      "ko": "작업·실행 시도·지급은 행 수로 대응하지 않습니다. 실패 후 재시도는 같은 작업에 속할 수 있으며 두 로그가 두 NOS 정산을 뜻하지 않습니다.",
+      "ja": "Job・実行試行・支払いは行数で対応しません。失敗後の再試行は同じJobの一部となり、ログ2行だけでNOS報酬2件とは言えません。"
+    },
+    "checks": {
+      "zh": "先对照节点 Solana 地址、Job ID、执行时间和最终状态。把排队、运行、失败、完成分开；只有官方付款记录能够支持已结算金额。历史列表重复出现同一 Job 时，先按 ID 查上下文，不用显示行数估算 GPU 数量或收益。",
+      "zh-TW": "核對節點 Solana 地址、Job ID、時間及最終狀態。排隊、執行、失敗、完成分開；結算依付款紀錄。同一 Job 重複出現先查 ID 上下文，不按行數估 GPU 或收益。",
+      "en": "Match the node’s Solana address, Job ID, execution time and final state. Separate queued, running, failed and completed activity, then consult payment records for settled amounts. If a Job ID appears repeatedly, inspect its lifecycle before counting distinct jobs. Neither list length nor retries establish the node’s physical GPU count.",
+      "ko": "노드 Solana 주소·Job ID·시각·최종 상태를 맞춥니다. 대기·실행·실패·완료를 나누고 지급 기록으로 정산을 확인하세요. 같은 ID가 반복되면 생명주기를 확인하며 행 수로 GPU나 수입을 계산하지 마세요.",
+      "ja": "ノードSolanaアドレス・Job ID・実行時刻・最終状態を照合します。待機・実行・失敗・完了を分け、精算額は支払い記録で確認します。同じIDが再登場したら履歴を確認し、行数からGPU数や収入を推計しません。"
+    },
+    "example": {
+      "zh": "示例：一次失败后重新执行并完成。可保留两个执行事件、一个 Job 身份；是否付费及付多少仍需官方结算证据，不能直接把两次事件乘以任务单价。",
+      "zh-TW": "示例：失敗後重試並完成，可有兩個事件、一個 Job。是否付款及金額仍依結算，不把事件數乘單價。",
+      "en": "Example: an execution fails, then a retry completes. Preserve two events under one job identity. Payment eligibility and amount still require settlement evidence; multiplying event count by an assumed task price would overstate income.",
+      "ko": "예: 실패 후 재시도 완료는 사건 두 개, Job 하나일 수 있습니다. 정산 근거 없이 두 사건에 가정 단가를 곱하지 마세요.",
+      "ja": "例：失敗後の再試行完了は、Job一つにイベント二つです。精算根拠なしにイベント数へ仮定単価を掛けません。"
+    },
+    "sources": [
+      "https://learn.nosana.com/deployments/jobs/job_execution_flow",
+      "https://dashboard.nosana.com/"
+    ],
+    "related": [
+      "nosana-replaced-host-address-history",
+      "nosana-monitor-guide",
+      "nosana-host-id-vs-wallet"
+    ]
+  },
+  {
+    "project": "nosana",
+    "slug": "nosana-replaced-host-address-history",
+    "title": {
+      "zh": "Nosana 重装或更换 Host 地址，旧任务怎么查？",
+      "zh-TW": "Nosana 重裝或更換 Host 地址，舊任務怎麼查？",
+      "en": "Nosana history after replacing a host identity",
+      "ko": "Nosana 호스트 ID 교체 후 이전 작업 찾기",
+      "ja": "NosanaホストID変更後の旧Job履歴"
+    },
+    "answer": {
+      "zh": "重新安装并不必然更换节点身份，先看实际 Host 地址是否变化。若公钥变了，旧任务仍属于旧地址；同一机器的别名不能把两份链上身份合成一个。",
+      "zh-TW": "重裝未必換身份，先查 Host 地址是否改變。公鑰變動後，舊任務仍屬舊地址，機器別名不會合併鏈上身份。",
+      "en": "Reinstallation does not necessarily change the host identity; compare the actual address first. If the public key changed, old jobs remain associated with the old identity. A shared machine nickname does not merge two network identities.",
+      "ko": "재설치가 반드시 ID 변경은 아닙니다. 실제 Host 주소를 비교하고 공키가 바뀌었다면 이전 작업은 이전 ID로 조회하세요.",
+      "ja": "再インストールで必ずIDが変わるとは限りません。Hostアドレスを比べ、公開鍵が変わった場合は旧Jobを旧IDで照会します。"
+    },
+    "checks": {
+      "zh": "切换前保存公开 Host 地址、最后任务 ID 与时间。启动后核对当前节点地址，再在官方记录中分别查新旧身份。本站设备视角可关联项目记录，但不会替你转移密钥、任务或 NOS；不要为找回历史上传私钥。",
+      "zh-TW": "切換前保存公開 Host、最後 Job ID 和時間。啟動後核對現地址，分別查新舊身份。設備視角可關聯記錄，不會轉移密鑰、工作或 NOS；勿上傳私鑰找歷史。",
+      "en": "Before a change, save the public host address, last Job ID and time. After startup, compare the active address and inspect each identity in official records. Linking records in a device overview is an organizational step, not a migration of keys, jobs or NOS. Recovering a public history does not require uploading the old private key.",
+      "ko": "교체 전 공개 Host·마지막 Job ID·시각을 저장하고 시작 후 현재 주소를 대조하세요. 장치 화면 연결은 정리 기능이며 키·작업·NOS 이전이 아닙니다. 이전 이력을 찾는 데 개인키 업로드는 필요 없습니다.",
+      "ja": "変更前に公開Host・最終Job ID・時刻を保存し、起動後のアドレスを比較します。デバイス画面の関連付けは整理であり、鍵・Job・NOSの移行ではありません。公開履歴の確認に旧秘密鍵は不要です。"
+    },
+    "example": {
+      "zh": "示例：设备名称仍为 gpu-1，但地址 A 变成 B。A 显示历史完成任务、B 刚开始为 0，是两份身份记录；不能直接判定任务被清空。",
+      "zh-TW": "示例：gpu-1 名稱相同，地址 A 變 B。A 有歷史、B 為 0 是不同身份，勿認定工作被清空。",
+      "en": "Example: gpu-1 keeps its name while address A changes to B. A can retain completed jobs while B starts at zero. Compare both addresses before concluding that the history was erased.",
+      "ko": "예: gpu-1 이름은 같아도 A가 B로 바뀌면 A 기록과 B의 0은 별도 ID입니다. 삭제로 판단하기 전에 둘 다 조회하세요.",
+      "ja": "例：gpu-1の名前が同じでもAからBへ変われば、Aの旧履歴とBのゼロは別IDの記録です。削除と判断する前に両方確認します。"
+    },
+    "sources": [
+      "https://learn.nosana.com/deployments/jobs/job_execution_flow",
+      "https://dashboard.nosana.com/"
+    ],
+    "related": ["nosana-job-retry-counting", "nosana-monitor-guide", "nosana-host-id-vs-wallet"]
+  }
+]

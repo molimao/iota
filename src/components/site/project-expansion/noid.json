@@ -1,0 +1,78 @@
+[
+  {
+    "project": "noid",
+    "slug": "noid-changing-pool-old-balance",
+    "title": {
+      "zh": "NOID 换矿池后，旧池待付会跟过去吗？",
+      "zh-TW": "NOID 換礦池後，舊池待付會跟過去嗎？",
+      "en": "NOID pool switching and outstanding balances",
+      "ko": "NOID 풀 변경과 이전 미지급액",
+      "ja": "NOIDプール変更後の旧未払い残高"
+    },
+    "answer": {
+      "zh": "不同矿池分别记账。即使继续使用同一 o1 地址，旧池待付不会因为修改矿工配置就自动出现在新池；链上地址相同不等于矿池账本相同。",
+      "zh-TW": "不同礦池各自記帳。同 o1 地址換池後，舊待付不會自動出現新池；鏈上地址相同不等於帳本相同。",
+      "en": "Pools maintain separate ledgers. Reusing an o1 payout address does not move the old pool’s unpaid balance into the new pool when the miner endpoint changes. A shared chain address is not a shared pool account.",
+      "ko": "풀마다 장부가 별도입니다. 같은 o1 주소를 써도 엔드포인트 변경만으로 이전 미지급액이 새 풀로 이동하지 않습니다.",
+      "ja": "プールごとに台帳は別です。同じo1を使っても接続先変更で旧未払いが新プールへ移るわけではありません。"
+    },
+    "checks": {
+      "zh": "保存旧池名称、地址、切换时间与 owed/paid 原值，再去旧池查成熟及付款状态。新池只核对切换后的新份额。不要用新池的 0 覆盖旧池余额，也不要把链上余额再次加进矿池累计已付。",
+      "zh-TW": "保存舊池、地址、切換時間及 owed/paid，再查舊池成熟與付款；新池查新份額。勿以新池 0 覆蓋舊值或把鏈上餘額加回已付。",
+      "en": "Save the old pool, address, change time and original owed/paid values. Follow maturation and payouts on that pool while checking fresh shares on the new one. Do not overwrite the old balance with a zero from the new pool or add the chain wallet balance again to lifetime pool payments.",
+      "ko": "이전 풀·주소·전환 시각·owed/paid 원값을 저장하세요. 성숙·지급은 이전 풀, 새 셰어는 새 풀에서 봅니다. 새 풀의 0으로 이전 잔액을 덮거나 체인 잔액을 재합산하지 마세요.",
+      "ja": "旧プール・アドレス・切替時刻・owed/paid原値を保存します。成熟と支払いは旧側、新シェアは新側で確認します。新側のゼロで旧残高を上書きせず、チェーン残高を支払済みに再加算しません。"
+    },
+    "example": {
+      "zh": "示例：旧池仍有未付，新池已出现 Worker。可同时保留两个来源记录，但只有实际付款交易能支持钱包到账；换池不构成旧池已结清的证据。",
+      "zh-TW": "示例：舊池未付、新池已有 Worker，可保留兩來源；實際付款交易才證明到帳，換池不代表結清。",
+      "en": "Example: the old pool still owes funds while the new pool has an active worker. Keep both source records. Switching pools does not establish that the old account settled; wallet receipt still needs a payment transaction.",
+      "ko": "예: 이전 풀 미지급과 새 풀 활성 워커는 공존합니다. 전환은 정산 완료 증거가 아니며 지급 거래를 확인하세요.",
+      "ja": "例：旧側の未払いと新側の稼働Workerは併存します。切替は清算完了の証拠ではなく、着金は支払い取引で確認します。"
+    },
+    "sources": [
+      "https://docs.parano1d.org/reference/rpc",
+      "https://www.parano1d-pool.fun/",
+      "https://www.noidexplorer.space/mining"
+    ],
+    "related": ["noid-confirmations-source-time", "noid-monitor-guide", "noid-address-not-found"]
+  },
+  {
+    "project": "noid",
+    "slug": "noid-confirmations-source-time",
+    "title": {
+      "zh": "NOID 确认数对不上，先看哪个区块高度？",
+      "zh-TW": "NOID 確認數不同，先看哪個區塊高度？",
+      "en": "NOID confirmation differences across source snapshots",
+      "ko": "NOID 출처별 확인 수가 다른 이유",
+      "ja": "NOIDの出典別承認数の違いを確認する"
+    },
+    "answer": {
+      "zh": "不同时间读取的节点与矿池可能展示不同确认数。确认推进、矿池成熟和付款是不同阶段；不要把当前确认数当成某台设备的今日收益。",
+      "zh-TW": "不同時間的節點與礦池可顯示不同確認。確認、成熟及付款不同，確認數不是單機今日收益。",
+      "en": "Nodes and pools observed at different times can show different confirmation counts. Chain confirmation, pool maturation and payout are separate stages. A confirmation count is not a device’s daily earnings.",
+      "ko": "조회 시각이 다르면 노드·풀 확인 수가 다를 수 있습니다. 확인·성숙·지급은 별도이며 확인 수는 일일 수익이 아닙니다.",
+      "ja": "観測時刻が違えばノードとプールの承認数も違い得ます。承認・成熟・支払いは別で、承認数は日次収入ではありません。"
+    },
+    "checks": {
+      "zh": "先确认同一主网、同一交易或奖励区块，再记录区块哈希、来源高度和时间。矿池所需成熟条件以当前官方或矿池说明为准，不能把某池阈值套给所有来源。来源落后时保留“较早”信息，不手动补确认数。",
+      "zh-TW": "確認同主網、同交易或獎勵區塊，再存雜湊、來源高度及時間。成熟依該池現行說明，勿套全網；落後來源保留較早標記，不手補確認。",
+      "en": "Match the mainnet and exact transaction or reward block, then record the hash, source height and time. Use the relevant pool’s current maturation rules rather than applying one pool’s threshold everywhere. A lagging source should retain its age label; manually adding confirmations would conceal the actual observation.",
+      "ko": "같은 메인넷·거래 또는 보상 블록의 해시·높이·시각을 저장하세요. 성숙 기준은 해당 풀 안내를 따르고 지연 출처의 확인 수를 수동으로 늘리지 마세요.",
+      "ja": "同じメインネット・取引または報酬ブロックを確認し、ハッシュ・出典高・時刻を保存します。成熟条件は当該プールを参照し、遅れた出典の承認数を手動補完しません。"
+    },
+    "example": {
+      "zh": "示例：矿池显示 16，较新的节点显示 18。先查读取时间和矿池刷新，再判断是否已进入下一结算阶段；不能仅凭节点 18 就写成已打款。",
+      "zh-TW": "示例：池 16、較新節點 18，先查時間與刷新；節點 18 不直接代表已打款。",
+      "en": "Example: a pool shows 16 confirmations while a newer node view shows 18. Check observation times and the next pool refresh. Reaching 18 in one node view does not by itself establish that the pool already paid.",
+      "ko": "예: 풀 16, 새 노드 18이면 시각과 풀 갱신을 봅니다. 노드 18만으로 풀 지급 완료를 판단하지 마세요.",
+      "ja": "例：プール16、より新しいノード18なら観測時刻と次回更新を確認します。ノード18だけで支払済みとは判断しません。"
+    },
+    "sources": [
+      "https://docs.parano1d.org/reference/rpc",
+      "https://www.parano1d-pool.fun/",
+      "https://www.noidexplorer.space/mining"
+    ],
+    "related": ["noid-changing-pool-old-balance", "noid-monitor-guide", "noid-address-not-found"]
+  }
+]

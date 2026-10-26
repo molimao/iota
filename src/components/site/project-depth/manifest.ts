@@ -1268,7 +1268,7 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-24",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
       "akash-monitor-guide",
       "akash-akt-usdc-balances"
@@ -2129,18 +2129,18 @@ export const projectDepthMeta = [
       "ja": "どのアドレスを入れるか"
     },
     "title": {
-      "zh": "Acurast 应该填管理者钱包还是处理器地址？",
-      "zh-TW": "Acurast 應填管理者錢包還是處理器地址？",
-      "en": "Which Acurast address belongs to your processor?",
-      "ko": "Acurast에서 관리자 지갑과 프로세서 주소 중 무엇을 넣나요?",
-      "ja": "Acurastでは管理者ウォレットとプロセッサのどちらを入れますか？"
+      "zh": "Acurast 监控：管理者、处理器、奖励与余额",
+      "zh-TW": "Acurast 監控：管理者、處理器、獎勵與餘額",
+      "en": "Acurast monitoring: managers, processors, rewards and balances",
+      "ko": "Acurast 모니터: 관리자·프로세서·보상·잔액",
+      "ja": "Acurast監視：管理者・プロセッサ・報酬・残高"
     },
     "description": {
-      "zh": "在 Hub 的设备详情复制 Processor 地址。管理者钱包可以管多台手机，不能代替单台处理器。本站只确认主网登记和类型。",
-      "zh-TW": "在 Hub 的裝置詳情複製 Processor 地址。管理者錢包可以管多支手機，不能代替單台處理器。本站只確認主網登記和類型。",
-      "en": "Copy the Processor address from the device in Acurast Hub. A manager wallet can cover many phones and is not that processor. This site only confirms mainnet registration and type.",
-      "ko": "Hub 기기 상세에서 Processor 주소를 복사하세요. 관리 지갑은 여러 휴대폰을 다룰 수 있어 그 프로세서가 아닙니다. 이 사이트는 메인넷 등록과 유형만 확인합니다.",
-      "ja": "Hubの機器詳細からProcessorアドレスをコピーします。管理者ウォレットは複数の電話を扱え、そのプロセッサではありません。当サイトはメインネット登録と種別だけを確認します。"
+      "zh": "输入主网管理者或处理器公开地址，按范围查看处理器心跳、管理者已支付奖励和钱包余额。",
+      "zh-TW": "輸入主網管理者或處理器公開地址，依範圍查看心跳、管理者已支付獎勵及餘額。",
+      "en": "Enter a mainnet manager or processor public address to inspect processor heartbeats, manager-level paid rewards and wallet balances.",
+      "ko": "메인넷 관리자 또는 프로세서 공개 주소로 하트비트·관리자 지급 보상·지갑 잔액을 확인합니다.",
+      "ja": "メインネットの管理者またはProcessor公開アドレスで、ハートビート・管理者支払済み報酬・残高を確認します。"
     },
     "body": {
       "zh": [],
@@ -2150,10 +2150,11 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-12",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
       "acurast-processor-owner-identity",
       "acurast-phone-job-status",
+      "acurast-rewards-settlement",
       "acurast-processor-offline"
     ]
   },
@@ -2168,18 +2169,18 @@ export const projectDepthMeta = [
       "ja": "プロセッサと管理者"
     },
     "title": {
-      "zh": "Acurast 处理器账户和管理者钱包是不是同一个人？",
-      "zh-TW": "Acurast 處理器帳戶和管理者錢包是不是同一人？",
-      "en": "Is the Acurast processor the same account as the Hub manager?",
-      "ko": "Acurast 프로세서 계정과 Hub 관리 지갑은 같은 계정인가요?",
-      "ja": "Acurastのプロセッサ口座とHub管理者は同じですか？"
+      "zh": "Acurast 管理者地址与处理器地址有什么区别？",
+      "zh-TW": "Acurast 管理者地址與處理器地址有何不同？",
+      "en": "Acurast manager vs processor address: which one should I enter?",
+      "ko": "Acurast 관리자 주소와 프로세서 주소의 차이",
+      "ja": "Acurast管理者アドレスとProcessorアドレスの違い"
     },
     "description": {
-      "zh": "Hub 管理者可以添加多台手机，每台手机的处理器是独立账户。本站只认你填入的那个处理器，不把管理钱包下的手机合成一台。",
-      "zh-TW": "Hub 管理者可以新增多支手機，每支手機的處理器是獨立帳戶。本站只認你填入的那個處理器，不把管理錢包下的手機合成一台。",
-      "en": "A Hub manager can add many phones. Each phone’s processor is its own account. This site recognizes only the processor you enter and does not merge phones under the manager wallet.",
-      "ko": "Hub 관리자는 휴대폰을 여러 대 추가할 수 있습니다. 휴대폰마다 프로세서 계정이 따로 있습니다. 이 사이트는 입력한 프로세서만 인정하며 관리 지갑 아래 휴대폰을 한 대로 합치지 않습니다.",
-      "ja": "Hub管理者は複数の電話を追加できます。電話ごとのプロセッサは別口座です。当サイトは入力したプロセッサだけを認め、管理者ウォレット配下を一台にはまとめません。"
+      "zh": "管理者可关联多个处理器；处理器标识不能把管理者汇总奖励变成单台设备收益。",
+      "zh-TW": "管理者可關聯多個處理器；處理器標識不會將管理者獎勵變成單機收益。",
+      "en": "A manager may own multiple processors. A processor lookup does not turn manager aggregate rewards into per-device income.",
+      "ko": "관리자에 여러 프로세서가 연결될 수 있으며 프로세서 조회도 관리자 보상을 기기별 수익으로 바꾸지는 않습니다.",
+      "ja": "管理者には複数Processorが属します。Processor照会でも管理者合計報酬が機器別収入になるわけではありません。"
     },
     "body": {
       "zh": [],
@@ -2189,11 +2190,12 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-24",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
       "acurast-monitor-guide",
+      "acurast-phone-job-status",
       "acurast-rewards-settlement",
-      "acurast-phone-job-status"
+      "acurast-processor-offline"
     ]
   },
   {
@@ -2207,18 +2209,18 @@ export const projectDepthMeta = [
       "ja": "電話が何をしているか"
     },
     "title": {
-      "zh": "Acurast 手机显示已登记，是否代表正在执行部署？",
-      "zh-TW": "Acurast 手機顯示已登記，是否代表正在執行部署？",
-      "en": "Does an Acurast registration mean the phone is running a deployment?",
-      "ko": "Acurast 등록됨은 휴대폰이 배포를 실행 중이라는 뜻인가요?",
-      "ja": "Acurastの登録済みは、電話がデプロイを実行中という意味ですか？"
+      "zh": "Acurast 心跳、在线与任务执行怎么区分？",
+      "zh-TW": "Acurast 心跳、在線與任務執行如何區分？",
+      "en": "Acurast heartbeat vs online state and running jobs",
+      "ko": "Acurast 하트비트·온라인·작업 실행 구분",
+      "ja": "Acurastのハートビート・オンライン・ジョブ実行の違い"
     },
     "description": {
-      "zh": "已登记只说明主网索引里有这台处理器。部署、心跳和基准分要到 Hub 或官方监控里看。本站不把登记写成正在干活。",
-      "zh-TW": "已登記只說明主網索引裡有這台處理器。部署、心跳和基準分要到 Hub 或官方監控裡看。本站不把登記寫成正在幹活。",
-      "en": "Registered only means the mainnet index lists that processor. Deployments, heartbeats, and benchmark scores belong in Hub or official monitoring. This site does not rewrite registration as active work.",
-      "ko": "등록됨은 메인넷 색인에 그 프로세서가 있다는 뜻만 있습니다. 배포, 심박, 벤치마크 점수는 Hub나 공식 모니터링에서 보세요. 이 사이트는 등록을 작업 중으로 바꾸어 쓰지 않습니다.",
-      "ja": "登録済みはメインネット索引にそのプロセッサがあることだけを示します。デプロイ、ハートビート、ベンチマークはHubまたは公式の監視で確認します。当サイトは登録を稼働中とは書きません。"
+      "zh": "链上心跳表示最近上报，不等于正在执行客户任务；任务、奖励和本机状态分开核对。",
+      "zh-TW": "鏈上心跳表示最近回報，不等於執行客戶任務；任務、獎勵與本機狀態分開確認。",
+      "en": "An on-chain heartbeat records recent reporting, not a running customer job. Check task state, rewards and local device state separately.",
+      "ko": "온체인 하트비트는 최근 보고이며 고객 작업 실행을 뜻하지 않습니다. 작업·보상·로컬 상태는 별도로 확인합니다.",
+      "ja": "チェーンのハートビートは最近の報告であり、顧客ジョブの実行ではありません。ジョブ・報酬・ローカル状態は別に確認します。"
     },
     "body": {
       "zh": [],
@@ -2228,11 +2230,12 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-24",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
       "acurast-monitor-guide",
-      "acurast-processor-offline",
-      "acurast-rewards-settlement"
+      "acurast-processor-owner-identity",
+      "acurast-rewards-settlement",
+      "acurast-processor-offline"
     ]
   },
   {
@@ -2246,18 +2249,18 @@ export const projectDepthMeta = [
       "ja": "報酬はどこに付くか"
     },
     "title": {
-      "zh": "Acurast 的 ACU 奖励按什么周期结算，本站为什么不显示金额？",
-      "zh-TW": "Acurast 的 ACU 獎勵按什麼週期結算，本站為什麼不顯示金額？",
-      "en": "On what cycle are Acurast ACU rewards assigned, and why is there no amount here?",
-      "ko": "Acurast ACU 보상은 어떤 주기로 배분되며, 여기에는 왜 금액이 없나요?",
-      "ja": "AcurastのACU報酬はどの周期で割り当てられ、ここではなぜ金額が出ませんか？"
+      "zh": "Acurast 今日 ACU 奖励、累计奖励和钱包余额",
+      "zh-TW": "Acurast 今日 ACU 獎勵、累計獎勵與餘額",
+      "en": "Acurast daily paid ACU rewards vs cumulative rewards and balance",
+      "ko": "Acurast 일일 ACU 지급 보상·누적 보상·잔액",
+      "ja": "Acurastの日次ACU支払報酬・累計報酬・残高"
     },
     "description": {
-      "zh": "官方按约 90 分钟的周期发放基础基准奖励和质押奖励。主网与 Canary 代币不同。本站不读取这些金额，查不到时也不会显示 0。",
-      "zh-TW": "官方按約 90 分鐘的週期發放基礎基準獎勵和質押獎勵。主網與 Canary 代幣不同。本站不讀取這些金額，查不到時也不會顯示 0。",
-      "en": "Official base benchmark rewards and staking rewards are assigned about every 90 minutes. Mainnet and Canary tokens differ. This site does not read those amounts, and a missing figure is not shown as zero.",
-      "ko": "공식 기본 벤치마크 보상과 스테이킹 보상은 약 90분마다 배분됩니다. 메인넷과 Canary 토큰은 다릅니다. 이 사이트는 그 금액을 읽지 않으며, 없는 숫자를 0으로 보이지 않습니다.",
-      "ja": "公式の基本ベンチマーク報酬とステーキング報酬は約90分ごとに割り当てられます。メインネットとCanaryのトークンは別です。当サイトはその金額を読まず、無い数字を0とは表示しません。"
+      "zh": "已支付计算奖励按管理者统计；香港时间今日增量、累计值与钱包余额分别展示。",
+      "zh-TW": "已支付計算獎勵依管理者統計；香港今日增量、累計及餘額分開顯示。",
+      "en": "Paid compute rewards are manager aggregates. Hong Kong-day increases, cumulative values and wallet balances are separate measures.",
+      "ko": "지급된 컴퓨트 보상은 관리자 합계입니다. 홍콩 날짜의 증가량·누적값·지갑 잔액은 별개입니다.",
+      "ja": "支払済み計算報酬は管理者合計です。香港日付の増分・累計・ウォレット残高は別の指標です。"
     },
     "body": {
       "zh": [],
@@ -2267,10 +2270,11 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-24",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
-      "acurast-phone-job-status",
+      "acurast-monitor-guide",
       "acurast-processor-owner-identity",
+      "acurast-phone-job-status",
       "acurast-processor-offline"
     ]
   },
@@ -2285,18 +2289,18 @@ export const projectDepthMeta = [
       "ja": "電話が止まって見えるとき"
     },
     "title": {
-      "zh": "Acurast 手机离线或漏了心跳，登记为什么还在？",
-      "zh-TW": "Acurast 手機離線或漏了心跳，登記為什麼還在？",
-      "en": "Why does Acurast registration remain when the phone is offline or missed heartbeats?",
-      "ko": "Acurast 휴대폰이 오프라인이거나 심박을 놓쳐도 등록은 왜 남나요?",
-      "ja": "Acurastの電話がオフライン、またはハートビートを欠いても登録はなぜ残りますか？"
+      "zh": "Acurast 离线、心跳过期与数据未获取怎么排查？",
+      "zh-TW": "Acurast 離線、心跳過期與未取得資料如何排查？",
+      "en": "Troubleshoot Acurast offline processors, stale heartbeats and missing data",
+      "ko": "Acurast 오프라인·오래된 하트비트·조회 실패 해결",
+      "ja": "Acurastのオフライン・古いハートビート・取得失敗を確認"
     },
     "description": {
-      "zh": "主网登记可以在手机关机后仍然存在。官方允许一个周期三次心跳里成功一次仍发放基准奖励。本站没有在线或离线状态。",
-      "zh-TW": "主網登記可以在手機關機後仍然存在。官方允許一個週期三次心跳裡成功一次仍發放基準獎勵。本站沒有在線或離線狀態。",
-      "en": "Mainnet registration can remain after the phone is off. Official rules can still assign benchmark rewards if one of three heartbeats in an epoch succeeds. This site has no online or offline state.",
-      "ko": "메인넷 등록은 휴대폰이 꺼진 뒤에도 남을 수 있습니다. 공식 규칙은 한 에폭의 심박 세 번 중 한 번만 성공해도 벤치마크 보상을 배분할 수 있습니다. 이 사이트에는 온라인·오프라인 상태가 없습니다.",
-      "ja": "メインネット登録は電話の電源を切った後も残り得ます。公式の規則では、一つのエポックで三回のハートビートのうち一回成功すればベンチマーク報酬を割り当て得ます。当サイトにオンライン／オフライン状態はありません。"
+      "zh": "先分清链上心跳过期、来源读取失败和本机应用停止，再核对相同处理器。",
+      "zh-TW": "先區分心跳過期、來源讀取失敗及本機應用停止，再核對處理器。",
+      "en": "Distinguish an old chain heartbeat, a failed source read and a stopped local app before checking the same processor.",
+      "ko": "체인 하트비트 만료·출처 조회 실패·로컬 앱 중단을 구분하고 같은 프로세서를 확인하세요.",
+      "ja": "チェーンハートビートの経過・取得失敗・ローカルアプリ停止を分けて、同じProcessorを確認します。"
     },
     "body": {
       "zh": [],
@@ -2306,10 +2310,11 @@ export const projectDepthMeta = [
       "ja": []
     },
     "published": "2026-10-24",
-    "modified": "2026-10-24",
+    "modified": "2026-10-26",
     "related": [
-      "acurast-phone-job-status",
       "acurast-monitor-guide",
+      "acurast-processor-owner-identity",
+      "acurast-phone-job-status",
       "acurast-rewards-settlement"
     ]
   },

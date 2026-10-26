@@ -1,0 +1,86 @@
+[
+  {
+    "project": "erg",
+    "slug": "erg-p2pk-address-change-history",
+    "title": {
+      "zh": "ERG 更换 P2PK 地址后，历史付款怎么保留？",
+      "zh-TW": "ERG 更換 P2PK 地址後，歷史付款怎麼保留？",
+      "en": "ERG P2PK address changes and historical pool payments",
+      "ko": "ERG P2PK 주소 변경과 이전 지급 기록",
+      "ja": "ERGのP2PK受取先変更と支払履歴"
+    },
+    "answer": {
+      "zh": "相同钱包软件能管理多个地址，但矿池仍按提交的收款地址记账。新的 P2PK 不会自动继承旧地址 Worker、待付或累计付款。",
+      "zh-TW": "同錢包可管多址，但池按提交地址記帳；新 P2PK 不自動繼承舊 Worker、待付或累計付款。",
+      "en": "One wallet application can manage several addresses while the pool still accounts by the submitted payout address. A new P2PK address does not automatically inherit the old address’s workers, unpaid balance or lifetime payouts.",
+      "ko": "같은 지갑 앱에 여러 주소가 있어도 풀은 제출 주소로 집계합니다. 새 P2PK가 이전 워커·미지급·누적 지급을 자동 상속하지 않습니다.",
+      "ja": "同じウォレットアプリに複数アドレスがあっても、プールは受取先ごとに計上します。新P2PKに旧Worker・未払い・累計支払いは自動継承されません。"
+    },
+    "checks": {
+      "zh": "保存旧地址、矿池和切换时间；新地址须符合本站支持的主网 P2PK 类型，不用 P2S 脚本地址代替。分别查看新份额与旧池付款，再在 Ergo 交易中核对实际收款，避免按钱包软件名称合并两份历史。",
+      "zh-TW": "存舊址、池、時間，新址用本站支援主網 P2PK，不以 P2S 替代。分查新份額、舊付款，於 Ergo 對收款，不按軟體名合併。",
+      "en": "Keep the old address, pool and change time. Validate the new mainnet P2PK address against supported lookup rules rather than substituting a P2S script address. Inspect new shares and old payments separately, then verify receipts on Ergo. A shared wallet-app name is not an accounting key for merging history.",
+      "ko": "이전 주소·풀·시각을 저장하고 지원 메인넷 P2PK를 확인하세요. P2S로 대체하지 말고 새 셰어·이전 지급을 나눠 Ergo에서 대조합니다.",
+      "ja": "旧住所・プール・切替時刻を保存し、対応メインネットP2PKを確認します。P2Sで代用せず、新シェアと旧支払いを分けてErgoで照合します。"
+    },
+    "example": {
+      "zh": "示例：旧地址仍有未付，新地址已有 Autolykos 份额。两行都要保留到对账完成；不要删旧行后把新地址 0 当成“收益全部没了”。",
+      "zh-TW": "示例：舊未付與新 Autolykos 份額並存，對完再整理，勿刪舊後把新 0 當收益全失。",
+      "en": "Example: unpaid ERG remains on the old address while new Autolykos shares reach the replacement. Preserve both until reconciled. A zero on the new record does not mean all earlier rewards disappeared.",
+      "ko": "예: 이전 미지급과 새 Autolykos 셰어가 공존하면 둘 다 보관합니다. 새 기록 0은 이전 보상 소실이 아닙니다.",
+      "ja": "例：旧未払いと新Autolykosシェアが共存すれば両方残します。新側ゼロは過去報酬の消失ではありません。"
+    },
+    "sources": [
+      "https://erg.2miners.com/help",
+      "https://docs.ergoplatform.com/dev/integration/guide/",
+      "https://docs.ergoplatform.com/dev/wallet/address/address_types/"
+    ],
+    "related": [
+      "erg-source-amount-decimals",
+      "erg-mining-monitor-guide",
+      "erg-p2pk-address-monitoring"
+    ]
+  },
+  {
+    "project": "erg",
+    "slug": "erg-source-amount-decimals",
+    "title": {
+      "zh": "ERG 交易原始整数和页面金额为什么差很多？",
+      "zh-TW": "ERG 交易原始整數與頁面金額為何差很多？",
+      "en": "ERG raw amounts, decimals and displayed rewards",
+      "ko": "ERG 원시 정수와 표시 수량의 차이",
+      "ja": "ERGの原始整数と表示枚数の差"
+    },
+    "answer": {
+      "zh": "原始接口的整数可能按最小单位表示，展示层才换算为 ERG。数量级不同不一定是收益暴涨，也不能对已转换字段再除一次精度。",
+      "zh-TW": "原始整數可為最小單位，顯示才轉 ERG；量級不同不一定暴漲，已轉欄位勿再除精度。",
+      "en": "A raw integer can represent the smallest unit while a display reports ERG. A different magnitude does not establish a reward surge. Applying decimal conversion twice to an already normalized field is equally incorrect.",
+      "ko": "원시 정수는 최소 단위, 화면은 ERG일 수 있습니다. 크기 차이가 보상 급증은 아니며 이미 변환한 필드를 재변환하지 마세요.",
+      "ja": "原始整数が最小単位で画面がERGの場合があります。桁差は報酬急増とは限らず、変換済み欄を再変換しません。"
+    },
+    "checks": {
+      "zh": "先读当前来源的字段单位说明。Ergo 的 nanoERG 为 10^-9 ERG，但矿池 API 是否已返回 ERG 要单独确认。保留原值、字段名、单位与转换一次后的结果；付款和余额也按同一单位核对。",
+      "zh-TW": "先讀欄位單位。nanoERG 為 10^-9 ERG，但池 API 可已轉 ERG，須各自查。存原值、欄位、單位及一次轉換結果。",
+      "en": "Read the source field’s documented unit before converting. A nanoERG is 10^-9 ERG, but a pool API can already return normalized ERG. Preserve the raw value, field name, unit and single conversion result. Use matching units when comparing payments and balances; formatted chart labels are not substitutes for those records.",
+      "ko": "출처 필드 단위를 먼저 읽으세요. nanoERG는 10^-9 ERG지만 풀 API는 이미 ERG일 수 있습니다. 원값·필드·단위·한 번 변환 결과를 보관하세요.",
+      "ja": "出典欄の単位を先に読みます。nanoERGは10^-9 ERGですがプールAPIは変換済みERGの場合があります。原値・欄名・単位・一回の変換結果を保存します。"
+    },
+    "example": {
+      "zh": "示例：字段明确写 nanoERG，值 1000000000 才对应 1 ERG；若字段已标 ERG 且值 1，就直接保留 1。缺单位说明时先查来源，不猜小数位。",
+      "zh-TW": "示例：明確 nanoERG 的 1000000000 是 1 ERG；已標 ERG 的 1 保留 1。缺單位勿猜。",
+      "en": "Example: 1000000000 in a field explicitly documented as nanoERG is 1 ERG. A field already labeled ERG with value 1 remains 1. When the unit is undocumented, resolve it at the source instead of guessing decimal places.",
+      "ko": "예: nanoERG로 명시된 1000000000은 1 ERG이고 ERG 필드의 1은 그대로 1입니다. 단위가 없으면 추측하지 마세요.",
+      "ja": "例：nanoERG明記の1000000000は1 ERG、ERG明記の1はそのまま1です。単位不明なら小数桁を推測しません。"
+    },
+    "sources": [
+      "https://erg.2miners.com/help",
+      "https://docs.ergoplatform.com/dev/integration/guide/",
+      "https://docs.ergoplatform.com/dev/wallet/address/address_types/"
+    ],
+    "related": [
+      "erg-p2pk-address-change-history",
+      "erg-mining-monitor-guide",
+      "erg-p2pk-address-monitoring"
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "project": "zec",
+    "slug": "zec-transparent-payout-shielded-wallet",
+    "title": {
+      "zh": "ZEC 转进隐私地址后，矿池付款记录会消失吗？",
+      "zh-TW": "ZEC 轉入隱私地址後，礦池付款會消失嗎？",
+      "en": "ZEC pool payouts before moving funds to a shielded address",
+      "ko": "ZEC 실드 주소 이동 전후 풀 지급 기록",
+      "ja": "ZECをシールド先へ移した後のプール支払履歴"
+    },
+    "answer": {
+      "zh": "矿池向透明地址付款，与钱包后来把资金转往隐私地址是两段活动。本站透明地址监控不跟踪隐私余额；查不到隐私持有量不代表原付款被取消。",
+      "zh-TW": "礦池付透明地址與後續轉隱私地址是兩段活動。本站不追蹤隱私餘額，缺持有量不代表原付款取消。",
+      "en": "A pool payment to a transparent address and a later wallet transfer into shielded funds are separate activities. This transparent-address monitor does not track shielded balances. An unavailable shielded balance does not cancel the original payout record.",
+      "ko": "풀의 투명 주소 지급과 이후 실드 전송은 별도입니다. 이 모니터는 실드 잔액을 추적하지 않으며 잔액 미표시가 원지급 취소는 아닙니다.",
+      "ja": "透明アドレスへのプール支払いと後のシールド移動は別です。当モニターはシールド残高を追跡せず、非表示でも元の支払い取消ではありません。"
+    },
+    "checks": {
+      "zh": "先保存矿池使用的 t 地址、付款交易和原始金额。核对链上收款后，钱包内部或后续转移另以官方钱包记录确认。不要把 shielded、Unified 或其他不支持标识贴入只接受透明地址的矿池查询，也不上传钱包秘密材料扩大监控。",
+      "zh-TW": "存池使用的 t 地址、交易、金額；核對原收款後，後續轉移另查官方錢包。透明入口勿填不支援的 shielded/Unified，亦不交秘密材料。",
+      "en": "Preserve the pool’s t address, payment transaction and native amount. Verify that initial receipt, then use the official wallet for subsequent transfers. A lookup restricted to transparent addresses should not be given unsupported shielded or Unified identifiers. Extending a public monitor is not a reason to upload wallet secrets.",
+      "ko": "풀 t 주소·거래·수량을 보관하고 최초 수령을 확인한 뒤 후속 전송은 공식 지갑에서 봅니다. 투명 전용 조회에 미지원 실드·Unified ID나 지갑 비밀을 넣지 마세요.",
+      "ja": "プールのtアドレス・取引・枚数を保存して初回受取を確認し、後続移動は公式ウォレットで調べます。透明専用照会に未対応シールド・Unified識別子や秘密情報を入力しません。"
+    },
+    "example": {
+      "zh": "示例：t 地址收到 ZEC 后转走，透明余额归零，矿池累计已付仍保留。这是不同范围的记录，不应把余额 0 回写成历史收益 0。",
+      "zh-TW": "示例：t 地址收到後轉走、餘額 0，池累計已付仍在；勿把 0 回寫成歷史收益 0。",
+      "en": "Example: a t address receives ZEC and later sends it away. Its transparent balance can be zero while lifetime pool payments remain positive. Do not overwrite payout history with the current balance.",
+      "ko": "예: t 주소 수령 후 이동하면 잔액 0과 누적 지급 양수가 공존합니다. 잔액으로 지급 이력을 덮지 마세요.",
+      "ja": "例：t受取後に送金すれば残高ゼロと累計支払いプラスは両立します。現在残高で支払履歴を上書きしません。"
+    },
+    "sources": ["https://zec.2miners.com/help"],
+    "related": [
+      "zec-pool-address-replacement-history",
+      "zec-mining-monitor-guide",
+      "zec-transparent-addresses"
+    ]
+  },
+  {
+    "project": "zec",
+    "slug": "zec-pool-address-replacement-history",
+    "title": {
+      "zh": "ZEC 更换 t 地址，旧 Worker 还要保留吗？",
+      "zh-TW": "ZEC 更換 t 地址，舊 Worker 要保留嗎？",
+      "en": "ZEC address replacement and old worker history",
+      "ko": "ZEC t 주소 변경과 이전 워커 보관",
+      "ja": "ZECのtアドレス変更と旧Worker履歴"
+    },
+    "answer": {
+      "zh": "Worker 记录属于它提交份额时的地址和矿池。更换 t 地址后，即使 Worker 名称不变，新旧地址仍可能分别显示历史。",
+      "zh-TW": "Worker 屬提交時的地址及池。換 t 地址後即使同名，新舊仍各有歷史。",
+      "en": "A worker record belongs to the pool and payout address used when shares were submitted. Replacing a t address can create separate histories even if the worker label stays unchanged.",
+      "ko": "워커 기록은 제출 당시 풀·지급 주소에 속합니다. t 주소를 바꾸면 같은 이름이어도 기록이 나뉩니다.",
+      "ja": "Worker履歴はシェア送信時のプールと受取先に属します。tアドレス変更後は同じ名前でも別履歴になります。"
+    },
+    "checks": {
+      "zh": "保存旧 t1/t3 地址、未付和最后份额时间。新地址先按矿池规则验证，再看新份额是否出现。旧池仍待付时保留其记录；不要以新地址当前无 Worker 为由删除旧地址的对账凭据。",
+      "zh-TW": "存舊 t1/t3、未付、最後份額；新址依池規則驗證再看新份額。舊待付保留，勿因新址無 Worker 刪舊憑據。",
+      "en": "Keep the old t1/t3 address, unpaid amount and last-share time. Validate the new address against the pool’s current rules before checking new shares. Retain old records while any balance is outstanding. An empty worker list under the new address is not a reason to discard evidence needed to reconcile the old account.",
+      "ko": "이전 t1/t3·미지급·최근 셰어를 저장하세요. 새 주소 지원을 확인하고 새 셰어를 봅니다. 새 목록이 비었다고 이전 정산 근거를 삭제하지 마세요.",
+      "ja": "旧t1/t3・未払い・最終シェアを保存します。新アドレスの対応確認後に新シェアを見ます。新一覧が空でも旧精算の根拠を捨てません。"
+    },
+    "example": {
+      "zh": "示例：rig-a 从地址 A 改到 B，A 的窗口仍有 S/s。那是 A 的历史，不证明矿工继续向 A 提交；是否切换成功要看最近新份额时间与当前配置。",
+      "zh-TW": "示例：rig-a 由 A 改 B，A 仍有 S/s 是歷史，是否切換查新份額時間與設定。",
+      "en": "Example: rig-a moves from A to B while A retains an S/s average. That historical value does not prove new shares still go to A. Check the last fresh share and active configuration.",
+      "ko": "예: A에서 B로 옮겨도 A의 S/s 평균은 남습니다. 새 제출 여부는 최근 셰어와 실제 설정으로 확인하세요.",
+      "ja": "例：AからBへ変更してもAのS/s平均は残り得ます。新規提出先は最新シェアと有効設定で確認します。"
+    },
+    "sources": ["https://zec.2miners.com/help"],
+    "related": [
+      "zec-transparent-payout-shielded-wallet",
+      "zec-mining-monitor-guide",
+      "zec-transparent-addresses"
+    ]
+  }
+]

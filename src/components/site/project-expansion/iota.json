@@ -1,0 +1,76 @@
+[
+  {
+    "project": "iota",
+    "slug": "iota-new-run-previous-contribution",
+    "title": {
+      "zh": "IOTA 换训练轮次后，上一轮贡献去哪了？",
+      "zh-TW": "IOTA 換訓練輪次後，上一輪貢獻去哪了？",
+      "en": "IOTA contribution after a new training run starts",
+      "ko": "IOTA 훈련 실행이 바뀌면 이전 기여는 어디에 남나요?",
+      "ja": "IOTAの訓練run変更後、前回の貢献はどこに残る？"
+    },
+    "answer": {
+      "zh": "当前轮次的吞吐量和历史已记账收益采用不同范围。新 run 开始、layer 变化或重新进入名单后，当前贡献可能重新累计；不能凭当前值较小，就认定上一轮收益消失。",
+      "zh-TW": "目前輪次吞吐量與歷史已記帳收益範圍不同。新 run、layer 變動或重新進入名單後，目前貢獻可能重新累計；數值變小不代表上一輪收益消失。",
+      "en": "Live throughput belongs to the selected training run; accounted rewards can cover earlier runs. A new run, a layer change or re-entry into a participant list can change the current contribution display. A smaller live value alone does not establish that previously recorded rewards were removed.",
+      "ko": "현재 처리량은 선택한 훈련 실행에, 집계 보상은 이전 실행에도 해당합니다. 새 run, layer 변경, 참여자 목록 재진입으로 현재 기여 표시가 달라질 수 있습니다. 현재 수치 감소만으로 이전 보상이 사라졌다고 판단하지 마세요.",
+      "ja": "現在の処理量は選択中のrun、計上報酬は過去runを含む記録です。新runやlayer変更、参加者一覧への再登録で現在値が変わっても、過去報酬の消失とは限りません。"
+    },
+    "checks": {
+      "zh": "先保存 Miner ID、run 标识、layer、来源时间和上一轮截图。再分别查训练历史与收益记录，用同一轮次比较贡献，用同一日期范围比较记账金额。coldkey 用于收款核对，不用它替代 Miner ID 查询训练。",
+      "zh-TW": "先保存 Miner ID、run、layer、來源時間及上一輪截圖。分別查訓練歷史和收益，以同一輪次比較貢獻、同一日期比較記帳。coldkey 用於收款，不替代 Miner ID 查訓練。",
+      "en": "Record the Miner ID, run identifier, layer and source time before comparing screenshots. Open training history and rewards separately. Compare contribution within the same run and ledger amounts within the same date range. Use a coldkey for payout checks, not as a replacement for the Miner ID. A screenshot without a run identifier cannot resolve a run-boundary discrepancy.",
+      "ko": "Miner ID, run ID, layer, 출처 시각과 이전 화면을 저장하세요. 훈련 기록과 보상을 따로 열고 같은 run의 기여, 같은 날짜 범위의 금액을 비교합니다. coldkey는 지급 확인용이며 훈련 조회의 Miner ID를 대신하지 않습니다.",
+      "ja": "Miner ID・run ID・layer・出典時刻と前回画面を保存します。訓練履歴と報酬を別々に開き、同一runの貢献と同一期間の計上額を比較します。coldkeyは支払い確認用で、訓練照会のMiner IDの代用にはなりません。"
+    },
+    "example": {
+      "zh": "示例：run A 有历史贡献，run B 刚开始显示 0 tokens/s。先确认 B 是否已分配工作；A 的记账记录仍应回到 A 的日期范围核对。不要把两个 run 的即时速度相加，也不必仅因换轮次就重装程序。",
+      "zh-TW": "示例：run A 有歷史貢獻，run B 剛開始為 0 tokens/s。先查 B 是否獲派工作；A 的記帳回到 A 的日期核對。勿加總兩輪即時速度，也勿僅因換輪次重裝。",
+      "en": "Example: run A has historical contribution while run B has just opened at 0 tokens/s. Check whether B has assigned work before diagnosing a stopped trainer. Review A’s ledger over A’s dates. Adding instantaneous rates from different runs cannot reconstruct rewards, and a run transition alone is not a reason to reinstall the application.",
+      "ko": "예: run A에 기여 기록이 있고 새 run B는 0 tokens/s입니다. B에 작업이 배정됐는지 먼저 확인하고 A의 보상은 A 날짜로 조회하세요. 서로 다른 run의 순간 속도를 합산하거나 실행 전환만으로 재설치하지 마세요.",
+      "ja": "例：run Aに過去貢献があり、新run Bは0 tokens/sです。まずBの仕事割り当てを確認し、Aの計上額はAの期間で照合します。別runの瞬間速度を足したり、run変更だけで再インストールしたりしません。"
+    },
+    "sources": [
+      "https://iota.macrocosmos.ai/",
+      "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+    ],
+    "related": ["iota-usd-value-price-time", "find-miner-id", "how-rewards-work"]
+  },
+  {
+    "project": "iota",
+    "slug": "iota-usd-value-price-time",
+    "title": {
+      "zh": "IOTA 枚数没变，美元收益为什么变了？",
+      "zh-TW": "IOTA 枚數沒變，美元收益為何變了？",
+      "en": "Why IOTA reward USD values change without new tokens",
+      "ko": "IOTA 수량은 같은데 달러 평가액이 달라지는 이유",
+      "ja": "IOTA枚数が同じでもドル評価額が変わる理由"
+    },
+    "answer": {
+      "zh": "美元数是代币数量乘以市场估价，更新报价会改变美元显示。它不等于新增训练奖励，也不是保证能以该价格成交的现金余额。先看 IOTA 数量，再看报价和更新时间。",
+      "zh-TW": "美元為代幣數量乘市場估價，報價更新會改變美元顯示。它不是新增訓練獎勵，也非保證可成交的現金。先看 IOTA 枚數，再看報價與更新時間。",
+      "en": "The USD figure is a token amount multiplied by a market estimate. A refreshed quote can change that figure without any additional training reward. It is not a cash balance or a guaranteed execution price. Read the native IOTA amount first, followed by the quote source and its timestamp.",
+      "ko": "달러 값은 토큰 수량에 시장 추정 가격을 곱한 값입니다. 새 보상 없이도 시세 갱신으로 달라집니다. 현금 잔액이나 체결 보장 가격이 아닙니다. IOTA 수량, 가격 출처, 갱신 시각 순으로 확인하세요.",
+      "ja": "ドル値はトークン枚数に市場推定価格を掛けたものです。報酬が増えなくても相場更新で変わります。現金残高や約定保証価格ではありません。枚数、価格出典、更新時刻の順に確認します。"
+    },
+    "checks": {
+      "zh": "核对是否为 Macrocosmos 的 Bittensor SN9 IOTA，而非同名 IOTA 公链币。若来源按 SN9 的 TAO 报价与 TAO/USD 组合估值，两项报价的时间都会影响结果。报价较早或缺失时，以代币记录为准，勿把空美元值解释成零收益。",
+      "zh-TW": "確認是 Macrocosmos 的 Bittensor SN9 IOTA，不是同名 IOTA 公鏈幣。若以 SN9 的 TAO 價格和 TAO/USD 組合估值，兩項時間均會影響結果。報價過期或缺失時以代幣紀錄為準，空美元值不代表零收益。",
+      "en": "Verify that the asset is Macrocosmos IOTA on Bittensor subnet 9, rather than the similarly named IOTA layer-1 coin. Where valuation combines an SN9 price in TAO with TAO/USD, both inputs affect the result. Compare the timestamp of each available source. If the quote is old or missing, retain the native reward record; an unavailable valuation does not establish zero earnings.",
+      "ko": "Macrocosmos Bittensor SN9 IOTA인지, 동명의 IOTA L1 코인이 아닌지 확인하세요. SN9의 TAO 가격과 TAO/USD를 조합하면 두 입력의 시각이 모두 영향을 줍니다. 시세가 오래됐거나 없으면 토큰 기록을 기준으로 삼고 평가 불가를 수익 0으로 읽지 마세요.",
+      "ja": "MacrocosmosのBittensor SN9 IOTAか、同名L1コインかを確認します。SN9のTAO価格とTAO/USDを組み合わせる場合、両方の時刻が影響します。古い・欠損した相場でもネイティブ報酬記録は別に残り、ドル評価不可は収益ゼロを意味しません。"
+    },
+    "example": {
+      "zh": "示例：同为 0.2 IOTA，报价上涨会让估值增加，但当天记账仍是 0.2 IOTA。对账时保存枚数、币种、价格来源和时间；不要用两天美元估值的差额推算新增 IOTA。",
+      "zh-TW": "示例：同為 0.2 IOTA，報價上升使估值增加，但記帳仍是 0.2 IOTA。保存枚數、幣種、報價來源及時間；勿用兩天美元差額推算新增代幣。",
+      "en": "Example: 0.2 IOTA remains 0.2 IOTA after a price rise, although its estimated USD value increases. Save the token amount, asset identity, quote source and quote time for reconciliation. Subtracting yesterday’s USD estimate from today’s mixes token activity with market movement and cannot identify newly earned IOTA.",
+      "ko": "예: 0.2 IOTA는 시세 상승 후에도 0.2 IOTA이며 달러 추정액만 증가합니다. 수량·자산·가격 출처·시각을 저장하세요. 어제와 오늘의 달러 차액에는 시장 변동이 섞여 신규 IOTA 보상을 계산할 수 없습니다.",
+      "ja": "例：0.2 IOTAは相場上昇後も0.2 IOTAで、ドル推定額だけ増えます。枚数・資産名・出典・時刻を保存します。前日とのドル差額には市場変動も混ざるため、新規IOTA報酬は逆算できません。"
+    },
+    "sources": [
+      "https://iota.macrocosmos.ai/",
+      "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+    ],
+    "related": ["iota-new-run-previous-contribution", "find-miner-id", "how-rewards-work"]
+  }
+]

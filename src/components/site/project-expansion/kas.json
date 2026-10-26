@@ -1,0 +1,78 @@
+[
+  {
+    "project": "kas",
+    "slug": "kas-nonnative-payout-asset",
+    "title": {
+      "zh": "KAS 矿池选了 BTC 付款，能和 KAS 余额相加吗？",
+      "zh-TW": "KAS 礦池選 BTC 付款，可與 KAS 餘額相加嗎？",
+      "en": "KAS mining with non-native payouts: keep assets separate",
+      "ko": "KAS 채굴과 BTC 등 비네이티브 지급 구분",
+      "ja": "KAS採掘でBTCなど別資産を受け取る場合"
+    },
+    "answer": {
+      "zh": "挖矿网络、记账资产和最终付款资产可能不同。选择其他币种付款时，不能把 BTC 数量当 KAS，也不能用 KAS 原生地址监控解释该付款地址的余额。",
+      "zh-TW": "挖礦網路、記帳與付款資產可不同。其他幣種付款不可當 KAS，原生地址監控亦不解釋該資產餘額。",
+      "en": "Mining network, accounting asset and payout asset can differ. A non-native payout must retain its own denomination. BTC amounts are not KAS amounts, and a native KAS address lookup cannot establish a different payout asset’s wallet balance.",
+      "ko": "채굴 네트워크·집계 자산·지급 자산은 다를 수 있습니다. BTC 수량을 KAS로 읽거나 원생 KAS 조회로 다른 자산 잔액을 설명하지 마세요.",
+      "ja": "採掘網・計上資産・支払資産は異なり得ます。BTC枚数をKASに読み替えず、KASネイティブ照会で別資産残高を説明しません。"
+    },
+    "checks": {
+      "zh": "按矿池当前说明核对付款模式、收款地址类型、换算记录和费用。本站 KAS 来源的原生 kaspa: 查询范围不自动涵盖所有第三方换币付款。仅在各币种有可靠报价和不重复原始金额时才能做美元估值，原币仍分行展示。",
+      "zh-TW": "依池現行說明對模式、地址、換算與費用。本站原生 kaspa: 範圍不自動含換幣付款。美元估值需可靠報價且不重複，原幣分列。",
+      "en": "Check the pool’s current payout mode, address requirements, conversion record and fees. This monitor’s native kaspa: lookup does not automatically cover every third-party conversion service. A USD estimate requires valid quotes and distinct underlying amounts; retain each native denomination separately.",
+      "ko": "풀 지급 모드·주소·환산·수수료를 확인하세요. kaspa: 조회가 모든 환전 지급을 지원하지는 않습니다. 달러 합계는 유효 시세와 중복 없는 원금이 있어야 하며 원자산은 따로 둡니다.",
+      "ja": "プールの現行方式・宛先・換算・手数料を確認します。kaspa:照会は全換金サービスの対応を意味しません。ドル評価には有効相場と重複しない原額が必要で、原資産は別表示にします。"
+    },
+    "example": {
+      "zh": "示例：池先记 KAS 后换为 BTC 支付。同一笔价值不能既计入 KAS 已付，又把收到的 BTC 再加为第二份收益；保留换算链路用于核对。",
+      "zh-TW": "示例：KAS 換 BTC 支付，同價值不把 KAS 已付與 BTC 收款算兩份收益，保留換算鏈路。",
+      "en": "Example: a pool accounts in KAS and converts it to BTC for payment. The same value must not appear as both KAS paid and an additional BTC reward. Preserve the conversion trail.",
+      "ko": "예: KAS 집계 후 BTC로 지급한 동일 가치를 KAS 지급과 추가 BTC 수익으로 두 번 더하지 마세요.",
+      "ja": "例：KAS計上後にBTCへ換えて支払った同じ価値を、KAS支払済みと追加BTC報酬の二件にしません。"
+    },
+    "sources": ["https://kas.2miners.com/help"],
+    "related": [
+      "kas-asic-replacement-worker-label",
+      "kas-mining-monitor-guide",
+      "kas-kaspa-address-and-pool"
+    ]
+  },
+  {
+    "project": "kas",
+    "slug": "kas-asic-replacement-worker-label",
+    "title": {
+      "zh": "KAS 换 ASIC 但没改 Worker 名，算力怎么对？",
+      "zh-TW": "KAS 換 ASIC 未改 Worker 名，算力怎麼對？",
+      "en": "KAS ASIC replacement with a reused worker label",
+      "ko": "KAS ASIC 교체 시 재사용 워커 속도 확인",
+      "ja": "KASのASIC交換でWorker名を再利用した場合"
+    },
+    "answer": {
+      "zh": "矿池 Worker 名不是 ASIC 序列号。换机器后沿用同名，窗口可能混合旧机和新机份额，不能用这一段平均算力直接检验新机标称性能。",
+      "zh-TW": "Worker 不是 ASIC 序號。同名換機的窗口可混合新舊份額，不能直接檢驗新機標稱效能。",
+      "en": "A pool worker label is not an ASIC serial number. Reusing it after replacement can mix old and new shares within an averaging window. That mixed average cannot directly validate the new ASIC’s advertised performance.",
+      "ko": "풀 이름은 ASIC 일련번호가 아닙니다. 교체 후 같은 이름은 이전·새 셰어를 섞어 새 기기 정격 성능 비교에 부적절할 수 있습니다.",
+      "ja": "Worker名はASIC製造番号ではありません。交換後の同名は新旧シェアを平均窓で混在させ、新機の公称性能検証に直結しません。"
+    },
+    "checks": {
+      "zh": "记录停旧机、启新机时间，核对实际 kaspa: 地址和普通矿池来源。对照新机本地状态、已接受份额和池的统计窗口；若要清楚区分后续数据，用独立 Worker 标签。池级平均值和硬件即时值保留各自窗口。",
+      "zh-TW": "存停舊、啟新時間，對 kaspa: 及普通池。比本機狀態、接受份額和窗口；要分後續就用獨立名。池平均與硬體即時各保留窗口。",
+      "en": "Record old-machine shutdown and new-machine startup times, then match the kaspa: address and supported pooled source. Compare local status, accepted shares and the pool’s averaging interval. Use a distinct label for future separation if needed. Keep instantaneous device readings and pool averages attached to their own windows.",
+      "ko": "이전 종료·새 시작 시각과 kaspa:·지원 풀을 확인하세요. 로컬 상태·수락 셰어·평균 구간을 비교하고 필요하면 새 이름을 씁니다.",
+      "ja": "旧停止・新起動時刻とkaspa:・対応プールを照合します。ローカル状態・受理シェア・平均窓を比較し、必要なら別名を使います。"
+    },
+    "example": {
+      "zh": "示例：旧机 2 TH/s、新机 4 TH/s，窗口横跨换机时刻显示中间值。先等待完整新窗口或核对份额，不直接认定新 ASIC 缺算力。",
+      "zh-TW": "示例：舊 2、新 4 TH/s，跨切換窗口為中間值，先查完整新窗口，不直接判缺算力。",
+      "en": "Example: replacing a 2 TH/s ASIC with a 4 TH/s unit can produce an intermediate rolling average. Check a complete post-change window or share history before diagnosing underperformance.",
+      "ko": "예: 2 TH/s를 4 TH/s로 바꾸면 평균은 중간값일 수 있습니다. 교체 후 전체 구간이나 셰어를 확인하세요.",
+      "ja": "例：2から4 TH/sへ交換すると平均は中間値になり得ます。交換後だけの窓かシェア履歴を確認してから性能不足を判断します。"
+    },
+    "sources": ["https://kas.2miners.com/help"],
+    "related": [
+      "kas-nonnative-payout-asset",
+      "kas-mining-monitor-guide",
+      "kas-kaspa-address-and-pool"
+    ]
+  }
+]

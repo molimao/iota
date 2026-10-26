@@ -1,0 +1,78 @@
+[
+  {
+    "project": "prl",
+    "slug": "prl-pool-payment-methods-comparison",
+    "title": {
+      "zh": "PRL 看 PPS 或 SOLO 时，为什么不能直接比时薪？",
+      "zh-TW": "PRL 看 PPS 或 SOLO 時，為何不能直接比時薪？",
+      "en": "Compare PRL pool payment methods without inventing hourly income",
+      "ko": "PRL PPS·SOLO 수익을 시간당으로 비교할 때",
+      "ja": "PRLのPPS・SOLOを時給比較する前の確認"
+    },
+    "answer": {
+      "zh": "不同结算方式分配的是不同风险和记账规则。PRL 的来源、模式和费率须按当前矿池说明核对，不能把某池 PPS 的历史报表直接当成另一池 SOLO 的保证收入。",
+      "zh-TW": "不同方式有不同風險與記帳。PRL 來源、模式、費率依現行池說明，不把某池 PPS 歷史當別池 SOLO 保證收入。",
+      "en": "Payment methods distribute risk and accounting differently. Verify the current PRL pool, mode and fee documentation. A historical PPS report from one pool does not establish guaranteed hourly income on another pool’s SOLO service.",
+      "ko": "결제 방식은 위험과 집계 규칙이 다릅니다. 현재 PRL 풀·모드·수수료를 확인하고 PPS 과거 보고서를 다른 SOLO 보장 시급으로 쓰지 마세요.",
+      "ja": "精算方式でリスクと計上が違います。現行PRLプール・モード・手数料を確認し、PPS履歴を別プールSOLOの保証時給にしません。"
+    },
+    "checks": {
+      "zh": "记录矿池、结算模式、费用说明日期、原生 PRL 数量和实际参与时长。比较相同期间的已记账金额，而非钱包余额或广告收益。矿池目录与矿池自己的费用说明冲突时，以当前一手说明继续核实，不取较低数字作宣传。",
+      "zh-TW": "記錄池、模式、費用日期、PRL 數及參與時長；同期間比較記帳，不用餘額或廣告。目錄與一手費用不符先核實，不取較低數宣傳。",
+      "en": "Record the pool, payment mode, fee reference date, native PRL amount and actual participation interval. Compare accounted entries over matching periods rather than balances or advertised returns. When a directory’s fee conflicts with the pool’s current documentation, resolve the conflict with the primary source instead of selecting the lower number.",
+      "ko": "풀·모드·수수료 기준일·PRL 수량·참여 기간을 저장하세요. 같은 기간 장부를 비교하며 디렉터리와 풀 안내가 다르면 원출처로 확인합니다.",
+      "ja": "プール・方式・手数料参照日・PRL枚数・参加期間を保存します。同期間の計上を比較し、ディレクトリとプール記載が違えば一次情報で解消します。"
+    },
+    "example": {
+      "zh": "示例：一方显示昨日已付，另一方显示今日锁定。它们不是同一阶段，即使数值都以 PRL 表示，也不能直接排名哪台设备“时薪更高”。",
+      "zh-TW": "示例：昨日已付與今日鎖定階段不同，即使同為 PRL，也不能直接排名單機時薪。",
+      "en": "Example: yesterday’s paid amount and today’s locked balance represent different stages. Both may be denominated in PRL, but that alone does not make them comparable hourly device earnings.",
+      "ko": "예: 어제 지급액과 오늘 잠금 잔액은 단계가 달라 PRL 단위가 같아도 기기 시급을 비교할 수 없습니다.",
+      "ja": "例：昨日支払済みと今日ロック中は段階が違い、PRL単位が同じでも機器時給比較にはなりません。"
+    },
+    "sources": ["https://pool.kryptex.com/en/prl", "https://pearlsonar.com/pools"],
+    "related": [
+      "prl-reused-worker-device-history",
+      "pearl-prl-mac-monitoring",
+      "prl-luckypool-vs-kryptex"
+    ]
+  },
+  {
+    "project": "prl",
+    "slug": "prl-reused-worker-device-history",
+    "title": {
+      "zh": "PRL 两台机器用了同一个 Worker 名，怎么分？",
+      "zh-TW": "PRL 兩台機器同 Worker 名，怎麼分？",
+      "en": "PRL shared worker names and physical device attribution",
+      "ko": "PRL 같은 워커 이름을 쓰는 두 기기 구분",
+      "ja": "PRLで2台が同じWorker名を使う場合"
+    },
+    "answer": {
+      "zh": "同一地址与同一 Worker 名可能把多台机器汇在一行。监控不能从这行总算力反推出每台设备的收益，也不能按设备数量平均分摊当成实测。",
+      "zh-TW": "同地址同 Worker 可把多機合成一行，不能反推各機收益或平均分攤當實測。",
+      "en": "Multiple machines using the same address and worker label can appear as one pool row. That aggregate cannot reveal each machine’s measured earnings. Dividing it equally by the number of devices would create an unsupported attribution.",
+      "ko": "같은 주소·워커 이름이면 여러 기기가 한 행으로 합쳐질 수 있습니다. 합계로 각 기기 수입을 역산하거나 균등 배분하지 마세요.",
+      "ja": "同じアドレスとWorker名では複数機が一行へ集約されます。合計から単機収入を逆算・等分して実測扱いにしません。"
+    },
+    "checks": {
+      "zh": "先在矿工配置确认地址、矿池和 Worker；需要区分时，为后续提交设置各自名称，并记录改名时间。旧窗口可能仍保留合并数据，只将新标签出现后的记录用于单独核对。钱包级收益始终留在地址范围，避免重复相加。",
+      "zh-TW": "查設定的地址、池、Worker；要區分就為後續設獨立名稱並記時間。舊窗口仍可合併，新標籤後才分查；錢包收益留地址範圍避免重複。",
+      "en": "Inspect the active address, pool and worker configuration. For future separation, assign distinct labels and record when the change took effect. Old windows can still contain combined activity; use subsequent source records for separate checks. Retain wallet-level reward totals at address scope rather than repeating the full amount on every device.",
+      "ko": "설정 주소·풀·이름을 확인하고 이후 구분용 이름과 변경 시각을 정하세요. 이전 창의 합산은 유지되므로 새 기록부터 비교하며 주소 보상을 기기마다 반복하지 않습니다.",
+      "ja": "設定のアドレス・プール・名前を確認し、今後は別名と切替時刻を記録します。旧期間の集約は残るため新記録から分け、アドレス報酬を各機器に反復計上しません。"
+    },
+    "example": {
+      "zh": "示例：两台 Mac 都叫 mac，池只显示一个 mac。应先标为共享 Worker；改成 mac-a、mac-b 后仍需等待新份额，不把改名瞬间的空值当成机器停机。",
+      "zh-TW": "示例：兩台 Mac 同叫 mac，先標共享；改 mac-a/b 後等新份額，空值非即時停機證據。",
+      "en": "Example: two Macs both use mac and the pool shows one row. Mark it as a shared worker. After changing to mac-a and mac-b, wait for new shares; an initially empty new label does not establish a stopped machine.",
+      "ko": "예: 두 Mac이 mac이면 공유 워커로 봅니다. mac-a/b 변경 후 새 셰어를 기다리며 첫 빈값을 정지로 단정하지 마세요.",
+      "ja": "例：2台のMacがmacなら共有Workerとして扱います。mac-a/b変更後は新シェアを待ち、最初の空欄だけで停止と判断しません。"
+    },
+    "sources": ["https://pool.kryptex.com/en/prl", "https://pearlsonar.com/pools"],
+    "related": [
+      "prl-pool-payment-methods-comparison",
+      "pearl-prl-mac-monitoring",
+      "prl-luckypool-vs-kryptex"
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "project": "btc",
+    "slug": "btc-ckpool-best-share-vs-block",
+    "title": {
+      "zh": "CKPool best share 很高，就代表挖到 BTC 了吗？",
+      "zh-TW": "CKPool best share 很高，就代表挖到 BTC 嗎？",
+      "en": "CKPool best share difficulty versus a Bitcoin block",
+      "ko": "CKPool best share와 비트코인 블록의 차이",
+      "ja": "CKPoolのbest shareとBitcoinブロックの違い"
+    },
+    "answer": {
+      "zh": "best share 是该统计范围内最好的份额难度，不是 BTC 金额，也不等于已经找到有效区块。Solo 的结果须以实际区块和付款记录核对。",
+      "zh-TW": "best share 是範圍內最佳份額難度，非 BTC 金額或已找到區塊；Solo 依實際區塊與付款。",
+      "en": "Best share records the highest share difficulty in a reporting scope. It is neither a BTC amount nor proof of a valid block. A Solo outcome must be reconciled against an actual block and its reward transaction.",
+      "ko": "best share는 해당 범위 최고 셰어 난이도이며 BTC 금액이나 유효 블록 증거가 아닙니다. 실제 블록·보상 거래를 확인하세요.",
+      "ja": "best shareは対象範囲の最高シェア難易度で、BTC額や有効ブロックの証拠ではありません。実ブロックと報酬取引で照合します。"
+    },
+    "checks": {
+      "zh": "先核对 CKPool 地址、Worker、统计范围与最近更新时间。若讨论是否达到网络区块目标，必须比较相同时点的目标，并最终检查区块是否被网络接受。高 best share 不构成未来一定出块的承诺，不能换算为已赚日收益。",
+      "zh-TW": "對 CKPool 地址、Worker、範圍及時間。是否達網路目標須同時點比較，最終看網路接受區塊。高值不保證未來出塊，亦非已賺日收益。",
+      "en": "Match the CKPool address, worker, statistics scope and update time. Comparing with a network target requires matching that time and ultimately checking acceptance of an actual block. A high best share does not promise a future block and cannot be converted into already-earned daily BTC.",
+      "ko": "CKPool 주소·워커·범위·시각을 맞추세요. 네트워크 목표는 같은 시점으로 비교하고 최종 블록 수락을 확인합니다. 높은 값은 미래 블록 보장이나 일일 수입이 아닙니다.",
+      "ja": "CKPool住所・Worker・範囲・時刻を照合します。目標比較は同時点で行い、最後は実ブロック受理を確認します。高い値は将来出塊保証や日次収益ではありません。"
+    },
+    "example": {
+      "zh": "示例：best share 创新高但没有有效出块记录。可以记录份额表现改善，收益仍不能填一个推算 BTC。网络目标会变动，旧截图不适合与今天目标直接比较。",
+      "zh-TW": "示例：best share 新高但無有效區塊，記表現改善，不填推算 BTC；舊截圖勿比今日目標。",
+      "en": "Example: best share reaches a new high without a corresponding accepted block. Record that performance observation, not a fabricated BTC reward. Historical screenshots also require the historical network target, not today’s target.",
+      "ko": "예: 최고 셰어 갱신에도 수락 블록이 없으면 성과 기록일 뿐 BTC 보상을 만들지 마세요. 이전 화면은 당시 목표와 비교합니다.",
+      "ja": "例：最高シェア更新でも受理ブロックがなければ性能記録にとどめ、BTC報酬を作りません。旧画面は当時の目標と比較します。"
+    },
+    "sources": ["https://solo.ckpool.org/", "https://stats.ckpool.org/"],
+    "related": [
+      "btc-ckpool-multiple-addresses-records",
+      "btc-mining-monitor-guide",
+      "btc-ckpool-solo-rewards"
+    ]
+  },
+  {
+    "project": "btc",
+    "slug": "btc-ckpool-multiple-addresses-records",
+    "title": {
+      "zh": "CKPool 多个 BTC 地址，怎样避免算力重复？",
+      "zh-TW": "CKPool 多 BTC 地址，如何避免算力重複？",
+      "en": "Organize CKPool addresses without duplicating worker hashrate",
+      "ko": "CKPool 여러 주소에서 워커 중복 집계 방지",
+      "ja": "CKPool複数アドレスの算力二重集計を防ぐ"
+    },
+    "answer": {
+      "zh": "地址总算力与地址下的 Worker 明细属于上下层级。不能先加地址总量，再加同一批 Worker；更换 BTC 收款地址后还要区分前后窗口。",
+      "zh-TW": "地址總量與旗下 Worker 是上下層，不先加總量再加明細；換地址還要分前後窗口。",
+      "en": "Address totals and the workers underneath them are hierarchical views of the same work. Adding both duplicates hashrate. A payout-address change also requires separating observations before and after the transition.",
+      "ko": "주소 합계와 하위 워커는 같은 작업의 계층입니다. 둘 다 더하면 중복이며 주소 변경 전후 창도 나눠야 합니다.",
+      "ja": "アドレス合計と配下Workerは同じ作業の階層です。両方足せば重複し、宛先変更時は前後の窓も分けます。"
+    },
+    "checks": {
+      "zh": "为每条记录保存池、BTC 地址、Worker 和时间范围。设备视角只关联实际属于该机器的 Worker；来源只提供地址总量时，保留地址范围，不把全额复制到每台设备。不同窗口的 5m、1h 数值不可当独立份额相加。",
+      "zh-TW": "每筆存池、地址、Worker、窗口。單機只關聯其 Worker，僅有地址總量就保留該範圍，勿複製給各機；5m/1h 不作獨立量相加。",
+      "en": "Store the pool, BTC address, worker and time window for each record. Link only identifiable workers to physical devices. If the source exposes address totals only, keep that aggregate scope rather than copying it to every machine. Five-minute and one-hour rates are alternative averages, not independent work quantities to sum.",
+      "ko": "풀·BTC 주소·워커·구간을 저장하세요. 식별되는 워커만 기기에 연결하고 주소 합계는 각 기기에 복사하지 않습니다. 5분·1시간 속도도 독립 작업량이 아닙니다.",
+      "ja": "プール・BTC住所・Worker・期間を保存します。識別できるWorkerだけ実機へ関連付け、住所合計を各機へコピーしません。5分・1時間速度も独立作業量ではありません。"
+    },
+    "example": {
+      "zh": "示例：地址总计 100 TH/s，两个 Worker 为 40 和 60。合计仍是 100，不是 200。若改地址后旧页仍有历史平均值，先看最后份额时间。",
+      "zh-TW": "示例：地址 100、Worker 40+60，合計仍 100 非 200；改址後舊平均先看最後份額。",
+      "en": "Example: an address total is 100 TH/s and its two workers show 40 and 60. The total remains 100, not 200. After an address change, inspect the old record’s last-share time before including its historical average.",
+      "ko": "예: 주소 100 TH/s와 워커 40·60의 합은 여전히 100이지 200이 아닙니다. 주소 변경 뒤 이전 평균은 최근 셰어 시각을 봅니다.",
+      "ja": "例：住所100 TH/sとWorker40・60なら総計は100で200ではありません。宛先変更後の旧平均は最終シェア時刻を確認します。"
+    },
+    "sources": ["https://solo.ckpool.org/", "https://stats.ckpool.org/"],
+    "related": [
+      "btc-ckpool-best-share-vs-block",
+      "btc-mining-monitor-guide",
+      "btc-ckpool-solo-rewards"
+    ]
+  }
+]

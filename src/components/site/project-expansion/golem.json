@@ -1,0 +1,84 @@
+[
+  {
+    "project": "golem",
+    "slug": "golem-reinstall-node-identity-history",
+    "title": {
+      "zh": "Golem 重装后 Node ID 变了，旧 GLM 还在吗？",
+      "zh-TW": "Golem 重裝後 Node ID 變了，舊 GLM 還在嗎？",
+      "en": "Golem provider history after a Node ID change",
+      "ko": "Golem Node ID 변경 후 이전 GLM 기록",
+      "ja": "GolemのNode ID変更後の旧GLM記録"
+    },
+    "answer": {
+      "zh": "Node ID 标识提供者节点，收款钱包是另一项配置。重装后钱包相同但 Node ID 不同，公开节点统计仍可能分为两条；不能因此认定钱包资金丢失。",
+      "zh-TW": "Node ID 是節點身份，收款錢包另設。重裝後同錢包但不同 ID 可有兩份統計，不代表資金丟失。",
+      "en": "A Node ID identifies the provider, while its payout wallet is another configuration field. Reinstallation can leave the same wallet associated with a different node identity. Separate public statistics do not establish loss of wallet funds.",
+      "ko": "Node ID는 공급자 ID이며 지급 지갑은 별도입니다. 같은 지갑에 새 ID가 연결돼도 통계는 나뉠 수 있으며 자금 소실을 뜻하지 않습니다.",
+      "ja": "Node IDは提供者IDで受取ウォレットは別設定です。同じウォレットでもID変更後は統計が分かれ、資金消失とは限りません。"
+    },
+    "checks": {
+      "zh": "先保存旧 Node ID、收款网络、公开钱包和最后活动时间。确认当前节点 ID 后分别查 Stats，并回付款所在网络核对交易。监控不保管 GLM，也不需要导入旧节点秘密材料来读取公开历史。",
+      "zh-TW": "保存舊 Node ID、付款網路、公開錢包及最後活動。新 ID 分查 Stats，再於正確網路查交易。監控不保管 GLM，查公開歷史不需匯入秘密材料。",
+      "en": "Save the old Node ID, payment network, public wallet and last activity time. Compare the active Node ID with Stats, then verify payments on the network used for settlement. The monitor does not custody GLM, and reading public history does not require importing secret node material.",
+      "ko": "이전 Node ID·지급 네트워크·공개 지갑·최근 활동을 저장하고 새 ID와 Stats를 비교하세요. 지급 네트워크에서 거래를 확인하며 공개 조회에 비밀 자료는 필요 없습니다.",
+      "ja": "旧Node ID・支払ネットワーク・公開ウォレット・最終活動を保存し、新IDとStatsを比べます。精算ネットワークで取引を確認し、公開履歴に秘密情報の取込みは不要です。"
+    },
+    "example": {
+      "zh": "示例：旧节点有累计 GLM，新节点从 0 开始。把两条历史分别命名保留；先核对累计口径和交易，勿把同一钱包余额作为两个节点各自的收入。",
+      "zh-TW": "示例：舊節點有累計、新節點 0，分別命名保留；勿把同錢包餘額當兩個節點各自收入。",
+      "en": "Example: an old node has cumulative GLM and a new node starts at zero. Preserve each identity’s history and check its accounting scope. Assigning the full shared wallet balance to both nodes would duplicate income.",
+      "ko": "예: 이전 노드는 누적 GLM, 새 노드는 0이라면 두 이력을 보관합니다. 동일 지갑 잔액을 두 노드 수입으로 각각 넣지 마세요.",
+      "ja": "例：旧ノードに累計GLM、新ノードにゼロなら両履歴を残します。同じウォレット残高を両ノード収入へ重複割当しません。"
+    },
+    "sources": [
+      "https://docs.golem.network/docs/providers/provider-installation",
+      "https://stats.golem.network/"
+    ],
+    "related": [
+      "golem-rolling-day-reconciliation",
+      "golem-monitor-guide",
+      "golem-node-id-vs-wallet"
+    ]
+  },
+  {
+    "project": "golem",
+    "slug": "golem-rolling-day-reconciliation",
+    "title": {
+      "zh": "Golem 近 24 小时 GLM 下降，是扣款吗？",
+      "zh-TW": "Golem 近 24 小時 GLM 下降，是扣款嗎？",
+      "en": "Why Golem rolling 24-hour GLM can decrease",
+      "ko": "Golem 최근 24시간 GLM 감소의 의미",
+      "ja": "Golemの直近24時間GLMが減る理由"
+    },
+    "answer": {
+      "zh": "滚动 24 小时窗口会不断移出较早记录。数值下降可能只是旧付款离开窗口，不等于钱包被扣款，也不等于香港今日收入为负。",
+      "zh-TW": "滾動 24 小時會移出較早紀錄。下降可只是付款離開窗口，不代表錢包扣款或香港日收入為負。",
+      "en": "A rolling 24-hour window continuously drops older records. A decrease can mean an earlier payment left that window, not that funds were debited or that today’s Hong Kong income became negative.",
+      "ko": "최근 24시간 창은 오래된 기록을 제외합니다. 값 감소가 지갑 차감이나 홍콩 당일 손실을 뜻하지 않습니다.",
+      "ja": "直近24時間窓から古い記録が順次外れます。減少はウォレットの減額や香港当日の赤字を意味しません。"
+    },
+    "checks": {
+      "zh": "记录 Node ID、两次读取时间与窗口对应的付款明细。需要香港自然日统计时，应使用该日开始至结束的原始交易，而不是将两个滚动快照相减。累计值也须确认来源涵盖范围，再与付款核对。",
+      "zh-TW": "記錄 Node ID、兩次時間及付款明細。香港自然日需該日起止交易，不能相減兩個滾動快照。累計亦先確認來源範圍。",
+      "en": "Record the Node ID, both observation times and underlying payment entries. A Hong Kong calendar-day total requires transactions within that day’s interval; subtracting two rolling snapshots does not recover it. Check the source scope of cumulative values before reconciling them with payments.",
+      "ko": "Node ID·두 관측 시각·지급 내역을 저장하세요. 홍콩 하루 합계는 해당 구간 거래가 필요하며 두 이동 창의 차액으로 계산하지 않습니다. 누적값 범위도 확인하세요.",
+      "ja": "Node ID・二回の観測時刻・支払い明細を保存します。香港一日合計には該当区間の取引が必要で、ローリング値の差では算出できません。累計の対象範囲も確認します。"
+    },
+    "example": {
+      "zh": "示例：昨天某笔 2 GLM 刚超过 24 小时，窗口由 3 变 1。先检查该笔是否离开窗口；即便窗口变小，已确认到账的交易仍可在原网络记录中核对。",
+      "zh-TW": "示例：2 GLM 超過 24 小時，窗口 3 變 1，先查移出紀錄；已確認付款仍在原網路可核對。",
+      "en": "Example: a 2 GLM payment becomes older than 24 hours and the window falls from 3 to 1. Check that expired entry first. Its confirmed transaction remains available for reconciliation on the original payment network.",
+      "ko": "예: 2 GLM이 24시간을 넘어 3에서 1이 되면 제외된 항목을 먼저 봅니다. 확인된 거래는 원래 네트워크에서 계속 대조할 수 있습니다.",
+      "ja": "例：2 GLMの支払いが24時間を超えて3から1へ下がったら、窓から外れた明細を確認します。確定取引は元の支払ネットワークに残ります。"
+    },
+    "sources": [
+      "https://docs.golem.network/docs/providers/provider-installation",
+      "https://stats.golem.network/"
+    ],
+    "related": [
+      "golem-reinstall-node-identity-history",
+      "golem-monitor-guide",
+      "golem-node-id-vs-wallet"
+    ]
+  }
+]

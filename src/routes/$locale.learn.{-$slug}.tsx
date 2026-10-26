@@ -1,3 +1,4 @@
+import { expansionMetadata, loadExpansionArticle } from "@/components/site/project-expansion";
 import { isLocale, LOCALES } from "@/lib/site";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { adoptDepthArticle, getArticle, type Article } from "@/components/site/articles";
@@ -14,7 +15,10 @@ function slugFromPath(pathname: string, locale: string) {
 
 function depthArticleNeedsBody(article: Article) {
   const missing = LOCALES.some((locale) => (article.body[locale]?.length ?? 0) === 0);
-  return missing && projectDepthGuides.some((guide) => guide.slug === article.slug);
+  return (
+    missing &&
+    [...projectDepthGuides, ...expansionMetadata].some((guide) => guide.slug === article.slug)
+  );
 }
 
 export function learnRouteHead({
@@ -43,7 +47,7 @@ export const Route = createFileRoute("/$locale/learn/{-$slug}")({
     const existing = getArticle(slug);
     if (!existing) throw notFound();
     if (!depthArticleNeedsBody(existing)) return { slug, article: existing };
-    const loaded = await loadDepthArticle(slug);
+    const loaded = (await loadExpansionArticle(slug)) ?? (await loadDepthArticle(slug));
     if (!loaded) throw new Error(`Missing accepted depth guide: ${slug}`);
     const article = adoptDepthArticle(loaded);
     if (!article) throw new Error(`Missing accepted depth guide: ${slug}`);

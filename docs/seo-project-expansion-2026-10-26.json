@@ -1,0 +1,1027 @@
+{
+  "date": "2026-10-26",
+  "status": "awaiting_release_confirmation",
+  "scope": "Two additional focused inner pages for every one of the 26 projects; five locales each. Existing pages preserved.",
+  "new_articles": 52,
+  "new_localized_urls": 260,
+  "existing_article_count": 149,
+  "total_article_count": 201,
+  "sitemap_urls": 1195,
+  "publication": "Not deployed, not pushed; fresh approval required.",
+  "research": "Reuses the 52 saved Google SERP pages and audited official/pool sources from docs/seo-geo-all-projects-2026-10-26.json. Grok read-only review attempted; unavailable because authentication is required. Main assistant authored and reviewed the content.",
+  "additional_verified_sources": [
+    "https://docs.ergoplatform.com/dev/integration/guide/",
+    "https://zephyrprotocol.com/",
+    "https://github.com/blocknetprivacy/bntop"
+  ],
+  "examples": "All numeric examples are labeled illustrations, not measured user data or promised returns.",
+  "coverage": [
+    {
+      "project": "acurast",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "acurast-phone-replacement-shared-manager",
+          "title_zh": "Acurast 换手机后，同一管理者的奖励会重复吗？",
+          "title_en": "Acurast phone replacement and shared manager rewards",
+          "preview": "http://127.0.0.1:8080/zh/learn/acurast-phone-replacement-shared-manager",
+          "sources": [
+            "https://docs.acurast.com/processors/rewards/",
+            "https://acurastbot.com/"
+          ],
+          "related": [
+            "acurast-frozen-balance-total",
+            "acurast-monitor-guide",
+            "acurast-processor-owner-identity"
+          ]
+        },
+        {
+          "slug": "acurast-frozen-balance-total",
+          "title_zh": "Acurast 可用、冻结、总余额能相加吗？",
+          "title_en": "Acurast free, frozen and total balance accounting",
+          "preview": "http://127.0.0.1:8080/zh/learn/acurast-frozen-balance-total",
+          "sources": [
+            "https://docs.acurast.com/processors/rewards/",
+            "https://acurastbot.com/"
+          ],
+          "related": [
+            "acurast-phone-replacement-shared-manager",
+            "acurast-monitor-guide",
+            "acurast-processor-owner-identity"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "akash",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "akash-gpu-allocation-ratio",
+          "title_zh": "Akash GPU 已分配比例，能当设备利用率吗？",
+          "title_en": "Akash GPU allocation ratio versus actual utilization",
+          "preview": "http://127.0.0.1:8080/zh/learn/akash-gpu-allocation-ratio",
+          "sources": [
+            "https://akash.network/docs/providers/getting-started/",
+            "https://console.akash.network/providers"
+          ],
+          "related": [
+            "akash-provider-endpoint-change",
+            "akash-monitor-guide",
+            "akash-provider-vs-wallet"
+          ]
+        },
+        {
+          "slug": "akash-provider-endpoint-change",
+          "title_zh": "Akash 提供商入口改了，旧租约会转到新地址吗？",
+          "title_en": "Akash provider endpoint changes versus identity changes",
+          "preview": "http://127.0.0.1:8080/zh/learn/akash-provider-endpoint-change",
+          "sources": [
+            "https://akash.network/docs/providers/getting-started/",
+            "https://console.akash.network/providers"
+          ],
+          "related": [
+            "akash-gpu-allocation-ratio",
+            "akash-monitor-guide",
+            "akash-provider-vs-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "bnt",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "bnt-blocknet-vs-block-bancor",
+          "title_zh": "BNT 挖矿的 Blocknet，和 BLOCK、Bancor 一样吗？",
+          "title_en": "Identify privacy Blocknet BNT versus BLOCK and Bancor",
+          "preview": "http://127.0.0.1:8080/zh/learn/bnt-blocknet-vs-block-bancor",
+          "sources": [
+            "https://blocknetcrypto.com/",
+            "https://bntpool.com/",
+            "https://github.com/blocknetprivacy/bntop"
+          ],
+          "related": [
+            "bnt-local-daemon-vs-pool-work",
+            "blocknet-bnt-monitor-guide",
+            "bnt-seine-cpu-nvidia-setup"
+          ]
+        },
+        {
+          "slug": "bnt-local-daemon-vs-pool-work",
+          "title_zh": "BNT 节点在线，为什么矿池没新份额？",
+          "title_en": "BNT local daemon status versus pool share activity",
+          "preview": "http://127.0.0.1:8080/zh/learn/bnt-local-daemon-vs-pool-work",
+          "sources": [
+            "https://blocknetcrypto.com/",
+            "https://bntpool.com/",
+            "https://github.com/blocknetprivacy/bntop"
+          ],
+          "related": [
+            "bnt-blocknet-vs-block-bancor",
+            "blocknet-bnt-monitor-guide",
+            "bnt-seine-cpu-nvidia-setup"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "btc",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "btc-ckpool-best-share-vs-block",
+          "title_zh": "CKPool best share 很高，就代表挖到 BTC 了吗？",
+          "title_en": "CKPool best share difficulty versus a Bitcoin block",
+          "preview": "http://127.0.0.1:8080/zh/learn/btc-ckpool-best-share-vs-block",
+          "sources": [
+            "https://solo.ckpool.org/",
+            "https://stats.ckpool.org/"
+          ],
+          "related": [
+            "btc-ckpool-multiple-addresses-records",
+            "btc-mining-monitor-guide",
+            "btc-ckpool-solo-rewards"
+          ]
+        },
+        {
+          "slug": "btc-ckpool-multiple-addresses-records",
+          "title_zh": "CKPool 多个 BTC 地址，怎样避免算力重复？",
+          "title_en": "Organize CKPool addresses without duplicating worker hashrate",
+          "preview": "http://127.0.0.1:8080/zh/learn/btc-ckpool-multiple-addresses-records",
+          "sources": [
+            "https://solo.ckpool.org/",
+            "https://stats.ckpool.org/"
+          ],
+          "related": [
+            "btc-ckpool-best-share-vs-block",
+            "btc-mining-monitor-guide",
+            "btc-ckpool-solo-rewards"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "csd",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "csd-change-pool-addr20-ledger",
+          "title_zh": "CSD 从 G-pools 换池，同一 addr20 会合并吗？",
+          "title_en": "CSD addr20 records across different mining pools",
+          "preview": "http://127.0.0.1:8080/zh/learn/csd-change-pool-addr20-ledger",
+          "sources": [
+            "https://computesubstrate.org/",
+            "https://csd.yamaduo.no/"
+          ],
+          "related": [
+            "csd-wallet-balance-versus-pool-source",
+            "csd-gpools-monitor-guide",
+            "csd-gpools-address-setup"
+          ]
+        },
+        {
+          "slug": "csd-wallet-balance-versus-pool-source",
+          "title_zh": "CSD 钱包有余额，为什么矿池地址仍查不到？",
+          "title_en": "CSD chain balances do not establish a pool account",
+          "preview": "http://127.0.0.1:8080/zh/learn/csd-wallet-balance-versus-pool-source",
+          "sources": [
+            "https://computesubstrate.org/",
+            "https://csd.yamaduo.no/"
+          ],
+          "related": [
+            "csd-change-pool-addr20-ledger",
+            "csd-gpools-monitor-guide",
+            "csd-gpools-address-setup"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "erg",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "erg-p2pk-address-change-history",
+          "title_zh": "ERG 更换 P2PK 地址后，历史付款怎么保留？",
+          "title_en": "ERG P2PK address changes and historical pool payments",
+          "preview": "http://127.0.0.1:8080/zh/learn/erg-p2pk-address-change-history",
+          "sources": [
+            "https://erg.2miners.com/help",
+            "https://docs.ergoplatform.com/dev/integration/guide/",
+            "https://docs.ergoplatform.com/dev/wallet/address/address_types/"
+          ],
+          "related": [
+            "erg-source-amount-decimals",
+            "erg-mining-monitor-guide",
+            "erg-p2pk-address-monitoring"
+          ]
+        },
+        {
+          "slug": "erg-source-amount-decimals",
+          "title_zh": "ERG 交易原始整数和页面金额为什么差很多？",
+          "title_en": "ERG raw amounts, decimals and displayed rewards",
+          "preview": "http://127.0.0.1:8080/zh/learn/erg-source-amount-decimals",
+          "sources": [
+            "https://erg.2miners.com/help",
+            "https://docs.ergoplatform.com/dev/integration/guide/",
+            "https://docs.ergoplatform.com/dev/wallet/address/address_types/"
+          ],
+          "related": [
+            "erg-p2pk-address-change-history",
+            "erg-mining-monitor-guide",
+            "erg-p2pk-address-monitoring"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "etc",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "etc-switch-pool-unpaid-history",
+          "title_zh": "ETC 换矿池后，旧余额为什么没合并？",
+          "title_en": "ETC pool switching without losing track of unpaid balances",
+          "preview": "http://127.0.0.1:8080/zh/learn/etc-switch-pool-unpaid-history",
+          "sources": [
+            "https://etc.2miners.com/help"
+          ],
+          "related": [
+            "etc-payment-threshold-not-received",
+            "etc-mining-monitor-guide",
+            "etc-vs-ethw-address-network"
+          ]
+        },
+        {
+          "slug": "etc-payment-threshold-not-received",
+          "title_zh": "ETC 超过付款门槛，为什么还没到账？",
+          "title_en": "ETC payment thresholds, payout cycles and receipt checks",
+          "preview": "http://127.0.0.1:8080/zh/learn/etc-payment-threshold-not-received",
+          "sources": [
+            "https://etc.2miners.com/help"
+          ],
+          "related": [
+            "etc-switch-pool-unpaid-history",
+            "etc-mining-monitor-guide",
+            "etc-vs-ethw-address-network"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "ethw",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "ethw-nonnative-payout-reconciliation",
+          "title_zh": "ETHW 挖矿用其他币付款，收益怎么对账？",
+          "title_en": "ETHW mining and non-native pool payout reconciliation",
+          "preview": "http://127.0.0.1:8080/zh/learn/ethw-nonnative-payout-reconciliation",
+          "sources": [
+            "https://ethw.2miners.com/help",
+            "https://minerstat.com/coin/ethw"
+          ],
+          "related": [
+            "ethw-same-address-different-chain-wallet",
+            "ethw-mining-monitor-guide",
+            "ethw-wallet-network-check"
+          ]
+        },
+        {
+          "slug": "ethw-same-address-different-chain-wallet",
+          "title_zh": "ETHW 有付款，同一个 0x 钱包为什么显示 0？",
+          "title_en": "ETHW payouts when a wallet displays the wrong network",
+          "preview": "http://127.0.0.1:8080/zh/learn/ethw-same-address-different-chain-wallet",
+          "sources": [
+            "https://ethw.2miners.com/help",
+            "https://minerstat.com/coin/ethw"
+          ],
+          "related": [
+            "ethw-nonnative-payout-reconciliation",
+            "ethw-mining-monitor-guide",
+            "ethw-wallet-network-check"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "flyai",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "flyai-month-rollover-history",
+          "title_zh": "fly.ai 换月后积分变少，怎么查上个月？",
+          "title_en": "Find fly.ai points after a monthly rollover",
+          "preview": "http://127.0.0.1:8080/zh/learn/flyai-month-rollover-history",
+          "sources": [
+            "https://www.flyaiworld.com/compute/",
+            "https://www.flyaiworld.com/"
+          ],
+          "related": [
+            "flyai-allocation-vs-claim-transaction",
+            "flyai-monitor-guide",
+            "flyai-public-wallet-vs-token"
+          ]
+        },
+        {
+          "slug": "flyai-allocation-vs-claim-transaction",
+          "title_zh": "fly.ai 已分配但没到账，应该核对哪一笔？",
+          "title_en": "Reconcile fly.ai allocation, claim and wallet receipt",
+          "preview": "http://127.0.0.1:8080/zh/learn/flyai-allocation-vs-claim-transaction",
+          "sources": [
+            "https://www.flyaiworld.com/compute/",
+            "https://www.flyaiworld.com/"
+          ],
+          "related": [
+            "flyai-month-rollover-history",
+            "flyai-monitor-guide",
+            "flyai-public-wallet-vs-token"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "golem",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "golem-reinstall-node-identity-history",
+          "title_zh": "Golem 重装后 Node ID 变了，旧 GLM 还在吗？",
+          "title_en": "Golem provider history after a Node ID change",
+          "preview": "http://127.0.0.1:8080/zh/learn/golem-reinstall-node-identity-history",
+          "sources": [
+            "https://docs.golem.network/docs/providers/provider-installation",
+            "https://stats.golem.network/"
+          ],
+          "related": [
+            "golem-rolling-day-reconciliation",
+            "golem-monitor-guide",
+            "golem-node-id-vs-wallet"
+          ]
+        },
+        {
+          "slug": "golem-rolling-day-reconciliation",
+          "title_zh": "Golem 近 24 小时 GLM 下降，是扣款吗？",
+          "title_en": "Why Golem rolling 24-hour GLM can decrease",
+          "preview": "http://127.0.0.1:8080/zh/learn/golem-rolling-day-reconciliation",
+          "sources": [
+            "https://docs.golem.network/docs/providers/provider-installation",
+            "https://stats.golem.network/"
+          ],
+          "related": [
+            "golem-reinstall-node-identity-history",
+            "golem-monitor-guide",
+            "golem-node-id-vs-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "gonka",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "gonka-epoch-rollover-weight-history",
+          "title_zh": "Gonka 换 epoch 后，权重下降怎么核对？",
+          "title_en": "Gonka weight changes at epoch boundaries",
+          "preview": "http://127.0.0.1:8080/zh/learn/gonka-epoch-rollover-weight-history",
+          "sources": [
+            "https://gonka.ai/docs/host/network-node-api/",
+            "https://gonka.gg/network"
+          ],
+          "related": [
+            "gonka-api-reachable-vs-participating",
+            "gonka-monitor-guide",
+            "gonka-host-id-api"
+          ]
+        },
+        {
+          "slug": "gonka-api-reachable-vs-participating",
+          "title_zh": "Gonka API 能访问，就代表 Host 在参与吗？",
+          "title_en": "Gonka API reachability versus epoch participation",
+          "preview": "http://127.0.0.1:8080/zh/learn/gonka-api-reachable-vs-participating",
+          "sources": [
+            "https://gonka.ai/docs/host/network-node-api/",
+            "https://gonka.gg/network"
+          ],
+          "related": [
+            "gonka-epoch-rollover-weight-history",
+            "gonka-monitor-guide",
+            "gonka-host-id-api"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "ionet",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "ionet-reinstall-device-id-history",
+          "title_zh": "io.net 重装后 Device ID 变了，历史奖励在哪？",
+          "title_en": "io.net reward history after a Device ID change",
+          "preview": "http://127.0.0.1:8080/zh/learn/ionet-reinstall-device-id-history",
+          "sources": [
+            "https://io.net/docs/reference/io-explorer/get-device-details",
+            "https://explorer.io.net/"
+          ],
+          "related": [
+            "ionet-utc-hong-kong-day-boundary",
+            "ionet-monitor-guide",
+            "ionet-device-id-vs-worker-key"
+          ]
+        },
+        {
+          "slug": "ionet-utc-hong-kong-day-boundary",
+          "title_zh": "io.net 今日奖励为什么和香港日期对不上？",
+          "title_en": "io.net UTC rewards versus Hong Kong calendar dates",
+          "preview": "http://127.0.0.1:8080/zh/learn/ionet-utc-hong-kong-day-boundary",
+          "sources": [
+            "https://io.net/docs/reference/io-explorer/get-device-details",
+            "https://explorer.io.net/"
+          ],
+          "related": [
+            "ionet-reinstall-device-id-history",
+            "ionet-monitor-guide",
+            "ionet-device-id-vs-worker-key"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "iota",
+      "existing_project_owned_articles": 11,
+      "added": 2,
+      "total_project_owned_articles": 13,
+      "articles": [
+        {
+          "slug": "iota-new-run-previous-contribution",
+          "title_zh": "IOTA 换训练轮次后，上一轮贡献去哪了？",
+          "title_en": "IOTA contribution after a new training run starts",
+          "preview": "http://127.0.0.1:8080/zh/learn/iota-new-run-previous-contribution",
+          "sources": [
+            "https://iota.macrocosmos.ai/",
+            "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+          ],
+          "related": [
+            "iota-usd-value-price-time",
+            "find-miner-id",
+            "how-rewards-work"
+          ]
+        },
+        {
+          "slug": "iota-usd-value-price-time",
+          "title_zh": "IOTA 枚数没变，美元收益为什么变了？",
+          "title_en": "Why IOTA reward USD values change without new tokens",
+          "preview": "http://127.0.0.1:8080/zh/learn/iota-usd-value-price-time",
+          "sources": [
+            "https://iota.macrocosmos.ai/",
+            "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide"
+          ],
+          "related": [
+            "iota-new-run-previous-contribution",
+            "find-miner-id",
+            "how-rewards-work"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "kas",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "kas-nonnative-payout-asset",
+          "title_zh": "KAS 矿池选了 BTC 付款，能和 KAS 余额相加吗？",
+          "title_en": "KAS mining with non-native payouts: keep assets separate",
+          "preview": "http://127.0.0.1:8080/zh/learn/kas-nonnative-payout-asset",
+          "sources": [
+            "https://kas.2miners.com/help"
+          ],
+          "related": [
+            "kas-asic-replacement-worker-label",
+            "kas-mining-monitor-guide",
+            "kas-kaspa-address-and-pool"
+          ]
+        },
+        {
+          "slug": "kas-asic-replacement-worker-label",
+          "title_zh": "KAS 换 ASIC 但没改 Worker 名，算力怎么对？",
+          "title_en": "KAS ASIC replacement with a reused worker label",
+          "preview": "http://127.0.0.1:8080/zh/learn/kas-asic-replacement-worker-label",
+          "sources": [
+            "https://kas.2miners.com/help"
+          ],
+          "related": [
+            "kas-nonnative-payout-asset",
+            "kas-mining-monitor-guide",
+            "kas-kaspa-address-and-pool"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "mds",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "mds-miner-upgrade-mss-address",
+          "title_zh": "MDS 升级矿工后，怎样确认仍用原 MSS 地址？",
+          "title_en": "MDS miner upgrades and reusable MSS payout identity",
+          "preview": "http://127.0.0.1:8080/zh/learn/mds-miner-upgrade-mss-address",
+          "sources": [
+            "https://midstate.cash/",
+            "https://midstate.luckypool.io/how-to-mine"
+          ],
+          "related": [
+            "mds-solo-prefix-accounting",
+            "midstate-mds-monitor-guide",
+            "mds-wallet-luckypool-setup"
+          ]
+        },
+        {
+          "slug": "mds-solo-prefix-accounting",
+          "title_zh": "MDS 的 solo: 前缀会影响统计入口吗？",
+          "title_en": "MDS solo: payout labels and pool statistics",
+          "preview": "http://127.0.0.1:8080/zh/learn/mds-solo-prefix-accounting",
+          "sources": [
+            "https://midstate.cash/",
+            "https://midstate.luckypool.io/how-to-mine"
+          ],
+          "related": [
+            "mds-miner-upgrade-mss-address",
+            "midstate-mds-monitor-guide",
+            "mds-wallet-luckypool-setup"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "noid",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "noid-changing-pool-old-balance",
+          "title_zh": "NOID 换矿池后，旧池待付会跟过去吗？",
+          "title_en": "NOID pool switching and outstanding balances",
+          "preview": "http://127.0.0.1:8080/zh/learn/noid-changing-pool-old-balance",
+          "sources": [
+            "https://docs.parano1d.org/reference/rpc",
+            "https://www.parano1d-pool.fun/",
+            "https://www.noidexplorer.space/mining"
+          ],
+          "related": [
+            "noid-confirmations-source-time",
+            "noid-monitor-guide",
+            "noid-address-not-found"
+          ]
+        },
+        {
+          "slug": "noid-confirmations-source-time",
+          "title_zh": "NOID 确认数对不上，先看哪个区块高度？",
+          "title_en": "NOID confirmation differences across source snapshots",
+          "preview": "http://127.0.0.1:8080/zh/learn/noid-confirmations-source-time",
+          "sources": [
+            "https://docs.parano1d.org/reference/rpc",
+            "https://www.parano1d-pool.fun/",
+            "https://www.noidexplorer.space/mining"
+          ],
+          "related": [
+            "noid-changing-pool-old-balance",
+            "noid-monitor-guide",
+            "noid-address-not-found"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "nosana",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "nosana-job-retry-counting",
+          "title_zh": "Nosana 同一个 Job 重试，能算两份收益吗？",
+          "title_en": "Nosana job retries, executions and reward counting",
+          "preview": "http://127.0.0.1:8080/zh/learn/nosana-job-retry-counting",
+          "sources": [
+            "https://learn.nosana.com/deployments/jobs/job_execution_flow",
+            "https://dashboard.nosana.com/"
+          ],
+          "related": [
+            "nosana-replaced-host-address-history",
+            "nosana-monitor-guide",
+            "nosana-host-id-vs-wallet"
+          ]
+        },
+        {
+          "slug": "nosana-replaced-host-address-history",
+          "title_zh": "Nosana 重装或更换 Host 地址，旧任务怎么查？",
+          "title_en": "Nosana history after replacing a host identity",
+          "preview": "http://127.0.0.1:8080/zh/learn/nosana-replaced-host-address-history",
+          "sources": [
+            "https://learn.nosana.com/deployments/jobs/job_execution_flow",
+            "https://dashboard.nosana.com/"
+          ],
+          "related": [
+            "nosana-job-retry-counting",
+            "nosana-monitor-guide",
+            "nosana-host-id-vs-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "prl",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "prl-pool-payment-methods-comparison",
+          "title_zh": "PRL 看 PPS 或 SOLO 时，为什么不能直接比时薪？",
+          "title_en": "Compare PRL pool payment methods without inventing hourly income",
+          "preview": "http://127.0.0.1:8080/zh/learn/prl-pool-payment-methods-comparison",
+          "sources": [
+            "https://pool.kryptex.com/en/prl",
+            "https://pearlsonar.com/pools"
+          ],
+          "related": [
+            "prl-reused-worker-device-history",
+            "pearl-prl-mac-monitoring",
+            "prl-luckypool-vs-kryptex"
+          ]
+        },
+        {
+          "slug": "prl-reused-worker-device-history",
+          "title_zh": "PRL 两台机器用了同一个 Worker 名，怎么分？",
+          "title_en": "PRL shared worker names and physical device attribution",
+          "preview": "http://127.0.0.1:8080/zh/learn/prl-reused-worker-device-history",
+          "sources": [
+            "https://pool.kryptex.com/en/prl",
+            "https://pearlsonar.com/pools"
+          ],
+          "related": [
+            "prl-pool-payment-methods-comparison",
+            "pearl-prl-mac-monitoring",
+            "prl-luckypool-vs-kryptex"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "quantus",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "quantus-local-node-vs-network-height",
+          "title_zh": "Quantus 本机节点高度和全网高度怎么对？",
+          "title_en": "Compare Quantus local sync height with the network",
+          "preview": "http://127.0.0.1:8080/zh/learn/quantus-local-node-vs-network-height",
+          "sources": [
+            "https://docs.quantus.com/guides/mining/",
+            "https://qtcscan.com/pools/"
+          ],
+          "related": [
+            "quantus-reward-address-change-history",
+            "quantus-mainnet-mining-mac",
+            "quantus-wormhole-rewards"
+          ]
+        },
+        {
+          "slug": "quantus-reward-address-change-history",
+          "title_zh": "Quantus 更换奖励地址后，旧 QTC 记录怎么保留？",
+          "title_en": "Keep Quantus reward history when changing addresses",
+          "preview": "http://127.0.0.1:8080/zh/learn/quantus-reward-address-change-history",
+          "sources": [
+            "https://docs.quantus.com/guides/mining/",
+            "https://qtcscan.com/pools/"
+          ],
+          "related": [
+            "quantus-local-node-vs-network-height",
+            "quantus-mainnet-mining-mac",
+            "quantus-wormhole-rewards"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "rvn",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "rvn-worker-rename-window",
+          "title_zh": "RVN Worker 改名后，为什么新旧都显示算力？",
+          "title_en": "RVN worker renaming and overlapping hashrate windows",
+          "preview": "http://127.0.0.1:8080/zh/learn/rvn-worker-rename-window",
+          "sources": [
+            "https://rvn.2miners.com/help"
+          ],
+          "related": [
+            "rvn-payment-transaction-reconcile",
+            "rvn-mining-monitor-guide",
+            "rvn-wallet-and-worker-format"
+          ]
+        },
+        {
+          "slug": "rvn-payment-transaction-reconcile",
+          "title_zh": "RVN 钱包到账，怎样找到对应矿池付款？",
+          "title_en": "Match RVN pool payouts with wallet transactions",
+          "preview": "http://127.0.0.1:8080/zh/learn/rvn-payment-transaction-reconcile",
+          "sources": [
+            "https://rvn.2miners.com/help"
+          ],
+          "related": [
+            "rvn-worker-rename-window",
+            "rvn-mining-monitor-guide",
+            "rvn-wallet-and-worker-format"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "tsc",
+      "existing_project_owned_articles": 4,
+      "added": 2,
+      "total_project_owned_articles": 6,
+      "articles": [
+        {
+          "slug": "tsc-nonces-vs-proofs-comparison",
+          "title_zh": "TSC 的 N/s 与 PoI/s，能换算成同一个速度吗？",
+          "title_en": "TensorCash N/s versus PoI/s: compare the source units",
+          "preview": "http://127.0.0.1:8080/zh/learn/tsc-nonces-vs-proofs-comparison",
+          "sources": [
+            "https://tensorcash.org/pools",
+            "https://tensorcash.org/docs/api/tscscan/addresses-address-balance"
+          ],
+          "related": [
+            "tsc-pool-paused-historical-records",
+            "tsc-monitor-guide",
+            "tsc-pool-worker-monitor"
+          ]
+        },
+        {
+          "slug": "tsc-pool-paused-historical-records",
+          "title_zh": "TensorCash 矿池暂停，历史记录还能看吗？",
+          "title_en": "TensorCash paused pools and historical payout records",
+          "preview": "http://127.0.0.1:8080/zh/learn/tsc-pool-paused-historical-records",
+          "sources": [
+            "https://tensorcash.org/pools",
+            "https://tensorcash.org/docs/api/tscscan/addresses-address-balance"
+          ],
+          "related": [
+            "tsc-nonces-vs-proofs-comparison",
+            "tsc-monitor-guide",
+            "tsc-pool-worker-monitor"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "vast",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "vast-machine-replacement-income-history",
+          "title_zh": "Vast.ai 换机器后，同名 Host 的收入怎么保留？",
+          "title_en": "Vast.ai Machine ID changes and host income history",
+          "preview": "http://127.0.0.1:8080/zh/learn/vast-machine-replacement-income-history",
+          "sources": [
+            "https://docs.vast.ai/host/hosting-overview",
+            "https://vast.ai/hosting/calculator"
+          ],
+          "related": [
+            "vast-income-report-date-range",
+            "vast-monitor-guide",
+            "vast-host-machine-vs-contract"
+          ]
+        },
+        {
+          "slug": "vast-income-report-date-range",
+          "title_zh": "Vast.ai 日收入报表，怎么和租约时间对账？",
+          "title_en": "Reconcile Vast.ai machine income report intervals",
+          "preview": "http://127.0.0.1:8080/zh/learn/vast-income-report-date-range",
+          "sources": [
+            "https://docs.vast.ai/host/hosting-overview",
+            "https://vast.ai/hosting/calculator"
+          ],
+          "related": [
+            "vast-machine-replacement-income-history",
+            "vast-monitor-guide",
+            "vast-host-machine-vs-contract"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "xid",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "xid-worker-rename-history",
+          "title_zh": "MMM 改 Worker 名后，旧记录为什么还在？",
+          "title_en": "MMM worker renaming and XID pool history",
+          "preview": "http://127.0.0.1:8080/zh/learn/xid-worker-rename-history",
+          "sources": [
+            "https://xcoinproject.com/",
+            "https://macmetalminer.com/"
+          ],
+          "related": [
+            "xid-pool-payout-explorer-check",
+            "xid-mmm-mainnet-setup",
+            "xid-worker-hashrate-shares"
+          ]
+        },
+        {
+          "slug": "xid-pool-payout-explorer-check",
+          "title_zh": "XID 矿池显示已付，钱包没看到怎么查？",
+          "title_en": "Trace an XID pool payout to the mainnet explorer",
+          "preview": "http://127.0.0.1:8080/zh/learn/xid-pool-payout-explorer-check",
+          "sources": [
+            "https://xcoinproject.com/",
+            "https://macmetalminer.com/"
+          ],
+          "related": [
+            "xid-worker-rename-history",
+            "xid-mmm-mainnet-setup",
+            "xid-worker-hashrate-shares"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "xmr",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "xmr-payout-address-rotation-history",
+          "title_zh": "XMR 换收款地址后，旧池余额怎么查？",
+          "title_en": "XMR payout address changes and old pool balances",
+          "preview": "http://127.0.0.1:8080/zh/learn/xmr-payout-address-rotation-history",
+          "sources": [
+            "https://pool.kryptex.com/en/xmr",
+            "https://minerstat.com/coin/xmr",
+            "https://www.getmonero.org/resources/moneropedia/address.html"
+          ],
+          "related": [
+            "xmr-pool-dashboard-privacy",
+            "xmr-mining-monitor-guide",
+            "xmr-kryptex-address-types"
+          ]
+        },
+        {
+          "slug": "xmr-pool-dashboard-privacy",
+          "title_zh": "XMR 矿池监控链接能公开分享吗？",
+          "title_en": "Privacy when sharing an XMR pool monitoring link",
+          "preview": "http://127.0.0.1:8080/zh/learn/xmr-pool-dashboard-privacy",
+          "sources": [
+            "https://pool.kryptex.com/en/xmr",
+            "https://minerstat.com/coin/xmr",
+            "https://www.getmonero.org/resources/moneropedia/address.html"
+          ],
+          "related": [
+            "xmr-payout-address-rotation-history",
+            "xmr-mining-monitor-guide",
+            "xmr-kryptex-address-types"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "zec",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "zec-transparent-payout-shielded-wallet",
+          "title_zh": "ZEC 转进隐私地址后，矿池付款记录会消失吗？",
+          "title_en": "ZEC pool payouts before moving funds to a shielded address",
+          "preview": "http://127.0.0.1:8080/zh/learn/zec-transparent-payout-shielded-wallet",
+          "sources": [
+            "https://zec.2miners.com/help"
+          ],
+          "related": [
+            "zec-pool-address-replacement-history",
+            "zec-mining-monitor-guide",
+            "zec-transparent-addresses"
+          ]
+        },
+        {
+          "slug": "zec-pool-address-replacement-history",
+          "title_zh": "ZEC 更换 t 地址，旧 Worker 还要保留吗？",
+          "title_en": "ZEC address replacement and old worker history",
+          "preview": "http://127.0.0.1:8080/zh/learn/zec-pool-address-replacement-history",
+          "sources": [
+            "https://zec.2miners.com/help"
+          ],
+          "related": [
+            "zec-transparent-payout-shielded-wallet",
+            "zec-mining-monitor-guide",
+            "zec-transparent-addresses"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "zeph",
+      "existing_project_owned_articles": 5,
+      "added": 2,
+      "total_project_owned_articles": 7,
+      "articles": [
+        {
+          "slug": "zeph-assets-zsd-zrs-identity",
+          "title_zh": "ZEPH、ZSD、ZRS 能当同一种挖矿收益吗？",
+          "title_en": "Keep ZEPH mining rewards separate from ZSD and ZRS",
+          "preview": "http://127.0.0.1:8080/zh/learn/zeph-assets-zsd-zrs-identity",
+          "sources": [
+            "https://zeph.2miners.com/help",
+            "https://zephyrprotocol.com/"
+          ],
+          "related": [
+            "zeph-switch-pool-maturing-balance",
+            "zeph-mining-monitor-guide",
+            "zeph-standard-address-vs-integrated"
+          ]
+        },
+        {
+          "slug": "zeph-switch-pool-maturing-balance",
+          "title_zh": "ZEPH 换矿池后，确认中的奖励怎么办？",
+          "title_en": "ZEPH immature balances after changing pools",
+          "preview": "http://127.0.0.1:8080/zh/learn/zeph-switch-pool-maturing-balance",
+          "sources": [
+            "https://zeph.2miners.com/help",
+            "https://zephyrprotocol.com/"
+          ],
+          "related": [
+            "zeph-assets-zsd-zrs-identity",
+            "zeph-mining-monitor-guide",
+            "zeph-standard-address-vs-integrated"
+          ]
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "typecheck": "passed",
+    "build": "passed",
+    "tests": {
+      "passed": 33,
+      "files": 5
+    },
+    "http_report": "docs/seo-project-expansion-http-2026-10-26.json",
+    "browser": [
+      "Chinese Acurast page rendered; clicked companion guide and verified client-side content",
+      "Korean io.net page rendered with localized navigation, body, sources and related links"
+    ],
+    "screenshot": "/private/tmp/iota-project-expansion-preview-20261026.png",
+    "whitespace": "passed"
+  },
+  "remaining": [
+    "Obtain current production release approval for previous SEO corrections and this all-project expansion.",
+    "After approval, deploy and verify production URLs, then submit sitemap/new URLs; submission acceptance is not indexing confirmation."
+  ]
+}

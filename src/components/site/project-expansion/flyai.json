@@ -1,0 +1,78 @@
+[
+  {
+    "project": "flyai",
+    "slug": "flyai-month-rollover-history",
+    "title": {
+      "zh": "fly.ai 换月后积分变少，怎么查上个月？",
+      "zh-TW": "fly.ai 換月後積分變少，怎麼查上個月？",
+      "en": "Find fly.ai points after a monthly rollover",
+      "ko": "fly.ai 월 변경 후 지난달 포인트 찾기",
+      "ja": "fly.ai月替わり後の前月ポイントの確認"
+    },
+    "answer": {
+      "zh": "月榜切到新月份时，当前积分可能从新周期开始。上个月的积分、分配和领取是不同记录；当前月份数值较小，不足以认定历史被删除。",
+      "zh-TW": "月榜切換後目前積分可能從新週期開始。上月積分、分配、領取各為不同紀錄，當月數值較小不代表歷史被刪除。",
+      "en": "The current leaderboard can start a fresh period when the month changes. Previous points, monthly allocations and claims are separate records. A lower current-month figure alone does not show that the previous month was deleted.",
+      "ko": "월별 순위가 바뀌면 현재 포인트는 새 기간을 시작할 수 있습니다. 이전 포인트·배분·청구는 별도이며 현재 값 감소가 기록 삭제를 뜻하지 않습니다.",
+      "ja": "月間ランキングが切り替わると今月は新しい期間になります。前月ポイント・配分・請求は別記録で、現在値の減少だけで履歴削除とは判断できません。"
+    },
+    "checks": {
+      "zh": "到 flyaiworld.com 的 compute 页面，核对相同公开 Miner 地址与页面选定月份，保存周期结束时间。比较当前月榜、已结束月榜和分配状态，不用 Fly.io 的应用监控结果对账。月份尚未结算时，不自行推算可领取金额。",
+      "zh-TW": "在 flyaiworld.com compute 核對相同公開 Miner 和月份並保存週期結束時間。比較當月、已結束月份和分配，勿用 Fly.io 監控對帳。尚未結算勿推算可領金額。",
+      "en": "Use the compute page at flyaiworld.com and match the public miner address, selected month and period end. Compare the current leaderboard with the ended period and its allocation state. Fly.io application monitoring is unrelated. If a month is not yet settled, leave the claim amount unconfirmed rather than converting its points into a promised payment.",
+      "ko": "flyaiworld.com compute에서 같은 공개 Miner, 선택 월, 종료 시각을 확인하세요. 현재·종료 월·배분 상태를 비교합니다. Fly.io 앱 모니터링과는 무관하며 정산 전 청구액을 추정해 확정하지 마세요.",
+      "ja": "flyaiworld.comのcomputeで同じ公開Miner・選択月・終了時刻を確認します。今月・終了月・配分状態を比べます。Fly.ioのアプリ監視は別物で、未精算月の請求額は確定扱いにしません。"
+    },
+    "example": {
+      "zh": "示例：月末 800 分，次月显示 10 分。先查那 800 分所属月份的记录；不能把 790 分差额记成扣罚，也不能把旧月积分加到新月排名。",
+      "zh-TW": "示例：月底 800 分、次月 10 分，先查 800 分所屬月份。勿把 790 差額當扣罰，亦勿加到新月排名。",
+      "en": "Example: 800 points at month end become 10 on the next month’s view. Inspect the period that owns the 800 points. The difference is not automatically a penalty, and carrying old points into the new ranking would mix periods.",
+      "ko": "예: 월말 800점, 다음 달 10점이면 이전 달 기록을 조회하세요. 790점 차이를 벌점으로 보거나 새 순위에 합산하지 마세요.",
+      "ja": "例：月末800点、翌月10点なら800点の所属月を照会します。差の790点を罰則と見なしたり、新月順位に足したりしません。"
+    },
+    "sources": ["https://www.flyaiworld.com/compute/", "https://www.flyaiworld.com/"],
+    "related": [
+      "flyai-allocation-vs-claim-transaction",
+      "flyai-monitor-guide",
+      "flyai-public-wallet-vs-token"
+    ]
+  },
+  {
+    "project": "flyai",
+    "slug": "flyai-allocation-vs-claim-transaction",
+    "title": {
+      "zh": "fly.ai 已分配但没到账，应该核对哪一笔？",
+      "zh-TW": "fly.ai 已分配但未到帳，該核對哪筆？",
+      "en": "Reconcile fly.ai allocation, claim and wallet receipt",
+      "ko": "fly.ai 배분·청구·지갑 수령 대조",
+      "ja": "fly.ai配分・請求・ウォレット着金の照合"
+    },
+    "answer": {
+      "zh": "月度分配不等于钱包已到账。先确认页面显示的是积分、分配额度、可领取状态还是已领取；每一种只能证明它对应的阶段。",
+      "zh-TW": "每月分配不等於錢包已到帳。先分清積分、分配額、可領及已領，各自只表示該階段。",
+      "en": "Monthly allocation is not the same as wallet receipt. Identify whether the page shows points, an allocated amount, claim availability or a completed claim. Each describes a different stage, and none should silently replace another in a reward total.",
+      "ko": "월별 배분은 지갑 수령과 다릅니다. 포인트·배분액·청구 가능·청구 완료 중 어느 단계인지 먼저 확인하세요.",
+      "ja": "月次配分とウォレット着金は別です。ポイント・配分額・請求可能・請求済みのどの段階かを先に確認します。"
+    },
+    "checks": {
+      "zh": "使用同一月份和公开钱包，对照官方分配记录。若已领取且有交易编号，继续核对来源注明的网络、资产与收款地址；若没有交易证据，就保留为分配或领取状态，不显示为现金到账。监控查询不需要程序密钥或签名。",
+      "zh-TW": "用同月份、公開錢包核對官方分配。已領且有交易編號時再查來源網路、資產、收款方；缺交易證據保留分配或領取狀態，不補成現金入帳。查詢不需程式密鑰或簽名。",
+      "en": "Match the month and public wallet against the official allocation record. For a completed claim with a transaction reference, check the network, asset and destination stated by the source. Without transaction evidence, retain the allocation or claim state rather than reporting cash received. This monitoring check does not need a miner secret or a wallet signature.",
+      "ko": "같은 월·공개 지갑으로 공식 배분을 대조합니다. 청구 완료 거래가 있으면 출처의 네트워크·자산·수신자를 확인합니다. 거래 근거가 없으면 현금 도착으로 표시하지 않으며 조회에 비밀키나 서명은 필요 없습니다.",
+      "ja": "同じ月と公開ウォレットで公式配分を照合します。請求済み取引IDがあれば、出典に記載されたネットワーク・資産・受取先を確認します。取引根拠がなければ現金着金と補いません。照会に秘密鍵や署名は不要です。"
+    },
+    "example": {
+      "zh": "示例：页面有分配额度，但领取尚未开放。应继续跟踪该月状态，不把钱包余额变化归因于这笔分配；余额也可能来自无关转账。",
+      "zh-TW": "示例：有分配但未開放領取，繼續追蹤該月。錢包餘額變動可來自其他轉帳，勿直接歸因於此分配。",
+      "en": "Example: an allocation exists while claiming is not open. Track that month’s state rather than attributing a wallet balance change to the allocation. Other transfers can change the wallet independently.",
+      "ko": "예: 배분은 있지만 청구가 열리지 않았다면 해당 월 상태를 추적하세요. 지갑 변동은 다른 송금일 수 있습니다.",
+      "ja": "例：配分はあっても請求未開始なら、その月の状態を追跡します。ウォレット残高の変化には別送金も含まれます。"
+    },
+    "sources": ["https://www.flyaiworld.com/compute/", "https://www.flyaiworld.com/"],
+    "related": [
+      "flyai-month-rollover-history",
+      "flyai-monitor-guide",
+      "flyai-public-wallet-vs-token"
+    ]
+  }
+]

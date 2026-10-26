@@ -1,0 +1,78 @@
+[
+  {
+    "project": "acurast",
+    "slug": "acurast-phone-replacement-shared-manager",
+    "title": {
+      "zh": "Acurast 换手机后，同一管理者的奖励会重复吗？",
+      "zh-TW": "Acurast 換手機後，同管理者獎勵會重複嗎？",
+      "en": "Acurast phone replacement and shared manager rewards",
+      "ko": "Acurast 휴대폰 교체와 공유 관리자 보상",
+      "ja": "Acurastの端末交換と共有Manager報酬"
+    },
+    "answer": {
+      "zh": "处理器识别手机，管理者奖励可能覆盖多台处理器。新旧手机属于同一管理者时，管理者总额不能在两张设备卡上各算一份再相加。",
+      "zh-TW": "處理器識別手機，管理者獎勵可含多機。新舊機同管理者時，總額勿各算一次再相加。",
+      "en": "Processor identities identify phones, while manager rewards may cover several processors. If old and new phones share a manager, assigning the full manager total to both device cards would duplicate the same reward.",
+      "ko": "프로세서는 휴대폰 ID, 관리자 보상은 여러 프로세서 범위일 수 있습니다. 교체 전후 같은 관리자 총액을 두 번 합산하지 마세요.",
+      "ja": "Processorは端末ID、Manager報酬は複数端末を含む場合があります。旧新端末が同じManagerなら同じ総額を二重加算しません。"
+    },
+    "checks": {
+      "zh": "保存旧处理器地址、新处理器地址和管理者对应关系。分别查心跳判断哪台在活动，再在管理者范围核对已支付奖励。本站设备关联用于整理，不会把旧奖励拆分或迁移到新手机；缺乏设备级归因时保留管理者范围。",
+      "zh-TW": "存新舊處理器與管理者對應，分查心跳，再於管理者層核對已付。本站關聯只整理，不拆分或搬移舊獎勵；缺單機歸因保留管理者範圍。",
+      "en": "Record both processor addresses and their manager relationship. Inspect heartbeats per processor, then reconcile paid rewards at manager scope. Device associations organize the records; they do not migrate or split historical rewards. If the source cannot attribute a manager payment to one phone, retain the aggregate scope rather than inventing a per-phone amount.",
+      "ko": "새·이전 프로세서 주소와 관리자 관계를 저장하세요. 심박은 기기별, 지급 보상은 관리자별로 봅니다. 연결은 기록 정리이며 이력 이전·분할이 아닙니다. 귀속 근거가 없으면 관리자 합계를 유지하세요.",
+      "ja": "新旧ProcessorとManagerの対応を保存します。心拍は端末別、支払報酬はManager単位で照合します。関連付けは報酬移行・分割ではなく、個別帰属がなければ総額範囲を保ちます。"
+    },
+    "example": {
+      "zh": "示例：两台手机关联同一 Manager，今日奖励 1 ACU。它表示该 Manager 的 1 ACU，不是每台 1 ACU。设备数可以是 2，奖励汇总仍需按来源身份去重。",
+      "zh-TW": "示例：兩機同 Manager 今日 1 ACU，是整個 Manager 的 1，不是每機 1；設備 2 台，獎勵按來源去重。",
+      "en": "Example: two phones share a manager showing 1 ACU today. That is 1 ACU for the manager, not 1 ACU per phone. The physical device count can be two while rewards must be deduplicated by their source identity.",
+      "ko": "예: 두 휴대폰이 관리자 오늘 1 ACU를 공유하면 전체가 1 ACU입니다. 기기는 2대여도 출처 ID 기준으로 보상을 중복 제거합니다.",
+      "ja": "例：2台がManagerの日次1 ACUを共有するなら合計1 ACUです。実機は2台でも報酬は出典IDで重複除外します。"
+    },
+    "sources": ["https://docs.acurast.com/processors/rewards/", "https://acurastbot.com/"],
+    "related": [
+      "acurast-frozen-balance-total",
+      "acurast-monitor-guide",
+      "acurast-processor-owner-identity"
+    ]
+  },
+  {
+    "project": "acurast",
+    "slug": "acurast-frozen-balance-total",
+    "title": {
+      "zh": "Acurast 可用、冻结、总余额能相加吗？",
+      "zh-TW": "Acurast 可用、凍結與總餘額能相加嗎？",
+      "en": "Acurast free, frozen and total balance accounting",
+      "ko": "Acurast 가용·동결·총잔액 집계",
+      "ja": "Acurastの利用可能・凍結・総残高の数え方"
+    },
+    "answer": {
+      "zh": "冻结额描述余额的使用限制，通常不是总余额之外的新资产。钱包持有量与 Manager 已支付奖励也不同；把总额、可用和冻结全部相加会重复计算。",
+      "zh-TW": "凍結額描述使用限制，非總餘額外新增資產。持有量與 Manager 已付亦不同，全部相加會重複。",
+      "en": "Frozen amounts describe restrictions on balances rather than a new asset outside the total. Wallet holdings also differ from manager paid rewards. Adding total, free and frozen figures indiscriminately double-counts funds.",
+      "ko": "동결액은 사용 제한이지 총잔액 외 새 자산이 아닙니다. 지갑 보유량과 관리자 지급도 다르므로 모두 더하지 마세요.",
+      "ja": "凍結額は使用制限で、総残高の外にある新資産ではありません。保有残高とManager支払済み報酬も別で、全て足すと重複します。"
+    },
+    "checks": {
+      "zh": "先对照相同链上地址和 finalized 快照时间，再读来源字段定义。本站总额按 free 与 reserved 组成，冻结额作为限制单列，不再次加到总额。今日奖励来自香港日界线的已支付奖励差额，不是钱包总余额差。",
+      "zh-TW": "對照同地址及 finalized 時間，再查欄位定義。本站 total 為 free 加 reserved，凍結限制另列不重加；今日獎勵依香港日界線已付差額，不是總餘額差。",
+      "en": "Compare the same chain address at the same finalized snapshot. In this monitor, total uses free plus reserved; frozen is shown as a restriction and is not added again. Daily rewards come from paid-reward changes across Hong Kong midnight, not simply from subtracting wallet totals. Transfers and restrictions can change those totals independently.",
+      "ko": "같은 주소·finalized 시각을 대조합니다. 이 모니터의 총액은 free+reserved이며 frozen은 제한으로 별도 표시합니다. 오늘 보상은 홍콩 자정 기준 지급 보상 차이이지 지갑 총액 차이가 아닙니다.",
+      "ja": "同じアドレスとfinalized時刻で比較します。当サイトの総額はfree＋reserved、frozenは制限として別表示で再加算しません。日次報酬は香港深夜の支払報酬差で、ウォレット総額差ではありません。"
+    },
+    "example": {
+      "zh": "示例：free 10、reserved 2、frozen 3，本站总额为 12，而非 15。能转出的额度仍应以官方钱包和链上限制为准，不能直接拿总额当可提现金额。",
+      "zh-TW": "示例：free 10、reserved 2、frozen 3，總額 12 非 15。可轉出仍依官方錢包與鏈上限制，不把總額當可提領。",
+      "en": "Example: free 10, reserved 2 and frozen 3 produce a total of 12 here, not 15. Actual transferability still depends on wallet and chain restrictions; total holdings are not a withdrawal quote.",
+      "ko": "예: free 10, reserved 2, frozen 3이면 총액은 12이며 15가 아닙니다. 실제 전송 가능액은 공식 지갑·체인 제한을 따릅니다.",
+      "ja": "例：free10・reserved2・frozen3なら総額は12で15ではありません。実際の送金可能額は公式ウォレットとチェーン制限で確認します。"
+    },
+    "sources": ["https://docs.acurast.com/processors/rewards/", "https://acurastbot.com/"],
+    "related": [
+      "acurast-phone-replacement-shared-manager",
+      "acurast-monitor-guide",
+      "acurast-processor-owner-identity"
+    ]
+  }
+]

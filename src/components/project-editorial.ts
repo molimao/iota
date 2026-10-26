@@ -1,3 +1,4 @@
+import { projectVerification, verificationQuestion } from "./project-verification";
 import { poolEditorial } from "./pool-copy";
 import { projectDiscoveryQuestions } from "@/lib/product-discovery";
 import { PROJECTS } from "@/lib/projects";
@@ -346,10 +347,13 @@ export const editorialCopy = (locale: SiteLocale) =>
   };
 export function projectQuestions(project: ProjectId, locale: SiteLocale) {
   const p = projectEditorial[project];
-  return projectDiscoveryQuestions(
-    PROJECTS[project].name,
-    locale,
-    p.identity[locale],
-    p.coverage[locale],
-  );
+  return [
+    ...projectDiscoveryQuestions(
+      PROJECTS[project].name,
+      locale,
+      p.identity[locale],
+      p.coverage[locale],
+    ),
+    { question: verificationQuestion[locale], answer: projectVerification[project][locale] },
+  ];
 }

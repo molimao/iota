@@ -1,0 +1,78 @@
+[
+  {
+    "project": "ethw",
+    "slug": "ethw-nonnative-payout-reconciliation",
+    "title": {
+      "zh": "ETHW 挖矿用其他币付款，收益怎么对账？",
+      "zh-TW": "ETHW 挖礦以其他幣付款，收益怎麼對帳？",
+      "en": "ETHW mining and non-native pool payout reconciliation",
+      "ko": "ETHW 채굴과 다른 자산 지급 대조",
+      "ja": "ETHW採掘と別資産による支払いの照合"
+    },
+    "answer": {
+      "zh": "矿池可能提供其他资产付款方式，但本站原生 ETHW 查询不自动覆盖所有兑换路径。挖到 ETHW、兑换与收到其他资产应分开记录，不把各阶段加成多份收入。",
+      "zh-TW": "池可提供別資產付款，本站原生 ETHW 不自動涵蓋換幣；採掘、交換、收款分列，不多算收入。",
+      "en": "A pool may offer payment in another asset, but native ETHW monitoring does not automatically cover every conversion path. Mining accrual, conversion and receipt are separate stages of the same value, not three additional rewards.",
+      "ko": "다른 자산 지급을 원생 ETHW 조회가 모두 지원하지는 않습니다. 채굴·환전·수령을 같은 가치의 단계로 나눠 기록하세요.",
+      "ja": "別資産払いの全換金経路をETHWネイティブ監視が網羅するわけではありません。採掘・交換・受取は同価値の段階として分けます。"
+    },
+    "checks": {
+      "zh": "读取当前矿池对付款币种、地址格式、手续费与门槛的说明。保存原生记账和实际付款的资产数量及时间；用付款所在链验证交易。不要将 BTC 或其他收款地址填成 ETHW 0x，也不要把 Ethereum 网络交易当成 ETHW 确认。",
+      "zh-TW": "查付款幣種、格式、費用、門檻，保存原帳與實付數量時間，在正確鏈查交易。勿把 BTC 填為 ETHW 0x 或用 Ethereum 交易當確認。",
+      "en": "Read the pool’s current asset, address, fee and payout conditions. Preserve the native accounting entry and actual payout denomination with timestamps, then verify the transaction on its payout chain. A BTC destination is not an ETHW 0x identifier, and an Ethereum transaction does not prove ETHW settlement.",
+      "ko": "현재 자산·주소·수수료·기준을 읽고 원장과 실제 지급 수량·시각을 보관하세요. 지급 체인에서 거래를 확인하며 BTC나 Ethereum 기록으로 ETHW를 대체하지 않습니다.",
+      "ja": "現行の資産・宛先形式・費用・条件を読み、原計上と実支払枚数・時刻を保存します。支払チェーンで確認し、BTC宛先やEthereum取引でETHWを代用しません。"
+    },
+    "example": {
+      "zh": "示例：ETHW 记账后兑换付款，金额减少可能含转换价格或费用。先对原始明细，不用两种资产的枚数差判断被扣掉多少 ETHW。",
+      "zh-TW": "示例：換幣後差額可含價格或費用，先查明細，不用不同枚數差估 ETHW 扣款。",
+      "en": "Example: conversion changes the final asset amount and may involve fees. Reconcile original details rather than interpreting a numerical difference between two asset units as missing ETHW.",
+      "ko": "예: 전환 금액 차이는 가격·수수료일 수 있으므로 서로 다른 단위 수량을 빼 손실을 판단하지 마세요.",
+      "ja": "例：交換差額には価格や費用が含まれ得ます。別単位の枚数差でETHW不足を計算しません。"
+    },
+    "sources": ["https://ethw.2miners.com/help", "https://minerstat.com/coin/ethw"],
+    "related": [
+      "ethw-same-address-different-chain-wallet",
+      "ethw-mining-monitor-guide",
+      "ethw-wallet-network-check"
+    ]
+  },
+  {
+    "project": "ethw",
+    "slug": "ethw-same-address-different-chain-wallet",
+    "title": {
+      "zh": "ETHW 有付款，同一个 0x 钱包为什么显示 0？",
+      "zh-TW": "ETHW 有付款，同一 0x 錢包為何顯示 0？",
+      "en": "ETHW payouts when a wallet displays the wrong network",
+      "ko": "ETHW 지급 후 같은 0x 지갑 잔액이 0인 경우",
+      "ja": "ETHW支払後に同じ0xウォレットがゼロの場合"
+    },
+    "answer": {
+      "zh": "0x 地址格式相同，不代表钱包正在查看 ETHW 网络。Ethereum、ETC 与 ETHW 的记录独立；钱包选错网络会显示不同余额。",
+      "zh-TW": "0x 同格式不代表正在看 ETHW。Ethereum、ETC、ETHW 獨立，錯網路顯示不同餘額。",
+      "en": "Identical 0x formatting does not establish that the wallet is viewing ETHW. Ethereum, ETC and ETHW maintain separate records, so selecting another network can show a different balance for the same address string.",
+      "ko": "같은 0x 형식이어도 지갑이 ETHW를 보고 있다는 뜻은 아닙니다. Ethereum·ETC·ETHW 기록은 별도입니다.",
+      "ja": "同じ0x形式でもウォレットがETHWを表示しているとは限りません。Ethereum・ETC・ETHWの記録は独立しています。"
+    },
+    "checks": {
+      "zh": "从矿池付款列表核对原生 ETHW、交易编号、目标地址和时间，再用 ETHW 官方入口指向的浏览器验证。钱包网络配置从官方说明核实，不凭陌生弹窗导入 RPC 或提交种子。监控读数也应显示币种和来源，而非只有一串 0x。",
+      "zh-TW": "取池付款的 ETHW、交易、目標、時間，在官方入口的 ETHW 瀏覽器查。網路設定依官方說明，不隨陌生彈窗加 RPC 或交種子；監控保留幣種來源。",
+      "en": "Take the native ETHW amount, transaction identifier, destination and time from the pool payment list and verify them through an official ETHW explorer entry point. Check wallet network settings against official documentation rather than an unsolicited RPC prompt. Keep asset and source labels attached to monitoring records, not just a bare 0x string.",
+      "ko": "풀의 ETHW·거래 ID·목적지·시각을 공식 ETHW 탐색기로 확인하세요. 지갑 네트워크는 공식 문서로 검증하고 낯선 RPC 요청이나 시드 제출을 따르지 않습니다.",
+      "ja": "プールのETHW額・取引ID・宛先・時刻を公式ETHW入口で確認します。ウォレット設定は公式案内で確かめ、見知らぬRPC要求やシード提出に従いません。"
+    },
+    "example": {
+      "zh": "示例：ETHW 浏览器确认收款，钱包仍停留在 Ethereum。先检查显示网络；不要为了修复监控而再发一笔转账或把私钥交给查询站。",
+      "zh-TW": "示例：ETHW 已確認但錢包仍看 Ethereum，先查網路，不額外轉帳或交私鑰。",
+      "en": "Example: an ETHW explorer confirms receipt while the wallet remains on Ethereum. Check the selected network first. Fixing the display does not require sending another transfer or giving a lookup site the private key.",
+      "ko": "예: ETHW 수령은 확인됐지만 지갑이 Ethereum이면 네트워크부터 확인하며 추가 송금·개인키 제출은 하지 않습니다.",
+      "ja": "例：ETHW受取確定でもウォレットがEthereumなら表示網を確認します。修正に再送金や照会サイトへの秘密鍵提出は不要です。"
+    },
+    "sources": ["https://ethw.2miners.com/help", "https://minerstat.com/coin/ethw"],
+    "related": [
+      "ethw-nonnative-payout-reconciliation",
+      "ethw-mining-monitor-guide",
+      "ethw-wallet-network-check"
+    ]
+  }
+]

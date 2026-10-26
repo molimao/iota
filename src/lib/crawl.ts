@@ -1,3 +1,4 @@
+import { projectVerification, verificationQuestion } from "../components/project-verification";
 import { DISCOVERY_UPDATED, problemLinks, productQuestions } from "./product-discovery";
 import { projectEditorial } from "../components/project-editorial";
 import { articles, articleDates, articleProjects, type Article } from "../components/site/articles";
@@ -273,7 +274,7 @@ ${LOCALES.map((locale) => `### ${LANGUAGE_TAG[locale]}\n${discoveryCopy.intro[lo
 
 ## Project data coverage
 
-${PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\nContent updated: ${PROJECT_CONTENT_DATES[id]}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\nSource: ${PROJECTS[id].guide}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
+${PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\nContent updated: ${PROJECT_CONTENT_DATES[id]}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\n${LOCALES.map((locale) => `${verificationQuestion[locale]} (${LANGUAGE_TAG[locale]}): ${projectVerification[id][locale]}`).join("\n")}\nSource: ${PROJECTS[id].guide}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
 ## Public project FAQ
 
 ${LOCALES.map((locale) => {
