@@ -27,6 +27,7 @@ import { useLocale } from "./site/locale";
 import { projectsCopy } from "./projects-copy";
 import {
   PROJECT_IDS,
+  AVAILABLE_PROJECT_IDS,
   PROJECTS,
   projectPath,
   validProjectAddress,
@@ -63,7 +64,7 @@ export function ProjectSwitch() {
         <ChevronDown size={13} />
       </summary>
       <div className="project-options">
-        {PROJECT_IDS.map((id) => (
+        {AVAILABLE_PROJECT_IDS.map((id) => (
           <a
             key={id}
             href={projectPath(locale, id)}
@@ -91,7 +92,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
     c = projectsCopy[locale];
   return (
     <div className={`project-cards${compact ? " compact" : ""}`}>
-      {(compact ? PROJECT_IDS.slice(0, 4) : PROJECT_IDS).map((id) => (
+      {(compact ? AVAILABLE_PROJECT_IDS.slice(0, 4) : AVAILABLE_PROJECT_IDS).map((id) => (
         <a className="project-card" key={id} href={projectPath(locale, id)}>
           <div className="project-card-top">
             <span className="project-symbol">
@@ -108,9 +109,7 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
                       ? editorialCopy(locale).gpu
                       : id === "nosana"
                         ? editorialCopy(locale).gpu
-                        : id === "gonka"
-                          ? editorialCopy(locale).inference
-                          : id === "iota"
+                        : id === "iota"
                             ? c.training
                             : id === "flyai"
                               ? c.compute

@@ -4,7 +4,7 @@ import { proCopy } from "./pro-tools-copy";
 import { ArrowRight, Check, Layers } from "lucide-react";
 import {
   FLEET_NAMES,
-  FLEET_PROJECTS,
+  AVAILABLE_FLEET_PROJECTS,
   projectDeviceCount,
   type FleetDevice,
   type FleetProject,
@@ -126,7 +126,7 @@ export function PaywallBody({
       <details className="fleet-paywall-allowances">
         <summary>{c.quotas}</summary>
         <ul>
-          {FLEET_PROJECTS.map((p) => (
+          {AVAILABLE_FLEET_PROJECTS.map((p) => (
             <li key={p}>
               <span>{FLEET_NAMES[p]}</span>
               <b>

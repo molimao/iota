@@ -51,6 +51,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "./ui/dial
 import {
   FLEET_NAMES,
   FLEET_PROJECTS,
+  AVAILABLE_FLEET_PROJECTS,
   canLinkProject,
   bindingIdentity,
   validBinding,
@@ -643,7 +644,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                             setWorker("");
                           }}
                         >
-                          {FLEET_PROJECTS.map((p) => (
+                          {AVAILABLE_FLEET_PROJECTS.map((p) => (
                             <option key={p} value={p}>
                               {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
                             </option>
@@ -821,7 +822,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       value={selectedProject}
                       onChange={(e) => setSelectedProject(e.target.value as FleetProject)}
                     >
-                      {FLEET_PROJECTS.map((p) => (
+                      {AVAILABLE_FLEET_PROJECTS.map((p) => (
                         <option key={p} value={p}>
                           {FLEET_NAMES[p]} · {projectDeviceCount(props.devices, p)} / {limit}
                         </option>
@@ -989,7 +990,7 @@ function ProjectAllowances({
 }) {
   return (
     <ul className="fleet-allowances">
-      {FLEET_PROJECTS.map((p) => (
+      {AVAILABLE_FLEET_PROJECTS.map((p) => (
         <li key={p}>
           <span>
             <Check size={14} />

@@ -31,6 +31,11 @@ export const PROJECT_IDS = [
   "tsc",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
+// Keep the identifier readable in existing device records while retiring it from the product.
+export const AVAILABLE_PROJECT_IDS = PROJECT_IDS.filter((id) => id !== "gonka");
+export function isAvailableProject(id: string): boolean {
+  return AVAILABLE_PROJECT_IDS.some((project) => project === id);
+}
 export type MiningProject = "xid" | "quantus";
 export type MonitorProject = Exclude<ProjectId, "iota">;
 export type ComputeProject = "nosana" | "gonka";

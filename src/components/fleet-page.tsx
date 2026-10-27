@@ -12,7 +12,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useFleetReadings } from "@/hooks/use-fleet-readings";
 import { startCheckout, openBillingPortal } from "@/lib/billing.functions";
-import { FLEET_PROJECTS } from "@/lib/fleet";
+import { AVAILABLE_FLEET_PROJECTS } from "@/lib/fleet";
 import { FleetWorkspace } from "./fleet-workspace";
 import { fleetCopy } from "./fleet-copy";
 import { useLocale } from "./site/locale";
@@ -38,8 +38,8 @@ export function FleetPage() {
   const addRequested = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("add") === "1",
   });
-  const initialProject = FLEET_PROJECTS.find((p) => p === projectFilter);
-  const upgradeProject = FLEET_PROJECTS.find((p) => p === upgrade);
+  const initialProject = AVAILABLE_FLEET_PROJECTS.find((p) => p === projectFilter);
+  const upgradeProject = AVAILABLE_FLEET_PROJECTS.find((p) => p === upgrade);
   const memberView = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
   });

@@ -1525,5 +1525,6 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
             searchSupportGuides.some((g) => g.slug === a.slug) ||
             iotaTierGuides.some((g) => g.slug === a.slug),
         )
+        .filter((guide) => guide.project !== "gonka")
         .map(withProjectDepth);
 }

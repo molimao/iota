@@ -15,7 +15,7 @@ import { problemGuides } from "./problem-guides";
 import { computeGuides } from "./compute-guides";
 import type { Locale } from "./locale";
 import type { ProjectId } from "@/lib/projects";
-import { PROJECT_IDS } from "@/lib/projects";
+import { AVAILABLE_PROJECT_IDS } from "@/lib/projects";
 import { projectGuides } from "./project-guides";
 import { editionDate } from "@/lib/content-dates";
 import { mergeDepthArticle, mergeProjectDepth, projectDepthGuides } from "./project-depth";
@@ -65,7 +65,7 @@ export const articles: Article[] = mergeProjectDepth([
   tscGuide,
   ...tscSearchGuides,
   ...expansionGuides,
-]);
+]).filter((article) => article.project !== "gonka");
 
 export function articleDates(article: Article, locale?: Locale) {
   const published = editionDate(article.published ?? "2026-09-12", locale);
@@ -90,7 +90,6 @@ export function articleProjects(article: Article): readonly ProjectId[] {
           "quantus",
           "flyai",
           "nosana",
-          "gonka",
           "akash",
           "ionet",
           "vast",
@@ -222,7 +221,7 @@ export const articleClusterMeta: Record<
             {
               ...group,
               slugs: group.slugs.filter(
-                (slug) => !depthProjects.has(articles.find((a) => a.slug === slug)?.project),
+                (slug) => articles.some((a) => a.slug === slug) && !depthProjects.has(articles.find((a) => a.slug === slug)?.project),
               ),
             },
           ] as const,
@@ -230,7 +229,7 @@ export const articleClusterMeta: Record<
       .filter(([, group]) => group.slugs.length),
   ),
   ...Object.fromEntries(
-    PROJECT_IDS.filter((id) => depthProjects.has(id)).map((id) => [
+    AVAILABLE_PROJECT_IDS.filter((id) => depthProjects.has(id)).map((id) => [
       id,
       {
         title: Object.fromEntries(LOCALES.map((locale) => [locale, PROJECTS[id].name])) as Record<

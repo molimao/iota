@@ -4,7 +4,7 @@ import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check, Layers } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
-import { FLEET_NAMES, FLEET_PROJECTS, projectDeviceCount, type FleetDevice } from "@/lib/fleet";
+import { FLEET_NAMES, AVAILABLE_FLEET_PROJECTS, projectDeviceCount, type FleetDevice } from "@/lib/fleet";
 import type { BillingSummary } from "@/lib/plans";
 import { fleetCopy } from "./fleet-copy";
 import { useLocale } from "./site/locale";
@@ -104,7 +104,7 @@ export function FleetMembership({
               </div>
             </div>
             <div className="fleet-member-quotas">
-              {FLEET_PROJECTS.map((project) => {
+              {AVAILABLE_FLEET_PROJECTS.map((project) => {
                 const used = projectDeviceCount(devices, project);
                 return (
                   <article key={project}>

@@ -6,6 +6,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { validBinding } from "./fleet";
 import { watchDb } from "./watch-db";
+import { isAvailableProject } from "./projects";
 
 import { fleetMutationSchema, fleetSnapshot, type FleetMutation } from "./fleet-policy";
 export type { FleetMutation } from "./fleet-policy";
@@ -21,6 +22,8 @@ export const mutateFleet = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: FleetMutation) => {
     const value = fleetMutationSchema.parse(input);
+    if ("binding" in value.payload && value.payload.binding && !isAvailableProject(value.payload.binding.project))
+      throw new Error("invalid_binding");
     if (
       "binding" in value.payload &&
       value.payload.binding &&

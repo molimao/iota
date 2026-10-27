@@ -16,7 +16,7 @@ import { discoveryCopy, DISCOVERY_UPDATED } from "@/lib/product-discovery";
 import { projectRequestCopy } from "../project-request-copy";
 import { ProjectRequest } from "../project-request";
 import { simpleCopy } from "../simple-ui";
-import { PROJECT_IDS, PROJECTS, isMonitorProject, projectPath } from "@/lib/projects";
+import { AVAILABLE_PROJECT_IDS, PROJECTS, isMonitorProject, projectPath } from "@/lib/projects";
 import { MonitoringViews, monitorViewCopy } from "../monitor-views";
 import { fleetCopy } from "../fleet-copy";
 import { localizeValue } from "@/components/site/localization";
@@ -142,7 +142,7 @@ export function SiteNav() {
           <div className="site-menu-panel">
             <section className="site-menu-group" aria-label={views.menuProjects}>
               <h2>{views.menuProjects}</h2>
-              {PROJECT_IDS.map((id) => (
+              {AVAILABLE_PROJECT_IDS.map((id) => (
                 <a key={id} href={projectPath(locale, id)}>
                   <span>{PROJECTS[id].name}</span>
                   <ArrowUpRight size={14} />
@@ -486,7 +486,7 @@ export function LearnIndex() {
         <span>{filterCopy[0]}</span>
         <select value={project} onChange={(event) => setProject(event.target.value)}>
           <option value="">{filterCopy[1]}</option>
-          {PROJECT_IDS.map((id) => (
+          {AVAILABLE_PROJECT_IDS.map((id) => (
             <option key={id} value={id}>
               {PROJECTS[id].name}
             </option>

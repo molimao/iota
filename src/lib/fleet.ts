@@ -38,6 +38,7 @@ export const FLEET_PROJECTS = [
   "tsc",
 ] as const;
 export type FleetProject = (typeof FLEET_PROJECTS)[number];
+export const AVAILABLE_FLEET_PROJECTS = FLEET_PROJECTS.filter((project) => project !== "gonka");
 export const FLEET_NAMES: Record<FleetProject, string> = {
   iota: "IOTA",
   xid: "XID / MMM",

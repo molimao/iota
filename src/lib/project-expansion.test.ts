@@ -3,7 +3,7 @@ import { articles, articleClusterMeta, getArticle } from "../components/site/art
 import { expansionGuides, loadExpansionArticle } from "../components/site/project-expansion";
 import { guidesForProject } from "../components/site/project-guides";
 import { buildArticleMarkdown, buildSitemapXml, buildLlmsFullTxt } from "./crawl";
-import { PROJECT_IDS } from "./projects";
+import { AVAILABLE_PROJECT_IDS, PROJECT_IDS } from "./projects";
 import { LOCALES } from "./site";
 import { seo } from "../components/site/seo";
 
@@ -13,7 +13,7 @@ describe("all-project focused expansion", () => {
     expect(new Set(articles.map((a) => a.slug)).size).toBe(articles.length);
     const sitemap = buildSitemapXml();
     const llms = buildLlmsFullTxt();
-    for (const id of PROJECT_IDS) {
+    for (const id of AVAILABLE_PROJECT_IDS) {
       const pair = expansionGuides.filter((a) => a.project === id);
       expect(pair).toHaveLength(2);
       for (const article of pair) {

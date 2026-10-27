@@ -10,7 +10,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { ArticlePage } from "../components/site/pages";
 import { LocaleContext } from "../components/site/locale";
 import { content } from "../components/site/content";
-import { PROJECT_IDS } from "./projects";
+import { AVAILABLE_PROJECT_IDS } from "./projects";
 
 describe("public guide indexing", () => {
   it("keeps five-language project answers identical in visible HTML, FAQ schema and readable text", () => {
@@ -63,9 +63,9 @@ describe("public guide indexing", () => {
       const app = seo(locale, "home")
         .scripts.map((script) => JSON.parse(script.children))
         .find((s) => s["@type"] === "WebApplication");
-      expect(app.about).toHaveLength(PROJECT_IDS.length);
+      expect(app.about).toHaveLength(AVAILABLE_PROJECT_IDS.length);
       expect(new Set(app.about.map((project: { "@id": string }) => project["@id"])).size).toBe(
-        PROJECT_IDS.length,
+        AVAILABLE_PROJECT_IDS.length,
       );
       expect(app.sameAs).toContain("https://github.com/molimao/iota");
       expect(app.license).toBe("https://github.com/molimao/iota/blob/main/LICENSE");

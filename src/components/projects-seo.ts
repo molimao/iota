@@ -7,7 +7,7 @@ import { brandTitle } from "@/lib/brand";
 import { PROJECT_CONTENT_DATES, PROJECT_INDEX_UPDATED } from "@/lib/content-dates";
 import { projectEditorial, projectQuestions } from "./project-editorial";
 import { projectsCopy } from "./projects-copy";
-import { PROJECTS, PROJECT_IDS, projectEntity, type ProjectId } from "@/lib/projects";
+import { PROJECTS, AVAILABLE_PROJECT_IDS, projectEntity, type ProjectId } from "@/lib/projects";
 import { guidesForProject } from "./site/project-guides";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, OG_LOCALE, type SiteLocale } from "@/lib/site";
 
@@ -45,7 +45,7 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
           ],
         }
       : {
-          hasPart: PROJECT_IDS.map((id) => ({
+          hasPart: AVAILABLE_PROJECT_IDS.map((id) => ({
             "@type": "WebPage",
             name: PROJECTS[id as ProjectId].name,
             url: `${ORIGIN}/${locale}/projects/${id}`,

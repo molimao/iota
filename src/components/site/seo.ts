@@ -9,7 +9,7 @@ import { blogPosts, getBlogPost } from "./blog-posts";
 import { content } from "./content";
 import type { Locale } from "./locale";
 import localToolsRelease from "@/lib/local-tools-release.json";
-import { projectEntity, PROJECT_IDS, PROJECTS } from "@/lib/projects";
+import { projectEntity, AVAILABLE_PROJECT_IDS, PROJECTS } from "@/lib/projects";
 import { learningCopy } from "./guide-copy";
 import { projectsCopy } from "../projects-copy";
 
@@ -84,7 +84,7 @@ function websiteGraph() {
     url: ORIGIN,
     inLanguage: LOCALES.map((locale) => LANGUAGE_TAG[locale]),
     publisher: { "@id": ORG_ID },
-    about: PROJECT_IDS.map(projectEntity),
+    about: AVAILABLE_PROJECT_IDS.map(projectEntity),
   };
 }
 
@@ -188,7 +188,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
   const keywords = article?.keywords
     ? article.keywords[locale].join(", ")
     : page === "learn" && !article
-      ? PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ") + ", project guides"
+      ? AVAILABLE_PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ") + ", project guides"
       : article
         ? [
             article.title[locale],
@@ -302,7 +302,7 @@ export function seo(locale: Locale, page: Page, slug?: string) {
         ],
         publisher: { "@id": ORG_ID },
         sameAs: ["https://github.com/molimao/iota"],
-        about: PROJECT_IDS.map(projectEntity),
+        about: AVAILABLE_PROJECT_IDS.map(projectEntity),
         license: "https://github.com/molimao/iota/blob/main/LICENSE",
       }),
       jsonLd({

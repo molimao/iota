@@ -8,11 +8,12 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { MiningProjectPage, ProjectsHub } from "@/components/projects";
 import { projectsSeo } from "@/components/projects-seo";
 import { FlyaiPage } from "@/components/flyai-page";
-import { isMiningProject, isMonitorProject, isComputeProject } from "@/lib/projects";
+import { isMiningProject, isMonitorProject, isComputeProject, isAvailableProject } from "@/lib/projects";
 import { isLocale } from "@/lib/site";
 
 export const Route = createFileRoute("/$locale/projects/{-$project}")({
   beforeLoad: ({ params }) => {
+    if (params.project && !isAvailableProject(params.project)) throw notFound();
     if (params.project && params.project !== "iota" && !isMonitorProject(params.project))
       throw notFound();
   },
