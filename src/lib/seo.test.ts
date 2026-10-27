@@ -143,9 +143,10 @@ describe("public guide indexing", () => {
         name: "robots",
         content: "noindex,follow",
       });
-      expect(seo(locale, "learn").meta.find((meta) => meta.name === "robots")?.content).toContain(
-        "index,follow",
-      );
+      expect(
+        seo(locale, "learn").meta.find((meta) => "name" in meta && meta.name === "robots")
+          ?.content,
+      ).toContain("index,follow");
     }
   });
 });
