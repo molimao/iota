@@ -195,7 +195,7 @@ const queue: Article = {
       "下面是说明读法的例子，不是某台机器的实测。下午 2:10 的日志写 queued、名次 40；下午 2:14 监控里的 tokens/s 仍是 0，采样时间停在 1:40。这时应继续等，而不是重启。若 2:20 按钮变回 Start training，并且 2:18 的日志有退出、之后没有新的排队行，才按停止处理。",
       "## 做不到的事",
       "- 本页不能缩短官方队列，也不能把空位预留给某一台 Mac。排队中的训练进程算正在运行。Agent 只根据进程不在来判断停止，不能发现进程还在但已经卡住，也不在这里说明致命错误或残留进程已被修好。",
-      "- 免费每个项目 5 台已保存设备，Pro 每个项目 50 台。在一个钱包下看到多名矿工，不会自动占掉这些名额；你为工人另行保存设备记录时，才会各占一台。同一台已保存设备上的多个来源不重复占名额。",
+      "- 免费每个项目 3 台已保存设备，Pro 每个项目 100 台。在一个钱包下看到多名矿工，不会自动占掉这些名额；你为工人另行保存设备记录时，才会各占一台。同一台已保存设备上的多个来源不重复占名额。",
       "- 排队期间的收益仍按官方评分在任务内分配，不是按 tokens/s 的固定单价。对账见 [昨日、累计和到账](/learn/how-rewards-work)。",
     ],
     "zh-TW": [
@@ -216,7 +216,7 @@ const queue: Article = {
       "下面是說明讀法的例子，不是某台機器的實測。下午 2:10 的日誌寫 queued、名次 40；下午 2:14 監控裡的 tokens/s 仍是 0，取樣時間停在 1:40。這時應繼續等，而不是重啟。若 2:20 按鈕變回 Start training，並且 2:18 的日誌有退出、之後沒有新的排隊行，才按停止處理。",
       "## 做不到的事",
       "- 本頁不能縮短官方佇列，也不能把空位預留給某一台 Mac。排隊中的訓練程序算正在運行。Agent 只根據程序不在來判斷停止，不能發現程序還在但已經卡住，也不在這裡說明致命錯誤或殘留程序已被修好。",
-      "- 免費每個專案 5 台已儲存裝置，Pro 每個專案 50 台。在一個錢包下看到多名礦工，不會自動佔掉這些名額；你為工人另行儲存裝置紀錄時，才會各佔一台。同一台已儲存裝置上的多個來源不重複佔名額。",
+      "- 免費每個專案 3 台已儲存裝置，Pro 每個專案 100 台。在一個錢包下看到多名礦工，不會自動佔掉這些名額；你為工人另行儲存裝置紀錄時，才會各佔一台。同一台已儲存裝置上的多個來源不重複佔名額。",
       "- 排隊期間的收益仍按官方評分在任務內分配，不是按 tokens/s 的固定單價。對帳見 [昨日、累計和到帳](/learn/how-rewards-work)。",
     ],
     en: [
@@ -237,7 +237,7 @@ const queue: Article = {
       "This is a reading example, not a measurement from a machine. At 2:10 p.m. the log says queued at rank 40. At 2:14 p.m. monitoring still shows 0 tokens/s with a sample time of 1:40 p.m. Keep waiting. If at 2:20 p.m. the button is Start training, the 2:18 p.m. log has an exit, and no newer queue line follows, treat it as a stop.",
       "## Limits",
       "- This page cannot shorten the official queue or reserve a seat for one Mac. A queued worker counts as running. The agent treats a stop as process absence and cannot see a stalled worker that is still present. It does not claim fatal errors or leftover workers are fixed here.",
-      "- Free includes five saved devices per project. Pro includes 50 saved devices per project. Seeing several miners under one wallet does not use those slots by itself. Saving a separate device record for a worker does. Several sources on the same saved device count once.",
+      "- Free includes three saved devices per project. Pro includes 100 saved devices per project. Seeing several miners under one wallet does not use those slots by itself. Saving a separate device record for a worker does. Several sources on the same saved device count once.",
       "- Rewards while queued still follow official scoring inside a run. tokens/s is not a fixed price. Reconcile amounts in [yesterday, lifetime, and payouts](/learn/how-rewards-work).",
     ],
     ko: [
@@ -258,7 +258,7 @@ const queue: Article = {
       "측정이 아닌 읽기 예시입니다. 오후 2:10 로그는 queued, 순번 40입니다. 오후 2:14 모니터의 tokens/s는 여전히 0이고 표본 시각은 1:40입니다. 기다립니다. 오후 2:20에 버튼이 Start training이고, 2:18 로그에 종료가 있으며 그 뒤 새 대기 줄이 없으면 중지로 봅니다.",
       "## 한계",
       "- 이 페이지는 공식 대기열을 줄이거나 한 Mac의 자리를 예약하지 않습니다. 대기 중인 워커는 실행 중입니다. 에이전트는 프로세스가 없을 때만 중지로 보며, 프로세스가 남은 채 멈춘 상태는 보지 못합니다. 치명 오류나 남은 프로세스가 여기서 고쳐졌다고 하지 않습니다.",
-      "- 무료는 프로젝트마다 저장 기기 5대, Pro는 50대입니다. 지갑 아래에서 여러 채굴자가 보여도 그 자체로 자리를 쓰지 않습니다. 워커를 별도의 저장 기기 기록으로 만들면 각 1대입니다. 같은 저장 기기의 여러 출처는 한 번만 셉니다.",
+      "- 무료는 프로젝트마다 저장 기기 3대, Pro는 100대입니다. 지갑 아래에서 여러 채굴자가 보여도 그 자체로 자리를 쓰지 않습니다. 워커를 별도의 저장 기기 기록으로 만들면 각 1대입니다. 같은 저장 기기의 여러 출처는 한 번만 셉니다.",
       "- 대기 중 보상도 실행 안의 공식 점수를 따릅니다. tokens/s는 고정 단가가 아닙니다. 금액은 [어제·누적·지급](/learn/how-rewards-work)에서 맞춥니다.",
     ],
     ja: [
@@ -279,7 +279,7 @@ const queue: Article = {
       "実測ではなく読み方の例です。午後2:10のログは queued、順位40。午後2:14のモニターは tokens/s が 0 のまま、取得時刻は1:40。待ちます。午後2:20にボタンが Start training で、2:18のログに終了があり、その後に新しい待機行がなければ停止として扱います。",
       "## できないこと",
       "- このページは公式の待ち行列を短くせず、一台の Mac の席も確保しません。待機中のワーカーは稼働中です。Agent はプロセスが無いことだけを停止とみなし、プロセスが残ったまま止まった状態は分かりません。致命的なエラーや残ったプロセスがここで直ったとは言いません。",
-      "- 無料はプロジェクトごとに保存済み機器5台、Pro は50台です。一つのウォレットの下に複数のマイナーが見えても、それだけでは枠を使いません。ワーカーを別の保存済み機器として残すと、それぞれ1台です。同じ保存済み機器の複数の出所は1回だけ数えます。",
+      "- 無料はプロジェクトごとに保存済み機器3台、Pro は100台です。一つのウォレットの下に複数のマイナーが見えても、それだけでは枠を使いません。ワーカーを別の保存済み機器として残すと、それぞれ1台です。同じ保存済み機器の複数の出所は1回だけ数えます。",
       "- 待機中の報酬も実行内の公式スコアに従います。tokens/s は固定単価ではありません。数量は [昨日・累計・着金](/learn/how-rewards-work) で照合します。",
     ],
   },
@@ -904,7 +904,7 @@ const rewards: Article = {
       "## 对账时看什么",
       "- 在 [IOTA 监控](/projects/iota) 记下昨日那一天的 IOTA 数量、采集时间，以及美元是有报价还是未知。",
       "- 打开官方应用左上角 Miner，对照 Total Earned、Total Paid、Total Pending。未连接 coldkey 时训练仍可进行，但奖励不会发给你，之后补连也不会补发连接前的部分。",
-      "- 收益按 Miner ID（hotkey）的官方记录相加，同一 Miner ID 不重复计入。这不是矿池那种按钱包地址合并余额。本站「昨日」只加 pending 和 settled，不含 frozen，也不含未来时间。设备名额按已保存设备分别计算：免费每个项目 5 台，Pro 50 台。真实 hotkey 的收益记录会去重；只是在同一钱包下看到多名矿工，本身不占名额。",
+      "- 收益按 Miner ID（hotkey）的官方记录相加，同一 Miner ID 不重复计入。这不是矿池那种按钱包地址合并余额。本站「昨日」只加 pending 和 settled，不含 frozen，也不含未来时间。设备名额按已保存设备分别计算：免费每个项目 3 台，Pro 100 台。真实 hotkey 的收益记录会去重；只是在同一钱包下看到多名矿工，本身不占名额。",
       "## 数量不同时怎么分支",
       "- 日期错了一天：先按「记账日的前一天」重对，不要把 22 日的记账和 22 日的「昨日」直接比。",
       "- IOTA 数量仍不同：看是不是一边还没采到、一边含了 frozen，或官方修订了记录。未知不要当成 0。",
@@ -926,7 +926,7 @@ const rewards: Article = {
       "## 對帳時看什麼",
       "- 在 [IOTA 監控](/projects/iota) 記下昨日那一天的 IOTA 數量、採集時間，以及美元是有報價還是未知。",
       "- 打開官方應用程式左上角 Miner，對照 Total Earned、Total Paid、Total Pending。未連接 coldkey 時訓練仍可進行，但獎勵不會發給你，之後補連也不會補發連接前的部分。",
-      "- 收益按 Miner ID（hotkey）的官方紀錄相加，同一 Miner ID 不重複計入。這不是礦池那種按錢包地址合併餘額。本站「昨日」只加 pending 和 settled，不含 frozen，也不含未來時間。裝置名額按已儲存裝置分別計算：免費每個專案 5 台，Pro 50 台。真實 hotkey 的收益紀錄會去重；只是在同一錢包下看到多名礦工，本身不佔名額。",
+      "- 收益按 Miner ID（hotkey）的官方紀錄相加，同一 Miner ID 不重複計入。這不是礦池那種按錢包地址合併餘額。本站「昨日」只加 pending 和 settled，不含 frozen，也不含未來時間。裝置名額按已儲存裝置分別計算：免費每個專案 3 台，Pro 100 台。真實 hotkey 的收益紀錄會去重；只是在同一錢包下看到多名礦工，本身不佔名額。",
       "## 數量不同時怎麼分支",
       "- 日期錯了一天：先按「記帳日的前一天」重對，不要把 22 日的記帳和 22 日的「昨日」直接比。",
       "- IOTA 數量仍不同：看是不是一邊還沒採到、一邊含了 frozen，或官方修訂了紀錄。未知不要當成 0。",
@@ -948,7 +948,7 @@ const rewards: Article = {
       "## What to inspect",
       "- In [IOTA monitoring](/projects/iota), note the IOTA amount for that yesterday, the capture time, and whether USD is a quote or unknown.",
       "- Open Miner at the top left of the official app and compare Total Earned, Total Paid, and Total Pending. Training can run without a coldkey. Rewards are not delivered until you connect one, and connecting later does not pay the earlier unconnected portion.",
-      "- Rewards are summed per Miner ID from the official records. The same Miner ID is not included twice. This is not a pool-style balance merged by wallet address. Yesterday on this site adds pending and settled only, and leaves out frozen and future timestamps. The device quota counts distinct saved devices: five per project on Free, 50 on Pro. Real hotkey reward records are deduplicated. Seeing several miners under one wallet does not use a slot unless you save a separate device record.",
+      "- Rewards are summed per Miner ID from the official records. The same Miner ID is not included twice. This is not a pool-style balance merged by wallet address. Yesterday on this site adds pending and settled only, and leaves out frozen and future timestamps. The device quota counts distinct saved devices: three per project on Free, 100 on Pro. Real hotkey reward records are deduplicated. Seeing several miners under one wallet does not use a slot unless you save a separate device record.",
       "## Which branch to take",
       "- The dates are one day apart: line up “the day before the accounting date.” Do not compare an October 22 accounting record with October 22’s Yesterday.",
       "- The IOTA amount still differs: one side may not have captured the record yet, one side may include frozen, or the official record was revised. Unknown is not 0.",
@@ -970,7 +970,7 @@ const rewards: Article = {
       "## 무엇을 볼지",
       "- [IOTA 모니터](/projects/iota)에서 그 어제의 IOTA 수량, 수집 시각, USD가 시세인지 미상인지를 적습니다.",
       "- 공식 앱 왼쪽 위의 Miner에서 Total Earned, Total Paid, Total Pending을 비교합니다. coldkey 없이도 훈련은 됩니다. 보상은 연결 전까지 지급되지 않고, 나중에 연결해도 그 전 구간은 소급되지 않습니다.",
-      "- 보상은 Miner ID(hotkey)의 공식 기록을 더합니다. 같은 Miner ID는 두 번 넣지 않습니다. 풀처럼 지갑 주소로 잔액을 합치는 것이 아닙니다. 이 사이트의 어제는 pending과 settled만 더하고 frozen과 미래 시각은 빼니다. 기기 수는 서로 다른 저장 기기를 셉니다. 무료는 프로젝트마다 5대, Pro는 50대입니다. 실제 hotkey 보상 기록은 중복을 뺍니다. 한 지갑 아래 여러 채굴자가 보이는 것만으로는 자리를 쓰지 않고, 별도의 저장 기기 기록을 만들 때 자리를 씁니다.",
+      "- 보상은 Miner ID(hotkey)의 공식 기록을 더합니다. 같은 Miner ID는 두 번 넣지 않습니다. 풀처럼 지갑 주소로 잔액을 합치는 것이 아닙니다. 이 사이트의 어제는 pending과 settled만 더하고 frozen과 미래 시각은 빼니다. 기기 수는 서로 다른 저장 기기를 셉니다. 무료는 프로젝트마다 3대, Pro는 100대입니다. 실제 hotkey 보상 기록은 중복을 뺍니다. 한 지갑 아래 여러 채굴자가 보이는 것만으로는 자리를 쓰지 않고, 별도의 저장 기기 기록을 만들 때 자리를 씁니다.",
       "## 어느 쪽으로 갈지",
       "- 날짜가 하루 어긋나면 「정산일의 전날」로 다시 맞춥니다. 22일 정산 기록과 22일 어제를 바로 비교하지 않습니다.",
       "- IOTA 수량이 여전히 다르면, 한쪽이 아직 수집하지 않았는지, frozen이 들어갔는지, 공식 수정이 있었는지 봅니다. 미상은 0이 아닙니다.",
@@ -992,7 +992,7 @@ const rewards: Article = {
       "## 確認すること",
       "- [IOTAモニター](/projects/iota)で、その昨日の IOTA 数量、取得時刻、USD が価格か不明かを控えます。",
       "- 公式アプリ左上の Miner で Total Earned、Total Paid、Total Pending を比べます。coldkey がなくても学習はできます。報酬は接続するまで届かず、後から接続しても接続前の分は遡りません。",
-      "- 報酬は Miner ID（hotkey）の公式記録を足します。同じ Miner ID は二度入れません。プールのようにウォレットアドレスで残高をまとめるものではありません。当サイトの「昨日」は pending と settled だけを足し、frozen と未来の時刻は入れません。台数は保存済み機器を別々に数えます。無料はプロジェクトごとに5台、Pro は50台です。実在の hotkey の報酬記録は重複を除きます。一つのウォレットの下に複数のマイナーが見えるだけでは枠を使わず、別の保存済み機器として残すと枠を使います。",
+      "- 報酬は Miner ID（hotkey）の公式記録を足します。同じ Miner ID は二度入れません。プールのようにウォレットアドレスで残高をまとめるものではありません。当サイトの「昨日」は pending と settled だけを足し、frozen と未来の時刻は入れません。台数は保存済み機器を別々に数えます。無料はプロジェクトごとに3台、Pro は100台です。実在の hotkey の報酬記録は重複を除きます。一つのウォレットの下に複数のマイナーが見えるだけでは枠を使わず、別の保存済み機器として残すと枠を使います。",
       "## どの分岐か",
       "- 日付が一日ずれている: 「記帳日の前日」で合わせ直します。22日の記帳と22日の「昨日」を直接比べません。",
       "- IOTA 数量がまだ違う: 片方だけ未取得か、frozen が入っているか、公式が記録を直したかを見ます。不明は 0 ではありません。",
@@ -1268,7 +1268,7 @@ const promotion: Article = {
       "- 在 [IOTA 监控](/projects/iota) 记下当前 run ID 和最近是否还在排队或反复退出。这些是运行记录，不是申请附件，也不能代替官方通知。",
       "## 申请之后怎么分支",
       "- 收到接受邮件：以邮件和你随后实际加入的 run 描述为准。名称和 layer 的差别见 [分层](/learn/iota-run-tiers)。",
-      "- 没有邮件：不要用排队名次、在线天数或重启次数估算获批日。购买 Pro 只把本站限额从每个项目 5 台已保存设备提高到 50 台。",
+      "- 没有邮件：不要用排队名次、在线天数或重启次数估算获批日。购买 Pro 只把本站限额从每个项目 3 台已保存设备提高到 100 台。",
       "- 机器睡死、断电或训练进程停了：先按 [停止与恢复](/learn/iota-training-stopped-auto-recovery) 处理。恢复成功仍然不是晋级。仍在排队则看 [排队](/learn/iota-queue-and-zero-throughput)，不要为了“刷资格”反复重启。",
       "## 一个对照例子",
       "这是清单示例，不是审批结果。申请里写 1 台 Apple Silicon、公开 coldkey，并留了邮箱。三天后监控仍显示这台机器在排队，邮件未到。正确的下一步是继续等邮件，并保持训练按排队指南运行。错误的下一步是换一个 Miner ID，或把 Pro 订阅当成已经升到 Silver。",
@@ -1289,7 +1289,7 @@ const promotion: Article = {
       "- 在 [IOTA 監控](/projects/iota) 記下目前 run ID 和最近是否還在排隊或反覆退出。這些是運行紀錄，不是申請附件，也不能代替官方通知。",
       "## 申請之後怎麼分支",
       "- 收到接受郵件：以郵件和你隨後實際加入的 run 描述為準。名稱和 layer 的差別見 [分層](/learn/iota-run-tiers)。",
-      "- 沒有郵件：不要用排隊名次、在線天數或重啟次數估算獲批日。購買 Pro 只把本站限額從每個專案 5 台已儲存裝置提高到 50 台。",
+      "- 沒有郵件：不要用排隊名次、在線天數或重啟次數估算獲批日。購買 Pro 只把本站限額從每個專案 3 台已儲存裝置提高到 100 台。",
       "- 機器睡死、斷電或訓練程序停了：先按 [停止與恢復](/learn/iota-training-stopped-auto-recovery) 處理。恢復成功仍然不是晉級。仍在排隊則看 [排隊](/learn/iota-queue-and-zero-throughput)，不要為了「刷資格」反覆重啟。",
       "## 一個對照例子",
       "這是清單示例，不是審批結果。申請裡寫 1 台 Apple Silicon、公開 coldkey，並留了郵箱。三天後監控仍顯示這台機器在排隊，郵件未到。正確的下一步是繼續等郵件，並保持訓練按排隊指南運行。錯誤的下一步是換一個 Miner ID，或把 Pro 訂閱當成已經升到 Silver。",
@@ -1310,7 +1310,7 @@ const promotion: Article = {
       "- In [IOTA monitoring](/projects/iota), note the current run ID and whether the Mac is still queued or exiting. That is a session record. It is not an attachment, and it does not replace the official email.",
       "## Which branch after you apply",
       "- You receive the acceptance email: trust that email and the description of the run you then join. Names versus layers are in [tiers and layers](/learn/iota-run-tiers).",
-      "- No email yet: do not estimate an approval date from queue rank, days online, or restart count. Pro only raises this site’s limit from five saved devices per project to 50.",
+      "- No email yet: do not estimate an approval date from queue rank, days online, or restart count. Pro only raises this site’s limit from three saved devices per project to 100.",
       "- The Mac sleeps, loses power, or the worker stops: use [stop and recovery](/learn/iota-training-stopped-auto-recovery) first. A successful relaunch is still not a promotion. If you are queued, use [queue and zero throughput](/learn/iota-queue-and-zero-throughput). Do not restart in a loop to “earn” eligibility.",
       "## Illustrative case",
       "This is a checklist example, not a review outcome. The form says one Apple Silicon machine, a public coldkey, and an email. Three days later monitoring still shows that machine queued, and no email has arrived. The next step is to keep waiting for the email and to leave training running as the queue guide says. Changing the Miner ID, or treating a Pro subscription as Silver, is the wrong step.",
@@ -1331,7 +1331,7 @@ const promotion: Article = {
       "- [IOTA 모니터](/projects/iota)에 현재 run ID와, 아직 대기인지 반복 종료인지를 적습니다. 세션 기록일 뿐 첨부도 아니고 공식 메일을 대신하지 않습니다.",
       "## 신청 후 분기",
       "- 승인 메일이 오면 그 메일과, 그 다음 참여한 run의 설명을 따릅니다. 이름과 layer의 차이는 [등급과 레이어](/learn/iota-run-tiers)에 있습니다.",
-      "- 메일이 없으면 대기 순번, 온라인 일수, 재시작 횟수로 승인일을 추정하지 않습니다. Pro는 이 사이트의 한도를 프로젝트마다 저장 기기 5대에서 50대로 올릴 뿐입니다.",
+      "- 메일이 없으면 대기 순번, 온라인 일수, 재시작 횟수로 승인일을 추정하지 않습니다. Pro는 이 사이트의 한도를 프로젝트마다 저장 기기 3대에서 100대로 올릴 뿐입니다.",
       "- Mac이 잠들거나 전원이 끊기거나 워커가 멈추면 먼저 [중지와 복구](/learn/iota-training-stopped-auto-recovery)를 봅니다. 복구 성공도 승급이 아닙니다. 대기이면 [대기와 처리량 0](/learn/iota-queue-and-zero-throughput)을 보고, 자격을 “쌓으려고” 재시작을 반복하지 않습니다.",
       "## 읽는 예시",
       "심사 결과가 아니라 목록 예시입니다. 신청에는 Apple Silicon 1대, 공개 coldkey, 이메일이 있습니다. 사흘 뒤 모니터는 그 기기가 아직 대기이고 메일은 없습니다. 다음은 메일을 기다리고, 대기 안내대로 훈련을 켜 두는 것입니다. Miner ID를 바꾸거나 Pro 구독을 Silver로 여기는 것은 잘못된 다음 단계입니다.",
@@ -1352,7 +1352,7 @@ const promotion: Article = {
       "- [IOTAモニター](/projects/iota)に、今の run ID と、まだ待っているか繰り返し終了しているかを控えます。セッションの記録であり、添付でも公式メールの代わりでもありません。",
       "## 申請後の分岐",
       "- 承認メールが来たら、そのメールと、その後入った run の説明に従います。名前と layer の違いは [階層とレイヤー](/learn/iota-run-tiers) にあります。",
-      "- メールが無い: 待機順位、オンライン日数、再起動回数から承認日を推定しません。Pro は当サイトの上限を、プロジェクトごとの保存済み機器5台から50台に上げるだけです。",
+      "- メールが無い: 待機順位、オンライン日数、再起動回数から承認日を推定しません。Pro は当サイトの上限を、プロジェクトごとの保存済み機器3台から100台に上げるだけです。",
       "- Mac がスリープする、電源が落ちる、ワーカーが止まる: 先に [停止と復旧](/learn/iota-training-stopped-auto-recovery) を見ます。復旧できても昇格ではありません。待機なら [待機と処理量ゼロ](/learn/iota-queue-and-zero-throughput) を見て、資格を「稼ぐ」ために再起動を繰り返しません。",
       "## 読み方の例",
       "審査結果ではなく、リストの例です。申請には Apple Silicon 1台、公開 coldkey、メールがあります。三日後、モニターはその機器がまだ待機で、メールはありません。次はメールを待ち、待機の案内どおり学習を動かしたままにすることです。Miner ID を替えることや、Pro の購読を Silver とみなすことは、誤った次の一手です。",
@@ -1377,7 +1377,7 @@ const promotion: Article = {
       {
         question: "买 Pro 或换一个 Miner ID 能升档吗？",
         answer:
-          "不能。Pro 只把本站每个项目的已保存设备从 5 台提高到 50 台。换 Miner ID 和反复重启也不会代替官方审批。",
+          "不能。Pro 只把本站每个项目的已保存设备从 3 台提高到 100 台。换 Miner ID 和反复重启也不会代替官方审批。",
       },
     ],
     "zh-TW": [
@@ -1394,7 +1394,7 @@ const promotion: Article = {
       {
         question: "買 Pro 或換一個 Miner ID 能升檔嗎？",
         answer:
-          "不能。Pro 只把本站每個專案的已儲存裝置從 5 台提高到 50 台。換 Miner ID 和反覆重啟也不會代替官方審批。",
+          "不能。Pro 只把本站每個專案的已儲存裝置從 3 台提高到 100 台。換 Miner ID 和反覆重啟也不會代替官方審批。",
       },
     ],
     en: [
@@ -1411,7 +1411,7 @@ const promotion: Article = {
       {
         question: "Does Pro or a new Miner ID raise the tier?",
         answer:
-          "No. Pro raises this site’s saved devices from five per project to 50. A new Miner ID and repeated restarts do not replace the official review.",
+          "No. Pro raises this site’s saved devices from three per project to 100. A new Miner ID and repeated restarts do not replace the official review.",
       },
     ],
     ko: [
@@ -1428,7 +1428,7 @@ const promotion: Article = {
       {
         question: "Pro나 새 Miner ID가 등급을 올리나요?",
         answer:
-          "아닙니다. Pro는 이 사이트의 저장 기기를 프로젝트마다 5대에서 50대로 올립니다. Miner ID 변경과 반복 재시작은 공식 심사를 대신하지 않습니다.",
+          "아닙니다. Pro는 이 사이트의 저장 기기를 프로젝트마다 3대에서 100대로 올립니다. Miner ID 변경과 반복 재시작은 공식 심사를 대신하지 않습니다.",
       },
     ],
     ja: [
@@ -1445,7 +1445,7 @@ const promotion: Article = {
       {
         question: "Pro や新しい Miner ID で階層は上がりますか？",
         answer:
-          "上がりません。Pro は当サイトの保存済み機器を、プロジェクトごとに5台から50台にします。Miner ID の変更と再起動の繰り返しは公式審査の代わりになりません。",
+          "上がりません。Pro は当サイトの保存済み機器を、プロジェクトごとに3台から100台にします。Miner ID の変更と再起動の繰り返しは公式審査の代わりになりません。",
       },
     ],
   },

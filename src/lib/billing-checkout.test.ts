@@ -18,12 +18,14 @@ let subscription: Record<string, unknown> | null;
 let wrongPrice: boolean;
 let allowQuantity: boolean;
 let oldSession: boolean;
+let priorTrialPolicy: string;
 beforeEach(() => {
   store.row = null;
   subscription = null;
   wrongPrice = false;
   allowQuantity = false;
   oldSession = false;
+  priorTrialPolicy = "annual-only-v2";
   calls = [];
   for (const [key, value] of Object.entries({
     STRIPE_MODE: "test",
@@ -102,7 +104,7 @@ beforeEach(() => {
       else if (url.pathname.startsWith("/v1/checkout/sessions/"))
         data = {
           id: "cs_previous",
-          metadata: oldSession ? {} : { trial_policy: "v1" },
+          metadata: oldSession ? {} : { trial_policy: priorTrialPolicy },
           status: "open",
           url: "https://checkout.stripe.com/c/pay/cs_previous",
         };
@@ -139,13 +141,19 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       p_session: "cs_fixture",
     });
   });
+  it("does not include a trial for a first-time monthly subscription", async () => {
+    await checkout(user, "month", "zh");
+    const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
+    expect(request.body.get("line_items[0][price]")).toBe("price_month");
+    expect(request.body.has("subscription_data[trial_period_days]")).toBe(false);
+  });
   it("does not grant another trial after a previous subscription", async () => {
     store.row = {
       stripe_customer: "cus_fixture",
       stripe_subscription: "sub_old",
       status: "canceled",
     };
-    await checkout(user, "month", "en");
+    await checkout(user, "year", "en");
     const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
     expect(request.body.has("subscription_data[trial_period_days]")).toBe(false);
   });
@@ -161,7 +169,7 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
     expect((await checkout(user, "month", "en")).url).toContain("cs_previous");
     expect(calls.filter((c) => c.path === "/v1/checkout/sessions")).toHaveLength(0);
   });
-  it("replaces an old non-trial checkout even with the same billing interval", async () => {
+  it("replaces an old checkout even with the same billing interval", async () => {
     oldSession = true;
     store.row = {
       stripe_customer: "cus_fixture",
@@ -176,7 +184,19 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       calls
         .find((c) => c.path === "/v1/checkout/sessions")!
         .body.get("subscription_data[trial_period_days]"),
-    ).toBe("7");
+    ).toBeNull();
+  });
+  it("expires a v1 monthly checkout that could grant a trial", async () => {
+    priorTrialPolicy = "v1";
+    store.row = {
+      stripe_customer: "cus_fixture", checkout_session: "cs_previous", checkout_token: token,
+      checkout_interval: "month", checkout_expires_at: new Date(Date.now() + 3600000).toISOString(),
+    };
+    await checkout(user, "month", "en");
+    expect(calls.some((c) => c.path.endsWith("/expire"))).toBe(true);
+    const created = calls.find((c) => c.path === "/v1/checkout/sessions")!;
+    expect(created.body.has("subscription_data[trial_period_days]")).toBe(false);
+    expect(created.body.get("metadata[trial_policy]")).toBe("annual-only-v2");
   });
   it("expires a previous unpaid session before switching month to year", async () => {
     store.row = {

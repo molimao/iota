@@ -10,11 +10,11 @@ const title = l([
   "BNT採掘報酬の確認：Blocknetアドレス・確定・支払",
 ]);
 const save = l([
-  "打开 [BNT 监控](/projects/bnt)，复制 Seine 的完整主网收益地址查询。登录后点击添加地址，可一次输入多行，给每个地址命名并选择 Worker。每项目免费 5 台、Pro 50 台；同一钱包的 Worker 共用钱包余额。查询不会自动保存，保存后可同步、移除及关联已有设备。",
-  "開啟 [BNT 監控](/projects/bnt)，複製 Seine 完整主網收益地址查詢。登入後新增地址，可多行輸入、命名及選擇 Worker。每專案免費 5 台、Pro 50 台。同錢包 Worker 共用餘額；查詢不會自動儲存，儲存後可同步、移除及關聯設備。",
-  "Open [BNT monitoring](/projects/bnt) and copy the complete mainnet payout address from Seine. Sign in and add addresses using multiline input, names and optional Workers. Free allows five devices per project; Pro allows 50. Workers share the wallet balance. A lookup does not save automatically; saved entries sync and can be removed or linked to an existing device.",
-  "[BNT 모니터](/projects/bnt)에 Seine의 전체 메인넷 보상 주소를 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 저장할 수 있습니다. 프로젝트당 무료 5대·Pro 50대입니다. Worker는 지갑 잔액을 공유합니다. 조회만으로 저장되지 않으며 저장 후 동기화·삭제·기기 연결이 가능합니다.",
-  "[BNT監視](/projects/bnt)にSeineの完全なメインネット報酬アドレスを入力します。ログイン後は複数行・名称・任意Workerで保存できます。各プロジェクト無料5台、Pro50台。Workerは同じウォレット残高を共有します。照会だけでは保存されず、保存後は同期・削除・既存デバイスへの関連付けが可能です。",
+  "打开 [BNT 监控](/projects/bnt)，复制 Seine 的完整主网收益地址查询。登录后点击添加地址，可一次输入多行，给每个地址命名并选择 Worker。每项目免费 3 台、Pro 100 台；同一钱包的 Worker 共用钱包余额。查询不会自动保存，保存后可同步、移除及关联已有设备。",
+  "開啟 [BNT 監控](/projects/bnt)，複製 Seine 完整主網收益地址查詢。登入後新增地址，可多行輸入、命名及選擇 Worker。每專案免費 3 台、Pro 100 台。同錢包 Worker 共用餘額；查詢不會自動儲存，儲存後可同步、移除及關聯設備。",
+  "Open [BNT monitoring](/projects/bnt) and copy the complete mainnet payout address from Seine. Sign in and add addresses using multiline input, names and optional Workers. Free allows three devices per project; Pro allows 100. Workers share the wallet balance. A lookup does not save automatically; saved entries sync and can be removed or linked to an existing device.",
+  "[BNT 모니터](/projects/bnt)에 Seine의 전체 메인넷 보상 주소를 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 저장할 수 있습니다. 프로젝트당 무료 3대·Pro 100대입니다. Worker는 지갑 잔액을 공유합니다. 조회만으로 저장되지 않으며 저장 후 동기화·삭제·기기 연결이 가능합니다.",
+  "[BNT監視](/projects/bnt)にSeineの完全なメインネット報酬アドレスを入力します。ログイン後は複数行・名称・任意Workerで保存できます。各プロジェクト無料3台、Pro100台。Workerは同じウォレット残高を共有します。照会だけでは保存されず、保存後は同期・削除・既存デバイスへの関連付けが可能です。",
 ]);
 const troubleshooting = l([
   "查不到时，先确认使用的是 bntpool.com，再检查主网完整地址和受理份额。短名称需在 Seine 解析成完整地址，不能直接填进本监控。算力是矿池估算；低频提交份额时，短期零算力不证明进程停止。待成熟预估会随确认或区块作废变化，并非已到账或一天内赚到的钱。本页于 2026-10-18 使用 Seine 公开开发者收益地址核对矿池字段与 1e8 单位换算，没有用该账户收益估算个人回报。",

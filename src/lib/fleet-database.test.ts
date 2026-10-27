@@ -5,6 +5,16 @@ import { fleetSnapshot } from "./fleet-policy";
 import { PGlite } from "@electric-sql/pglite";
 import { beforeAll, afterAll, describe, it, expect } from "vitest";
 
+// These tests exercise historical migrations that intentionally report Free=5.
+// Adapt only their returned snapshots to today's client policy; SQL assertions
+// below still verify the original migrations and limits unchanged.
+function historicalSnapshot(input: unknown) {
+  const value = input as Record<string, unknown>;
+  return fleetSnapshot(value["plan"] === "free" && value["projectDeviceLimit"] === 5
+    ? { ...value, projectDeviceLimit: 3 }
+    : value);
+}
+
 const user = "11111111-1111-4111-8111-111111111111";
 const other = "22222222-2222-4222-8222-222222222222";
 const grandfather = "33333333-3333-4333-8333-333333333333";
@@ -297,7 +307,7 @@ it("restores Free to five per project without removing legacy records or trial a
     binding: { project: "golem", identifier: wallet(6) },
   });
   expect(independent.projectCounts["flyai"]).toBe(5);
-  expect(fleetSnapshot(independent).devices).toHaveLength(6);
+  expect(historicalSnapshot(independent).devices).toHaveLength(6);
   expect(independent.projectCounts["golem"]).toBe(1);
   await db.exec("RESET ROLE");
   await db.query(
@@ -310,7 +320,7 @@ it("restores Free to five per project without removing legacy records or trial a
     binding: { project: "flyai", identifier: wallet(6) },
   });
   expect(trial.projectDeviceLimit).toBe(50);
-  expect(fleetSnapshot(trial).projectDeviceLimit).toBe(50);
+  expect(historicalSnapshot(trial).projectDeviceLimit).toBe(50);
   expect(trial.projectCounts["flyai"]).toBe(6);
 });
 
@@ -330,13 +340,13 @@ it("keeps multiple project addresses in the account database and isolates anothe
       },
     });
   const own = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-  const snapshot = fleetSnapshot(own.rows[0]!.data);
+  const snapshot = historicalSnapshot(own.rows[0]!.data);
   expect(snapshot.devices).toHaveLength(2);
   expect(snapshot.devices.flatMap((d) => d.bindings).every((b) => b.project === "noid")).toBe(true);
   await asUser(other);
   const different = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
   expect(
-    fleetSnapshot(different.rows[0]!.data).devices.some((d) => d.name.startsWith("NOID test")),
+    historicalSnapshot(different.rows[0]!.data).devices.some((d) => d.name.startsWith("NOID test")),
   ).toBe(false);
 });
 
@@ -358,7 +368,7 @@ describe("six mining pools persist in PostgreSQL", () => {
       await mutate("create", { name: project, binding: { project, identifier, worker: "rig-01" } });
     }
     const read = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-    const snapshot = fleetSnapshot(read.rows[0]!.data);
+    const snapshot = historicalSnapshot(read.rows[0]!.data);
     expect(snapshot.devices).toHaveLength(6);
     for (const d of snapshot.devices) {
       const b = d.bindings[0]!;
@@ -458,7 +468,7 @@ describe("BNT database persistence", () => {
       },
     });
     const reloaded = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-    const parsed = fleetSnapshot(reloaded.rows[0]!.data);
+    const parsed = historicalSnapshot(reloaded.rows[0]!.data);
     expect(parsed.devices[0]!.bindings).toHaveLength(3);
     expect(parsed.devices[0]!.bindings.every((b) => b.pool === "bntpool")).toBe(true);
     for (let i = 2; i <= 5; i++)
@@ -506,7 +516,7 @@ describe("CSD account storage", () => {
     ).rejects.toThrow(/duplicate key/);
     await mutate("link", { id, binding: { project: "csd", identifier: second } });
     const result = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-    const saved = fleetSnapshot(result.rows[0]!.data).devices[0]!;
+    const saved = historicalSnapshot(result.rows[0]!.data).devices[0]!;
     expect(saved.bindings.map((b) => b.identifier).sort()).toEqual([address, second].sort());
     expect(saved.bindings.every((b) => b.pool === "gpools")).toBe(true);
     await expect(
@@ -560,12 +570,12 @@ describe("Ergo and Zephyr saved-address persistence", () => {
       binding: { project: "erg", identifier: erg[1], worker: "" },
     });
     expect(wallets.projectCounts["erg"]).toBe(1);
-    const saved = fleetSnapshot(wallets).devices.find((device) => device.id === id)!;
+    const saved = historicalSnapshot(wallets).devices.find((device) => device.id === id)!;
     expect(saved.bindings.map((binding) => binding.identifier).sort()).toEqual(
       [erg[0], erg[0], erg[1]].sort(),
     );
     expect(saved.bindings.every((binding) => binding.pool === "2miners")).toBe(true);
-    const renamed = fleetSnapshot(
+    const renamed = historicalSnapshot(
       await mutate("rename", { id, name: "ERG renamed", hardware: "rx" }),
     );
     expect(renamed.devices.find((device) => device.id === id)?.name).toBe("ERG renamed");
@@ -596,7 +606,7 @@ describe("Ergo and Zephyr saved-address persistence", () => {
     });
     expect(zephWorkers.projectCounts["zeph"]).toBe(1);
     expect(
-      fleetSnapshot(zephWorkers)
+      historicalSnapshot(zephWorkers)
         .devices.find((device) => device.id === zephId)
         ?.bindings.every((binding) => binding.pool === "2miners"),
     ).toBe(true);
@@ -606,7 +616,7 @@ describe("Ergo and Zephyr saved-address persistence", () => {
     });
     expect(legacy.projectCounts["etc"]).toBe(1);
     expect(
-      fleetSnapshot(legacy).devices.find((device) => device.name === "ETC still")?.bindings[0],
+      historicalSnapshot(legacy).devices.find((device) => device.name === "ETC still")?.bindings[0],
     ).toMatchObject({ project: "etc", pool: "2miners" });
     await expect(
       mutate("create", {
@@ -652,26 +662,26 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
       binding: { project: "btc", identifier: btc[0], worker: "rig-a" },
     });
     expect(created.projectCounts["btc"]).toBe(1);
-    const id = fleetSnapshot(created).devices.find((device) => device.name === "BTC wallet")!.id;
+    const id = historicalSnapshot(created).devices.find((device) => device.name === "BTC wallet")!.id;
     const workers = await mutate("link", {
       id,
       binding: { project: "btc", identifier: btc[0], worker: "rig-b" },
     });
     expect(workers.projectCounts["btc"]).toBe(1);
     const listed = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-    const reloaded = fleetSnapshot(listed.rows[0]!.data).devices.find(
+    const reloaded = historicalSnapshot(listed.rows[0]!.data).devices.find(
       (device) => device.id === id,
     )!;
     expect(reloaded.bindings.filter((binding) => binding.project === "btc")).toHaveLength(2);
     expect(reloaded.bindings.every((binding) => binding.pool === "ckpool")).toBe(true);
     const renamed = await mutate("rename", { id, name: "BTC renamed", hardware: "s21" });
-    expect(fleetSnapshot(renamed).devices.find((device) => device.id === id)?.name).toBe(
+    expect(historicalSnapshot(renamed).devices.find((device) => device.id === id)?.name).toBe(
       "BTC renamed",
     );
     const second = reloaded.bindings.find((binding) => binding.worker === "rig-b")!;
     const unlinked = await mutate("unlink", { id, bindingId: second.id });
     expect(
-      fleetSnapshot(unlinked).devices.find((device) => device.id === id)?.bindings,
+      historicalSnapshot(unlinked).devices.find((device) => device.id === id)?.bindings,
     ).toHaveLength(1);
     expect(unlinked.projectCounts["btc"]).toBe(1);
     await expect(
@@ -701,7 +711,7 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
     expect(ethw.projectCounts["btc"]).toBe(5);
     expect(ethw.projectCounts["ethw"]).toBe(1);
     expect(
-      fleetSnapshot(ethw).devices.find((device) => device.name === "ETHW")?.bindings[0]?.identifier,
+      historicalSnapshot(ethw).devices.find((device) => device.name === "ETHW")?.bindings[0]?.identifier,
     ).toBe(("0xAB" + "cd".repeat(19)).toLowerCase());
     await expect(
       mutate("create", {
@@ -739,7 +749,7 @@ describe("PRL accounts keep pool identity in PostgreSQL", () => {
     });
     expect(two.projectCounts["prl"]).toBe(2);
     const list = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
-    const rows = fleetSnapshot(list.rows[0]!.data).devices;
+    const rows = historicalSnapshot(list.rows[0]!.data).devices;
     expect(rows.map((d) => d.bindings[0]?.pool).sort()).toEqual(["kryptex", "luckypool"]);
     const lucky = rows.find((d) => d.name === "LuckyPool")!;
     await expect(

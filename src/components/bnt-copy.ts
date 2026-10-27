@@ -46,10 +46,10 @@ export const bntEditorial = {
     "Argon2id方式のBlocknet BNTです。Bancor BNTやBLOCKとは異なります。Seineの完全なメインネット公開報酬アドレスを入力。短縮名・秘密鍵・復元フレーズは対象外で、bntpool.comのみ対応。",
   ]),
   coverage: l([
-    "算力以 H/s 显示，Worker 活跃状态根据最近份额判断，不是设备心跳。待成熟预估、已确认待支付、排队支付与累计支付分别展示，不相加冒充日收益。上游金额按 1 BNT = 100,000,000 原子单位换算；当前没有可验证的日收益或美元报价，均保留未知。钱包金额不能分摊到单个 Worker。",
-    "算力以 H/s 顯示，Worker 活躍以最近份額判斷，非設備心跳。待成熟預估、已確認待支付、排隊支付與累計支付分開，不冒充日收益。1 BNT = 100,000,000 原子單位；日收益與美元報價未取得時保留未知，錢包金額不分攤給 Worker。",
-    "Hashrate is H/s; Worker activity comes from recent shares, not machine heartbeats. Immature estimates, confirmed unpaid, queued and paid balances stay separate and are never presented as daily income. Amounts use 100,000,000 atomic units per BNT. Unverified daily rewards and USD quotes remain unknown. Wallet amounts are not allocated to Workers.",
-    "해시레이트는 H/s이며 Worker 활동은 최근 지분 기준으로 기기 하트비트가 아닙니다. 미성숙 예상·확정 미지급·지급 대기·지급 완료를 분리하고 일일 수익으로 합산하지 않습니다. 1 BNT는 100,000,000 원자 단위입니다. 미확인 일일 수익·USD 시세는 알 수 없는 값이며 Worker별 분배를 추정하지 않습니다.",
-    "H/sで表示し、Worker活動は直近シェアから判断します。端末のハートビートではありません。未成熟推定・確定未払い・支払キュー・支払済みは分離し、日次収益に合算しません。1 BNTは100,000,000原子単位。日次報酬・USD価格の未確認値は不明のまま、Workerに配分しません。",
+    "Worker 状态按最近份额判断。待成熟、待支付和已支付分别列出；日收益与美元报价暂不可用。",
+    "Worker 狀態依最近份額判斷。待成熟、待支付及已支付分開列出；日收益與美元報價暫不可用。",
+    "Worker status is based on recent shares. Immature, unpaid and paid amounts are shown separately; daily rewards and USD quotes are unavailable.",
+    "Worker 상태는 최근 셰어 기준입니다. 미성숙·미지급·지급액을 따로 표시하며 일일 수익과 USD 시세는 제공되지 않습니다.",
+    "Worker状態は直近シェアに基づきます。未成熟・未払い・支払済みは別に表示し、日次収益とUSD価格は未提供です。",
   ]),
 };

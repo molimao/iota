@@ -117,7 +117,7 @@ const monitor: Article = {
       "- 三笔金额互相看不懂：打开 [未支付、确认中和已支付](/learn/csd-pending-paid-rewards)。",
       "## 示意读法（不是真实收益）",
       "假设地址已在矿池出现，近 1 小时显示 120 H/s，未支付 0.0004 CSD，确认中 0.0001 CSD，累计已支付 1.20 CSD。这只说明矿池账上如此。120 H/s 不能换算成「今天将到账多少」。0.0004 低于挖矿说明中的 0.001 CSD 最低支付时，未支付可以一直挂着。",
-      "登录后可以把多个地址存成设备记录。每个项目免费 5 台已保存设备，Pro 50 台。同一条已保存设备上再绑同一项目的来源，不额外占名额。只是展开一个钱包下的 Worker，也不会自动占名额；若你把 Worker 另存成独立设备，那些记录会计入名额。同一地址的余额只保留一份。",
+      "登录后可以把多个地址存成设备记录。每个项目免费 3 台已保存设备，Pro 100 台。同一条已保存设备上再绑同一项目的来源，不额外占名额。只是展开一个钱包下的 Worker，也不会自动占名额；若你把 Worker 另存成独立设备，那些记录会计入名额。同一地址的余额只保留一份。",
       "下一步：打开 [CSD 监控](/projects/csd)。算力窗口和 Worker 名称见 [算力单位](/learn/csd-worker-throughput-units)。",
     ],
     "zh-TW": [
@@ -136,7 +136,7 @@ const monitor: Article = {
       "- 三筆金額對不上：打開 [未支付、確認中和已支付](/learn/csd-pending-paid-rewards)。",
       "## 示意讀法（不是真實收益）",
       "假設地址已在礦池出現，近 1 小時顯示 120 H/s，未支付 0.0004 CSD，確認中 0.0001 CSD，累計已支付 1.20 CSD。這只說明礦池帳上如此。120 H/s 不能換算成「今天將到帳多少」。0.0004 低於挖礦說明中的 0.001 CSD 最低支付時，未支付可以一直掛著。",
-      "登入後可以把多個地址存成設備紀錄。每個專案免費 5 台已保存設備，Pro 50 台。同一條已保存設備上再綁同一專案的來源，不額外占名額。只是展開一個錢包下的 Worker，也不會自動占名額；若你把 Worker 另存成獨立設備，那些紀錄會計入名額。同一地址的餘額只保留一份。",
+      "登入後可以把多個地址存成設備紀錄。每個專案免費 3 台已保存設備，Pro 100 台。同一條已保存設備上再綁同一專案的來源，不額外占名額。只是展開一個錢包下的 Worker，也不會自動占名額；若你把 Worker 另存成獨立設備，那些紀錄會計入名額。同一地址的餘額只保留一份。",
       "下一步：打開 [CSD 監控](/projects/csd)。算力窗口和 Worker 名稱見 [算力單位](/learn/csd-worker-throughput-units)。",
     ],
     en: [
@@ -155,7 +155,7 @@ const monitor: Article = {
       "- The three coin figures disagree with what you expected: open [unpaid, confirming, and paid](/learn/csd-pending-paid-rewards).",
       "## Illustrative reading (not actual income)",
       "Suppose the address is already on the pool, the 1-hour rate shows 120 H/s, unpaid is 0.0004 CSD, confirming is 0.0001 CSD, and lifetime paid is 1.20 CSD. That only restates the pool ledger. 120 H/s does not convert into coins due today. If 0.0004 is under the 0.001 CSD minimum stated in the mining instructions, unpaid can sit there.",
-      "After you sign in, each saved address can be a device record. Free keeps five saved devices per project; Pro keeps 50. Extra bindings of the same project on one saved device do not add a slot. Listing the Workers under one wallet does not automatically use slots. Saving a Worker as its own device record does. The wallet balance is stored once.",
+      "After you sign in, each saved address can be a device record. Free keeps three saved devices per project; Pro keeps 100. Extra bindings of the same project on one saved device do not add a slot. Listing the Workers under one wallet does not automatically use slots. Saving a Worker as its own device record does. The wallet balance is stored once.",
       "Next: open [CSD monitoring](/projects/csd). For windows and Worker names, see [hashrate units](/learn/csd-worker-throughput-units).",
     ],
     ko: [
@@ -174,7 +174,7 @@ const monitor: Article = {
       "- 세 금액이 기대와 다르면 [미지급·확인 중·지급](/learn/csd-pending-paid-rewards)을 엽니다.",
       "## 읽는 예시（실제 수익 아님）",
       "주소가 이미 풀에 있고 1시간 속도가 120 H/s, 미지급 0.0004 CSD, 확인 중 0.0001 CSD, 누적 지급 1.20 CSD라고 가정합니다. 이는 풀 장부를 옮긴 것뿐입니다. 120 H/s를 오늘 입금될 코인으로 바꾸지 마세요. 0.0004가 채굴 안내의 최소 0.001 CSD보다 낮으면 미지급은 그대로 남을 수 있습니다.",
-      "로그인 후 주소마다 기기 기록으로 저장할 수 있습니다. 프로젝트당 무료 5대, Pro 50대입니다. 같은 저장 기기에 같은 프로젝트를 더 묶어도 자리는 늘지 않습니다. 지갑 아래 Worker를 펼치는 것만으로는 자리가 줄지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다. 같은 주소의 잔액은 한 번만 둡니다.",
+      "로그인 후 주소마다 기기 기록으로 저장할 수 있습니다. 프로젝트당 무료 3대, Pro 100대입니다. 같은 저장 기기에 같은 프로젝트를 더 묶어도 자리는 늘지 않습니다. 지갑 아래 Worker를 펼치는 것만으로는 자리가 줄지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다. 같은 주소의 잔액은 한 번만 둡니다.",
       "다음: [CSD 모니터](/projects/csd)를 엽니다. 창과 Worker 이름은 [해시레이트 단위](/learn/csd-worker-throughput-units)를 보세요.",
     ],
     ja: [
@@ -193,7 +193,7 @@ const monitor: Article = {
       "- 三つの金額が期待と違う: [未払い・承認待ち・支払済み](/learn/csd-pending-paid-rewards)を開く。",
       "## 読み方の例（実際の収益ではない）",
       "アドレスが既にプールにあり、1時間が 120 H/s、未払い 0.0004 CSD、承認待ち 0.0001 CSD、累計支払 1.20 CSD だとします。これは台帳の写しです。120 H/s を今日入るコインには換えられません。0.0004 が採掘説明の最低 0.001 CSD 未満なら、未払いは残ったままであり得ます。",
-      "ログイン後はアドレスを機器記録として保存できます。各プロジェクト無料5台、Proは50台です。同じ保存機器に同じプロジェクトを重ねても枠は増えません。一つのウォレットの Worker を広げるだけでは枠を使いません。Worker を別の機器記録にすると、その記録は枠に入ります。同じアドレスの残高は一つだけです。",
+      "ログイン後はアドレスを機器記録として保存できます。各プロジェクト無料3台、Proは100台です。同じ保存機器に同じプロジェクトを重ねても枠は増えません。一つのウォレットの Worker を広げるだけでは枠を使いません。Worker を別の機器記録にすると、その記録は枠に入ります。同じアドレスの残高は一つだけです。",
       "次: [CSD監視](/projects/csd)を開く。窓と Worker 名は[ハッシュレートの単位](/learn/csd-worker-throughput-units)を見る。",
     ],
   },
@@ -212,7 +212,7 @@ const monitor: Article = {
       {
         question: "可以保存几个地址？",
         answer:
-          "每个项目免费 5 台已保存设备，Pro 50 台。展开同一钱包下的 Worker 不自动占名额；另存成独立设备才会占用。带不带 0x 视为同一地址。",
+          "每个项目免费 3 台已保存设备，Pro 100 台。展开同一钱包下的 Worker 不自动占名额；另存成独立设备才会占用。带不带 0x 视为同一地址。",
       },
     ],
     "zh-TW": [
@@ -229,7 +229,7 @@ const monitor: Article = {
       {
         question: "可以保存幾個地址？",
         answer:
-          "每個專案免費 5 台已保存設備，Pro 50 台。展開同一錢包下的 Worker 不自動占名額；另存成獨立設備才會占用。有沒有 0x 視為同一地址。",
+          "每個專案免費 3 台已保存設備，Pro 100 台。展開同一錢包下的 Worker 不自動占名額；另存成獨立設備才會占用。有沒有 0x 視為同一地址。",
       },
     ],
     en: [
@@ -246,7 +246,7 @@ const monitor: Article = {
       {
         question: "How many addresses can I save?",
         answer:
-          "Five saved devices per project on Free, 50 on Pro. Showing Workers under one wallet does not use a slot. Saving a Worker as its own device does. With or without 0x is one address.",
+          "three saved devices per project on Free, 100 on Pro. Showing Workers under one wallet does not use a slot. Saving a Worker as its own device does. With or without 0x is one address.",
       },
     ],
     ko: [
@@ -263,7 +263,7 @@ const monitor: Article = {
       {
         question: "주소는 몇 개까지 저장하나요?",
         answer:
-          "프로젝트당 무료 5대, Pro 50대입니다. 한 지갑의 Worker를 펼치는 것은 자리를 쓰지 않습니다. Worker를 별도 기기로 저장하면 씁니다. 0x 유무는 같은 주소입니다.",
+          "프로젝트당 무료 3대, Pro 100대입니다. 한 지갑의 Worker를 펼치는 것은 자리를 쓰지 않습니다. Worker를 별도 기기로 저장하면 씁니다. 0x 유무는 같은 주소입니다.",
       },
     ],
     ja: [
@@ -280,7 +280,7 @@ const monitor: Article = {
       {
         question: "アドレスはいくつ保存できますか？",
         answer:
-          "各プロジェクト無料5台、Proは50台です。一つのウォレットのWorkerを広げるだけでは枠を使いません。Workerを別機器にすると使います。0xの有無は同一です。",
+          "各プロジェクト無料3台、Proは100台です。一つのウォレットのWorkerを広げるだけでは枠を使いません。Workerを別機器にすると使います。0xの有無は同一です。",
       },
     ],
   },
@@ -405,7 +405,7 @@ const addressSetup: Article = {
       "- 粘贴前数一数：去掉可选的 0x 后应剩 40 个 0-9 或 a-f 字符。大小写都可以。",
       "## 填进去之后",
       "- 打开 [CSD 监控](/projects/csd)，只贴这一串，然后保存。带 0x 和不带 0x 会收成同一个已保存设备，避免占两次名额。",
-      "- 每个项目免费 5 台已保存设备，Pro 50 台。同一条已保存设备上再绑来源，不另占名额。只展开 Worker 不自动占名额；把 Worker 另存成设备才会占用。",
+      "- 每个项目免费 3 台已保存设备，Pro 100 台。同一条已保存设备上再绑来源，不另占名额。只展开 Worker 不自动占名额；把 Worker 另存成设备才会占用。",
       "- 若页面说找不到：矿池还没有任何份额或支付，或贴错了链。先看 [查无地址](/learn/csd-worker-not-found)，不要改去填私钥。",
       "- Worker 名用 --worker，字符限于字母、数字、下划线和连字符，最长 24。solo 是保留名，会改成单独记块，不是普通标签。本页不跟踪 solo 的整块奖励。",
       "## 示意（不是真实钱包）",
@@ -423,7 +423,7 @@ const addressSetup: Article = {
       "- 貼上前數一數：去掉可選的 0x 後應剩 40 個 0-9 或 a-f 字元。大小寫都可以。",
       "## 填進去之後",
       "- 打開 [CSD 監控](/projects/csd)，只貼這一串，然後儲存。有 0x 和沒有 0x 會收成同一個已保存設備，避免占兩次名額。",
-      "- 每個專案免費 5 台已保存設備，Pro 50 台。同一條已保存設備上再綁來源，不另占名額。只展開 Worker 不自動占名額；把 Worker 另存成設備才會占用。",
+      "- 每個專案免費 3 台已保存設備，Pro 100 台。同一條已保存設備上再綁來源，不另占名額。只展開 Worker 不自動占名額；把 Worker 另存成設備才會占用。",
       "- 若頁面說找不到：礦池還沒有任何份額或支付，或貼錯了鏈。先看 [查無地址](/learn/csd-worker-not-found)，不要改去填私鑰。",
       "- Worker 名用 --worker，字元限於字母、數字、底線和連字號，最長 24。solo 是保留名，會改成單獨記塊，不是普通標籤。本頁不追蹤 solo 的整塊獎勵。",
       "## 示意（不是真實錢包）",
@@ -441,7 +441,7 @@ const addressSetup: Article = {
       "- Before you paste, drop the optional 0x and count 40 characters from 0-9 and a-f. Letter case does not matter.",
       "## After you paste",
       "- Open [CSD monitoring](/projects/csd), paste that one string, and save. With and without 0x collapse to one saved device, so you do not spend two slots.",
-      "- Free is five saved devices per project; Pro is 50. Extra sources on the same saved device do not add a slot. Listing Workers under one wallet does not use a slot. Saving a Worker as its own device does.",
+      "- Free is three saved devices per project; Pro is 100. Extra sources on the same saved device do not add a slot. Listing Workers under one wallet does not use a slot. Saving a Worker as its own device does.",
       "- If the page says the address was not found, the pool has no shares or payments yet, or the string is from another chain. Read [not found](/learn/csd-worker-not-found). Do not switch to pasting the private key.",
       "- A rig label uses --worker. Allowed characters are letters, digits, underscore, and hyphen, up to 24. The name solo is reserved and changes how a block is credited. It is not an ordinary label. This page does not track a solo full-block reward.",
       "## Shape check (not a real wallet)",
@@ -459,7 +459,7 @@ const addressSetup: Article = {
       "- 붙이기 전에 선택적 0x를 빼고 0-9와 a-f가 40자인지 셉니다. 대소문자는 상관없습니다.",
       "## 붙인 다음",
       "- [CSD 모니터](/projects/csd)를 열고 그 한 줄만 저장합니다. 0x가 있든 없든 저장된 기기 하나로 합쳐져 자리를 두 번 쓰지 않습니다.",
-      "- 프로젝트당 무료 저장 기기 5대, Pro 50대입니다. 같은 저장 기기에 출처를 더 묶어도 자리는 늘지 않습니다. 지갑 아래 Worker를 펼치는 것만으로는 자리가 줄지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다.",
+      "- 프로젝트당 무료 저장 기기 3대, Pro 100대입니다. 같은 저장 기기에 출처를 더 묶어도 자리는 늘지 않습니다. 지갑 아래 Worker를 펼치는 것만으로는 자리가 줄지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다.",
       "- 주소를 찾을 수 없다고 하면 풀에 아직 지분이나 지급이 없거나, 다른 체인의 문자열입니다. [없음](/learn/csd-worker-not-found)을 읽고 비밀키로 바꾸지 마세요.",
       "- 리그 이름은 --worker입니다. 문자, 숫자, 밑줄, 하이픈, 최대 24자입니다. solo는 예약어라 블록 기입 방식이 바뀝니다. 보통 라벨이 아닙니다. 이 페이지는 솔로 블록 전체 보상을 추적하지 않습니다.",
       "## 모양 예시（실제 지갑 아님）",
@@ -477,7 +477,7 @@ const addressSetup: Article = {
       "- 貼る前に任意の 0x を外し、0-9 と a-f が40文字か数えます。大文字小文字は問いません。",
       "## 貼ったあと",
       "- [CSD監視](/projects/csd)を開き、その1本だけ保存します。0x の有無は保存機器一つにまとまり、枠を二つ使いません。",
-      "- 各プロジェクト無料5台、Proは50台です。同じ保存機器に出典を重ねても枠は増えません。ウォレットの下の Worker を広げるだけでは枠を使いません。Worker を別の機器として保存すると、その記録が枠に入ります。",
+      "- 各プロジェクト無料3台、Proは100台です。同じ保存機器に出典を重ねても枠は増えません。ウォレットの下の Worker を広げるだけでは枠を使いません。Worker を別の機器として保存すると、その記録が枠に入ります。",
       "- 見つからないと言われたら、プールにまだシェアも支払もないか、別チェーンの文字列です。[見つからない場合](/learn/csd-worker-not-found)を読み、秘密鍵に切り替えない。",
       "- リグ名は --worker です。文字、数字、アンダースコア、ハイフン、最大24です。solo は予約名で、ブロックの記帳の仕方が変わります。普通のラベルではありません。このページはソロのブロック全額を追いません。",
       "## 形の例（実在のウォレットではない）",
@@ -797,7 +797,7 @@ const throughput: Article = {
       {
         question: "两个 Worker 是不是两台机器、占两个名额？",
         answer:
-          "名字个数不等于物理台数。只在一个已保存地址下查看 Worker 不占额外设备名额。把某个 Worker 单独存成设备才会占用。每个项目免费 5 台、Pro 50 台。",
+          "名字个数不等于物理台数。只在一个已保存地址下查看 Worker 不占额外设备名额。把某个 Worker 单独存成设备才会占用。每个项目免费 3 台、Pro 100 台。",
       },
     ],
     "zh-TW": [
@@ -814,7 +814,7 @@ const throughput: Article = {
       {
         question: "兩個 Worker 是不是兩台機器、占兩個名額？",
         answer:
-          "名字個數不等於物理台數。只在一個已保存地址下查看 Worker 不占額外設備名額。把某個 Worker 單獨存成設備才會占用。每個專案免費 5 台、Pro 50 台。",
+          "名字個數不等於物理台數。只在一個已保存地址下查看 Worker 不占額外設備名額。把某個 Worker 單獨存成設備才會占用。每個專案免費 3 台、Pro 100 台。",
       },
     ],
     en: [
@@ -831,7 +831,7 @@ const throughput: Article = {
       {
         question: "Do two Workers mean two machines and two device slots?",
         answer:
-          "The number of names is not a machine count. Viewing Workers under one saved address does not take extra slots. Saving a Worker as its own device does. Free is five saved devices per project; Pro is 50.",
+          "The number of names is not a machine count. Viewing Workers under one saved address does not take extra slots. Saving a Worker as its own device does. Free is three saved devices per project; Pro is 100.",
       },
     ],
     ko: [
@@ -848,7 +848,7 @@ const throughput: Article = {
       {
         question: "Worker 두 개는 기계 두 대와 자리 두 개인가요?",
         answer:
-          "이름 개수는 물리 대수가 아닙니다. 저장한 주소 하나 아래에서 Worker를 보는 것은 자리를 더 쓰지 않습니다. Worker를 별도 기기로 저장하면 씁니다. 프로젝트당 무료 5대, Pro 50대입니다.",
+          "이름 개수는 물리 대수가 아닙니다. 저장한 주소 하나 아래에서 Worker를 보는 것은 자리를 더 쓰지 않습니다. Worker를 별도 기기로 저장하면 씁니다. 프로젝트당 무료 3대, Pro 100대입니다.",
       },
     ],
     ja: [
@@ -865,7 +865,7 @@ const throughput: Article = {
       {
         question: "Workerが二つなら機械二台、枠二つですか？",
         answer:
-          "名前の数は物理台数ではありません。保存したアドレスの下でWorkerを見るだけでは枠は増えません。Workerを別の機器として保存すると使います。各プロジェクト無料5台、Proは50台です。",
+          "名前の数は物理台数ではありません。保存したアドレスの下でWorkerを見るだけでは枠は増えません。Workerを別の機器として保存すると使います。各プロジェクト無料3台、Proは100台です。",
       },
     ],
   },
@@ -1008,7 +1008,7 @@ const pending: Article = {
       "- 矿池网页把某一小时的已支付和未支付摊成「CSD / hour」：那一列含估计，不要抄进「我昨天赚了多少」。",
       "## 示意账（不是真实收入）",
       "示意读法，不是真实收入：确认中 0.0002 CSD，未支付 0.0006 CSD，累计已支付 3 CSD。页面仍分三栏，不把它们加成今日收入。0.0006 仍低于说明中的 0.001，所以未支付可以在下一个约 30 分钟的支付回合里保持不变。其后仅为假设：再记入的奖励把未支付升到 0.0012，高于说明中的 0.001。然后一笔 0.0012 的支付会使未支付变为 0、累计已支付变为 3.0012，以矿池实际记录为准。这一假设不是到账保证。2.5% 已经体现在矿池入账规则里，不要再用 2.5% 去乘这三栏猜净收入。",
-      "本页不把矿池时段里的估计写成每日收益，也不做美元换算。登录后每个项目免费 5 台已保存设备，Pro 50 台。展开同一地址下的 Worker 不另占名额；把 Worker 另存成独立设备才会占用。",
+      "本页不把矿池时段里的估计写成每日收益，也不做美元换算。登录后每个项目免费 3 台已保存设备，Pro 100 台。展开同一地址下的 Worker 不另占名额；把 Worker 另存成独立设备才会占用。",
       "下一步：在 [CSD 监控](/projects/csd) 并排看这三栏。算力窗口见 [H/s 说明](/learn/csd-worker-throughput-units)。",
     ],
     "zh-TW": [
@@ -1024,7 +1024,7 @@ const pending: Article = {
       "- 礦池網頁把某一小時的已支付和未支付攤成「CSD / hour」：那一列含估計，不要抄進「我昨天賺了多少」。",
       "## 示意帳（不是真實收入）",
       "示意讀法，不是真實收入：確認中 0.0002 CSD，未支付 0.0006 CSD，累計已支付 3 CSD。頁面仍分三欄，不把它們加成今日收入。0.0006 仍低於說明中的 0.001，所以未支付可以在下一個約 30 分鐘的支付回合裡保持不變。其後僅為假設：再記入的獎勵把未支付升到 0.0012，高於說明中的 0.001。然後一筆 0.0012 的支付會使未支付變為 0、累計已支付變為 3.0012，以礦池實際記錄為準。這一假設不是到帳保證。2.5% 已經體現在礦池入帳規則裡，不要再用 2.5% 去乘這三欄猜淨收入。",
-      "本頁不把礦池時段裡的估計寫成每日收益，也不做美元換算。登入後每個專案免費 5 台已保存設備，Pro 50 台。展開同一地址下的 Worker 不另占名額；把 Worker 另存成獨立設備才會占用。",
+      "本頁不把礦池時段裡的估計寫成每日收益，也不做美元換算。登入後每個專案免費 3 台已保存設備，Pro 100 台。展開同一地址下的 Worker 不另占名額；把 Worker 另存成獨立設備才會占用。",
       "下一步：在 [CSD 監控](/projects/csd) 並排看這三欄。算力窗口見 [H/s 說明](/learn/csd-worker-throughput-units)。",
     ],
     en: [
@@ -1040,7 +1040,7 @@ const pending: Article = {
       "- The pool page spreads paid plus owed into “CSD / hour” for a window: that column includes an estimate. Do not copy it into “what I earned yesterday.”",
       "## Illustrative ledger (not actual income)",
       "Illustrative ledger, not actual income: confirming 0.0002 CSD, unpaid 0.0006 CSD, and lifetime paid 3 CSD. The page still keeps three columns and does not turn them into today’s income. 0.0006 is still under the 0.001 in the notes, so unpaid can sit through the next payout round of about 30 minutes. Later, and only as a hypothetical, assume further credited rewards raise unpaid to 0.0012, above the 0.001 minimum in the notes. A payout of 0.0012 would then leave unpaid at 0 and lifetime paid at 3.0012, subject to the actual pool record. That hypothetical is not a payment guarantee. The 2.5% fee is already inside the pool’s crediting rules. Do not multiply these three columns by 2.5% to invent a net.",
-      "This page does not turn the pool’s window estimate into daily earnings or a dollar price. After you sign in, Free keeps five saved devices per project and Pro keeps 50. Workers shown under one address do not add a slot. Saving a Worker as its own device does.",
+      "This page does not turn the pool’s window estimate into daily earnings or a dollar price. After you sign in, Free keeps three saved devices per project and Pro keeps 100. Workers shown under one address do not add a slot. Saving a Worker as its own device does.",
       "Next: read the three columns together on [CSD monitoring](/projects/csd). For the rate window, see [what H/s means](/learn/csd-worker-throughput-units).",
     ],
     ko: [
@@ -1056,7 +1056,7 @@ const pending: Article = {
       "- 풀 페이지가 어떤 시간의 지급과 미지급을 ‘CSD / hour’로 펼친다: 그 열에는 추정이 있습니다. ‘어제 번 돈’으로 베끼지 마세요.",
       "## 장부 예시（실제 수익 아님）",
       "읽는 예시이며 실제 수익이 아닙니다. 확인 중 0.0002 CSD, 미지급 0.0006 CSD, 누적 지급 3 CSD라고 가정합니다. 페이지는 세 칸을 유지하고, 이것을 오늘 수익으로 합치지 않습니다. 0.0006은 안내의 0.001보다 낮아, 다음 약 30분 지급 회차에도 미지급이 그대로일 수 있습니다. 그 뒤는 가정일 뿐입니다. 추가로 기입된 보상이 미지급을 0.0012로 올려 안내의 최소 0.001을 넘는다고 합니다. 그다음 0.0012를 지급하면 미지급은 0, 누적 지급은 3.0012가 되며, 실제 풀 기록이 기준입니다. 이 가정은 지급 보장이 아닙니다. 2.5% 수수료는 이미 풀의 기입 규칙 안에 있습니다. 세 칸에 2.5%를 곱해 순수익을 만들지 마세요.",
-      "이 페이지는 풀의 기간 추정을 일일 수익이나 달러로 만들지 않습니다. 로그인 후 프로젝트당 무료 저장 기기 5대, Pro 50대입니다. 같은 주소 아래 Worker를 펼치는 것은 자리를 더 쓰지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다.",
+      "이 페이지는 풀의 기간 추정을 일일 수익이나 달러로 만들지 않습니다. 로그인 후 프로젝트당 무료 저장 기기 3대, Pro 100대입니다. 같은 주소 아래 Worker를 펼치는 것은 자리를 더 쓰지 않습니다. Worker를 별도 기기로 저장하면 그 기록이 자리에 포함됩니다.",
       "다음: [CSD 모니터](/projects/csd)에서 세 칸을 나란히 봅니다. 속도 창은 [H/s의 의미](/learn/csd-worker-throughput-units)를 보세요.",
     ],
     ja: [
@@ -1072,7 +1072,7 @@ const pending: Article = {
       "- プールページが、ある時間の支払と未払いを「CSD / hour」に広げる: その列には推定があります。「昨日稼いだ額」に写さない。",
       "## 台帳の例（実際の収益ではない）",
       "読み方の例であり、実際の収益ではありません。承認待ち 0.0002 CSD、未払い 0.0006 CSD、累計支払 3 CSD だとします。ページは三つの欄のままで、これを今日の収益にはしません。0.0006 は説明の 0.001 未満なので、次の約30分の支払回でも未払いはそのままであり得ます。その後は仮定にすぎません。さらに記帳された報酬が未払いを 0.0012 に上げ、説明の最低 0.001 を超えるとします。そこで 0.0012 を支払うと、未払いは 0、累計支払は 3.0012 になり、実際のプール記録が基準です。この仮定は支払いの保証ではありません。2.5% の手数料は既にプールの記帳ルールの中にあります。この三つの欄に 2.5% を掛けて手取りを作らない。",
-      "このページは、プールの期間の推定を日次収益やドル価格にしません。ログイン後、各プロジェクト無料5台、Proは50台です。同じアドレスの下で Worker を広げるだけでは枠は増えません。Worker を別の機器として保存すると、その記録が枠に入ります。",
+      "このページは、プールの期間の推定を日次収益やドル価格にしません。ログイン後、各プロジェクト無料3台、Proは100台です。同じアドレスの下で Worker を広げるだけでは枠は増えません。Worker を別の機器として保存すると、その記録が枠に入ります。",
       "次: [CSD監視](/projects/csd)で三つの欄を並べて読む。速度の窓は[H/sの意味](/learn/csd-worker-throughput-units)を見る。",
     ],
   },
@@ -1332,7 +1332,7 @@ const notFound: Article = {
       "- 当前算力空白，是这一小时的速率暂时未知。保留账本上的金额，不要把空白改记成 0。",
       "## 示意（不是某次故障记录）",
       "地址甲整页打不开：矿工里的字符串和钱包打印的不一致，或工作还没进 G-pools。地址乙能打开，未支付仍是 0.02 CSD，但列表里只有 default、没有你记得的 rig-a：名字没传到矿池，钱还在乙上。地址丙能打开且 1 小时为 0 H/s、拒绝份额在增加：先改后端或看拒绝原因，不要新建一个 addr20。",
-      "每个项目免费 5 台已保存设备，Pro 50 台。为了「找不到 Worker」而把同一地址再存一次，不会多出一份余额，带不带 0x 仍是同一台已保存设备。把每个 Worker 都另存成设备，才会逐条占用名额。",
+      "每个项目免费 3 台已保存设备，Pro 100 台。为了「找不到 Worker」而把同一地址再存一次，不会多出一份余额，带不带 0x 仍是同一台已保存设备。把每个 Worker 都另存成设备，才会逐条占用名额。",
       "下一步：用核对过的 addr20 打开 [CSD 监控](/projects/csd)。账本打开后如何读 H/s，见 [算力单位](/learn/csd-worker-throughput-units)。",
     ],
     "zh-TW": [
@@ -1352,7 +1352,7 @@ const notFound: Article = {
       "- 目前算力空白，是這一小時的速率暫時未知。保留帳本上的金額，不要把空白改記成 0。",
       "## 示意（不是某次故障紀錄）",
       "地址甲整頁打不開：礦工裡的字串和錢包印出的不一致，或工作還沒進 G-pools。地址乙能打開，未支付仍是 0.02 CSD，但列表裡只有 default、沒有你記得的 rig-a：名字沒傳到礦池，錢還在乙上。地址丙能打開且 1 小時為 0 H/s、拒絕份額在增加：先改後端或看拒絕原因，不要新建一個 addr20。",
-      "每個專案免費 5 台已保存設備，Pro 50 台。為了「找不到 Worker」而把同一地址再存一次，不會多出一份餘額，有沒有 0x 仍是同一台已保存設備。把每個 Worker 都另存成設備，才會逐條占用名額。",
+      "每個專案免費 3 台已保存設備，Pro 100 台。為了「找不到 Worker」而把同一地址再存一次，不會多出一份餘額，有沒有 0x 仍是同一台已保存設備。把每個 Worker 都另存成設備，才會逐條占用名額。",
       "下一步：用核對過的 addr20 打開 [CSD 監控](/projects/csd)。帳本打開後如何讀 H/s，見 [算力單位](/learn/csd-worker-throughput-units)。",
     ],
     en: [
@@ -1372,7 +1372,7 @@ const notFound: Article = {
       "- A blank current rate means this hour’s rate is unknown for now. Keep the amounts on the ledger. Do not rewrite the blank as 0.",
       "## Illustrative cases (not a recorded outage)",
       "Address A does not open at all: the miner string does not match the printed wallet, or no work has reached G-pools yet. Address B opens, unpaid is still 0.02 CSD, and the list shows only default, not the rig-a you remember: the name never reached the pool, and the coins are still on B. Address C opens with a 1-hour rate of 0 H/s while rejected shares climb: fix the backend or the reject reason before you create a new addr20.",
-      "Free is five saved devices per project; Pro is 50. Saving the same address again because a Worker was missing does not create a second balance. With or without 0x it stays one saved device. Saving every Worker as its own device does use a slot each.",
+      "Free is three saved devices per project; Pro is 100. Saving the same address again because a Worker was missing does not create a second balance. With or without 0x it stays one saved device. Saving every Worker as its own device does use a slot each.",
       "Next: open [CSD monitoring](/projects/csd) with the checked addr20. Once the ledger opens, read H/s in [hashrate units](/learn/csd-worker-throughput-units).",
     ],
     ko: [
@@ -1392,7 +1392,7 @@ const notFound: Article = {
       "- 현재 속도가 비면 이 시간의 속도를 잠시 모르는 것입니다. 장부의 금액은 두고, 빈칸을 0으로 고쳐 적지 마세요.",
       "## 예시（기록된 장애가 아님）",
       "주소 가는 아예 열리지 않습니다. 채굴기 문자열이 지갑에 출력된 값과 다르거나, 작업이 아직 G-pools에 닿지 않았습니다. 주소 나는 열리고 미지급은 그대로 0.02 CSD인데 목록에는 default만 있고 기억 속의 rig-a는 없습니다. 이름이 풀에 전달되지 않았고 코인은 나에 있습니다. 주소 다는 열리고 1시간이 0 H/s이며 거부 지분이 늘어납니다. 새 addr20을 만들기 전에 백엔드나 거부 이유를 봅니다.",
-      "프로젝트당 무료 5대, Pro 50대입니다. Worker가 없다고 같은 주소를 다시 저장해도 잔액이 두 개가 되지 않습니다. 0x 유무도 저장된 기기 하나입니다. Worker마다 기기로 저장하면 그 기록이 자리를 씁니다.",
+      "프로젝트당 무료 3대, Pro 100대입니다. Worker가 없다고 같은 주소를 다시 저장해도 잔액이 두 개가 되지 않습니다. 0x 유무도 저장된 기기 하나입니다. Worker마다 기기로 저장하면 그 기록이 자리를 씁니다.",
       "다음: 확인한 addr20으로 [CSD 모니터](/projects/csd)를 엽니다. 장부가 열리면 [해시레이트 단위](/learn/csd-worker-throughput-units)에서 H/s를 읽습니다.",
     ],
     ja: [
@@ -1412,7 +1412,7 @@ const notFound: Article = {
       "- 現在の速度が空欄なら、この1時間の速度が今は不明です。台帳の金額は残し、空欄を 0 と書き換えない。",
       "## 例（記録された障害ではない）",
       "アドレス甲はまったく開きません。マイナーの文字列がウォレットの表示と違うか、仕事がまだ G-pools に届いていません。アドレス乙は開き、未払いは 0.02 CSD のままで、一覧には default だけで覚えている rig-a がありません。名前がプールに届いておらず、コインは乙にあります。アドレス丙は開き、1時間が 0 H/s で拒否シェアが増えています。新しい addr20 を作る前に、バックエンドか拒否の理由を見ます。",
-      "各プロジェクト無料5台、Proは50台です。Worker が無いからと同じアドレスを保存し直しても残高は二つになりません。0x の有無も保存機器一つです。Worker ごとに機器として保存すると、その記録が枠を使います。",
+      "各プロジェクト無料3台、Proは100台です。Worker が無いからと同じアドレスを保存し直しても残高は二つになりません。0x の有無も保存機器一つです。Worker ごとに機器として保存すると、その記録が枠を使います。",
       "次: 照合した addr20 で [CSD監視](/projects/csd) を開く。台帳が開けたら [ハッシュレートの単位](/learn/csd-worker-throughput-units) で H/s を読む。",
     ],
   },

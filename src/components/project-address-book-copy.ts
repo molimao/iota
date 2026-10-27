@@ -69,11 +69,11 @@ export const addressBookCopy = {
   save: localized(["保存", "儲存", "Save", "저장", "保存"]),
   saving: localized(["保存中", "儲存中", "Saving", "저장 중", "保存中"]),
   upgrade: localized([
-    "需要管理更多设备？Pro 每个项目可保存 50 台，还支持收益日报、异常提醒和月报。",
-    "需要管理更多設備？Pro 每個專案可儲存 50 台，並支援收益日報、異常提醒與月報。",
-    "Managing more devices? Pro supports 50 per project, daily earnings emails, alerts and monthly reports.",
-    "더 많은 기기를 관리하시나요? Pro는 프로젝트별 50대와 수익 일일 메일, 이상 알림, 월간 보고서를 지원합니다.",
-    "より多くのデバイスを管理するなら、Proは各プロジェクト50台に対応。日次報酬メール、異常通知、月次レポートも使えます。",
+    "需要管理更多设备？Pro 每个项目可保存 100 台，还支持收益日报、异常提醒和月报。",
+    "需要管理更多設備？Pro 每個專案可儲存 100 台，並支援收益日報、異常提醒與月報。",
+    "Managing more devices? Pro supports 100 per project, daily earnings emails, alerts and monthly reports.",
+    "더 많은 기기를 관리하시나요? Pro는 프로젝트별 100대와 수익 일일 메일, 이상 알림, 월간 보고서를 지원합니다.",
+    "より多くのデバイスを管理するなら、Proは各プロジェクト100台に対応。日次報酬メール、異常通知、月次レポートも使えます。",
   ]),
   upgradeLink: localized([
     "查看 Pro 权益",

@@ -11,11 +11,11 @@ const overview = l([
   "IOTA WatchはMacrocosmos IOTA Train at Homeを中心とした独立マルチプロジェクト監視ツールです。公開Miner IDで状態・昨日と累計の報酬を確認でき、ローカル情報と制御には任意のMacエージェント設置・ペアリングが必要です。IOTA Foundationのウォレットではありません。",
 ]);
 const setup = l([
-  "[打开监控](/app)，添加每台设备的公开 Miner ID / hotkey。收款 coldkey 与设备标识不同，不能填私钥或助记词。每项目免费保存 5 台，Pro 50 台；登录同步清单，设备总览不额外设总数限制。不同项目的钱包余额、积分及设备收益保留各自周期。",
-  "[開啟監控](/app) 新增各設備公開 Miner ID / hotkey，與收款 coldkey 不同，勿填私鑰或助記詞。每專案免費 5 台、Pro 50 台；登入同步清單，設備總覽無額外總數限制。各專案餘額、積分及收益保留原周期。",
-  "[Open the monitor](/app) and add each device's public Miner ID / hotkey, not its payout coldkey, private key or seed. Free saves five devices per project and Pro 50; sign in to sync the list. The cross-project overview adds no overall limit. Balances, points and earnings keep their source periods.",
-  "[모니터](/app)에 각 기기의 공개 Miner ID / hotkey를 추가하세요. 지급 coldkey와 다르며 비밀키·시드는 입력하지 마세요. 프로젝트당 무료 5대·Pro 50대로 로그인 시 목록을 동기화하며 통합 화면의 추가 총수 제한은 없습니다. 잔액·포인트·수익은 각 출처 기간을 유지합니다.",
-  "[監視画面](/app)に各機器の公開Miner ID / hotkeyを追加します。受取coldkey・秘密鍵・シードとは異なります。無料は各プロジェクト5台、Proは50台、ログインで同期し、統合画面の追加総数上限はありません。残高・ポイント・収益は取得元の期間を保ちます。",
+  "[打开监控](/app)，添加每台设备的公开 Miner ID / hotkey。收款 coldkey 与设备标识不同，不能填私钥或助记词。每项目免费保存 3 台，Pro 100 台；登录同步清单，设备总览不额外设总数限制。不同项目的钱包余额、积分及设备收益保留各自周期。",
+  "[開啟監控](/app) 新增各設備公開 Miner ID / hotkey，與收款 coldkey 不同，勿填私鑰或助記詞。每專案免費 3 台、Pro 100 台；登入同步清單，設備總覽無額外總數限制。各專案餘額、積分及收益保留原周期。",
+  "[Open the monitor](/app) and add each device's public Miner ID / hotkey, not its payout coldkey, private key or seed. Free saves three devices per project and Pro 100; sign in to sync the list. The cross-project overview adds no overall limit. Balances, points and earnings keep their source periods.",
+  "[모니터](/app)에 각 기기의 공개 Miner ID / hotkey를 추가하세요. 지급 coldkey와 다르며 비밀키·시드는 입력하지 마세요. 프로젝트당 무료 3대·Pro 100대로 로그인 시 목록을 동기화하며 통합 화면의 추가 총수 제한은 없습니다. 잔액·포인트·수익은 각 출처 기간을 유지합니다.",
+  "[監視画面](/app)に各機器の公開Miner ID / hotkeyを追加します。受取coldkey・秘密鍵・シードとは異なります。無料は各プロジェクト3台、Proは100台、ログインで同期し、統合画面の追加総数上限はありません。残高・ポイント・収益は取得元の期間を保ちます。",
 ]);
 const limits = l([
   "本站不是项目官方服务，不托管资金、不签名交易，不保证任务分配、等待时长或收益。未配对 Agent 时不能控制本机；其他项目的账户指标和钱包统计不等于单机实际收益。",

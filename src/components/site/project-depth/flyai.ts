@@ -995,12 +995,12 @@ const manyMachines: Article = {
     ja: "複数の fly.ai マシンが一つのウォレットなら、月間ポイントは一度だけ数える",
   },
   description: {
-    zh: "同一个公开地址的月积分属于这个钱包，不按机器相加。单独保存的设备记录才计入每项目 5 台（Pro 50 台）。在一台设备下查看并不会自动占名额。",
+    zh: "同一个公开地址的月积分属于这个钱包，不按机器相加。单独保存的设备记录才计入每项目 3 台（Pro 100 台）。在一台设备下查看并不会自动占名额。",
     "zh-TW":
-      "同一個公開地址的月積分屬於這個錢包，不按機器相加。單獨儲存的設備記錄才計入每專案 5 台（Pro 50 台）。在一台設備下查看並不會自動占名額。",
-    en: "Month points for one public address belong to that wallet and are not added per machine. Only separately saved device records count toward five per project, or 50 on Pro. Looking inside one device does not take extra slots.",
-    ko: "공개 주소 하나의 월 포인트는 그 지갑의 것이며 기기마다 더하지 않습니다. 따로 저장한 기기 기록만 프로젝트당 5대(Pro 50대)에 포함됩니다. 기기 한 대 안을 보는 것은 자리를 더 쓰지 않습니다.",
-    ja: "一つの公開アドレスの月間ポイントはそのウォレットのもので、台数ぶん足しません。別に保存したデバイス記録だけが、プロジェクトあたり 5 台（Pro は 50 台）に数えます。1台の中を見ても枠は増えません。",
+      "同一個公開地址的月積分屬於這個錢包，不按機器相加。單獨儲存的設備記錄才計入每專案 3 台（Pro 100 台）。在一台設備下查看並不會自動占名額。",
+    en: "Month points for one public address belong to that wallet and are not added per machine. Only separately saved device records count toward three per project, or 100 on Pro. Looking inside one device does not take extra slots.",
+    ko: "공개 주소 하나의 월 포인트는 그 지갑의 것이며 기기마다 더하지 않습니다. 따로 저장한 기기 기록만 프로젝트당 3대(Pro 100대)에 포함됩니다. 기기 한 대 안을 보는 것은 자리를 더 쓰지 않습니다.",
+    ja: "一つの公開アドレスの月間ポイントはそのウォレットのもので、台数ぶん足しません。別に保存したデバイス記録だけが、プロジェクトあたり 3 台（Pro は 100 台）に数えます。1台の中を見ても枠は増えません。",
   },
   summary: {
     zh: "多台机器可以连接同一个公开收益地址。监控上的月积分和份额是这一行钱包的合计。把同一行抄到每台机器上再相加，会把同一笔积分算重。",
@@ -1028,7 +1028,7 @@ const manyMachines: Article = {
         [
           "为每台机器各建一条已保存设备，并都填 fly.ai",
           "若地址相同，金额仍然去重，不把积分加两遍",
-          "每条已保存设备各计 1 台，免费每项目 5 台，Pro 50 台",
+          "每条已保存设备各计 1 台，免费每项目 3 台，Pro 100 台",
         ],
         ["同一条已保存设备上再绑一次 fly.ai", "还是同一个钱包合计", "不额外加一台"],
         ["账户里还有别的项目", "与 fly.ai 积分无关", "名额按项目分开，不和别的项目混用"],
@@ -1042,7 +1042,7 @@ const manyMachines: Article = {
         [
           "為每台機器各建一條已儲存設備，並都填 fly.ai",
           "若地址相同，金額仍然去重，不把積分加兩遍",
-          "每條已儲存設備各計 1 台，免費每專案 5 台，Pro 50 台",
+          "每條已儲存設備各計 1 台，免費每專案 3 台，Pro 100 台",
         ],
         ["同一條已儲存設備上再綁一次 fly.ai", "還是同一個錢包合計", "不額外加一台"],
         ["帳戶裡還有別的專案", "與 fly.ai 積分無關", "名額按專案分開，不和別的專案混用"],
@@ -1064,7 +1064,7 @@ const manyMachines: Article = {
         [
           "A separate saved device per machine, each with fly.ai",
           "The same wallet is still deduped, not added twice",
-          "Each saved device counts as 1. Free is five saved devices per project; Pro is 50",
+          "Each saved device counts as 1. Free is three saved devices per project; Pro is 100",
         ],
         [
           "fly.ai linked again on the same saved device",
@@ -1074,7 +1074,7 @@ const manyMachines: Article = {
         [
           "Other projects on the account",
           "Unrelated to these points",
-          "Each project has its own five or 50",
+          "Each project has its own five or 100",
         ],
       ],
     },
@@ -1090,10 +1090,10 @@ const manyMachines: Article = {
         [
           "기기마다 저장 기록을 만들고 모두 fly.ai",
           "같은 지갑은 여전히 한 번만 셈",
-          "저장 기기마다 1대. 무료는 프로젝트당 5대, Pro는 50대",
+          "저장 기기마다 1대. 무료는 프로젝트당 3대, Pro는 100대",
         ],
         ["같은 저장 기기에 fly.ai를 다시 연결", "같은 지갑 합계", "대수가 늘지 않음"],
-        ["계정의 다른 프로젝트", "이 포인트와 무관", "자리 수는 프로젝트마다 따로 5대 또는 50대"],
+        ["계정의 다른 프로젝트", "이 포인트와 무관", "자리 수는 프로젝트마다 따로 3대 또는 100대"],
       ],
     },
     ja: {
@@ -1104,13 +1104,13 @@ const manyMachines: Article = {
         [
           "台ごとに保存デバイスを作り、どれも fly.ai",
           "同じウォレットは重複せず、二度足さない",
-          "保存 1 件につき 1 台。無料はプロジェクトあたり 5 台、Pro は 50 台",
+          "保存 1 件につき 1 台。無料はプロジェクトあたり 3 台、Pro は 100 台",
         ],
         ["同じ保存デバイスに fly.ai を再度接続", "同じウォレット合計", "台数は増えない"],
         [
           "アカウントの他プロジェクト",
           "このポイントとは無関係",
-          "枠はプロジェクトごとに 5 台または 50 台",
+          "枠はプロジェクトごとに 3 台または 100 台",
         ],
       ],
     },
@@ -1123,9 +1123,9 @@ const manyMachines: Article = {
           "不要加。公开月份按钱包记一行。两台机器如果填的是同一个 0x，监控上的月积分已经是这个钱包的合计。",
       },
       {
-        question: "一台设备里看到多个工作者，会占用 5 台名额吗？",
+        question: "一台设备里看到多个工作者，会占用 3 台名额吗？",
         answer:
-          "不会自动占用。名额数的是带有 fly.ai 的已保存设备条数。免费每项目 5 台，Pro 每项目 50 台。只有你另建一条已保存设备并填上 fly.ai 时，才会再计一台。同一条设备上多次绑定 fly.ai 不加名额。",
+          "不会自动占用。名额数的是带有 fly.ai 的已保存设备条数。免费每项目 3 台，Pro 每项目 100 台。只有你另建一条已保存设备并填上 fly.ai 时，才会再计一台。同一条设备上多次绑定 fly.ai 不加名额。",
       },
       {
         question: "怎样看某一台机器今天做了多少？",
@@ -1140,9 +1140,9 @@ const manyMachines: Article = {
           "不要加。公開月份按錢包記一列。兩台機器如果填的是同一個 0x，監控上的月積分已經是這個錢包的合計。",
       },
       {
-        question: "一台設備裡看到多個工作者，會占用 5 台名額嗎？",
+        question: "一台設備裡看到多個工作者，會占用 3 台名額嗎？",
         answer:
-          "不會自動占用。名額數的是帶有 fly.ai 的已儲存設備條數。免費每專案 5 台，Pro 每專案 50 台。只有你另建一條已儲存設備並填上 fly.ai 時，才會再計一台。同一條設備上多次綁定 fly.ai 不加名額。",
+          "不會自動占用。名額數的是帶有 fly.ai 的已儲存設備條數。免費每專案 3 台，Pro 每專案 100 台。只有你另建一條已儲存設備並填上 fly.ai 時，才會再計一台。同一條設備上多次綁定 fly.ai 不加名額。",
       },
       {
         question: "怎樣看某一台機器今天做了多少？",
@@ -1159,7 +1159,7 @@ const manyMachines: Article = {
       {
         question: "If one device lists several workers, does that use up the five slots?",
         answer:
-          "Not by itself. Slots count saved device records that include fly.ai. Free is five saved devices per project. Pro is 50 per project. A new saved device that you create and fill with fly.ai counts as another. Linking fly.ai again on the same saved device does not.",
+          "Not by itself. Slots count saved device records that include fly.ai. Free is three saved devices per project. Pro is 100 per project. A new saved device that you create and fill with fly.ai counts as another. Linking fly.ai again on the same saved device does not.",
       },
       {
         question: "How do I see what one machine did today?",
@@ -1174,9 +1174,9 @@ const manyMachines: Article = {
           "더하지 마세요. 공개 월은 지갑당 한 행입니다. 두 기기가 같은 0x라면 모니터의 월 포인트는 이미 그 지갑 합계입니다.",
       },
       {
-        question: "기기 하나에 워커가 여러 개 보이면 5대 자리를 쓰나요?",
+        question: "기기 하나에 워커가 여러 개 보이면 3대 자리를 쓰나요?",
         answer:
-          "그것만으로는 쓰지 않습니다. 자리는 fly.ai가 포함된 저장 기기 기록의 수입니다. 무료는 프로젝트당 5대, Pro는 프로젝트당 50대입니다. fly.ai를 넣어 저장 기기를 새로 만들 때만 한 대 더 셉니다. 같은 저장 기기에 fly.ai를 다시 연결해도 늘지 않습니다.",
+          "그것만으로는 쓰지 않습니다. 자리는 fly.ai가 포함된 저장 기기 기록의 수입니다. 무료는 프로젝트당 3대, Pro는 프로젝트당 100대입니다. fly.ai를 넣어 저장 기기를 새로 만들 때만 한 대 더 셉니다. 같은 저장 기기에 fly.ai를 다시 연결해도 늘지 않습니다.",
       },
       {
         question: "기기 한 대가 오늘 한 일은 어디서 보나요?",
@@ -1191,9 +1191,9 @@ const manyMachines: Article = {
           "足さないでください。公開月はウォレットごとに 1 行です。両方のマシンが同じ 0x なら、モニターの月間ポイントはすでにそのウォレットの合計です。",
       },
       {
-        question: "1台の中にワーカーが複数あっても、5台の枠を使いますか？",
+        question: "1台の中にワーカーが複数あっても、3台の枠を使いますか？",
         answer:
-          "それだけでは使いません。枠は fly.ai を含む保存デバイス記録の数です。無料はプロジェクトあたり 5 台、Pro はプロジェクトあたり 50 台です。fly.ai を入れて保存デバイスを新しく作ったときだけ、もう 1 台になります。同じ保存デバイスに fly.ai を再度つないでも増えません。",
+          "それだけでは使いません。枠は fly.ai を含む保存デバイス記録の数です。無料はプロジェクトあたり 3 台、Pro はプロジェクトあたり 100 台です。fly.ai を入れて保存デバイスを新しく作ったときだけ、もう 1 台になります。同じ保存デバイスに fly.ai を再度つないでも増えません。",
       },
       {
         question: "1台が今日した仕事はどこで見ますか？",
@@ -1208,9 +1208,9 @@ const manyMachines: Article = {
       "## 钱包和设备不是同一个东西",
       "公开月份记录按 0x 地址列出积分。它没有“这台电脑、那台电脑”的列。官方 Compute 页面才看单台机器的任务。监控里的一条已保存设备，是你自己建的记录；它不是 fly.ai 账户，也不是自动发现的每一台矿机。",
       "## 名额按已保存设备计",
-      "- 免费计划里，带有 fly.ai 的已保存设备最多 5 台；Pro 是每项目 50 台。别的项目各自另计。",
+      "- 免费计划里，带有 fly.ai 的已保存设备最多 3 台；Pro 是每项目 100 台。别的项目各自另计。",
       "- 只在一条已保存设备上查看这个钱包，或在同一条设备上再次绑定 fly.ai，不增加台数。",
-      "- 你为第二台机器新建一条已保存设备并填上 fly.ai，那一条会计入 5 台或 50 台。",
+      "- 你为第二台机器新建一条已保存设备并填上 fly.ai，那一条会计入 3 台或 100 台。",
       "- 即使两条设备填了同一个地址，显示收入时仍共用这一行钱包，不会把月积分加两次。",
       "## 想拆开单机时",
       "若两台机器的当天工作不一样，月份合计解释不了差别。打开官方 Compute 页面，逐台看任务、当天已检查的工作和钱包是否已连接。监控这一行仍然只报告该地址的月积分。单机页面上的密钥不要贴进监控，见 [公开钱包与密钥](/learn/flyai-public-wallet-vs-token)。",
@@ -1225,9 +1225,9 @@ const manyMachines: Article = {
       "## 錢包和設備不是同一個東西",
       "公開月份記錄按 0x 地址列出積分。它沒有「這台電腦、那台電腦」的欄。官方 Compute 頁面才看單台機器的任務。監控裡的一條已儲存設備，是你自己建的記錄；它不是 fly.ai 帳戶，也不是自動發現的每一台礦機。",
       "## 名額按已儲存設備計",
-      "- 免費方案裡，帶有 fly.ai 的已儲存設備最多 5 台；Pro 是每專案 50 台。別的專案各自另計。",
+      "- 免費方案裡，帶有 fly.ai 的已儲存設備最多 3 台；Pro 是每專案 100 台。別的專案各自另計。",
       "- 只在一條已儲存設備上看這個錢包，或在同一條設備上再次綁定 fly.ai，不增加台數。",
-      "- 你為第二台機器新建一條已儲存設備並填上 fly.ai，那一條會計入 5 台或 50 台。",
+      "- 你為第二台機器新建一條已儲存設備並填上 fly.ai，那一條會計入 3 台或 100 台。",
       "- 即使兩條設備填了同一個地址，顯示收入時仍共用這一列錢包，不會把月積分加兩次。",
       "## 想拆開單機時",
       "若兩台機器的當天工作不一樣，月份合計解釋不了差別。打開官方 Compute 頁面，逐台看任務、當天已檢查的工作和錢包是否已連接。監控這一列仍然只報告該地址的月積分。單機頁面上的金鑰不要貼進監控，見 [公開錢包與金鑰](/learn/flyai-public-wallet-vs-token)。",
@@ -1242,7 +1242,7 @@ const manyMachines: Article = {
       "## A wallet is not a saved device",
       "The public month record lists points by 0x address. It has no column for “this PC” and “that PC”. The official Compute page is where you look at one machine’s jobs. A saved device in the monitor is a record you created. It is not a fly.ai account, and it is not every miner the network happens to see.",
       "## Slots count saved devices",
-      "- On Free, saved devices that include fly.ai stop at five. Pro is 50 per project. Other projects have their own counts.",
+      "- On Free, saved devices that include fly.ai stop at five. Pro is 100 per project. Other projects have their own counts.",
       "- Reading this wallet on one saved device, or linking fly.ai again on that same device, does not add a device.",
       "- A new saved device you create for a second machine, with fly.ai filled in, counts toward the five or the 50.",
       "- If two saved devices use the same address, income still shows the one wallet row. The month points are not added twice.",
@@ -1259,9 +1259,9 @@ const manyMachines: Article = {
       "## 지갑과 저장 기기는 다릅니다",
       "공개 월 기록은 0x 주소별로 포인트를 적습니다. 「이 PC」「저 PC」 칸은 없습니다. 기기 한 대의 작업은 공식 Compute 페이지에서 봅니다. 모니터의 저장 기기는 당신이 만든 기록입니다. fly.ai 계정이 아니고, 네트워크가 발견한 채굴기 전부가 아닙니다.",
       "## 자리는 저장 기기를 셉니다",
-      "- 무료에서는 fly.ai가 포함된 저장 기기가 5대까지입니다. Pro는 프로젝트당 50대입니다. 다른 프로젝트는 따로 셉니다.",
+      "- 무료에서는 fly.ai가 포함된 저장 기기가 3대까지입니다. Pro는 프로젝트당 100대입니다. 다른 프로젝트는 따로 셉니다.",
       "- 저장 기기 하나에서 이 지갑을 보거나, 그 같은 기기에 fly.ai를 다시 연결해도 대수는 늘지 않습니다.",
-      "- 두 번째 기계를 위해 저장 기기를 새로 만들고 fly.ai를 채우면 5대 또는 50대에 포함됩니다.",
+      "- 두 번째 기계를 위해 저장 기기를 새로 만들고 fly.ai를 채우면 3대 또는 100대에 포함됩니다.",
       "- 저장 기기 두 개가 같은 주소를 써도 수입은 그 지갑 행 하나입니다. 월 포인트를 두 번 더하지 않습니다.",
       "## 기기 한 대가 필요할 때",
       "오늘 일이 두 기기에서 다르면 월 합계로 차이를 설명할 수 없습니다. 공식 Compute 페이지에서 작업, 그날 검사된 작업, 지갑 연결을 한 대씩 확인하세요. 모니터 행은 여전히 그 주소의 월 포인트만 보여 줍니다. 기기별 비밀은 모니터에 붙이지 마세요. [공개 지갑과 비밀](/learn/flyai-public-wallet-vs-token)을 보세요.",
@@ -1276,9 +1276,9 @@ const manyMachines: Article = {
       "## ウォレットと保存デバイスは別です",
       "公開月次記録は 0x アドレスごとにポイントを並べます。「この PC」「あの PC」の列はありません。1台のジョブは公式 Compute ページで見ます。モニターの保存デバイスは、あなたが作った記録です。fly.ai のアカウントではなく、ネットワークが見つけたマイナーの全部でもありません。",
       "## 枠は保存デバイスを数えます",
-      "- 無料では fly.ai を含む保存デバイスは 5 台までです。Pro はプロジェクトあたり 50 台です。他のプロジェクトは別に数えます。",
+      "- 無料では fly.ai を含む保存デバイスは 3 台までです。Pro はプロジェクトあたり 100 台です。他のプロジェクトは別に数えます。",
       "- 保存デバイス 1 件でこのウォレットを見ること、または同じデバイスに fly.ai を再度つなぐことは、台数を増やしません。",
-      "- 2台目のために保存デバイスを新しく作り fly.ai を入れると、5 台または 50 台に数えます。",
+      "- 2台目のために保存デバイスを新しく作り fly.ai を入れると、3 台または 100 台に数えます。",
       "- 二つの保存デバイスが同じアドレスでも、表示する収入はそのウォレット 1 行のままです。月間ポイントは二度足しません。",
       "## 1台を見たいとき",
       "今日の作業が 2 台で違うなら、月間合計では差を説明できません。公式 Compute ページで、ジョブ、その日の検査済み作業、ウォレット接続を 1 台ずつ確認します。モニターの行は、そのアドレスの月間ポイントだけを報告します。台ごとの秘密はモニターに貼らないでください。[公開ウォレットと秘密](/learn/flyai-public-wallet-vs-token) を見てください。",

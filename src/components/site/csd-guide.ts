@@ -10,11 +10,11 @@ const title = l([
   "CSD採掘のハッシュレート・G-pools支払の確認方法",
 ]);
 const save = l([
-  "在 [CSD 监控](/projects/csd) 输入矿工配置中的 addr20。登录后可一次输入多个地址，分别命名和选择 Worker；每项目免费 5 台、Pro 50 台，已保存地址入库同步。40 位地址与加 0x 的同一地址会视为一个，避免重复添加。Worker 是矿池标签，不一定对应一台物理机器。",
-  "在 [CSD 監控](/projects/csd) 輸入 addr20。登入後可多行新增地址、命名與選擇 Worker，每專案免費 5 台、Pro 50 台，儲存後入庫同步。40 位地址及相同 0x 地址視為一個，Worker 不一定對應一台機器。",
-  "Enter your miner's addr20 in [CSD monitoring](/projects/csd). Sign in to save multiline addresses, names and Workers to your account database. Free allows five devices per project; Pro 50. An address with and without 0x is the same saved identity. Worker labels do not establish physical machine counts.",
-  "[CSD 모니터](/projects/csd)에 addr20을 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 계정 데이터베이스에 저장합니다. 프로젝트당 무료 5대·Pro 50대입니다. 0x 유무는 같은 주소로 처리하며 Worker 이름이 물리 기기 수를 보장하지 않습니다.",
-  "[CSD監視](/projects/csd)にaddr20を入力。ログイン後は複数行のアドレス・名称・Workerをデータベースに保存・同期します。各プロジェクト無料5台、Pro50台。0xの有無は同一アドレスとして扱い、Worker名を物理台数とみなしません。",
+  "在 [CSD 监控](/projects/csd) 输入矿工配置中的 addr20。登录后可一次输入多个地址，分别命名和选择 Worker；每项目免费 3 台、Pro 100 台，已保存地址入库同步。40 位地址与加 0x 的同一地址会视为一个，避免重复添加。Worker 是矿池标签，不一定对应一台物理机器。",
+  "在 [CSD 監控](/projects/csd) 輸入 addr20。登入後可多行新增地址、命名與選擇 Worker，每專案免費 3 台、Pro 100 台，儲存後入庫同步。40 位地址及相同 0x 地址視為一個，Worker 不一定對應一台機器。",
+  "Enter your miner's addr20 in [CSD monitoring](/projects/csd). Sign in to save multiline addresses, names and Workers to your account database. Free allows three devices per project; Pro 100. An address with and without 0x is the same saved identity. Worker labels do not establish physical machine counts.",
+  "[CSD 모니터](/projects/csd)에 addr20을 입력하세요. 로그인 후 여러 줄 주소·이름·Worker를 계정 데이터베이스에 저장합니다. 프로젝트당 무료 3대·Pro 100대입니다. 0x 유무는 같은 주소로 처리하며 Worker 이름이 물리 기기 수를 보장하지 않습니다.",
+  "[CSD監視](/projects/csd)にaddr20を入力。ログイン後は複数行のアドレス・名称・Workerをデータベースに保存・同期します。各プロジェクト無料3台、Pro100台。0xの有無は同一アドレスとして扱い、Worker名を物理台数とみなしません。",
 ]);
 const evidence = l([
   "2026-10-18 使用 G-pools 公开贡献榜地址核对 /api/miner/{addr20} 与 /miners.json。矿池账户的 owed_sat、pending_sat、lifetime_paid_sat 与 CSD 展示字段按 1e8 对应；账户及 Worker 算力均采用 hr1h。统计快照超过 5 分钟时不纳入当前算力汇总。矿池网页按支付窗口与余额分摊得到的时段收入含估算，因此这里不把它当作昨日收益。查不到时先核对矿池、地址和受理份额，不要因短时零算力直接重启。",

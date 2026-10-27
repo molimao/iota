@@ -39,11 +39,11 @@ const questions = [
       "複数アドレスの保存と照会失敗時の確認は？",
     ]),
     a: l([
-      "在 [Midstate 监控](/projects/mds) 登录后保存地址，可一次输入多行，分别命名并选择 Worker。每项目免费 5 台、Pro 50 台，支持移除与同步。查询本身不等于已保存。当前只接入 LuckyPool；其他矿池或 solo 地址查不到，不表示没在挖。先核对矿池、64 位 MSS 地址及有效份额，再看抓取时间；接口失败保留原数据并标注，缺失收益不当作零。",
-      "在 [Midstate 監控](/projects/mds) 登入後可多行新增地址、分別命名及選擇 Worker，每專案免費 5 台、Pro 50 台，可移除及同步。查詢不等於儲存。目前僅 LuckyPool，其他池或 solo 查不到不代表沒採礦。核對礦池、64 位 MSS 地址、有效份額及取得時間；失敗標示原資料，缺失不視為零。",
-      "Sign in to [Midstate monitoring](/projects/mds) to save multiple addresses, including multiline entry, names and optional Worker selection. Free allows five devices per project, Pro 50; entries can be removed and synced. A lookup alone is not a save. Only LuckyPool is covered. An absent solo or other-pool address does not prove stopped mining. Check pool, exact 64-character MSS address, accepted shares and fetch time. Failed reads retain labeled previous data; missing rewards stay unknown.",
-      "[Midstate 모니터](/projects/mds)에 로그인해 여러 줄 주소·이름·Worker를 저장하고 동기화·삭제할 수 있습니다. 프로젝트당 무료 5대·Pro 50대이며 조회만으로 저장되지는 않습니다. LuckyPool만 지원하므로 다른 풀이나 solo 주소 미조회는 채굴 중단을 뜻하지 않습니다. 풀·64자리 MSS 주소·유효 지분·조회 시각을 확인하세요. 실패 시 이전 데이터와 표시를 유지하며 누락을 0으로 만들지 않습니다.",
-      "[Midstate監視](/projects/mds)にログインすると複数行のアドレス・名称・任意Workerを保存し、同期・削除できます。各プロジェクト無料5台、Pro50台で、照会だけでは保存されません。LuckyPoolのみのため他プールやsoloの不在は停止の証明ではありません。プール・64桁MSS・受理シェア・取得時刻を確認します。失敗時は以前の情報と表示を保ち、欠損はゼロにしません。",
+      "在 [Midstate 监控](/projects/mds) 登录后保存地址，可一次输入多行，分别命名并选择 Worker。每项目免费 3 台、Pro 100 台，支持移除与同步。查询本身不等于已保存。当前只接入 LuckyPool；其他矿池或 solo 地址查不到，不表示没在挖。先核对矿池、64 位 MSS 地址及有效份额，再看抓取时间；接口失败保留原数据并标注，缺失收益不当作零。",
+      "在 [Midstate 監控](/projects/mds) 登入後可多行新增地址、分別命名及選擇 Worker，每專案免費 3 台、Pro 100 台，可移除及同步。查詢不等於儲存。目前僅 LuckyPool，其他池或 solo 查不到不代表沒採礦。核對礦池、64 位 MSS 地址、有效份額及取得時間；失敗標示原資料，缺失不視為零。",
+      "Sign in to [Midstate monitoring](/projects/mds) to save multiple addresses, including multiline entry, names and optional Worker selection. Free allows three devices per project, Pro 100; entries can be removed and synced. A lookup alone is not a save. Only LuckyPool is covered. An absent solo or other-pool address does not prove stopped mining. Check pool, exact 64-character MSS address, accepted shares and fetch time. Failed reads retain labeled previous data; missing rewards stay unknown.",
+      "[Midstate 모니터](/projects/mds)에 로그인해 여러 줄 주소·이름·Worker를 저장하고 동기화·삭제할 수 있습니다. 프로젝트당 무료 3대·Pro 100대이며 조회만으로 저장되지는 않습니다. LuckyPool만 지원하므로 다른 풀이나 solo 주소 미조회는 채굴 중단을 뜻하지 않습니다. 풀·64자리 MSS 주소·유효 지분·조회 시각을 확인하세요. 실패 시 이전 데이터와 표시를 유지하며 누락을 0으로 만들지 않습니다.",
+      "[Midstate監視](/projects/mds)にログインすると複数行のアドレス・名称・任意Workerを保存し、同期・削除できます。各プロジェクト無料3台、Pro100台で、照会だけでは保存されません。LuckyPoolのみのため他プールやsoloの不在は停止の証明ではありません。プール・64桁MSS・受理シェア・取得時刻を確認します。失敗時は以前の情報と表示を保ち、欠損はゼロにしません。",
     ]),
   },
 ];

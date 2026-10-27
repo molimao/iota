@@ -160,7 +160,7 @@ export const zephDepthGuides: Article[] = [
         "## 先核对这几件事",
         "- 矿机配置里的收款地址，就是你准备粘贴的那一串 ZEPHYR 标准地址，而不是交易所的备注或矿池链接。",
         "- Worker 名称只影响列表里的矿机名。它不改变地址级收益，也不自动变成一台新的已保存设备。",
-        "- 免费版每个项目最多 5 台已保存设备，Pro 每个项目 50 台。在一个地址下展开多个 Worker 不会自动占掉这些名额；只有你为 Worker 单独新建已保存设备时，那些设备才计入。同一台已保存设备上再绑同一个项目，不额外占名额。",
+        "- 免费版每个项目最多 3 台已保存设备，Pro 每个项目 100 台。在一个地址下展开多个 Worker 不会自动占掉这些名额；只有你为 Worker 单独新建已保存设备时，那些设备才计入。同一台已保存设备上再绑同一个项目，不额外占名额。",
         "## 下一步",
         "- 在 [Zephyr 项目](/projects/zeph) 粘贴标准地址并保存。",
         "- 算力与矿池自己的账户页对照。某一项没有数字就保持未知，不要当成 0。",
@@ -178,7 +178,7 @@ export const zephDepthGuides: Article[] = [
         "## 先核對這幾件事",
         "- 礦機設定裡的收款地址，就是你準備貼上的那一串 ZEPHYR 標準地址，而不是交易所的備註或礦池連結。",
         "- Worker 名稱只影響清單裡的礦機名。它不改變地址級收益，也不自動變成一台新的已儲存設備。",
-        "- 免費版每個專案最多 5 台已儲存設備，Pro 每個專案 50 台。在一個地址下展開多個 Worker 不會自動佔掉這些名額；只有你為 Worker 單獨新建已儲存設備時，那些設備才計入。同一台已儲存設備上再綁同一個專案，不額外佔名額。",
+        "- 免費版每個專案最多 3 台已儲存設備，Pro 每個專案 100 台。在一個地址下展開多個 Worker 不會自動佔掉這些名額；只有你為 Worker 單獨新建已儲存設備時，那些設備才計入。同一台已儲存設備上再綁同一個專案，不額外佔名額。",
         "## 下一步",
         "- 在 [Zephyr 專案](/projects/zeph) 貼上標準地址並儲存。",
         "- 算力與礦池自己的帳戶頁對照。某一項沒有數字就保持未知，不要當成 0。",
@@ -196,7 +196,7 @@ export const zephDepthGuides: Article[] = [
         "## Check these first",
         "- The payout string in the miner is the ZEPHYR standard address you are about to paste, not an exchange memo and not a pool URL.",
         "- A Worker name only labels a row. It does not change the address-level reward and it does not by itself create another saved device.",
-        "- Free keeps up to five saved devices per project, and Pro up to fifty per project. Listing Workers under one address does not use those slots. A slot is used only if you explicitly save a separate device for a Worker. Extra bindings of Zephyr on the same saved device do not add slots.",
+        "- Free keeps up to three saved devices per project, and Pro up to fifty per project. Listing Workers under one address does not use those slots. A slot is used only if you explicitly save a separate device for a Worker. Extra bindings of Zephyr on the same saved device do not add slots.",
         "## What to do next",
         "- Paste the standard address on the [Zephyr project](/projects/zeph) and save it.",
         "- Compare hashrate with the pool’s own account page. A blank figure stays unknown; do not treat it as zero.",
@@ -214,7 +214,7 @@ export const zephDepthGuides: Article[] = [
         "## 먼저 확인할 것",
         "- 채굴기 설정의 보상 문자열이 붙여 넣을 ZEPHYR 표준 주소인지 확인하세요. 거래소 메모나 풀 URL이 아닙니다.",
         "- Worker 이름은 행의 이름만 바꿉니다. 주소 단위 보상을 바꾸지 않고, 그 자체로 새 저장 기기가 되지도 않습니다.",
-        "- 무료는 프로젝트당 저장된 기기 5대, Pro는 프로젝트당 50대입니다. 한 주소 아래에서 Worker를 펼쳐 보는 것은 이 자리를 쓰지 않습니다. Worker마다 저장 기기를 새로 만들 때만 자리가 줄어듭니다. 같은 저장 기기에 Zephyr를 다시 묶어도 자리는 늘지 않습니다.",
+        "- 무료는 프로젝트당 저장된 기기 3대, Pro는 프로젝트당 100대입니다. 한 주소 아래에서 Worker를 펼쳐 보는 것은 이 자리를 쓰지 않습니다. Worker마다 저장 기기를 새로 만들 때만 자리가 줄어듭니다. 같은 저장 기기에 Zephyr를 다시 묶어도 자리는 늘지 않습니다.",
         "## 다음 단계",
         "- [Zephyr 프로젝트](/projects/zeph)에 표준 주소를 붙여 저장합니다.",
         "- 해시레이트를 풀 자신의 계정 페이지와 비교합니다. 빈 값은 알 수 없음이며 0으로 보지 않습니다.",
@@ -232,7 +232,7 @@ export const zephDepthGuides: Article[] = [
         "## 先に確認すること",
         "- マイナー設定の支払文字列が、貼ろうとしている ZEPHYR 標準アドレスであること。取引所のメモやプールの URL ではありません。",
         "- Worker 名は行の名前だけを変えます。アドレス単位の報酬は変わらず、それだけでは新しい保存デバイスにもなりません。",
-        "- 無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。一つのアドレスの下に Worker を並べても、その枠は減りません。Worker ごとに保存デバイスを新しく作ったときだけ数えます。同じ保存デバイスに Zephyr を重ねて結んでも枠は増えません。",
+        "- 無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。一つのアドレスの下に Worker を並べても、その枠は減りません。Worker ごとに保存デバイスを新しく作ったときだけ数えます。同じ保存デバイスに Zephyr を重ねて結んでも枠は増えません。",
         "## 次にすること",
         "- [Zephyrプロジェクト](/projects/zeph) に標準アドレスを貼って保存します。",
         "- ハッシュレートをプール自身の口座ページと照合します。空欄は不明のままで、0 とは扱いません。",
@@ -253,7 +253,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "多个 Worker 会占掉多台设备名额吗？",
           answer:
-            "只是在一个地址下显示 Worker，不会自动占用名额。你若为每个 Worker 单独新建已保存设备，那些设备才计入每项目 5 台（Pro 50 台）。",
+            "只是在一个地址下显示 Worker，不会自动占用名额。你若为每个 Worker 单独新建已保存设备，那些设备才计入每项目 3 台（Pro 100 台）。",
         },
         {
           question: "收益会按 Worker 各算一份吗？",
@@ -284,7 +284,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "多個 Worker 會佔掉多台設備名額嗎？",
           answer:
-            "只是在一個地址下顯示 Worker，不會自動佔用名額。你若為每個 Worker 單獨新建已儲存設備，那些設備才計入每專案 5 台（Pro 50 台）。",
+            "只是在一個地址下顯示 Worker，不會自動佔用名額。你若為每個 Worker 單獨新建已儲存設備，那些設備才計入每專案 3 台（Pro 100 台）。",
         },
         {
           question: "收益會按 Worker 各算一份嗎？",
@@ -315,7 +315,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Do several Workers use several device slots?",
           answer:
-            "Showing Workers under one address does not use slots. Slots are used only when you save a separate device per Worker. The cap is five saved devices per project on Free, or fifty on Pro.",
+            "Showing Workers under one address does not use slots. Slots are used only when you save a separate device per Worker. The cap is three saved devices per project on Free, or fifty on Pro.",
         },
         {
           question: "Is the reward counted once per Worker?",
@@ -347,7 +347,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Worker가 여러 개면 기기 자리도 여러 개인가요?",
           answer:
-            "한 주소 아래에서 Worker를 보여주는 것만으로는 자리를 쓰지 않습니다. Worker마다 저장 기기를 따로 만들 때만 셉니다. 무료는 프로젝트당 5대, Pro는 50대입니다.",
+            "한 주소 아래에서 Worker를 보여주는 것만으로는 자리를 쓰지 않습니다. Worker마다 저장 기기를 따로 만들 때만 셉니다. 무료는 프로젝트당 3대, Pro는 100대입니다.",
         },
         {
           question: "보상은 Worker마다 한 번씩 더해지나요?",
@@ -379,7 +379,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Worker が複数あるとデバイス枠も複数使いますか？",
           answer:
-            "一つのアドレスの下に Worker を表示するだけでは枠を使いません。Worker ごとに保存デバイスを別に作ったときだけ数えます。無料はプロジェクトあたり 5 台、Pro は 50 台です。",
+            "一つのアドレスの下に Worker を表示するだけでは枠を使いません。Worker ごとに保存デバイスを別に作ったときだけ数えます。無料はプロジェクトあたり 3 台、Pro は 100 台です。",
         },
         {
           question: "報酬は Worker ごとに足されますか？",
@@ -935,7 +935,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "看到 3 个 Worker 就要占 3 台设备名额吗？",
           answer:
-            "不要。它们是同一地址下的矿池记录。只有你为它们分别新建已保存设备时，才计入每项目 5 台或 Pro 50 台。",
+            "不要。它们是同一地址下的矿池记录。只有你为它们分别新建已保存设备时，才计入每项目 3 台或 Pro 100 台。",
         },
       ],
       "zh-TW": [
@@ -951,7 +951,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "看到 3 個 Worker 就要佔 3 台設備名額嗎？",
           answer:
-            "不要。它們是同一地址下的礦池紀錄。只有你為它們分別新建已儲存設備時，才計入每專案 5 台或 Pro 50 台。",
+            "不要。它們是同一地址下的礦池紀錄。只有你為它們分別新建已儲存設備時，才計入每專案 3 台或 Pro 100 台。",
         },
       ],
       en: [
@@ -968,7 +968,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Do three Workers use three device slots?",
           answer:
-            "No. They are pool records under one address. They count toward the five saved devices per project, or fifty on Pro, only if you create a separate saved device for each.",
+            "No. They are pool records under one address. They count toward the three saved devices per project, or fifty on Pro, only if you create a separate saved device for each.",
         },
       ],
       ko: [
@@ -985,7 +985,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Worker가 3개면 기기 자리 3개인가요?",
           answer:
-            "아닙니다. 한 주소 아래의 풀 기록입니다. 각각 저장 기기를 새로 만들 때만 프로젝트당 5대, Pro는 50대에 포함됩니다.",
+            "아닙니다. 한 주소 아래의 풀 기록입니다. 각각 저장 기기를 새로 만들 때만 프로젝트당 3대, Pro는 100대에 포함됩니다.",
         },
       ],
       ja: [
@@ -1002,7 +1002,7 @@ export const zephDepthGuides: Article[] = [
         {
           question: "Worker が 3 つならデバイス枠も 3 つですか？",
           answer:
-            "いいえ。一つのアドレスの下にあるプール記録です。それぞれ保存デバイスを新しく作ったときだけ、プロジェクトあたり 5 台、Pro は 50 台に数えます。",
+            "いいえ。一つのアドレスの下にあるプール記録です。それぞれ保存デバイスを新しく作ったときだけ、プロジェクトあたり 3 台、Pro は 100 台に数えます。",
         },
       ],
     },

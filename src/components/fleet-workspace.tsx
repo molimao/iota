@@ -153,7 +153,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     [worker, setWorker] = useState("");
   const [sourceId, setSourceId] = useState(""),
     [bindingId, setBindingId] = useState("");
-  const [interval, setInterval] = useState<"month" | "year">(props.initialInterval ?? "year");
+  const [interval, setInterval] = useState<"month" | "year">(props.initialInterval ?? "month");
   const [iotaQuick, setIotaQuick] = useState(false);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState<string | null>(null);
@@ -946,9 +946,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     <>
                       {busy
                         ? c.processing
-                        : props.signedIn
-                          ? trialCopy.continue[locale]
-                          : trialCopy.signIn[locale]}
+                        : interval === "year" && props.billing?.trialEligible !== false
+                          ? trialCopy.start[locale]
+                          : props.signedIn
+                            ? trialCopy.continue[locale]
+                            : trialCopy.signIn[locale]}
                       <span>
                         US${planAmount(interval)} {interval === "year" ? c.perYear : c.perMonth}
                       </span>

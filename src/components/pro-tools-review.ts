@@ -52,7 +52,7 @@ export function applyReviewBulk(rows: BulkRow[], devices: FleetDevice[]) {
       d.name = r.name;
       d.hardware = r.hardware;
     } else {
-      if (!canLinkProject(next, id, r.project, 50)) throw new Error("project_device_limit_reached");
+      if (!canLinkProject(next, id, r.project, 100)) throw new Error("project_device_limit_reached");
       d.bindings.push({
         id: crypto.randomUUID(),
         project: r.project,

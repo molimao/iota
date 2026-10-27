@@ -257,12 +257,12 @@ export const platformEditorial = {
       ja: "akash1で始まる公開プロバイダーアドレスを入力します。1つのプロバイダーが複数サーバーを管理する場合があります。",
     },
     coverage: {
-      zh: "数据来自 Akash 官方索引，显示来源报告状态、GPU 容量和分配量。这是提供商范围，不等于单台设备。本次不从标价或容量推算收益。",
-      en: "Data comes from Akash’s official index: reported status, GPU capacity and allocation. These are provider-wide figures, not one device. Revenue is not inferred from pricing or capacity.",
+      zh: "数据来自 Akash 官方索引，显示提供商的状态和 GPU 容量。暂不提供收益。",
+      en: "Provider status and GPU capacity from the Akash index. Earnings are unavailable.",
       "zh-TW":
-        "資料來自 Akash 官方索引，呈現回報狀態、GPU 容量及分配量。這是供應商範圍，並非單台設備。本次不從標價或容量推算收益。",
-      ko: "Akash 공식 인덱스의 보고 상태, GPU 용량과 할당량입니다. 단일 기기가 아닌 공급자 전체 수치이며 가격이나 용량으로 수익을 추정하지 않습니다.",
-      ja: "Akash公式インデックスの報告状態、GPU容量、割り当て量です。単一機器ではなくプロバイダー全体の値で、価格や容量から収益を推定しません。",
+        "資料來自 Akash 官方索引，顯示供應商狀態及 GPU 容量。暫不提供收益。",
+      ko: "Akash 인덱스의 공급자 상태와 GPU 용량입니다. 수익은 제공되지 않습니다.",
+      ja: "Akash公式インデックスのプロバイダー状態とGPU容量です。収益は未提供です。",
     },
   },
   ionet: {

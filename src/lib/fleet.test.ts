@@ -24,15 +24,15 @@ function device(id: string, projects: FleetProject[]): FleetDevice {
 }
 
 describe("independent project quotas", () => {
-  it("allows 5 devices in every project, even when the device view contains 20", () => {
+  it("allows 3 devices in every project, even when the device view contains 12", () => {
     const projects: FleetProject[] = ["iota", "xid", "quantus", "flyai"];
     const devices = projects.flatMap((p) =>
-      Array.from({ length: 5 }, (_, i) => device(`${p}-${i}`, [p])),
+      Array.from({ length: 3 }, (_, i) => device(`${p}-${i}`, [p])),
     );
-    expect(devices).toHaveLength(20);
+    expect(devices).toHaveLength(12);
     for (const project of projects) {
       expect(projectQuotaState(devices, project, PLANS.free.projectDeviceLimit)).toMatchObject({
-        count: 5,
+        count: 3,
         remaining: 0,
         canAdd: false,
       });
@@ -69,8 +69,8 @@ describe("independent project quotas", () => {
     expect(canLinkProject(devices, "old-0", "flyai", 5)).toBe(true);
   });
 
-  it("sets Pro to 50 per project without granting access to unpaid or expired subscriptions", () => {
-    expect(PLANS.pro.projectDeviceLimit).toBe(50);
+  it("sets Pro to 100 per project without granting access to unpaid or expired subscriptions", () => {
+    expect(PLANS.pro.projectDeviceLimit).toBe(100);
     expect(paidAccess("active", 200, 100)).toBe(true);
     expect(paidAccess("trialing", 200, 100)).toBe(true);
     expect(paidAccess("trialing", 100, 200)).toBe(false);

@@ -35,6 +35,13 @@ const copy = {
     "이 프로젝트와 일치하는 채굴기를 찾지 못했습니다",
     "このプロジェクトに一致するマイナーは未検出です",
   ]),
+  linuxUnsupported: localized([
+    "Linux Agent 暂不支持采集此项目；矿池数据仍可查看。",
+    "Linux Agent 暫不支援採集此專案；仍可查看礦池資料。",
+    "Linux Agent does not yet collect this project; pool data remains available.",
+    "Linux Agent는 아직 이 프로젝트를 수집하지 않습니다. 풀 데이터는 확인할 수 있습니다.",
+    "Linux Agentはこのプロジェクトの収集に未対応です。プールデータは確認できます。",
+  ]),
   unsupported: localized([
     "本项目暂未支持 Agent 采集",
     "本專案暫未支援 Agent 採集",
@@ -202,7 +209,9 @@ export function ProjectMinerSlots({
                         ? copy.notConnected[locale]
                         : !agentOnline(agent.lastSeen, now)
                           ? copy.offline[locale]
-                          : copy.notEnabled[locale]}
+                          : agent.snapshot.platform === "linux"
+                            ? copy.linuxUnsupported[locale]
+                            : copy.notEnabled[locale]}
               </p>
             </section>
           );

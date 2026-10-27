@@ -150,7 +150,7 @@ const monitorGuide: Article = {
       "## 举例",
       "举例，不是实际收入：滚动 24 小时显示 1.25 GLM，累计显示 40 GLM。1.25 属于这次读取向前约 24 小时，不属于香港时间零点起的那一天，也不是一笔已打进钱包的转账。40 是累计字段，不能在本页转出，也不能与 1.25 相加后再叫作“今天赚了 41.25”。",
       "## 相关工具",
-      "用 [Golem 项目页](/projects/golem) 保存并刷新同一节点。免费版每个项目最多 5 台已保存设备，Pro 为 50 台。同一条已保存设备上的多个来源不额外占名额。发现同一钱包下的工作者不会自动占名额；只有你为它们单独保存设备记录时才会占用。钱包余额按这条记录共享，不会把同一笔 GLM 复制成多台设备的收入。崩溃分析不另收费。本页不能替你开关提供者，也不能保证 GLM 到账。",
+      "用 [Golem 项目页](/projects/golem) 保存并刷新同一节点。免费版每个项目最多 3 台已保存设备，Pro 为 100 台。同一条已保存设备上的多个来源不额外占名额。发现同一钱包下的工作者不会自动占名额；只有你为它们单独保存设备记录时才会占用。钱包余额按这条记录共享，不会把同一笔 GLM 复制成多台设备的收入。崩溃分析不另收费。本页不能替你开关提供者，也不能保证 GLM 到账。",
     ],
     [
       "同一條 Golem 提供者紀錄上有兩項 GLM：滾動 24 小時，以及累計。它們回答的不是同一個問題。滾動窗口跟著讀取時刻移動，不是香港自然日；累計是另一段保存的總額，不是錢包裡能轉出的餘額。",
@@ -169,7 +169,7 @@ const monitorGuide: Article = {
       "## 舉例",
       "舉例，不是實際收入：滾動 24 小時顯示 1.25 GLM，累計顯示 40 GLM。1.25 屬於這次讀取向前約 24 小時，不屬於香港時間零點起的那一天，也不是一筆已打進錢包的轉帳。40 是累計欄位，不能在本頁轉出，也不能與 1.25 相加後再叫作「今天賺了 41.25」。",
       "## 相關工具",
-      "用 [Golem 專案頁](/projects/golem) 儲存並重新整理同一節點。免費版每個專案最多 5 台已儲存設備，Pro 為 50 台。同一條已儲存設備上的多個來源不額外占名額。發現同一錢包下的工作者不會自動占名額；只有你為它們單獨儲存設備紀錄時才會占用。錢包餘額按這條紀錄共享，不會把同一筆 GLM 複製成多台設備的收入。當機分析不另收費。本頁不能替你開關提供者，也不能保證 GLM 到帳。",
+      "用 [Golem 專案頁](/projects/golem) 儲存並重新整理同一節點。免費版每個專案最多 3 台已儲存設備，Pro 為 100 台。同一條已儲存設備上的多個來源不額外占名額。發現同一錢包下的工作者不會自動占名額；只有你為它們單獨儲存設備紀錄時才會占用。錢包餘額按這條紀錄共享，不會把同一筆 GLM 複製成多台設備的收入。當機分析不另收費。本頁不能替你開關提供者，也不能保證 GLM 到帳。",
     ],
     [
       "One Golem provider record carries two GLM figures: a rolling 24-hour amount and a lifetime total. They answer different questions. The rolling window moves with the time you read it. It is not the Hong Kong calendar day. The lifetime figure is a separately stored total. It is not a balance you can send from a wallet.",
@@ -188,7 +188,7 @@ const monitorGuide: Article = {
       "## Example",
       "Illustrative, not actual income: rolling 24-hour GLM shows 1.25 and lifetime GLM shows 40. The 1.25 belongs to about 24 hours before this read. It is not the Hong Kong day that starts at midnight, and it is not a transfer that already landed in a wallet. The 40 is the lifetime field. This page cannot send it, and adding 1.25 does not create a “41.25 earned today” figure.",
       "## Related tool",
-      "Save and refresh the same node on [the Golem project page](/projects/golem). Free keeps five saved devices per project. Pro keeps 50. Extra sources on the same saved device do not take another slot. Workers discovered under one wallet do not take slots unless you save a separate device record for them. The wallet balance stays on that record and is not copied as income for extra devices. Crash analysis is included. This page cannot start or stop the provider and does not guarantee that GLM arrives.",
+      "Save and refresh the same node on [the Golem project page](/projects/golem). Free keeps three saved devices per project. Pro keeps 100. Extra sources on the same saved device do not take another slot. Workers discovered under one wallet do not take slots unless you save a separate device record for them. The wallet balance stays on that record and is not copied as income for extra devices. Crash analysis is included. This page cannot start or stop the provider and does not guarantee that GLM arrives.",
     ],
     [
       "같은 Golem 제공자 기록에는 GLM이 두 개 있습니다. 최근 24시간과 누적입니다. 둘은 다른 질문의 답입니다. 최근 구간은 조회 시각과 함께 움직이며 홍콩 달력의 하루가 아닙니다. 누적은 따로 저장된 합계이며, 지갑에서 보낼 수 있는 잔액이 아닙니다.",
@@ -207,7 +207,7 @@ const monitorGuide: Article = {
       "## 예시",
       "예시이며 실제 수입이 아닙니다. 최근 24시간이 1.25 GLM, 누적이 40 GLM이라면, 1.25는 이번 조회에서 약 24시간 전까지의 값입니다. 홍콩 자정에 시작하는 하루가 아니고, 이미 지갑에 들어온 송금도 아닙니다. 40은 누적 칸입니다. 이 페이지에서 보낼 수 없고, 1.25를 더해 “오늘 41.25를 벌었다”고 만들 수도 없습니다.",
       "## 관련 도구",
-      "[Golem 프로젝트 페이지](/projects/golem)에서 같은 노드를 저장하고 새로고침합니다. 무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 같은 저장 기기의 추가 출처는 자리를 더 쓰지 않습니다. 한 지갑 아래에서 작업자를 발견해도 자동으로 자리를 쓰지 않으며, 기기 기록을 따로 저장할 때만 차지합니다. 지갑 잔액은 그 기록에 공유되며 여러 기기의 수입으로 복사되지 않습니다. 충돌 분석은 포함됩니다. 이 페이지는 제공자를 켜거나 끄지 못하고 GLM 도착을 보장하지 않습니다.",
+      "[Golem 프로젝트 페이지](/projects/golem)에서 같은 노드를 저장하고 새로고침합니다. 무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 같은 저장 기기의 추가 출처는 자리를 더 쓰지 않습니다. 한 지갑 아래에서 작업자를 발견해도 자동으로 자리를 쓰지 않으며, 기기 기록을 따로 저장할 때만 차지합니다. 지갑 잔액은 그 기록에 공유되며 여러 기기의 수입으로 복사되지 않습니다. 충돌 분석은 포함됩니다. 이 페이지는 제공자를 켜거나 끄지 못하고 GLM 도착을 보장하지 않습니다.",
     ],
     [
       "一つの Golem 提供者記録には GLM が二つあります。直近 24 時間と累計です。別の問いに答えています。直近の区間は取得時刻とともに動き、香港の暦日ではありません。累計は別に保存された合計で、ウォレットから送れる残高ではありません。",
@@ -226,7 +226,7 @@ const monitorGuide: Article = {
       "## 例",
       "例示であり、実際の収入ではありません。直近 24 時間が 1.25 GLM、累計が 40 GLM なら、1.25 はこの取得から約 24 時間前までの値です。香港の午前 0 時から始まる 1 日ではなく、すでにウォレットへ着いた送金でもありません。40 は累計の欄です。このページから送れず、1.25 を足して「今日 41.25 稼いだ」にもなりません。",
       "## 関連ツール",
-      "[Golem プロジェクトページ](/projects/golem)で同じノードを保存して更新します。無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。同じ保存デバイス上の追加ソースは枠を増やしません。一つのウォレット配下のワーカーを見つけても、別のデバイス記録として保存しない限り枠は使いません。ウォレット残高はその記録で共有され、複数台の収入として複製されません。クラッシュ分析は含まれます。このページは提供者を起動・停止できず、GLM の着金も保証しません。",
+      "[Golem プロジェクトページ](/projects/golem)で同じノードを保存して更新します。無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。同じ保存デバイス上の追加ソースは枠を増やしません。一つのウォレット配下のワーカーを見つけても、別のデバイス記録として保存しない限り枠は使いません。ウォレット残高はその記録で共有され、複数台の収入として複製されません。クラッシュ分析は含まれます。このページは提供者を起動・停止できず、GLM の着金も保証しません。",
     ],
   ),
   questions: questions([
@@ -427,7 +427,7 @@ const nodeWallet: Article = {
       "## 举例",
       "举例，不是某台真实节点：Stats 节点 ID 记成 0x 加 40 位“节点侧”示意，状态里的 Wallet 记成另一串 0x“收款侧”示意。把收款侧贴进 [Golem 项目页](/projects/golem) 不会打开节点侧那条记录。节点名称“工作室-甲”同样不能代替其中任何一串。",
       "## 相关工具",
-      "只把 Stats 节点 ID 存成一台设备。免费每个项目 5 台已保存设备，Pro 50 台。同一设备再绑一个来源不另占名额。不要为了同一笔收款钱包余额再存一台“钱包设备”，否则会多占名额，而余额仍只属于这条共享记录，不会变成第二份收入。",
+      "只把 Stats 节点 ID 存成一台设备。免费每个项目 3 台已保存设备，Pro 100 台。同一设备再绑一个来源不另占名额。不要为了同一笔收款钱包余额再存一台“钱包设备”，否则会多占名额，而余额仍只属于这条共享记录，不会变成第二份收入。",
     ],
     [
       "Golem 監控打開的是 Golem Stats 上的節點 ID，不是「隨便一把看起來像以太坊的地址」。安裝提供者時填寫的 YA_ACCOUNT 是你持有私鑰的收款地址，GLM 按這個地址進入。兩串字元都可以是 0x 開頭，但職責不同。",
@@ -445,7 +445,7 @@ const nodeWallet: Article = {
       "## 舉例",
       "舉例，不是某台真實節點：Stats 節點 ID 記成 0x 加 40 位「節點側」示意，狀態裡的 Wallet 記成另一串 0x「收款側」示意。把收款側貼進 [Golem 專案頁](/projects/golem) 不會打開節點側那條紀錄。節點名稱「工作室-甲」同樣不能代替其中任何一串。",
       "## 相關工具",
-      "只把 Stats 節點 ID 存成一台設備。免費每個專案 5 台已儲存設備，Pro 50 台。同一設備再綁一個來源不另占名額。不要為了同一筆收款錢包餘額再存一台「錢包設備」，否則會多占名額，而餘額仍只屬於這條共享紀錄，不會變成第二份收入。",
+      "只把 Stats 節點 ID 存成一台設備。免費每個專案 3 台已儲存設備，Pro 100 台。同一設備再綁一個來源不另占名額。不要為了同一筆收款錢包餘額再存一台「錢包設備」，否則會多占名額，而餘額仍只屬於這條共享紀錄，不會變成第二份收入。",
     ],
     [
       "The Golem monitor opens the node id published on Golem Stats. It does not open “any string that looks like Ethereum.” YA_ACCOUNT at install is an Ethereum address whose keys you hold. GLM is meant to arrive there. Both strings can start with 0x, and they still do different jobs.",
@@ -463,7 +463,7 @@ const nodeWallet: Article = {
       "## Example",
       "Illustrative, not a real node: call the Stats node id a 0x plus 40 hex “node side” sketch, and the Wallet line a different 0x “payout side” sketch. Pasting the payout side into [the Golem project page](/projects/golem) does not open the node-side record. The node name “studio-a” replaces neither string.",
       "## Related tool",
-      "Save only the Stats node id as one device. Free allows five saved devices per project, Pro 50. Another source on that same device does not take a second slot. Do not save a second “wallet device” for the same receiving balance. That spends a slot, while the balance stays shared on the one record and is not a second copy of income.",
+      "Save only the Stats node id as one device. Free allows three saved devices per project, Pro 100. Another source on that same device does not take a second slot. Do not save a second “wallet device” for the same receiving balance. That spends a slot, while the balance stays shared on the one record and is not a second copy of income.",
     ],
     [
       "Golem 모니터가 여는 것은 Golem Stats의 노드 ID입니다. 이더리움처럼 보이는 아무 문자열이 아닙니다. 설치 때의 YA_ACCOUNT는 개인 키를 가진 수령 주소이고, GLM은 그 주소로 들어가게 되어 있습니다. 둘 다 0x로 시작할 수 있지만 역할은 다릅니다.",
@@ -481,7 +481,7 @@ const nodeWallet: Article = {
       "## 예시",
       "예시이며 실제 노드가 아닙니다. Stats 노드 ID를 0x와 40자의 “노드 쪽” 스케치로, Wallet 줄을 다른 0x “수령 쪽” 스케치로 부릅니다. 수령 쪽을 [Golem 프로젝트 페이지](/projects/golem)에 붙여도 노드 쪽 기록은 열리지 않습니다. 노드 이름 “작업실-가”도 어느 문자열도 대신하지 못합니다.",
       "## 관련 도구",
-      "Stats 노드 ID만 기기 한 대로 저장합니다. 무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 같은 기기에 출처를 하나 더 묶어도 자리를 더 쓰지 않습니다. 같은 수령 잔액을 위해 “지갑 기기”를 또 저장하지 마세요. 자리만 쓰고, 잔액은 그 한 기록에 공유되며 수입이 두 부가 되지 않습니다.",
+      "Stats 노드 ID만 기기 한 대로 저장합니다. 무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 같은 기기에 출처를 하나 더 묶어도 자리를 더 쓰지 않습니다. 같은 수령 잔액을 위해 “지갑 기기”를 또 저장하지 마세요. 자리만 쓰고, 잔액은 그 한 기록에 공유되며 수입이 두 부가 되지 않습니다.",
     ],
     [
       "Golem のモニターが開くのは Golem Stats のノード ID です。イーサリアムに見える任意の文字列ではありません。導入時の YA_ACCOUNT は、秘密鍵を持つ受取アドレスで、GLM はそこへ入る想定です。どちらも 0x で始まり得ますが、役目は違います。",
@@ -499,7 +499,7 @@ const nodeWallet: Article = {
       "## 例",
       "例示であり、実在のノードではありません。Stats のノード ID を 0x と 40 文字の「ノード側」の見取り図、Wallet の行を別の 0x「受取側」の見取り図とします。受取側を [Golem プロジェクトページ](/projects/golem) に貼っても、ノード側の記録は開きません。ノード名「スタジオ甲」も、どちらの文字列の代わりにもなりません。",
       "## 関連ツール",
-      "Stats のノード ID だけをデバイス 1 台として保存します。無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。同じデバイスにもう一つのソースを結んでも枠は増えません。同じ受取残高のために「ウォレット用デバイス」をもう一台保存しないでください。枠を使うだけで、残高はその一つの記録で共有され、収入の複製にはなりません。",
+      "Stats のノード ID だけをデバイス 1 台として保存します。無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。同じデバイスにもう一つのソースを結んでも枠は増えません。同じ受取残高のために「ウォレット用デバイス」をもう一台保存しないでください。枠を使うだけで、残高はその一つの記録で共有され、収入の複製にはなりません。",
     ],
   ),
   questions: questions([
@@ -654,7 +654,7 @@ const offersGuide: Article = {
       "## 举例",
       "举例，不是实测：配置写成 4 线程、8 GiB 内存、40 GiB 磁盘，状态里近 1 小时已处理 0、进行中 0、累计已处理 0。这表示这次状态采样没有任务工作。它不表示滚动 24 小时 GLM 是 0；那一栏若缺失，仍是未知。全网图表上的提供者人数也不能填进你的收入。",
       "## 相关工具",
-      "在 [Golem 项目页](/projects/golem) 只保存你要盯的节点。免费每项目 5 台已保存设备，Pro 50 台。一台机器下多看几个公开字段不另占名额。",
+      "在 [Golem 项目页](/projects/golem) 只保存你要盯的节点。免费每项目 3 台已保存设备，Pro 100 台。一台机器下多看几个公开字段不另占名额。",
     ],
     [
       "把 CPU 執行緒、記憶體和磁碟掛到 Golem，只說明你願意提供這些資源。請求者真的把任務派過來，以及派過來的任務有沒有變成 GLM，是後面的兩步。容量、任務計數和付款不能互相代替。",
@@ -674,7 +674,7 @@ const offersGuide: Article = {
       "## 舉例",
       "舉例，不是實測：配置寫成 4 執行緒、8 GiB 記憶體、40 GiB 磁碟，狀態裡近 1 小時已處理 0、進行中 0、累計已處理 0。這表示這次狀態取樣沒有任務工作。它不表示滾動 24 小時 GLM 是 0；那一欄若缺失，仍是未知。全網圖表上的提供者人數也不能填進你的收入。",
       "## 相關工具",
-      "在 [Golem 專案頁](/projects/golem) 只儲存你要盯的節點。免費每專案 5 台已儲存設備，Pro 50 台。一台機器下多看幾個公開欄位不另占名額。",
+      "在 [Golem 專案頁](/projects/golem) 只儲存你要盯的節點。免費每專案 3 台已儲存設備，Pro 100 台。一台機器下多看幾個公開欄位不另占名額。",
     ],
     [
       "Publishing CPU threads, memory, and disk on Golem only says you are willing to share those resources. A requestor actually sending work, and that work turning into GLM, are the next two steps. Capacity, task counts, and payment do not stand in for one another.",
@@ -694,7 +694,7 @@ const offersGuide: Article = {
       "## Example",
       "Illustrative, not a measurement: the file offers 4 threads, 8 GiB of RAM, and 40 GiB of disk, and status shows 0 processed and 0 in progress in the last hour, with total processed 0. That sample had no task work. It does not set rolling 24-hour GLM to 0. If that column is missing, it stays unknown. The network-wide provider count on the chart is not your income either.",
       "## Related tool",
-      "On [the Golem project page](/projects/golem), save only the node you want to watch. Free is five saved devices per project, Pro 50. Extra public fields on the same machine do not take another slot.",
+      "On [the Golem project page](/projects/golem), save only the node you want to watch. Free is three saved devices per project, Pro 100. Extra public fields on the same machine do not take another slot.",
     ],
     [
       "CPU 스레드, 메모리, 디스크를 Golem에 내놓는 것은 그 자원을 공유하겠다는 뜻입니다. 요청자가 실제로 작업을 보내고, 그 작업이 GLM이 되는 것은 그다음 두 단계입니다. 용량, 작업 수, 지급은 서로를 대신하지 않습니다.",
@@ -714,7 +714,7 @@ const offersGuide: Article = {
       "## 예시",
       "예시이며 측정이 아닙니다. 설정을 스레드 4, 메모리 8 GiB, 디스크 40 GiB로 두고, 상태에서 최근 1시간 처리 0, 진행 0, 누적 처리 0이라면, 그 표본에는 작업이 없습니다. 최근 24시간 GLM을 0으로 만들지 않습니다. 그 칸이 없으면 여전히 알 수 없음입니다. 차트에 있는 네트워크 전체 제공자 수도 내 수입이 아닙니다.",
       "## 관련 도구",
-      "[Golem 프로젝트 페이지](/projects/golem)에는 보려는 노드만 저장합니다. 무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 같은 기기에서 공개 항목을 더 보아도 자리는 늘지 않습니다.",
+      "[Golem 프로젝트 페이지](/projects/golem)에는 보려는 노드만 저장합니다. 무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 같은 기기에서 공개 항목을 더 보아도 자리는 늘지 않습니다.",
     ],
     [
       "CPU スレッド、メモリ、ディスクを Golem に出すことは、その資源を共有する意思を示すだけです。リクエスタが実際に仕事を送り、その仕事が GLM になるのは、その後の二段階です。容量、タスク数、支払いは互いに代わりになりません。",
@@ -734,7 +734,7 @@ const offersGuide: Article = {
       "## 例",
       "例示であり、測定ではありません。設定をスレッド 4、メモリ 8 GiB、ディスク 40 GiB とし、ステータスの直近 1 時間が処理済み 0、進行中 0、累計処理済み 0 なら、そのサンプルにタスク作業はありません。直近 24 時間 GLM を 0 にはしません。その欄が欠ければ、依然として不明です。チャート上のネットワーク全体の提供者数も、自分の収入ではありません。",
       "## 関連ツール",
-      "[Golem プロジェクトページ](/projects/golem) には見たいノードだけを保存します。無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。同じマシンで公開項目を余分に見ても枠は増えません。",
+      "[Golem プロジェクトページ](/projects/golem) には見たいノードだけを保存します。無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。同じマシンで公開項目を余分に見ても枠は増えません。",
     ],
   ),
   questions: questions([
@@ -889,7 +889,7 @@ const paymentsGuide: Article = {
       "## 举例",
       "举例，不是实际余额：状态写明 network 为 mainnet，amount 总量 3 GLM，其中 on-chain 1、polygon 2，pending 为 0.4 且笔数为 1。1 和 2 是两条链上的持有摘要，3 是状态里的总量行，不是第三笔收入。0.4 仍待处理。监控若同时显示滚动 24 小时 1.25，那 1.25 不能从 3 里面扣掉后再叫作“钱包还剩多少”。核心数无论是 4 还是 8，都不改变这几行。",
       "## 相关工具",
-      "[Golem 项目页](/projects/golem) 用来对照公开节点上的 GLM 记录。链上余额以你自己的钱包和提供者状态为准。免费每项目 5 台已保存设备，Pro 50 台。同一收款余额不要存成第二台设备。",
+      "[Golem 项目页](/projects/golem) 用来对照公开节点上的 GLM 记录。链上余额以你自己的钱包和提供者状态为准。免费每项目 3 台已保存设备，Pro 100 台。同一收款余额不要存成第二台设备。",
     ],
     [
       "Golem 官網把 GLM 定義成提供者與請求者之間的交換媒介，並且寫明它是以太坊和 Polygon 上的 ERC-20。要判斷「這筆錢有沒有實際意義」，先看提供者跑在哪一個支付網路，再看狀態裡的金額分在哪一條鏈上。掛出的容量和監控裡的滾動窗口都不是這組餘額。",
@@ -909,7 +909,7 @@ const paymentsGuide: Article = {
       "## 舉例",
       "舉例，不是實際餘額：狀態寫明 network 為 mainnet，amount 總量 3 GLM，其中 on-chain 1、polygon 2，pending 為 0.4 且筆數為 1。1 和 2 是兩條鏈上的持有摘要，3 是狀態裡的總量行，不是第三筆收入。0.4 仍待處理。監控若同時顯示滾動 24 小時 1.25，那 1.25 不能從 3 裡面扣掉後再叫作「錢包還剩多少」。核心數無論是 4 還是 8，都不改變這幾行。",
       "## 相關工具",
-      "[Golem 專案頁](/projects/golem) 用來對照公開節點上的 GLM 紀錄。鏈上餘額以你自己的錢包和提供者狀態為準。免費每專案 5 台已儲存設備，Pro 50 台。同一收款餘額不要存成第二台設備。",
+      "[Golem 專案頁](/projects/golem) 用來對照公開節點上的 GLM 紀錄。鏈上餘額以你自己的錢包和提供者狀態為準。免費每專案 3 台已儲存設備，Pro 100 台。同一收款餘額不要存成第二台設備。",
     ],
     [
       "The Golem site defines GLM as the medium of exchange between providers and requestors, and it states that GLM is an ERC-20 on Ethereum and Polygon. To decide whether an amount means anything you can treat as real, read which payment network the provider is on, then which chain the status lines use. Offered capacity and the monitor’s rolling window are not that set of balances.",
@@ -929,7 +929,7 @@ const paymentsGuide: Article = {
       "## Example",
       "Illustrative, not an actual balance: status says network mainnet, amount total 3 GLM, of which on-chain is 1 and polygon is 2, with pending 0.4 in one item. The 1 and the 2 are holding summaries on two chains. The 3 is the total line in status, not a third payment. The 0.4 is still pending. If the monitor also shows rolling 24-hour GLM of 1.25, do not subtract 1.25 from 3 and call the result “what the wallet has left.” A core count of 4 or of 8 changes none of those lines.",
       "## Related tool",
-      "Use [the Golem project page](/projects/golem) to compare the public node’s GLM record. Chain balances stay with your wallet and with provider status. Free is five saved devices per project, Pro 50. Do not save the same receiving balance as a second device.",
+      "Use [the Golem project page](/projects/golem) to compare the public node’s GLM record. Chain balances stay with your wallet and with provider status. Free is three saved devices per project, Pro 100. Do not save the same receiving balance as a second device.",
     ],
     [
       "Golem 사이트는 GLM을 제공자와 요청자 사이의 교환 수단으로 정의하고, 이더리움과 Polygon의 ERC-20이라고 적습니다. 금액이 실제 의미가 있는지는 제공자가 어느 결제 네트워크에 있는지, 그다음 상태의 금액이 어느 체인에 있는지를 본 뒤에 판단합니다. 내놓은 용량과 모니터의 최근 구간은 그 잔액 묶음이 아닙니다.",
@@ -949,7 +949,7 @@ const paymentsGuide: Article = {
       "## 예시",
       "예시이며 실제 잔액이 아닙니다. 상태가 network mainnet, amount 총액 3 GLM, 그중 on-chain 1, polygon 2, pending 0.4에 1건이라고 하면, 1과 2는 두 체인의 보유 요약입니다. 3은 상태의 총액 줄이지 세 번째 수입이 아닙니다. 0.4는 아직 대기입니다. 모니터가 최근 24시간 1.25 GLM을 함께 보여도, 3에서 1.25를 빼 “지갑에 남은 돈”이라고 부르지 마세요. 코어가 4이든 8이든 이 줄들은 바뀌지 않습니다.",
       "## 관련 도구",
-      "[Golem 프로젝트 페이지](/projects/golem)는 공개 노드의 GLM 기록을 대조할 때 씁니다. 체인 잔액은 자신의 지갑과 제공자 상태가 기준입니다. 무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 같은 수령 잔액을 두 번째 기기로 저장하지 마세요.",
+      "[Golem 프로젝트 페이지](/projects/golem)는 공개 노드의 GLM 기록을 대조할 때 씁니다. 체인 잔액은 자신의 지갑과 제공자 상태가 기준입니다. 무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 같은 수령 잔액을 두 번째 기기로 저장하지 마세요.",
     ],
     [
       "Golem のサイトは GLM を提供者とリクエスタの交換手段とし、イーサリアムと Polygon 上の ERC-20 だと述べています。金額に実体があるかは、提供者がどの支払いネットワークにいるか、次にステータスの金額がどのチェーンにあるかを見てから判断します。出している容量も、モニターの直近区間も、その残高の組ではありません。",
@@ -969,7 +969,7 @@ const paymentsGuide: Article = {
       "## 例",
       "例示であり、実際の残高ではありません。ステータスが network mainnet、amount 合計 3 GLM、うち on-chain が 1、polygon が 2、pending が 0.4 で 1 件なら、1 と 2 は二つのチェーンの保有要約です。3 はステータスの合計行であり、3 件目の収入ではありません。0.4 はまだ保留です。モニターが直近 24 時間 1.25 GLM を同時に示しても、3 から 1.25 を引いて「ウォレットの残り」と呼ばないでください。コアが 4 でも 8 でも、これらの行は変わりません。",
       "## 関連ツール",
-      "[Golem プロジェクトページ](/projects/golem) は公開ノードの GLM 記録を照合するために使います。チェーン残高の基準は自分のウォレットと提供者ステータスです。無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。同じ受取残高を 2 台目のデバイスとして保存しないでください。",
+      "[Golem プロジェクトページ](/projects/golem) は公開ノードの GLM 記録を照合するために使います。チェーン残高の基準は自分のウォレットと提供者ステータスです。無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。同じ受取残高を 2 台目のデバイスとして保存しないでください。",
     ],
   ),
   questions: questions([
@@ -1127,7 +1127,7 @@ const offlineGuide: Article = {
       "## 举例",
       "举例，不是某台机器的实测：一台 Apple 芯片笔记本打开监控，节点记录的在线标记为空。空标记保持未知，GLM 栏也不写成 0。同一台笔记本不能安装成提供者。另一台 x86-64 Linux 上若状态为服务未运行、VM 无效，应先恢复进程和 /dev/kvm，而不是去改滚动 24 小时那一栏。",
       "## 相关工具",
-      "监控只保存你指定的节点记录。免费每项目 5 台已保存设备，Pro 50 台。它不能登录你的机器、不能打开 UDP，也不能保证恢复后就有任务或 GLM。",
+      "监控只保存你指定的节点记录。免费每项目 3 台已保存设备，Pro 100 台。它不能登录你的机器、不能打开 UDP，也不能保证恢复后就有任务或 GLM。",
     ],
     [
       "Golem 提供者「看起來離線」，要先分清三件事：這台機器能不能當提供者、行程和虛擬機是否健康、網路是否只是沒有公網直連。瀏覽器裡的在線標記只反映公開統計那一次讀取。它缺失時是未知，不是 GLM 變成 0。",
@@ -1150,7 +1150,7 @@ const offlineGuide: Article = {
       "## 舉例",
       "舉例，不是某台機器的實測：一台 Apple 晶片筆電打開監控，節點紀錄的在線標記為空。空標記保持未知，GLM 欄也不寫成 0。同一台筆電不能安裝成提供者。另一台 x86-64 Linux 上若狀態為服務未運行、VM 無效，應先恢復行程和 /dev/kvm，而不是去改滾動 24 小時那一欄。",
       "## 相關工具",
-      "監控只儲存你指定的節點紀錄。免費每專案 5 台已儲存設備，Pro 50 台。它不能登入你的機器、不能打開 UDP，也不能保證恢復後就有任務或 GLM。",
+      "監控只儲存你指定的節點紀錄。免費每專案 3 台已儲存設備，Pro 100 台。它不能登入你的機器、不能打開 UDP，也不能保證恢復後就有任務或 GLM。",
     ],
     [
       "When a Golem provider “looks offline,” separate three questions: whether this machine is allowed to be a provider, whether the process and the VM are healthy, and whether the network merely lacks a direct public path. The online flag in the browser is one read of the public stats. If it is missing, the state is unknown. GLM does not become zero.",
@@ -1173,7 +1173,7 @@ const offlineGuide: Article = {
       "## Example",
       "Illustrative, not a measurement of a specific machine: a laptop with Apple silicon opens the monitor and the node’s online flag is empty. The empty flag stays unknown, and the GLM column is not written as zero. That laptop cannot be installed as the provider. On a separate x86-64 Linux host, status showing the service not running and VM not valid means restoring the process and /dev/kvm before touching the rolling 24-hour column.",
       "## Related tool",
-      "The monitor only stores the node record you choose. Free is five saved devices per project, Pro 50. It cannot log in to your machine, open UDP, or promise tasks or GLM after the provider recovers.",
+      "The monitor only stores the node record you choose. Free is three saved devices per project, Pro 100. It cannot log in to your machine, open UDP, or promise tasks or GLM after the provider recovers.",
     ],
     [
       "Golem 제공자가 “오프라인으로 보이면” 세 가지를 나눕니다. 이 기기가 제공자가 될 수 있는지, 프로세스와 VM이 정상인지, 네트워크가 공인 직결만 없는 것인지입니다. 브라우저의 온라인 표시는 공개 통계의 한 번 읽기입니다. 없으면 상태는 알 수 없음이고, GLM이 0이 되지는 않습니다.",
@@ -1196,7 +1196,7 @@ const offlineGuide: Article = {
       "## 예시",
       "예시이며 특정 기기의 측정이 아닙니다. Apple 실리콘 노트북으로 모니터를 열었더니 노드의 온라인 표시가 비어 있습니다. 빈 표시는 알 수 없음으로 두고, GLM 칸도 0으로 적지 않습니다. 그 노트북은 제공자로 설치할 수 없습니다. 다른 x86-64 Linux에서 상태가 서비스 중지, VM 무효이면, 최근 24시간 칸을 고치기 전에 프로세스와 /dev/kvm을 되돌립니다.",
       "## 관련 도구",
-      "모니터는 고른 노드 기록만 저장합니다. 무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 기기에 로그인하거나 UDP를 열거나, 복구 뒤에 작업이나 GLM이 생긴다고 보장하지 않습니다.",
+      "모니터는 고른 노드 기록만 저장합니다. 무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 기기에 로그인하거나 UDP를 열거나, 복구 뒤에 작업이나 GLM이 생긴다고 보장하지 않습니다.",
     ],
     [
       "Golem 提供者が「オフラインに見える」ときは、三つを分けます。このマシンが提供者になれるか、プロセスと VM が健全か、ネットワークが公の直結を欠くだけかです。ブラウザのオンライン表示は公開統計の一回の取得です。欠ければ状態は不明で、GLM が 0 になるわけではありません。",
@@ -1219,7 +1219,7 @@ const offlineGuide: Article = {
       "## 例",
       "例示であり、特定マシンの測定ではありません。Apple シリコンのノートでモニターを開くと、ノードのオンライン表示が空です。空は不明のままとし、GLM の欄も 0 とは書きません。そのノートは提供者として導入できません。別の x86-64 Linux でステータスがサービス停止、VM 無効なら、直近 24 時間の欄を触る前にプロセスと /dev/kvm を戻します。",
       "## 関連ツール",
-      "モニターは選んだノード記録だけを保存します。無料はプロジェクトあたり保存デバイス 5 台、Pro は 50 台です。マシンへログインしたり、UDP を開いたり、復旧後にタスクや GLM があることを約束したりはしません。",
+      "モニターは選んだノード記録だけを保存します。無料はプロジェクトあたり保存デバイス 3 台、Pro は 100 台です。マシンへログインしたり、UDP を開いたり、復旧後にタスクや GLM があることを約束したりはしません。",
     ],
   ),
   questions: questions([

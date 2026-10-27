@@ -23,18 +23,18 @@ const copy = {
     "既存の Agent に関連付け",
   ]),
   which: localized([
-    "这个项目在哪台 Mac 上运行？",
-    "此專案在哪台 Mac 執行？",
-    "Which Mac runs this project?",
-    "이 프로젝트를 실행하는 Mac은 무엇인가요?",
-    "このプロジェクトを実行する Mac はどれですか？",
+    "这个项目在哪台设备上运行？",
+    "此專案在哪台設備執行？",
+    "Which device runs this project?",
+    "이 프로젝트를 실행하는 기기는 무엇인가요?",
+    "このプロジェクトを実行する端末はどれですか？",
   ]),
   note: localized([
-    "关联后在这台 Mac 的卡片查看本机数据，不会启停矿工。",
-    "關聯後在此 Mac 卡片查看本機資料，不會啟停礦工。",
-    "Local readings will appear on this Mac’s card. This does not start or stop mining.",
-    "로컬 데이터가 이 Mac 카드에 표시됩니다. 채굴기를 시작하거나 중지하지 않습니다.",
-    "この Mac のカードにローカルデータを表示します。採掘の起動・停止は行いません。",
+    "关联后可在设备卡片查看已支持的本机数据，不会启停矿工。",
+    "關聯後可在設備卡片查看已支援的本機資料，不會啟停礦工。",
+    "Supported local readings appear on the device card. This does not start or stop mining.",
+    "지원되는 로컬 데이터가 기기 카드에 표시됩니다. 채굴기를 시작하거나 중지하지 않습니다.",
+    "対応するローカルデータを端末カードに表示します。採掘の起動・停止は行いません。",
   ]),
   save: localized(["确认关联", "確認關聯", "Confirm link", "연결 확인", "関連付けを確定"]),
   busy: localized(["正在关联…", "正在關聯…", "Linking…", "연결 중…", "関連付け中…"]),
@@ -91,7 +91,7 @@ export function ProjectAgentConnect({
       locale={locale}
       choices={choices.map((a) => ({
         id: a.deviceId,
-        name: devices.find((d) => d.id === a.deviceId)?.name ?? "Mac",
+        name: devices.find((d) => d.id === a.deviceId)?.name ?? "Device",
       }))}
       selected={selected}
       busy={busy}

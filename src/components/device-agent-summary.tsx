@@ -9,7 +9,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 import { getFleet } from "@/lib/fleet.functions";
 import { getDeviceAgents } from "@/lib/device-agent.functions";
-import { agentOnline, agentPhase, agentUpdateAvailable, type AgentInfo, type OfficialTrainingEvidence } from "@/lib/device-agent";
+import { agentOnline, agentUpdateAvailable, type AgentInfo, type OfficialTrainingEvidence } from "@/lib/device-agent";
 import { useLocale } from "./site/locale";
 import { agentCopy } from "./device-agent-copy";
 
@@ -29,7 +29,6 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
   const online = !!agent && !query.isError && agentOnline(agent.lastSeen, now);
   const s = agent?.snapshot;
-  const queue = agent && !query.isError && agentPhase(agent, now) === "queued" ? s?.queue?.position : undefined;
   if (compact) return agent && !query.isError ? <div className="agent-table-controls"><a href={url} className="agent-table-status"><AgentStatus agent={agent} now={now} official={official} compact />{s?.platform !== "linux" && agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a><AgentGpu agent={agent} now={now} compact/><AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview}/></div> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
@@ -42,7 +41,6 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
       {!query.isError && !preview && <AgentUpdate agent={agent} />}
       <p className="compute-caption agent-last-report">{t.lastReport} · {agent.lastSeen ? new Date(agent.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}</p>
       <dl className="agent-card-metrics">
-        <div><dt>{t.queue}</dt><dd>{queue == null ? "—" : `#${queue}`}</dd></div>
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>
         <div><dt>{t.memory}</dt><dd>{online && s?.processMemoryMb != null ? `${Math.round(s.processMemoryMb)} MB` : "—"}</dd></div>
       </dl>

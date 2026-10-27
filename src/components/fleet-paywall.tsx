@@ -12,6 +12,7 @@ import {
 import {
   annualMonthlyEquivalent,
   annualSavingPercent,
+  annualSavingAmount,
   copyValues,
   planAmount,
 } from "@/lib/billing-display";
@@ -45,7 +46,7 @@ export function PriceChoices({ interval, onChange, disabled }: PriceChoiceProps)
             </span>
             <b>{value === "year" ? c.year : c.month}</b>
             {value === "year" && (
-              <small>{copyValues(c.annualSave, { percent: annualSavingPercent })}</small>
+              <small>{copyValues(c.annualSave, { percent: annualSavingPercent })} · {c.limitedOffer}</small>
             )}
           </span>
           <span className="fleet-choice-amount">
@@ -54,7 +55,7 @@ export function PriceChoices({ interval, onChange, disabled }: PriceChoiceProps)
           </span>
           <span className="fleet-choice-detail">
             {value === "year"
-              ? copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
+              ? `${copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })} · ${copyValues(c.annualSavedAmount, { amount: annualSavingAmount })}`
               : c.monthlyCharge}
           </span>
         </button>
@@ -96,7 +97,7 @@ export function PaywallBody({
           <ArrowRight size={22} />
           <div>
             <span>PRO</span>
-            <strong>50</strong>
+            <strong>{PLANS.pro.projectDeviceLimit}</strong>
             <p>{c.upTo}</p>
           </div>
         </div>
@@ -116,10 +117,10 @@ export function PaywallBody({
           {c.perProject}
         </p>
       </div>
-      {trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
+      {interval === "year" && trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
       <PriceChoices interval={interval} onChange={onChange} disabled={disabled} />
       <p className="fleet-charge-note">{interval === "year" ? c.annualCharge : c.monthlyCharge}</p>
-      {trialEligible !== false && (
+      {interval === "year" && trialEligible !== false && (
         <p className="fleet-paywall-report-guide">{trialCopy.terms[locale]}</p>
       )}
       <details className="fleet-paywall-allowances">
@@ -129,7 +130,7 @@ export function PaywallBody({
             <li key={p}>
               <span>{FLEET_NAMES[p]}</span>
               <b>
-                {projectDeviceCount(devices, p)} / 50 <small>{c.devices}</small>
+                {projectDeviceCount(devices, p)} / {PLANS.pro.projectDeviceLimit} <small>{c.devices}</small>
               </b>
             </li>
           ))}

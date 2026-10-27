@@ -188,11 +188,11 @@ export const btcEthwGuides = [
           "複数アドレスはどう保存しますか？",
         ],
         [
-          "登录后 [Bitcoin 监控](/projects/btc) 每行一个地址，是一个账户。免费每个项目 5 个，Pro 50 个。同一地址下的多个 Worker 不另占名额。移除只取消保存，不停止矿机。获取时间是香港时间的响应时刻，说明见 [数据来源与新鲜度](/learn/data-sources-and-freshness)。",
-          "登入後 [Bitcoin 監控](/projects/btc) 每行一個地址，是一個帳戶。免費每個專案 5 個，Pro 50 個。同一地址下的多個 Worker 不另占名額。移除只取消儲存，不停止礦機。取得時間是香港時間的回應時刻，說明見 [資料來源與新鮮度](/learn/data-sources-and-freshness)。",
-          "After sign-in, each line on the [Bitcoin monitor](/projects/btc) is one address and one account. Free is 5 per project and Pro is 50. Workers under one address do not take extra slots. Remove only drops the saved address and does not stop the miner. Fetch time is the Hong Kong response clock. See [sources and freshness](/learn/data-sources-and-freshness).",
-          "로그인 후 [Bitcoin 모니터](/projects/btc)의 한 줄이 주소 하나, 계정 하나입니다. 프로젝트당 무료 5개, Pro 50개입니다. 한 주소의 Worker는 추가 한도를 쓰지 않습니다. 제거는 저장된 주소만 빼며 채굴기를 멈추지 않습니다. 조회 시각은 홍콩 시간의 응답 시각입니다. [데이터 출처와 신선도](/learn/data-sources-and-freshness)를 참고하세요.",
-          "ログイン後の[Bitcoin監視](/projects/btc)は1行が1アドレス、1口座です。各プロジェクト無料5件、Proは50件です。一つのアドレスのWorkerは追加枠を使いません。削除は保存アドレスを外すだけで、採掘は止めません。取得時刻は香港時間の応答時刻です。[データ源と鮮度](/learn/data-sources-and-freshness)を参照します。",
+          "登录后 [Bitcoin 监控](/projects/btc) 每行一个地址，是一个账户。免费每个项目 3 个，Pro 100 个。同一地址下的多个 Worker 不另占名额。移除只取消保存，不停止矿机。获取时间是香港时间的响应时刻，说明见 [数据来源与新鲜度](/learn/data-sources-and-freshness)。",
+          "登入後 [Bitcoin 監控](/projects/btc) 每行一個地址，是一個帳戶。免費每個專案 3 個，Pro 100 個。同一地址下的多個 Worker 不另占名額。移除只取消儲存，不停止礦機。取得時間是香港時間的回應時刻，說明見 [資料來源與新鮮度](/learn/data-sources-and-freshness)。",
+          "After sign-in, each line on the [Bitcoin monitor](/projects/btc) is one address and one account. Free is 3 per project and Pro is 100. Workers under one address do not take extra slots. Remove only drops the saved address and does not stop the miner. Fetch time is the Hong Kong response clock. See [sources and freshness](/learn/data-sources-and-freshness).",
+          "로그인 후 [Bitcoin 모니터](/projects/btc)의 한 줄이 주소 하나, 계정 하나입니다. 프로젝트당 무료 3개, Pro 100개입니다. 한 주소의 Worker는 추가 한도를 쓰지 않습니다. 제거는 저장된 주소만 빼며 채굴기를 멈추지 않습니다. 조회 시각은 홍콩 시간의 응답 시각입니다. [데이터 출처와 신선도](/learn/data-sources-and-freshness)를 참고하세요.",
+          "ログイン後の[Bitcoin監視](/projects/btc)は1行が1アドレス、1口座です。各プロジェクト無料3件、Proは100件です。一つのアドレスのWorkerは追加枠を使いません。削除は保存アドレスを外すだけで、採掘は止めません。取得時刻は香港時間の応答時刻です。[データ源と鮮度](/learn/data-sources-and-freshness)を参照します。",
         ],
       ],
       [
@@ -365,11 +365,11 @@ export const btcEthwGuides = [
           "アドレスとWorkerの枠は？",
         ],
         [
-          "登录后 [EthereumPoW 监控](/projects/ethw) 每行一个 0x 地址，是一个账户。免费每个项目 5 个，Pro 50 个。Worker 不另占名额，也不等于一台实物机器。移除只取消保存。获取时间见 [数据来源与新鲜度](/learn/data-sources-and-freshness)。",
-          "登入後 [EthereumPoW 監控](/projects/ethw) 每行一個 0x 地址，是一個帳戶。免費每個專案 5 個，Pro 50 個。Worker 不另占名額，也不等於一台實物機器。移除只取消儲存。取得時間見 [資料來源與新鮮度](/learn/data-sources-and-freshness)。",
-          "After sign-in, each line on the [EthereumPoW monitor](/projects/ethw) is one 0x address and one account. Free is 5 per project and Pro is 50. Workers do not take extra slots and are not one physical machine each. Remove only drops the save. See [sources and freshness](/learn/data-sources-and-freshness) for fetch time.",
-          "로그인 후 [EthereumPoW 모니터](/projects/ethw)의 한 줄이 0x 주소 하나, 계정 하나입니다. 프로젝트당 무료 5개, Pro 50개입니다. Worker는 추가 한도를 쓰지 않고 실제 기기 한 대도 아닙니다. 제거는 저장만 뺍니다. 조회 시각은 [데이터 출처와 신선도](/learn/data-sources-and-freshness)를 보세요.",
-          "ログイン後の[EthereumPoW監視](/projects/ethw)は1行が0xアドレス1件、1口座です。各プロジェクト無料5件、Proは50件です。Workerは追加枠を使わず、実機1台でもありません。削除は保存を外すだけです。取得時刻は[データ源と鮮度](/learn/data-sources-and-freshness)を見てください。",
+          "登录后 [EthereumPoW 监控](/projects/ethw) 每行一个 0x 地址，是一个账户。免费每个项目 3 个，Pro 100 个。Worker 不另占名额，也不等于一台实物机器。移除只取消保存。获取时间见 [数据来源与新鲜度](/learn/data-sources-and-freshness)。",
+          "登入後 [EthereumPoW 監控](/projects/ethw) 每行一個 0x 地址，是一個帳戶。免費每個專案 3 個，Pro 100 個。Worker 不另占名額，也不等於一台實物機器。移除只取消儲存。取得時間見 [資料來源與新鮮度](/learn/data-sources-and-freshness)。",
+          "After sign-in, each line on the [EthereumPoW monitor](/projects/ethw) is one 0x address and one account. Free is 3 per project and Pro is 100. Workers do not take extra slots and are not one physical machine each. Remove only drops the save. See [sources and freshness](/learn/data-sources-and-freshness) for fetch time.",
+          "로그인 후 [EthereumPoW 모니터](/projects/ethw)의 한 줄이 0x 주소 하나, 계정 하나입니다. 프로젝트당 무료 3개, Pro 100개입니다. Worker는 추가 한도를 쓰지 않고 실제 기기 한 대도 아닙니다. 제거는 저장만 뺍니다. 조회 시각은 [데이터 출처와 신선도](/learn/data-sources-and-freshness)를 보세요.",
+          "ログイン後の[EthereumPoW監視](/projects/ethw)は1行が0xアドレス1件、1口座です。各プロジェクト無料3件、Proは100件です。Workerは追加枠を使わず、実機1台でもありません。削除は保存を外すだけです。取得時刻は[データ源と鮮度](/learn/data-sources-and-freshness)を見てください。",
         ],
       ],
       [

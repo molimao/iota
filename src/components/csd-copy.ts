@@ -45,10 +45,10 @@ export const csdEditorial = {
     "採掘設定の40桁16進addr20を入力。任意の0xは保存時に除去し、小文字に統一します。復元フレーズ・秘密鍵・RPC URLは不要。G-pools(csd.yamaduo.no)のみ対応します。",
   ]),
   coverage: l([
-    "算力采用矿池近 1 小时平均值，单位 H/s。Worker 活跃根据最近份额判断，不是本机心跳。未支付余额、确认中金额和累计支付分别显示；上游 *_sat 字段按 1 CSD = 100,000,000 单位换算。矿池网页的时段收益包含未支付余额分摊估算，不能当成准确日收益，本监控不据此填写每日收益或美元估值。钱包金额也不分摊到 Worker。",
-    "算力為近 1 小時平均 H/s，Worker 活躍依最近份額，非本機心跳。未支付、確認中與累計支付分開；1 CSD = 100,000,000 個上游 *_sat 單位。礦池時段收益含餘額分攤估算，不能視為準確日收益，故不填入每日收益或美元估值，也不將錢包金額分給 Worker。",
-    "Hashrate is the pool's 1-hour average in H/s. Worker activity uses recent shares, not host heartbeats. Unpaid, confirming and lifetime-paid amounts stay separate; 100,000,000 upstream *_sat units equal 1 CSD. The pool's windowed income apportions unpaid balances and is an estimate, not an exact daily ledger. We do not turn it into daily earnings, invent USD prices, or allocate wallet balances to Workers.",
-    "해시레이트는 H/s 단위 1시간 평균이며 Worker 상태는 최근 지분 기준입니다. 미지급·확인 중·누적 지급을 분리하고 *_sat 100,000,000 단위를 1 CSD로 환산합니다. 풀의 기간 수익에는 잔액 배분 추정치가 포함되어 정확한 일일 장부가 아닙니다. 일일 수익·USD 가격·Worker별 지갑 분배를 추정하지 않습니다.",
-    "H/s単位の1時間平均で、Worker活動は直近シェア基準です。未払い・承認待ち・累計支払を分離し、*_satの100,000,000単位を1 CSDに換算します。プールの期間収益は未払い残高の按分推定を含み、正確な日次台帳ではありません。日次収益・USD価格・Worker別配分は推定しません。",
+    "算力为矿池近 1 小时平均值，Worker 状态按最近份额判断。矿池的时段收益为估算，暂不显示日收益。",
+    "算力為礦池近 1 小時平均值，Worker 狀態依最近份額判斷。礦池時段收益為估算，暫不顯示日收益。",
+    "Hashrate is the pool’s one-hour average; Worker status uses recent shares. The pool’s period income is an estimate, so daily earnings are unavailable.",
+    "해시레이트는 풀의 1시간 평균이며 Worker 상태는 최근 셰어 기준입니다. 기간 수익은 추정치이므로 일일 수익은 제공되지 않습니다.",
+    "算力はプールの1時間平均、Worker状態は直近シェアに基づきます。期間収益は推定値のため、日次収益は表示しません。",
   ]),
 };

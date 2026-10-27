@@ -84,12 +84,15 @@ export function fleetSnapshot(input: unknown) {
       plan: z.enum(["free", "pro"]),
       projectDeviceLimit: z.union([
         z.literal(PLANS.free.projectDeviceLimit),
+        z.literal(5),
+        z.literal(50),
         z.literal(PLANS.pro.projectDeviceLimit),
       ]),
       quotaScope: z.literal("per_project"),
     })
     .parse(input);
-  if (snapshot.projectDeviceLimit !== PLANS[snapshot.plan].projectDeviceLimit)
+  const allowedLimits = snapshot.plan === "free" ? [PLANS.free.projectDeviceLimit, 5] : [PLANS.pro.projectDeviceLimit, 50];
+  if (!allowedLimits.includes(snapshot.projectDeviceLimit))
     throw new Error("invalid-fleet-plan");
   return { ...snapshot, devices: parseFleet(snapshot.devices) };
 }

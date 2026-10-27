@@ -12,7 +12,7 @@ it("offers one per-card association, keeping raw paths and database configuratio
     />,
   );
   expect(html).toContain("关联已有 Agent");
-  expect(html).toContain("这个项目在哪台 Mac 上运行");
+  expect(html).toContain("这个项目在哪台设备上运行");
   expect(html).toContain("Mac Studio");
   expect(html).toContain("disabled");
   expect(html).not.toContain("logPath");
@@ -45,5 +45,5 @@ it("asks about the exact Worker rather than the entire wallet", () => {
   );
   expect(html).toContain("Worker rig-A 在哪台电脑上");
   expect(html).toContain("只关联这个 Worker");
-  expect(html).not.toContain("这个项目在哪台 Mac");
+  expect(html).not.toContain("这个项目在哪台设备");
 });

@@ -6,6 +6,7 @@ import { createFileRoute, notFound, useRouterState } from "@tanstack/react-route
 import { isLocale } from "@/lib/site";
 import { DeviceAgentPage } from "@/components/device-agent-page";
 import { FleetReview } from "@/components/fleet-review";
+import { BntReview } from "@/components/bnt-review";
 
 /** Local review only: the production build never exposes sample account data. */
 export const Route = createFileRoute("/$locale/review")({
@@ -43,6 +44,10 @@ function Review() {
   const machines = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("machines") === "1",
   });
+  const bnt = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("bnt") === "1",
+  });
+  if (bnt) return <BntReview />;
   if (overview) return <OverviewReview />;
   if (machines) return <DeviceAgentPage preview />;
   if (request) return <ProjectRequest preview defaultOpen />;

@@ -1,3 +1,4 @@
+import { PLANS } from "@/lib/plans";
 import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check, Layers } from "lucide-react";
@@ -109,19 +110,19 @@ export function FleetMembership({
                   <article key={project}>
                     <b>{FLEET_NAMES[project]}</b>
                     <div>
-                      <strong>50</strong>
+                      <strong>{PLANS.pro.projectDeviceLimit}</strong>
                       <span>{c.devices}</span>
                     </div>
                     <p>
                       {c.used} <b>{used}</b>
                     </p>
                     <progress
-                      max={50}
-                      value={Math.min(used, 50)}
+                      max={PLANS.pro.projectDeviceLimit}
+                      value={Math.min(used, PLANS.pro.projectDeviceLimit)}
                       aria-label={FLEET_NAMES[project]}
                     />
                     <p>
-                      {c.remaining} <b>{Math.max(0, 50 - used)}</b>
+                      {c.remaining} <b>{Math.max(0, PLANS.pro.projectDeviceLimit - used)}</b>
                     </p>
                   </article>
                 );

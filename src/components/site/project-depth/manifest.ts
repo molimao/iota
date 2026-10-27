@@ -712,11 +712,11 @@ export const projectDepthMeta = [
       "ja": "複数の fly.ai マシンが一つのウォレットなら、月間ポイントは一度だけ数える"
     },
     "description": {
-      "zh": "同一个公开地址的月积分属于这个钱包，不按机器相加。单独保存的设备记录才计入每项目 5 台（Pro 50 台）。在一台设备下查看并不会自动占名额。",
-      "zh-TW": "同一個公開地址的月積分屬於這個錢包，不按機器相加。單獨儲存的設備記錄才計入每專案 5 台（Pro 50 台）。在一台設備下查看並不會自動占名額。",
-      "en": "Month points for one public address belong to that wallet and are not added per machine. Only separately saved device records count toward five per project, or 50 on Pro. Looking inside one device does not take extra slots.",
-      "ko": "공개 주소 하나의 월 포인트는 그 지갑의 것이며 기기마다 더하지 않습니다. 따로 저장한 기기 기록만 프로젝트당 5대(Pro 50대)에 포함됩니다. 기기 한 대 안을 보는 것은 자리를 더 쓰지 않습니다.",
-      "ja": "一つの公開アドレスの月間ポイントはそのウォレットのもので、台数ぶん足しません。別に保存したデバイス記録だけが、プロジェクトあたり 5 台（Pro は 50 台）に数えます。1台の中を見ても枠は増えません。"
+      "zh": "同一个公开地址的月积分属于这个钱包，不按机器相加。单独保存的设备记录才计入每项目 3 台（Pro 100 台）。在一台设备下查看并不会自动占名额。",
+      "zh-TW": "同一個公開地址的月積分屬於這個錢包，不按機器相加。單獨儲存的設備記錄才計入每專案 3 台（Pro 100 台）。在一台設備下查看並不會自動占名額。",
+      "en": "Month points for one public address belong to that wallet and are not added per machine. Only separately saved device records count toward three per project, or 100 on Pro. Looking inside one device does not take extra slots.",
+      "ko": "공개 주소 하나의 월 포인트는 그 지갑의 것이며 기기마다 더하지 않습니다. 따로 저장한 기기 기록만 프로젝트당 3대(Pro 100대)에 포함됩니다. 기기 한 대 안을 보는 것은 자리를 더 쓰지 않습니다.",
+      "ja": "一つの公開アドレスの月間ポイントはそのウォレットのもので、台数ぶん足しません。別に保存したデバイス記録だけが、プロジェクトあたり 3 台（Pro は 100 台）に数えます。1台の中を見ても枠は増えません。"
     },
     "body": {
       "zh": [],
@@ -2022,11 +2022,11 @@ export const projectDepthMeta = [
       "ja": "NOIDウォレット配下の複数台：ハッシュレート、オンライン、保存枠"
     },
     "description": {
-      "zh": "Parano1d Pool 把 measured 和 reported 都放在同一段约 10 分钟窗口。地址在线不等于每台 worker 都在线。余额按地址共享。另存设备才会占用每项目 5 台或 Pro 50 台名额。",
-      "zh-TW": "Parano1d Pool 把 measured 和 reported 都放在同一段約 10 分鐘窗口。地址在線不等於每台 worker 都在線。餘額按地址共享。另存裝置才會占用每專案 5 台或 Pro 50 台名額。",
-      "en": "Parano1d Pool places measured and reported hashrate in the same roughly 10-minute window. Address online does not mean every worker is online. Balance is shared by address. A separate saved device is what uses the five-per-project or Pro 50 slot.",
-      "ko": "Parano1d Pool은 measured와 reported를 같은 약 10분 창에 둡니다. 주소 온라인이 모든 워커의 온라인은 아닙니다. 잔액은 주소 단위로 공유됩니다. 따로 저장한 기기만 프로젝트당 5대 또는 Pro 50대 자리를 씁니다.",
-      "ja": "Parano1d Poolは measured と reported を同じ約10分の窓に置きます。アドレスのオンラインは全ワーカーの稼働ではありません。残高はアドレスで共有します。別に保存したデバイスだけが、プロジェクトあたり5台またはProの50台の枠を使います。"
+      "zh": "Parano1d Pool 把 measured 和 reported 都放在同一段约 10 分钟窗口。地址在线不等于每台 worker 都在线。余额按地址共享。另存设备才会占用每项目 3 台或 Pro 100 台名额。",
+      "zh-TW": "Parano1d Pool 把 measured 和 reported 都放在同一段約 10 分鐘窗口。地址在線不等於每台 worker 都在線。餘額按地址共享。另存裝置才會占用每專案 3 台或 Pro 100 台名額。",
+      "en": "Parano1d Pool places measured and reported hashrate in the same roughly 10-minute window. Address online does not mean every worker is online. Balance is shared by address. A separate saved device is what uses the five-per-project or Pro 100 slot.",
+      "ko": "Parano1d Pool은 measured와 reported를 같은 약 10분 창에 둡니다. 주소 온라인이 모든 워커의 온라인은 아닙니다. 잔액은 주소 단위로 공유됩니다. 따로 저장한 기기만 프로젝트당 3대 또는 Pro 100대 자리를 씁니다.",
+      "ja": "Parano1d Poolは measured と reported を同じ約10分の窓に置きます。アドレスのオンラインは全ワーカーの稼働ではありません。残高はアドレスで共有します。別に保存したデバイスだけが、プロジェクトあたり3台またはProの100台の枠を使います。"
     },
     "body": {
       "zh": [],

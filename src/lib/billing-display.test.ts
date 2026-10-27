@@ -1,13 +1,17 @@
 import { expect, it } from "vitest";
 import {
   annualMonthlyEquivalent,
+  annualMonthlyTotal,
+  annualSavingAmount,
   annualSavingPercent,
   copyValues,
   planAmount,
 } from "./billing-display";
 it("shows the actual annual charge separately from a rounded equivalent and conservative savings", () => {
   expect(annualMonthlyEquivalent).toBe("1.42");
+  expect(annualMonthlyTotal).toBe("35.88");
   expect(annualSavingPercent).toBe(52);
+  expect(annualSavingAmount).toBe("18.89");
   expect(copyValues("{project}: {count} / 5", { project: "IOTA", count: 5 })).toBe("IOTA: 5 / 5");
 });
 

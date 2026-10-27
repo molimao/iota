@@ -1,7 +1,7 @@
 /** Shared display policy. The database enforces quotas independently. */
 export const PLANS = {
-  free: { projectDeviceLimit: 5 },
-  pro: { projectDeviceLimit: 50, monthlyCents: 299, annualCents: 1699, currency: "usd" },
+  free: { projectDeviceLimit: 3 },
+  pro: { projectDeviceLimit: 100, monthlyCents: 299, annualCents: 1699, currency: "usd" },
 } as const;
 
 export type BillingSummary = {

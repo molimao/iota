@@ -25,3 +25,9 @@ describe("purchase continuation", () => {
     expect(readCheckoutIntent(intent(), url + "&error=server_error", now)).toBeNull();
   });
 });
+
+it("defaults to monthly but preserves an explicit annual selection", () => {
+  expect(checkoutInterval(null)).toBe("month");
+  expect(checkoutInterval("unknown")).toBe("month");
+  expect(checkoutInterval("year")).toBe("year");
+});

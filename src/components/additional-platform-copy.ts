@@ -23,12 +23,12 @@ export const additionalPlatformEditorial = {
       "Parano1dウォレットの公開o1…受取アドレスを入力します。対象はParano1d Pool / InnovLabで、別プールやソロ採掘は各取得元で確認してください。",
     ]),
     coverage: l([
-      "每 5 分钟查询。先查 Parano1d Pool，无记录或失败时再查 InnovLab；结果仅属于标注矿池，不跨池合计。InnovLab 显示已确认待付余额与累计付款，暂不提供近24小时付款。在线是地址级状态，不代表每台机器在线；余额和付款不计入今日收益。",
-      "每5分鐘查詢。先查Parano1d Pool，無紀錄或失敗時再查InnovLab；僅顯示標示礦池，不跨池合計。InnovLab顯示已確認待付餘額及累計付款，暫無近24小時付款。在線為地址狀態；餘額和付款不計入今日收益。",
-      "Refreshes every 5 minutes. Checks Parano1d Pool first, then InnovLab on a miss or failure. Results belong to the named pool, not a cross-pool total. InnovLab provides confirmed unpaid balance and lifetime payouts, but no rolling-24h payouts here. Online is address-level; balances and payouts are not daily earnings.",
-      "5분마다 Parano1d Pool을 먼저 조회하고 기록이 없거나 실패하면 InnovLab을 조회합니다. 표시된 풀의 결과만 보여주며 풀 간 합산하지 않습니다. InnovLab은 확정 미지급 잔액과 누적 지급액을 제공하며 24시간 지급액은 아직 미지원입니다. 온라인은 주소 기준이며 잔액·지급액은 오늘 수익이 아닙니다.",
-      "5分ごとにParano1d Poolを確認し、記録なし・失敗時はInnovLabを照会します。表示元のプールのみで、複数プールの合計ではありません。InnovLabは確定未払残高と累計支払を表示し、24時間支払は未対応です。オンラインはアドレス単位で、残高や支払は当日収益に含みません。",
-    ]),
+    "数据每 5 分钟更新，按显示的矿池统计。在线状态属于地址；余额和付款不计入今日收益。",
+    "資料每 5 分鐘更新，依顯示的礦池統計。在線狀態屬於地址；餘額與付款不計入今日收益。",
+    "Updated every 5 minutes for the pool shown. Online status applies to the address; balances and payouts are not daily earnings.",
+    "표시된 풀의 데이터를 5분마다 갱신합니다. 온라인 상태는 주소 기준이며 잔액과 지급액은 일일 수익이 아닙니다.",
+    "表示されたプールのデータを5分ごとに更新します。オンライン状態はアドレス単位で、残高と支払は日次収益ではありません。",
+  ]),
   },
   acurast: {
     title: l([
@@ -53,12 +53,12 @@ export const additionalPlatformEditorial = {
       "プロセッサと管理アドレス（SS58または0x公開鍵）を自動識別し、関連機器を表示します。",
     ]),
     coverage: l([
-      "读取官方主网已确认记录，按北京时间统计管理身份的算力奖励到账金额；设备和管理地址指向同一份收益，总览去重。独立领取的质押、委托奖励及迁移代币不包含在内。ACU 与 Canary cACU 分开，历史读取失败不显示为零。",
-      "讀取主網確定紀錄，按北京時間統計管理身分的算力獎勵到帳額；裝置與管理地址共享同一份收益，總覽去重。不含獨立領取的質押、委託獎勵及遷移代幣，Canary 分開統計。",
-      "Uses finalized mainnet compute payout records grouped by manager and UTC+8 payout date. Processor and manager addresses share the same rewards, counted once in Overview. Separate stake/delegation withdrawals and migration tokens are excluded. Canary cACU stays separate; failed history reads are never zero earnings.",
-      "확정된 메인넷 지급 기록을 UTC+8 날짜와 관리 ID별로 집계합니다. 기기와 관리 주소의 동일 보상은 개요에서 한 번만 계산합니다. 별도 스테이킹·위임 인출과 마이그레이션 토큰은 제외하며 Canary는 별도입니다.",
-      "確定したメインネットの支払記録をUTC+8の日付と管理IDで集計。同じ管理IDの端末と管理アドレスの報酬は概要で一度だけ計上します。別途受け取るステーキング・委任報酬と移行トークンは除外し、Canaryとは区別します。",
-    ]),
+    "奖励按北京时间到账日期统计，同一管理身份只汇总一次；不含单独领取的质押、委托奖励和迁移代币。",
+    "獎勵依北京時間到帳日期統計，同一管理身分只彙總一次；不含單獨領取的質押、委託獎勵及遷移代幣。",
+    "Rewards are grouped by payout date (UTC+8) and counted once per manager. Separate staking, delegation and migration payouts are excluded.",
+    "보상은 UTC+8 지급일 기준으로 관리 ID당 한 번 집계합니다. 별도 스테이킹·위임·마이그레이션 지급은 제외됩니다.",
+    "報酬はUTC+8の受取日で集計し、管理IDごとに一度だけ計上します。別途受け取るステーキング・委任報酬と移行トークンは除外します。",
+  ]),
   },
 } as const;
 export const additionalMetricCopy = {

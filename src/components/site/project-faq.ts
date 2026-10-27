@@ -22,7 +22,7 @@ export const projectFaq: Record<SiteLocale, ProjectFaqCopy> = {
       ],
       [
         "各项目清单能用 Google 同步吗？",
-        "可以。在设备总览登录 Google 后，可以同步 IOTA、XID、Quantus 和 fly.ai 的设备及关联项目。免费版每个项目 5 台，Pro 每个项目 50 台，设备总览没有额外总数限制。未登录时清单只保存在当前浏览器。",
+        "可以。在设备总览登录 Google 后，可以同步 IOTA、XID、Quantus 和 fly.ai 的设备及关联项目。免费版每个项目 3 台，Pro 每个项目 100 台，设备总览没有额外总数限制。未登录时清单只保存在当前浏览器。",
       ],
       [
         "Quantus 出块奖励能代表所有矿池付款吗？",
@@ -48,7 +48,7 @@ export const projectFaq: Record<SiteLocale, ProjectFaqCopy> = {
       ],
       [
         "各專案清單能透過 Google 同步嗎？",
-        "可以。在設備總覽登入 Google 後，可同步 IOTA、XID、Quantus 和 fly.ai 的設備及關聯專案。免費版每個專案 5 台，Pro 每個專案 50 台，設備總覽沒有額外總數限制。未登入時清單只儲存在目前瀏覽器。",
+        "可以。在設備總覽登入 Google 後，可同步 IOTA、XID、Quantus 和 fly.ai 的設備及關聯專案。免費版每個專案 3 台，Pro 每個專案 100 台，設備總覽沒有額外總數限制。未登入時清單只儲存在目前瀏覽器。",
       ],
       [
         "Quantus 出塊獎勵能代表所有礦池付款嗎？",
@@ -74,7 +74,7 @@ export const projectFaq: Record<SiteLocale, ProjectFaqCopy> = {
       ],
       [
         "Do project lists sync through Google?",
-        "Yes. Sign in with Google in the device overview to sync devices and linked IOTA, XID, Quantus and fly.ai projects. Free supports 5 devices per project; Pro supports 50 per project. The overview has no additional total device limit. Signed-out lists remain in the current browser only.",
+        "Yes. Sign in with Google in the device overview to sync devices and linked IOTA, XID, Quantus and fly.ai projects. Free supports 3 devices per project; Pro supports 100 per project. The overview has no additional total device limit. Signed-out lists remain in the current browser only.",
       ],
       [
         "Do Quantus block rewards cover all pool payments?",
@@ -100,7 +100,7 @@ export const projectFaq: Record<SiteLocale, ProjectFaqCopy> = {
       ],
       [
         "프로젝트 목록을 Google로 동기화할 수 있나요?",
-        "네. 기기 개요에서 Google로 로그인하면 기기와 연결된 IOTA, XID, Quantus, fly.ai 프로젝트를 동기화할 수 있습니다. 무료는 프로젝트당 5대, Pro는 프로젝트당 50대이며 개요에 별도의 전체 기기 수 제한은 없습니다. 로그인하지 않은 목록은 현재 브라우저에만 저장됩니다.",
+        "네. 기기 개요에서 Google로 로그인하면 기기와 연결된 IOTA, XID, Quantus, fly.ai 프로젝트를 동기화할 수 있습니다. 무료는 프로젝트당 3대, Pro는 프로젝트당 100대이며 개요에 별도의 전체 기기 수 제한은 없습니다. 로그인하지 않은 목록은 현재 브라우저에만 저장됩니다.",
       ],
       [
         "Quantus 블록 보상이 모든 풀 지급을 포함하나요?",
@@ -126,7 +126,7 @@ export const projectFaq: Record<SiteLocale, ProjectFaqCopy> = {
       ],
       [
         "各プロジェクトの一覧をGoogleで同期できますか？",
-        "はい。デバイス一覧でGoogleにログインすると、デバイスと関連付けたIOTA、XID、Quantus、fly.aiを同期できます。無料は各プロジェクト5台、Proは各50台で、一覧に別途の合計台数制限はありません。未ログインの一覧は現在のブラウザーにのみ保存されます。",
+        "はい。デバイス一覧でGoogleにログインすると、デバイスと関連付けたIOTA、XID、Quantus、fly.aiを同期できます。無料は各プロジェクト3台、Proは各100台で、一覧に別途の合計台数制限はありません。未ログインの一覧は現在のブラウザーにのみ保存されます。",
       ],
       [
         "Quantusのブロック報酬には全プール支払いが含まれますか？",

@@ -22,11 +22,11 @@ export const mdsEditorial = {
     "採掘設定の小文字16進数64桁のMSS公開アドレスを入力します。公式ガイドは再利用可能なMSSを要求します。形式検証ではMSS生成を証明できません。秘密鍵・シード・ウォレットファイルは入力しないでください。",
   ]),
   coverage: l([
-    "仅覆盖 LuckyPool。近 24 小时收益取矿池 rewardStats 的 24h 区块分配，不是近 24 小时转账；未支付余额包含锁定与已解锁金额，累计已支付单独展示。金额使用基础单位 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活跃按最近 15 分钟收到份额判断，不是设备心跳；算力单位为 nonces/s。钱包收益不分摊给单个 Worker，不估算美元。",
-    "僅覆蓋 LuckyPool。24h 收益來自 rewardStats 區塊分配，不是轉帳；未支付包含鎖定與已解鎖金額，已支付另列。採基礎 MDS：1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。Worker 活躍依最近 15 分鐘份額，非設備心跳；速度為 nonces/s。不分攤錢包收益至 Worker，不估美元。",
-    "LuckyPool only. Last-24h rewards use rewardStats block allocations, not payment transfers. Unpaid balance includes locked and unlocked amounts; total paid is separate. Amounts use base MDS: 1 mMDS = 1,048,576 MDS; 1 gMDS = 1,073,741,824 MDS. Worker activity means a share in the last 15 minutes, not a machine heartbeat. Rates are nonces/s. Wallet rewards are not allocated to individual Workers and no USD estimate is supplied.",
-    "LuckyPool만 조회합니다. 24h 보상은 rewardStats 블록 배분이며 송금액이 아닙니다. 미지급은 잠금·해제 금액을 포함하고 누적 지급은 별도입니다. 기본 MDS 단위이며 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS입니다. Worker 활성은 15분 내 지분 제출 기준이며 하트비트가 아닙니다. 속도는 nonces/s이며 지갑 보상을 Worker별로 나누거나 USD로 추정하지 않습니다.",
-    "LuckyPoolのみです。24h報酬はrewardStatsのブロック配分で送金額ではありません。未払いはロック・解除済み金額を含み、累計支払は別表示です。基礎MDS単位で1 mMDS = 1,048,576 MDS、1 gMDS = 1,073,741,824 MDSです。Worker稼働は15分以内のシェア提出で、機器の応答ではありません。速度はnonces/s、報酬はWorkerへ按分せずUSD概算もありません。",
+    "数据来自 LuckyPool。近 24 小时为区块奖励，未支付余额包含锁定金额；Worker 状态按最近份额判断。",
+    "資料來自 LuckyPool。近 24 小時為區塊獎勵，未支付餘額包含鎖定金額；Worker 狀態依最近份額判斷。",
+    "LuckyPool data. Last 24-hour rewards are block allocations; unpaid balance includes locked funds. Worker status uses recent shares.",
+    "LuckyPool 데이터입니다. 최근 24시간 보상은 블록 배분이며 미지급 잔액에는 잠긴 금액이 포함됩니다. Worker 상태는 최근 셰어 기준입니다.",
+    "LuckyPoolのデータです。直近24時間はブロック報酬、未払い残高にはロック分を含みます。Worker状態は直近シェアに基づきます。",
   ]),
 };
 export const mdsLabels = {

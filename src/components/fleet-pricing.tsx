@@ -2,15 +2,13 @@ import { boardCopy } from "./earnings-board-copy";
 import { logCopy } from "./log-analysis-copy";
 import { ReportEmailPreview } from "./daily-report-preview";
 import { PLANS } from "@/lib/plans";
-import { adLabels } from "@/lib/ads";
 import { trialCopy } from "./pro-trial-copy";
 import { proCopy } from "./pro-tools-copy";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { ReactNode } from "react";
 import { localized } from "@/lib/product-discovery";
-import { annualMonthlyEquivalent, copyValues, planAmount } from "@/lib/billing-display";
+import { annualMonthlyEquivalent, annualMonthlyTotal, annualSavingPercent, copyValues, planAmount } from "@/lib/billing-display";
 import { fleetCopy } from "./fleet-copy";
-import { reportCopy } from "./daily-report-copy";
 import { useLocale } from "./site/locale";
 
 const pricingCopy = {
@@ -21,12 +19,19 @@ const pricingCopy = {
     "기기 상태와 수익 확인",
     "デバイスの状態と収益を確認",
   ]),
-  proIntro: localized([
-    "自动收报表，异常时收提醒",
-    "自動收報表，異常時收提醒",
-    "Earnings reports and issue alerts by email",
-    "수익 보고서와 이상 알림을 이메일로",
-    "収益レポートと異常通知をメールで",
+  annualComparison: localized([
+    "按月付一年", "按月付一年", "12 monthly payments", "월 결제 12개월", "月払い12か月分",
+  ]),
+  discount: localized(["省 {percent}%", "省 {percent}%", "Save {percent}%", "{percent}% 절약", "{percent}% お得"]),
+  reports: localized([
+    "每日收益邮件与月报", "每日收益郵件與月報", "Daily earnings emails and monthly reports", "일일 수익 이메일과 월간 보고서", "日次収益メールと月次レポート",
+  ]),
+  trialTerms: localized([
+    "需绑定支付方式；7 天后按所选套餐自动续费，可提前取消。",
+    "需綁定付款方式；7 天後依所選方案自動續訂，可提前取消。",
+    "Payment method required. Your selected plan renews after 7 days; cancel beforehand to avoid a charge.",
+    "결제 수단이 필요합니다. 7일 후 선택한 요금제로 자동 갱신되며 이전에 취소할 수 있습니다.",
+    "支払い方法が必要です。7日後に選択したプランで自動更新され、事前に解約できます。",
   ]),
   capacity: localized([
     "每项目最多 {limit} 台设备",
@@ -114,18 +119,21 @@ export function FleetPricing({
             <button aria-pressed={interval === "month"} onClick={() => onIntervalChange("month")}>
               {c.month}
             </button>
-            <button aria-pressed={interval === "year"} onClick={() => onIntervalChange("year")}>
-              {c.year}
+            <button className="fleet-year-choice" aria-pressed={interval === "year"} onClick={() => onIntervalChange("year")}>
+              {c.year}<span className="fleet-year-badge">{c.limitedOffer}</span>
             </button>
           </div>
         </header>
-        <p className="fleet-plan-purpose">{pricingCopy.proIntro[locale]}</p>
-        {trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
+        {interval === "year" && trialEligible !== false && <p className="fleet-trial-offer">{trialCopy.offer[locale]}</p>}
 
         <div className="fleet-price">
           ${planAmount(interval)}
           <small>{interval === "month" ? c.perMonth : c.perYear}</small>
         </div>
+        {interval === "year" && <div className="fleet-annual-comparison">
+          <span>{pricingCopy.annualComparison[locale]} <s>US${annualMonthlyTotal}</s></span>
+          <strong>{copyValues(pricingCopy.discount[locale], { percent: annualSavingPercent })}</strong>
+        </div>}
         <p className="fleet-plan-saving">
           {interval === "year"
             ? copyValues(c.annualEquivalent, { amount: annualMonthlyEquivalent })
@@ -134,56 +142,28 @@ export function FleetPricing({
         <button className="fleet-plan-primary" onClick={onChoose} disabled={busy} aria-busy={busy}>
           {busy
             ? c.processing
-            : trialEligible === true
+            : interval === "year" && trialEligible !== false
               ? trialCopy.start[locale]
               : pricingCopy.start[locale]}
           <ArrowUpRight size={17} aria-hidden="true" />
         </button>
-        <p className="fleet-plan-activation">
-          {signedIn === false ? trialCopy.signIn[locale] : trialCopy.activation[locale]}
-        </p>
-        {trialEligible !== false && <p className="fleet-trial-terms">{trialCopy.terms[locale]}</p>}
+        {signedIn === false && <p className="fleet-plan-activation">{trialCopy.signIn[locale]}</p>}
+        {interval === "year" && trialEligible !== false ? (
+          <p className="fleet-trial-terms">{pricingCopy.trialTerms[locale]}</p>
+        ) : interval === "year" ? (
+          <p className="fleet-trial-terms">{c.annualCharge}</p>
+        ) : null}
         <ul className="fleet-plan-benefits">
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <div>
-              <b>{reportCopy.title[locale]}</b>
-              <span>{reportCopy.schedule[locale]}</span>
-            </div>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <div>
-              <b>{proCopy.alerts[locale]}</b>
-              <span>IOTA · Akash · Golem</span>
-            </div>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <b>{proCopy.monthlyEmail[locale]}</b>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <b>{proCopy.bulk[locale]}</b>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <b>{pricingCopy.bulkAgent[locale]}</b>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <b>{capacity(50)}</b>
-          </li>
-          <li>
-            <Check size={18} aria-hidden="true" />
-            <b>{adLabels[locale][1]}</b>
-          </li>
+          <li><Check size={18} aria-hidden="true" /><b>{capacity(PLANS.pro.projectDeviceLimit)}</b></li>
+          <li><Check size={18} aria-hidden="true" /><b>{pricingCopy.reports[locale]}</b></li>
+          <li><Check size={18} aria-hidden="true" /><div><b>{proCopy.alerts[locale]}</b><span>IOTA · Akash · Golem</span></div></li>
+          <li><Check size={18} aria-hidden="true" /><b>{pricingCopy.bulkAgent[locale]}</b></li>
         </ul>
         <ReportEmailPreview />
         <p className="fleet-free-included">{proCopy.freeIncluded[locale]}</p>
         <details className="fleet-plan-allowances">
           <summary>{c.quotas}</summary>
-          {allowances(50)}
+          {allowances(PLANS.pro.projectDeviceLimit)}
         </details>
       </article>
     </div>

@@ -51,8 +51,8 @@ describe("public guide indexing", () => {
         "xpa1r",
         "Wormhole",
         "fly.ai",
-        "50",
-        "5",
+        "100",
+        "3",
       ])
         expect(firstAnswers).toContain(identifier);
     }

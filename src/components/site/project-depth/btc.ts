@@ -159,7 +159,7 @@ export const btcDepthGuides: Article[] = [
         "## 要核对什么",
         "监控只接受校验通过的主网收款地址。测试网地址、带点的 Worker 后缀和网址都不会被当作查询。官网 ASIC 示例把密码写成 x，并注明密码被忽略。示意图里的 `address.rack-a` 不是真实地址，也不能粘贴进监控；点后面的名字属于矿机用户名。密码也不是 IOTA Watch 的登录凭据。地址格式需要对照时，只看命名指南里的那一个官网公开例子。",
         "## 下一步怎么走",
-        "最后份额大约在 10 分钟内标为在线，更早标为离线。没有份额时间则标为未知。份额很稀时，矿机仍在运算也可能显示离线。若 Worker 计数大于你看得到的名单，页面保留较大数字并标明名单不完整，这个数字不是机房台账。登录后，[Bitcoin 监控](/projects/btc) 每一行是一个地址。名额按带有比特币的已保存设备计算，并不按地址个数一概而论。查询时自动显示的 Worker 不会另建记录；若你把某个 Worker 或设备明确另存为独立记录，那台已保存设备可以计入。同一台已保存设备上的多条比特币绑定只占一个比特币设备名额。Free 每个项目 5 台已保存设备，Pro 每个项目 50 台已保存设备。移除一行只停止监视。",
+        "最后份额大约在 10 分钟内标为在线，更早标为离线。没有份额时间则标为未知。份额很稀时，矿机仍在运算也可能显示离线。若 Worker 计数大于你看得到的名单，页面保留较大数字并标明名单不完整，这个数字不是机房台账。登录后，[Bitcoin 监控](/projects/btc) 每一行是一个地址。名额按带有比特币的已保存设备计算，并不按地址个数一概而论。查询时自动显示的 Worker 不会另建记录；若你把某个 Worker 或设备明确另存为独立记录，那台已保存设备可以计入。同一台已保存设备上的多条比特币绑定只占一个比特币设备名额。Free 每个项目 3 台已保存设备，Pro 每个项目 100 台已保存设备。移除一行只停止监视。",
         `打开 [Bitcoin 监控](/projects/btc)。出块和空金额见 [Solo 不是每日收益](/learn/${rewards})。窗口滞后见 [算力窗口](/learn/${windowSlug})。`,
       ],
       "zh-TW": [
@@ -169,7 +169,7 @@ export const btcDepthGuides: Article[] = [
         "## 要核對什麼",
         "監控只接受校驗通過的主網收款地址。測試網地址、帶點的 Worker 後綴和網址都不會被當作查詢。官網 ASIC 示例把密碼寫成 x，並註明密碼被忽略。示意圖裡的 `address.rack-a` 不是真實地址，也不能貼進監控；點後面的名字屬於礦機使用者名稱。密碼也不是 IOTA Watch 的登入憑據。地址格式需要對照時，只看命名指南裡的那一個官網公開例子。",
         "## 下一步怎麼走",
-        "最後份額大約在 10 分鐘內標為在線，更早標為離線。沒有份額時間則標為未知。份額很稀時，礦機仍在運算也可能顯示離線。若 Worker 計數大於你看得到的名單，頁面保留較大數字並標明名單不完整，這個數字不是機房台帳。登入後，[Bitcoin 監控](/projects/btc) 每一行是一個地址。名額按帶有比特幣的已儲存裝置計算，並不按地址個數一概而論。查詢時自動顯示的 Worker 不會另建記錄；若你把某個 Worker 或裝置明確另存為獨立記錄，那台已儲存裝置可以計入。同一台已儲存裝置上的多條比特幣綁定只占一個比特幣裝置名額。Free 每個專案 5 台已儲存裝置，Pro 每個專案 50 台已儲存裝置。移除一列只停止監視。",
+        "最後份額大約在 10 分鐘內標為在線，更早標為離線。沒有份額時間則標為未知。份額很稀時，礦機仍在運算也可能顯示離線。若 Worker 計數大於你看得到的名單，頁面保留較大數字並標明名單不完整，這個數字不是機房台帳。登入後，[Bitcoin 監控](/projects/btc) 每一行是一個地址。名額按帶有比特幣的已儲存裝置計算，並不按地址個數一概而論。查詢時自動顯示的 Worker 不會另建記錄；若你把某個 Worker 或裝置明確另存為獨立記錄，那台已儲存裝置可以計入。同一台已儲存裝置上的多條比特幣綁定只占一個比特幣裝置名額。Free 每個專案 3 台已儲存裝置，Pro 每個專案 100 台已儲存裝置。移除一列只停止監視。",
         `開啟 [Bitcoin 監控](/projects/btc)。出塊和空金額見 [Solo 不是每日收益](/learn/${rewards})。視窗落後見 [算力視窗](/learn/${windowSlug})。`,
       ],
       en: [
@@ -179,7 +179,7 @@ export const btcDepthGuides: Article[] = [
         "## What to inspect",
         "The monitor accepts a checksummed mainnet payout address. A testnet address, a dotted Worker suffix, and a URL are not a lookup. The homepage ASIC example uses password x and says the password is ignored. The diagram name `address.rack-a` is not a real address and is not pasteable. The text after the dot belongs in the miner username. That password is not an IOTA Watch login. When you need the address shape, use the single public homepage example in the naming guide.",
         "## What to do next",
-        "A last share within about 10 minutes is marked online, and an older one is offline. A missing share time is unknown. When shares are rare, a hashing miner can still look offline. If the Worker count is larger than the names you can see, the page keeps the larger number and marks the list incomplete. That number is not a rig inventory. After sign-in, each line on [Bitcoin monitoring](/projects/btc) is one address. The quota counts saved devices that include Bitcoin, not a universal number of addresses. Workers shown automatically under a lookup do not create extra records. A Worker or device you explicitly save as its own record can count. Several Bitcoin bindings on the same saved device use one Bitcoin device slot. Free is 5 saved devices per project, and Pro is 50 saved devices per project. Removing a line only stops watching.",
+        "A last share within about 10 minutes is marked online, and an older one is offline. A missing share time is unknown. When shares are rare, a hashing miner can still look offline. If the Worker count is larger than the names you can see, the page keeps the larger number and marks the list incomplete. That number is not a rig inventory. After sign-in, each line on [Bitcoin monitoring](/projects/btc) is one address. The quota counts saved devices that include Bitcoin, not a universal number of addresses. Workers shown automatically under a lookup do not create extra records. A Worker or device you explicitly save as its own record can count. Several Bitcoin bindings on the same saved device use one Bitcoin device slot. Free is 5 saved devices per project, and Pro is 100 saved devices per project. Removing a line only stops watching.",
         `Open the [Bitcoin monitor](/projects/btc). A found block and empty amounts are in [solo is not daily income](/learn/${rewards}). A lagging window is in [hashrate window](/learn/${windowSlug}).`,
       ],
       ko: [
@@ -189,7 +189,7 @@ export const btcDepthGuides: Article[] = [
         "## 무엇을 확인하나",
         "모니터는 체크섬이 맞는 메인넷 지급 주소만 받습니다. 테스트넷 주소, 점이 있는 Worker 접미사, URL은 조회가 아닙니다. 홈페이지 ASIC 예는 비밀번호를 x로 두고 무시된다고 적습니다. 그림의 `address.rack-a`는 실제 주소가 아니고 붙여 넣을 수도 없습니다. 점 뒤의 글자는 채굴기 사용자 이름에 둡니다. 그 비밀번호는 IOTA Watch 로그인이 아닙니다. 주소 형태가 필요하면 이름 가이드의 공개 홈페이지 예시 하나만 봅니다.",
         "## 다음에 할 일",
-        "마지막 셰어가 약 10분 이내면 온라인, 그보다 오래되면 오프라인입니다. 셰어 시각이 없으면 알 수 없음입니다. 셰어가 드물면 채굴기가 아직 연산 중이어도 오프라인으로 보일 수 있습니다. Worker 수가 보이는 이름보다 크면 페이지는 더 큰 수를 유지하고 목록이 불완전하다고 표시합니다. 그 수는 채굴기 재고가 아닙니다. 로그인 후 [Bitcoin 모니터](/projects/btc)의 한 줄은 주소 하나입니다. 한도는 주소 개수가 아니라 비트코인이 포함된 저장된 기기를 셉니다. 조회에서 자동으로 보이는 Worker는 기록을 더 만들지 않습니다. Worker나 기기를 따로 저장하면 그 저장된 기기는 한도에 들어갈 수 있습니다. 같은 저장된 기기에 비트코인 연결이 여러 개여도 비트코인 기기 한 칸만 씁니다. Free는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 한 줄을 제거하면 감시만 멈춥니다.",
+        "마지막 셰어가 약 10분 이내면 온라인, 그보다 오래되면 오프라인입니다. 셰어 시각이 없으면 알 수 없음입니다. 셰어가 드물면 채굴기가 아직 연산 중이어도 오프라인으로 보일 수 있습니다. Worker 수가 보이는 이름보다 크면 페이지는 더 큰 수를 유지하고 목록이 불완전하다고 표시합니다. 그 수는 채굴기 재고가 아닙니다. 로그인 후 [Bitcoin 모니터](/projects/btc)의 한 줄은 주소 하나입니다. 한도는 주소 개수가 아니라 비트코인이 포함된 저장된 기기를 셉니다. 조회에서 자동으로 보이는 Worker는 기록을 더 만들지 않습니다. Worker나 기기를 따로 저장하면 그 저장된 기기는 한도에 들어갈 수 있습니다. 같은 저장된 기기에 비트코인 연결이 여러 개여도 비트코인 기기 한 칸만 씁니다. Free는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 한 줄을 제거하면 감시만 멈춥니다.",
         `[Bitcoin 모니터](/projects/btc)를 엽니다. 블록과 빈 금액은 [솔로는 일일 수익이 아님](/learn/${rewards}), 늦는 창은 [해시레이트 창](/learn/${windowSlug})에 있습니다.`,
       ],
       ja: [
@@ -199,7 +199,7 @@ export const btcDepthGuides: Article[] = [
         "## 何を確認するか",
         "監視が受けるのはチェックサムが正しいメインネットの支払アドレスです。テストネットアドレス、点付きのWorker接尾辞、URLは照会になりません。ホームページのASIC例はパスワードをxとし、無視されると書いています。図の `address.rack-a` は実在のアドレスではなく、貼り付けできません。点の後の文字は採掘機のユーザー名に置きます。そのパスワードはIOTA Watchのログインではありません。アドレスの形が必要なら、命名ガイドにある公開ホームページの例を一つだけ見てください。",
         "## 次にすること",
-        "最終シェアが約10分以内ならオンライン、それより前ならオフラインです。シェアの時刻が無ければ不明です。シェアが希少だと、まだ計算中の採掘機もオフラインに見えることがあります。Worker件数が見えている名前より大きいと、ページは大きい数を残し、一覧が不完全だと示します。その数は機材台帳ではありません。ログイン後の[Bitcoin監視](/projects/btc)は1行が1アドレスです。枠はアドレスの数ではなく、ビットコインを含む保存した機器で数えます。照会で自動表示されるWorkerは記録を増やしません。Workerや機器を別に保存すると、その保存した機器は枠に入り得ます。同じ保存機器にビットコインの紐付けが複数あっても、ビットコインの機器枠は一つです。Freeはプロジェクトあたり保存した機器5台、Proは50台です。1行を外すのは監視をやめるだけです。",
+        "最終シェアが約10分以内ならオンライン、それより前ならオフラインです。シェアの時刻が無ければ不明です。シェアが希少だと、まだ計算中の採掘機もオフラインに見えることがあります。Worker件数が見えている名前より大きいと、ページは大きい数を残し、一覧が不完全だと示します。その数は機材台帳ではありません。ログイン後の[Bitcoin監視](/projects/btc)は1行が1アドレスです。枠はアドレスの数ではなく、ビットコインを含む保存した機器で数えます。照会で自動表示されるWorkerは記録を増やしません。Workerや機器を別に保存すると、その保存した機器は枠に入り得ます。同じ保存機器にビットコインの紐付けが複数あっても、ビットコインの機器枠は一つです。Freeはプロジェクトあたり保存した機器3台、Proは100台です。1行を外すのは監視をやめるだけです。",
         `[Bitcoin監視](/projects/btc)を開きます。ブロックと空の金額は[ソロは日次収益ではない](/learn/${rewards})、遅れる窓は[算力の窓](/learn/${windowSlug})です。`,
       ],
     },
@@ -658,7 +658,7 @@ export const btcDepthGuides: Article[] = [
       zh: [
         "一台矿机要在 CKPool 上区分开，用户名写成比特币地址，或地址后面加一个点和 Worker 名。官网写明 Worker 扩展可有可无，密码任意。ASIC 示例把密码写成 x，并注明密码被忽略。这个 x 不是 IOTA Watch 的账户密码，监控也不采集它。私钥不能粘贴。需要看真实地址长什么样时，官网公开示例是 bc1q28kkr5hk4gnqe3evma6runjrd2pvqyp8fpwfzu。全文只出现这一次，它是格式例子，不是本站所有者的地址。",
         "## 一个地址，多个名字",
-        "收款身份是地址。示意图 `address.rack-a` 和 `address.rack-b` 表示两台矿机的用户名。`address` 不是真实地址，整串都不能粘贴。监控不接受带点的名字，输入框只放不带点的收款地址。登录后每一行保存的是地址。名额按带有比特币的已保存设备计算，并不按地址个数一概而论。查询时自动显示的 Worker 不会另建记录；若你把某个 Worker 或设备明确另存为独立记录，那台已保存设备可以计入。同一台已保存设备上的多条比特币绑定只占一个比特币设备名额。Free 每个项目 5 台已保存设备，Pro 每个项目 50 台已保存设备。",
+        "收款身份是地址。示意图 `address.rack-a` 和 `address.rack-b` 表示两台矿机的用户名。`address` 不是真实地址，整串都不能粘贴。监控不接受带点的名字，输入框只放不带点的收款地址。登录后每一行保存的是地址。名额按带有比特币的已保存设备计算，并不按地址个数一概而论。查询时自动显示的 Worker 不会另建记录；若你把某个 Worker 或设备明确另存为独立记录，那台已保存设备可以计入。同一台已保存设备上的多条比特币绑定只占一个比特币设备名额。Free 每个项目 3 台已保存设备，Pro 每个项目 100 台已保存设备。",
         "## 标签表示什么",
         "点后面的文字是页面上的标签。若矿机用户名正好等于地址，标签是空的，这一行仍然留下。空标签不是“没有这台机器”，页面也不会把整段地址再显示成名字。标签只用来区分算力和最后份额。它不能分成两份余额：这个来源没有余额、已支付或日收益。",
         "## 说明性例子",
@@ -668,7 +668,7 @@ export const btcDepthGuides: Article[] = [
       "zh-TW": [
         "一台礦機要在 CKPool 上區分開，使用者名稱寫成比特幣地址，或地址後面加一個點和 Worker 名。官網寫明 Worker 擴展可有可無，密碼任意。ASIC 示例把密碼寫成 x，並註明密碼被忽略。這個 x 不是 IOTA Watch 的帳戶密碼，監控也不蒐集它。私鑰不能貼上。需要看真實地址長什麼樣時，官網公開示例是 bc1q28kkr5hk4gnqe3evma6runjrd2pvqyp8fpwfzu。全文只出現這一次，它是格式例子，不是本站擁有者的地址。",
         "## 一個地址，多個名字",
-        "收款身份是地址。示意圖 `address.rack-a` 和 `address.rack-b` 表示兩台礦機的使用者名稱。`address` 不是真實地址，整串都不能貼上。監控不接受帶點的名字，輸入框只放不帶點的收款地址。登入後每一行儲存的是地址。名額按帶有比特幣的已儲存裝置計算，並不按地址個數一概而論。查詢時自動顯示的 Worker 不會另建記錄；若你把某個 Worker 或裝置明確另存為獨立記錄，那台已儲存裝置可以計入。同一台已儲存裝置上的多條比特幣綁定只占一個比特幣裝置名額。Free 每個專案 5 台已儲存裝置，Pro 每個專案 50 台已儲存裝置。",
+        "收款身份是地址。示意圖 `address.rack-a` 和 `address.rack-b` 表示兩台礦機的使用者名稱。`address` 不是真實地址，整串都不能貼上。監控不接受帶點的名字，輸入框只放不帶點的收款地址。登入後每一行儲存的是地址。名額按帶有比特幣的已儲存裝置計算，並不按地址個數一概而論。查詢時自動顯示的 Worker 不會另建記錄；若你把某個 Worker 或裝置明確另存為獨立記錄，那台已儲存裝置可以計入。同一台已儲存裝置上的多條比特幣綁定只占一個比特幣裝置名額。Free 每個專案 3 台已儲存裝置，Pro 每個專案 100 台已儲存裝置。",
         "## 標籤表示什麼",
         "點後面的文字是頁面上的標籤。若礦機使用者名稱正好等於地址，標籤是空的，這一列仍然留下。空標籤不是「沒有這台機器」，頁面也不會把整段地址再顯示成名字。標籤只用來區分算力和最後份額。它不能分成兩份餘額：這個來源沒有餘額、已支付或日收益。",
         "## 說明性例子",
@@ -678,7 +678,7 @@ export const btcDepthGuides: Article[] = [
       en: [
         "To tell miners apart on CKPool, set the username to the Bitcoin address, or to the address, a dot, and a Worker name. The operator says the Worker extension is optional and the password can be anything. The ASIC example uses x and says the password is ignored. That x is not an IOTA Watch account password, and the monitor does not collect it. Never paste a private key. When you need to see a real address shape, the public homepage example is bc1q28kkr5hk4gnqe3evma6runjrd2pvqyp8fpwfzu. It appears once in this pack, as a format example, and it is not an address owned by this site.",
         "## One address, several names",
-        "The payout identity is the address. The diagrams `address.rack-a` and `address.rack-b` stand for two miner usernames. `address` is not a real address, and neither string is pasteable. The monitor does not accept a dotted name, so the box takes only the payout address without a dot. After sign-in, each saved line is an address. The quota counts saved devices that include Bitcoin, not a universal number of addresses. Workers shown automatically under a lookup do not create extra records. A Worker or device you explicitly save as its own record can count. Several Bitcoin bindings on the same saved device use one Bitcoin device slot. Free is 5 saved devices per project, and Pro is 50 saved devices per project.",
+        "The payout identity is the address. The diagrams `address.rack-a` and `address.rack-b` stand for two miner usernames. `address` is not a real address, and neither string is pasteable. The monitor does not accept a dotted name, so the box takes only the payout address without a dot. After sign-in, each saved line is an address. The quota counts saved devices that include Bitcoin, not a universal number of addresses. Workers shown automatically under a lookup do not create extra records. A Worker or device you explicitly save as its own record can count. Several Bitcoin bindings on the same saved device use one Bitcoin device slot. Free is 5 saved devices per project, and Pro is 100 saved devices per project.",
         "## What the label means",
         'The text after the dot is the label on the page. When the miner username equals the address, the label is empty and the row stays. An empty label is not "no machine," and the page does not show the full address as the name. The label separates hashrate and last share. It cannot split a balance in two: this source publishes no balance, paid total, or daily reward.',
         "## Illustrative case",
@@ -688,7 +688,7 @@ export const btcDepthGuides: Article[] = [
       ko: [
         "CKPool에서 채굴기를 구분하려면 사용자 이름을 비트코인 주소로 두거나, 주소 뒤에 점과 Worker 이름을 둡니다. 운영자는 Worker 확장이 있어도 되고 없어도 되며 비밀번호는 아무거나라고 합니다. ASIC 예는 비밀번호를 x로 두고 무시된다고 적습니다. 그 x는 IOTA Watch 계정 비밀번호가 아니고 모니터도 수집하지 않습니다. 비밀키는 붙이지 않습니다. 실제 주소 형태가 필요하면 공개 홈페이지 예는 bc1q28kkr5hk4gnqe3evma6runjrd2pvqyp8fpwfzu입니다. 이 묶음에서 한 번만 나오며 형식 예시이고, 이 사이트의 소유 주소가 아닙니다.",
         "## 주소 하나, 이름 여러 개",
-        "지급 주체는 주소입니다. 그림 `address.rack-a`와 `address.rack-b`는 채굴기 사용자 이름 둘을 나타냅니다. `address`는 실제 주소가 아니고 두 문자열 모두 붙여 넣을 수 없습니다. 모니터는 점이 있는 이름을 받지 않으므로 칸에는 점 없는 지급 주소만 넣습니다. 로그인 후 저장된 한 줄은 주소입니다. 한도는 주소 개수가 아니라 비트코인이 포함된 저장된 기기를 셉니다. 조회에서 자동으로 보이는 Worker는 기록을 더 만들지 않습니다. Worker나 기기를 따로 저장하면 그 저장된 기기는 한도에 들어갈 수 있습니다. 같은 저장된 기기에 비트코인 연결이 여러 개여도 비트코인 기기 한 칸만 씁니다. Free는 프로젝트당 저장된 기기 5대, Pro는 50대입니다.",
+        "지급 주체는 주소입니다. 그림 `address.rack-a`와 `address.rack-b`는 채굴기 사용자 이름 둘을 나타냅니다. `address`는 실제 주소가 아니고 두 문자열 모두 붙여 넣을 수 없습니다. 모니터는 점이 있는 이름을 받지 않으므로 칸에는 점 없는 지급 주소만 넣습니다. 로그인 후 저장된 한 줄은 주소입니다. 한도는 주소 개수가 아니라 비트코인이 포함된 저장된 기기를 셉니다. 조회에서 자동으로 보이는 Worker는 기록을 더 만들지 않습니다. Worker나 기기를 따로 저장하면 그 저장된 기기는 한도에 들어갈 수 있습니다. 같은 저장된 기기에 비트코인 연결이 여러 개여도 비트코인 기기 한 칸만 씁니다. Free는 프로젝트당 저장된 기기 3대, Pro는 100대입니다.",
         "## 라벨이 의미하는 것",
         "점 뒤의 글자가 페이지의 라벨입니다. 채굴기 사용자 이름이 주소와 같으면 라벨은 비어 있고 행은 남습니다. 빈 라벨은 기기가 없다는 뜻이 아니고, 페이지가 주소 전체를 이름으로 보여 주지도 않습니다. 라벨은 해시레이트와 마지막 셰어를 구분할 뿐입니다. 잔액을 둘로 나누지 못합니다. 이 출처는 잔액, 지급, 일일 보상을 공개하지 않습니다.",
         "## 설명용 사례",
@@ -698,7 +698,7 @@ export const btcDepthGuides: Article[] = [
       ja: [
         "CKPoolで採掘機を分けるには、ユーザー名をビットコインアドレスにするか、アドレスの後に点とWorker名を付けます。運営者はWorker拡張があっても無くてもよく、パスワードは任意だと書いています。ASICの例はパスワードをxとし、無視されると書いています。そのxはIOTA Watchの口座パスワードではなく、監視も収集しません。秘密鍵は貼らないでください。実在するアドレスの形が必要なら、公開ホームページの例は bc1q28kkr5hk4gnqe3evma6runjrd2pvqyp8fpwfzu です。この一式に一度だけ出る形式の例であり、このサイトの所有者のアドレスではありません。",
         "## アドレス一つ、名前は複数",
-        "支払の主体はアドレスです。図の `address.rack-a` と `address.rack-b` は二台の採掘機のユーザー名を表します。`address` は実在のアドレスではなく、どちらの文字列も貼り付けできません。監視は点を含む名前を受けないので、欄には点の無い支払アドレスだけを入れます。ログイン後に保存する1行はアドレスです。枠はアドレスの数ではなく、ビットコインを含む保存した機器で数えます。照会で自動表示されるWorkerは記録を増やしません。Workerや機器を別に保存すると、その保存した機器は枠に入り得ます。同じ保存機器にビットコインの紐付けが複数あっても、ビットコインの機器枠は一つです。Freeはプロジェクトあたり保存した機器5台、Proは50台です。",
+        "支払の主体はアドレスです。図の `address.rack-a` と `address.rack-b` は二台の採掘機のユーザー名を表します。`address` は実在のアドレスではなく、どちらの文字列も貼り付けできません。監視は点を含む名前を受けないので、欄には点の無い支払アドレスだけを入れます。ログイン後に保存する1行はアドレスです。枠はアドレスの数ではなく、ビットコインを含む保存した機器で数えます。照会で自動表示されるWorkerは記録を増やしません。Workerや機器を別に保存すると、その保存した機器は枠に入り得ます。同じ保存機器にビットコインの紐付けが複数あっても、ビットコインの機器枠は一つです。Freeはプロジェクトあたり保存した機器3台、Proは100台です。",
         "## ラベルの意味",
         "点の後の文字がページ上のラベルです。採掘機のユーザー名がアドレスと等しければ、ラベルは空で、行は残ります。空ラベルは「機械が無い」ではなく、ページがアドレス全体を名前として出すこともありません。ラベルは算力と最終シェアを区別するだけです。残高を二つに分けられません。この出典は残高、支払済、日次報酬を公表していません。",
         "## 説明用の例",

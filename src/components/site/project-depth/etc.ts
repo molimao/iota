@@ -192,7 +192,7 @@ export const etcDepthGuides: Article[] = [
         `## 一个地址形状例子`,
         `帮助页把 ETC 示例写成 0xa6e43E5D497ce1f4d28b4270630E97308eDA8b3e。这是形状示意，不是你的账户。如果你的字符串是这个形状，并且矿池统计页用的就是它，才可以贴进监控。`,
         `## 边界`,
-        `免费每个项目保存 5 台设备，Pro 为 50 台。同一钱包下显示出来的 Worker 不会自动占名额；只有你另外为 Worker 单独保存设备时才会占用。同一台已保存设备上的多个来源不重复计数。钱包余额只保留一份，不会按 Worker 复制成多份收入。崩溃解读不另收费。Agent 只控制 Train at Home 的 Mac，不能开关 ETC 矿机。同一串地址在 ETC 和 ETHW 上怎么分开，见 [同一串 0x](/learn/etc-vs-ethw-address-network)。三列金额怎么读，见 [为什么不是一笔总数](/learn/etc-24h-rewards-and-balance)。`,
+        `免费每个项目保存 3 台设备，Pro 为 100 台。同一钱包下显示出来的 Worker 不会自动占名额；只有你另外为 Worker 单独保存设备时才会占用。同一台已保存设备上的多个来源不重复计数。钱包余额只保留一份，不会按 Worker 复制成多份收入。崩溃解读不另收费。Agent 只控制 Train at Home 的 Mac，不能开关 ETC 矿机。同一串地址在 ETC 和 ETHW 上怎么分开，见 [同一串 0x](/learn/etc-vs-ethw-address-network)。三列金额怎么读，见 [为什么不是一笔总数](/learn/etc-24h-rewards-and-balance)。`,
       ],
       "zh-TW": [
         `這頁要的是你在 [2Miners Ethereum Classic 普通礦池](https://etc.2miners.com/help) 上設定的 ETC 收款地址：0x 後面恰好 40 個十六進位字元。不要填私鑰。查詢不會啟動挖礦。`,
@@ -206,7 +206,7 @@ export const etcDepthGuides: Article[] = [
         `## 一個地址形狀例子`,
         `說明頁把 ETC 示例寫成 0xa6e43E5D497ce1f4d28b4270630E97308eDA8b3e。這是形狀示意，不是你的帳戶。如果你的字串是這個形狀，並且礦池統計頁用的就是它，才可以貼進監控。`,
         `## 邊界`,
-        `免費每個專案保存 5 台裝置，Pro 為 50 台。同一錢包下顯示出來的 Worker 不會自動占名額；只有你另外為 Worker 單獨保存裝置時才會占用。同一台已保存裝置上的多個來源不重複計數。錢包餘額只保留一份，不會按 Worker 複製成多份收入。當機解讀不另收費。Agent 只控制 Train at Home 的 Mac，不能開關 ETC 礦機。同一串地址在 ETC 和 ETHW 上怎麼分開，見 [同一串 0x](/learn/etc-vs-ethw-address-network)。三欄金額怎麼讀，見 [為什麼不是一筆總數](/learn/etc-24h-rewards-and-balance)。`,
+        `免費每個專案保存 3 台裝置，Pro 為 100 台。同一錢包下顯示出來的 Worker 不會自動占名額；只有你另外為 Worker 單獨保存裝置時才會占用。同一台已保存裝置上的多個來源不重複計數。錢包餘額只保留一份，不會按 Worker 複製成多份收入。當機解讀不另收費。Agent 只控制 Train at Home 的 Mac，不能開關 ETC 礦機。同一串地址在 ETC 和 ETHW 上怎麼分開，見 [同一串 0x](/learn/etc-vs-ethw-address-network)。三欄金額怎麼讀，見 [為什麼不是一筆總數](/learn/etc-24h-rewards-and-balance)。`,
       ],
       en: [
         `This page wants the ETC payout configured on the [regular 2Miners Ethereum Classic pool](https://etc.2miners.com/help): 0x followed by exactly 40 hexadecimal characters. Do not paste a private key. Lookup does not start mining.`,
@@ -220,7 +220,7 @@ export const etcDepthGuides: Article[] = [
         `## An address-shape example`,
         `The help page writes the ETC example as 0xa6e43E5D497ce1f4d28b4270630E97308eDA8b3e. This illustration only shows the shape. It is not your account. Paste a string into the monitor only when it has this shape and the pool statistics page uses that same string.`,
         `## Limits`,
-        `Free keeps five saved devices per project. Pro keeps 50. Workers shown under one wallet do not automatically use a slot. A slot is used when you explicitly save a separate device record for a worker. Several sources for this project on the same saved device do not add slots. The wallet balance is kept once and is not copied into worker income. Crash interpretation stays free. The Agent controls Train at Home on a Mac only. It cannot start or stop an ETC miner. How one address stays apart on ETC and ETHW is in [the same 0x string](/learn/etc-vs-ethw-address-network). How to read the three amounts is in [why they are not one total](/learn/etc-24h-rewards-and-balance).`,
+        `Free keeps three saved devices per project. Pro keeps 100. Workers shown under one wallet do not automatically use a slot. A slot is used when you explicitly save a separate device record for a worker. Several sources for this project on the same saved device do not add slots. The wallet balance is kept once and is not copied into worker income. Crash interpretation stays free. The Agent controls Train at Home on a Mac only. It cannot start or stop an ETC miner. How one address stays apart on ETC and ETHW is in [the same 0x string](/learn/etc-vs-ethw-address-network). How to read the three amounts is in [why they are not one total](/learn/etc-24h-rewards-and-balance).`,
       ],
       ko: [
         `이 페이지가 원하는 것은 [2Miners Ethereum Classic 일반 풀](https://etc.2miners.com/help)에 넣은 ETC 지급 주소입니다. 0x 뒤에 16진수 40자리입니다. 비밀키는 넣지 마세요. 조회는 채굴을 시작하지 않습니다.`,
@@ -234,7 +234,7 @@ export const etcDepthGuides: Article[] = [
         `## 주소 모양의 예`,
         `도움말의 ETC 예시는 0xa6e43E5D497ce1f4d28b4270630E97308eDA8b3e입니다. 모양만 보여 줍니다. 당신 계정이 아닙니다. 이 모양이고 풀 통계 페이지가 같은 문자열을 쓸 때만 모니터에 넣으세요.`,
         `## 한계`,
-        `무료는 프로젝트마다 저장 기기 5대, Pro는 50대입니다. 한 지갑 아래에 보이는 Worker는 자동으로 자리를 쓰지 않습니다. Worker를 위해 저장 기기를 따로 만들 때만 자리를 씁니다. 같은 저장 기기에 이 프로젝트를 여러 출처로 묶어도 자리가 늘지 않습니다. 지갑 잔액은 한 번만 남으며 Worker 수익으로 복사되지 않습니다. 충돌 해석은 무료입니다. Agent는 Mac의 Train at Home만 제어하며 ETC 채굴기를 켜거나 끄지 못합니다. 같은 주소가 ETC와 ETHW에서 어떻게 나뉘는지는 [같은 0x](/learn/etc-vs-ethw-address-network)에 있습니다. 세 금액을 읽는 방법은 [하나의 합계가 아닌 이유](/learn/etc-24h-rewards-and-balance)에 있습니다.`,
+        `무료는 프로젝트마다 저장 기기 3대, Pro는 100대입니다. 한 지갑 아래에 보이는 Worker는 자동으로 자리를 쓰지 않습니다. Worker를 위해 저장 기기를 따로 만들 때만 자리를 씁니다. 같은 저장 기기에 이 프로젝트를 여러 출처로 묶어도 자리가 늘지 않습니다. 지갑 잔액은 한 번만 남으며 Worker 수익으로 복사되지 않습니다. 충돌 해석은 무료입니다. Agent는 Mac의 Train at Home만 제어하며 ETC 채굴기를 켜거나 끄지 못합니다. 같은 주소가 ETC와 ETHW에서 어떻게 나뉘는지는 [같은 0x](/learn/etc-vs-ethw-address-network)에 있습니다. 세 금액을 읽는 방법은 [하나의 합계가 아닌 이유](/learn/etc-24h-rewards-and-balance)에 있습니다.`,
       ],
       ja: [
         `このページが求めるのは、[2MinersのEthereum Classic通常プール](https://etc.2miners.com/help)に設定したETCの受取アドレスです。0xの後に16進40文字です。秘密鍵は貼らないでください。照会は採掘を始めません。`,
@@ -248,7 +248,7 @@ export const etcDepthGuides: Article[] = [
         `## アドレスの形の例`,
         `ヘルプのETC例は 0xa6e43E5D497ce1f4d28b4270630E97308eDA8b3e です。形を示すだけです。あなたの口座ではありません。この形で、プール統計ページが同じ文字列を使っているときだけ、監視に貼ってください。`,
         `## 限界`,
-        `無料はプロジェクトごとに保存デバイス5台、Proは50台です。一つのウォレットの下に表示されるWorkerは、自動では枠を使いません。Workerのために保存デバイスを別に作ったときだけ枠を使います。同じ保存デバイスにこのプロジェクトを複数のソースで結んでも枠は増えません。ウォレット残高は一つだけ残り、Workerの収益には複製されません。クラッシュ解釈は無料です。Agentが制御するのはMacのTrain at Homeだけで、ETCのマイナーは起動も停止もできません。同じアドレスがETCとETHWでどう分かれるかは [同じ0x](/learn/etc-vs-ethw-address-network) にあります。三つの金額の読み方は [一つの合計にならない理由](/learn/etc-24h-rewards-and-balance) にあります。`,
+        `無料はプロジェクトごとに保存デバイス3台、Proは100台です。一つのウォレットの下に表示されるWorkerは、自動では枠を使いません。Workerのために保存デバイスを別に作ったときだけ枠を使います。同じ保存デバイスにこのプロジェクトを複数のソースで結んでも枠は増えません。ウォレット残高は一つだけ残り、Workerの収益には複製されません。クラッシュ解釈は無料です。Agentが制御するのはMacのTrain at Homeだけで、ETCのマイナーは起動も停止もできません。同じアドレスがETCとETHWでどう分かれるかは [同じ0x](/learn/etc-vs-ethw-address-network) にあります。三つの金額の読み方は [一つの合計にならない理由](/learn/etc-24h-rewards-and-balance) にあります。`,
       ],
     },
     questions: questions([
@@ -341,11 +341,11 @@ export const etcDepthGuides: Article[] = [
           "保存デバイスは何台で数えますか？",
         ),
         t(
-          "每个项目免费 5 台已保存设备，Pro 50 台。同一钱包下看到的 Worker 不自动占名额；另外保存成独立设备时才计数。钱包余额不按 Worker 复制。",
-          "每個專案免費 5 台已保存裝置，Pro 50 台。同一錢包下看到的 Worker 不自動占名額；另外保存成獨立裝置時才計數。錢包餘額不按 Worker 複製。",
-          "Five saved devices per project on Free, and 50 on Pro. Workers visible under one wallet do not automatically take a slot. A separately saved worker device does. Wallet balance is not copied per Worker.",
-          "프로젝트당 무료 저장 기기 5대, Pro 50대입니다. 한 지갑 아래의 Worker는 자동으로 자리를 쓰지 않습니다. 기기를 따로 저장할 때만 셉니다. 지갑 잔액은 Worker마다 복사되지 않습니다.",
-          "プロジェクトごとに無料の保存デバイスは5台、Proは50台です。一つのウォレットの下に見えるWorkerは自動では枠を使いません。別に保存したデバイスだけが数に入ります。ウォレット残高はWorkerごとに複製されません。",
+          "每个项目免费 3 台已保存设备，Pro 100 台。同一钱包下看到的 Worker 不自动占名额；另外保存成独立设备时才计数。钱包余额不按 Worker 复制。",
+          "每個專案免費 3 台已保存裝置，Pro 100 台。同一錢包下看到的 Worker 不自動占名額；另外保存成獨立裝置時才計數。錢包餘額不按 Worker 複製。",
+          "three saved devices per project on Free, and 100 on Pro. Workers visible under one wallet do not automatically take a slot. A separately saved worker device does. Wallet balance is not copied per Worker.",
+          "프로젝트당 무료 저장 기기 3대, Pro 100대입니다. 한 지갑 아래의 Worker는 자동으로 자리를 쓰지 않습니다. 기기를 따로 저장할 때만 셉니다. 지갑 잔액은 Worker마다 복사되지 않습니다.",
+          "プロジェクトごとに無料の保存デバイスは3台、Proは100台です。一つのウォレットの下に見えるWorkerは自動では枠を使いません。別に保存したデバイスだけが数に入ります。ウォレット残高はWorkerごとに複製されません。",
         ),
       ],
     ]),
@@ -742,7 +742,7 @@ export const etcDepthGuides: Article[] = [
         `## 示例，不是你的矿场`,
         `帮助页写 lolMiner 为 --algo ETCHASH --pool etc.2miners.com:1010 --user YOUR_WALLET_ADDRESS.RIG_ID。把 YOUR_WALLET_ADDRESS 换成你的 0x 地址后，监控只收地址那一段。RIG_ID 为 rig-1 时，Worker 名应显示成 rig-1。这是说明结构的示意。`,
         `## 边界`,
-        `看到某个名称，不等于已经占了一台计费设备。同一钱包下展示 Worker 不自动占用免费 5 台或 Pro 50 台的名额。只有另外保存成独立设备时才计数。本文不判断哪一款矿工软件更快，也不把 etchash 这个参数词改写成收益承诺。算力写成 0 时先看什么，见 [矿池算力显示 0](/learn/etc-pool-hashrate-zero)。地址和 SOLO 见 [ETC 监控](/learn/etc-mining-monitor-guide)。`,
+        `看到某个名称，不等于已经占了一台计费设备。同一钱包下展示 Worker 不自动占用免费 3 台或 Pro 100 台的名额。只有另外保存成独立设备时才计数。本文不判断哪一款矿工软件更快，也不把 etchash 这个参数词改写成收益承诺。算力写成 0 时先看什么，见 [矿池算力显示 0](/learn/etc-pool-hashrate-zero)。地址和 SOLO 见 [ETC 监控](/learn/etc-mining-monitor-guide)。`,
       ],
       "zh-TW": [
         `監控上的 Worker 來自 ETC 普通礦池帳戶，不來自你 bat 檔案裡的演算法單字。說明頁要求挖 ETC 時選擇 ETCHash。同一頁的 lolMiner、GMiner、T-Rex、Rigel、NBminer、SRBMiner 示例把參數寫成 etchash，TeamRedMiner 示例寫成 ethash。這些是說明頁上的軟體示例，用來對照參數詞，不是對你這台機器的診斷。`,
@@ -756,7 +756,7 @@ export const etcDepthGuides: Article[] = [
         `## 示例，不是你的礦場`,
         `說明頁寫 lolMiner 為 --algo ETCHASH --pool etc.2miners.com:1010 --user YOUR_WALLET_ADDRESS.RIG_ID。把 YOUR_WALLET_ADDRESS 換成你的 0x 地址後，監控只收地址那一段。RIG_ID 為 rig-1 時，Worker 名應顯示成 rig-1。這是說明結構的示意。`,
         `## 邊界`,
-        `看到某個名稱，不等於已經占了一台計費裝置。同一錢包下展示 Worker 不自動占用免費 5 台或 Pro 50 台的名額。只有另外保存成獨立裝置時才計數。本文不判斷哪一款礦工軟體更快，也不把 etchash 這個參數詞改寫成收益承諾。算力寫成 0 時先看什麼，見 [礦池算力顯示 0](/learn/etc-pool-hashrate-zero)。地址和 SOLO 見 [ETC 監控](/learn/etc-mining-monitor-guide)。`,
+        `看到某個名稱，不等於已經占了一台計費裝置。同一錢包下展示 Worker 不自動占用免費 3 台或 Pro 100 台的名額。只有另外保存成獨立裝置時才計數。本文不判斷哪一款礦工軟體更快，也不把 etchash 這個參數詞改寫成收益承諾。算力寫成 0 時先看什麼，見 [礦池算力顯示 0](/learn/etc-pool-hashrate-zero)。地址和 SOLO 見 [ETC 監控](/learn/etc-mining-monitor-guide)。`,
       ],
       en: [
         `A Worker on the monitor comes from the regular ETC pool account, not from the algorithm word in your batch file. The help page says to choose ETCHash when mining ETC. On the same page, the lolMiner, GMiner, T-Rex, Rigel, NBminer, and SRBMiner examples set the flag to etchash, and the TeamRedMiner example sets it to ethash. Those are software examples on the help page, so you can compare the flag. They are not a diagnosis of your machine.`,
@@ -770,7 +770,7 @@ export const etcDepthGuides: Article[] = [
         `## An example, not your farm`,
         `The help page writes lolMiner as --algo ETCHASH --pool etc.2miners.com:1010 --user YOUR_WALLET_ADDRESS.RIG_ID. After you replace YOUR_WALLET_ADDRESS with your 0x address, the monitor accepts only the address portion. If RIG_ID is rig-1, the Worker name should show as rig-1. This is an illustration of the structure.`,
         `## Limits`,
-        `Seeing a name does not mean a billed device is already used. Showing Workers under one wallet does not automatically consume the five Free or 50 Pro saved-device slots. A slot is used only when you save a separate device. This article does not rank miner software and does not turn the etchash flag into an income promise. What to check when the rate reads 0 is in [pool hashrate shows 0](/learn/etc-pool-hashrate-zero). The address and SOLO are in [the ETC monitor](/learn/etc-mining-monitor-guide).`,
+        `Seeing a name does not mean a billed device is already used. Showing Workers under one wallet does not automatically consume the three Free or 100 Pro saved-device slots. A slot is used only when you save a separate device. This article does not rank miner software and does not turn the etchash flag into an income promise. What to check when the rate reads 0 is in [pool hashrate shows 0](/learn/etc-pool-hashrate-zero). The address and SOLO are in [the ETC monitor](/learn/etc-mining-monitor-guide).`,
       ],
       ko: [
         `모니터의 Worker는 ETC 일반 풀 계정에서 옵니다. bat 파일의 알고리즘 단어에서 오지 않습니다. 도움말은 ETC를 캘 때 ETCHash를 고르라고 합니다. 같은 페이지에서 lolMiner, GMiner, T-Rex, Rigel, NBminer, SRBMiner 예시는 인자를 etchash로 두고, TeamRedMiner 예시는 ethash로 둡니다. 이는 도움말의 소프트웨어 예시이며, 인자 단어를 대조하기 위한 것입니다. 당신 기기의 진단이 아닙니다.`,
@@ -784,7 +784,7 @@ export const etcDepthGuides: Article[] = [
         `## 예시이며 당신 광산이 아닙니다`,
         `도움말의 lolMiner는 --algo ETCHASH --pool etc.2miners.com:1010 --user YOUR_WALLET_ADDRESS.RIG_ID 입니다. YOUR_WALLET_ADDRESS를 당신 0x 주소로 바꾼 뒤에도 모니터는 주소 부분만 받습니다. RIG_ID가 rig-1이면 Worker 이름은 rig-1로 보여야 합니다. 구조를 보여 주는 예시입니다.`,
         `## 한계`,
-        `이름이 보인다고 과금 기기를 이미 쓴 것은 아닙니다. 한 지갑 아래 Worker를 보여 주는 것은 무료 5대나 Pro 50대 저장 기기 자리를 자동으로 쓰지 않습니다. 기기를 따로 저장할 때만 자리를 씁니다. 이 글은 채굴 소프트웨어 순위를 매기지 않으며 etchash 인자를 수익 약속으로 바꾸지 않습니다. 속도가 0일 때 무엇을 먼저 볼지는 [풀 해시레이트 0](/learn/etc-pool-hashrate-zero)에 있습니다. 주소와 SOLO는 [ETC 모니터](/learn/etc-mining-monitor-guide)에 있습니다.`,
+        `이름이 보인다고 과금 기기를 이미 쓴 것은 아닙니다. 한 지갑 아래 Worker를 보여 주는 것은 무료 3대나 Pro 100대 저장 기기 자리를 자동으로 쓰지 않습니다. 기기를 따로 저장할 때만 자리를 씁니다. 이 글은 채굴 소프트웨어 순위를 매기지 않으며 etchash 인자를 수익 약속으로 바꾸지 않습니다. 속도가 0일 때 무엇을 먼저 볼지는 [풀 해시레이트 0](/learn/etc-pool-hashrate-zero)에 있습니다. 주소와 SOLO는 [ETC 모니터](/learn/etc-mining-monitor-guide)에 있습니다.`,
       ],
       ja: [
         `監視上のWorkerはETCの通常プール口座から来ます。batファイルのアルゴリズムの単語からではありません。ヘルプはETCを掘るときETCHashを選ぶよう求めます。同じページで、lolMiner、GMiner、T-Rex、Rigel、NBminer、SRBMinerの例は引数をetchashにし、TeamRedMinerの例はethashにします。これらはヘルプのソフト例であり、引数の語を照合するためのものです。あなたのマシンの診断ではありません。`,
@@ -798,7 +798,7 @@ export const etcDepthGuides: Article[] = [
         `## 例であり、あなたのファームではありません`,
         `ヘルプのlolMinerは --algo ETCHASH --pool etc.2miners.com:1010 --user YOUR_WALLET_ADDRESS.RIG_ID です。YOUR_WALLET_ADDRESSを自分の0xアドレスに変えても、監視が受け取るのはアドレスの部分だけです。RIG_IDがrig-1なら、Worker名はrig-1と出るはずです。構造を示す例です。`,
         `## 限界`,
-        `名前が見えることは、課金デバイスをすでに使ったことではありません。一つのウォレットの下にWorkerを出すことは、無料5台やPro50台の保存デバイス枠を自動では使いません。別にデバイスを保存したときだけ枠を使います。この記事はマイナーソフトの順位を付けず、etchashという引数を収益の約束にしません。速度が0のとき何を先に見るかは [プール算力が0](/learn/etc-pool-hashrate-zero) にあります。アドレスとSOLOは [ETC監視](/learn/etc-mining-monitor-guide) にあります。`,
+        `名前が見えることは、課金デバイスをすでに使ったことではありません。一つのウォレットの下にWorkerを出すことは、無料3台やPro100台の保存デバイス枠を自動では使いません。別にデバイスを保存したときだけ枠を使います。この記事はマイナーソフトの順位を付けず、etchashという引数を収益の約束にしません。速度が0のとき何を先に見るかは [プール算力が0](/learn/etc-pool-hashrate-zero) にあります。アドレスとSOLOは [ETC監視](/learn/etc-mining-monitor-guide) にあります。`,
       ],
     },
     questions: questions([
@@ -989,7 +989,7 @@ export const etcDepthGuides: Article[] = [
         `## 说明用的数字，不是账单`,
         `假设未支付显示 0.4 ETC，已支付显示 12 ETC，近 24 小时显示 0.05 ETC。页面不会把它们收成 12.45 ETC。0.05 可能已经落在未支付或已支付里，再叠上去会把这一窗口算两遍。0.4 与 12 仍是两列，都不是钱包到账。这组数字是示意，不是你的账户。`,
         `## 边界`,
-        `Ethereum Classic 官网没有写出 2Miners 的支付门槛，也没有定义这个窗口。这里不报一个门槛数字，也不估算明天能到账多少。免费 5 台、Pro 50 台按已保存设备计算，不按这三笔数的大小计算。地址和 SOLO 见 [ETC 监控](/learn/etc-mining-monitor-guide)。速率写成 0 时见 [矿池算力显示 0](/learn/etc-pool-hashrate-zero)。`,
+        `Ethereum Classic 官网没有写出 2Miners 的支付门槛，也没有定义这个窗口。这里不报一个门槛数字，也不估算明天能到账多少。免费 3 台、Pro 100 台按已保存设备计算，不按这三笔数的大小计算。地址和 SOLO 见 [ETC 监控](/learn/etc-mining-monitor-guide)。速率写成 0 时见 [矿池算力显示 0](/learn/etc-pool-hashrate-zero)。`,
       ],
       "zh-TW": [
         `這三欄在頁面上分開顯示，監控不另報一筆自己的累計總數。把近 24 小時再疊到未支付和已支付上，會把已經落在其中一欄裡的窗口再算一遍。未支付是還留在 2Miners 普通礦池帳戶裡的 ETC。累計已支付是礦池已經記成支付的 ETC。近 24 小時是滾動窗口，不是從 UTC 零點累到現在，也不是香港時間的自然日。`,
@@ -1003,7 +1003,7 @@ export const etcDepthGuides: Article[] = [
         `## 說明用的數字，不是帳單`,
         `假設未支付顯示 0.4 ETC，已支付顯示 12 ETC，近 24 小時顯示 0.05 ETC。頁面不會把它們收成 12.45 ETC。0.05 可能已經落在未支付或已支付裡，再疊上去會把這一窗口算兩遍。0.4 與 12 仍是兩欄，都不是錢包到帳。這組數字是示意，不是你的帳戶。`,
         `## 邊界`,
-        `Ethereum Classic 官網沒有寫出 2Miners 的支付門檻，也沒有定義這個窗口。這裡不報一個門檻數字，也不估算明天能到帳多少。免費 5 台、Pro 50 台按已保存裝置計算，不按這三筆數的大小計算。地址和 SOLO 見 [ETC 監控](/learn/etc-mining-monitor-guide)。速率寫成 0 時見 [礦池算力顯示 0](/learn/etc-pool-hashrate-zero)。`,
+        `Ethereum Classic 官網沒有寫出 2Miners 的支付門檻，也沒有定義這個窗口。這裡不報一個門檻數字，也不估算明天能到帳多少。免費 3 台、Pro 100 台按已保存裝置計算，不按這三筆數的大小計算。地址和 SOLO 見 [ETC 監控](/learn/etc-mining-monitor-guide)。速率寫成 0 時見 [礦池算力顯示 0](/learn/etc-pool-hashrate-zero)。`,
       ],
       en: [
         `The page shows the three lines apart and does not print its own cumulative total. Adding the last 24 hours on top of unpaid and paid counts that window again when it already sits in one of those lines. Unpaid is ETC still sitting on the regular 2Miners account. Total paid is ETC the pool has already recorded as paid. The last 24 hours is a rolling window. It is not a total from UTC midnight until now, and it is not a Hong Kong calendar day.`,
@@ -1017,7 +1017,7 @@ export const etcDepthGuides: Article[] = [
         `## Figures for explanation, not a bill`,
         `Suppose unpaid shows 0.4 ETC, paid shows 12 ETC, and the last 24 hours shows 0.05 ETC. The page does not print 12.45 ETC. The 0.05 may already sit in unpaid or in paid, so adding it on top counts that window twice. 0.4 and 12 stay two lines, and neither is a wallet arrival. The figures are an illustration, not your account.`,
         `## Limits`,
-        `The Ethereum Classic site does not state a 2Miners payout threshold or define this window. This page does not print a threshold figure and does not estimate tomorrow's arrival. Free's five and Pro's 50 count saved devices, not the size of these three figures. The address and SOLO are in [the ETC monitor](/learn/etc-mining-monitor-guide). A rate written as 0 is in [pool hashrate shows 0](/learn/etc-pool-hashrate-zero).`,
+        `The Ethereum Classic site does not state a 2Miners payout threshold or define this window. This page does not print a threshold figure and does not estimate tomorrow's arrival. Free's three and Pro's 100 count saved devices, not the size of these three figures. The address and SOLO are in [the ETC monitor](/learn/etc-mining-monitor-guide). A rate written as 0 is in [pool hashrate shows 0](/learn/etc-pool-hashrate-zero).`,
       ],
       ko: [
         `페이지는 세 줄을 나누어 보여주고 자체 누적 합계는 내지 않습니다. 최근 24시간을 미지급과 지급 위에 올리면, 이미 그중 한 줄에 있는 창을 한 번 더 세게 됩니다. 미지급은 2Miners 일반 계정에 아직 남아 있는 ETC입니다. 누적 지급은 풀이 이미 지급으로 기록한 ETC입니다. 최근 24시간은 이동 구간입니다. UTC 자정부터 지금까지도 아니고, 홍콩 시간의 달력일도 아닙니다.`,
@@ -1031,7 +1031,7 @@ export const etcDepthGuides: Article[] = [
         `## 설명용 숫자이며 청구서가 아닙니다`,
         `미지급이 0.4 ETC, 지급완료가 12 ETC, 최근 24시간이 0.05 ETC라고 가정합니다. 페이지는 12.45 ETC라는 합계를 내지 않습니다. 0.05는 이미 미지급이나 지급에 있을 수 있어, 위에 올리면 그 창을 두 번 셉니다. 0.4와 12는 두 줄로 남고 둘 다 지갑 입금이 아닙니다. 이 숫자는 예시이며 당신 계정이 아닙니다.`,
         `## 한계`,
-        `Ethereum Classic 사이트는 2Miners의 지급 기준도, 이 구간의 정의도 주지 않습니다. 이 페이지는 기준 숫자를 적지 않고 내일 입금도 추정하지 않습니다. 무료 5대와 Pro 50대는 저장 기기를 세며, 이 세 숫자의 크기를 세지 않습니다. 주소와 SOLO는 [ETC 모니터](/learn/etc-mining-monitor-guide)에 있습니다. 속도가 0으로 적힌 경우는 [풀 해시레이트 0](/learn/etc-pool-hashrate-zero)에 있습니다.`,
+        `Ethereum Classic 사이트는 2Miners의 지급 기준도, 이 구간의 정의도 주지 않습니다. 이 페이지는 기준 숫자를 적지 않고 내일 입금도 추정하지 않습니다. 무료 3대와 Pro 100대는 저장 기기를 세며, 이 세 숫자의 크기를 세지 않습니다. 주소와 SOLO는 [ETC 모니터](/learn/etc-mining-monitor-guide)에 있습니다. 속도가 0으로 적힌 경우는 [풀 해시레이트 0](/learn/etc-pool-hashrate-zero)에 있습니다.`,
       ],
       ja: [
         `ページは三つの行を分けて見せ、自分の累計合計は出しません。直近24時間を未払いと支払の上に重ねると、すでにどちらかの行にある窓をもう一度数えます。未払いは、2Minersの通常口座にまだ残っているETCです。累計支払は、プールがすでに支払として記録したETCです。直近24時間は転がる窓です。UTC零時から現在までの合計でも、香港時間の暦日でもありません。`,
@@ -1045,7 +1045,7 @@ export const etcDepthGuides: Article[] = [
         `## 説明用の数字であり、請求ではありません`,
         `未払いが0.4 ETC、支払済みが12 ETC、直近24時間が0.05 ETCだとします。ページは12.45 ETCという合計を出しません。0.05はすでに未払いか支払にあることがあり、上に重ねるとその窓を二度数えます。0.4と12は二つの行のままで、どちらもウォレット着金ではありません。この数字は例であり、あなたの口座ではありません。`,
         `## 限界`,
-        `Ethereum Classicのサイトは、2Minersの支払基準も、この窓の定義も述べていません。このページは基準の数字を出さず、明日の着金も見積もりません。無料5台とPro50台は保存デバイスを数え、この三つの数字の大きさは数えません。アドレスとSOLOは [ETC監視](/learn/etc-mining-monitor-guide) にあります。速度が0と書かれた場合は [プール算力が0](/learn/etc-pool-hashrate-zero) にあります。`,
+        `Ethereum Classicのサイトは、2Minersの支払基準も、この窓の定義も述べていません。このページは基準の数字を出さず、明日の着金も見積もりません。無料3台とPro100台は保存デバイスを数え、この三つの数字の大きさは数えません。アドレスとSOLOは [ETC監視](/learn/etc-mining-monitor-guide) にあります。速度が0と書かれた場合は [プール算力が0](/learn/etc-pool-hashrate-zero) にあります。`,
       ],
     },
     questions: questions([
@@ -1353,11 +1353,11 @@ export const etcDepthGuides: Article[] = [
           "一台がオフラインだと、ウォレット残高は倍になったり消えたりしますか？",
         ),
         t(
-          "不会。余额按收款地址保留一份。离线只标在那台 Worker 上。另外保存成独立设备时才占用每项目 5 台或 Pro 50 台的名额。",
-          "不會。餘額按收款地址保留一份。離線只標在那台 Worker 上。另外保存成獨立裝置時才占用每專案 5 台或 Pro 50 台的名額。",
-          "No. Balance stays one figure for the payout address. Offline is marked on that Worker. A per-project slot, five on Free or 50 on Pro, is used only when you save a separate device.",
-          "아닙니다. 잔액은 지급 주소에 대해 하나뿐입니다. 오프라인은 그 Worker에만 표시됩니다. 프로젝트당 무료 5대 또는 Pro 50대 자리는, 기기를 따로 저장할 때만 씁니다.",
-          "なりません。残高は受取アドレスについて一つです。オフラインはそのWorkerに付くだけです。プロジェクトあたり無料5台またはPro50台の枠は、デバイスを別に保存したときだけ使います。",
+          "不会。余额按收款地址保留一份。离线只标在那台 Worker 上。另外保存成独立设备时才占用每项目 3 台或 Pro 100 台的名额。",
+          "不會。餘額按收款地址保留一份。離線只標在那台 Worker 上。另外保存成獨立裝置時才占用每專案 3 台或 Pro 100 台的名額。",
+          "No. Balance stays one figure for the payout address. Offline is marked on that Worker. A per-project slot, three on Free or 100 on Pro, is used only when you save a separate device.",
+          "아닙니다. 잔액은 지급 주소에 대해 하나뿐입니다. 오프라인은 그 Worker에만 표시됩니다. 프로젝트당 무료 3대 또는 Pro 100대 자리는, 기기를 따로 저장할 때만 씁니다.",
+          "なりません。残高は受取アドレスについて一つです。オフラインはそのWorkerに付くだけです。プロジェクトあたり無料3台またはPro100台の枠は、デバイスを別に保存したときだけ使います。",
         ),
       ],
     ]),

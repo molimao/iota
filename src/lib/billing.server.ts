@@ -160,7 +160,7 @@ export async function checkout(userId: string, interval: "month" | "year", local
     if (
       previous.status === "open" &&
       row.checkout_interval === interval &&
-      previous.metadata?.["trial_policy"] === "v1"
+      previous.metadata?.["trial_policy"] === "annual-only-v2"
     ) {
       if (previous.url) return { url: previous.url };
       throw new Error("checkout_processing");
@@ -207,12 +207,12 @@ export async function checkout(userId: string, interval: "month" | "year", local
     .parse(reservation.data);
   if (existing) {
     const session = await stripe.checkout.sessions.retrieve(existing);
-    if (session.status === "open" && session.url) return { url: session.url };
+    if (session.status === "open" && session.url && session.metadata?.["trial_policy"] === "annual-only-v2") return { url: session.url };
     throw new Error("checkout_processing");
   }
   // Stripe history is authoritative even when the local webhook has not arrived.
   const trialEligible =
-    !row?.stripe_subscription && (await appSubscriptions(stripe, customer)).length === 0;
+    interval === "year" && !row?.stripe_subscription && (await appSubscriptions(stripe, customer)).length === 0;
   const session = await stripe.checkout.sessions.create(
     {
       mode: "subscription",
@@ -221,7 +221,7 @@ export async function checkout(userId: string, interval: "month" | "year", local
         { price: interval === "month" ? config.monthPrice : config.yearPrice, quantity: 1 },
       ],
       client_reference_id: userId,
-      metadata: { user_id: userId, product: "iota_watch_pro", trial_policy: "v1" },
+      metadata: { user_id: userId, product: "iota_watch_pro", trial_policy: "annual-only-v2" },
       payment_method_collection: "always",
       subscription_data: {
         metadata: { user_id: userId, product: "iota_watch_pro" },

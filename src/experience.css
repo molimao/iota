@@ -6688,7 +6688,7 @@ body:has(.site-shell) {
 .fleet-device-card > footer { margin: 0; min-height: 0; padding: 12px 20px; flex-wrap: wrap; }
 .agent-card-summary .agent-card-heading strong { font-size: 13px; font-weight: 600; }
 .agent-card-summary .agent-card-heading a { font-size: 12px; }
-.agent-card-summary .agent-card-metrics { gap: 12px; }
+.agent-card-summary .agent-card-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .agent-card-summary .agent-card-metrics dd { line-height: 1.4; }
 
 .agent-revoke + .agent-revoke { margin-inline-start: 20px; }
@@ -7342,3 +7342,12 @@ body:has(.site-shell) {
   .tsc-balance-metrics { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .tsc-balance-metrics .compute-metric strong { font-size: clamp(20px, 5.8vw, 30px); }
 }
+
+.fleet-annual-offer { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; color:#0e6247; font-size:.83rem; font-weight:600; margin:.9rem 0; }
+.fleet-annual-offer b { background:#d2f4df; color:#0c593b; border-radius:999px; padding:.22rem .55rem; }
+
+.fleet-pricing-focused .fleet-year-choice { position:relative; }
+.fleet-year-badge { position:absolute; right:-6px; top:-17px; padding:2px 6px; border-radius:999px; white-space:nowrap; background:#c9efda; color:#075e3c; font-size:9px; font-weight:700; line-height:1.3; }
+.fleet-annual-comparison { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:5px; color:#626262; font-size:12px; line-height:1.4; }
+.fleet-annual-comparison s { color:#777; }
+.fleet-annual-comparison strong { padding:3px 8px; border-radius:999px; background:#d2f4df; color:#075e3c; font-size:12px; }

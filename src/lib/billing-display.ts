@@ -1,7 +1,9 @@
 import { PLANS } from "./plans";
+export const annualMonthlyTotal = (PLANS.pro.monthlyCents * 12 / 100).toFixed(2);
 export const annualSavingPercent = Math.floor(
   (1 - PLANS.pro.annualCents / (PLANS.pro.monthlyCents * 12)) * 100,
 );
+export const annualSavingAmount = ((PLANS.pro.monthlyCents * 12 - PLANS.pro.annualCents) / 100).toFixed(2);
 export const annualMonthlyEquivalent = (PLANS.pro.annualCents / 1200).toFixed(2);
 export function copyValues(text: string, values: Record<string, string | number>) {
   return Object.entries(values).reduce(

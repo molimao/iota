@@ -219,7 +219,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 整页未获取：先刷新。仍失败就到 [Host quickstart](" +
           quick +
           ") 和 API 文档核对节点是否已作为 Host 加入，而不是在这里把权重填成 0。",
-        "- 免费每个项目可保存 5 台设备，Pro 为 50 台。同一台已保存设备上重复绑定 Gonka 不另占名额。",
+        "- 免费每个项目可保存 3 台设备，Pro 为 100 台。同一台已保存设备上重复绑定 Gonka 不另占名额。",
         "## 文档里的示意记录",
         "说明性例子，不是你的收益：API 文档的样例记录把 weight 写成 10，并列出一个模型名。若监控对上你的地址，就按页面上的 epoch、权重和模型阅读；样例里的 10 不能套到你的 Host，也不能换成 GNK。",
         "## 这页做不到的事",
@@ -256,7 +256,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 整頁未取得：先重新整理。仍失敗就到 [Host quickstart](" +
           quick +
           ") 和 API 文件核對節點是否已作為 Host 加入，而不是在這裡把權重填成 0。",
-        "- 免費每個專案可儲存 5 台裝置，Pro 為 50 台。同一台已儲存裝置上重複綁定 Gonka 不另佔名額。",
+        "- 免費每個專案可儲存 3 台裝置，Pro 為 100 台。同一台已儲存裝置上重複綁定 Gonka 不另佔名額。",
         "## 文件裡的示意紀錄",
         "說明性例子，不是你的收益：API 文件的樣例紀錄把 weight 寫成 10，並列出一個模型名。若監控對上你的地址，就按頁面上的 epoch、權重和模型閱讀；樣例裡的 10 不能套到你的 Host，也不能換成 GNK。",
         "## 這頁做不到的事",
@@ -293,7 +293,7 @@ export const gonkaDepthGuides: Article[] = [
         "- If the page is unavailable: refresh once. If it still fails, use the [Host quickstart](" +
           quick +
           ") and the API docs to see whether the node joined as a Host. Do not type 0 into the weight.",
-        "- Free keeps five saved devices per project, and Pro keeps 50. Binding Gonka again on the same saved device does not take another slot.",
+        "- Free keeps three saved devices per project, and Pro keeps 100. Binding Gonka again on the same saved device does not take another slot.",
         "## The sample in the docs",
         "Illustration, not your income: the API document’s sample record sets weight to 10 and lists one model name. If the monitor matches your address, read the epoch, weight, and models on the page. The sample 10 does not transfer to your Host and does not convert into GNK.",
         "## What this page cannot do",
@@ -330,7 +330,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 페이지를 사용할 수 없으면 한 번 새로 고치세요. 그래도 실패하면 [Host quickstart](" +
           quick +
           ")와 API 문서에서 노드가 Host로 참여했는지 확인하세요. 가중치에 0을 적지 마세요.",
-        "- 무료는 프로젝트마다 저장된 기기 5대, Pro는 50대입니다. 같은 저장 기기에 Gonka를 다시 묶어도 자리를 더 쓰지 않습니다.",
+        "- 무료는 프로젝트마다 저장된 기기 3대, Pro는 100대입니다. 같은 저장 기기에 Gonka를 다시 묶어도 자리를 더 쓰지 않습니다.",
         "## 문서의 예시 기록",
         "설명용 예이며 당신의 수익이 아닙니다. API 문서의 예시 기록은 weight를 10으로 두고 모델 이름 하나를 적습니다. 모니터가 당신 주소와 맞으면 페이지의 epoch, 가중치, 모델을 읽으세요. 예시의 10은 당신 Host에 옮길 수 없고 GNK로 바꾸지도 않습니다.",
         "## 이 페이지가 하지 않는 일",
@@ -367,7 +367,7 @@ export const gonkaDepthGuides: Article[] = [
         "- ページが使えないときは一度更新します。それでも失敗するなら [Host quickstart](" +
           quick +
           ") とAPI文書で、ノードがHostとして参加しているかを確認します。重みに0を書かないでください。",
-        "- 無料はプロジェクトごとに保存デバイス5台、Proは50台です。同じ保存デバイスにGonkaを重ねて結んでも枠は増えません。",
+        "- 無料はプロジェクトごとに保存デバイス3台、Proは100台です。同じ保存デバイスにGonkaを重ねて結んでも枠は増えません。",
         "## 文書の例示記録",
         "説明用の例であり、あなたの収益ではありません。API文書の例ではweightが10で、モデル名が一つ載っています。モニターがあなたのアドレスと一致したら、ページ上のepoch、重み、モデルを読んでください。例の10は自分のHostに移せず、GNKにも換わりません。",
         "## このページがしないこと",
@@ -534,7 +534,7 @@ export const gonkaDepthGuides: Article[] = [
           missing +
           ")。",
         "- 想看推理端点或 PoC 相关字段在页面上出不出现，读 [PoC 与推理状态](/learn/" + poc + ")。",
-        "- 免费每项目 5 台已保存设备，Pro 50 台。在同一台设备上再次绑定同一个 Gonka 地址不增加名额。",
+        "- 免费每项目 3 台已保存设备，Pro 100 台。在同一台设备上再次绑定同一个 Gonka 地址不增加名额。",
         "## 示意对照",
         "说明性对照，不是某台在线机器：文档样例的 index 以 gonka1 开头；同一条样例的 inference_url 是一个 http 服务地址；addresses 里则是大写十六进制。只有第一种能在监控里对上 Host。不要把样例地址当成自己的 Host。",
         "## 界限",
@@ -565,7 +565,7 @@ export const gonkaDepthGuides: Article[] = [
           missing +
           ")。",
         "- 想看推理端點或 PoC 相關欄位在頁面上出不出現，讀 [PoC 與推理狀態](/learn/" + poc + ")。",
-        "- 免費每專案 5 台已儲存裝置，Pro 50 台。在同一台裝置上再次綁定同一個 Gonka 地址不增加名額。",
+        "- 免費每專案 3 台已儲存裝置，Pro 100 台。在同一台裝置上再次綁定同一個 Gonka 地址不增加名額。",
         "## 示意對照",
         "說明性對照，不是某台在線機器：文件樣例的 index 以 gonka1 開頭；同一條樣例的 inference_url 是一個 http 服務地址；addresses 裡則是大寫十六進位。只有第一種能在監控裡對上 Host。不要把樣例地址當成自己的 Host。",
         "## 界限",
@@ -598,7 +598,7 @@ export const gonkaDepthGuides: Article[] = [
         "- To see whether the inference endpoint or PoC-related fields appear on the page, read [PoC and inference status](/learn/" +
           poc +
           ").",
-        "- Free is five saved devices per project. Pro is 50. Binding the same Gonka address again on the same device does not add a slot.",
+        "- Free is three saved devices per project. Pro is 100. Binding the same Gonka address again on the same device does not add a slot.",
         "## A side-by-side sketch",
         "Illustration, not a live machine: the document sample’s index starts with gonka1. The same sample’s inference_url is an http service address. addresses holds uppercase hex. Only the first can match a Host in the monitor. Do not use the sample address as your Host.",
         "## Limits",
@@ -631,7 +631,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 추론 끝점이나 PoC 관련 항목이 페이지에 나오는지는 [PoC와 추론 상태](/learn/" +
           poc +
           ")를 읽으세요.",
-        "- 무료는 프로젝트마다 저장된 기기 5대, Pro는 50대입니다. 같은 기기에 같은 Gonka 주소를 다시 묶어도 자리는 늘지 않습니다.",
+        "- 무료는 프로젝트마다 저장된 기기 3대, Pro는 100대입니다. 같은 기기에 같은 Gonka 주소를 다시 묶어도 자리는 늘지 않습니다.",
         "## 나란히 보는 스케치",
         "설명용이며 실제 가동 중인 기계가 아닙니다. 문서 예시의 index는 gonka1로 시작합니다. 같은 예시의 inference_url은 http 서비스 주소입니다. addresses에는 대문자 16진수가 있습니다. 모니터에서 Host와 맞는 것은 첫 번째뿐입니다. 예시 주소를 자신의 Host로 쓰지 마세요.",
         "## 한계",
@@ -664,7 +664,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 推論端点やPoC関連の項目がページに出るかは [PoCと推論の状態](/learn/" +
           poc +
           ") を読んでください。",
-        "- 無料はプロジェクトごとに保存デバイス5台、Proは50台です。同じデバイスに同じGonkaアドレスを重ねても枠は増えません。",
+        "- 無料はプロジェクトごとに保存デバイス3台、Proは100台です。同じデバイスに同じGonkaアドレスを重ねても枠は増えません。",
         "## 並べたスケッチ",
         "説明用であり、稼働中の機械ではありません。文書例のindexはgonka1で始まります。同じ例のinference_urlはhttpのサービスアドレスです。addressesには大文字十六進があります。モニターでHostと一致するのは最初のものだけです。例のアドレスを自分のHostにしないでください。",
         "## 限界",
@@ -1154,7 +1154,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 权重是横线或整页未获取：记为未知。当前轮次未列出此地址也不是收入 0。见 [未找到 Host](/learn/" +
           missing +
           ")。",
-        "- 同一 gonka 地址放在多台已保存设备上时，不要把权重加总。那是同一份记录。只有另存设备才会占用每项目 5 台（Pro 50 台）的名额。",
+        "- 同一 gonka 地址放在多台已保存设备上时，不要把权重加总。那是同一份记录。只有另存设备才会占用每项目 3 台（Pro 100 台）的名额。",
         "## 示意",
         "说明性例子，不是实际收入：文档样例的 weight 是 10。即便你的页面也显示 10，这里仍然只是奖励权重。没有官方换算时，10 旁边不能写上 GNK 或美元。",
         "## 界限",
@@ -1184,7 +1184,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 權重是橫線或整頁未取得：記為未知。目前輪次未列出此地址也不是收入 0。見 [未找到 Host](/learn/" +
           missing +
           ")。",
-        "- 同一 gonka 地址放在多台已儲存裝置上時，不要把權重加總。那是同一份紀錄。只有另存裝置才會佔用每專案 5 台（Pro 50 台）的名額。",
+        "- 同一 gonka 地址放在多台已儲存裝置上時，不要把權重加總。那是同一份紀錄。只有另存裝置才會佔用每專案 3 台（Pro 100 台）的名額。",
         "## 示意",
         "說明性例子，不是實際收入：文件樣例的 weight 是 10。即便你的頁面也顯示 10，這裡仍然只是獎勵權重。沒有官方換算時，10 旁邊不能寫上 GNK 或美元。",
         "## 界限",
@@ -1214,7 +1214,7 @@ export const gonkaDepthGuides: Article[] = [
         "- If weight is a dash, or the page is unavailable: record unknown. Not listed is not income of zero. See [Host not found](/learn/" +
           missing +
           ").",
-        "- If the same gonka address sits on several saved devices, do not add the weights. It is one record. Only a separately saved device uses a slot, five per project on Free and 50 on Pro.",
+        "- If the same gonka address sits on several saved devices, do not add the weights. It is one record. Only a separately saved device uses a slot, three per project on Free and 100 on Pro.",
         "## Illustration",
         "Illustration, not actual income: the document sample’s weight is 10. Even if your page also shows 10, that is still reward weight. Without an official conversion, do not write GNK or dollars beside 10.",
         "## Limits",
@@ -1244,7 +1244,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 가중치가 줄표이거나 페이지를 쓸 수 없으면 알 수 없음으로 적으세요. 미등재는 수입 0이 아닙니다. [Host를 찾지 못함](/learn/" +
           missing +
           ")을 보세요.",
-        "- 같은 gonka 주소가 여러 저장 기기에 있으면 가중치를 합산하지 마세요. 같은 기록입니다. 따로 저장한 기기만 프로젝트당 5대(Pro 50대) 자리를 씁니다.",
+        "- 같은 gonka 주소가 여러 저장 기기에 있으면 가중치를 합산하지 마세요. 같은 기록입니다. 따로 저장한 기기만 프로젝트당 3대(Pro 100대) 자리를 씁니다.",
         "## 예시",
         "설명용이며 실제 수입이 아닙니다. 문서 예시의 weight는 10입니다. 당신 페이지도 10이라도 그것은 여전히 보상 가중치입니다. 공식 환산이 없으면 10 옆에 GNK나 달러를 쓰지 마세요.",
         "## 한계",
@@ -1274,7 +1274,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 重みがダッシュ、またはページが使えないなら不明と記録します。未掲載は収入0ではありません。[Hostが見つからない](/learn/" +
           missing +
           ") を見てください。",
-        "- 同じgonkaアドレスが複数の保存デバイスにあっても、重みを足さないでください。同じ記録です。別に保存したデバイスだけが、プロジェクトあたり5台（Proは50台）の枠を使います。",
+        "- 同じgonkaアドレスが複数の保存デバイスにあっても、重みを足さないでください。同じ記録です。別に保存したデバイスだけが、プロジェクトあたり3台（Proは100台）の枠を使います。",
         "## 例示",
         "説明用であり、実際の収入ではありません。文書例のweightは10です。自分のページも10でも、それはやはり報酬の重みです。公式の換算がなければ、10の横にGNKやドルを書かないでください。",
         "## 限界",
@@ -1407,11 +1407,11 @@ export const gonkaDepthGuides: Article[] = [
           "見つからない検索は無料枠を追加で使いますか？",
         ),
         text(
-          "不会。在项目页查找不占用名额。只有把 Gonka 存成一台设备记录时才计入该项目的 5 台（Pro 为 50 台）。同一台设备上再绑一次不增加名额。",
-          "不會。在專案頁查找不佔用名額。只有把 Gonka 存成一台裝置紀錄時才計入該專案的 5 台（Pro 為 50 台）。同一台裝置上再綁一次不增加名額。",
-          "No. A lookup on the project page does not use a slot. A slot is used when you save Gonka as a device record: five per project on Free, 50 on Pro. Binding it again on the same device does not add a slot.",
-          "쓰지 않습니다. 프로젝트 페이지에서 찾는 것은 자리를 쓰지 않습니다. Gonka를 기기 기록으로 저장할 때만 프로젝트당 5대(Pro 50대)에 포함됩니다. 같은 기기에 다시 묶어도 자리는 늘지 않습니다.",
-          "使いません。プロジェクトページでの検索は枠を使いません。Gonkaをデバイス記録として保存したときだけ、プロジェクトあたり5台（Proは50台）に数えます。同じデバイスに重ねても枠は増えません。",
+          "不会。在项目页查找不占用名额。只有把 Gonka 存成一台设备记录时才计入该项目的 3 台（Pro 为 100 台）。同一台设备上再绑一次不增加名额。",
+          "不會。在專案頁查找不佔用名額。只有把 Gonka 存成一台裝置紀錄時才計入該專案的 3 台（Pro 為 100 台）。同一台裝置上再綁一次不增加名額。",
+          "No. A lookup on the project page does not use a slot. A slot is used when you save Gonka as a device record: three per project on Free, 100 on Pro. Binding it again on the same device does not add a slot.",
+          "쓰지 않습니다. 프로젝트 페이지에서 찾는 것은 자리를 쓰지 않습니다. Gonka를 기기 기록으로 저장할 때만 프로젝트당 3대(Pro 100대)에 포함됩니다. 같은 기기에 다시 묶어도 자리는 늘지 않습니다.",
+          "使いません。プロジェクトページでの検索は枠を使いません。Gonkaをデバイス記録として保存したときだけ、プロジェクトあたり3台（Proは100台）に数えます。同じデバイスに重ねても枠は増えません。",
         ),
       ],
     ]),
@@ -1441,7 +1441,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 反复未获取：保留未知，改到 [API 文档](" +
           api +
           ") 查看当前轮次参与者，而不是在监控里补 0。",
-        "- 查找本身不占设备名额。保存成设备后，免费每项目 5 台，Pro 50 台。",
+        "- 查找本身不占设备名额。保存成设备后，免费每项目 3 台，Pro 100 台。",
         "## 示意",
         "说明性分支，不是某台机器的故障记录：地址写成 gonka1… 且名单已加载但没有这条，走当前轮次未列出此地址。把 http 服务地址贴进去，同样对不上，也走当前轮次未列出此地址，但原因是标识不对。页面完全没有 epoch 时走未获取，权重保持未知。",
         "## 界限",
@@ -1474,7 +1474,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 反覆未取得：保留未知，改到 [API 文件](" +
           api +
           ") 查看目前輪次參與者，而不是在監控裡補 0。",
-        "- 查找本身不佔裝置名額。儲存成裝置後，免費每專案 5 台，Pro 50 台。",
+        "- 查找本身不佔裝置名額。儲存成裝置後，免費每專案 3 台，Pro 100 台。",
         "## 示意",
         "說明性分支，不是某台機器的故障紀錄：地址寫成 gonka1… 且名單已載入但沒有這條，走目前輪次未列出此地址。把 http 服務地址貼進去，同樣對不上，也走目前輪次未列出此地址，但原因是標識不對。頁面完全沒有 epoch 時走未取得，權重保持未知。",
         "## 界限",
@@ -1507,7 +1507,7 @@ export const gonkaDepthGuides: Article[] = [
         "- If it stays unavailable: keep unknown and use the [API docs](" +
           api +
           ") for the current-epoch participants. Do not fill 0 in the monitor.",
-        "- The lookup itself does not use a device slot. After you save a device, Free is five per project and Pro is 50.",
+        "- The lookup itself does not use a device slot. After you save a device, Free is three per project and Pro is 100.",
         "## Illustration",
         "An illustrative branch, not a fault record for a real machine: a gonka1… address with a loaded list that lacks that row is not listed. Pasting an http service address also fails to match and is not listed, but the cause is the wrong identifier. When the page has no epoch at all, the branch is unavailable and weight stays unknown.",
         "## Limits",
@@ -1539,7 +1539,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 계속 사용할 수 없으면 알 수 없음을 유지하고 [API 문서](" +
           api +
           ")에서 현재 에포크 참여자를 보세요. 모니터에 0을 채우지 마세요.",
-        "- 조회 자체는 기기 자리를 쓰지 않습니다. 기기로 저장한 뒤 무료는 프로젝트당 5대, Pro는 50대입니다.",
+        "- 조회 자체는 기기 자리를 쓰지 않습니다. 기기로 저장한 뒤 무료는 프로젝트당 3대, Pro는 100대입니다.",
         "## 예시",
         "설명용 갈림이며 실제 기계의 고장 기록이 아닙니다. gonka1… 주소인데 명단은 읽혔고 그 행이 없으면 미등재입니다. http 서비스 주소를 붙여도 맞지 않아 미등재이지만, 원인은 식별자가 틀린 것입니다. 페이지에 epoch가 전혀 없으면 사용 불가이고 가중치는 알 수 없음입니다.",
         "## 한계",
@@ -1571,7 +1571,7 @@ export const gonkaDepthGuides: Article[] = [
         "- 何度も利用不可なら不明のままにし、[API文書](" +
           api +
           ")で現在期の参加者を見ます。モニターに0を埋めないでください。",
-        "- 検索自体はデバイス枠を使いません。デバイスとして保存したあと、無料はプロジェクトあたり5台、Proは50台です。",
+        "- 検索自体はデバイス枠を使いません。デバイスとして保存したあと、無料はプロジェクトあたり3台、Proは100台です。",
         "## 例示",
         "説明用の分岐であり、実機の故障記録ではありません。gonka1…のアドレスで名簿は読めたがその行がなければ未掲載です。httpのサービスアドレスを貼っても一致せず未掲載ですが、原因は識別子の違いです。ページにepochが全くなければ利用不可で、重みは不明のままです。",
         "## 限界",

@@ -167,11 +167,11 @@ export const proCopy = {
 
   days: localized(["天", "天", "days", "일", "日"]),
   memberSummary: localized([
-    "50 台 / 项目 · 收益邮件、提醒与批量管理",
-    "50 台 / 專案 · 收益郵件、提醒與批次管理",
-    "50 devices / project · Earnings emails, alerts and bulk management",
-    "프로젝트당 50대 · 수익 이메일, 알림 및 일괄 관리",
-    "プロジェクトあたり50台 · 収益メール、通知、一括管理",
+    "100 台 / 项目 · 收益邮件、提醒与批量管理",
+    "100 台 / 專案 · 收益郵件、提醒與批次管理",
+    "100 devices / project · Earnings emails, alerts and bulk management",
+    "프로젝트당 100대 · 수익 이메일, 알림 및 일괄 관리",
+    "プロジェクトあたり100台 · 収益メール、通知、一括管理",
   ]),
 
   rules: localized([

@@ -85,8 +85,8 @@ describe("Ergo and Zephyr standard addresses", () => {
     }
   });
   it("keeps 2Miners hosts, payment units and wallet-scoped workers bounded", () => {
-    expect(PLANS.free.projectDeviceLimit).toBe(5);
-    expect(PLANS.pro.projectDeviceLimit).toBe(50);
+    expect(PLANS.free.projectDeviceLimit).toBe(3);
+    expect(PLANS.pro.projectDeviceLimit).toBe(100);
     expect(twoMinersPaymentDivisor("erg")).toBe(1e9);
     expect(twoMinersPaymentDivisor("zeph")).toBe(1e12);
     expect(twoMinersPaymentDivisor("etc")).toBe(1e9);
@@ -170,13 +170,13 @@ describe("Ergo and Zephyr standard addresses", () => {
         expect(xml).toContain(`/${locale}/projects/${id}`);
         expect(projectsSeo(locale, id).meta[0]).toHaveProperty("title");
         expect(poolEditorial[id].summary[locale].length).toBeGreaterThan(20);
-        expect(poolEditorial[id].coverage[locale].length).toBeGreaterThan(40);
+        expect(poolEditorial[id].coverage[locale].length).toBeGreaterThan(20);
       }
     }
-    expect(poolEditorial.erg.coverage.en).toContain("1e9");
-    expect(poolEditorial.zeph.coverage.en).toContain("1e12");
-    expect(poolEditorial.erg.coverage.en).toContain("rolling 24-hour");
-    expect(poolEditorial.zeph.coverage.en).toContain("rolling 24-hour");
+    expect(poolEditorial.erg.coverage.en).toContain("Regular 2Miners pool only");
+    expect(poolEditorial.zeph.coverage.en).toContain("Regular 2Miners pool only");
+    expect(poolEditorial.erg.coverage.en).toContain("rolling window");
+    expect(poolEditorial.zeph.coverage.en).toContain("rolling window");
     expect(poolEditorial.erg.identity.en).toContain("SOLO pools are not supported");
     expect(poolEditorial.zeph.identity.en).toContain("Integrated");
   });

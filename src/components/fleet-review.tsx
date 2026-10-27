@@ -139,7 +139,7 @@ export function FleetReview() {
         billing={{
           plan,
           quotaScope: "per_project",
-          projectDeviceLimit: plan === "pro" ? 50 : 5,
+          projectDeviceLimit: plan === "pro" ? 100 : 3,
           configured: false,
           status: plan === "pro" ? "active" : null,
           periodEnd: Date.now() + 30 * 86400000,

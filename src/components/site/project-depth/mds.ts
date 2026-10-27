@@ -157,7 +157,7 @@ export const mdsDepthGuides: Article[] = [
         "## 一组只用来看加法的数",
         "下面是一组示意数字，用来看未支付怎么由可用和锁定相加。假设 LuckyPool 返回可用 1024、锁定 1048576。未支付显示 1049600 MDS，也就是协议里的 1 mMDS 再加 1024 MDS。已支付若为 1073741824，那是另一列，等于协议里的 1 gMDS，不会并进未支付。官方矿工状态屏的示例打印是 301.20 nonces/s；若账户速率是 301，本页显示 `301 nonces/s`。不要把 301 去除 1,048,576。",
         "## 金额、缺数和已保存设备",
-        "本页不报 LuckyPool 手续费，也不承诺何时打款。协议页的币单位是二进制：1 kMDS = 1,024 MDS，1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。监控按基础 MDS 整数显示，不另写 mMDS 标签。合并挖矿的 Midwimble（`mw1`）不在这本账里。查无此地址只说明 LuckyPool 没有这串 MSS，solo 或其他池仍可能在挖。接口缺数保持未知，不改写成 0。未登录时地址列表留在当前浏览器；登录后，每个项目免费可保存 5 台设备，Pro 为 50 台。同一地址下自动出现的 Worker 不另占一台；只有另外把 Worker 保存成独立设备时，那条记录才计数。同一台已保存设备上的多个来源不重复计数。崩溃日志解读不占用这个名额，也不会写成 MDS 收益。本站 Agent 只控制 Train at Home 的 Mac，不能开关 Midstate 矿工。",
+        "本页不报 LuckyPool 手续费，也不承诺何时打款。协议页的币单位是二进制：1 kMDS = 1,024 MDS，1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。监控按基础 MDS 整数显示，不另写 mMDS 标签。合并挖矿的 Midwimble（`mw1`）不在这本账里。查无此地址只说明 LuckyPool 没有这串 MSS，solo 或其他池仍可能在挖。接口缺数保持未知，不改写成 0。未登录时地址列表留在当前浏览器；登录后，每个项目免费可保存 3 台设备，Pro 为 100 台。同一地址下自动出现的 Worker 不另占一台；只有另外把 Worker 保存成独立设备时，那条记录才计数。同一台已保存设备上的多个来源不重复计数。崩溃日志解读不占用这个名额，也不会写成 MDS 收益。本站 Agent 只控制 Train at Home 的 Mac，不能开关 Midstate 矿工。",
         "接着看 [MSS 地址和 LuckyPool 怎么对上](/learn/mds-wallet-luckypool-setup)，以及 [锁定、可用和已支付](/learn/mds-locked-unlocked-paid)。",
       ],
       "zh-TW": [
@@ -173,7 +173,7 @@ export const mdsDepthGuides: Article[] = [
         "## 一組只用來看加法的數",
         "下面是一組示意數字，用來看未支付怎麼由可用和鎖定相加。假設 LuckyPool 返回可用 1024、鎖定 1048576。未支付顯示 1049600 MDS，也就是協議裡的 1 mMDS 再加 1024 MDS。已支付若為 1073741824，那是另一欄，等於協議裡的 1 gMDS，不會併進未支付。官方礦工狀態畫面的示例是 301.20 nonces/s；若帳戶速率是 301，本頁顯示 `301 nonces/s`。不要把 301 去除 1,048,576。",
         "## 金額、缺數和已保存裝置",
-        "本頁不報 LuckyPool 手續費，也不承諾何時打款。協議頁的幣單位是二進位：1 kMDS = 1,024 MDS，1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。監控按基礎 MDS 整數顯示，不另寫 mMDS 標籤。合併挖礦的 Midwimble（`mw1`）不在這本帳裡。查無此地址只說明 LuckyPool 沒有這串 MSS，solo 或其他池仍可能在挖。介面缺數保持未知，不改寫成 0。未登入時地址清單留在目前瀏覽器；登入後，每個專案免費可保存 5 台裝置，Pro 為 50 台。同一地址下自動出現的 Worker 不另占一台；只有另外把 Worker 保存成獨立裝置時，那條紀錄才計數。同一台已保存裝置上的多個來源不重複計數。當機日誌解讀不占用這個名額，也不會寫成 MDS 收益。本站 Agent 只控制 Train at Home 的 Mac，不能開關 Midstate 礦工。",
+        "本頁不報 LuckyPool 手續費，也不承諾何時打款。協議頁的幣單位是二進位：1 kMDS = 1,024 MDS，1 mMDS = 1,048,576 MDS，1 gMDS = 1,073,741,824 MDS。監控按基礎 MDS 整數顯示，不另寫 mMDS 標籤。合併挖礦的 Midwimble（`mw1`）不在這本帳裡。查無此地址只說明 LuckyPool 沒有這串 MSS，solo 或其他池仍可能在挖。介面缺數保持未知，不改寫成 0。未登入時地址清單留在目前瀏覽器；登入後，每個專案免費可保存 3 台裝置，Pro 為 100 台。同一地址下自動出現的 Worker 不另占一台；只有另外把 Worker 保存成獨立裝置時，那條紀錄才計數。同一台已保存裝置上的多個來源不重複計數。當機日誌解讀不占用這個名額，也不會寫成 MDS 收益。本站 Agent 只控制 Train at Home 的 Mac，不能開關 Midstate 礦工。",
         "接著看 [MSS 地址和 LuckyPool 怎麼對上](/learn/mds-wallet-luckypool-setup)，以及 [鎖定、可用和已支付](/learn/mds-locked-unlocked-paid)。",
       ],
       en: [
@@ -189,7 +189,7 @@ export const mdsDepthGuides: Article[] = [
         "## Integers that only show the addition",
         "The next integers are an illustration of how unpaid adds unlocked and locked. If LuckyPool returned unlocked 1024 and locked 1048576, unpaid shows 1049600 MDS: 1 mMDS in the protocol plus 1024 MDS. If paid is 1073741824, that stays on its own line. In protocol units it is 1 gMDS, and it is not folded into unpaid. The official miner status sample prints 301.20 nonces/s. An account rate of 301 is shown here as `301 nonces/s`. Do not divide 301 by 1,048,576.",
         "## Amounts, gaps, and saved devices",
-        "This page does not quote a LuckyPool fee or promise a payout time. On the protocol site the coin steps are binary: 1 kMDS = 1,024 MDS, 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS. Monitoring prints the base MDS integer and does not add an mMDS label. Merge-mined Midwimble (`mw1`) is not on this ledger. Not-found means LuckyPool has no such MSS. Solo or another pool can still be mining. A missing figure stays unknown and is not rewritten as 0. Signed-out address lists stay in the current browser. After sign-in, Free keeps five saved devices per project and Pro keeps 50. Worker rows that appear under one address do not add a device. A worker counts only when you save it as its own device. Several sources on the same saved device do not add slots. Crash-log interpretation does not use that quota and does not become an MDS earnings report. The Agent on this site controls a Train at Home Mac only. It cannot start or stop a Midstate miner.",
+        "This page does not quote a LuckyPool fee or promise a payout time. On the protocol site the coin steps are binary: 1 kMDS = 1,024 MDS, 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS. Monitoring prints the base MDS integer and does not add an mMDS label. Merge-mined Midwimble (`mw1`) is not on this ledger. Not-found means LuckyPool has no such MSS. Solo or another pool can still be mining. A missing figure stays unknown and is not rewritten as 0. Signed-out address lists stay in the current browser. After sign-in, Free keeps three saved devices per project and Pro keeps 100. Worker rows that appear under one address do not add a device. A worker counts only when you save it as its own device. Several sources on the same saved device do not add slots. Crash-log interpretation does not use that quota and does not become an MDS earnings report. The Agent on this site controls a Train at Home Mac only. It cannot start or stop a Midstate miner.",
         "Continue with [matching the MSS address to LuckyPool](/learn/mds-wallet-luckypool-setup) and [locked, unlocked, and paid](/learn/mds-locked-unlocked-paid).",
       ],
       ko: [
@@ -205,7 +205,7 @@ export const mdsDepthGuides: Article[] = [
         "## 덧셈만 보여주는 정수",
         "다음 정수는 미지급이 사용 가능과 잠금을 어떻게 더하는지 보여주는 예시입니다. LuckyPool이 사용 가능 1024, 잠금 1048576을 돌려주면 미지급은 1049600 MDS입니다. 프로토콜의 1 mMDS에 1024 MDS를 더한 값입니다. 지급이 1073741824이면 그 줄에만 남습니다. 프로토콜로는 1 gMDS이고 미지급에 넣지 않습니다. 공식 채굴기 상태 예시 출력은 301.20 nonces/s입니다. 계정 속도가 301이면 여기에는 `301 nonces/s`로 나옵니다. 301을 1,048,576으로 나누지 마세요.",
         "## 금액, 빈칸, 저장 기기",
-        "이 페이지는 LuckyPool 수수료를 적지 않고 지급 시각을 약속하지 않습니다. 프로토콜 사이트의 코인 단계는 이진입니다. 1 kMDS = 1,024 MDS, 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS. 모니터는 기본 MDS 정수를 찍고 mMDS 라벨을 붙이지 않습니다. 병합 채굴 Midwimble(`mw1`)은 이 장부에 없습니다. 주소 없음은 LuckyPool에 그 MSS가 없다는 뜻입니다. 솔로나 다른 풀은 계속 캘 수 있습니다. 빠진 수는 알 수 없음으로 두고 0으로 바꾸지 않습니다. 로그아웃 목록은 현재 브라우저에 남습니다. 로그인 후 프로젝트당 무료 저장 기기는 5대, Pro는 50대입니다. 한 주소 아래 자동으로 보이는 워커 행은 기기를 더하지 않습니다. 워커를 따로 기기로 저장할 때만 그 기록이 셉니다. 같은 저장 기기의 여러 출처는 자리를 더하지 않습니다. 충돌 로그 해석은 이 한도를 쓰지 않고 MDS 수익 보고가 되지 않습니다. 이 사이트의 Agent는 Train at Home Mac만 제어하며 Midstate 채굴기를 켜거나 끄지 않습니다.",
+        "이 페이지는 LuckyPool 수수료를 적지 않고 지급 시각을 약속하지 않습니다. 프로토콜 사이트의 코인 단계는 이진입니다. 1 kMDS = 1,024 MDS, 1 mMDS = 1,048,576 MDS, 1 gMDS = 1,073,741,824 MDS. 모니터는 기본 MDS 정수를 찍고 mMDS 라벨을 붙이지 않습니다. 병합 채굴 Midwimble(`mw1`)은 이 장부에 없습니다. 주소 없음은 LuckyPool에 그 MSS가 없다는 뜻입니다. 솔로나 다른 풀은 계속 캘 수 있습니다. 빠진 수는 알 수 없음으로 두고 0으로 바꾸지 않습니다. 로그아웃 목록은 현재 브라우저에 남습니다. 로그인 후 프로젝트당 무료 저장 기기는 3대, Pro는 100대입니다. 한 주소 아래 자동으로 보이는 워커 행은 기기를 더하지 않습니다. 워커를 따로 기기로 저장할 때만 그 기록이 셉니다. 같은 저장 기기의 여러 출처는 자리를 더하지 않습니다. 충돌 로그 해석은 이 한도를 쓰지 않고 MDS 수익 보고가 되지 않습니다. 이 사이트의 Agent는 Train at Home Mac만 제어하며 Midstate 채굴기를 켜거나 끄지 않습니다.",
         "이어서 [MSS 주소와 LuckyPool을 맞추기](/learn/mds-wallet-luckypool-setup)와 [잠금·사용 가능·지급](/learn/mds-locked-unlocked-paid)을 보세요.",
       ],
       ja: [
@@ -221,7 +221,7 @@ export const mdsDepthGuides: Article[] = [
         "## 足し算だけを示す整数",
         "次の整数は、未払いが使用可能とロックをどう足すかを示す例です。LuckyPoolが使用可能 1024、ロック 1048576 を返したなら、未払いは 1049600 MDS です。プロトコルの 1 mMDS に 1024 MDS を足した値です。支払が 1073741824 ならその行のままです。プロトコルでは 1 gMDS で、未払いには入れません。公式マイナー状態画面の例は 301.20 nonces/s です。口座速度が 301 なら、ここは `301 nonces/s` と出します。301 を 1,048,576 で割らないでください。",
         "## 金額、欠け、保存した装置",
-        "このページはLuckyPoolの手数料を書かず、支払時刻も約束しません。プロトコルサイトのコイン段階は二進です。1 kMDS = 1,024 MDS、1 mMDS = 1,048,576 MDS、1 gMDS = 1,073,741,824 MDS。監視は基礎MDSの整数を出し、mMDSのラベルは付けません。マージ採掘のMidwimble（`mw1`）はこの台帳にありません。アドレスなしはLuckyPoolにそのMSSがないという意味です。ソロや別プールは掘り続けられます。欠けた数は不明のままで、0にはしません。未ログインの一覧は今のブラウザに残ります。ログイン後、プロジェクトごとに無料で保存できる装置は5台、Proは50台です。一つのアドレスの下に自動で出るワーカー行は装置を増やしません。ワーカーを別の装置として保存したときだけ、その記録が数に入ります。同じ保存装置の複数の取得元は枠を増やしません。クラッシュログの解釈はこの枠を使わず、MDSの収益報告にもなりません。このサイトのAgentが制御するのはTrain at HomeのMacだけで、Midstateのマイナーは起動も停止もしません。",
+        "このページはLuckyPoolの手数料を書かず、支払時刻も約束しません。プロトコルサイトのコイン段階は二進です。1 kMDS = 1,024 MDS、1 mMDS = 1,048,576 MDS、1 gMDS = 1,073,741,824 MDS。監視は基礎MDSの整数を出し、mMDSのラベルは付けません。マージ採掘のMidwimble（`mw1`）はこの台帳にありません。アドレスなしはLuckyPoolにそのMSSがないという意味です。ソロや別プールは掘り続けられます。欠けた数は不明のままで、0にはしません。未ログインの一覧は今のブラウザに残ります。ログイン後、プロジェクトごとに無料で保存できる装置は3台、Proは100台です。一つのアドレスの下に自動で出るワーカー行は装置を増やしません。ワーカーを別の装置として保存したときだけ、その記録が数に入ります。同じ保存装置の複数の取得元は枠を増やしません。クラッシュログの解釈はこの枠を使わず、MDSの収益報告にもなりません。このサイトのAgentが制御するのはTrain at HomeのMacだけで、Midstateのマイナーは起動も停止もしません。",
         "続けて [MSSアドレスとLuckyPoolを合わせる](/learn/mds-wallet-luckypool-setup) と [ロック・使用可能・支払済](/learn/mds-locked-unlocked-paid) を見てください。",
       ],
     },
@@ -255,7 +255,7 @@ export const mdsDepthGuides: Article[] = [
         {
           question: "崩溃解读或 Agent 会改这笔矿池账吗？",
           answer:
-            "不会。崩溃日志解读免费，也不占用每个项目免费 5 台、Pro 50 台的保存额度。Agent 只控制 Train at Home 的 Mac，不能开关 Midstate 矿工，也不能代替 LuckyPool 打款。",
+            "不会。崩溃日志解读免费，也不占用每个项目免费 3 台、Pro 100 台的保存额度。Agent 只控制 Train at Home 的 Mac，不能开关 Midstate 矿工，也不能代替 LuckyPool 打款。",
         },
       ],
       "zh-TW": [
@@ -287,7 +287,7 @@ export const mdsDepthGuides: Article[] = [
         {
           question: "當機解讀或 Agent 會改這筆礦池帳嗎？",
           answer:
-            "不會。當機日誌解讀免費，也不佔用每個專案免費 5 台、Pro 50 台的保存額度。Agent 只控制 Train at Home 的 Mac，不能開關 Midstate 礦工，也不能代替 LuckyPool 打款。",
+            "不會。當機日誌解讀免費，也不佔用每個專案免費 3 台、Pro 100 台的保存額度。Agent 只控制 Train at Home 的 Mac，不能開關 Midstate 礦工，也不能代替 LuckyPool 打款。",
         },
       ],
       en: [
@@ -319,7 +319,7 @@ export const mdsDepthGuides: Article[] = [
         {
           question: "Can crash interpretation or the Agent change this pool ledger?",
           answer:
-            "No. Crash-log interpretation is free and does not use the free quota of five saved devices per project, or the Pro quota of 50. The Agent controls a Train at Home Mac only. It cannot start or stop a Midstate miner, and it cannot pay out on LuckyPool’s behalf.",
+            "No. Crash-log interpretation is free and does not use the free quota of three saved devices per project, or the Pro quota of 100. The Agent controls a Train at Home Mac only. It cannot start or stop a Midstate miner, and it cannot pay out on LuckyPool’s behalf.",
         },
       ],
       ko: [
@@ -351,7 +351,7 @@ export const mdsDepthGuides: Article[] = [
         {
           question: "충돌 해석이나 Agent가 이 풀 장부를 바꾸나요?",
           answer:
-            "아닙니다. 충돌 로그 해석은 무료이고 프로젝트당 무료 5대, Pro 50대 저장 한도를 쓰지 않습니다. Agent는 Train at Home Mac만 제어합니다. Midstate 채굴기를 켜거나 끄지 못하고, LuckyPool을 대신해 지급하지도 않습니다.",
+            "아닙니다. 충돌 로그 해석은 무료이고 프로젝트당 무료 3대, Pro 100대 저장 한도를 쓰지 않습니다. Agent는 Train at Home Mac만 제어합니다. Midstate 채굴기를 켜거나 끄지 못하고, LuckyPool을 대신해 지급하지도 않습니다.",
         },
       ],
       ja: [
@@ -383,7 +383,7 @@ export const mdsDepthGuides: Article[] = [
         {
           question: "クラッシュ解釈や Agent はこのプール台帳を変えますか？",
           answer:
-            "変えません。クラッシュログの解釈は無料で、プロジェクトごとの無料5台・Pro 50台の保存枠を使いません。Agent が制御するのは Train at Home の Mac だけです。Midstate のマイナーは起動も停止もせず、LuckyPool の代わりに支払うこともありません。",
+            "変えません。クラッシュログの解釈は無料で、プロジェクトごとの無料3台・Pro 100台の保存枠を使いません。Agent が制御するのは Train at Home の Mac だけです。Midstate のマイナーは起動も停止もせず、LuckyPool の代わりに支払うこともありません。",
         },
       ],
     },

@@ -182,3 +182,10 @@ it("shows NOID compute process resource use without claiming hashrate or shares"
   expect(html).not.toContain("H/s");
   expect(html).not.toContain("有效 / 拒绝");
 });
+
+it("explains Linux project collection is unsupported while retaining pool status", () => {
+  const linux = { ...agent, snapshot: { platform: "linux" as const, monitorOnly: true, miners: [] } };
+  const html = renderToStaticMarkup(<ProjectMinerSlots bindings={[{...binding, project:"prl"}]} agent={linux} now={now} locale="zh" />);
+  expect(html).toContain("Linux Agent 暂不支持采集此项目");
+  expect(html).not.toContain("尚未识别到本项目矿工");
+});

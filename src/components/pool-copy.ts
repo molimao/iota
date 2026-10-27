@@ -133,11 +133,11 @@ const ergEditorial = {
     "erg.2miners.comで使う、9から始まるErgoメインネットのP2PK報酬アドレスを入力してください。テストネット、その他のアドレス形式、SOLOプールは未対応です。",
   ]),
   coverage: localized([
-    "展示 erg.2miners.com 普通矿池的算力、Worker 状态、未支付余额、累计已支付及滚动近 24 小时收益，不是全网余额，不含 SOLO 或其他矿池，也不是 IOTA 昨日记账。1 ERG = 1e9 支付单位。收益属于整个地址，多个 Worker 不会各算一台设备；没有数据时保持未知，不显示为 0，也不提供美元报价或保本收益。",
-    "顯示 erg.2miners.com 一般礦池的算力、Worker 狀態、未支付餘額、累計已支付與滾動近 24 小時收益，不是全網餘額，不含 SOLO 或其他礦池，也不是 IOTA 昨日記帳。1 ERG = 1e9 支付單位。收益屬於整個地址，多個 Worker 不會各算一台設備；沒有資料時保持未知，不顯示為 0，也不提供美元報價或保本收益。",
-    "View hashrate, Worker status, unpaid balance, total paid and rolling 24-hour rewards from the regular erg.2miners.com pool. This is not the network balance, not SOLO, not other pools and not IOTA's previous-day ledger. 1 ERG uses 1e9 payment units. Rewards belong to the address; Workers are not extra devices. Missing data stays unknown, is not shown as zero, and no USD quote or guaranteed return is provided.",
-    "erg.2miners.com 일반 풀의 해시레이트, Worker 상태, 미지급 잔액, 누적 지급액과 최근 24시간 보상을 표시합니다. 네트워크 전체 잔액도, SOLO나 다른 풀도, IOTA의 어제 장부도 아닙니다. 1 ERG = 1e9 지급 단위입니다. 보상은 주소 전체이며 Worker를 추가 기기로 세지 않습니다. 빠진 값은 알 수 없음으로 두고 0으로 표시하지 않으며 USD 시세나 원금 보장 수익을 만들지 않습니다.",
-    "erg.2miners.com通常プールのハッシュレート、Worker状態、未払い残高、累計支払額、直近24時間の報酬を表示します。ネットワーク全体の残高でも、SOLOや他プールでも、IOTAの前日台帳でもありません。1 ERG = 1e9 支払い単位です。報酬はアドレス全体で、Workerを追加デバイスとして数えません。欠損値は不明のままにし、0やUSD換算、元本保証の収益にはしません。",
+    "仅统计 2Miners 普通矿池。收益按地址汇总，近 24 小时为滚动周期。",
+    "僅統計 2Miners 一般礦池。收益依地址彙總，近 24 小時為滾動週期。",
+    "Regular 2Miners pool only. Rewards are wallet-wide; the last 24 hours are a rolling window.",
+    "2Miners 일반 풀 기준입니다. 보상은 주소별로 합산하며 최근 24시간은 이동 기간입니다.",
+    "2Miners通常プールのみ。報酬はアドレス単位で、直近24時間は移動期間です。",
   ]),
 };
 const zephEditorial = {
@@ -163,11 +163,11 @@ const zephEditorial = {
     "zeph.2miners.comで使う、ZEPHYRから始まるメインネット標準報酬アドレスを入力してください。統合アドレス、サブアドレス、テストネット、SOLOプールは未対応です。",
   ]),
   coverage: localized([
-    "展示 zeph.2miners.com 普通矿池的算力、Worker 状态、未支付余额、累计已支付及滚动近 24 小时收益，不是全网余额，不含 SOLO 或其他矿池，也不是 IOTA 昨日记账。RandomX 按 1 ZEPH = 1e12 支付单位换算。收益属于整个地址，多个 Worker 不会各算一台设备；没有数据时保持未知，不显示为 0，也不提供美元报价或保本收益。",
-    "顯示 zeph.2miners.com 一般礦池的算力、Worker 狀態、未支付餘額、累計已支付與滾動近 24 小時收益，不是全網餘額，不含 SOLO 或其他礦池，也不是 IOTA 昨日記帳。RandomX 按 1 ZEPH = 1e12 支付單位換算。收益屬於整個地址，多個 Worker 不會各算一台設備；沒有資料時保持未知，不顯示為 0，也不提供美元報價或保本收益。",
-    "View hashrate, Worker status, unpaid balance, total paid and rolling 24-hour rewards from the regular zeph.2miners.com pool. This is not the network balance, not SOLO, not other pools and not IOTA's previous-day ledger. RandomX amounts use 1e12 payment units per ZEPH. Rewards belong to the address; Workers are not extra devices. Missing data stays unknown, is not shown as zero, and no USD quote or guaranteed return is provided.",
-    "zeph.2miners.com 일반 풀의 해시레이트, Worker 상태, 미지급 잔액, 누적 지급액과 최근 24시간 보상을 표시합니다. 네트워크 전체 잔액도, SOLO나 다른 풀도, IOTA의 어제 장부도 아닙니다. RandomX는 1 ZEPH = 1e12 지급 단위입니다. 보상은 주소 전체이며 Worker를 추가 기기로 세지 않습니다. 빠진 값은 알 수 없음으로 두고 0으로 표시하지 않으며 USD 시세나 원금 보장 수익을 만들지 않습니다.",
-    "zeph.2miners.com通常プールのハッシュレート、Worker状態、未払い残高、累計支払額、直近24時間の報酬を表示します。ネットワーク全体の残高でも、SOLOや他プールでも、IOTAの前日台帳でもありません。RandomXは1 ZEPH = 1e12 支払い単位です。報酬はアドレス全体で、Workerを追加デバイスとして数えません。欠損値は不明のままにし、0やUSD換算、元本保証の収益にはしません。",
+    "仅统计 2Miners 普通矿池。收益按地址汇总，近 24 小时为滚动周期。",
+    "僅統計 2Miners 一般礦池。收益依地址彙總，近 24 小時為滾動週期。",
+    "Regular 2Miners pool only. Rewards are wallet-wide; the last 24 hours are a rolling window.",
+    "2Miners 일반 풀 기준입니다. 보상은 주소별로 합산하며 최근 24시간은 이동 기간입니다.",
+    "2Miners通常プールのみ。報酬はアドレス単位で、直近24時間は移動期間です。",
   ]),
 };
 function editorial(p: PoolProject) {
@@ -207,12 +207,12 @@ function editorial(p: PoolProject) {
         "CKPoolで使うビットコインのメインネットアドレスを入力します。1、3、bc1q、bc1pです。テストネット、大文字小文字混在のbech32、誤ったチェックサム、リンクは拒否します。",
       ]),
       coverage: localized([
-        "只读 raw.stats.ckpool.org/users 返回的该地址记录。算力取 hashrate1hr。Worker 数量含空闲记录，不等于实物矿机。最后份额超过 10 分钟视为离线，时间不明则状态未知。没有余额、已支付或日收益字段，不显示为 0。",
-        "只讀 raw.stats.ckpool.org/users 回傳的該地址紀錄。算力取 hashrate1hr。Worker 數量含閒置紀錄，不等於實物礦機。最後份額超過 10 分鐘視為離線，時間不明則狀態未知。沒有餘額、已支付或日收益欄位，不顯示為 0。",
-        "Reads only the address record from raw.stats.ckpool.org/users. Hashrate is hashrate1hr. The Worker count includes idle records and is not a count of physical machines. A last share older than 10 minutes is offline; an unknown time stays unknown. Balance, paid, and daily rewards are absent and are not shown as zero.",
-        "raw.stats.ckpool.org/users의 해당 주소 기록만 읽습니다. 해시레이트는 hashrate1hr입니다. Worker 수는 유휴 기록을 포함하며 실제 기기 수가 아닙니다. 마지막 셰어가 10분을 넘으면 오프라인이고, 시각이 없으면 알 수 없음입니다. 잔액, 지급, 일일 보상 필드는 없으며 0으로 보이지 않습니다.",
-        "raw.stats.ckpool.org/usersのそのアドレス記録だけを読みます。算力はhashrate1hrです。Worker数はアイドルを含み、実機数ではありません。最終シェアが10分を超えるとオフライン、時刻が無ければ不明です。残高、支払、日次報酬の項目は無く、0にはしません。",
-      ]),
+    "CKPool 算力为 1 小时平均值，Worker 状态按最近份额判断。矿池暂不提供余额和收益。",
+    "CKPool 算力為 1 小時平均值，Worker 狀態依最近份額判斷。礦池暫不提供餘額與收益。",
+    "CKPool hashrate is a one-hour average; Worker status uses recent shares. Balance and earnings are unavailable.",
+    "CKPool 해시레이트는 1시간 평균이며 Worker 상태는 최근 셰어 기준입니다. 잔액과 수익은 제공되지 않습니다.",
+    "CKPoolの算力は1時間平均、Worker状態は直近シェアに基づきます。残高と収益は提供されていません。",
+  ]),
     };
   if (p === "ethw")
     return {
@@ -270,11 +270,11 @@ function editorial(p: PoolProject) {
       `${pool}の採掘設定にある公開報酬アドレスを入力。このプールの記録であり、ネットワーク全体のウォレット残高ではありません。`,
     ]),
     coverage: localized([
-      `查看算力、Worker 状态、未支付余额和累计已支付。${poolProvider(p) === "kryptex" ? "今日收益按 UTC 自然日统计。" : "收益为滚动近 24 小时；仅支持 2Miners 普通矿池，不含 SOLO。"}收益属于整个钱包，Worker 只筛选算力与状态；缺失数据不会当作零收益。`,
-      `查看算力、Worker 狀態、未支付餘額與累計已支付。${poolProvider(p) === "kryptex" ? "今日收益按 UTC 自然日統計。" : "收益為滾動近 24 小時；僅支援 2Miners 一般礦池，不含 SOLO。"}收益屬於整個錢包，Worker 僅篩選算力與狀態；缺失資料不視為零收益。`,
-      `View hashrate, Worker status, unpaid balance and total paid. ${poolProvider(p) === "kryptex" ? "Today's rewards use the UTC calendar day." : "Rewards cover the rolling last 24 hours. Only regular 2Miners pools are supported, not SOLO."} Rewards are wallet-wide; Workers filter hashrate and status only. Missing data is not zero earnings.`,
-      `해시레이트, Worker 상태, 미지급 잔액과 누적 지급액을 확인합니다. ${poolProvider(p) === "kryptex" ? "오늘 보상은 UTC 날짜 기준입니다." : "보상은 최근 24시간 기준입니다. 2Miners 일반 풀만 지원하며 SOLO는 제외됩니다."} 보상은 지갑 전체 기준이며 Worker는 해시레이트와 상태만 필터링합니다. 누락된 데이터는 0으로 처리하지 않습니다.`,
-      `ハッシュレート、Worker状態、未払い残高、累計支払額を確認できます。${poolProvider(p) === "kryptex" ? "本日の報酬はUTCの暦日で集計します。" : "報酬は直近24時間の値です。2Minersの通常プールのみ対応し、SOLOは対象外です。"}報酬はウォレット全体の値です。Workerはハッシュレートと状態のみ絞り込み、欠損値はゼロにしません。`,
+      `${poolProvider(p) === "kryptex" ? "今日收益按 UTC 统计。" : "收益为近 24 小时，仅支持 2Miners 普通矿池。"}收益属于整个钱包。`,
+      `${poolProvider(p) === "kryptex" ? "今日收益按 UTC 統計。" : "收益為近 24 小時，僅支援 2Miners 一般礦池。"}收益屬於整個錢包。`,
+      `${poolProvider(p) === "kryptex" ? "Today’s rewards use UTC." : "Rewards cover the last 24 hours; regular 2Miners pools only."} Rewards are wallet-wide.`,
+      `${poolProvider(p) === "kryptex" ? "오늘 보상은 UTC 기준입니다." : "보상은 최근 24시간 기준이며 2Miners 일반 풀만 지원합니다."} 보상은 지갑 전체 기준입니다.`,
+      `${poolProvider(p) === "kryptex" ? "本日の報酬はUTCで集計します。" : "報酬は直近24時間で、2Minersの通常プールのみ対応します。"}報酬はウォレット全体の値です。`,
     ]),
   };
 }

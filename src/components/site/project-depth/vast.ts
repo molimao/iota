@@ -246,7 +246,7 @@ export const vastDepthGuides: Article[] = [
         "## 举例",
         "举例，不是某台真实机器的入账：GPU 1.20、存储 0.30、上传 0.10、下载 0.05，当日合计是 1.65 美元。若下载那一项没有数字，合计保持未知，不是 1.60，也不是 0。",
         "## 界限",
-        "这个合计不包含尚未写入这四项的金额，也不承诺能提现或何时到账。Vast 公开站写的是客户侧按秒计费和自行定价，那不是这台机器的 Host 当日报告。免费方案每个项目可保存 5 台设备，Pro 为 50 台；同一台已保存设备上多绑一个来源不另占名额。崩溃分析不另收费。Agent 只能操作 Mac 上的 Train at Home，不能开关 Vast 租约。",
+        "这个合计不包含尚未写入这四项的金额，也不承诺能提现或何时到账。Vast 公开站写的是客户侧按秒计费和自行定价，那不是这台机器的 Host 当日报告。免费方案每个项目可保存 3 台设备，Pro 为 100 台；同一台已保存设备上多绑一个来源不另占名额。崩溃分析不另收费。Agent 只能操作 Mac 上的 Train at Home，不能开关 Vast 租约。",
       ],
       [
         "當日收入是這台 Host 機器在香港時間當天的四項美元合計：GPU、儲存、上傳頻寬、下載頻寬。四項都是數字才相加。打開 " +
@@ -270,7 +270,7 @@ export const vastDepthGuides: Article[] = [
         "## 舉例",
         "舉例，不是某台真實機器的入帳：GPU 1.20、儲存 0.30、上傳 0.10、下載 0.05，當日合計是 1.65 美元。若下載那一項沒有數字，合計保持未知，不是 1.60，也不是 0。",
         "## 界限",
-        "這個合計不包含尚未寫入這四項的金額，也不承諾能提現或何時到帳。Vast 公開站寫的是客戶側按秒計費和自行定價，那不是這台機器的 Host 當日報告。免費方案每個專案可保存 5 台設備，Pro 為 50 台；同一台已保存設備上多綁一個來源不另占名額。當機分析不另收費。Agent 只能操作 Mac 上的 Train at Home，不能開關 Vast 租約。",
+        "這個合計不包含尚未寫入這四項的金額，也不承諾能提現或何時到帳。Vast 公開站寫的是客戶側按秒計費和自行定價，那不是這台機器的 Host 當日報告。免費方案每個專案可保存 3 台設備，Pro 為 100 台；同一台已保存設備上多綁一個來源不另占名額。當機分析不另收費。Agent 只能操作 Mac 上的 Train at Home，不能開關 Vast 租約。",
       ],
       [
         "The day’s host income is the USD sum of four lines for one machine on the Hong Kong day: GPU, storage, upload bandwidth, and download bandwidth. The " +
@@ -294,7 +294,7 @@ export const vastDepthGuides: Article[] = [
         "## Illustrative case",
         "Illustrative, not a real machine’s payout: GPU 1.20, storage 0.30, upload 0.10, and download 0.05 sum to 1.65 USD for that day. If the download line has no number, the total stays unknown, not 1.60 and not 0.",
         "## Limits",
-        "The total does not include money that never arrived in these four lines, and it does not promise a withdrawal or a payout time. Vast’s public site describes client per-second billing and market prices. That is not this machine’s host day report. Free keeps five saved devices per project, Pro fifty. Another source on the same saved device does not take another slot. Crash analysis is free. The agent controls Train at Home on a Mac only; it cannot start or stop Vast rentals.",
+        "The total does not include money that never arrived in these four lines, and it does not promise a withdrawal or a payout time. Vast’s public site describes client per-second billing and market prices. That is not this machine’s host day report. Free keeps three saved devices per project, Pro fifty. Another source on the same saved device does not take another slot. Crash analysis is free. The agent controls Train at Home on a Mac only; it cannot start or stop Vast rentals.",
       ],
       [
         "당일 수입은 홍콩 시간 하루 동안 한 Host 머신에 기입된 네 USD 항목의 합입니다. GPU, 스토리지, 업로드 대역폭, 다운로드 대역폭입니다. 네 줄이 모두 숫자일 때만 " +
@@ -318,7 +318,7 @@ export const vastDepthGuides: Article[] = [
         "## 예시",
         "예시이며 실제 머신의 지급이 아닙니다. GPU 1.20, 스토리지 0.30, 업로드 0.10, 다운로드 0.05이면 그날 합계는 1.65 USD입니다. 다운로드에 숫자가 없으면 합계는 알 수 없음이며 1.60도 0도 아닙니다.",
         "## 한계",
-        "이 합계는 네 줄에 들어오지 않은 금액을 포함하지 않으며, 출금이나 지급 시각을 약속하지 않습니다. Vast 공개 사이트의 고객 초당 과금과 시장 가격은 이 머신의 Host 당일 보고가 아닙니다. 무료는 프로젝트마다 저장 기기 5대, Pro는 50대입니다. 같은 저장 기기에 출처를 더 묶어도 자리는 늘지 않습니다. 장애 분석은 무료입니다. Agent는 Mac의 Train at Home만 다루며 Vast 임대를 켜거나 끄지 않습니다.",
+        "이 합계는 네 줄에 들어오지 않은 금액을 포함하지 않으며, 출금이나 지급 시각을 약속하지 않습니다. Vast 공개 사이트의 고객 초당 과금과 시장 가격은 이 머신의 Host 당일 보고가 아닙니다. 무료는 프로젝트마다 저장 기기 3대, Pro는 100대입니다. 같은 저장 기기에 출처를 더 묶어도 자리는 늘지 않습니다. 장애 분석은 무료입니다. Agent는 Mac의 Train at Home만 다루며 Vast 임대를 켜거나 끄지 않습니다.",
       ],
       [
         "当日の収入は、香港時間のその日に1台のHostマシンへ記帳された4つのUSDの合計です。GPU、ストレージ、上り帯域、下り帯域です。4行がすべて数のときだけ " +
@@ -342,7 +342,7 @@ export const vastDepthGuides: Article[] = [
         "## 例示",
         "例示であり、実在マシンの入金ではありません。GPU 1.20、ストレージ 0.30、上り 0.10、下り 0.05 なら、その日の合計は 1.65 USDです。下りに数が無ければ合計は不明のままで、1.60でも0でもありません。",
         "## 限界",
-        "この合計は4行に入っていない金額を含まず、出金や着金時刻も約束しません。Vastの公開サイトにある顧客向けの秒課金と市場価格は、このマシンのHost当日報告ではありません。無料はプロジェクトごとに保存デバイス5台、Proは50台です。同じ保存デバイスにもう一つの出典を足しても枠は増えません。障害分析は無料です。Agentが操作できるのはMac上のTrain at Homeだけで、Vastのレンタルは開始も停止もできません。",
+        "この合計は4行に入っていない金額を含まず、出金や着金時刻も約束しません。Vastの公開サイトにある顧客向けの秒課金と市場価格は、このマシンのHost当日報告ではありません。無料はプロジェクトごとに保存デバイス3台、Proは100台です。同じ保存デバイスにもう一つの出典を足しても枠は増えません。障害分析は無料です。Agentが操作できるのはMac上のTrain at Homeだけで、Vastのレンタルは開始も停止もできません。",
       ],
     ),
   },

@@ -196,7 +196,7 @@ const monitor: Article = {
       "## 示意，不是你的到账",
       "形状像「9」再接一长串字符、但检查对不上的字符串，不会被送去矿池。合格的 9 开头地址才会打开一行账户。这一行只说明什么会被拒绝，不是测量到的收益，也不保证下次付款。",
       "## 限额和做不到的事",
-      "免费档每个项目 5 台已保存设备，Pro 50 台。名额按本项目的已保存设备计，不是按地址个数计。一个地址下展开矿工，不会自动占用名额；你若为每台矿工单独新建已保存设备，那些设备会计入名额。同一台已保存设备上的多条绑定不重复计。钱包余额只显示一份，不会复制成矿工收入。崩溃日志解读不占这个名额。本站 Agent 只控制 Train at Home 的 Mac，不能开关 Ergo 矿机。打开 [ERG 监控](/projects/erg)。地址分类见[哪种 9 地址才是 P2PK](/learn/erg-p2pk-address-monitoring)，没有份额时看[矿工离线](/learn/erg-miner-no-shares)。",
+      "免费档每个项目 3 台已保存设备，Pro 100 台。名额按本项目的已保存设备计，不是按地址个数计。一个地址下展开矿工，不会自动占用名额；你若为每台矿工单独新建已保存设备，那些设备会计入名额。同一台已保存设备上的多条绑定不重复计。钱包余额只显示一份，不会复制成矿工收入。崩溃日志解读不占这个名额。本站 Agent 只控制 Train at Home 的 Mac，不能开关 Ergo 矿机。打开 [ERG 监控](/projects/erg)。地址分类见[哪种 9 地址才是 P2PK](/learn/erg-p2pk-address-monitoring)，没有份额时看[矿工离线](/learn/erg-miner-no-shares)。",
     ],
     "zh-TW": [
       "貼礦機正在用來收 ERG 的那串地址：2Miners 說明頁要求演算法選 Autolykos，錢包地址放在礦工程式的使用者欄位，礦機名稱可以接在點號後面。本頁只認主網、以 9 開頭且檢查通過的付款地址，並向 erg.2miners.com 的公開帳戶要餘額、已付、滾動 24 小時收益和礦工清單。地址類型見專門的地址指南。若礦機的付款本來是 BTC 或 TON，本頁讀不了那些地址，也不要為此改設定。",
@@ -213,7 +213,7 @@ const monitor: Article = {
       "## 示意，不是你的入帳",
       "形狀像「9」再接一長串字元、但檢查對不上的字串，不會被送去礦池。合格的 9 開頭地址才會打開一列帳戶。這一列只說明什麼會被拒絕，不是測量到的收益，也不保證下次付款。",
       "## 限額和做不到的事",
-      "免費方案每個項目 5 台已儲存裝置，Pro 50 台。名額按本項目的已儲存裝置計，不是按地址個數計。一個地址下展開礦工，不會自動占用名額；你若為每台礦工單獨新建已儲存裝置，那些裝置會計入名額。同一台已儲存裝置上的多筆綁定不重複計。錢包餘額只顯示一份，不會複製成礦工收入。當機日誌解讀不占這個名額。本站 Agent 只控制 Train at Home 的 Mac，不能開關 Ergo 礦機。打開 [ERG 監控](/projects/erg)。地址分類見[哪種 9 地址才是 P2PK](/learn/erg-p2pk-address-monitoring)，沒有份額時看[礦工離線](/learn/erg-miner-no-shares)。",
+      "免費方案每個項目 3 台已儲存裝置，Pro 100 台。名額按本項目的已儲存裝置計，不是按地址個數計。一個地址下展開礦工，不會自動占用名額；你若為每台礦工單獨新建已儲存裝置，那些裝置會計入名額。同一台已儲存裝置上的多筆綁定不重複計。錢包餘額只顯示一份，不會複製成礦工收入。當機日誌解讀不占這個名額。本站 Agent 只控制 Train at Home 的 Mac，不能開關 Ergo 礦機。打開 [ERG 監控](/projects/erg)。地址分類見[哪種 9 地址才是 P2PK](/learn/erg-p2pk-address-monitoring)，沒有份額時看[礦工離線](/learn/erg-miner-no-shares)。",
     ],
     en: [
       "Paste the address your miner is using to receive ERG. The 2Miners help page tells you to select Autolykos and to put the wallet in the miner’s user field, with an optional rig name after a dot. This page accepts only a mainnet payout address that starts with 9 and checks out, then reads the public account on erg.2miners.com for balance, paid, rolling 24-hour reward, and the worker list. Address classes are in the dedicated address guide. If the miner’s payout is already BTC or TON, this page cannot read those addresses, and you should not change the config for that.",
@@ -230,7 +230,7 @@ const monitor: Article = {
       "## Illustrative, not your payout",
       "A string shaped like 9 plus a long tail that fails the check is not sent to the pool. A valid 9-address opens one account row. The sketch only shows what is refused. It is not measured income and it does not promise the next payout.",
       "## Limits",
-      "Free keeps five saved devices per project, and Pro keeps 50. The quota counts saved device records for this project, not the number of addresses. Showing the workers under one address does not consume a slot. If you explicitly save a separate device record for each worker, those records count. Several bindings on the same saved device do not add slots. The wallet balance is shown once and is not copied into worker income. Crash-log interpretation does not use this quota. The Agent on this site controls a Train at Home Mac only. It cannot start or stop an Ergo miner. Open the [ERG monitor](/projects/erg). Address classes are in [which 9-address is P2PK](/learn/erg-p2pk-address-monitoring). Missing shares are in [worker offline](/learn/erg-miner-no-shares).",
+      "Free keeps three saved devices per project, and Pro keeps 100. The quota counts saved device records for this project, not the number of addresses. Showing the workers under one address does not consume a slot. If you explicitly save a separate device record for each worker, those records count. Several bindings on the same saved device do not add slots. The wallet balance is shown once and is not copied into worker income. Crash-log interpretation does not use this quota. The Agent on this site controls a Train at Home Mac only. It cannot start or stop an Ergo miner. Open the [ERG monitor](/projects/erg). Address classes are in [which 9-address is P2PK](/learn/erg-p2pk-address-monitoring). Missing shares are in [worker offline](/learn/erg-miner-no-shares).",
     ],
     ko: [
       "채굴기가 ERG를 받도록 넣어 둔 주소를 붙이세요. 2Miners 도움말은 알고리즘을 Autolykos로 고르고, 지갑 주소를 채굴기 사용자 칸에 넣으며, 리그 이름은 점 뒤에 둘 수 있다고 적습니다. 이 페이지는 9로 시작하고 검사를 통과한 메인넷 지급 주소만 받고, erg.2miners.com 공개 계정에서 잔액, 지급 완료, 롤링 24시간 보상, 워커 목록을 읽습니다. 주소 종류는 주소 가이드에 있습니다. 채굴기 지급이 이미 BTC나 TON이면 이 페이지는 그 주소를 읽지 못하며, 그 때문에 설정을 바꾸지 마세요.",
@@ -247,7 +247,7 @@ const monitor: Article = {
       "## 예시일 뿐, 입금이 아님",
       "9 뒤에 긴 문자열이 붙었지만 검사가 실패하면 풀로 보내지 않습니다. 올바른 9 주소만 계정 한 행을 엽니다. 이 줄은 무엇이 거부되는지만 보여 줍니다. 측정된 수익이 아니고 다음 지급을 약속하지 않습니다.",
       "## 한도와 하지 않는 일",
-      "무료는 프로젝트당 저장된 기기 5대, Pro는 50대입니다. 한도는 이 프로젝트의 저장 기기 수이지 주소 개수가 아닙니다. 한 주소 아래 워커를 펼쳐 보는 것은 슬롯을 쓰지 않습니다. 워커마다 저장 기기를 따로 만들면 그 기록이 한도에 포함됩니다. 같은 저장 기기의 여러 바인딩은 슬롯을 더하지 않습니다. 지갑 잔액은 한 번만 보이며 워커 수입으로 복사되지 않습니다. 크래시 로그 해석은 이 한도를 쓰지 않습니다. 이 사이트의 Agent는 Train at Home Mac만 제어하며 Ergo 채굴기를 켜거나 끄지 않습니다. [ERG 모니터](/projects/erg)를 여세요. 주소 종류는 [어떤 9 주소가 P2PK인가](/learn/erg-p2pk-address-monitoring), 점유가 없으면 [워커 오프라인](/learn/erg-miner-no-shares)을 보세요.",
+      "무료는 프로젝트당 저장된 기기 3대, Pro는 100대입니다. 한도는 이 프로젝트의 저장 기기 수이지 주소 개수가 아닙니다. 한 주소 아래 워커를 펼쳐 보는 것은 슬롯을 쓰지 않습니다. 워커마다 저장 기기를 따로 만들면 그 기록이 한도에 포함됩니다. 같은 저장 기기의 여러 바인딩은 슬롯을 더하지 않습니다. 지갑 잔액은 한 번만 보이며 워커 수입으로 복사되지 않습니다. 크래시 로그 해석은 이 한도를 쓰지 않습니다. 이 사이트의 Agent는 Train at Home Mac만 제어하며 Ergo 채굴기를 켜거나 끄지 않습니다. [ERG 모니터](/projects/erg)를 여세요. 주소 종류는 [어떤 9 주소가 P2PK인가](/learn/erg-p2pk-address-monitoring), 점유가 없으면 [워커 오프라인](/learn/erg-miner-no-shares)을 보세요.",
     ],
     ja: [
       "マイナーが ERG の受取に使っているアドレスを貼ってください。2Miners のヘルプはアルゴリズムを Autolykos にし、ウォレットをユーザー欄へ入れ、リグ名はドットの後ろに付けられると書いています。このページが受けるのは 9 で始まり検査を通ったメインネットの支払先だけで、erg.2miners.com の公開口座から残高、支払済み、直近 24 時間の報酬、ワーカー一覧を読みます。アドレスの種類は専用のアドレスガイドにあります。マイナーの支払いがすでに BTC または TON なら、このページはそのアドレスを読めず、そのために設定を変えないでください。",
@@ -264,7 +264,7 @@ const monitor: Article = {
       "## 例示であり、入金ではない",
       "9 のあとに長い文字列が続いても検査に落ちれば、プールへ送りません。正しい 9 アドレスだけが口座を一行開きます。この行は何が拒否されるかだけを示します。測定した収入ではなく、次の支払いを約束しません。",
       "## 上限とできないこと",
-      "無料はプロジェクトあたり保存済みデバイス 5 台、Pro は 50 台です。枠はアドレスの個数ではなく、このプロジェクトの保存済みデバイス数です。一つのアドレスの下にワーカーを表示しても枠は減りません。ワーカーごとに保存デバイスを明示して作ると、その記録は枠に入ります。同じ保存デバイス上の複数バインドは枠を増やしません。ウォレット残高は一度だけ表示し、ワーカー収入へ複製しません。クラッシュログの読解はこの枠を使いません。このサイトの Agent が操作するのは Train at Home の Mac だけで、Ergo マイナーの起動や停止はしません。[ERG モニター](/projects/erg)を開いてください。アドレスの種類は[どの 9 アドレスが P2PK か](/learn/erg-p2pk-address-monitoring)、シェアが無いときは[ワーカーがオフライン](/learn/erg-miner-no-shares)を見てください。",
+      "無料はプロジェクトあたり保存済みデバイス 3 台、Pro は 100 台です。枠はアドレスの個数ではなく、このプロジェクトの保存済みデバイス数です。一つのアドレスの下にワーカーを表示しても枠は減りません。ワーカーごとに保存デバイスを明示して作ると、その記録は枠に入ります。同じ保存デバイス上の複数バインドは枠を増やしません。ウォレット残高は一度だけ表示し、ワーカー収入へ複製しません。クラッシュログの読解はこの枠を使いません。このサイトの Agent が操作するのは Train at Home の Mac だけで、Ergo マイナーの起動や停止はしません。[ERG モニター](/projects/erg)を開いてください。アドレスの種類は[どの 9 アドレスが P2PK か](/learn/erg-p2pk-address-monitoring)、シェアが無いときは[ワーカーがオフライン](/learn/erg-miner-no-shares)を見てください。",
     ],
   },
   questions: mergeQa([
@@ -336,24 +336,24 @@ const monitor: Article = {
     ),
     qa(
       [
-        "一个地址下有五台矿工，会占满免费 5 台吗？",
-        "不会自动占满。免费 5 台、Pro 50 台指的是本项目已保存设备。只是查看同一地址下的矿工不占名额。你为每台矿工单独保存设备时，那些设备才计入名额。",
+        "一个地址下有五台矿工，会占满免费 3 台吗？",
+        "不会自动占满。免费 3 台、Pro 100 台指的是本项目已保存设备。只是查看同一地址下的矿工不占名额。你为每台矿工单独保存设备时，那些设备才计入名额。",
       ],
       [
-        "一個地址下有五台礦工，會占滿免費 5 台嗎？",
-        "不會自動占滿。免費 5 台、Pro 50 台指的是本項目已儲存裝置。只是查看同一地址下的礦工不占名額。你為每台礦工單獨儲存裝置時，那些裝置才計入名額。",
+        "一個地址下有五台礦工，會占滿免費 3 台嗎？",
+        "不會自動占滿。免費 3 台、Pro 100 台指的是本項目已儲存裝置。只是查看同一地址下的礦工不占名額。你為每台礦工單獨儲存裝置時，那些裝置才計入名額。",
       ],
       [
-        "Five workers under one address fill the free five devices?",
-        "Not by themselves. Free five and Pro 50 count saved devices for this project. Viewing workers under one address does not take a slot. Saving a separate device for each worker does.",
+        "Five workers under one address fill the free three devices?",
+        "Not by themselves. Free three and Pro 100 count saved devices for this project. Viewing workers under one address does not take a slot. Saving a separate device for each worker does.",
       ],
       [
-        "주소 하나 아래 워커 다섯이 무료 5대를 채우나요?",
-        "자동으로는 아닙니다. 무료 5대와 Pro 50대는 이 프로젝트의 저장 기기입니다. 한 주소의 워커를 보기만 하면 슬롯을 쓰지 않습니다. 워커마다 기기를 저장하면 그 기록이 셉니다.",
+        "주소 하나 아래 워커 다섯이 무료 3대를 채우나요?",
+        "자동으로는 아닙니다. 무료 3대와 Pro 100대는 이 프로젝트의 저장 기기입니다. 한 주소의 워커를 보기만 하면 슬롯을 쓰지 않습니다. 워커마다 기기를 저장하면 그 기록이 셉니다.",
       ],
       [
-        "一つのアドレスの下にワーカーが五台あると無料 5 台を埋めますか？",
-        "自動では埋めません。無料 5 台と Pro 50 台は、このプロジェクトの保存済みデバイスです。一つのアドレスのワーカーを見るだけでは枠を使いません。ワーカーごとにデバイスを保存したとき、その記録が数に入ります。",
+        "一つのアドレスの下にワーカーが五台あると無料 3 台を埋めますか？",
+        "自動では埋めません。無料 3 台と Pro 100 台は、このプロジェクトの保存済みデバイスです。一つのアドレスのワーカーを見るだけでは枠を使いません。ワーカーごとにデバイスを保存したとき、その記録が数に入ります。",
       ],
     ),
     qa(
@@ -834,7 +834,7 @@ const hashrate: Article = {
       "- 两台矿工算力看起来一高一低：那只说明矿池给它们报了不同的算力。低的那台不会因此分到 0 ERG，高的那台也不会独占地址余额。",
       "## 示意，不是实测矿场",
       "假设账户当前算力显示为 100 MH/s，矿工 rig-a 为 60 MH/s，rig-b 为 40 MH/s。这只是示意：三行可以同时出现，而且 60 MH/s 加 40 MH/s 不必被本页拿去覆盖账户上的 100 MH/s。不要把 60 MH/s 当成 0.6 ERG。矿池和本页都会把 H/s 标成 MH/s 这类前缀，示例里的数字不是你的矿场。",
-      "查看矿工不会自动占用设备名额。免费档每项目 5 台已保存设备，Pro 50 台；只有你把矿工存成单独的设备记录时才计入。打开 [ERG 监控](/projects/erg)。地址形态见[监控该填哪种地址](/learn/erg-mining-monitor-guide)。矿工整行消失见[没有份额](/learn/erg-miner-no-shares)。",
+      "查看矿工不会自动占用设备名额。免费档每项目 3 台已保存设备，Pro 100 台；只有你把矿工存成单独的设备记录时才计入。打开 [ERG 监控](/projects/erg)。地址形态见[监控该填哪种地址](/learn/erg-mining-monitor-guide)。矿工整行消失见[没有份额](/learn/erg-miner-no-shares)。",
     ],
     "zh-TW": [
       "挖 ERG 時，2Miners 說明頁要求演算法選擇 Autolykos。各礦工程式的參數名不一樣：lolMiner 寫成 AUTOLYKOS2，Rigel、Gminer、T-Rex、TeamRedMiner 和 SRBMiner 寫成 autolykos2，NBminer 寫成 ergo。名稱不同，指的是同一套演算法。監控不根據這些參數名估算算力，只顯示礦池帳戶介面回傳的目前帳戶算力，以及每個礦工自己的算力。",
@@ -850,7 +850,7 @@ const hashrate: Article = {
       "- 兩台礦工算力看起來一高一低：那只說明礦池給它們報了不同的算力。低的那台不會因此分到 0 ERG，高的那台也不會獨占地址餘額。",
       "## 示意，不是實測礦場",
       "假設帳戶目前算力顯示為 100 MH/s，礦工 rig-a 為 60 MH/s，rig-b 為 40 MH/s。這只是示意：三列可以同時出現，而且 60 MH/s 加 40 MH/s 不必被本頁拿去覆蓋帳戶上的 100 MH/s。不要把 60 MH/s 當成 0.6 ERG。礦池和本頁都會把 H/s 標成 MH/s 這類前綴，示例裡的數字不是你的礦場。",
-      "查看礦工不會自動占用裝置名額。免費方案每項目 5 台已儲存裝置，Pro 50 台；只有你把礦工存成單獨的裝置紀錄時才計入。打開 [ERG 監控](/projects/erg)。地址形態見[監控該填哪種地址](/learn/erg-mining-monitor-guide)。礦工整列消失見[沒有份額](/learn/erg-miner-no-shares)。",
+      "查看礦工不會自動占用裝置名額。免費方案每項目 3 台已儲存裝置，Pro 100 台；只有你把礦工存成單獨的裝置紀錄時才計入。打開 [ERG 監控](/projects/erg)。地址形態見[監控該填哪種地址](/learn/erg-mining-monitor-guide)。礦工整列消失見[沒有份額](/learn/erg-miner-no-shares)。",
     ],
     en: [
       "When you mine ERG, the 2Miners help page tells you to select Autolykos. Miner flags use different spellings for that same algorithm: lolMiner uses AUTOLYKOS2, Rigel, Gminer, T-Rex, TeamRedMiner, and SRBMiner use autolykos2, and NBminer uses ergo. The monitor does not estimate hashrate from those flag names. It shows the current account hashrate returned for the pool account, and each worker’s own hashrate.",
@@ -866,7 +866,7 @@ const hashrate: Article = {
       "- Two workers show a high rate and a low rate. That only means the pool reported different rates. The lower rig is not assigned 0 ERG, and the higher rig does not take the address balance for itself.",
       "## Illustrative, not a measured farm",
       "Suppose the account current hashrate reads 100 MH/s, rig-a reads 60 MH/s, and rig-b reads 40 MH/s. The sketch only shows that three rows can appear together, and that 60 MH/s plus 40 MH/s is not used here to overwrite the account’s 100 MH/s. Do not treat 60 MH/s as 0.6 ERG. The pool and this page format H/s with prefixes such as MH/s. The numbers are illustrative, not your farm.",
-      "Viewing workers does not by itself use a device slot. Free is five saved devices per project and Pro is 50. A slot is used when you save a separate device record for a worker. Open the [ERG monitor](/projects/erg). The address shape is in [which address to paste](/learn/erg-mining-monitor-guide). A missing worker row is in [no shares](/learn/erg-miner-no-shares).",
+      "Viewing workers does not by itself use a device slot. Free is three saved devices per project and Pro is 100. A slot is used when you save a separate device record for a worker. Open the [ERG monitor](/projects/erg). The address shape is in [which address to paste](/learn/erg-mining-monitor-guide). A missing worker row is in [no shares](/learn/erg-miner-no-shares).",
     ],
     ko: [
       "ERG를 캘 때 2Miners 도움말은 알고리즘을 Autolykos로 고르라고 합니다. 채굴기 플래그 표기는 달라도 같은 알고리즘입니다. lolMiner는 AUTOLYKOS2, Rigel, Gminer, T-Rex, TeamRedMiner, SRBMiner는 autolykos2, NBminer는 ergo입니다. 모니터는 그 플래그 이름으로 해시레이트를 추정하지 않습니다. 풀 계정이 돌려준 현재 계정 해시레이트와 각 워커의 해시레이트만 보여 줍니다.",
@@ -882,7 +882,7 @@ const hashrate: Article = {
       "- 워커 둘의 값이 높고 낮다면, 풀이 서로 다른 값을 보고했다는 뜻입니다. 낮은 리그에 0 ERG가 배정되거나 높은 리그가 주소 잔액을 가져가는 것이 아닙니다.",
       "## 예시이며, 측정한 농장이 아님",
       "계정 현재 해시레이트가 100 MH/s, rig-a가 60 MH/s, rig-b가 40 MH/s라고 해 보세요. 이 스케치는 세 행이 함께 나올 수 있고, 60 MH/s 더하기 40 MH/s로 계정의 100 MH/s를 덮어쓰지 않는다는 뜻입니다. 60 MH/s를 0.6 ERG로 보지 마세요. 풀과 이 페이지는 H/s를 MH/s 같은 접두로 적습니다. 숫자는 예시이며 당신의 농장이 아닙니다.",
-      "워커를 보기만 해서 기기 슬롯이 쓰이지는 않습니다. 무료는 프로젝트당 저장 기기 5대, Pro는 50대입니다. 워커를 별도 저장 기기로 만들 때 슬롯이 쓰입니다. [ERG 모니터](/projects/erg)를 여세요. 주소 형태는 [어떤 주소를 붙일지](/learn/erg-mining-monitor-guide), 워커 행이 사라지면 [점유 없음](/learn/erg-miner-no-shares)을 보세요.",
+      "워커를 보기만 해서 기기 슬롯이 쓰이지는 않습니다. 무료는 프로젝트당 저장 기기 3대, Pro는 100대입니다. 워커를 별도 저장 기기로 만들 때 슬롯이 쓰입니다. [ERG 모니터](/projects/erg)를 여세요. 주소 형태는 [어떤 주소를 붙일지](/learn/erg-mining-monitor-guide), 워커 행이 사라지면 [점유 없음](/learn/erg-miner-no-shares)을 보세요.",
     ],
     ja: [
       "ERG を掘るとき、2Miners のヘルプはアルゴリズムを Autolykos にするよう求めています。マイナーのフラグ表記は違っても同じアルゴリズムです。lolMiner は AUTOLYKOS2、Rigel、Gminer、T-Rex、TeamRedMiner、SRBMiner は autolykos2、NBminer は ergo です。モニターはそのフラグ名からハッシュレートを推定しません。プール口座が返した現在の口座ハッシュレートと、各ワーカー自身のハッシュレートを出します。",
@@ -898,7 +898,7 @@ const hashrate: Article = {
       "- 二台のワーカーが高く低く出る。それはプールが別々の値を報告したというだけです。低いリグに 0 ERG が割り当てられたり、高いリグがアドレス残高を独占したりはしません。",
       "## 例示であり、測定したファームではない",
       "口座の現在ハッシュレートが 100 MH/s、rig-a が 60 MH/s、rig-b が 40 MH/s だとします。この図は三行が同時に出ることと、60 MH/s 足す 40 MH/s で口座の 100 MH/s を上書きしないことだけを示します。60 MH/s を 0.6 ERG にしないでください。プールもこのページも H/s を MH/s のような接頭で表します。数字は例示であり、あなたのファームではありません。",
-      "ワーカーを表示するだけではデバイス枠を使いません。無料はプロジェクトあたり保存済みデバイス 5 台、Pro は 50 台です。ワーカーを別の保存デバイスとして作ったときに枠を使います。[ERG モニター](/projects/erg)を開いてください。アドレスの形は[どのアドレスを貼るか](/learn/erg-mining-monitor-guide)、ワーカー行が消えたときは[シェアが無い](/learn/erg-miner-no-shares)を見てください。",
+      "ワーカーを表示するだけではデバイス枠を使いません。無料はプロジェクトあたり保存済みデバイス 3 台、Pro は 100 台です。ワーカーを別の保存デバイスとして作ったときに枠を使います。[ERG モニター](/projects/erg)を開いてください。アドレスの形は[どのアドレスを貼るか](/learn/erg-mining-monitor-guide)、ワーカー行が消えたときは[シェアが無い](/learn/erg-miner-no-shares)を見てください。",
     ],
   },
   questions: mergeQa([
@@ -1415,7 +1415,7 @@ const offline: Article = {
       "- 收益没变，于是想调高份额难度：帮助页写明份额难度不影响矿工收益，并建议显卡很多或使用 NiceHash 时才用高难度。调难度不能把未知的余额变成 ERG。",
       "## 一组示意诊断，不是事故报告",
       "示意：rig-1 标成离线，最后出现停在昨天，算力空着。这表示按矿池标记，这台名字昨天之后没有继续出现。它不是“收入为 0”的结算。同一地址若未支付仍显示 1.2 ERG，那 1.2 仍属于地址，不因 rig-1 离线而被抹掉，也不分给还在线的另一台。",
-      "只查看矿工不占用设备名额。你若把每台矿工存成单独设备，免费档每项目 5 台、Pro 50 台会把那些已保存设备算进去。打开 [ERG 监控](/projects/erg)。算力列的读法见[Autolykos 矿工算力](/learn/erg-autolykos-worker-hashrate)。地址打不开见[该填哪种地址](/learn/erg-mining-monitor-guide)。",
+      "只查看矿工不占用设备名额。你若把每台矿工存成单独设备，免费档每项目 3 台、Pro 100 台会把那些已保存设备算进去。打开 [ERG 监控](/projects/erg)。算力列的读法见[Autolykos 矿工算力](/learn/erg-autolykos-worker-hashrate)。地址打不开见[该填哪种地址](/learn/erg-mining-monitor-guide)。",
     ],
     "zh-TW": [
       "監控上的礦工列只有四件事：名稱、算力、礦池是否把它標成在線，以及最後出現時間。它不畫份額曲線。2Miners 的 API 索引把帳戶份額和單礦工算力按 5 分鐘、30 分鐘、6 小時分開列出。那些窗口在礦池自己的帳戶頁，不在這一列。",
@@ -1428,7 +1428,7 @@ const offline: Article = {
       "- 收益沒變，於是想調高份額難度：說明頁寫明份額難度不影響礦工收益，並建議顯卡很多或使用 NiceHash 時才用高難度。調難度不能把未知的餘額變成 ERG。",
       "## 一組示意診斷，不是事故報告",
       "示意：rig-1 標成離線，最後出現停在昨天，算力空著。這表示按礦池標記，這台名稱昨天之後沒有繼續出現。它不是「收入為 0」的結算。同一地址若未支付仍顯示 1.2 ERG，那 1.2 仍屬於地址，不因 rig-1 離線而被抹掉，也不分給還在線的另一台。",
-      "只查看礦工不占用裝置名額。你若把每台礦工存成單獨裝置，免費方案每項目 5 台、Pro 50 台會把那些已儲存裝置算進去。打開 [ERG 監控](/projects/erg)。算力欄的讀法見[Autolykos 礦工算力](/learn/erg-autolykos-worker-hashrate)。地址打不開見[該填哪種地址](/learn/erg-mining-monitor-guide)。",
+      "只查看礦工不占用裝置名額。你若把每台礦工存成單獨裝置，免費方案每項目 3 台、Pro 100 台會把那些已儲存裝置算進去。打開 [ERG 監控](/projects/erg)。算力欄的讀法見[Autolykos 礦工算力](/learn/erg-autolykos-worker-hashrate)。地址打不開見[該填哪種地址](/learn/erg-mining-monitor-guide)。",
     ],
     en: [
       "A worker row on the monitor has four facts: the name, the hashrate, whether the pool marks it online, and when it was last seen. It does not draw a share chart. The 2Miners API index lists account shares and per-worker hashrate for 5 minutes, 30 minutes, and 6 hours as separate calls. Those windows live on the pool’s own account page, not on this row.",
@@ -1441,7 +1441,7 @@ const offline: Article = {
       "- Rewards did not move, so you want a higher share difficulty. The help page says share difficulty does not change miner rewards, and it reserves the higher tier for a very large GPU count or NiceHash. Changing difficulty does not turn an unknown balance into ERG.",
       "## An illustrative diagnosis, not an incident report",
       "Sketch: rig-1 is marked offline, last seen stopped yesterday, and hashrate is empty. By the pool’s mark, that name has not continued since yesterday. It is not a settlement that income is 0. If the same address still shows 1.2 ERG unpaid, that 1.2 still belongs to the address. It is not erased because rig-1 is offline, and it is not given to another rig that stays online.",
-      "Viewing workers does not use a device slot. If you save each worker as its own device, Free’s five saved devices per project and Pro’s 50 count those records. Open the [ERG monitor](/projects/erg). How to read the hashrate column is in [Autolykos worker hashrate](/learn/erg-autolykos-worker-hashrate). An address that will not open is in [which address to paste](/learn/erg-mining-monitor-guide).",
+      "Viewing workers does not use a device slot. If you save each worker as its own device, Free’s three saved devices per project and Pro’s 100 count those records. Open the [ERG monitor](/projects/erg). How to read the hashrate column is in [Autolykos worker hashrate](/learn/erg-autolykos-worker-hashrate). An address that will not open is in [which address to paste](/learn/erg-mining-monitor-guide).",
     ],
     ko: [
       "모니터의 워커 행에는 네 가지만 있습니다. 이름, 해시레이트, 풀이 온라인으로 표시했는지, 마지막으로 보인 시각입니다. 점유 곡선은 그리지 않습니다. 2Miners API 색인은 계정 점유와 워커별 해시레이트를 5분, 30분, 6시간으로 나누어 별도 호출에 적습니다. 그 창은 풀 자신의 계정 페이지에 있고 이 행에는 없습니다.",
@@ -1454,7 +1454,7 @@ const offline: Article = {
       "- 보상이 움직이지 않아 점유 난이도를 올리고 싶습니다. 도움말은 점유 난이도가 보상을 바꾸지 않는다고 하고, 높은 단계는 GPU가 아주 많거나 NiceHash일 때로 둡니다. 난이도를 바꿔도 알 수 없는 잔액이 ERG가 되지는 않습니다.",
       "## 예시 진단이며, 사고 보고서가 아님",
       "스케치: rig-1이 오프라인이고 마지막 시각이 어제에 멈췄으며 해시레이트가 비어 있습니다. 풀 표시상 그 이름은 어제 이후 이어지지 않았다는 뜻입니다. 수입이 0이라는 정산이 아닙니다. 같은 주소의 미지급이 여전히 1.2 ERG라면 그 1.2는 주소의 것입니다. rig-1이 오프라인이라고 지워지지 않고, 온라인인 다른 리그에게 주어지지도 않습니다.",
-      "워커를 보기만 해서 기기 슬롯이 쓰이지 않습니다. 워커마다 기기를 저장하면 무료의 프로젝트당 5대, Pro 50대가 그 기록을 셉니다. [ERG 모니터](/projects/erg)를 여세요. 해시레이트 칸은 [Autolykos 워커 해시레이트](/learn/erg-autolykos-worker-hashrate), 주소가 안 열리면 [어떤 주소를 붙일지](/learn/erg-mining-monitor-guide)를 보세요.",
+      "워커를 보기만 해서 기기 슬롯이 쓰이지 않습니다. 워커마다 기기를 저장하면 무료의 프로젝트당 3대, Pro 100대가 그 기록을 셉니다. [ERG 모니터](/projects/erg)를 여세요. 해시레이트 칸은 [Autolykos 워커 해시레이트](/learn/erg-autolykos-worker-hashrate), 주소가 안 열리면 [어떤 주소를 붙일지](/learn/erg-mining-monitor-guide)를 보세요.",
     ],
     ja: [
       "モニターのワーカー行にあるのは四つだけです。名前、ハッシュレート、プールがオンラインと印しているか、最後に見えた時刻です。シェア曲線は描きません。2Miners の API 索引は、口座シェアとワーカーごとのハッシュレートを 5 分、30 分、6 時間に分けた別呼び出しとして載せています。その窓はプール自身の口座ページにあり、この行にはありません。",
@@ -1467,7 +1467,7 @@ const offline: Article = {
       "- 報酬が動かないのでシェア難度を上げたい。ヘルプはシェア難度が報酬を変えないと書き、高い段は GPU が非常に多いときか NiceHash のときとしています。難度を変えても、不明な残高は ERG になりません。",
       "## 例示の切り分けであり、事故報告ではない",
       "図：rig-1 がオフライン、最終出現が昨日で止まり、ハッシュレートが空。プールの印では、その名前は昨日以降続いていない、ということです。収入が 0 という精算ではありません。同じアドレスの未払いがまだ 1.2 ERG なら、その 1.2 はアドレスのものです。rig-1 がオフラインだから消えるわけでも、オンラインの別リグへ渡るわけでもありません。",
-      "ワーカーを見るだけではデバイス枠を使いません。ワーカーごとにデバイスを保存すると、無料のプロジェクトあたり 5 台、Pro の 50 台がそれらの記録を数えます。[ERG モニター](/projects/erg) を開いてください。ハッシュレート欄の読み方は [Autolykos のワーカーハッシュレート](/learn/erg-autolykos-worker-hashrate)、アドレスが開かないときは [どのアドレスを貼るか](/learn/erg-mining-monitor-guide) を見てください。",
+      "ワーカーを見るだけではデバイス枠を使いません。ワーカーごとにデバイスを保存すると、無料のプロジェクトあたり 3 台、Pro の 100 台がそれらの記録を数えます。[ERG モニター](/projects/erg) を開いてください。ハッシュレート欄の読み方は [Autolykos のワーカーハッシュレート](/learn/erg-autolykos-worker-hashrate)、アドレスが開かないときは [どのアドレスを貼るか](/learn/erg-mining-monitor-guide) を見てください。",
     ],
   },
   questions: mergeQa([

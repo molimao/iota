@@ -2,7 +2,7 @@
 export const CHECKOUT_INTENT_KEY = "iota-checkout-intent-v1";
 export type CheckoutInterval = "month" | "year";
 export function checkoutInterval(value: string | null): CheckoutInterval {
-  return value === "month" ? "month" : "year";
+  return value === "year" ? "year" : "month";
 }
 export function readCheckoutIntent(raw: string | null, href: string, now = Date.now()) {
   try {
