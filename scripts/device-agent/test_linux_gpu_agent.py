@@ -71,6 +71,78 @@ class LinuxTest(unittest.TestCase):
             s=a.snapshot({'pid':1,'generation':'original','log':'/missing'}, {})
             self.assertFalse(s['workerRunning'])
             self.assertNotIn('queue',s)
+    def test_restart_follows_identity_and_clears_old_evidence(self):
+        from unittest.mock import MagicMock
+        identity={'exe':'python','cwd':'iota','commandHash':'hash'}
+        state={'identity':identity,'sample':{'at':1,'ticks':999},'evidence':{'queue':{}},'cursor':{'offset':999}}
+        fresh={'start':'new','started':200,'ticks':10,'memory':20}
+        def process(pid):
+            if pid==1: raise ProcessLookupError()
+            return fresh
+        candidate=MagicMock();candidate.name='2'
+        with patch.object(a,'proc',side_effect=process),patch.object(a,'process_identity',return_value=identity),patch.object(a.Path,'iterdir',return_value=iter([candidate])):
+            self.assertEqual(a.resolve_process({'pid':1,'generation':'old','log':'log'},state),fresh)
+        self.assertEqual(state['target'],{'pid':2,'generation':'new'})
+        for key in ('sample','evidence','cursor'):self.assertNotIn(key,state)
+
+    def test_ambiguous_or_other_miner_not_adopted(self):
+        from unittest.mock import MagicMock
+        identity={'commandHash':'iota'}
+        for count,other in ((2,False),(1,True)):
+            candidates=[]
+            for pid in range(2,2+count):
+                p=MagicMock();p.name=str(pid);candidates.append(p)
+            def process(pid):
+                if pid==1:raise ProcessLookupError()
+                return {'start':'new'}
+            state={'identity':identity}
+            with patch.object(a,'proc',side_effect=process),patch.object(a,'process_identity',return_value={'commandHash':'bnt'} if other else identity),patch.object(a.Path,'iterdir',return_value=iter(candidates)):
+                self.assertIsNone(a.resolve_process({'pid':1,'generation':'old','log':'log'},state))
+            self.assertNotIn('target',state)
+
+    def test_forked_children_do_not_make_root_ambiguous(self):
+        from unittest.mock import MagicMock
+        identity={'commandHash':'iota'}
+        candidates=[]
+        for pid in (2,3):
+            p=MagicMock();p.name=str(pid);candidates.append(p)
+        def process(pid):
+            if pid==1:raise ProcessLookupError()
+            return {'start':str(pid),'parent':1 if pid==2 else 2}
+        state={'identity':identity}
+        with patch.object(a,'proc',side_effect=process),patch.object(a,'process_identity',return_value=identity),patch.object(a.Path,'iterdir',return_value=iter(candidates)):
+            self.assertIsNotNone(a.resolve_process({'pid':1,'generation':'old','log':'log'},state))
+        self.assertEqual(state['target']['pid'],2)
+
+    def test_orphaned_old_worker_is_not_a_restart(self):
+        from unittest.mock import MagicMock
+        p=MagicMock();p.name='2'
+        def process(pid):
+            if pid==1:raise ProcessLookupError()
+            return {'start':'2','started':10,'parent':1}
+        state={'identity':{'commandHash':'iota'},'lastAlive':100}
+        with patch.object(a,'proc',side_effect=process),patch.object(a.Path,'iterdir',return_value=iter([p])):
+            self.assertIsNone(a.resolve_process({'pid':1,'generation':'old','log':'log'},state))
+
+    def test_existing_config_learns_identity(self):
+        state={};identity={'commandHash':'iota'}
+        with patch.object(a,'proc',return_value={'start':'same'}),patch.object(a,'process_identity',return_value=identity):
+            self.assertIsNotNone(a.resolve_process({'pid':1,'generation':'same','log':'log'},state))
+        self.assertEqual(state['identity'],identity)
+        self.assertEqual(state['target']['pid'],1)
+
+    def test_persisted_new_target_survives_monitor_restart(self):
+        state={'target':{'pid':2,'generation':'new'},'identity':{'commandHash':'iota'}}
+        with patch.object(a,'proc',return_value={'start':'new'}) as proc,patch.object(a,'process_identity',return_value=state['identity']):
+            self.assertIsNotNone(a.resolve_process({'pid':1,'generation':'old','log':'log'},state))
+        proc.assert_called_once_with(2)
+
+    def test_exit_clears_samples(self):
+        state={'sample':{'at':1,'ticks':999},'cursor':{'offset':99},'evidence':{'queue':{}}}
+        with patch.object(a,'resolve_process',return_value=None),patch.object(a,'gpus',return_value=[]):
+            self.assertFalse(a.snapshot({},state,100)['workerRunning'])
+        self.assertEqual(state,{})
+
     def test_no_gpu_tool(self):
         with patch.object(a.subprocess,'run',side_effect=FileNotFoundError):
             self.assertEqual(a.gpus(1),[])

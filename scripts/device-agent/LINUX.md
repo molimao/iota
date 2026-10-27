@@ -19,8 +19,13 @@ GPU metrics describe the whole GPU, including other projects.
 5. Run `python3 linux_gpu_agent.py run` in a dedicated terminal, or install a user
    service with `python3 install_linux.py`. The installer only starts the monitor.
 
-A pairing is bound to a PID **and process start generation**. If the miner restarts,
-repeat pairing with its new PID. No PID guessing or miner restart is performed.
+The monitor follows a replacement process belonging to the same user, with the same
+executable, working directory, command fingerprint and output log. Only one exact
+match is accepted. A new process clears old CPU samples and queue/training evidence.
+No miner is restarted. Changing the launch command or log requires pairing again.
+For an older configuration, the monitor learns this identity while its configured
+process is still running. If that process already exited before upgrading, pair
+with the current PID once. Process fingerprints stay local and are never uploaded.
 
 Queue reads the `QUEUE_PROBE status= queued position= ... run= ...` callback format
 used by the verified Linux miner. Standard timestamped `FORWARD complete` and

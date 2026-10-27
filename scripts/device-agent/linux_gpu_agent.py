@@ -4,6 +4,7 @@ import argparse
 import csv
 import datetime as dt
 import getpass
+import hashlib
 import json
 import math
 import os
@@ -13,7 +14,7 @@ import subprocess
 import time
 import urllib.request
 
-VERSION = '1.0.14'
+VERSION = '1.0.15'
 ROOT = Path.home() / '.local/state/iota-watch-linux'
 ANSI = re.compile(r'\x1b\[[0-9;]*m')
 
@@ -62,8 +63,79 @@ def proc(pid):
     if fields[0] in ('Z', 'X'):
         raise ProcessLookupError('process exited')
     boot = next(int(x.split()[1]) for x in Path('/proc/stat').read_text().splitlines() if x.startswith('btime '))
-    return dict(start=fields[19], started=boot + int(fields[19]) / os.sysconf('SC_CLK_TCK'), ticks=int(fields[11]) + int(fields[12]),
+    return dict(parent=int(fields[1]), start=fields[19], started=boot + int(fields[19]) / os.sysconf('SC_CLK_TCK'), ticks=int(fields[11]) + int(fields[12]),
                 memory=int(fields[21]) * os.sysconf('SC_PAGE_SIZE') / 1048576)
+
+
+def process_identity(pid, log):
+    """Local-only fingerprint; never upload arguments. Require the same log writer."""
+    p = Path('/proc') / str(pid)
+    if p.stat().st_uid != os.getuid():
+        raise ProcessLookupError('different owner')
+    target = Path(log).resolve()
+    if not any((p / 'fd' / fd).resolve() == target for fd in ('1', '2')):
+        raise ProcessLookupError('not the configured log writer')
+    command = (p / 'cmdline').read_bytes()
+    if not command:
+        raise ProcessLookupError('empty command')
+    return dict(exe=str((p / 'exe').resolve()), cwd=str((p / 'cwd').resolve()),
+                commandHash=hashlib.sha256(command).hexdigest())
+
+
+def resolve_process(config, state):
+    target = state.get('target', dict(pid=config['pid'], generation=config['generation']))
+    identity = state.get('identity') or config.get('identity')
+    try:
+        current = proc(target['pid'])
+        if current['start'] == target['generation']:
+            found = process_identity(target['pid'], config['log'])
+            if identity is None or found == identity:
+                state['identity'] = found
+                state['target'] = target
+                state['lastAlive'] = time.time()
+                return current
+    except (OSError, ValueError, IndexError):
+        pass
+    if not identity:
+        return None  # Old config whose original process is already gone needs an explicit PID.
+    matches = []
+    for p in Path('/proc').iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            before = proc(int(p.name))
+            if before.get('started', float('inf')) < state.get('lastAlive', 0):
+                continue  # Surviving old children are not a restarted miner.
+            if process_identity(int(p.name), config['log']) != identity:
+                continue
+            after = proc(int(p.name))
+            if before['start'] == after['start']:
+                matches.append((int(p.name), after))
+        except (OSError, ValueError, IndexError):
+            continue
+    # Forked workers inherit argv, cwd and stdout; retain only the miner root.
+    ids = {pid for pid, _ in matches}
+    roots = []
+    for pid, current in matches:
+        parent = current.get('parent', 0)
+        seen = {pid}
+        while parent > 1 and parent not in seen and parent not in ids:
+            seen.add(parent)
+            try:
+                parent = proc(parent).get('parent', 0)
+            except (OSError, ValueError, IndexError):
+                parent = 0
+        if parent not in ids:
+            roots.append((pid, current))
+    matches = roots
+    if len(matches) != 1:
+        return None
+    pid, current = matches[0]
+    state['target'] = dict(pid=pid, generation=current['start'])
+    state['identity'] = identity
+    for key in ('sample', 'evidence', 'cursor'):
+        state.pop(key, None)
+    return current
 
 
 def parse_line(line, stamp):
@@ -129,13 +201,7 @@ def read_evidence(path, state, now):
 
 def snapshot(config, state, now=None):
     now = time.time() if now is None else now
-    current = None
-    try:
-        current = proc(config['pid'])
-        if current['start'] != config['generation']:
-            current = None
-    except (OSError, ValueError, IndexError):
-        pass
+    current = resolve_process(config, state)
     cpu = None
     if current:
         previous = state.get('sample')
@@ -150,7 +216,8 @@ def snapshot(config, state, now=None):
         except OSError:
             pass
     else:
-        state.pop('evidence', None)
+        for key in ('evidence', 'sample', 'cursor'):
+            state.pop(key, None)
     return dict(platform='linux', monitorOnly=True, version=VERSION,
         appRunning=bool(current), workerRunning=bool(current), appCpu=cpu,
         processMemoryMb=round(current['memory'], 2) if current else None,
@@ -197,6 +264,9 @@ def main():
         if not args.pid or not args.log:
             ap.error('--pid and --log are required')
         config = dict(pid=args.pid, generation=proc(args.pid)['start'], log=str(Path(args.log).resolve()))
+        config['identity'] = process_identity(args.pid, config['log'])
+        if proc(args.pid)['start'] != config['generation']:
+            raise SystemExit('Process changed during setup; retry with the current miner PID')
         if args.action == 'snapshot':
             print(json.dumps(snapshot(config, {})))
             return
