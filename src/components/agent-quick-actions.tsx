@@ -63,6 +63,7 @@ export function AgentQuickActions({
       setBusy(false);
     }
   }
+  if (agent.snapshot.monitorOnly || agent.snapshot.platform === "linux") return null;
   return (
     <details className="agent-quick-actions">
       <summary>{t.operations}</summary>

@@ -57,6 +57,18 @@ export const trainingStateSchema = z
   .strict();
 export const agentSnapshot = z
   .object({
+    platform: z.enum(["darwin", "linux"]).optional(),
+    monitorOnly: z.boolean().optional(),
+    gpus: z.array(z.object({
+      index: z.number().int().min(0).max(1024),
+      name: z.string().max(120),
+      utilization: z.number().finite().min(0).max(100).nullable(),
+      memoryUsedMb: z.number().finite().min(0).max(1e7).nullable(),
+      memoryTotalMb: z.number().finite().min(0).max(1e7).nullable(),
+      temperature: z.number().finite().min(0).max(150).nullable(),
+      powerWatts: z.number().finite().min(0).max(10000).nullable(),
+      observedAt: z.string().datetime({offset:true}),
+    }).strict()).max(16).optional(),
     appRunning: z.boolean(),
     workerRunning: z.boolean(),
     appCpu: z.number().finite().min(0).max(10000).nullable(),

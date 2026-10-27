@@ -1,3 +1,5 @@
+import { LinuxAgentSetup } from "./linux-agent-setup";
+import { AgentGpu } from "./agent-gpu";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { crashPreviewResult } from "./agent-crash-preview";
 import { AgentCrashAnalysis } from "./agent-crash-analysis";
@@ -175,6 +177,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         <div><strong>{t.setupDownload}</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a></div>
         <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
       </section>
+          <LinuxAgentSetup/>
           {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">
@@ -296,6 +299,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   <p className="compute-caption">
                     {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
+                  <AgentGpu agent={a} now={now}/>
                   <AgentCommandResult agent={a} />
                   <AgentUpdate agent={a} disabled={busy} onPreviewUpdate={preview ? () => setDemo(agents.map(x=>x.deviceId===a.deviceId ? {...x,snapshot:{...x.snapshot,version:AGENT_RELEASE},latestCommand:{action:"update",status:"done",createdAt:new Date().toISOString()}}:x)) : undefined} />
                   <AgentHistory deviceId={a.deviceId} preview={preview} />
@@ -306,7 +310,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       <button
                         className="project-outline"
                         key={action}
-                        disabled={busy || !online || !!a.pending}
+                        disabled={busy || !online || !!a.pending || s.platform === "linux" || s.monitorOnly === true}
                         onClick={() => {
                           if (action !== "start" && !requiresConfirm(a.deviceId, action)) return;
                           void act(async () => {
@@ -350,7 +354,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       <input
                         type="checkbox"
                         checked={a.recoveryEnabled}
-                        disabled={busy}
+                        disabled={busy || s.platform === "linux" || s.monitorOnly === true}
                         onChange={(e) =>
                           void act(async () => {
                             if (preview)
@@ -379,7 +383,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       <input
                         type="checkbox"
                         checked={a.logsEnabled}
-                        disabled={busy}
+                        disabled={busy || s.platform === "linux" || s.monitorOnly === true}
                         onChange={(e) =>
                           void act(async () => {
                             if (preview)

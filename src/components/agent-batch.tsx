@@ -77,7 +77,7 @@ export function AgentBatchPanel({
     setOpen(false);
   }, [error, q.data]);
   function eligible(a: AgentInfo) {
-    return agentOnline(a.lastSeen, now) && !a.pending;
+    return agentOnline(a.lastSeen, now) && !a.pending && a.snapshot.platform !== "linux" && !a.snapshot.monitorOnly;
   }
   async function submit() {
     if (lock.current || !pro) return;

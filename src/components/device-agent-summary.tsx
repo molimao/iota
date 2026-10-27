@@ -1,3 +1,4 @@
+import { AgentGpu } from "./agent-gpu";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { AgentUpdate } from "./agent-update";
@@ -29,12 +30,12 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const online = !!agent && !query.isError && agentOnline(agent.lastSeen, now);
   const s = agent?.snapshot;
   const queue = agent && !query.isError && agentPhase(agent, now) === "queued" ? s?.queue?.position : undefined;
-  if (compact) return agent && !query.isError ? <div className="agent-table-controls"><a href={url} className="agent-table-status"><AgentStatus agent={agent} now={now} official={official} compact />{agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a><AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview}/></div> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
+  if (compact) return agent && !query.isError ? <div className="agent-table-controls"><a href={url} className="agent-table-status"><AgentStatus agent={agent} now={now} official={official} compact />{s?.platform !== "linux" && agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a><AgentGpu agent={agent} now={now} compact/><AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview}/></div> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
     <a href={url}>{t.connectCompact} ↗</a>
   </section>;
-  return <section className="fleet-agent-connect agent-card-summary" aria-label={t.title}>
+  return <section className="fleet-agent-connect agent-card-summary" aria-label={s?.platform === "linux" ? "Linux GPU" : t.title}>
     <>
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
       {!query.isError && <AgentStatus agent={agent} now={now} official={official} concise />}
@@ -45,6 +46,7 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>
         <div><dt>{t.memory}</dt><dd>{online && s?.processMemoryMb != null ? `${Math.round(s.processMemoryMb)} MB` : "—"}</dd></div>
       </dl>
+      {!query.isError && <AgentGpu agent={agent} now={now}/>}
       {!query.isError && <AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview}/>}
     </>
   </section>;

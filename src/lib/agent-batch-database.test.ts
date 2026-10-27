@@ -244,9 +244,9 @@ it("tracks project-level start/stop commands and disables recovery only when a s
   );
   await owner();
   const start = await call("start", [a], "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee");
-  expect(start[0].action).toBe("start");
+  expect(start.find((x: any) => x.id === "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee").action).toBe("start");
   const busy = await call("stop", [a], "ffffffff-ffff-4fff-8fff-ffffffffffff");
-  expect(busy[0].items[0].disposition).toBe("busy");
+  expect(busy.find((x: any) => x.id === "ffffffff-ffff-4fff-8fff-ffffffffffff").items[0].disposition).toBe("busy");
   await admin();
   expect(
     (

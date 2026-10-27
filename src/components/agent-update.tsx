@@ -27,7 +27,7 @@ export function AgentUpdate({agent,disabled=false,onPreviewUpdate}:{agent:AgentI
   useEffect(()=>{setConfirm(false);setError(false);},[auth.userId,agent.deviceId,agent.snapshot.version,agent.pending?.id]);
   const available=agentUpdateAvailable(agent.snapshot.version);
   const pending=agent.pending?.action==="update" ? agent.pending : null;
-  if(!available&&!pending) return null;
+  if(agent.snapshot.platform === "linux" || agent.snapshot.monitorOnly || (!available&&!pending)) return null;
   const online=agentOnline(agent.lastSeen, now),locked=disabled||busy||!!agent.pending||!online;
   async function update(){
     if(!confirm||locked)return;

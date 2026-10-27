@@ -1,0 +1,6 @@
+.agent-gpu{display:grid;gap:.4rem;margin-top:.65rem;min-width:0;color:#e5e7eb}
+.agent-gpu>small{color:#aeb4bd;opacity:1;font-size:.72rem}
+.agent-gpu-row{display:flex;flex-wrap:wrap;gap:.35rem .8rem;font-size:.8rem;line-height:1.5}
+.agent-gpu-row strong{flex-basis:100%;font-size:.8rem;overflow-wrap:anywhere}
+.agent-gpu-compact{max-width:20rem;margin-top:.25rem}
+.agent-gpu-compact .agent-gpu-row{font-size:.72rem}

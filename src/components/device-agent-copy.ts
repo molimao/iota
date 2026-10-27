@@ -1,6 +1,6 @@
 import { localized as l } from "@/lib/product-discovery";
 export const agentCopy = {
-  connectCompact: l(["连接 Mac", "連接 Mac", "Connect Mac", "Mac 연결", "Macを接続"]),
+  connectCompact: l(["连接 Agent", "連接 Agent", "Connect agent", "에이전트 연결", "エージェントを接続"]),
   connectHint: l(["连接后查看本机状态与排队情况", "連接後查看本機狀態與排隊情況", "Connect to see local status and queue position", "연결하여 기기 상태와 대기 순번 확인", "接続して端末状態と待機順位を確認"]),
 
   removeDevice: l(["移除设备", "移除設備", "Remove device", "기기 제거", "端末を削除"]),
@@ -8,7 +8,7 @@ export const agentCopy = {
   copyCode: l(["复制配对码", "複製配對碼", "Copy pairing code", "연결 코드 복사", "接続コードをコピー"]),
   copied: l(["已复制", "已複製", "Copied", "복사됨", "コピー済み"]),
   copyFailed: l(["复制失败，请选中配对码手动复制。", "複製失敗，請選取配對碼手動複製。", "Copy failed. Select the code and copy it manually.", "복사하지 못했습니다. 코드를 선택해 직접 복사하세요.", "コピーできませんでした。コードを選択して手動でコピーしてください。"]),
-  waitPair: l(["等待 Mac 配对，页面会自动更新。", "等待 Mac 配對，頁面會自動更新。", "Waiting for your Mac. This page updates automatically.", "Mac 연결 대기 중입니다. 페이지가 자동 갱신됩니다.", "Macの接続を待っています。自動更新されます。"]),
+  waitPair: l(["等待设备配对，页面会自动更新。", "等待設備配對，頁面會自動更新。", "Waiting for your device. This page updates automatically.", "기기 연결 대기 중입니다. 페이지가 자동 갱신됩니다.", "端末の接続を待っています。自動更新されます。"]),
   paired: l(["配对成功，设备状态见下方。", "配對成功，設備狀態見下方。", "Paired. Device status is shown below.", "연결되었습니다. 아래에서 기기 상태를 확인하세요.", "接続しました。端末状態は下に表示されます。"]),
   expired: l(["配对码已过期，请重新生成。", "配對碼已過期，請重新產生。", "Code expired. Generate a new code.", "코드가 만료되었습니다. 다시 생성하세요.", "コードの期限が切れました。再発行してください。"]),
   checkPair: l(["检查连接状态", "檢查連接狀態", "Check connection", "연결 확인", "接続を確認"]),
@@ -65,7 +65,7 @@ export const agentCopy = {
     "CPU 코어 합계로100%를 넘을 수 있습니다.",
     "複数コアの合計のため100%を超える場合があります。",
   ]),
-  title: l(["Mac 设备管理", "Mac 設備管理", "Mac management", "Mac 기기 관리", "Mac管理"]),
+  title: l(["设备代理管理", "設備代理管理", "Device agents", "기기 에이전트 관리", "端末エージェント管理"]),
   intro: l([
     "查看设备心跳、TAH 状态和训练日志，远程管理应用。",
     "查看設備心跳、TAH狀態與訓練日誌，遠端管理應用。",
@@ -74,11 +74,11 @@ export const agentCopy = {
     "ハートビート、TAH状態と学習ログを確認し、アプリを遠隔管理します。",
   ]),
   login: l([
-    "登录后连接 Mac",
-    "登入後連接 Mac",
-    "Sign in to connect a Mac",
-    "로그인하고 Mac 연결",
-    "ログインしてMacを接続",
+    "登录后连接设备",
+    "登入後連接設備",
+    "Sign in to connect a device",
+    "로그인하고 기기 연결",
+    "ログインして端末を接続",
   ]),
   choose: l([
     "选择已添加的 IOTA 设备",
@@ -87,7 +87,7 @@ export const agentCopy = {
     "저장된 IOTA 기기 선택",
     "保存済みIOTA機器を選択",
   ]),
-  pair: l(["连接这台 Mac", "連接這台Mac", "Connect this Mac", "이 Mac 연결", "このMacを接続"]),
+  pair: l(["生成配对码", "產生配對碼", "Generate pairing code", "연결 코드 생성", "接続コードを発行"]),
   install: l([
     "下载 Mac 代理",
     "下載Mac代理",
@@ -96,11 +96,11 @@ export const agentCopy = {
     "Macエージェントをダウンロード",
   ]),
   steps: l([
-    "在对应 Mac 解压并运行 install.command，粘贴配对码。配对码 10 分钟有效，只能使用一次。",
-    "在對應Mac解壓並執行install.command，貼上配對碼。10分鐘有效且只能使用一次。",
-    "Unzip on the matching Mac, run install.command and paste the pairing code. Valid for 10 minutes, once only.",
-    "해당 Mac에서 압축을 풀고 install.command를 실행해 연결 코드를 붙여 넣으세요. 10분 동안 한 번 사용 가능합니다.",
-    "対象Macで解凍しinstall.commandを実行、ペアリングコードを貼り付けます。10分以内に1回だけ使用できます。",
+    "Mac 运行 install.command；Linux 按上方说明运行 pair 命令，粘贴此配对码。10 分钟有效，只能使用一次。",
+    "Mac 執行 install.command；Linux 按上方說明執行 pair 命令，貼上此配對碼。10 分鐘有效，只能使用一次。",
+    "On Mac run install.command; on Linux use the pair command in the instructions above. Enter this code, valid once for 10 minutes.",
+    "Mac에서는 install.command, Linux에서는 위 안내의 pair 명령을 실행하세요. 코드는 10분 동안 한 번 사용할 수 있습니다.",
+    "Macはinstall.command、Linuxは上の手順のpairコマンドを実行し、コードを入力します。10分間・1回限り有効です。",
   ]),
   empty: l([
     "先在“我的设备”添加这台 Mac 的 IOTA Miner ID。",

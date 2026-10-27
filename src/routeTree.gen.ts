@@ -26,6 +26,7 @@ import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleReviewRouteImport } from './routes/$locale.review'
 import { Route as LocaleReviewAcurastRouteImport } from './routes/$locale.review-acurast'
 import { Route as LocaleReviewFlyaiRouteImport } from './routes/$locale.review-flyai'
+import { Route as LocaleReviewLinuxRouteImport } from './routes/$locale.review-linux'
 import { Route as LocaleReviewOperationsRouteImport } from './routes/$locale.review-operations'
 import { Route as LocaleReviewPoolsRouteImport } from './routes/$locale.review-pools'
 import { Route as LocaleReviewProjectControlsRouteImport } from './routes/$locale.review-project-controls'
@@ -119,6 +120,11 @@ const LocaleReviewFlyaiRoute = LocaleReviewFlyaiRouteImport.update({
   path: '/review-flyai',
   getParentRoute: () => LocaleRoute,
 } as any)
+const LocaleReviewLinuxRoute = LocaleReviewLinuxRouteImport.update({
+  id: '/review-linux',
+  path: '/review-linux',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const LocaleReviewOperationsRoute = LocaleReviewOperationsRouteImport.update({
   id: '/review-operations',
   path: '/review-operations',
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-linux': typeof LocaleReviewLinuxRoute
   '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
   '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-linux': typeof LocaleReviewLinuxRoute
   '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
   '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/$locale/review': typeof LocaleReviewRoute
   '/$locale/review-acurast': typeof LocaleReviewAcurastRoute
   '/$locale/review-flyai': typeof LocaleReviewFlyaiRoute
+  '/$locale/review-linux': typeof LocaleReviewLinuxRoute
   '/$locale/review-operations': typeof LocaleReviewOperationsRoute
   '/$locale/review-pools': typeof LocaleReviewPoolsRoute
   '/$locale/review-project-controls': typeof LocaleReviewProjectControlsRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-linux'
     | '/$locale/review-operations'
     | '/$locale/review-pools'
     | '/$locale/review-project-controls'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-linux'
     | '/$locale/review-operations'
     | '/$locale/review-pools'
     | '/$locale/review-project-controls'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/$locale/review'
     | '/$locale/review-acurast'
     | '/$locale/review-flyai'
+    | '/$locale/review-linux'
     | '/$locale/review-operations'
     | '/$locale/review-pools'
     | '/$locale/review-project-controls'
@@ -445,6 +457,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleReviewFlyaiRouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/review-linux': {
+      id: '/$locale/review-linux'
+      path: '/review-linux'
+      fullPath: '/$locale/review-linux'
+      preLoaderRoute: typeof LocaleReviewLinuxRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/review-operations': {
       id: '/$locale/review-operations'
       path: '/review-operations'
@@ -511,6 +530,7 @@ interface LocaleRouteChildren {
   LocaleReviewRoute: typeof LocaleReviewRoute
   LocaleReviewAcurastRoute: typeof LocaleReviewAcurastRoute
   LocaleReviewFlyaiRoute: typeof LocaleReviewFlyaiRoute
+  LocaleReviewLinuxRoute: typeof LocaleReviewLinuxRoute
   LocaleReviewOperationsRoute: typeof LocaleReviewOperationsRoute
   LocaleReviewPoolsRoute: typeof LocaleReviewPoolsRoute
   LocaleReviewProjectControlsRoute: typeof LocaleReviewProjectControlsRoute
@@ -535,6 +555,7 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleReviewRoute: LocaleReviewRoute,
   LocaleReviewAcurastRoute: LocaleReviewAcurastRoute,
   LocaleReviewFlyaiRoute: LocaleReviewFlyaiRoute,
+  LocaleReviewLinuxRoute: LocaleReviewLinuxRoute,
   LocaleReviewOperationsRoute: LocaleReviewOperationsRoute,
   LocaleReviewPoolsRoute: LocaleReviewPoolsRoute,
   LocaleReviewProjectControlsRoute: LocaleReviewProjectControlsRoute,

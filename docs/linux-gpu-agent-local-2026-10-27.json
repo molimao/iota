@@ -1,0 +1,12 @@
+{
+  "scope": "Linux GPU read-only IOTA monitoring and shared project/device card and list display",
+  "status": "local validated; production deployment and persistent pairing await explicit release approval",
+  "device": "雷神",
+  "observedAt": "2026-10-27T10:33:53+08:00",
+  "actual": {"queue":2462,"gpu":"RTX 4060 Laptop","gpuUtilization":100,"vramUsedMb":417,"vramTotalMb":8188,"temperatureC":82,"watts":79.82,"iotaProcessMemoryMb":746.12,"iotaProcessCpuPercent":0.4938},
+  "safety": {"minerPid":40747,"sameProcessGeneration":true,"minerRestarted":false,"minerSettingsChanged":false,"serviceInstalled":false,"productionDataWritten":false,"rawLogsUploaded":false},
+  "sources": ["existing Linux queue callback log", "timestamped FORWARD/BACKWARD completion log", "/proc PID generation and counters", "read-only nvidia-smi query"],
+  "limitations": ["IOTA was queued during live verification; training transition covered by parser tests, not observed live", "queue callback format must already exist in the miner log", "monitor binds a PID generation; re-pair after miner replacement", "whole-GPU metrics may include PRL or other workloads", "production end-to-end heartbeat not yet tested"],
+  "validation": {"pythonTests":105,"webDatabaseTests":31,"typecheck":"passed","productionBuild":"passed","preview":"http://127.0.0.1:8084/zh/review-linux"},
+  "screenshot":"docs/previews/2026-10-27/linux-gpu-cards.png"
+}
