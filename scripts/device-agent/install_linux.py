@@ -13,7 +13,8 @@ if not (root / 'config.json').is_file():
     raise SystemExit('Pair linux_gpu_agent.py first.')
 source = Path(__file__).resolve().with_name('linux_gpu_agent.py')
 target = root / 'linux_gpu_agent.py'
-shutil.copyfile(source, target)
+if source != target.resolve():
+    shutil.copyfile(source, target)
 os.chmod(target, 0o600)
 # systemd has its own quoting/specifier syntax, not shell syntax.
 def quote(value):

@@ -12,6 +12,32 @@ class LinuxTest(unittest.TestCase):
         self.assertIsNone(rows[1]['utilization'])
         self.assertIsNone(a.number('nan',100))
         self.assertIsNone(a.number('-1',100))
+    def test_post_identifies_agent(self):
+        from unittest.mock import MagicMock
+        response=MagicMock()
+        response.__enter__.return_value.read.return_value=b'{}'
+        opener=MagicMock();opener.open.return_value=response
+        with patch.object(a.urllib.request,'build_opener',return_value=opener):
+            a.post('heartbeat',{'snapshot':{}},'test-credential')
+        request=opener.open.call_args.args[0]
+        self.assertEqual(request.get_header('User-agent'),'IOTA-Watch-Agent/'+a.VERSION)
+        self.assertEqual(request.get_header('Accept'),'application/json')
+        self.assertEqual(request.full_url,'https://iotahome.site/api/device-agent/heartbeat')
+
+    def test_install_from_existing_agent_directory(self):
+        import runpy, shutil
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'.local/state/iota-watch-linux';root.mkdir(parents=True)
+            (root/'config.json').write_text('{}')
+            (root/'linux_gpu_agent.py').write_text('# test monitor')
+            installer=root/'install_linux.py'
+            shutil.copyfile(Path(__file__).with_name('install_linux.py'),installer)
+            with patch.object(Path,'home',return_value=Path(d)),patch('sys.platform','linux'),patch('subprocess.run') as run:
+                runpy.run_path(str(installer),run_name='__main__')
+            self.assertEqual(run.call_count,2)
+            self.assertEqual(run.call_args.args[0],['systemctl','--user','enable','--now','iota-watch-linux.service'])
+            self.assertIn('NoNewPrivileges=true',(Path(d)/'.config/systemd/user/iota-watch-linux.service').read_text())
+
     def test_queue(self):
         x=a.parse_line('QUEUE_PROBE status= queued position= 2846 run= None confirm= False',1000)
         self.assertEqual(x['queue']['position'],2846)

@@ -13,7 +13,7 @@ import subprocess
 import time
 import urllib.request
 
-VERSION = '1.0.13'
+VERSION = '1.0.14'
 ROOT = Path.home() / '.local/state/iota-watch-linux'
 ANSI = re.compile(r'\x1b\[[0-9;]*m')
 
@@ -163,7 +163,8 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 def post(path, data, credential=None):
-    headers = {'Content-Type': 'application/json'}
+    headers = {'Content-Type': 'application/json', 'Accept': 'application/json',
+               'User-Agent': 'IOTA-Watch-Agent/' + VERSION}
     if credential:
         headers['Authorization'] = 'Bearer ' + credential
     req = urllib.request.Request('https://iotahome.site/api/device-agent/' + path,
