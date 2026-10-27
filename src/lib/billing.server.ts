@@ -337,6 +337,11 @@ export async function stripeWebhook(request: Request): Promise<Response> {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     if (subscription.metadata["product"] !== "iota_watch_pro") return respond("Ignored", 200);
     await sync(stripe, config, subscriptionId, event.id, event.created, subscription);
+    if (process.env["FEISHU_PAYMENT_NOTIFICATIONS_ENABLED"] === "true" && event.type === "invoice.paid") {
+      const { paymentFromVerifiedEvent, enqueuePaymentNotification } = await import("./payment-notification.server");
+      const payment = paymentFromVerifiedEvent(event, subscription, config, process.env["FEISHU_PAYMENT_NOTIFICATIONS_START_AT"] ?? "");
+      if (payment) await enqueuePaymentNotification(payment);
+    }
     return respond("Received", 200);
   } catch {
     return respond("Subscription synchronization failed", 500);

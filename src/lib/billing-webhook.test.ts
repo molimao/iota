@@ -126,4 +126,17 @@ describe("raw signed webhook", () => {
     rpc.mockResolvedValue({ data: null, error: { message: "customer_mismatch" } });
     expect((await stripeWebhook(signed())).status).toBe(500);
   });
+  it("enqueues only a verified paid live invoice and retries on queue failure", async () => {
+    for (const [k,v] of Object.entries({STRIPE_MODE:'live',STRIPE_LIVE_ENABLED:'true',STRIPE_SECRET_KEY:'sk_live_fixture_only',SITE_ORIGIN:'https://iotahome.site',FEISHU_PAYMENT_NOTIFICATIONS_ENABLED:'true',FEISHU_PAYMENT_NOTIFICATIONS_START_AT:'2026-01-01T00:00:00Z'})) vi.stubEnv(k,v);
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({...subscription,livemode:true,items:{data:[{quantity:1,price:{id:'price_month',recurring:{interval:'month'}},current_period_end:1800000000}]}}),{headers:{'content-type':'application/json'}}));
+    const make = () => {
+      const now=Math.floor(Date.now()/1000);
+      const payload=JSON.stringify({id:'evt_paid',created:now,type:'invoice.paid',livemode:true,data:{object:{id:'in_fixture',object:'invoice',livemode:true,status:'paid',amount_paid:299,currency:'usd',billing_reason:'subscription_create',customer:'cus_fixture',parent:{subscription_details:{subscription:'sub_fixture'}},status_transitions:{paid_at:now},lines:{data:[]}}}});
+      return new Request('https://iotahome.site/api/stripe/webhook',{method:'POST',headers:{'stripe-signature':sdk.webhooks.generateTestHeaderString({payload,secret})},body:payload});
+    };
+    expect((await stripeWebhook(make())).status).toBe(200);
+    expect(rpc).toHaveBeenCalledWith('watch_payment_notification_enqueue',expect.objectContaining({p_invoice:'in_fixture'}));
+    rpc.mockImplementation(async (name:string) => name==='watch_payment_notification_enqueue' ? {data:null,error:{message:'unavailable'}} : {data:null,error:null});
+    expect((await stripeWebhook(make())).status).toBe(500);
+  });
 });
