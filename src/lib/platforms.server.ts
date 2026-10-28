@@ -2,8 +2,8 @@ import { ReadCache } from "./read-cache";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { watchDb } from "./watch-db";
 import { openCredential, sealCredential } from "./connection-crypto.server";
-import { readPrivatePlatform, readPublicPlatform } from "./platforms-upstream.server";
-import type { PlatformResult, PrivatePlatform } from "./platforms";
+import { platformJson, readPrivatePlatform, readPublicPlatform } from "./platforms-upstream.server";
+import { parseIo, type PlatformResult, type PrivatePlatform } from "./platforms";
 const cache = new ReadCache();
 function safeError(e: unknown): NonNullable<PlatformResult["error"]> {
   const code = e instanceof Error ? e.message : "";
@@ -19,10 +19,21 @@ async function cached(
 ): Promise<PlatformResult> {
   return (await cache.read(key, read, { ttl: 300000, classify: safeError })) as PlatformResult;
 }
-export const publicPlatform = async (project: "akash" | "golem" | "noid" | "acurast" | "tsc", id: string) => {
-  const quote = project === "acurast" ? import("./acurast-price.server").then(m => m.acurastPrice()) : Promise.resolve(undefined);
-  const [result, acurastQuote] = await Promise.all([cached(`public:${project}:${id}`, () => readPublicPlatform(project, id)), quote]);
-  return result.data && acurastQuote ? {...result, data: {...result.data, acurastQuote}} : result;
+export const publicPlatform = async (
+  project: "akash" | "golem" | "noid" | "acurast" | "tsc",
+  id: string,
+) => {
+  const quote =
+    project === "acurast"
+      ? import("./acurast-price.server").then((m) => m.acurastPrice())
+      : Promise.resolve(undefined);
+  const [result, acurastQuote] = await Promise.all([
+    cached(`public:${project}:${id}`, () => readPublicPlatform(project, id)),
+    quote,
+  ]);
+  return result.data && acurastQuote
+    ? { ...result, data: { ...result.data, acurastQuote } }
+    : result;
 };
 function encryptionKey() {
   const key = process.env["WATCH_CONNECTION_ENCRYPTION_KEY"];
@@ -124,4 +135,22 @@ export async function vastReportDay(user: string, id: string, dayEnd: number) {
   if (Date.parse(row.expires_at) <= Date.now()) throw new Error("expired");
   const token = await openCredential(row.ciphertext, user, "vast", encryptionKey());
   return readPrivatePlatform("vast", id, token, fetch, dayEnd - 1);
+}
+/** The mail date is read as that UTC calendar day, which is the period io.net publishes. */
+export async function ionetReportDay(user: string, id: string, day: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error("invalid-data");
+  const row = await connection(user, "ionet");
+  if (!row) throw new Error("connect-required");
+  if (Date.parse(row.expires_at) <= Date.now()) throw new Error("expired");
+  const token = await openCredential(row.ciphertext, user, "ionet", encryptionKey());
+  const root = "https://api.io.solutions/v1";
+  const encoded = encodeURIComponent(id);
+  const [node, rewards] = await Promise.all([
+    platformJson(`${root}/io-explorer/devices/${encoded}/details`, token),
+    platformJson(
+      `${root}/io-blocks/devices/${encoded}/block-rewards-summary/${day}/${day}`,
+      token,
+    ).catch(() => null),
+  ]);
+  return parseIo(node, rewards, id);
 }

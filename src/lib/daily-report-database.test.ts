@@ -30,6 +30,8 @@ beforeAll(async () => {
     "20261012120000_pro_trials.sql",
   ])
     await db.exec(readFileSync("supabase/migrations/" + f, "utf8"));
+  await db.exec("ALTER TABLE public.watch_bindings ADD COLUMN pool text NOT NULL DEFAULT '';");
+  await db.exec(readFileSync("supabase/migrations/20261028100000_report_email_pool.sql", "utf8"));
   await db.query(
     "INSERT INTO watch_billing(user_id,status,period_end) VALUES($1,'trialing',now()+interval '7 days')",
     [user],
@@ -39,7 +41,7 @@ beforeAll(async () => {
     [user],
   );
   await db.query(
-    "INSERT INTO watch_bindings(device_id,user_id,project,identifier) VALUES($1,$2,'iota','public-test-id')",
+    "INSERT INTO watch_bindings(device_id,user_id,project,identifier,pool) VALUES($1,$2,'iota','public-test-id','2miners')",
     [id, user],
   );
 });
@@ -70,6 +72,9 @@ it("queues once per day, leases work atomically and freezes the first delivery p
     [user],
   );
   expect(await rpc<number>("SELECT watch_enqueue_reports($1) AS v", [due])).toBe(1);
+  expect(
+    await rpc<unknown>("SELECT bindings AS v FROM watch_report_jobs WHERE user_id=$1", [user]),
+  ).toEqual([{ project: "iota", identifier: "public-test-id", worker: "", pool: "2miners" }]);
   expect(await rpc<number>("SELECT watch_enqueue_reports($1) AS v", [due])).toBe(0);
   await db.query("UPDATE watch_report_jobs SET available_at=$1", [prep]);
   const j = await rpc<{ id: string; lease_token: string }>(

@@ -5,6 +5,7 @@ vi.mock("./watch-db", () => ({ watchDb: () => ({ rpc: state.rpc }) }));
 vi.mock("./daily-report-cron-auth.server", () => ({ authenticateReportCron: async () => null }));
 vi.mock("./daily-report-collect.server", () => ({ collectEmailReportBinding: state.collect }));
 vi.mock("./iota-price.server", () => ({ fetchIotaUsdPrice: state.quote }));
+vi.mock("./report-prices.server", () => ({ fetchReportUsdPrices: async () => ({ kas: 0.03 }) }));
 vi.mock("./daily-report-send.server", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./daily-report-send.server")>()),
   reportEmailConfig: () => ({ key: "test-only", from: "test@example.com" }),

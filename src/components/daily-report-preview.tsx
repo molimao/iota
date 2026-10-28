@@ -34,13 +34,22 @@ function sampleReport(locale: SiteLocale) {
         usd: 3.84,
       },
       {
+        project: "kas",
+        resource: "demo-kas",
+        units: "250000000000",
+        decimals: 12,
+        currency: "KAS",
+        usd: 0.89,
+        period: "rolling24h",
+      },
+      {
         project: "flyai",
         resource: "demo-wallet",
-        units: null,
-        decimals: 8,
+        units: "120",
+        decimals: 0,
         currency: "Points",
         usd: null,
-        reason: "different_period",
+        period: "month",
       },
     ],
     locale,
@@ -97,8 +106,19 @@ export function ReportEmailPreview({ emailLocale }: { emailLocale?: SiteLocale |
               </thead>
               <tbody>
                 {report.projects.map((project) => (
-                  <tr key={project.project}>
-                    <th scope="row">{project.name}</th>
+                  <tr key={`${project.project}:${project.period ?? "unknown"}`}>
+                    <th scope="row">
+                      {project.name}
+                      {project.period === "rolling24h"
+                        ? ` · ${reportCopy.rolling[language]}`
+                        : project.period === "utcDay"
+                          ? ` · ${reportCopy.utcDay[language]}`
+                          : project.period === "balance"
+                            ? ` · ${reportCopy.balanceLabel[language]}`
+                            : project.period === "month"
+                              ? ` · ${reportCopy.monthPoints[language]}`
+                              : ""}
+                    </th>
                     <td>
                       {project.amount === null ? "—" : `${project.amount} ${project.currency}`}
                     </td>
@@ -108,7 +128,6 @@ export function ReportEmailPreview({ emailLocale }: { emailLocale?: SiteLocale |
               </tbody>
             </table>
             <p>{reportCopy.estimateNote[language]}</p>
-            <p>{reportCopy.differentPeriod[language]} · fly.ai</p>
           </div>
         </div>
       )}

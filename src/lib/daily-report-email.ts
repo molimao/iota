@@ -1,4 +1,4 @@
-import { reportDayWindow, type DailyReport } from "./daily-report";
+import { countsInEstimate, reportDayWindow, type DailyReport } from "./daily-report";
 import { reportCopy } from "@/components/daily-report-copy";
 import { ORIGIN, LANGUAGE_TAG } from "./site";
 
@@ -20,6 +20,7 @@ export function renderDailyReport(report: DailyReport, unsubscribeUrl: string) {
   const l = report.locale,
     c = reportCopy,
     esc = escapeEmail;
+  const projectCount = new Set(report.projects.map((p) => p.project)).size;
   const money = (v: number | null) =>
     v === null
       ? "—"
@@ -29,22 +30,28 @@ export function renderDailyReport(report: DailyReport, unsubscribeUrl: string) {
           maximumFractionDigits: 2,
         }).format(v);
   const note = (p: DailyReport["projects"][number]) =>
-    p.reason === "unsupported"
-      ? c.unsupported[l]
-      : p.reason === "different_period"
-        ? c.differentPeriod[l]
-        : p.reason === "connect_required"
-          ? c.connect[l]
-          : p.partial
-            ? c.partial[l]
-            : "";
+    p.reason === "connect_required"
+      ? c.connect[l]
+      : p.period === "rolling24h"
+        ? c.rolling[l]
+        : p.period === "utcDay"
+          ? c.utcDay[l]
+          : p.period === "balance"
+            ? c.balanceLabel[l]
+            : p.period === "month"
+              ? c.monthPoints[l]
+              : p.partial
+                ? c.partial[l]
+                : "";
   const rows = report.projects
     .map(
       (p) =>
         `<tr><td style="padding:18px 12px;border-bottom:1px solid #ededed;vertical-align:top"><b>${esc(p.name)}</b>${note(p) ? `<div style="color:#6b6b6b;font-size:12px;margin-top:5px">${esc(note(p))}</div>` : ""}</td><td style="padding:18px 8px;border-bottom:1px solid #ededed;vertical-align:top;font-weight:600">${esc(p.amount ?? "—")}<div style="font-size:11px;color:#777;font-weight:400">${esc(p.currency)}</div></td><td style="padding:18px 8px;border-bottom:1px solid #ededed;vertical-align:top">${esc(money(p.usd))}</td><td style="padding:18px 8px;border-bottom:1px solid #ededed;vertical-align:top;color:#777;font-size:12px">${p.known}/${p.total}</td></tr>`,
     )
     .join("");
-  const priced = report.projects.filter((p) => p.usd !== null && p.usd > 0),
+  const priced = report.projects.filter(
+      (p) => countsInEstimate(p.period) && p.usd !== null && p.usd > 0,
+    ),
     total = report.usdSubtotal;
   const bars =
     total !== null && total > 0 && priced.length > 1
@@ -69,10 +76,10 @@ export function renderDailyReport(report: DailyReport, unsubscribeUrl: string) {
   const periodNote = report.projects.some((p) => p.project === "iota")
     ? `${c.recordedDate[l]}: ${recordingDate} · UTC+8`
     : "";
-  const html = `<!doctype html><html lang="${LANGUAGE_TAG[l]}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#fff;color:#202020;font-family:Arial,'Segoe UI',sans-serif"><div style="display:none;max-height:0;overflow:hidden">${esc(report.day)} · ${esc(c.intro[l])}</div><table role="presentation" width="100%" style="border-collapse:collapse;background:#fff"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" style="max-width:620px;border-collapse:collapse"><tr><td style="padding:12px 4px 24px;border-bottom:2px solid #222;font-size:18px;font-weight:700;letter-spacing:-.5px">IOTA Watch <span style="font-size:11px;letter-spacing:1px;color:#777;margin-left:12px">PRO</span></td><td align="right" style="border-bottom:2px solid #222;font-size:12px;color:#777">${esc(report.day)}</td></tr><tr><td colspan="2" style="padding:28px 4px 22px"><h1 style="font-size:23px;font-weight:600;margin:0 0 10px">${esc(c.yesterday[l])}</h1><p style="font-size:13px;color:#666;margin:0">${report.deviceCount} ${esc(c.devices[l])} · ${report.projects.length} ${esc(c.projects[l])}</p>${periodNote ? `<p style="font-size:12px;color:#777;margin:8px 0 0">${esc(periodNote)}</p>` : ""}</td></tr><tr><td colspan="2" style="background:#f5f5f5;border:1px solid #e9e9e9;border-radius:12px;padding:26px"><div style="font-size:12px;color:#666;margin-bottom:10px">${esc(c.estimate[l])}${report.partial ? ` · ${esc(c.partial[l])}` : ""}</div><strong style="font-size:38px;letter-spacing:-1.5px;font-weight:600">${esc(money(report.usdSubtotal))}</strong><span style="font-size:12px;color:#777;margin-left:8px">USD</span><p style="font-size:12px;color:#777;line-height:1.6;margin:12px 0 0">${esc(c.estimateNote[l])}</p></td></tr><tr><td colspan="2" style="padding-top:24px"><table width="100%" style="border-collapse:collapse;font-size:14px"><thead><tr>${[c.project[l], c.amount[l], c.usd[l], c.coverage[l]].map((h) => `<th align="left" style="padding:12px 8px;font-size:11px;color:#777;font-weight:400;border-bottom:1px solid #ddd">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>${bars}<p style="font-size:12px;color:#777;line-height:1.7;margin:26px 0 0">${esc(c.window[l])}</p><p style="font-size:11px;color:#888;line-height:1.6;margin:8px 0 24px">${esc(c.generated[l])} · ${esc(retrieved)}${quoteAt ? `<br>${esc(c.quoteTime[l])} · ${esc(quoteAt)}` : ""}</p><a href="${ORIGIN}/${l}/devices" style="display:inline-block;background:#222;color:#fff;border-radius:7px;text-decoration:none;padding:13px 20px;font-size:13px">${esc(c.open[l])} →</a></td></tr><tr><td colspan="2" style="padding:28px 4px;margin-top:24px;font-size:11px;color:#888;line-height:1.8">${esc(c.reason[l])}<br><a href="${esc(url.toString())}" style="color:#666;text-decoration:underline">${esc(c.unsubscribe[l])}</a> · <a href="${ORIGIN}/${l}/privacy" style="color:#666;text-decoration:underline">IOTA Watch</a></td></tr></table></td></tr></table></body></html>`;
+  const html = `<!doctype html><html lang="${LANGUAGE_TAG[l]}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#fff;color:#202020;font-family:Arial,'Segoe UI',sans-serif"><div style="display:none;max-height:0;overflow:hidden">${esc(report.day)} · ${esc(c.intro[l])}</div><table role="presentation" width="100%" style="border-collapse:collapse;background:#fff"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" style="max-width:620px;border-collapse:collapse"><tr><td style="padding:12px 4px 24px;border-bottom:2px solid #222;font-size:18px;font-weight:700;letter-spacing:-.5px">IOTA Watch <span style="font-size:11px;letter-spacing:1px;color:#777;margin-left:12px">PRO</span></td><td align="right" style="border-bottom:2px solid #222;font-size:12px;color:#777">${esc(report.day)}</td></tr><tr><td colspan="2" style="padding:28px 4px 22px"><h1 style="font-size:23px;font-weight:600;margin:0 0 10px">${esc(c.yesterday[l])}</h1><p style="font-size:13px;color:#666;margin:0">${report.deviceCount} ${esc(c.devices[l])} · ${projectCount} ${esc(c.projects[l])}</p>${periodNote ? `<p style="font-size:12px;color:#777;margin:8px 0 0">${esc(periodNote)}</p>` : ""}</td></tr><tr><td colspan="2" style="background:#f5f5f5;border:1px solid #e9e9e9;border-radius:12px;padding:26px"><div style="font-size:12px;color:#666;margin-bottom:10px">${esc(c.estimate[l])}${report.partial ? ` · ${esc(c.partial[l])}` : ""}</div><strong style="font-size:38px;letter-spacing:-1.5px;font-weight:600">${esc(money(report.usdSubtotal))}</strong><span style="font-size:12px;color:#777;margin-left:8px">USD</span><p style="font-size:12px;color:#777;line-height:1.6;margin:12px 0 0">${esc(c.estimateNote[l])}</p></td></tr><tr><td colspan="2" style="padding-top:24px"><table width="100%" style="border-collapse:collapse;font-size:14px"><thead><tr>${[c.project[l], c.amount[l], c.usd[l], c.coverage[l]].map((h) => `<th align="left" style="padding:12px 8px;font-size:11px;color:#777;font-weight:400;border-bottom:1px solid #ddd">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table>${bars}<p style="font-size:12px;color:#777;line-height:1.7;margin:26px 0 0">${esc(c.window[l])}</p><p style="font-size:11px;color:#888;line-height:1.6;margin:8px 0 24px">${esc(c.generated[l])} · ${esc(retrieved)}${quoteAt ? `<br>${esc(c.quoteTime[l])} · ${esc(quoteAt)}` : ""}</p><a href="${ORIGIN}/${l}/devices" style="display:inline-block;background:#222;color:#fff;border-radius:7px;text-decoration:none;padding:13px 20px;font-size:13px">${esc(c.open[l])} →</a></td></tr><tr><td colspan="2" style="padding:28px 4px;margin-top:24px;font-size:11px;color:#888;line-height:1.8">${esc(c.reason[l])}<br><a href="${esc(url.toString())}" style="color:#666;text-decoration:underline">${esc(c.unsubscribe[l])}</a> · <a href="${ORIGIN}/${l}/privacy" style="color:#666;text-decoration:underline">IOTA Watch</a></td></tr></table></td></tr></table></body></html>`;
   const text = [
     subject,
-    `${report.deviceCount} ${c.devices[l]} · ${report.projects.length} ${c.projects[l]}`,
+    `${report.deviceCount} ${c.devices[l]} · ${projectCount} ${c.projects[l]}`,
     ...(periodNote ? [periodNote] : []),
     `${c.estimate[l]}: ${money(report.usdSubtotal)} USD`,
     ...report.projects.map(

@@ -1,0 +1,130 @@
+import type { ProjectId } from "./projects";
+/** Ids checked against CoinGecko simple/price. Missing or stale quotes stay unpriced.
+ * BNT is this project's Blocknet, not Bancor and not the old BLOCK token.
+ * XID has no market. Pearl's CoinGecko "perle" is a different token. */
+const COINGECKO_IDS: Partial<Record<ProjectId, string>> = {
+  btc: "bitcoin",
+  xmr: "monero",
+  etc: "ethereum-classic",
+  rvn: "ravencoin",
+  zec: "zcash",
+  kas: "kaspa",
+  erg: "ergo",
+  zeph: "zephyr-protocol",
+  ethw: "ethereum-pow-iou",
+  golem: "golem",
+  ionet: "io",
+  acurast: "acurast",
+  quantus: "quantus",
+  tsc: "tensorcash",
+  noid: "parano1d",
+};
+/** CoinPaprika ids checked against each project's own site. */
+const PAPRIKA_IDS: Partial<Record<ProjectId, string>> = {
+  prl: "prl-pearl-1",
+  mds: "mds-midstate",
+  csd: "csd-compute-substrate",
+  quantus: "qtc-quantus",
+  tsc: "tsc-tensorcash",
+  noid: "noid-parano1d",
+};
+const MAX_AGE_MS = 6 * 3600000;
+export function parseMarketPrices(
+  body: unknown,
+  now = Date.now(),
+): Partial<Record<ProjectId, number>> {
+  const root = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const prices: Partial<Record<ProjectId, number>> = {};
+  for (const [project, id] of Object.entries(COINGECKO_IDS) as [ProjectId, string][]) {
+    const row = root[id];
+    if (!row || typeof row !== "object") continue;
+    const usd = (row as { usd?: unknown }).usd;
+    const at = (row as { last_updated_at?: unknown }).last_updated_at;
+    if (typeof usd !== "number" || !Number.isFinite(usd) || usd <= 0) continue;
+    if (typeof at !== "number" || !Number.isFinite(at)) continue;
+    const quotedAt = at * 1000;
+    if (quotedAt > now + 60000 || now - quotedAt > MAX_AGE_MS) continue;
+    prices[project] = usd;
+  }
+  return prices;
+}
+/** A zero-volume or old ticker is not a usable quote. */
+export function parsePaprikaTicker(body: unknown, now = Date.now()): number | null {
+  if (!body || typeof body !== "object") return null;
+  const row = body as {
+    last_updated?: unknown;
+    quotes?: { USD?: { price?: unknown; volume_24h?: unknown } };
+  };
+  const quote = row.quotes?.USD;
+  const price = quote?.price;
+  const volume = quote?.volume_24h;
+  const quotedAt = typeof row.last_updated === "string" ? Date.parse(row.last_updated) : NaN;
+  if (typeof price !== "number" || !Number.isFinite(price) || price <= 0) return null;
+  if (typeof volume !== "number" || !Number.isFinite(volume) || volume <= 0) return null;
+  if (!Number.isFinite(quotedAt) || quotedAt > now + 60000 || now - quotedAt > MAX_AGE_MS)
+    return null;
+  return price;
+}
+async function paprikaPrices(
+  projects: readonly ProjectId[],
+  fetcher: typeof fetch,
+): Promise<Partial<Record<ProjectId, number>>> {
+  const wanted = projects.filter((project) => PAPRIKA_IDS[project]);
+  const found: Partial<Record<ProjectId, number>> = {};
+  await Promise.all(
+    wanted.map(async (project) => {
+      try {
+        const response = await fetcher(
+          `https://api.coinpaprika.com/v1/tickers/${PAPRIKA_IDS[project]}?quotes=USD`,
+          { signal: AbortSignal.timeout(6000), redirect: "manual" },
+        );
+        if (!response.ok) return;
+        const price = parsePaprikaTicker(await response.json());
+        if (price !== null) found[project] = price;
+      } catch {
+        /* This coin stays unpriced. */
+      }
+    }),
+  );
+  return found;
+}
+export async function fetchReportUsdPrices(
+  projects: readonly ProjectId[],
+  fetcher: typeof fetch = fetch,
+): Promise<Partial<Record<ProjectId, number>>> {
+  const ids = [
+    ...new Set(
+      projects.flatMap((project) => {
+        const id = COINGECKO_IDS[project];
+        return id ? [id] : [];
+      }),
+    ),
+  ];
+  let prices: Partial<Record<ProjectId, number>> = {};
+  if (ids.length) {
+    try {
+      const response = await fetcher(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${ids.join(",")}&vs_currencies=usd&include_last_updated_at=true`,
+        { signal: AbortSignal.timeout(6000), redirect: "manual" },
+      );
+      if (response.ok) prices = parseMarketPrices(await response.json());
+    } catch {
+      prices = {};
+    }
+  }
+  if (projects.includes("acurast") && prices.acurast == null) {
+    try {
+      const { readAcurastPrice } = await import("./acurast-price.server");
+      const quote = await readAcurastPrice(fetcher);
+      if (Number.isFinite(quote.usd) && quote.usd > 0) prices = { ...prices, acurast: quote.usd };
+    } catch {
+      /* A missing ACU quote leaves the native amount visible. */
+    }
+  }
+  const missing = projects.filter((project) => prices[project] == null && PAPRIKA_IDS[project]);
+  if (missing.length) {
+    const extra = await paprikaPrices(missing, fetcher);
+    prices = { ...prices, ...extra };
+  }
+  return prices;
+}
