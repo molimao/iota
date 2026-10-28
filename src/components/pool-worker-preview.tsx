@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { localized } from "@/lib/product-discovery";
 import type { ProjectReading } from "./fleet-review-data";
@@ -13,10 +14,12 @@ export function PoolWorkerPreview({
   project,
   data,
   locale,
+  workerAgent,
 }: {
   project: PoolProject;
   data: NonNullable<ProjectReading["poolWorkers"]>;
   locale: SiteLocale;
+  workerAgent?: ((worker: string) => ReactNode) | undefined;
 }) {
   const [expanded, setExpanded] = useState(false);
   return (
@@ -29,7 +32,10 @@ export function PoolWorkerPreview({
       ) : (
         <ul>
           {data.workers.slice(0, expanded ? undefined : 3).map((worker, index) => (
-            <li key={`${worker.name}-${index}`}>
+            <li
+              key={`${worker.name}-${index}`}
+              className={workerAgent ? "pab-worker-with-agent" : undefined}
+            >
               <div>
                 <span
                   className="pab-worker-dot"
@@ -53,6 +59,9 @@ export function PoolWorkerPreview({
                       : c.unknown[locale]}
                 </small>
               </div>
+              {workerAgent && (
+                <div className="pool-worker-agent-slot">{workerAgent(worker.name)}</div>
+              )}
             </li>
           ))}
         </ul>

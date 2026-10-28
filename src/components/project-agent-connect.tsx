@@ -69,7 +69,7 @@ export function ProjectAgentConnect({
   const choices = (matched.query.data ?? []).filter(
     (a) => a.deviceId !== deviceId && devices.some((d) => d.id === a.deviceId),
   );
-  if (!["prl", "noid", "xmr"].includes(project) || !matched.enabled || !choices.length) return null;
+  if (!["noid", "xmr"].includes(project) || !matched.enabled || !choices.length) return null;
   async function submit() {
     if (lock.current || !choices.some((a) => a.deviceId === selected)) return;
     lock.current = true;

@@ -103,6 +103,7 @@ export type WatchDatabase = Omit<Database, "public"> & {
       watch_read_agent_history: { Args: { p_device: string }; Returns: Json };
       watch_agent_binding_manifest: { Args: { p_hash: string }; Returns: Json };
       watch_link_project_agent: { Args: {p_binding:string;p_device:string}; Returns:undefined };
+      watch_link_prl_worker_agent: { Args: {p_binding:string;p_worker:string;p_device:string}; Returns:string };
       watch_link_bnt_worker_agent: { Args: {p_binding:string;p_worker:string;p_device:string}; Returns:string };
       watch_agent_owner: {
         Args: { p_action: string; p_device?: string | null; p_payload?: Json };

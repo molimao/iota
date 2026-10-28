@@ -1,3 +1,5 @@
+import { prlWalletGroups } from "@/lib/prl-worker-agent";
+import { PoolWorkerAgent } from "./bnt-worker-agent";
 import { PoolWorkerPreview } from "./pool-worker-preview";
 import { DeviceMinerSummary } from "./device-miner-summary";
 import { ProjectAgentConnect } from "./project-agent-connect";
@@ -187,6 +189,7 @@ export function ProjectAddressBookView({
   onSaveRename = () => {},
   onCancelRename = () => {},
   localMetrics,
+  workerAgent,
 }: {
   project: FleetProject;
   locale: SiteLocale;
@@ -223,6 +226,7 @@ export function ProjectAddressBookView({
   onSaveRename?: (deviceId: string) => void;
   onCancelRename?: () => void;
   localMetrics?: ((entry: AddressBookEntry) => ReactNode) | undefined;
+  workerAgent?: ((entry: AddressBookEntry, worker: string) => ReactNode) | undefined;
 }) {
   const text = addressBookCopy;
   const labels = fleetCopy(locale);
@@ -412,7 +416,12 @@ export function ProjectAddressBookView({
                     data={{ ...entry, lifetime: entry.lifetime ?? null }}
                   />
                   {isPoolProject(project) && entry.poolWorkers && (
-                    <PoolWorkerPreview project={project} data={entry.poolWorkers} locale={locale} />
+                    <PoolWorkerPreview
+                      project={project}
+                      data={entry.poolWorkers}
+                      locale={locale}
+                      workerAgent={workerAgent ? (worker) => workerAgent(entry, worker) : undefined}
+                    />
                   )}
                 </div>
               )}
@@ -553,9 +562,15 @@ export function ProjectAddressBook({
     }
   }, [devices, fleet.ready, selected, onSelect, autoSelect]);
   const saving = useRef(false);
-  const entries = devices.flatMap((device) =>
-    device.bindings.map((binding) => toEntry(device, binding, read(binding))),
+  const rawEntries = devices.flatMap((device) =>
+    device.bindings.map((binding) => ({ device, binding })),
   );
+  // PRL addresses remain wallet groups even after Workers are linked to computers.
+  const walletEntries = project === "prl" ? prlWalletGroups(devices) : rawEntries;
+  const entries = walletEntries.map(({ device, binding }) =>
+    toEntry(device, binding, read(project === "prl" ? { ...binding, worker: "" } : binding)),
+  );
+
   async function add() {
     if (!auth.userId || !fleet.ready || saving.current) return;
     let ids: string[];
@@ -609,12 +624,33 @@ export function ProjectAddressBook({
   }
   async function removeBinding(deviceId: string, bindingId: string) {
     const name = entries.find((entry) => entry.bindingId === bindingId)?.deviceName ?? "";
-    const message = name ? `${text.removeConfirm[locale]}\n${name}` : text.removeConfirm[locale];
+    const entry = rawEntries.find(({ binding }) => binding.id === bindingId);
+    const targets =
+      project === "prl" && entry
+        ? rawEntries.filter(
+            ({ binding }) =>
+              binding.identifier === entry.binding.identifier &&
+              (binding.pool ?? poolProvider("prl")) === (entry.binding.pool ?? poolProvider("prl")),
+          )
+        : rawEntries.filter(({ binding }) => binding.id === bindingId);
+    const message =
+      project === "prl"
+        ? {
+            zh: "移除这个钱包及其 Worker 关联？不会停止矿工。",
+            "zh-TW": "移除此錢包及其 Worker 關聯？不會停止礦工。",
+            en: "Remove this wallet and its Worker links? Mining will keep running.",
+            ko: "이 지갑과 Worker 연결을 삭제할까요? 채굴은 계속 실행됩니다.",
+            ja: "このウォレットと Worker の関連付けを削除しますか？採掘は継続します。",
+          }[locale]
+        : name
+          ? `${text.removeConfirm[locale]}\n${name}`
+          : text.removeConfirm[locale];
     if (!window.confirm(message)) return;
     setBusy(true);
     setError(null);
     try {
-      await fleet.mutate(unlinkBinding(deviceId, bindingId));
+      for (const { device, binding } of targets)
+        await fleet.mutate(unlinkBinding(device.id, binding.id));
     } catch {
       setError(labels.unavailable);
     } finally {
@@ -640,25 +676,46 @@ export function ProjectAddressBook({
     <ProjectAddressBookView
       project={project}
       locale={locale}
-      savedCount={projectDevices.length}
+      savedCount={project === "prl" ? entries.length : projectDevices.length}
       pool={pool}
       limit={fleet.limit}
       cards={entries}
-      localMetrics={(entry) => (
-        <>
-          <DeviceMinerSummary
-            deviceId={entry.deviceId}
-            bindings={[{ id: entry.bindingId, project, identifier: entry.identifier, worker: "" }]}
-          />
-          <ProjectAgentConnect
-            deviceId={entry.deviceId}
-            bindingId={entry.bindingId}
-            project={project}
-            devices={fleet.devices}
-            onLinked={() => fleet.reload()}
-          />
-        </>
-      )}
+      workerAgent={
+        project === "prl"
+          ? (entry, worker) => (
+              <PoolWorkerAgent
+                project="prl"
+                pool={pool}
+                address={entry.identifier}
+                worker={worker}
+                sourceBindingId={entry.bindingId}
+                devices={fleet.devices}
+                onLinked={() => fleet.reload()}
+              />
+            )
+          : undefined
+      }
+      localMetrics={
+        project === "prl"
+          ? undefined
+          : (entry) => (
+              <>
+                <DeviceMinerSummary
+                  deviceId={entry.deviceId}
+                  bindings={[
+                    { id: entry.bindingId, project, identifier: entry.identifier, worker: "" },
+                  ]}
+                />
+                <ProjectAgentConnect
+                  deviceId={entry.deviceId}
+                  bindingId={entry.bindingId}
+                  project={project}
+                  devices={fleet.devices}
+                  onLinked={() => fleet.reload()}
+                />
+              </>
+            )
+      }
       signedIn={Boolean(auth.userId)}
       authReady={auth.ready}
       signingIn={auth.signingIn}

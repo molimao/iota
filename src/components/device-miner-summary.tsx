@@ -175,7 +175,9 @@ export function ProjectMinerSlots({
   return (
     <>
       {bindings
-        .filter((b) => b.project !== "iota" && !(b.project === "bnt" && !b.worker))
+        .filter(
+          (b) => b.project !== "iota" && !(["bnt", "prl"].includes(b.project) && !b.worker.trim()),
+        )
         .map((binding) => {
           const supported = ["xmr", "bnt", "prl", "noid"].includes(binding.project);
           const observation = agent?.snapshot.miners?.find(

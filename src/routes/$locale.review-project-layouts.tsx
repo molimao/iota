@@ -1,3 +1,4 @@
+import { PrlWorkerAgentReview } from "@/components/prl-worker-agent-review";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useLocale } from "@/components/site/locale";
@@ -43,54 +44,61 @@ function Review() {
   }, [requestedProject, requestedScene]);
   const devices = state === "empty" ? [] : layoutDevices(project),
     data = layoutReading(project, locale, state === "stale");
-  const book = project === "bnt" && state !== "empty" ? <BntWorkerAgentReview key={state} unpaired={state === "unpaired"} /> : (
-    <ProjectAddressBookView
-      project={project}
-      locale={locale}
-      signedIn
-      fleetReady
-      savedCount={devices.length}
-      limit={50}
-      localMetrics={(entry) => (
-        <>
-          <ProjectMinerSlots
-            bindings={[{ id: entry.bindingId, project, identifier: entry.identifier, worker: "" }]}
-            agent={
-              state !== "unpaired" && devices.find((d) => d.id === entry.deviceId)
-                ? layoutAgent(
-                    devices.find((d) => d.id === entry.deviceId)!,
-                    now,
-                  )
-                : undefined
-            }
-            now={now}
-            locale={locale}
-          />
-          {state === "unpaired" && ["bnt", "prl", "noid", "xmr"].includes(project) && (
-            <ProjectAgentConnectView
-              locale={locale}
-              choices={[
-                { id: "demo-studio", name: "Mac Studio" },
-                { id: "demo-mini", name: "Mac mini" },
+  const book =
+    project === "prl" && state !== "empty" ? (
+      <PrlWorkerAgentReview key={state} unpaired={state === "unpaired"} />
+    ) : project === "bnt" && state !== "empty" ? (
+      <BntWorkerAgentReview key={state} unpaired={state === "unpaired"} />
+    ) : (
+      <ProjectAddressBookView
+        project={project}
+        locale={locale}
+        signedIn
+        fleetReady
+        savedCount={devices.length}
+        limit={50}
+        localMetrics={(entry) => (
+          <>
+            <ProjectMinerSlots
+              bindings={[
+                { id: entry.bindingId, project, identifier: entry.identifier, worker: "" },
               ]}
-              selected={agentChoice}
-              onSelect={setAgentChoice}
-              onSubmit={() => setState("normal")}
+              agent={
+                state !== "unpaired" && devices.find((d) => d.id === entry.deviceId)
+                  ? layoutAgent(
+                      devices.find((d) => d.id === entry.deviceId)!,
+                      now,
+                    )
+                  : undefined
+              }
+              now={now}
+              locale={locale}
             />
-          )}
-        </>
-      )}
-      cards={devices.flatMap((d) =>
-        d.bindings.map((b) => ({
-          ...data,
-          deviceId: d.id,
-          deviceName: d.name,
-          bindingId: b.id,
-          identifier: b.identifier,
-        })),
-      )}
-    />
-  );
+            {state === "unpaired" && ["bnt", "prl", "noid", "xmr"].includes(project) && (
+              <ProjectAgentConnectView
+                locale={locale}
+                choices={[
+                  { id: "demo-studio", name: "Mac Studio" },
+                  { id: "demo-mini", name: "Mac mini" },
+                ]}
+                selected={agentChoice}
+                onSelect={setAgentChoice}
+                onSubmit={() => setState("normal")}
+              />
+            )}
+          </>
+        )}
+        cards={devices.flatMap((d) =>
+          d.bindings.map((b) => ({
+            ...data,
+            deviceId: d.id,
+            deviceName: d.name,
+            bindingId: b.id,
+            identifier: b.identifier,
+          })),
+        )}
+      />
+    );
   return (
     <main className="fleet-workspace">
       <header className="project-heading">

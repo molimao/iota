@@ -128,3 +128,58 @@ class WorkerObservationTests(unittest.TestCase):
         self.assertFalse(snap['workerRunning'])
         self.assertIsNone(snap['queue'])
         self.assertIsNone(snap['trainingState'])
+
+    def test_helper_markers_require_the_exact_installed_worker(self):
+        commands = table(
+            f'20 {agent.WORKER} -B -S -I -c from multiprocessing.resource_tracker import main;main(3)',
+            f'21 {agent.WORKER} --multiprocessing-fork tracker_fd=4 pipe_handle=8',
+            f'22 {agent.WORKER} --headless',
+            f'23 /tmp/other --multiprocessing-fork',
+            f'24 {agent.WORKER}-other --multiprocessing-fork',
+        )
+        self.assertEqual(agent.training_helper_pids(commands), {20, 21})
+
+    def test_macmini_surviving_helpers_do_not_report_a_worker_or_resources(self):
+        observed = table(
+            f'35913 1 0 4720 {agent.WORKER}',
+            f'35934 1 0.1 20656 {agent.WORKER}',
+            f'35935 1 0.1 10512 {agent.WORKER}',
+        )
+        commands = table(
+            f'35913 {agent.WORKER} -c from multiprocessing.resource_tracker import main;main(3)',
+            f'35934 {agent.WORKER} --multiprocessing-fork tracker_fd=4 pipe_handle=8',
+            f'35935 {agent.WORKER} --multiprocessing-fork tracker_fd=4 pipe_handle=9',
+        )
+        with patch.object(agent.subprocess, 'check_output', side_effect=[observed, commands]):
+            rows = agent.load_process_table()
+        self.assertEqual(agent.trusted_training_roots(rows), [])
+        self.assertEqual(agent.resources_from_rows(rows), (None, None))
+        with patch.object(agent, 'load_process_table', return_value=rows), \
+             patch.object(agent, 'processes', return_value=[(35913, 0, 4720, agent.WORKER)]):
+            snap = agent.snapshot()
+        self.assertFalse(snap['workerRunning'])
+        self.assertFalse(snap['appRunning'])
+        self.assertIsNone(snap['queue'])
+        self.assertIsNone(snap['appSelectedRun'])
+
+    def test_headless_worker_keeps_helpers_in_its_resource_tree(self):
+        observed = table(
+            f'10 1 0 1024 {agent.WORKER}',
+            f'11 10 1 2048 {agent.WORKER}',
+            f'12 10 2 4096 {agent.WORKER}',
+        )
+        commands = table(
+            f'10 {agent.WORKER} --headless',
+            f'11 {agent.WORKER} -c from multiprocessing.resource_tracker import main;main(3)',
+            f'12 {agent.WORKER} --multiprocessing-fork tracker_fd=4 pipe_handle=8',
+        )
+        with patch.object(agent.subprocess, 'check_output', side_effect=[observed, commands]):
+            rows = agent.load_process_table()
+        self.assertEqual(agent.trusted_training_roots(rows), [10])
+        self.assertEqual(agent.resources_from_rows(rows), (3.0, 7.0))
+
+    def test_unreadable_helper_arguments_do_not_stop_a_real_worker(self):
+        observed = table(f'10 1 0 1024 {agent.WORKER}')
+        with patch.object(agent.subprocess, 'check_output', side_effect=[observed, OSError('denied')]):
+            rows = agent.load_process_table()
+        self.assertEqual(agent.trusted_training_roots(rows), [10])

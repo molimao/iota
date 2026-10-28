@@ -46,7 +46,9 @@ it("keeps a per-project Agent slot visible without claiming unsupported capabili
       <ProjectMinerSlots bindings={bindings} agent={value} now={now} locale="zh" />,
     );
   expect(render([binding])).toContain("尚未连接 Agent");
-  expect(render([{ ...binding, project: "bnt", worker: "worker-A" }], agent)).toContain("尚未识别到本项目矿工");
+  expect(render([{ ...binding, project: "bnt", worker: "worker-A" }], agent)).toContain(
+    "尚未识别到本项目矿工",
+  );
   expect(render([{ ...binding, project: "acurast" }])).toContain("本项目暂未支持 Agent 采集");
   expect(render([{ ...binding, project: "iota" }])).toBe("");
   const html = render([{ ...binding, project: "prl" }], agent);
@@ -184,8 +186,26 @@ it("shows NOID compute process resource use without claiming hashrate or shares"
 });
 
 it("explains Linux project collection is unsupported while retaining pool status", () => {
-  const linux = { ...agent, snapshot: { platform: "linux" as const, monitorOnly: true, miners: [] } };
-  const html = renderToStaticMarkup(<ProjectMinerSlots bindings={[{...binding, project:"prl"}]} agent={linux} now={now} locale="zh" />);
+  const linux = {
+    ...agent,
+    snapshot: { platform: "linux" as const, monitorOnly: true, miners: [] },
+  };
+  const html = renderToStaticMarkup(
+    <ProjectMinerSlots
+      bindings={[{ ...binding, project: "prl", worker: "gpu-01" }]}
+      agent={linux}
+      now={now}
+      locale="zh"
+    />,
+  );
   expect(html).toContain("Linux Agent 暂不支持采集此项目");
   expect(html).not.toContain("尚未识别到本项目矿工");
+});
+
+it("does not display a PRL wallet Agent or its old snapshot as a Worker", () => {
+  const wallet = { ...binding, project: "prl" as const, worker: "" };
+  const html = renderToStaticMarkup(
+    <ProjectMinerSlots bindings={[wallet]} agent={agent} now={now} locale="zh" />,
+  );
+  expect(html).toBe("");
 });

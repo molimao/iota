@@ -6,12 +6,52 @@ import { agentAction, agentHistoryPointSchema, type AgentInfo } from "./device-a
 const device = z.object({ deviceId: z.string().uuid() }).strict();
 export const linkBntWorkerAgent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(z.object({ bindingId: z.string().uuid(), worker: z.string().trim().min(1).max(80), deviceId: z.string().uuid() }).strict())
+  .inputValidator(
+    z
+      .object({
+        bindingId: z.string().uuid(),
+        worker: z.string().trim().min(1).max(80),
+        deviceId: z.string().uuid(),
+      })
+      .strict(),
+  )
   .handler(async ({ data, context }) => {
     const result = await watchDb(context.supabase).rpc("watch_link_bnt_worker_agent", {
-      p_binding: data.bindingId, p_worker: data.worker, p_device: data.deviceId,
+      p_binding: data.bindingId,
+      p_worker: data.worker,
+      p_device: data.deviceId,
     });
-    if (result.error) throw new Error(result.error.message.includes("project_device_limit_reached") ? "project_device_limit_reached" : "agent_link_failed");
+    if (result.error)
+      throw new Error(
+        result.error.message.includes("project_device_limit_reached")
+          ? "project_device_limit_reached"
+          : "agent_link_failed",
+      );
+    return { ok: true };
+  });
+export const linkPrlWorkerAgent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(
+    z
+      .object({
+        bindingId: z.string().uuid(),
+        worker: z.string().trim().min(1).max(80),
+        deviceId: z.string().uuid(),
+      })
+      .strict(),
+  )
+  .handler(async ({ data, context }) => {
+    const result = await watchDb(context.supabase).rpc("watch_link_prl_worker_agent", {
+      p_binding: data.bindingId,
+      p_worker: data.worker,
+      p_device: data.deviceId,
+    });
+    if (result.error)
+      throw new Error(
+        result.error.message.includes("project_device_limit_reached")
+          ? "project_device_limit_reached"
+          : "agent_link_failed",
+      );
     return { ok: true };
   });
 export const linkProjectAgent = createServerFn({ method: "POST" })

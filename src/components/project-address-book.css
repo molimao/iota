@@ -466,14 +466,73 @@
 .project-address-book .pab-manage [data-action="unlink"] {
   color: #e6aa8c;
 }
-.project-address-book { grid-template-columns: minmax(0,1fr) auto; gap:16px; }
-.project-address-book > * { grid-column:1 / -1; }
-.project-address-book > .project-section-head { grid-column:1; grid-row:1; justify-content:flex-start; gap:18px; }
-.project-address-book > .pab-add-drawer:not([open]) { grid-column:2; grid-row:1; align-self:center; }
-.project-address-book > .pab-add-drawer:not([open]) > summary { list-style:none; border:1px solid #3e4646; padding:8px 12px; border-radius:8px; font-size:.75rem; }
-.pab-add-drawer > summary::-webkit-details-marker { display:none; }
-.pab-workers { margin-top:20px; margin-bottom:14px; }
-.pab-workers li { padding:9px 0; }
-@media(max-width:480px) { .project-address-book > .project-section-head > a { display:none; } }
-.pab-worker-more { padding:8px 0; color:#b2d1c8; background:transparent; border:0; font:inherit; font-size:.72rem; cursor:pointer; }
-.pab-worker-more:hover { color:#edfff8; text-decoration:underline; }
+.project-address-book {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+}
+.project-address-book > * {
+  grid-column: 1 / -1;
+}
+.project-address-book > .project-section-head {
+  grid-column: 1;
+  grid-row: 1;
+  justify-content: flex-start;
+  gap: 18px;
+}
+.project-address-book > .pab-add-drawer:not([open]) {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+.project-address-book > .pab-add-drawer:not([open]) > summary {
+  list-style: none;
+  border: 1px solid #3e4646;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+}
+.pab-add-drawer > summary::-webkit-details-marker {
+  display: none;
+}
+.pab-workers {
+  margin-top: 20px;
+  margin-bottom: 14px;
+}
+.pab-workers li {
+  padding: 9px 0;
+}
+@media (max-width: 480px) {
+  .project-address-book > .project-section-head > a {
+    display: none;
+  }
+}
+.pab-worker-more {
+  padding: 8px 0;
+  color: #b2d1c8;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.pab-worker-more:hover {
+  color: #edfff8;
+  text-decoration: underline;
+}
+
+.pab-workers li.pab-worker-with-agent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.pab-workers li.pab-worker-with-agent > .pool-worker-agent-slot {
+  grid-column: 1/-1;
+  text-align: left;
+  min-width: 0;
+}
+.pool-worker-agent-slot .bnt-worker-agent {
+  margin: 0;
+  padding-top: 12px;
+}
+.pool-worker-agent-slot .bnt-worker-computer {
+  white-space: normal;
+}

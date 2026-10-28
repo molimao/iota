@@ -24,7 +24,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.13'
+VERSION = '1.0.16'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -169,9 +169,47 @@ def resources_from_rows(rows):
             round(sum(rows[pid][2] for pid in selected) / 1024, 1))
 
 
+def training_helper_pids(text):
+    """Classify only the installed worker's Python helper launch markers.
+
+    Commands are inspected locally and discarded, never included in snapshots.
+    A detached real headless worker without these markers remains a valid root.
+    """
+    helpers = set()
+    for line in text.splitlines():
+        parts = line.strip().split(None, 1)
+        if len(parts) != 2 or not parts[0].isdigit():
+            continue
+        pid, command = int(parts[0]), parts[1]
+        if not command.startswith(WORKER + ' '):
+            continue
+        arguments = command[len(WORKER):].strip()
+        fork = re.search(r'(?:^|\s)--multiprocessing-fork(?:\s|$)', arguments)
+        tracker = (re.search(r'(?:^|\s)-c(?:\s|$)', arguments) and
+                   re.search(r'from\s+multiprocessing\.resource_tracker\s+import\s+main\b', arguments))
+        if fork or tracker:
+            helpers.add(pid)
+    return helpers
+
+
 def load_process_table():
     text = subprocess.check_output(['/bin/ps', '-axo', 'pid=,ppid=,%cpu=,rss=,comm='], text=True, timeout=5)
-    return parse_process_table(text)
+    rows = parse_process_table(text)
+    candidates = [pid for pid, row in rows.items() if row[3] == WORKER]
+    if candidates:
+        try:
+            commands = subprocess.check_output(
+                ['/bin/ps', '-p', ','.join(str(pid) for pid in candidates), '-o', 'pid=,args='],
+                text=True, timeout=5)
+            for pid in training_helper_pids(commands):
+                if pid in rows and rows[pid][3] == WORKER:
+                    parent, cpu, rss, _ = rows[pid]
+                    # Keep ancestry/resources under a real root, but a surviving
+                    # helper must never establish a training root on its own.
+                    rows[pid] = (parent, cpu, rss, 'iota-python-helper')
+        except (OSError, subprocess.SubprocessError):
+            pass
+    return rows
 
 
 def training_resources():

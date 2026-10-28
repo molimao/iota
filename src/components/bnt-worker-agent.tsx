@@ -2,9 +2,10 @@ import { useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
 import { useAgentClock } from "@/hooks/use-agent-clock";
-import { linkBntWorkerAgent } from "@/lib/device-agent.functions";
-import { bntWorkerAgentBinding } from "@/lib/bnt-worker-agent";
+import { linkBntWorkerAgent, linkPrlWorkerAgent } from "@/lib/device-agent.functions";
+import { poolWorkerAgentBinding } from "@/lib/bnt-worker-agent";
 import { agentOnline } from "@/lib/device-agent";
+import type { PoolProvider } from "@/lib/pool-projects";
 import type { FleetDevice } from "@/lib/fleet";
 import { localized } from "@/lib/product-discovery";
 import { ProjectAgentConnectView } from "./project-agent-connect";
@@ -48,25 +49,29 @@ const labels = {
     "Agent オフライン",
   ]),
 };
-export function BntWorkerAgent({
+export function PoolWorkerAgent({
+  project = "bnt",
+  pool,
   address,
   worker,
   sourceBindingId,
   devices,
   onLinked,
 }: {
+  project?: "bnt" | "prl";
+  pool?: PoolProvider | undefined;
   address: string;
   worker: string;
   sourceBindingId: string;
   devices: FleetDevice[];
   onLinked: () => Promise<unknown>;
 }) {
-  const link = bntWorkerAgentBinding(devices, address, worker);
+  const link = poolWorkerAgentBinding(devices, project, address, worker, pool);
   // Passing the address record avoids a second fleet lookup; Agent list is shared.
   const matched = useMatchedDeviceAgent(link?.device.id ?? "unlinked-worker"),
     now = useAgentClock(),
     { locale } = useLocale(),
-    send = useServerFn(linkBntWorkerAgent);
+    send = useServerFn(project === "prl" ? linkPrlWorkerAgent : linkBntWorkerAgent);
   const [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(false),
@@ -147,3 +152,5 @@ export function BntWorkerAgent({
     </section>
   );
 }
+
+export const BntWorkerAgent = PoolWorkerAgent;
