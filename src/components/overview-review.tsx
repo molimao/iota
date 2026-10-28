@@ -14,12 +14,28 @@ export function OverviewReview() {
       <p className="overview-preview-label">{fleetCopy(locale).preview}</p>
       <OverviewWorkspace
         preview
+        previewPrices={{ prl: 1.5, quantus: 0.08 }}
         plan="pro"
         devices={
           empty
             ? []
             : [
                 ...reviewDevices(),
+                {
+                  id: "preview-prl",
+                  name: "GPU Worker",
+                  hardware: "GPU",
+                  createdAt: 1,
+                  bindings: [
+                    {
+                      id: "preview-prl-binding",
+                      project: "prl" as const,
+                      identifier: "demo-prl-wallet",
+                      worker: "gpu",
+                      pool: "luckypool" as const,
+                    },
+                  ],
+                },
                 ...["mini-cpu-01", "mini-cpu-02"].map((name) => ({
                   id: `preview-bnt-${name}`,
                   name,
@@ -38,25 +54,41 @@ export function OverviewReview() {
               ]
         }
         reading={(binding) =>
-          binding.project === "bnt"
+          binding.project === "prl"
             ? {
                 status: "mining",
-                activity: "7.13 H/s",
-                today: null,
-                lifetime: null,
-                unit: "BNT",
+                activity: "40 TH/s",
+                health: "fresh",
+                today: "2",
+                lifetime: "10",
+                rewardAmount: 2,
+                earningsWindow: "rolling24h",
+                todayUsdValue: null,
+                unit: "PRL",
                 scope: "wallet",
-                source: "DEMO",
+                accountSummary: { kind: "balance", amount: "3", unit: "PRL" },
+                source: "DEMO · LuckyPool",
                 updated: "DEMO",
-                compute: {
-                  value: 7.13,
-                  unit: "H/s",
-                  scope: "worker",
-                  fresh: true,
-                  fetchedAt: Date.now(),
-                },
               }
-            : reviewReading(binding)
+            : binding.project === "bnt"
+              ? {
+                  status: "mining",
+                  activity: "7.13 H/s",
+                  today: null,
+                  lifetime: null,
+                  unit: "BNT",
+                  scope: "wallet",
+                  source: "DEMO",
+                  updated: "DEMO",
+                  compute: {
+                    value: 7.13,
+                    unit: "H/s",
+                    scope: "worker",
+                    fresh: true,
+                    fetchedAt: Date.now(),
+                  },
+                }
+              : reviewReading(binding)
         }
         history={reviewProHistory(locale)}
       />

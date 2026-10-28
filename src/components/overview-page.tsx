@@ -44,6 +44,7 @@ export function OverviewWorkspace({
   reading,
   preview = false,
   history,
+  previewPrices,
   onRefresh,
   refreshing = false,
   error,
@@ -53,6 +54,7 @@ export function OverviewWorkspace({
   plan?: "free" | "pro";
   preview?: boolean;
   history?: DailyReport[] | undefined;
+  previewPrices?: Partial<Record<import("@/lib/projects").ProjectId, number>> | undefined;
   onRefresh?: (() => Promise<void>) | undefined;
   refreshing?: boolean | undefined;
   error?: string | null;
@@ -96,6 +98,7 @@ export function OverviewWorkspace({
             reading={reading}
             preview={preview}
             previewHistory={history}
+            previewPrices={previewPrices}
           />
         </>
       ) : (

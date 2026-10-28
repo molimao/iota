@@ -168,13 +168,109 @@ it("shows ACU wallet balances separately and deduplicates the same manager walle
 });
 
 it("converts deduplicated ACU rewards and balance without treating wallet funds as daily earnings", () => {
- const now=Date.now(), dayStart=Math.floor((now+28800000)/86400000)*86400000-28800000;
- const data: BoardReading={scope:"wallet",unit:"ACU",source:"chain",updated:"now",health:"fresh",acurastQuote:{usd:.1,quotedAt:now,source:"test"},acurastBalances:[{address:"wallet",total:"2.37",free:"2.34",reserved:".03",frozen:"0"}],acurastRewards:{dayStart,observedAt:now,blockHash:"0x1",managers:[{id:"67279",today:".3",yesterday:".5",cumulative:"5.23"}]}};
- // Chain reward decimals always include the leading zero.
- data.acurastRewards!.managers[0]!.today="0.3";data.acurastRewards!.managers[0]!.yesterday="0.5";
- const result=earningsBoard([{binding:b("acurast","manager"),deviceId:"a",data},{binding:b("acurast","processor"),deviceId:"b",data}]);
- expect(result.totals.today.usd).toBeCloseTo(.03);expect(result.totals.today.count).toBe(1);
- expect(result.totals.yesterday.usd).toBeCloseTo(.05);
- expect(result.projects[0]?.metrics.get("cumulative:ACU")?.usd).toBeCloseTo(.523);
- expect([...result.projects[0]!.accounts.values()][0]?.usd).toBeCloseTo(.237);
+  const now = Date.now(),
+    dayStart = Math.floor((now + 28800000) / 86400000) * 86400000 - 28800000;
+  const data: BoardReading = {
+    scope: "wallet",
+    unit: "ACU",
+    source: "chain",
+    updated: "now",
+    health: "fresh",
+    acurastQuote: { usd: 0.1, quotedAt: now, source: "test" },
+    acurastBalances: [
+      { address: "wallet", total: "2.37", free: "2.34", reserved: ".03", frozen: "0" },
+    ],
+    acurastRewards: {
+      dayStart,
+      observedAt: now,
+      blockHash: "0x1",
+      managers: [{ id: "67279", today: ".3", yesterday: ".5", cumulative: "5.23" }],
+    },
+  };
+  // Chain reward decimals always include the leading zero.
+  data.acurastRewards!.managers[0]!.today = "0.3";
+  data.acurastRewards!.managers[0]!.yesterday = "0.5";
+  const result = earningsBoard([
+    { binding: b("acurast", "manager"), deviceId: "a", data },
+    { binding: b("acurast", "processor"), deviceId: "b", data },
+  ]);
+  expect(result.totals.today.usd).toBeCloseTo(0.03);
+  expect(result.totals.today.count).toBe(1);
+  expect(result.totals.yesterday.usd).toBeCloseTo(0.05);
+  expect(result.projects[0]?.metrics.get("cumulative:ACU")?.usd).toBeCloseTo(0.523);
+  expect([...result.projects[0]!.accounts.values()][0]?.usd).toBeCloseTo(0.237);
+});
+
+it("converts fresh market-priced earnings and balances without mixing periods or duplicate wallets", () => {
+  const prl = {
+    ...r("rolling24h", 2, null),
+    unit: "PRL",
+    scope: "wallet" as const,
+    accountSummary: { kind: "balance" as const, amount: "3", unit: "PRL" },
+  };
+  const board = earningsBoard(
+    [
+      { binding: b("prl", "wallet", "one"), deviceId: "one", data: prl },
+      { binding: b("prl", "wallet", "two"), deviceId: "two", data: prl },
+      {
+        binding: b("quantus", "qtc"),
+        deviceId: "three",
+        data: { ...r("today", 4, null), unit: "QTC" },
+      },
+      {
+        binding: b("flyai", "points"),
+        deviceId: "four",
+        data: { ...r("month", 100, null), unit: "FLY" },
+      },
+    ],
+    { prl: 1.5, quantus: 0.1, flyai: 10 },
+  );
+  const pearl = board.projects.find((p) => p.project === "prl")!;
+  expect(pearl.metrics.get("rolling24h:PRL")?.usd).toBe(3);
+  expect([...pearl.accounts.values()][0]?.usd).toBe(4.5);
+  expect(board.totals.today).toEqual({ usd: 0.4, count: 1 });
+  expect(
+    board.projects.find((p) => p.project === "flyai")?.metrics.get("month:FLY")?.usd,
+  ).toBeNull();
+});
+
+it("keeps missing, mismatched and stale valuations unavailable and preserves real zero earnings", () => {
+  const result = earningsBoard(
+    [
+      {
+        binding: b("prl", "zero"),
+        deviceId: "1",
+        data: { ...r("rolling24h", 0, null), unit: "PRL" },
+      },
+      {
+        binding: b("prl", "old"),
+        deviceId: "2",
+        data: { ...r("today", 5, null), unit: "PRL", health: "stale" },
+      },
+      {
+        binding: b("kas", "wrong-unit"),
+        deviceId: "3",
+        data: { ...r("today", 5, null), unit: "BTC" },
+      },
+      {
+        binding: b("bnt", "unknown"),
+        deviceId: "4",
+        data: { ...r("today", 5, null), unit: "BNT" },
+      },
+    ],
+    { prl: 2, kas: 0.1 },
+  );
+  expect(result.projects.find((p) => p.project === "prl")?.metrics.get("rolling24h:PRL")?.usd).toBe(
+    0,
+  );
+  expect(
+    result.projects.find((p) => p.project === "prl")?.metrics.get("today:PRL")?.usd,
+  ).toBeNull();
+  expect(
+    result.projects.find((p) => p.project === "kas")?.metrics.get("today:BTC")?.usd,
+  ).toBeNull();
+  expect(
+    result.projects.find((p) => p.project === "bnt")?.metrics.get("today:BNT")?.usd,
+  ).toBeNull();
+  expect(result.totals.today.count).toBe(0);
 });

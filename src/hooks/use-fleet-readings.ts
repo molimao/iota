@@ -527,6 +527,8 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : "notFound"
             : "unavailable",
         today: result?.data?.today ?? null,
+        rewardAmount: result?.data?.today != null ? Number(result.data.today) : null,
+        earningsWindow: "today",
         lifetime: result?.data?.lifetime ?? null,
         unit: "QTC",
         updated: clock(result?.fetchedAt),
@@ -668,6 +670,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
   const activeProjects = new Set(bindings.map((b) => b.project));
   const refresh = async () => {
     await Promise.allSettled([
+      client.invalidateQueries({ queryKey: ["market-usd"] }),
       ...(activeProjects.has("iota") ? [iota.refresh()] : []),
       ...(activeProjects.has("xid") ? [xid.refetch()] : []),
       ...(activeProjects.has("flyai") ? [flyai.refetch()] : []),

@@ -1,5 +1,6 @@
 import { acurastUsd } from "./acurast-rewards";
 import { bindingIdentity, type FleetBinding, type FleetProject } from "./fleet";
+import { PROJECTS, type ProjectId } from "./projects";
 export type EarningsWindow =
   "today" | "yesterday" | "utcDay" | "rolling24h" | "month" | "unknown" | "cumulative";
 export type BoardReading = {
@@ -22,7 +23,18 @@ export type BoardReading = {
 };
 export function earningsBoard(
   entries: { binding: FleetBinding; deviceId: string; data: BoardReading }[],
+  prices: Partial<Record<ProjectId, number>> = {},
 ) {
+  const convert = (project: ProjectId, amount: string | number, unit: string): number | null => {
+    if (typeof amount === "string" && !/^\d+(?:\.\d+)?$/.test(amount)) return null;
+    const value = Number(amount);
+    if (!Number.isFinite(value) || value < 0) return null;
+    const price =
+      unit === "USD" ? 1 : unit === PROJECTS[project].token ? prices[project] : undefined;
+    if (price == null || !Number.isFinite(price) || price <= 0) return null;
+    const usd = value * price;
+    return Number.isFinite(usd) ? usd : null;
+  };
   const seen = new Set<string>();
   const bestAcu = new Map<string, BoardReading>();
   for (const { binding, data } of entries) {
@@ -92,7 +104,11 @@ export function earningsBoard(
           row.accounts.set(key, {
             kind: "balance",
             amount: balance.total,
-            usd: d.health === "fresh" ? acurastUsd(balance.total, d.acurastQuote) : null,
+            usd:
+              d.health === "fresh"
+                ? (acurastUsd(balance.total, d.acurastQuote) ??
+                  convert(b.project, balance.total, "ACU"))
+                : null,
             unit: "ACU",
             identifier: balance.address,
             stale: d.health !== "fresh",
@@ -121,7 +137,10 @@ export function earningsBoard(
             count: 0,
             stale: false,
           };
-          const usd = d.health === "fresh" ? acurastUsd(value, d.acurastQuote) : null;
+          const usd =
+            d.health === "fresh"
+              ? (acurastUsd(value, d.acurastQuote) ?? convert(b.project, value, "ACU"))
+              : null;
           metric.usd =
             metric.count === 0
               ? usd
@@ -150,6 +169,14 @@ export function earningsBoard(
     if (d.accountSummary)
       row.accounts.set(key, {
         ...d.accountSummary,
+        ...(d.accountSummary.kind === "balance"
+          ? {
+              usd:
+                d.health === "fresh"
+                  ? convert(b.project, d.accountSummary.amount, d.accountSummary.unit)
+                  : null,
+            }
+          : {}),
         ...(d.flyai ? { flyai: d.flyai } : {}),
         identifier: b.identifier,
         source: d.source,
@@ -165,6 +192,7 @@ export function earningsBoard(
       row.accounts.set(`${key}:paid`, {
         kind: "paid",
         amount: d.lifetime,
+        usd: d.health === "fresh" ? convert(b.project, d.lifetime, "TSC") : null,
         unit: "TSC",
         identifier: b.identifier,
         source: d.source,
@@ -175,13 +203,18 @@ export function earningsBoard(
       continue;
     const window = d.earningsWindow ?? "unknown";
     const fresh = d.health === "fresh" || (d.health === undefined && d.todayUsable !== false);
-    const usd =
+    const explicitUsd =
       fresh &&
       typeof d.todayUsdValue === "number" &&
       Number.isFinite(d.todayUsdValue) &&
       d.todayUsdValue >= 0
         ? d.todayUsdValue
         : null;
+    const usd =
+      explicitUsd ??
+      (fresh && b.project !== "iota" && !["month", "unknown"].includes(window)
+        ? convert(b.project, d.rewardAmount, d.unit)
+        : null);
     const metricKey = `${window}:${d.unit}`;
     const metric = row.metrics.get(metricKey) ?? {
       window,

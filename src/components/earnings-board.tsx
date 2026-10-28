@@ -12,22 +12,45 @@ import { projectPath } from "@/lib/projects";
 import type { ProjectReading } from "./fleet-review-data";
 import { useLocale } from "./site/locale";
 import { boardCopy as c } from "./earnings-board-copy";
+import { useQuery } from "@tanstack/react-query";
+import { getMarketPrices } from "@/lib/market-prices.functions";
 export function EarningsBoard({
   devices,
   reading,
   previewHistory,
   preview,
+  previewPrices,
 }: {
   devices: FleetDevice[];
   previewHistory?: DailyReport[] | undefined;
   preview?: boolean | undefined;
   reading: (b: FleetBinding) => ProjectReading;
+  previewPrices?: Partial<Record<import("@/lib/projects").ProjectId, number>> | undefined;
 }) {
   const { locale } = useLocale();
   const entries = devices.flatMap((d) =>
     d.bindings.map((b) => ({ binding: b, deviceId: d.id, name: d.name, data: reading(b) })),
   );
-  const board = earningsBoard(entries);
+  const projects = [...new Set(devices.flatMap((d) => d.bindings.map((b) => b.project)))].sort();
+  const quotes = useQuery({
+    queryKey: ["market-usd", projects],
+    queryFn: () => getMarketPrices({ data: { projects } }),
+    enabled: !preview && projects.length > 0,
+    staleTime: 300000,
+    refetchInterval: 300000,
+    refetchOnWindowFocus: true,
+    retry: 1,
+  });
+  const validQuotes =
+    !quotes.isError &&
+    !quotes.data?.error &&
+    !quotes.data?.stale &&
+    quotes.data?.fetchedAt &&
+    Date.now() - quotes.data.fetchedAt < 600000;
+  const board = earningsBoard(
+    entries,
+    preview ? (previewPrices ?? {}) : validQuotes ? (quotes.data?.data ?? {}) : {},
+  );
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
     <section className="earnings-board" aria-label={c.title[locale]}>
