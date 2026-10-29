@@ -88,7 +88,8 @@ export function OverviewReview() {
                     fetchedAt: Date.now(),
                   },
                 }
-              : reviewReading(binding)
+              : { ...reviewReading(binding), ...(binding.project === "iota"
+                ? { rolling24hReward: 0.1, rolling24hUsdValue: 0.7 } : {}) }
         }
         history={reviewProHistory(locale)}
       />

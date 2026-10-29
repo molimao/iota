@@ -406,6 +406,10 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         officialRun: officialRun(view),
         rewardAmount: today === null ? null : today / 1e8,
         earningsWindow: "yesterday",
+        rolling24hReward: view.todayUsable && view.earnings?.rolling24hUnits != null
+          ? view.earnings.rolling24hUnits / 1e8 : null,
+        rolling24hUsdValue: view.todayUsable && !iota.priceRefreshFailed
+          ? iotaUnitsToUsd(view.earnings?.rolling24hUnits ?? null, iota.usdPerIota) : null,
         officialTraining: {
           status: view.statusStale ? "refresh_interrupted" : view.status,
           fetchedAt: view.statusFetchedAt,

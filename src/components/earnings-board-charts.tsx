@@ -105,6 +105,7 @@ export function EarningsBoardCharts({
         <div className="board-project-grid">
           {board.projects.map((row) => {
             const filtered = filterReportProject(history, row.project);
+            const recentMetrics = [...row.metrics.values()].filter((m) => m.window === "rolling24h");
             const unit =
               filtered.flatMap((r) => r.projects).find((p) => p.currency)?.currency ??
               [...row.metrics.values()][0]?.unit ??
@@ -155,7 +156,7 @@ export function EarningsBoardCharts({
                         );
                       })
                     : null}
-                  {[...row.metrics.values()].map((m) => (
+                  {recentMetrics.map((m) => (
                     <div key={m.window + m.unit}>
                       <span>{c.windows[m.window][locale]}</span>
                       <strong>
@@ -167,7 +168,7 @@ export function EarningsBoardCharts({
                       </small>
                     </div>
                   ))}
-                  {!row.metrics.size && !row.accounts.size && (
+                  {!recentMetrics.length && !row.accounts.size && (
                     <div>
                       <span>{c.amount[locale]}</span>
                       <strong>—</strong>

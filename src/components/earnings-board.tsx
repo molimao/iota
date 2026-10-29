@@ -51,6 +51,11 @@ export function EarningsBoard({
     entries,
     preview ? (previewPrices ?? {}) : validQuotes ? (quotes.data?.data ?? {}) : {},
   );
+  const recentPriced = board.projects.filter((p) => [...p.metrics.values()].some(
+    (m) => m.window === "rolling24h" && m.usd !== null,
+  ));
+  const recentExcluded = board.projects.filter((p) => !recentPriced.includes(p) ||
+    [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.usd === null));
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
     <section className="earnings-board" aria-label={c.title[locale]}>
@@ -60,58 +65,21 @@ export function EarningsBoard({
           {devices.length} {c.devices[locale]} <i /> {board.projects.length} {c.projects[locale]}
         </span>
       </header>
-      <div className="earnings-board-totals">
-        {(["yesterday", "today", "rolling24h", "utcDay"] as const)
-          .filter((day) => day === "today" || day === "yesterday" || board.projects.some(
-            (p) => [...p.metrics.values()].some((m) => m.window === day),
-          )).map((day) => {
-          const metrics = board.projects.flatMap((p) =>
-            [...p.metrics.values()].filter((m) => m.window === day),
-          );
-          const native = new Map<string, number>();
-          for (const m of metrics) native.set(m.unit, (native.get(m.unit) ?? 0) + m.amount);
-          const nativeHeadline =
-            !board.totals[day].count && native.size === 1 ? [...native][0] : null;
-          return (
-            <article key={day}>
-              <span>{day === "today" || day === "yesterday" ? c[day][locale] : c.windows[day][locale]}</span>
-              <strong>
-                {nativeHeadline
-                  ? nf.format(nativeHeadline[1])
-                  : formatUsd(board.totals[day].count ? board.totals[day].usd : null)}{" "}
-                <small>{nativeHeadline ? nativeHeadline[0] : "USD"}</small>
-              </strong>
-              {!board.totals[day].count && (
-                <>
-                  {!nativeHeadline &&
-                    [...native].map(([unit, amount]) => (
-                      <span key={unit}>
-                        {nf.format(amount)} {unit}
-                      </span>
-                    ))}
-                  <small className="board-total-context">
-                    {metrics.length
-                      ? c.noConversion[locale]
-                      : day === "today" && board.projects.some((p) => p.project === "iota")
-                        ? c.iotaYesterday[locale]
-                        : c.noPeriod[locale]}
-                    {metrics.some((m) => m.stale) ? ` · ${c.older[locale]}` : ""}
-                  </small>
-                </>
-              )}
-              {board.coverage[day].length > 0 && board.totals[day].count > 0 && (
-                <small className="board-total-context" role="status">
-                  {c.partial[locale]} · {c.notIncluded[locale]} {board.coverage[day].map((p) => FLEET_NAMES[p]).join("、")}
-                </small>
-              )}
-              {board.olderPrices[day] && (
-                <small className="board-total-context">{c.olderPrice[locale]}</small>
-              )}
-            </article>
-          );
-        })}
-      </div>
-      <p className="earnings-board-note">{c.note[locale]}</p>
+      <article className="earnings-board-totals earnings-board-recent" data-testid="recent-earnings">
+        <div className="earnings-board-recent-heading">
+          <span>{c.recentTotal[locale]}</span>
+          <small>{c.included[locale]} {recentPriced.length} / {board.projects.length} {c.projects[locale]}</small>
+        </div>
+        <strong>{formatUsd(board.totals.rolling24h.count ? board.totals.rolling24h.usd : null)} <small>USD</small></strong>
+        <small className="board-total-context">{c.recentNote[locale]}</small>
+        {board.olderPrices.rolling24h && <small className="board-total-context">{c.olderPrice[locale]}</small>}
+        {recentExcluded.length > 0 && (
+          <details className="earnings-board-recent-scope">
+            <summary>{c.scope[locale]}</summary>
+            <p>{c.notIncluded[locale]} {recentExcluded.map((p) => FLEET_NAMES[p.project]).join("、")} · {c.noRolling[locale]}</p>
+          </details>
+        )}
+      </article>
       <EarningsBoardCharts
         board={board}
         entries={entries.map((e) => ({

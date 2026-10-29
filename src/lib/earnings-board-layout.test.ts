@@ -56,6 +56,11 @@ it("renders PRL rolling USD separately and identifies partial totals", () => {
     })));
   expect(markup).toContain("近 24 小时");
   expect(markup).toContain("3.60");
-  expect(markup).toContain("部分数据");
+  expect(markup).toContain("统计范围");
+  expect(markup.match(/data-testid="recent-earnings"/g)).toHaveLength(1);
+  const summary = markup.split('data-testid="recent-earnings"')[1]!.split("</article>")[0]!;
+  expect(summary).not.toContain("昨日");
+  expect(summary).not.toContain("今日");
+  expect(summary).not.toContain("UTC");
   expect(markup).toContain("未计入");
 });

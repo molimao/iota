@@ -42,7 +42,7 @@ export async function readAcurastRewards(
   const started = Date.now();
   let calls = 0;
   async function rpc(method: string, params: unknown[]) {
-    if (++calls > 100 || Date.now() - started > 40000) throw new Error("unavailable");
+    if (++calls > 140 || Date.now() - started > 40000) throw new Error("unavailable");
     const raw = await upstreamJson(
       ACURAST_ARCHIVE,
       { body: { jsonrpc: "2.0", id: 1, method, params }, maxBytes: 10000 },
@@ -128,6 +128,12 @@ export async function readAcurastRewards(
   } catch {
     /* paid cumulative remains valid; unavailable history is never zero */
   }
+  const rolling24hStart = head.time - 86400000;
+  let rollingPoint: Point | null = null;
+  try {
+    // Subtract the counter at/before the cutoff, retaining only (start, head].
+    rollingPoint = await boundary(rolling24hStart + 1);
+  } catch { /* Rolling coverage is independent of calendar-day history. */ }
   const managers: AcurastRewards["managers"] = [];
   for (let i = 0; i < unique.length; i++) {
     const id = unique[i]!,
@@ -145,7 +151,13 @@ export async function readAcurastRewards(
       } catch {
         /* preserve independently verified cumulative */
       }
-    managers.push({ id, cumulative: acuAmount(cumulative), today, yesterday });
+    let rolling24h: string | null = null;
+    if (rollingPoint) try {
+      const atCutoff = paidReward(await rpc("state_getStorage", [managerKey(id), rollingPoint.hash]));
+      if (atCutoff > cumulative) throw new Error("invalid-data");
+      rolling24h = acuAmount(cumulative - atCutoff);
+    } catch { /* Unavailable history is not zero income. */ }
+    managers.push({ id, cumulative: acuAmount(cumulative), today, yesterday, rolling24h });
   }
-  return { managers, dayStart, observedAt: head.time, blockHash: hash };
+  return { managers, dayStart, observedAt: head.time, blockHash: hash, rolling24hStart };
 }

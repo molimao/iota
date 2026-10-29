@@ -82,6 +82,8 @@ export type DeviceEarnings = {
   totalEarnedUnits: number | null;
   todayUnits: number | null;
   yesterdayUnits?: number | null;
+  /** Official ledger records in the rolling (now - 24h, now] interval. */
+  rolling24hUnits?: number | null;
   pendingUnits: number | null;
   frozenUnits: number | null;
   minimumPayoutUnits: number | null;

@@ -1,5 +1,10 @@
 import { localized as l } from "@/lib/product-discovery";
 export const boardCopy = {
+  recentTotal: l(["最近 24 小时收益", "最近 24 小時收益", "Earnings · last 24 hours", "최근 24시간 수익", "直近24時間の収益"]),
+  included: l(["已计入", "已計入", "Included", "포함", "集計済み"]),
+  scope: l(["统计范围", "統計範圍", "Coverage", "집계 범위", "集計範囲"]),
+  recentNote: l(["按来源记账时间统计，余额不计入。", "按來源記帳時間統計，餘額不計入。", "Based on source ledger times. Balances excluded.", "출처 기록 시간 기준 · 잔액 제외", "記帳時刻に基づく集計。残高は除外。"]),
+  noRolling: l(["暂无完整 24 小时收益或美元报价", "暫無完整 24 小時收益或美元報價", "Complete 24-hour earnings or USD quote unavailable", "완전한 24시간 수익 또는 USD 시세 없음", "24時間の収益またはUSD価格が未取得"]),
   notIncluded: l(["未计入", "未計入", "Excluded:", "제외:", "集計対象外:"]),
   paid: l(["累计已支付", "累計已支付", "Total paid", "누적 지급액", "累計支払額"]),
   noConversion: l([

@@ -15,6 +15,8 @@ export type ProjectReading = {
   officialRun?: import("@/lib/iota-run").OfficialRun | null;
   compute?: import("@/lib/compute-summary").ComputeReading;
   rewardAmount?: number | null;
+  rolling24hReward?: number | null;
+  rolling24hUsdValue?: number | null;
   earningsWindow?: import("@/lib/earnings-board").EarningsWindow;
   officialTraining?: import("@/lib/device-agent").OfficialTrainingEvidence;
   health?: "loading" | "fresh" | "stale" | "unavailable";

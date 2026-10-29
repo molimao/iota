@@ -55,10 +55,11 @@ describe("ACU actual paid compute rewards", () => {
   it("reads the manager counter, exact midnight brackets and distinct UTC+8 payout days", async () => {
     const r = await readAcurastRewards(["67279", "67279"], fake(), now);
     expect(r.managers).toEqual([
-      { id: "67279", today: "0.75", yesterday: "1.5", cumulative: "4.25" },
+      { id: "67279", today: "0.75", yesterday: "1.5", cumulative: "4.25", rolling24h: "0.75" },
     ]);
     expect(r.dayStart).toBe(day);
     expect(r.observedAt).toBe(now);
+    expect(r.rolling24hStart).toBe(now - 86400000);
   });
   it("retains cumulative while historical reads fail; never invents daily zero", async () => {
     const r = await readAcurastRewards(["67279"], fake("pruned"), now);
@@ -66,6 +67,7 @@ describe("ACU actual paid compute rewards", () => {
       id: "67279",
       today: null,
       yesterday: null,
+      rolling24h: null,
       cumulative: "4.25",
     });
   });
@@ -73,10 +75,11 @@ describe("ACU actual paid compute rewards", () => {
     const r = await readAcurastRewards(["67279"], fake("decreasing"), now);
     expect(r.managers[0]?.today).toBeNull();
     expect(r.managers[0]?.yesterday).toBeNull();
+    expect(r.managers[0]?.rolling24h).toBeNull();
   });
   it("represents a confirmed absent payout state as actual zero", async () => {
     const r = await readAcurastRewards(["67279"], fake("absent"), now);
-    expect(r.managers[0]).toEqual({ id: "67279", today: "0", yesterday: "0", cumulative: "0" });
+    expect(r.managers[0]).toEqual({ id: "67279", today: "0", yesterday: "0", cumulative: "0", rolling24h: "0" });
   });
   it("preserves 12 decimal units and rejects unexpected layouts", () => {
     expect(acuAmount(1n)).toBe("0.000000000001");

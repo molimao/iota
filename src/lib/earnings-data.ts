@@ -5,6 +5,18 @@ import type { UpstreamResult } from "./iota-upstream.server";
 
 export const EARNINGS_FRESH_MS = 15 * 60_000;
 
+/** Full official record timestamps, never a renamed calendar-day total. */
+export function iotaRolling24hUnits(history: EntitlementHistory | null, now: number): number | null {
+  if (!history || !Array.isArray(history.timestamps) || !Array.isArray(history.alpha_amounts) ||
+    !Array.isArray(history.statuses) || !Number.isFinite(now)) return null;
+  const cutoff = now - 86400000;
+  // The public history endpoint is capped at 30 rows. An entirely newer page
+  // cannot prove coverage of the full rolling window.
+  if (history.timestamps.length >= 30 && !history.timestamps.some((at) => at * 1000 <= cutoff)) return null;
+  const units = iotaWindowUnits(history, { day: "rolling24h", start: cutoff + 1, end: now + 1, due: now });
+  return units !== null && Number.isSafeInteger(Number(units)) ? Number(units) : null;
+}
+
 export function buildDeviceEarnings(
   hotkey: string,
   totals: UpstreamResult<EntitlementTotals>,
@@ -43,6 +55,7 @@ export function buildDeviceEarnings(
     totalEarnedUnits: data ? toUnits(data.total_amount_earned) : null,
     todayUnits: today.units,
     yesterdayUnits,
+    rolling24hUnits: history.error || history.stale ? null : iotaRolling24hUnits(history.data, now),
     paidUnits: data ? toUnits(data.total_amount_paid) : null,
     pendingUnits: data ? toUnits(data.total_amount_pending) : null,
     frozenUnits: data ? toUnits(data.total_amount_frozen) : null,

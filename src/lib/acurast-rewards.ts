@@ -3,10 +3,11 @@
  * commitment/delegation withdrawals and migration tokens are outside this counter.
  */
 export type AcurastRewards = {
-  managers: { id: string; today: string | null; yesterday: string | null; cumulative: string }[];
+  managers: { id: string; today: string | null; yesterday: string | null; rolling24h?: string | null; cumulative: string }[];
   dayStart: number;
   observedAt: number;
   blockHash: string;
+  rolling24hStart?: number;
 };
 
 export type AcurastBalance = {

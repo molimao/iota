@@ -11,6 +11,8 @@ export type BoardReading = {
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
   scope: "device" | "wallet";
   rewardAmount?: number | null;
+  rolling24hReward?: number | null;
+  rolling24hUsdValue?: number | null;
   earningsWindow?: EarningsWindow;
   unit: string;
   todayUsdValue?: number | null;
@@ -125,10 +127,12 @@ export function earningsBoard(
         seen.add(managerKey);
         row.total++;
         row.sources.add(d.source);
-        for (const period of ["today", "yesterday", "cumulative"] as const) {
-          if (period !== "cumulative" && currentDay !== d.acurastRewards.dayStart) continue;
+        for (const period of ["today", "yesterday", "rolling24h", "cumulative"] as const) {
+          if ((period === "today" || period === "yesterday") && currentDay !== d.acurastRewards.dayStart) continue;
+          if (period === "rolling24h" && (d.acurastRewards.rolling24hStart == null ||
+            d.acurastRewards.observedAt - d.acurastRewards.rolling24hStart !== 86400000)) continue;
           const raw = manager[period];
-          if (raw === null || !/^\d+(?:\.\d{1,12})?$/.test(raw)) continue;
+          if (typeof raw !== "string" || !/^\d+(?:\.\d{1,12})?$/.test(raw)) continue;
           const value = Number(raw);
           if (!Number.isFinite(value) || value < 0) continue;
           const key = `${period}:ACU`;
@@ -201,6 +205,28 @@ export function earningsBoard(
         source: d.source,
         stale: d.health !== "fresh",
       });
+    }
+    // Timestamp-derived rolling income is independent of calendar-day metrics.
+    if (d.earningsWindow !== "rolling24h" && typeof d.rolling24hReward === "number" &&
+      Number.isFinite(d.rolling24hReward) && d.rolling24hReward >= 0 && d.unit) {
+      const fresh = d.health === "fresh" || (d.health === undefined && d.todayUsable !== false);
+      const explicit = d.rolling24hUsdValue;
+      const usd = !fresh ? null : typeof explicit === "number" && Number.isFinite(explicit) && explicit >= 0
+        ? explicit : b.project === "iota" ? null : convert(b.project, d.rolling24hReward, d.unit);
+      const metricKey = `rolling24h:${d.unit}`;
+      const metric = row.metrics.get(metricKey) ?? {
+        window: "rolling24h" as const, unit: d.unit, amount: 0, usd: null, count: 0, stale: false,
+      };
+      metric.amount += d.rolling24hReward;
+      metric.usd = metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
+      metric.count++;
+      metric.stale ||= !fresh;
+      row.metrics.set(metricKey, metric);
+      if (usd !== null) {
+        totals.rolling24h.usd += usd;
+        totals.rolling24h.count++;
+        olderPrices.rolling24h ||= !!d.priceStale;
+      }
     }
     if (d.rewardAmount == null || !Number.isFinite(d.rewardAmount) || d.rewardAmount < 0 || !d.unit)
       continue;

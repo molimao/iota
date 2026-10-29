@@ -290,3 +290,25 @@ it("shows separately converted rolling and UTC subtotals without changing calend
   expect(board.coverage.rolling24h).toEqual(["bnt"]);
   expect(board.coverage.yesterday).toEqual([]);
 });
+
+it("combines only timestamp-derived IOTA/ACU and pool rolling rewards, deduplicating managers and wallets", () => {
+  const now = Date.now();
+  const acu: BoardReading = {
+    scope: "wallet", unit: "ACU", source: "chain", updated: "now", health: "fresh",
+    acurastRewards: { observedAt: now, rolling24hStart: now - 86400000,
+      dayStart: Math.floor((now + 28800000) / 86400000) * 86400000 - 28800000,
+      blockHash: "hash", managers: [{ id: "67279", today: "10", yesterday: "20", cumulative: "100", rolling24h: "0.5" }] },
+  };
+  const prl: BoardReading = { ...r("rolling24h", 2, null), unit: "PRL", scope: "wallet" };
+  const board = earningsBoard([
+    { binding: b("iota", "i"), deviceId: "1", data: { ...r("yesterday", 99, 999), rolling24hReward: 0.1, rolling24hUsdValue: 0.7 } },
+    { binding: b("acurast", "processor"), deviceId: "2", data: acu },
+    { binding: b("acurast", "manager"), deviceId: "3", data: acu },
+    { binding: b("prl", "p", "one"), deviceId: "4", data: prl },
+    { binding: b("prl", "p", "two"), deviceId: "5", data: prl },
+    { binding: b("xmr", "m"), deviceId: "6", data: { ...r("utcDay", 100, 1000), unit: "XMR" } },
+  ], { acurast: 0.1, prl: 1.8 });
+  expect(board.totals.rolling24h.usd).toBeCloseTo(0.7 + 0.05 + 3.6);
+  expect(board.totals.rolling24h.count).toBe(3);
+  expect(board.projects.find((p) => p.project === "acurast")?.metrics.get("rolling24h:ACU")?.amount).toBe(0.5);
+});

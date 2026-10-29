@@ -6973,12 +6973,6 @@ body:has(.site-shell) {
 /* Cross-project earnings and inline log analysis. */
 .earnings-board { margin: 1.5rem 0; min-width:0; }
 .earnings-board > header h2 { font-size:1.05rem; margin:0 0 1rem; }
-.earnings-board-totals { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
-.earnings-board-totals article { padding:1.5rem; border:1px solid #363636; border-radius:18px; background:#191919; }
-.earnings-board-totals span { display:block; color:#b7b7b7; font-size:.85rem; }
-.earnings-board-totals strong { display:block; margin-top:.6rem; font-size:clamp(1.7rem,4vw,2.5rem); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
-.earnings-board-totals small { font-size:.75rem; color:#aaa; }
-.earnings-board-totals .board-total-context { display:block; margin-top:.65rem; line-height:1.6; overflow-wrap:anywhere; }
 .earnings-board-note,.log-analysis-note { font-size:.8rem; color:#aaa; line-height:1.6; }
 .earnings-board-scroll { overflow-x:auto; border:1px solid #363636; border-radius:16px; }
 .earnings-board table { width:100%; border-collapse:collapse; text-align:left; font-size:.85rem; }
@@ -7024,11 +7018,6 @@ body:has(.site-shell) {
 .earnings-board > header h2 { margin:0; }
 .board-scope-count { display:flex; align-items:center; gap:.55rem; color:#9aa5a0; font-size:.75rem; }
 .board-scope-count i { width:3px; height:3px; background:#66706a; border-radius:50%; }
-.earnings-board-totals article { position:relative; overflow:hidden; background:linear-gradient(135deg,#1b2923,#171d1a 70%); border-color:#34463c; padding:1.55rem 1.8rem; }
-.earnings-board-totals article::after { content:""; position:absolute; width:150px; height:150px; right:-35px; top:-70px; border:1px solid #72d5a51a; border-radius:50%; box-shadow:0 0 0 24px #72d5a506,0 0 0 48px #72d5a504; pointer-events:none; }
-.earnings-board-totals article:nth-child(2) { background:linear-gradient(135deg,#1c242e,#171b20 70%); border-color:#303e50; }
-.earnings-board-totals strong { font-size:clamp(2rem,4vw,3rem); letter-spacing:-.05em; font-weight:650; color:#f2fff8; }
-.earnings-board-totals article:nth-child(2) strong { color:#d5e6ff; }
 .board-visual-grid { display:grid; grid-template-columns:minmax(0,1.8fr) minmax(290px,1fr); gap:1rem; margin:1.5rem 0 1rem; }
 .board-chart-panel { min-width:0; background:linear-gradient(155deg,#1a211e,#151817 75%); border:1px solid #303a35; border-radius:20px; padding:1.4rem; }
 .board-chart-panel > header { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; }
@@ -7351,3 +7340,15 @@ body:has(.site-shell) {
 .fleet-annual-comparison { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:5px; color:#626262; font-size:12px; line-height:1.4; }
 .fleet-annual-comparison s { color:#777; }
 .fleet-annual-comparison strong { padding:3px 8px; border-radius:999px; background:#d2f4df; color:#075e3c; font-size:12px; }
+
+/* One rolling-income headline. Source periods stay in project details. */
+.earnings-board-recent { display:block; padding:1.3rem 1.6rem; border:1px solid #343b38; border-radius:16px; background:#191d1b; }
+.earnings-board-recent-heading { display:flex; justify-content:space-between; align-items:center; gap:1rem; color:#b7c2bc; font-size:.85rem; }
+.earnings-board-recent-heading small { color:#91a097; font-size:.75rem; }
+.earnings-board-recent strong { display:block; margin:.6rem 0 .4rem; font-size:clamp(2.3rem,4vw,3rem); font-weight:650; letter-spacing:-.04em; color:#f2fff8; font-variant-numeric:tabular-nums; }
+.earnings-board-recent strong small { font-size:.75rem; color:#a5b1aa; letter-spacing:0; }
+.earnings-board-recent .board-total-context { display:block; color:#94a198; font-size:.75rem; line-height:1.5; }
+.earnings-board-recent-scope { margin-top:.6rem; font-size:.75rem; color:#9ba79f; }
+.earnings-board-recent-scope summary { cursor:pointer; width:fit-content; }
+.earnings-board-recent-scope p { margin:.5rem 0 0; line-height:1.6; }
+@media(max-width:520px) { .earnings-board-recent {padding:1rem;} .earnings-board-recent-heading {gap:.5rem;} .earnings-board-recent-heading small {font-size:.65rem;} }
