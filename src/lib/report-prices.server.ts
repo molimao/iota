@@ -81,6 +81,19 @@ export function parsePaprikaTicker(body: unknown, now = Date.now()): number | nu
     return null;
   return price;
 }
+/** Separate official route used only when the ticker endpoint is unavailable. */
+export function parsePaprikaConversion(body: unknown, id: string, now = Date.now()): number | null {
+  if (!body || typeof body !== "object") return null;
+  const row = body as Record<string, unknown>;
+  if (row["base_currency_id"] !== id || row["quote_currency_id"] !== "usd-us-dollars" || row["amount"] !== 1)
+    return null;
+  if (typeof row["price"] !== "number" || !Number.isFinite(row["price"]) || row["price"] <= 0) return null;
+  for (const key of ["base_price_last_updated", "quote_price_last_updated"]) {
+    const at = typeof row[key] === "string" ? Date.parse(row[key]) : NaN;
+    if (!Number.isFinite(at) || at > now + 60000 || now - at > MAX_AGE_MS) return null;
+  }
+  return row["price"];
+}
 async function paprikaPrices(
   projects: readonly ProjectId[],
   fetcher: typeof fetch,
@@ -99,7 +112,20 @@ async function paprikaPrices(
         if (response.status === 403) response = await fetcher(url, {
           headers: QUOTE_HEADERS, signal: AbortSignal.timeout(6000), redirect: "manual",
         });
-        if (!response.ok) return;
+        if (!response.ok) {
+          // Respect rate limits and redirects. The converter has its own route
+          // and explicitly identifies both currencies and their quote times.
+          if (response.status === 429 || (response.status >= 300 && response.status < 400)) return;
+          const conversion = await fetcher(
+            `https://api.coinpaprika.com/v1/price-converter?base_currency_id=${PAPRIKA_IDS[project]}&quote_currency_id=usd-us-dollars&amount=1`,
+            { headers: QUOTE_HEADERS, signal: AbortSignal.timeout(6000), redirect: "manual" },
+          );
+          if (conversion.ok) {
+            const price = parsePaprikaConversion(await conversion.json(), PAPRIKA_IDS[project]!);
+            if (price !== null) found[project] = price;
+          }
+          return;
+        }
         const price = parsePaprikaTicker(await response.json());
         if (price !== null) found[project] = price;
       } catch {

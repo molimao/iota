@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
 import { parseMarketPrices, parsePaprikaTicker } from "./report-prices.server";
+import { parsePaprikaConversion } from "./report-prices.server";
 
 const now = Date.parse("2026-10-28T01:40:00Z");
 it("keeps fresh market quotes and drops stale, zero, or unknown prices", () => {
@@ -85,5 +86,27 @@ it("includes Akash and Nosana and never substitutes a different PRL or BNT token
   });
   expect(await fetchReportUsdPrices(["akash", "nosana", "bnt", "flyai", "xid"], fetcher as typeof fetch))
     .toEqual({ akash: 0.65, nosana: 0.4 });
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});
+const conversion = () => ({
+  base_currency_id: "prl-pearl-1", quote_currency_id: "usd-us-dollars", amount: 1, price: 1.8,
+  base_price_last_updated: new Date().toISOString(), quote_price_last_updated: new Date().toISOString(),
+});
+it("uses the identified fresh USD converter when both ticker routes fail", async () => {
+  const fetcher = vi.fn(async (input: RequestInfo | URL) => String(input).includes("price-converter")
+    ? Response.json(conversion()) : new Response(null, { status: 403 }));
+  expect(await fetchReportUsdPrices(["prl"], fetcher as typeof fetch)).toEqual({ prl: 1.8 });
+  expect(fetcher).toHaveBeenCalledTimes(3);
+});
+it("rejects a different PRL token, currency, amount, stale timestamps and invalid converter prices", () => {
+  for (const patch of [
+    { base_currency_id: "prl-perle" }, { quote_currency_id: "btc-bitcoin" }, { amount: 2 },
+    { base_price_last_updated: "2020-01-01" }, { quote_price_last_updated: "invalid" },
+    { price: 0 }, { price: Infinity },
+  ]) expect(parsePaprikaConversion({ ...conversion(), ...patch }, "prl-pearl-1")).toBeNull();
+});
+it("does not bypass a zero-volume ticker using the converter", async () => {
+  const fetcher = vi.fn(async () => Response.json({ ...ticker(1.8), quotes: { USD: { price: 1.8, volume_24h: 0 } } }));
+  expect(await fetchReportUsdPrices(["prl"], fetcher as typeof fetch)).toEqual({});
   expect(fetcher).toHaveBeenCalledTimes(1);
 });
