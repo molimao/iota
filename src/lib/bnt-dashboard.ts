@@ -24,7 +24,7 @@ export function bntRowState(row: BntRow) {
 /** Account balances and account hashrate are counted once per address, regardless of Worker bindings. */
 export function bntTotals(rows: BntRow[]) {
   const accounts = [...new Map(rows.map((r) => [r.address, r])).values()];
-  const sum = (field: "hashrate" | "balance" | "paid" | "pendingEstimate" | "queued") => {
+  const sum = (field: "hashrate" | "balance" | "paid" | "reward" | "pendingEstimate" | "queued") => {
     const known = accounts
       .map((r) =>
         field === "hashrate" && (r.result?.stale || r.result?.error || r.failed)
@@ -42,6 +42,7 @@ export function bntTotals(rows: BntRow[]) {
     hashrate: sum("hashrate"),
     balance: sum("balance"),
     paid: sum("paid"),
+    reward: sum("reward"),
     pending: sum("pendingEstimate"),
     queued: sum("queued"),
     workers: accounts.reduce(

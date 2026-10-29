@@ -300,6 +300,12 @@ export function BntDashboardView(p: Props) {
       main: true,
     },
     {
+      label: bntLabels.paid24h[locale],
+      metric: totals.reward,
+      formatted: `${value(totals.reward.value)} BNT`,
+      main: true,
+    },
+    {
       label: t("paid"),
       metric: totals.paid,
       formatted: `${value(totals.paid.value)} BNT`,
@@ -336,6 +342,13 @@ export function BntDashboardView(p: Props) {
             <dd>{poolHashrate("bnt", r.result?.data?.hashrate ?? null)}</dd>
           </div>
           <div>
+            <dt>{bntLabels.paid24h[locale]}</dt>
+            <dd>
+              {value(r.result?.data?.reward)} <small>BNT</small>
+              <BntUsdEstimate amount={r.result?.data?.reward} />
+            </dd>
+          </div>
+          <div>
             <dt>{t("paid")}</dt>
             <dd>
               {value(r.result?.data?.paid)} <small>BNT</small>
@@ -350,6 +363,7 @@ export function BntDashboardView(p: Props) {
             </dd>
           </div>
         </dl>
+        <small className="board-chart-caption">{bntLabels.paidBasis[locale]}</small>
         <div className="bnt-address-tools">
           <details className="bnt-payment-details">
             <summary>{t("payments")}</summary>

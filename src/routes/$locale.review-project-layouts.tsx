@@ -15,6 +15,7 @@ import { useAgentClock } from "@/hooks/use-agent-clock";
 import { ProjectAddressBookView } from "@/components/project-address-book";
 import { FleetWorkspace } from "@/components/fleet-workspace";
 import { OverviewWorkspace } from "@/components/overview-page";
+import { BNT_REFERENCE_USD } from "@/lib/reference-prices";
 import { PROJECTS } from "@/lib/projects";
 export const Route = createFileRoute("/$locale/review-project-layouts")({
   beforeLoad: () => {
@@ -170,6 +171,7 @@ function Review() {
           refreshing={false}
           preview
           history={[]}
+          previewPrices={{ bnt: BNT_REFERENCE_USD }}
         />
       )}
     </main>

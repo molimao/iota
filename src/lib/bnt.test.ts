@@ -60,7 +60,7 @@ it("converts atomic amounts exactly once and never calls immature or paid balanc
     paid: 9.87654321,
     pendingEstimate: 3,
     reward: null,
-    period: "unknown",
+    period: "rolling24h",
     hashrate: 21.5,
     partial: false,
   });
@@ -70,6 +70,31 @@ it("converts atomic amounts exactly once and never calls immature or paid balanc
     online: true,
     lastSeen: now - 5000,
   });
+});
+it("sums only confirmed payments in the rolling 24h window, independently of balances and fees", () => {
+  const payout = (seconds: number, amount: number, confirmed = true) => ({
+    timestamp: { secs_since_epoch: seconds, nanos_since_epoch: 0 }, amount, fee: 1000, confirmed,
+  });
+  const p = parseBnt({ ...miner(), payouts: [
+    payout(now / 1000 - 10, 120000000),
+    payout(now / 1000 - 3600, 230000000),
+    payout(now / 1000 - 20, 990000000, false),
+    payout(now / 1000 - 86400, 500000000),
+    payout(now / 1000 + 1, 600000000),
+  ] }, balance(), bntPublicAddress, now);
+  expect(p.reward).toBeCloseTo(3.5, 8);
+  expect(p.balance).toBe(1);
+  expect(p.paid).toBe(9.87654321);
+  expect(p.period).toBe("rolling24h");
+});
+it("keeps a truncated payout window unknown and accepts a complete empty payment history", () => {
+  const payouts = Array.from({ length: 50 }, (_, i) => ({
+    timestamp: { secs_since_epoch: now / 1000 - i * 60 }, amount: 100000000, confirmed: true,
+  }));
+  expect(parseBnt({ ...miner(), payouts }, balance(), bntPublicAddress, now).reward).toBeNull();
+  payouts[49]!.timestamp.secs_since_epoch = now / 1000 - 86401;
+  expect(parseBnt({ ...miner(), payouts }, balance(), bntPublicAddress, now).reward).toBe(49);
+  expect(parseBnt({ ...miner(), payouts: [] }, balance(), bntPublicAddress, now).reward).toBe(0);
 });
 it("preserves missing balances and unsafe amounts as unknown while retaining available hashrate", () => {
   expect(parseBnt(miner(), null, bntPublicAddress, now)).toMatchObject({

@@ -1,6 +1,7 @@
 import { it, expect } from "vitest";
 import { earningsBoard, type BoardReading } from "./earnings-board";
 import type { FleetBinding } from "./fleet";
+import { BNT_REFERENCE_USD } from "./reference-prices";
 const b = (project: FleetBinding["project"], id: string, worker = ""): FleetBinding => ({
   id,
   project,
@@ -21,6 +22,16 @@ const r = (
   health: "fresh",
   source: "test",
   updated: "now",
+});
+it("adds BNT 24h payments once per wallet at the fixed price without adding balances or paid totals", () => {
+  const data: BoardReading = { ...r("rolling24h", 3.5, null), unit: "BNT", scope: "wallet",
+    accountSummary: { kind: "balance", amount: "10", unit: "BNT" }, lifetime: "100" };
+  const board = earningsBoard([
+    { binding: b("bnt", "wallet", "worker-one"), deviceId: "one", data },
+    { binding: b("bnt", "wallet", "worker-two"), deviceId: "two", data },
+  ], { bnt: BNT_REFERENCE_USD });
+  expect(board.totals.rolling24h.usd).toBeCloseTo(0.56, 8);
+  expect(board.totals.rolling24h.count).toBe(1);
 });
 it("keeps yesterday, today, UTC day and rolling windows out of each other’s totals", () => {
   const board = earningsBoard([

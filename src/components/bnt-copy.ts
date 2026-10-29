@@ -1,5 +1,13 @@
 import { localized as l } from "@/lib/product-discovery";
 export const bntLabels = {
+  paid24h: l(["近 24 小时到账", "近 24 小時到帳", "Paid in last 24h", "최근 24시간 지급", "過去24時間の支払"]),
+  paidBasis: l([
+    "按已确认支付时间统计；余额、排队支付和待成熟预估不计入。",
+    "按已確認支付時間統計；餘額、排隊支付和待成熟預估不計入。",
+    "By confirmed payment time; balances, queued payments and immature estimates are excluded.",
+    "확정 지급 시간 기준이며 잔액·지급 대기·미성숙 예상액은 제외합니다.",
+    "確定済み支払時刻で集計。残高・支払待ち・未成熟推定額は含みません。",
+  ]),
   confirmed: l([
     "已确认待支付",
     "已確認待支付",
@@ -46,10 +54,10 @@ export const bntEditorial = {
     "Argon2id方式のBlocknet BNTです。Bancor BNTやBLOCKとは異なります。Seineの完全なメインネット公開報酬アドレスを入力。短縮名・秘密鍵・復元フレーズは対象外で、bntpool.comのみ対応。",
   ]),
   coverage: l([
-    "Worker 状态按最近份额判断。待成熟、待支付和已支付分别列出；日收益暂不可用。",
-    "Worker 狀態依最近份額判斷。待成熟、待支付及已支付分開列出；日收益暫不可用。",
-    "Worker status is based on recent shares. Immature, unpaid and paid amounts are shown separately; daily rewards are unavailable.",
-    "Worker 상태는 최근 셰어 기준입니다. 미성숙·미지급·지급액을 따로 표시하며 일일 수익은 제공되지 않습니다.",
-    "Worker状態は直近シェアに基づきます。未成熟・未払い・支払済みは別に表示し、日次収益は未提供です。",
+    "Worker 状态按最近份额判断。近 24 小时统计已确认支付，待成熟与待支付单独显示。",
+    "Worker 狀態依最近份額判斷。近 24 小時統計已確認支付，待成熟與待支付單獨顯示。",
+    "Worker status uses recent shares. The 24h total counts confirmed payments; immature and unpaid amounts stay separate.",
+    "Worker 상태는 최근 셰어 기준입니다. 24시간 합계는 확정 지급 기준이며 미성숙·미지급액은 별도 표시합니다.",
+    "Worker状態は直近シェアに基づきます。24時間合計は確定済み支払で集計し、未成熟・未払いは別に表示します。",
   ]),
 };

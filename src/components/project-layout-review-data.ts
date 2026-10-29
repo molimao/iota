@@ -9,6 +9,7 @@ import type { ProjectReading } from "./fleet-review-data";
 import { isPoolProject } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { editorialCopy } from "./project-editorial";
+import { bntLabels } from "./bnt-copy";
 export const REVIEW_PROJECTS = FLEET_PROJECTS.filter(
   (p) => p !== "iota" && p !== "acurast" && p !== "flyai",
 );
@@ -126,6 +127,10 @@ export function layoutReading(
   if (project === "bnt")
     return {
       ...base,
+      today: "3.5",
+      todayLabel: bntLabels.paid24h[locale],
+      rewardAmount: 3.5,
+      earningsWindow: "rolling24h",
       status: stale ? "staleData" : "online",
       activity: "6 H/s",
       lifetime: "14.82",

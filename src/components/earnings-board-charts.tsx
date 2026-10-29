@@ -1,5 +1,6 @@
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { BntReferenceNote } from "./bnt-usd-estimate";
+import { bntLabels } from "./bnt-copy";
 import { acuCopy } from "./acurast-rewards";
 import { useId, useState } from "react";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
@@ -159,7 +160,7 @@ export function EarningsBoardCharts({
                     : null}
                   {recentMetrics.map((m) => (
                     <div key={m.window + m.unit}>
-                      <span>{c.windows[m.window][locale]}</span>
+                      <span>{row.project === "bnt" ? bntLabels.paid24h[locale] : c.windows[m.window][locale]}</span>
                       <strong>
                         {nf.format(m.amount)} <small>{m.unit}</small>
                       </strong>
@@ -209,6 +210,7 @@ export function EarningsBoardCharts({
                 {row.project === "bnt" && (
                   <div className="board-hashrate-history">
                     <BntReferenceNote />
+                    <p className="board-chart-caption">{bntLabels.paidBasis[locale]}</p>
                     {[
                       ...new Set(
                         entries

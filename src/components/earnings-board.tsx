@@ -1,4 +1,5 @@
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
+import { bntLabels } from "./bnt-copy";
 import { EarningsBoardCharts } from "./earnings-board-charts";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import type { DailyReport } from "@/lib/daily-report";
@@ -128,7 +129,7 @@ export function EarningsBoard({
                           {nf.format(m.amount)} {m.unit}
                         </b>
                         <small>
-                          {c.windows[m.window][locale]}
+                          {row.project === "bnt" && m.window === "rolling24h" ? bntLabels.paid24h[locale] : c.windows[m.window][locale]}
                           {m.stale ? ` · ${c.older[locale]}` : ""}
                         </small>
                       </div>

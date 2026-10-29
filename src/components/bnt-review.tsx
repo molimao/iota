@@ -19,8 +19,8 @@ const samples = (): BntRow[] =>
         paid: [28.46, 6.12, 19.8][i]!,
         pendingEstimate: [0.62, 0, 0.28][i]!,
         queued: i === 0 ? 0.4 : 0,
-        reward: null,
-        period: "unknown",
+        reward: 3.5,
+        period: "rolling24h",
         partial: false,
         workerCount: i === 0 ? 7 : 1,
         workers:

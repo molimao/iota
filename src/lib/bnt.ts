@@ -19,6 +19,19 @@ export function validBntAddress(address: string) {
 const finite = (n: unknown) => (typeof n === "number" && Number.isFinite(n) && n >= 0 ? n : null);
 const money = (n: unknown) =>
   typeof n === "number" && Number.isSafeInteger(n) && n >= 0 ? n / 1e8 : null;
+/** The miner API returns its latest 50 payouts, so a full page must cover the cutoff. */
+function confirmedPayouts24h(raw: unknown, now: number): number | null {
+  if (!Array.isArray(raw)) return null;
+  const payouts = raw.map((value) => {
+    const p = record(value), timestamp = record(p["timestamp"]);
+    return { amount: money(p["amount"]), seconds: finite(timestamp["secs_since_epoch"]), confirmed: p["confirmed"] };
+  });
+  if (payouts.some((p) => p.amount === null || p.seconds === null || typeof p.confirmed !== "boolean")) return null;
+  const cutoff = now / 1000 - 86400;
+  if (payouts.length >= 50 && !payouts.some((p) => p.seconds! <= cutoff)) return null;
+  return payouts.reduce((total, p) => total +
+    (p.confirmed && p.seconds! > cutoff && p.seconds! <= now / 1000 ? p.amount! : 0), 0);
+}
 export function parseBnt(
   miner: unknown,
   balance: unknown,
@@ -68,8 +81,8 @@ export function parseBnt(
   return {
     balance: confirmed,
     paid,
-    reward: null,
-    period: "unknown",
+    reward: confirmedPayouts24h(m["payouts"], now),
+    period: "rolling24h",
     pendingEstimate: pending,
     queued,
     workers,

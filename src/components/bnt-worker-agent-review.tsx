@@ -34,8 +34,8 @@ export function BntWorkerAgentReview({ unpaired = false }: { unpaired?: boolean 
         balance: 1.24,
         pendingEstimate: 0.62,
         queued: 0,
-        reward: null,
-        period: "unknown",
+        reward: 3.5,
+        period: "rolling24h",
         partial: false,
         workerCount: 3,
         workers: workers.map((name, i) => ({

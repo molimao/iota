@@ -1,4 +1,5 @@
 import { flyaiWalletStats } from "@/lib/flyai";
+import { bntLabels } from "@/components/bnt-copy";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import {
   isPoolProject,
@@ -271,7 +272,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         today: d?.reward == null ? null : String(d.reward),
         rewardAmount: d?.reward ?? null,
         earningsWindow: d?.period ?? "unknown",
-        ...(d ? { todayLabel: poolCopy[d.period][locale] } : {}),
+        ...(d ? { todayLabel: binding.project === "bnt" ? bntLabels.paid24h[locale] : poolCopy[d.period][locale] } : {}),
         todayUsable: false,
         todaySameDay: false,
         lifetime: d?.paid == null ? null : String(d.paid),
