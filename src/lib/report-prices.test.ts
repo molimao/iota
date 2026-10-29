@@ -73,7 +73,8 @@ it("keeps other coins priced when one quote fails, and does not retry a rate lim
     return new Response(null, { status: 429 });
   });
   expect(await fetchReportUsdPrices(["btc", "prl"], fetcher as typeof fetch)).toEqual({ btc: 80000 });
-  expect(fetcher).toHaveBeenCalledTimes(3);
+  expect(fetcher.mock.calls.filter(([url]) => String(url).includes("coinpaprika"))).toHaveLength(2);
+  expect(fetcher).toHaveBeenCalledTimes(5);
 });
 it("includes Akash and Nosana and never substitutes a different PRL or BNT token", async () => {
   const fetcher = vi.fn(async (input: RequestInfo | URL) => {
@@ -106,7 +107,8 @@ it("rejects a different PRL token, currency, amount, stale timestamps and invali
   ]) expect(parsePaprikaConversion({ ...conversion(), ...patch }, "prl-pearl-1")).toBeNull();
 });
 it("does not bypass a zero-volume ticker using the converter", async () => {
-  const fetcher = vi.fn(async () => Response.json({ ...ticker(1.8), quotes: { USD: { price: 1.8, volume_24h: 0 } } }));
+  const fetcher = vi.fn(async (_url: RequestInfo | URL) => Response.json({ ...ticker(1.8), quotes: { USD: { price: 1.8, volume_24h: 0 } } }));
   expect(await fetchReportUsdPrices(["prl"], fetcher as typeof fetch)).toEqual({});
-  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(fetcher.mock.calls.some(([url]) => String(url).includes("price-converter"))).toBe(false);
+  expect(fetcher).toHaveBeenCalledTimes(3);
 });

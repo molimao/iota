@@ -173,5 +173,10 @@ export async function fetchReportUsdPrices(
     const extra = await paprikaPrices(missing, fetcher);
     prices = { ...prices, ...extra };
   }
+  if (projects.includes("prl") && prices.prl == null) {
+    const { readPearlPoolUsd } = await import("./pearl-price.server");
+    const price = await readPearlPoolUsd(fetcher);
+    if (price !== null) prices.prl = price;
+  }
   return prices;
 }
