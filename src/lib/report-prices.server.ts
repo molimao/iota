@@ -13,6 +13,8 @@ const COINGECKO_IDS: Partial<Record<ProjectId, string>> = {
   zeph: "zephyr-protocol",
   ethw: "ethereum-pow-iou",
   golem: "golem",
+  nosana: "nosana",
+  akash: "akash-network",
   ionet: "io",
   acurast: "acurast",
   quantus: "quantus",
@@ -21,12 +23,26 @@ const COINGECKO_IDS: Partial<Record<ProjectId, string>> = {
 };
 /** CoinPaprika ids checked against each project's own site. */
 const PAPRIKA_IDS: Partial<Record<ProjectId, string>> = {
+  btc: "btc-bitcoin",
+  xmr: "xmr-monero",
+  etc: "etc-ethereum-classic",
+  rvn: "rvn-ravencoin",
+  zec: "zec-zcash",
+  kas: "kas-kaspa",
+  ethw: "ethw-ethereum-pow",
+  golem: "glm-golem",
+  nosana: "nos-nosana",
+  akash: "akt-akash-network",
   prl: "prl-pearl-1",
   mds: "mds-midstate",
   csd: "csd-compute-substrate",
   quantus: "qtc-quantus",
   tsc: "tsc-tensorcash",
   noid: "noid-parano1d",
+};
+const QUOTE_HEADERS = {
+  accept: "application/json",
+  "user-agent": "IOTA-Watch/1.0 (+https://iotahome.site)",
 };
 const MAX_AGE_MS = 6 * 3600000;
 export function parseMarketPrices(
@@ -74,10 +90,15 @@ async function paprikaPrices(
   await Promise.all(
     wanted.map(async (project) => {
       try {
-        const response = await fetcher(
-          `https://api.coinpaprika.com/v1/tickers/${PAPRIKA_IDS[project]}?quotes=USD`,
-          { signal: AbortSignal.timeout(6000), redirect: "manual" },
-        );
+        const url = `https://api.coinpaprika.com/v1/tickers/${PAPRIKA_IDS[project]}`;
+        let response = await fetcher(url + "?quotes=USD", {
+          headers: QUOTE_HEADERS, signal: AbortSignal.timeout(6000), redirect: "manual",
+        });
+        // The default USD endpoint has a separate public cache route. Do not
+        // retry rate limits or follow redirects to an unreviewed destination.
+        if (response.status === 403) response = await fetcher(url, {
+          headers: QUOTE_HEADERS, signal: AbortSignal.timeout(6000), redirect: "manual",
+        });
         if (!response.ok) return;
         const price = parsePaprikaTicker(await response.json());
         if (price !== null) found[project] = price;
@@ -105,7 +126,7 @@ export async function fetchReportUsdPrices(
     try {
       const response = await fetcher(
         `https://api.coingecko.com/api/v3/simple/price?ids=${ids.join(",")}&vs_currencies=usd&include_last_updated_at=true`,
-        { signal: AbortSignal.timeout(6000), redirect: "manual" },
+        { headers: QUOTE_HEADERS, signal: AbortSignal.timeout(6000), redirect: "manual" },
       );
       if (response.ok) prices = parseMarketPrices(await response.json());
     } catch {

@@ -80,8 +80,11 @@ export function earningsBoard(
       total: number;
     }
   >();
-  const totals = { today: { usd: 0, count: 0 }, yesterday: { usd: 0, count: 0 } };
-  const olderPrices = { today: false, yesterday: false };
+  const totals = {
+    today: { usd: 0, count: 0 }, yesterday: { usd: 0, count: 0 },
+    rolling24h: { usd: 0, count: 0 }, utcDay: { usd: 0, count: 0 },
+  };
+  const olderPrices = { today: false, yesterday: false, rolling24h: false, utcDay: false };
   for (const { binding: b, deviceId, data: d } of entries) {
     let row = projects.get(b.project);
     if (!row) {
@@ -232,13 +235,20 @@ export function earningsBoard(
       metric.count === 1 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
     row.metrics.set(metricKey, metric);
     row.known++;
-    if (usd !== null && (window === "today" || window === "yesterday")) {
+    if (usd !== null && (window === "today" || window === "yesterday" || window === "rolling24h" || window === "utcDay")) {
       totals[window].usd += usd;
       totals[window].count++;
       olderPrices[window] ||= !!d.priceStale;
     }
   }
-  return { totals, olderPrices, projects: [...projects.values()] };
+  const coverage = Object.fromEntries(
+    (["today", "yesterday", "rolling24h", "utcDay"] as const).map((window) => [window,
+      [...projects.values()].filter((row) => [...row.metrics.values()].some(
+        (metric) => metric.window === window && metric.usd === null,
+      )).map((row) => row.project),
+    ]),
+  ) as Record<keyof typeof totals, FleetProject[]>;
+  return { totals, olderPrices, coverage, projects: [...projects.values()] };
 }
 
 /** Preserve gaps and observed zeroes; never interpolate earnings on missing dates. */

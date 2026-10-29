@@ -274,3 +274,19 @@ it("keeps missing, mismatched and stale valuations unavailable and preserves rea
   ).toBeNull();
   expect(result.totals.today.count).toBe(0);
 });
+
+it("shows separately converted rolling and UTC subtotals without changing calendar-day earnings", () => {
+  const board = earningsBoard([
+    { binding: b("iota", "i"), deviceId: "a", data: r("yesterday", 1, 7) },
+    { binding: b("prl", "p", "a"), deviceId: "b", data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" } },
+    { binding: b("prl", "p", "b"), deviceId: "c", data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" } },
+    { binding: b("xmr", "m"), deviceId: "d", data: { ...r("utcDay", 0.1, null), unit: "XMR" } },
+    { binding: b("bnt", "b"), deviceId: "e", data: { ...r("rolling24h", 100, null), unit: "BNT" } },
+  ], { prl: 1.8, xmr: 600 });
+  expect(board.totals.rolling24h).toEqual({ usd: 3.6, count: 1 });
+  expect(board.totals.utcDay).toEqual({ usd: 60, count: 1 });
+  expect(board.totals.yesterday).toEqual({ usd: 7, count: 1 });
+  expect(board.totals.today.count).toBe(0);
+  expect(board.coverage.rolling24h).toEqual(["bnt"]);
+  expect(board.coverage.yesterday).toEqual([]);
+});

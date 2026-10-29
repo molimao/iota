@@ -1,5 +1,6 @@
 import { localized as l } from "@/lib/product-discovery";
 export const boardCopy = {
+  notIncluded: l(["未计入", "未計入", "Excluded:", "제외:", "集計対象外:"]),
   paid: l(["累计已支付", "累計已支付", "Total paid", "누적 지급액", "累計支払額"]),
   noConversion: l([
     "原币收益已获取，美元估值暂不可用",

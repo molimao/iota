@@ -61,7 +61,10 @@ export function EarningsBoard({
         </span>
       </header>
       <div className="earnings-board-totals">
-        {(["yesterday", "today"] as const).map((day) => {
+        {(["yesterday", "today", "rolling24h", "utcDay"] as const)
+          .filter((day) => day === "today" || day === "yesterday" || board.projects.some(
+            (p) => [...p.metrics.values()].some((m) => m.window === day),
+          )).map((day) => {
           const metrics = board.projects.flatMap((p) =>
             [...p.metrics.values()].filter((m) => m.window === day),
           );
@@ -71,7 +74,7 @@ export function EarningsBoard({
             !board.totals[day].count && native.size === 1 ? [...native][0] : null;
           return (
             <article key={day}>
-              <span>{c[day][locale]}</span>
+              <span>{day === "today" || day === "yesterday" ? c[day][locale] : c.windows[day][locale]}</span>
               <strong>
                 {nativeHeadline
                   ? nf.format(nativeHeadline[1])
@@ -95,6 +98,11 @@ export function EarningsBoard({
                     {metrics.some((m) => m.stale) ? ` · ${c.older[locale]}` : ""}
                   </small>
                 </>
+              )}
+              {board.coverage[day].length > 0 && board.totals[day].count > 0 && (
+                <small className="board-total-context" role="status">
+                  {c.partial[locale]} · {c.notIncluded[locale]} {board.coverage[day].map((p) => FLEET_NAMES[p]).join("、")}
+                </small>
               )}
               {board.olderPrices[day] && (
                 <small className="board-total-context">{c.olderPrice[locale]}</small>
