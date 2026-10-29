@@ -147,11 +147,11 @@ export const bntDashboardCopy = {
     "同じアドレスは1回だけ集計し、残高はWorkerに配分しません。",
   ]),
   paymentHint: l([
-    "矿池未提供可靠的日收益与美元报价。待成熟预估不代表已到账。",
-    "礦池未提供可靠的日收益與美元報價。待成熟預估不代表已到帳。",
-    "Verified daily income and USD quotes are unavailable. Immature estimates are not paid funds.",
-    "검증된 일일 수익·USD 시세가 없습니다. 미성숙 예상액은 지급액이 아닙니다.",
-    "信頼できる日次収益・USD価格は未取得。未成熟推定額は入金額ではありません。",
+    "矿池未提供可靠的日收益。待成熟预估不代表已到账。",
+    "礦池未提供可靠的日收益。待成熟預估不代表已到帳。",
+    "Verified daily income is unavailable. Immature estimates are not paid funds.",
+    "검증된 일일 수익이 없습니다. 미성숙 예상액은 지급액이 아닙니다.",
+    "信頼できる日次収益は未取得。未成熟推定額は入金額ではありません。",
   ]),
   payments: l([
     "待支付明细",

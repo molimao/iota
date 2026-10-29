@@ -1,4 +1,5 @@
 import { isPoolProject } from "@/lib/pool-projects";
+import { BntUsdEstimate } from "./bnt-usd-estimate";
 import type { FleetProject } from "@/lib/fleet";
 import type { ProjectReading } from "./fleet-review-data";
 import { fleetCopy } from "./fleet-copy";
@@ -80,7 +81,8 @@ export function ProjectReadingMetrics({
             {m.value}
             {m.unit && <small>{m.unit}</small>}
           </dd>
-          {m.usd && <small className="project-metric-usd">≈ ${m.usd} USD</small>}
+          {project === "bnt" && m.unit === "BNT" ? <BntUsdEstimate amount={m.value} /> :
+            m.usd && <small className="project-metric-usd">≈ ${m.usd} USD</small>}
         </div>
       ))}
     </dl>

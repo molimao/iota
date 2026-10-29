@@ -46,10 +46,10 @@ export const bntEditorial = {
     "Argon2id方式のBlocknet BNTです。Bancor BNTやBLOCKとは異なります。Seineの完全なメインネット公開報酬アドレスを入力。短縮名・秘密鍵・復元フレーズは対象外で、bntpool.comのみ対応。",
   ]),
   coverage: l([
-    "Worker 状态按最近份额判断。待成熟、待支付和已支付分别列出；日收益与美元报价暂不可用。",
-    "Worker 狀態依最近份額判斷。待成熟、待支付及已支付分開列出；日收益與美元報價暫不可用。",
-    "Worker status is based on recent shares. Immature, unpaid and paid amounts are shown separately; daily rewards and USD quotes are unavailable.",
-    "Worker 상태는 최근 셰어 기준입니다. 미성숙·미지급·지급액을 따로 표시하며 일일 수익과 USD 시세는 제공되지 않습니다.",
-    "Worker状態は直近シェアに基づきます。未成熟・未払い・支払済みは別に表示し、日次収益とUSD価格は未提供です。",
+    "Worker 状态按最近份额判断。待成熟、待支付和已支付分别列出；日收益暂不可用。",
+    "Worker 狀態依最近份額判斷。待成熟、待支付及已支付分開列出；日收益暫不可用。",
+    "Worker status is based on recent shares. Immature, unpaid and paid amounts are shown separately; daily rewards are unavailable.",
+    "Worker 상태는 최근 셰어 기준입니다. 미성숙·미지급·지급액을 따로 표시하며 일일 수익은 제공되지 않습니다.",
+    "Worker状態は直近シェアに基づきます。未成熟・未払い・支払済みは別に表示し、日次収益は未提供です。",
   ]),
 };

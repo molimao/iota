@@ -1,6 +1,7 @@
 import type { ProjectId } from "./projects";
+import { BNT_REFERENCE_USD } from "./reference-prices";
 /** Ids checked against CoinGecko simple/price. Missing or stale quotes stay unpriced.
- * BNT is this project's Blocknet, not Bancor and not the old BLOCK token.
+ * Blocknet BNT is not listed here: this site uses a fixed reference, not Bancor or BLOCK.
  * XID has no market. Pearl's CoinGecko "perle" is a different token. */
 const COINGECKO_IDS: Partial<Record<ProjectId, string>> = {
   btc: "bitcoin",
@@ -178,5 +179,6 @@ export async function fetchReportUsdPrices(
     const price = await readPearlPoolUsd(fetcher);
     if (price !== null) prices.prl = price;
   }
-  return prices;
+  // After every online assignment, including the CoinGecko failure path that replaces `prices`.
+  return projects.includes("bnt") ? { ...prices, bnt: BNT_REFERENCE_USD } : prices;
 }

@@ -1,4 +1,5 @@
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
+import { BntReferenceNote } from "./bnt-usd-estimate";
 import { acuCopy } from "./acurast-rewards";
 import { useId, useState } from "react";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
@@ -207,6 +208,7 @@ export function EarningsBoardCharts({
                 )}
                 {row.project === "bnt" && (
                   <div className="board-hashrate-history">
+                    <BntReferenceNote />
                     {[
                       ...new Set(
                         entries

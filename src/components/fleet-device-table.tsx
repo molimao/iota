@@ -8,6 +8,7 @@ import {
   retainedDeviceDaily,
 } from "@/lib/fleet-earnings";
 import { formatUsd } from "@/lib/earnings";
+import { BntUsdEstimate } from "./bnt-usd-estimate";
 import type { ProjectReading } from "./fleet-review-data";
 import { useLocale } from "./site/locale";
 import { fleetCopy } from "./fleet-copy";
@@ -103,6 +104,7 @@ export function FleetDeviceTable({
                     {amount ? amount.amount : formatUsd(daily.usd)}{" "}
                     <small>{amount ? amount.unit : daily.usd !== null ? "USD" : ""}</small>
                   </strong>
+                  {amount?.unit === "BNT" && <BntUsdEstimate amount={amount.amount} />}
                   {!amount &&
                     daily.native.map((value, index) => (
                       <small key={index}>

@@ -8,7 +8,8 @@ it("keeps fresh market quotes and drops stale, zero, or unknown prices", () => {
     {
       kaspa: { usd: 0.03, last_updated_at: now / 1000 - 60 },
       bitcoin: { usd: 0, last_updated_at: now / 1000 },
-      blocknet: { usd: 0.01, last_updated_at: now / 1000 - 8 * 3600 },
+      blocknet: { usd: 0.01, last_updated_at: now / 1000 },
+      bancor: { usd: 0.4, last_updated_at: now / 1000 },
       "not-a-coin": { usd: 5, last_updated_at: now / 1000 },
     },
     now,
@@ -76,17 +77,19 @@ it("keeps other coins priced when one quote fails, and does not retry a rate lim
   expect(fetcher.mock.calls.filter(([url]) => String(url).includes("coinpaprika"))).toHaveLength(2);
   expect(fetcher).toHaveBeenCalledTimes(5);
 });
-it("includes Akash and Nosana and never substitutes a different PRL or BNT token", async () => {
+it("includes Akash and Nosana, prices Blocknet BNT at 0.06, and never substitutes another BNT token", async () => {
   const fetcher = vi.fn(async (input: RequestInfo | URL) => {
     const url = String(input);
     expect(url).not.toMatch(/bancor|blocknet|perle/);
     return Response.json({
       nosana: { usd: 0.4, last_updated_at: Date.now() / 1000 },
       "akash-network": { usd: 0.65, last_updated_at: Date.now() / 1000 },
+      blocknet: { usd: 0.01, last_updated_at: Date.now() / 1000 },
+      bancor: { usd: 0.5, last_updated_at: Date.now() / 1000 },
     });
   });
   expect(await fetchReportUsdPrices(["akash", "nosana", "bnt", "flyai", "xid"], fetcher as typeof fetch))
-    .toEqual({ akash: 0.65, nosana: 0.4 });
+    .toEqual({ akash: 0.65, nosana: 0.4, bnt: 0.06 });
   expect(fetcher).toHaveBeenCalledTimes(1);
 });
 const conversion = () => ({
@@ -111,4 +114,19 @@ it("does not bypass a zero-volume ticker using the converter", async () => {
   expect(await fetchReportUsdPrices(["prl"], fetcher as typeof fetch)).toEqual({});
   expect(fetcher.mock.calls.some(([url]) => String(url).includes("price-converter"))).toBe(false);
   expect(fetcher).toHaveBeenCalledTimes(3);
+});
+it("keeps the fixed Blocknet price when the CoinGecko request fails", async () => {
+  const fetcher = vi.fn(async () => {
+    throw new Error("coingecko unavailable");
+  });
+  expect(await fetchReportUsdPrices(["btc", "bnt"], fetcher as typeof fetch)).toEqual({ bnt: 0.06 });
+  expect(fetcher).toHaveBeenCalled();
+});
+it("does not return BNT when the request omits it", async () => {
+  const fetcher = vi.fn(async () => Response.json({
+    bitcoin: { usd: 80000, last_updated_at: Date.now() / 1000 },
+  }));
+  const prices = await fetchReportUsdPrices(["btc"], fetcher as typeof fetch);
+  expect(prices).toEqual({ btc: 80000 });
+  expect(prices.bnt).toBeUndefined();
 });

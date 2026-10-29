@@ -1,4 +1,5 @@
 import { useBntWorkerHistory } from "@/hooks/use-bnt-worker-history";
+import { BntUsdEstimate } from "./bnt-usd-estimate";
 import { BntWorkerSparkline, WorkerSamplingNote } from "./bnt-worker-sparkline";
 import { BntHashrateTrend } from "./bnt-hashrate-trend";
 import { useEffect, useRef, useState } from "react";
@@ -338,12 +339,14 @@ export function BntDashboardView(p: Props) {
             <dt>{t("paid")}</dt>
             <dd>
               {value(r.result?.data?.paid)} <small>BNT</small>
+              <BntUsdEstimate amount={r.result?.data?.paid} />
             </dd>
           </div>
           <div>
             <dt>{bntLabels.confirmed[locale]}</dt>
             <dd>
               {value(r.result?.data?.balance)} <small>BNT</small>
+              <BntUsdEstimate amount={r.result?.data?.balance} />
             </dd>
           </div>
         </dl>
@@ -497,6 +500,7 @@ export function BntDashboardView(p: Props) {
               <div className={`bnt-summary-tile${i === 0 ? " primary" : ""}`} key={m.label}>
                 <span>{m.label}</span>
                 <strong>{m.formatted}</strong>
+                {i > 0 && <BntUsdEstimate amount={m.metric.value} />}
                 <small>
                   {m.metric.known} / {m.metric.total} {t("coverage")}
                   {i === 0 ? ` · ${totals.workers} ${t("activeWorkers")}` : ""}
