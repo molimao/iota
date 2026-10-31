@@ -8,25 +8,25 @@ import type { SiteLocale } from "@/lib/site";
 import "./device-miner-summary.css";
 const copy = {
   loading: localized([
-    "正在读取 Agent 状态…",
-    "正在讀取 Agent 狀態…",
-    "Loading Agent status…",
-    "Agent 상태 읽는 중…",
-    "Agent 状態を取得中…",
+    "正在读取本机状态…",
+    "正在讀取本機狀態…",
+    "Loading local status…",
+    "로컬 상태 읽는 중…",
+    "ローカル状態を取得中…",
   ]),
   offline: localized([
-    "Agent 离线",
-    "Agent 離線",
-    "Agent offline",
-    "Agent 오프라인",
-    "Agent オフライン",
+    "电脑离线",
+    "電腦離線",
+    "Computer offline",
+    "컴퓨터 오프라인",
+    "コンピューターはオフライン",
   ]),
   notConnected: localized([
-    "尚未连接 Agent",
-    "尚未連接 Agent",
-    "Agent not connected",
-    "Agent 연결 안 됨",
-    "Agent 未接続",
+    "尚未选择对应电脑",
+    "尚未選擇對應電腦",
+    "No computer linked",
+    "연결된 컴퓨터 없음",
+    "対応するコンピューターが未選択",
   ]),
   notEnabled: localized([
     "尚未识别到本项目矿工",
@@ -36,25 +36,25 @@ const copy = {
     "このプロジェクトに一致するマイナーは未検出です",
   ]),
   linuxUnsupported: localized([
-    "Linux Agent 暂不支持采集此项目；矿池数据仍可查看。",
-    "Linux Agent 暫不支援採集此專案；仍可查看礦池資料。",
-    "Linux Agent does not yet collect this project; pool data remains available.",
-    "Linux Agent는 아직 이 프로젝트를 수집하지 않습니다. 풀 데이터는 확인할 수 있습니다.",
-    "Linux Agentはこのプロジェクトの収集に未対応です。プールデータは確認できます。",
+    "这台是 Linux，暂时看不到本机数据；上方矿池数据仍可使用。",
+    "這台是 Linux，暫時看不到本機資料；上方礦池資料仍可使用。",
+    "This is a Linux device. Local readings are not available yet; pool data above remains available.",
+    "Linux 기기입니다. 아직 로컬 상태는 볼 수 없지만 위의 풀 데이터는 확인할 수 있습니다.",
+    "Linux 端末のため、ローカル状態はまだ表示できません。上のプールデータは利用できます。",
   ]),
   unsupported: localized([
-    "本项目暂未支持 Agent 采集",
-    "本專案暫未支援 Agent 採集",
-    "Agent collection is not available for this project yet",
-    "이 프로젝트는 아직 Agent 수집을 지원하지 않습니다",
-    "このプロジェクトは Agent 収集に未対応です",
+    "暂不支持本机数据",
+    "暫不支援本機資料",
+    "Local readings are not available for this project yet",
+    "이 프로젝트는 아직 로컬 상태를 지원하지 않습니다",
+    "このプロジェクトはローカル状態に未対応です",
   ]),
   error: localized([
-    "暂时无法读取 Agent 状态",
-    "暫時無法讀取 Agent 狀態",
-    "Agent status unavailable",
-    "Agent 상태를 불러올 수 없습니다",
-    "Agent 状態を取得できません",
+    "暂时无法读取本机状态",
+    "暫時無法讀取本機狀態",
+    "Local status unavailable",
+    "로컬 상태를 불러올 수 없습니다",
+    "ローカル状態を取得できません",
   ]),
   process: localized([
     "矿工进程运行中",
@@ -86,27 +86,27 @@ const copy = {
     "승인 블록 누계",
     "受理ブロック累計",
   ]),
-  local: localized(["本机采集", "本機採集", "Local reading", "로컬 측정", "ローカル計測"]),
+  local: localized(["本机状态", "本機狀態", "Local status", "로컬 상태", "ローカル状態"]),
   title: localized([
-    "XMRig · 本机采集",
-    "XMRig · 本機採集",
-    "XMRig · local reading",
-    "XMRig · 로컬 측정",
-    "XMRig · ローカル計測",
+    "XMRig · 本机状态",
+    "XMRig · 本機狀態",
+    "XMRig · local status",
+    "XMRig · 로컬 상태",
+    "XMRig · ローカル状態",
   ]),
   unavailable: localized([
-    "本机接口暂未响应，算力未知",
-    "本機介面暫未回應，算力未知",
-    "Local API unavailable; hashrate unknown",
-    "로컬 API 응답 없음 · 해시레이트 미확인",
-    "ローカル API 未応答 · ハッシュレート不明",
+    "暂时读不到本机数据",
+    "暫時讀不到本機資料",
+    "Local status is unavailable",
+    "로컬 상태를 읽을 수 없습니다",
+    "ローカル状態を取得できません",
   ]),
   unauthorized: localized([
-    "本机接口授权失败，请在 Mac 核对设置",
-    "本機介面授權失敗，請在 Mac 核對設定",
-    "Local API authorization failed; check settings on the Mac",
-    "로컬 API 인증 실패 · Mac 설정 확인",
-    "ローカル API 認証失敗 · Mac の設定を確認",
+    "本机数据读取失败，请检查 Mac 上的设置",
+    "本機資料讀取失敗，請檢查 Mac 上的設定",
+    "Could not read local data. Check the settings on the Mac.",
+    "로컬 데이터를 읽지 못했습니다. Mac 설정을 확인하세요.",
+    "ローカルデータを読み取れません。Mac の設定を確認してください。",
   ]),
   stale: localized([
     "本机数据已过期",
@@ -197,9 +197,8 @@ export function ProjectMinerSlots({
             <section
               className="agent-card-summary agent-local-miner agent-connect-hint"
               key={binding.id}
-              aria-label={`${FLEET_NAMES[binding.project]} Agent`}
+              aria-label={`${FLEET_NAMES[binding.project]} 本机状态`}
             >
-              <strong>{FLEET_NAMES[binding.project]} · Agent</strong>
               <p role="status">
                 {loading
                   ? copy.loading[locale]

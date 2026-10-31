@@ -295,6 +295,9 @@
 .project-address-book .project-address-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
 }
+.project-address-book .project-address-grid[data-count="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
 .project-address-book .project-address-card {
   margin: 0;
   padding: 24px;
@@ -317,6 +320,13 @@
   margin: 0;
   color: #929797;
   font-size: 0.75rem;
+}
+.project-address-book .pab-source {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+.project-address-book:has(.pab-reading-body[data-workers="true"]) .pab-actions {
+  grid-column: 1 / -1;
 }
 .pab-reading-body {
   display: grid;
@@ -348,7 +358,8 @@
   list-style: none;
 }
 .pab-workers li {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   justify-content: space-between;
   padding: 12px 0;
@@ -363,9 +374,7 @@
 .pab-workers strong {
   font-size: 0.8rem;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 .pab-workers li > div:last-child {
   flex-shrink: 0;
@@ -535,4 +544,77 @@
 }
 .pool-worker-agent-slot .bnt-worker-computer {
   white-space: normal;
+}
+
+.prl-pool-groups {
+  display: grid;
+  gap: 1rem;
+}
+.prl-pool-group {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #303030;
+  border-radius: 18px;
+  background: #141515;
+}
+.prl-pool-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 .4rem .75rem;
+}
+.prl-pool-heading h3,
+.prl-pool-heading p {
+  margin: 0;
+}
+.prl-pool-heading h3 {
+  font-size: .95rem;
+}
+.prl-pool-heading p {
+  margin-top: .2rem;
+  color: #929999;
+  font-size: .75rem;
+}
+.prl-pool-group > .project-address-book {
+  display: block;
+  margin: 0;
+}
+.prl-pool-group > .project-address-book > .pab-add-drawer {
+  margin: 0 0 .75rem;
+}
+.prl-pool-group > .project-address-book > .pab-add-drawer[open] > summary {
+  margin-bottom: .75rem;
+}
+.prl-pool-group .project-address-card {
+  border-radius: 12px;
+  background: #1a1b1b;
+}
+.prl-pool-group > .project-address-book > .pab-note {
+  display: none;
+}
+.prl-pool-group .pab-actions {
+  margin-top: 6px;
+}
+.prl-pool-group .pab-manage > summary {
+  padding-block: 6px;
+}
+.prl-pool-group .pool-worker-agent-slot .agent-card-summary,
+.prl-pool-group .pool-worker-agent-slot .agent-local-miner {
+  margin-top: 8px;
+}
+.prl-pool-group .pool-worker-agent-slot .bnt-worker-install {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: .72rem;
+}
+@media (max-width: 700px) {
+  .prl-pool-group {
+    padding: .7rem;
+  }
+  .prl-pool-heading {
+    padding-inline: .2rem;
+  }
 }

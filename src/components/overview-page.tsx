@@ -67,7 +67,6 @@ export function OverviewWorkspace({
       <header className="overview-heading">
         <div>
           <h1>{views.overview}</h1>
-          <p>{views.overviewDescription}</p>
         </div>
         <div>
           <a className="fleet-outline" href={`/${locale}/devices`}>

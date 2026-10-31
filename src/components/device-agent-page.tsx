@@ -5,9 +5,9 @@ import { crashPreviewResult } from "./agent-crash-preview";
 import { AgentCrashAnalysis } from "./agent-crash-analysis";
 import { AgentUpdate } from "./agent-update";
 import { AgentBatchPanel } from "./agent-batch";
+import { batchCopy } from "./agent-batch-copy";
 import { AgentHistory } from "./agent-history";
-import { insightCopy } from "./agent-insight-copy";
-import { AgentStatus, AgentCommandResult, AgentTimeline } from "./agent-insights";
+import { AgentStatus, AgentCommandResult } from "./agent-insights";
 import { AgentFilterSelect, agentFilterCopy } from "./agent-filter";
 import { matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useLocale } from "./site/locale";
 import { LANGUAGE_TAG } from "@/lib/site";
-import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentOnline, agentPhase, type AgentInfo } from "@/lib/device-agent";
+import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentDisplayPhase, agentUpdateAvailable, type AgentInfo } from "@/lib/device-agent";
 import {
   getDeviceAgents,
   pairDeviceAgent,
@@ -67,7 +67,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         processMemoryMb: 2810,
         load: 3.2,
         logs: '[2026-10-15 10:32:00.000] training throughput=24.8 tokens/s\n[2026-10-15 10:28:00.000] training status: {"state": "initializing"}',
-        version: "1.0.5",
+        version: AGENT_RELEASE,
         trainingState:{phase:"training",status:"forward",observedAt:new Date(now).toISOString()},
       },
       logsEnabled: true,
@@ -78,7 +78,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const examples: AgentInfo[] = Array.from({length:4},(_,i)=>({...example,
     deviceId:`00000000-0000-4000-8000-00000000000${i+1}`,
     lastSeen:new Date(now-(i===3?180000:0)).toISOString(),
-    snapshot:{...example.snapshot,...(i===1?{queue:{position:182,observedAt:new Date(now).toISOString()}}:{})},
+    snapshot:{...example.snapshot,...(i===1?{queue:{position:182,observedAt:new Date(now).toISOString()}}:{}),...(i===2?{version:"1.0.5"}:{})},
   }));
   const [demo, setDemo] = useState<AgentInfo[] | null>(null),
     [device, setDevice] = useState(""),
@@ -99,8 +99,8 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     setConfirm(null);
     setPairedDevice(null);
   }, [auth.userId]);
-  const [layout, setLayout] = useState<"list" | "cards">("list");
   const [search, setSearch] = useState("");
+  const setupRef = useRef<HTMLDetailsElement>(null);
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
   const agentNames = Object.fromEntries(agents.map((a,i)=>[a.deviceId,preview?["Mac Studio","Mac mini","MacBook Pro","MacBook Air"][i]??"Mac":fleet.devices.find(d=>d.id===a.deviceId)?.name??"Mac"]));
@@ -131,6 +131,9 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   useEffect(() => {
     if (linkedDevice) setDevice(linkedDevice);
   }, [linkedDevice, auth.userId]);
+  useEffect(() => {
+    if ((linkedDevice || code) && setupRef.current) setupRef.current.open = true;
+  }, [linkedDevice, code, agents.length]);
   async function act(fn: () => Promise<unknown>) {
     if (busy) return;
     setBusy(true);
@@ -173,12 +176,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         </button>
       ) : (
         <>
-      <section className="agent-setup-guide">
-        <div><strong>{t.setupDownload}</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a></div>
-        <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
-      </section>
-          <LinuxAgentSetup/>
-          {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
+      <details ref={setupRef} className="agent-setup-guide" open={!agents.length}>
+        <summary>{t.setupTitle}</summary>
+        <div className="agent-setup-content">
+          <div><strong>{t.setupDownload}</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a></div>
+          <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
+        </div>
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">
               {!candidates.length ? (
@@ -234,7 +237,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       } catch { setCopyFailed(true); }
                     }}>{copied ? t.copied : t.copyCode}</button>
                   </div>
-                  <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.expired : t.waitPair}</p>
+                  <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.codeExpired : t.waitPair}</p>
                   <div className="agent-pair-actions">
                   <button type="button" className="fleet-outline" disabled={q.isFetching} onClick={() => void q.refetch()}>{t.checkPair}</button>
                   <a className="site-button" href={AGENT_DOWNLOAD_URL} download>
@@ -245,193 +248,132 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
               )}
             </section>
           )}
+      </details>
+          <LinuxAgentSetup/>
+          {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
           {q.isError && !preview && <p role="alert">{t.unavailable}</p>}
           {error && <p role="alert">{error}</p>}
-          {(preview || !!auth.userId) && agents.length > 0 && <AgentBatchPanel
-            key={auth.userId ?? "preview"} agents={agents} now={now} locale={locale} preview={preview} userId={auth.userId}
-            names={agentNames}
-          />}
+          {(preview || !!auth.userId) && agents.length > 0 && <details className="agent-batch-disclosure">
+            <summary>{batchCopy(locale).title} <span className="agent-pro-badge">PRO</span></summary>
+            <AgentBatchPanel
+              key={auth.userId ?? "preview"} agents={agents} now={now} locale={locale} preview={preview} userId={auth.userId}
+              names={agentNames}
+            />
+          </details>}
           <div className="agent-filter-toolbar">
             <input type="search" aria-label={agentFilterCopy.search[locale]} placeholder={agentFilterCopy.search[locale]} value={search} onChange={e=>setSearch(e.target.value)} />
             <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} unpaired={false} />
             <span>{visibleAgents.length} / {agents.length}</span>
-            <div className="agent-layout-switch">{(["list", "cards"] as const).map(v=><button type="button" key={v} aria-pressed={layout===v} onClick={()=>setLayout(v)}>{insightCopy[v][locale]}</button>)}</div>
           </div>
           {agents.length > 0 && visibleAgents.length === 0 && <p role="status">{agentFilterCopy.empty[locale]}</p>}
-          <div className="agent-grid" data-layout={layout}>
+          <div className="agent-grid agent-device-list">
             {visibleAgents.map((a) => {
-              const online = agentOnline(a.lastSeen, now),
-                s = a.snapshot,
+              const s = a.snapshot,
+                phase = agentDisplayPhase(a, undefined, now),
                 name = agentNames[a.deviceId] ?? "Mac";
               return (
-                <section className="compute-panel" key={a.deviceId}>
+                <section className="compute-panel" key={a.deviceId} data-phase={phase}>
                   <div className="project-address-heading">
                     <h2>{name}</h2>
-                    <span className={online ? "agent-online" : ""}>
-                      {online ? t.live : t.offline}
-                    </span>
                   </div>
-                  <AgentStatus agent={a} now={now} />
+                  <AgentStatus agent={a} now={now} concise />
                   <div className="compute-metrics">
-                    <div className="compute-metric" title={t.queueNote}>
-                      <span>{t.queue}</span>
-                      <strong>
-                        {agentPhase(a, now) === "queued" && s.queue
-                          ? `#${s.queue.position}`
-                          : t.queueUnknown}
-                      </strong>
-                    </div>
                     <div className="compute-metric">
                       <span title={t.cpuNote}>{t.cpu}</span>
                       <strong>
-                        {online && s.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}
+                        {phase !== "offline" && s.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}
                       </strong>
                     </div>
                     <div className="compute-metric">
                       <span>{t.memory}</span>
                       <strong>
-                        {online && s.processMemoryMb != null
+                        {phase !== "offline" && s.processMemoryMb != null
                           ? `${s.processMemoryMb.toFixed(0)} MB`
                           : "—"}
                       </strong>
                     </div>
                   </div>
                   <p className="compute-caption">
-                    {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
+                    {t.lastReport} · {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
                   <AgentGpu agent={a} now={now}/>
-                  <AgentCommandResult agent={a} />
-                  <AgentUpdate agent={a} disabled={busy} onPreviewUpdate={preview ? () => setDemo(agents.map(x=>x.deviceId===a.deviceId ? {...x,snapshot:{...x.snapshot,version:AGENT_RELEASE},latestCommand:{action:"update",status:"done",createdAt:new Date().toISOString()}}:x)) : undefined} />
-                  <AgentHistory deviceId={a.deviceId} preview={preview} />
-                  <details className="agent-controls" open={layout === "cards" ? true : undefined}>
-                    <summary>{insightCopy.manage[locale]}</summary>
-                  <div className="agent-actions">
-                    {(["start", "stop", "restart"] as const).map((action) => (
+                  <div className="agent-device-actions">
+                    {([
+                      ["start", t.start],
+                      ["stop", confirm === `${a.deviceId}:stop` ? t.stopConfirm : t.stop],
+                      ["restart", confirm === `${a.deviceId}:restart` ? t.restartConfirm : t.restart],
+                    ] as const).map(([action, label]) => (
                       <button
-                        className="project-outline"
+                        className={action === "start" && phase === "stopped" ? "agent-action-primary" : "agent-action-secondary"}
                         key={action}
-                        disabled={busy || !online || !!a.pending || s.platform === "linux" || s.monitorOnly === true}
+                        disabled={busy || phase === "offline" || !!a.pending || s.platform === "linux" || s.monitorOnly === true}
                         onClick={() => {
                           if (action !== "start" && !requiresConfirm(a.deviceId, action)) return;
                           void act(async () => {
                             if (preview)
-                              setDemo(
-                                agents.map((x) =>
-                                  x.deviceId === a.deviceId
-                                    ? {
-                                        ...x,
-                                        snapshot: {
-                                          ...x.snapshot,
-                                          appRunning: action !== "stop",
-                                          workerRunning: action !== "stop",
-                                          appCpu: action === "stop" ? null : 286.5,
-                                          processMemoryMb: action === "stop" ? null : 2810,
-                                        },
-                                        latestCommand: {
-                                          action,
-                                          status: "done",
-                                          createdAt: new Date().toISOString(),
-                                        },
-                                        recoveryEnabled:
-                                          action === "stop" ? false : x.recoveryEnabled,
-                                      }
-                                    : x,
-                                ),
-                              );
+                              setDemo(agents.map((x) => x.deviceId === a.deviceId
+                                ? { ...x, snapshot: { ...x.snapshot, appRunning: action !== "stop", workerRunning: action !== "stop", appCpu: action === "stop" ? null : 286.5, processMemoryMb: action === "stop" ? null : 2810 }, latestCommand: { action, status: "done", createdAt: new Date().toISOString() }, recoveryEnabled: action === "stop" ? false : x.recoveryEnabled }
+                                : x));
                             else await command({ data: { deviceId: a.deviceId, action } });
                           });
                         }}
                       >
-                        {confirm === `${a.deviceId}:${action}` ? t.confirm : t[action]}
+                        {label}
                       </button>
                     ))}
                   </div>
-                  <p className="compute-caption">{t.agentVersion} {s.version ?? "—"}{s.version===AGENT_RELEASE ? ` · ${t.upToDate}` : ""}</p>
-                  <AgentCrashAnalysis deviceId={a.deviceId} logsEnabled={a.logsEnabled} preview={preview} previewResult={import.meta.env.DEV && preview && crashPreview ? crashPreviewResult : undefined} />
-                  <details className="agent-settings">
-                    <summary>{t.settings}</summary>
-                    <label className="agent-option">
-                      <input
-                        type="checkbox"
-                        checked={a.recoveryEnabled}
-                        disabled={busy || s.platform === "linux" || s.monitorOnly === true}
-                        onChange={(e) =>
-                          void act(async () => {
-                            if (preview)
-                              setDemo(
-                                agents.map((x) =>
-                                  x.deviceId === a.deviceId
-                                    ? { ...x, recoveryEnabled: e.target.checked }
-                                    : x,
-                                ),
-                              );
-                            else
-                              await settings({
-                                data: {
-                                  deviceId: a.deviceId,
-                                  recovery: e.target.checked,
-                                  logs: a.logsEnabled,
-                                },
-                              });
-                          })
-                        }
-                      />
-                      {t.recovery}
-                    </label>
-                    <p className="compute-caption">{t.recoveryNote}</p>
+                  <AgentCommandResult agent={a} />
+                  {agentUpdateAvailable(s.version) && <AgentUpdate agent={a} disabled={busy} onPreviewUpdate={preview ? () => setDemo(agents.map(x=>x.deviceId===a.deviceId ? {...x,snapshot:{...x.snapshot,version:AGENT_RELEASE},latestCommand:{action:"update",status:"done",createdAt:new Date().toISOString()}}:x)) : undefined} />}
+                  <details className="agent-more">
+                    <summary>{t.more}</summary>
                     <label className="agent-option">
                       <input
                         type="checkbox"
                         checked={a.logsEnabled}
                         disabled={busy || s.platform === "linux" || s.monitorOnly === true}
-                        onChange={(e) =>
-                          void act(async () => {
-                            if (preview)
-                              setDemo(
-                                agents.map((x) =>
-                                  x.deviceId === a.deviceId
-                                    ? { ...x, logsEnabled: e.target.checked }
-                                    : x,
-                                ),
-                              );
-                            else
-                              await settings({
-                                data: {
-                                  deviceId: a.deviceId,
-                                  recovery: a.recoveryEnabled,
-                                  logs: e.target.checked,
-                                },
-                              });
-                          })
-                        }
+                        onChange={(e) => void act(async () => {
+                          if (preview) setDemo(agents.map((x) => x.deviceId === a.deviceId ? { ...x, logsEnabled: e.target.checked } : x));
+                          else await settings({ data: { deviceId: a.deviceId, recovery: a.recoveryEnabled, logs: e.target.checked } });
+                        })}
                       />
-                      {t.logs}
+                      <span>{t.logs}</span>
                     </label>
-                    <p className="compute-caption">{t.logsNote}</p>
-                    {a.logsEnabled && <AgentTimeline logs={s.logs} />}
-
-                  </details>
-                  <button
-                    className="agent-revoke"
-                    disabled={busy}
-                    onClick={() => {
-                      if (!requiresConfirm(a.deviceId, "revoke")) return;
-                      void act(async () => {
-                        if (preview) setDemo(agents.filter((x) => x.deviceId !== a.deviceId));
-                        else await revoke({ data: { deviceId: a.deviceId } });
-                      });
-                    }}
-                  >
-                    {confirm === `${a.deviceId}:revoke` ? t.confirm : t.revoke}
-                  </button>
-                  <button type="button" className="agent-revoke" disabled={busy} onClick={() => {
-                    if (!requiresConfirm(a.deviceId, "remove")) return;
-                    void act(async () => {
-                      if (preview) setDemo(agents.filter(x => x.deviceId !== a.deviceId));
-                      else await fleet.mutate({action: "remove", payload: {id: a.deviceId}});
-                    });
-                  }}>{confirm === `${a.deviceId}:remove` ? t.confirm : t.removeDevice}</button>
-                  {confirm === `${a.deviceId}:remove` && <p role="alert">{t.removeDeviceNote}</p>}
+                    <label className="agent-recovery-toggle">
+                      <input
+                        type="checkbox"
+                        checked={a.recoveryEnabled}
+                        disabled={busy || s.platform === "linux" || s.monitorOnly === true}
+                        onChange={(e) => void act(async () => {
+                          if (preview) setDemo(agents.map((x) => x.deviceId === a.deviceId ? { ...x, recoveryEnabled: e.target.checked } : x));
+                          else await settings({ data: { deviceId: a.deviceId, recovery: e.target.checked, logs: a.logsEnabled } });
+                        })}
+                      />
+                      <span>{t.recovery}</span>
+                    </label>
+                    <AgentCrashAnalysis deviceId={a.deviceId} logsEnabled={a.logsEnabled} preview={preview} previewResult={import.meta.env.DEV && preview && crashPreview ? crashPreviewResult : undefined} />
+                    <AgentHistory deviceId={a.deviceId} preview={preview} logs={s.logs} />
+                    <details className="agent-danger-zone">
+                      <summary>{t.manageConnection}</summary>
+                      <p>{t.removeDeviceNote}</p>
+                      <div className="agent-danger-actions">
+                        <button className="agent-revoke" disabled={busy} onClick={() => {
+                          if (!requiresConfirm(a.deviceId, "revoke")) return;
+                          void act(async () => {
+                            if (preview) setDemo(agents.filter((x) => x.deviceId !== a.deviceId));
+                            else await revoke({ data: { deviceId: a.deviceId } });
+                          });
+                        }}>
+                          {confirm === `${a.deviceId}:revoke` ? t.confirm : t.revoke}
+                        </button>
+                        <button type="button" className="agent-revoke" disabled={busy} onClick={() => {
+                          if (!requiresConfirm(a.deviceId, "remove")) return;
+                          void act(async () => {
+                            if (preview) setDemo(agents.filter((x) => x.deviceId !== a.deviceId));
+                            else await fleet.mutate({action: "remove", payload: {id: a.deviceId}});
+                          });
+                        }}>{confirm === `${a.deviceId}:remove` ? t.confirm : t.removeDevice}</button>
+                      </div>
+                    </details>
                   </details>
 
                 </section>

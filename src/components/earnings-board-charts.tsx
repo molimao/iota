@@ -1,7 +1,5 @@
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
-import { BntReferenceNote } from "./bnt-usd-estimate";
 import { bntLabels } from "./bnt-copy";
-import { acuCopy } from "./acurast-rewards";
 import { useId, useState } from "react";
 import { IotaPublicRunLabels as IotaRunLabels } from "./iota-public-run-labels";
 import { useQuery } from "@tanstack/react-query";
@@ -90,7 +88,10 @@ export function EarningsBoardCharts({
           }
           controls={range}
         />
-        <p className="board-chart-caption">{c.aggregateNote[locale]}</p>
+        <details className="board-chart-caption board-history-note">
+          <summary>{c.scope[locale]}</summary>
+          <p>{c.aggregateNote[locale]}</p>
+        </details>
         {query.isError && (
           <button className="fleet-outline" onClick={() => void query.refetch()}>
             {c.retry[locale]}
@@ -108,12 +109,18 @@ export function EarningsBoardCharts({
           {board.projects.map((row) => {
             const filtered = filterReportProject(history, row.project);
             const recentMetrics = [...row.metrics.values()].filter((m) => m.window === "rolling24h");
+            const workers = [
+              ...new Set(
+                entries
+                  .filter((entry) => entry.binding.project === row.project && entry.binding.worker)
+                  .map((entry) => entry.binding.worker!),
+              ),
+            ];
             const unit =
               filtered.flatMap((r) => r.projects).find((p) => p.currency)?.currency ??
               [...row.metrics.values()][0]?.unit ??
               [...row.accounts.values()][0]?.unit ??
               "";
-            const groups = compute.filter((g) => g.project === row.project);
             const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
             return (
               <article
@@ -129,21 +136,30 @@ export function EarningsBoardCharts({
                       {FLEET_NAMES[row.project]}
                       <ArrowUpRight size={16} />
                     </a>
+                    {workers.length > 0 && (
+                      <small className="board-project-worker">
+                        {workers.length === 1
+                          ? `Worker ${workers[0]}`
+                          : `${workers.length} ${c.workers[locale]}`}
+                      </small>
+                    )}
                     <span>
-                      {row.devices.size} {c.devices[locale]}
+                      {row.devices.size}
+                      {c.countSuffix[locale]} {c.devices[locale]}
                     </span>
                   </div>
                 </header>
                 {row.project === "iota" && (
                   <IotaRunLabels
+                    layout="row"
                     runs={entries
                       .filter((e) => e.binding.project === "iota")
                       .map((e) => e.officialRun)}
                   />
                 )}
                 <div className="board-project-metrics">
-                  {groups.length
-                    ? groups.map((g) => {
+                  {compute.filter((g) => g.project === row.project).length
+                    ? compute.filter((g) => g.project === row.project).map((g) => {
                         const amount = formatCompute(g.total, g.unit, LANGUAGE_TAG[locale]);
                         return (
                           <div key={g.unit}>
@@ -177,11 +193,32 @@ export function EarningsBoardCharts({
                       <small>{c.missing[locale]}</small>
                     </div>
                   )}
-                  {[...row.accounts.values()].length > 0 && (
+                  {recentMetrics.length > 0 ? (
+                    [...row.accounts.values()].length > 0 && (
+                      <details className="board-project-accounts">
+                        <summary>{c.accountValue[locale]}</summary>
+                        {[...row.accounts.values()].map((a) => (
+                          <div key={`${a.source ?? ""}:${a.identifier}:${a.kind}`}>
+                            {a.flyai ? (
+                              <FlyaiWalletStats data={a.flyai} stale={a.stale} compact />
+                            ) : (
+                              <strong>
+                                {a.amount} <small>{a.unit}</small>
+                              </strong>
+                            )}
+                            {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
+                            <small>
+                              {a.source ? `${a.source} · ` : ""}
+                              {shortId(a.identifier)} · {c[a.kind][locale]}
+                              {a.stale ? ` · ${c.older[locale]}` : ""}
+                            </small>
+                          </div>
+                        ))}
+                      </details>
+                    )
+                  ) : [...row.accounts.values()].length === 1 ? (
                     <div className="board-project-accounts">
-                      <span>
-                        {row.accounts.size} {c.accounts[locale]}
-                      </span>
+                      <span>{c.accountValue[locale]}</span>
                       {[...row.accounts.values()].map((a) => (
                         <div key={`${a.source ?? ""}:${a.identifier}:${a.kind}`}>
                           {a.flyai ? (
@@ -192,40 +229,24 @@ export function EarningsBoardCharts({
                             </strong>
                           )}
                           {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
-                          <small>
-                            {a.source ? `${a.source} · ` : ""}
-                            {shortId(a.identifier)} · {c[a.kind][locale]}
-                            {a.stale ? ` · ${c.older[locale]}` : ""}
-                          </small>
+                          {a.stale && <small>{c.older[locale]}</small>}
                         </div>
                       ))}
                     </div>
-                  )}
+                  ) : [...row.accounts.values()].length > 0 ? (
+                    <div className="board-project-accounts board-accounts-summary">
+                      <span>
+                        {c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}
+                      </span>
+                      <strong>
+                        {[...new Set([...row.accounts.values()].map((a) => a.unit))].join(" / ")}
+                      </strong>
+                    </div>
+                  ) : null}
                 </div>
-                {row.project === "acurast" && (
-                  <p className="board-chart-caption">
-                    {acuCopy.scope[locale]} {acuCopy.basis[locale]}
-                  </p>
-                )}
-                {row.project === "bnt" && (
-                  <div className="board-hashrate-history">
-                    <BntReferenceNote />
-                    <p className="board-chart-caption">{bntLabels.paidBasis[locale]}</p>
-                    {[
-                      ...new Set(
-                        entries
-                          .filter((e) => e.binding.project === "bnt")
-                          .map((e) => e.binding.identifier),
-                      ),
-                    ].map((address) => (
-                      <section key={address}>
-                        <code title={address}>{shortId(address)}</code>
-                        <BntHashrateTrend address={address} preview={preview} />
-                      </section>
-                    ))}
-                  </div>
-                )}
                 {filtered.some((r) => earningsTrendValue(r, true) !== null) && (
+                  <details className="board-project-trend">
+                    <summary>{c.trend[locale]}</summary>
                   <TrendPanel
                     history={filtered}
                     days={days}
@@ -235,12 +256,40 @@ export function EarningsBoardCharts({
                     native
                     empty={empty}
                   />
+                  </details>
+                )}
+                {(row.project === "bnt" ||
+                  row.accounts.size > 0) && (
+                  <details className="board-project-sources board-project-footer">
+                    <summary>{c.showSources[locale]}</summary>
+                    {row.project === "bnt" && (
+                      <div className="board-hashrate-history">
+                        <p>{bntLabels.paidBasis[locale]}</p>
+                        {[
+                          ...new Set(
+                            entries
+                              .filter((e) => e.binding.project === "bnt")
+                              .map((e) => e.binding.identifier),
+                          ),
+                        ].map((address) => (
+                          <section key={address}>
+                            <code title={address}>{shortId(address)}</code>
+                            <BntHashrateTrend address={address} preview={preview} />
+                          </section>
+                        ))}
+                      </div>
+                    )}
+                    {[...row.accounts.values()].map((account) => (
+                      <p key={`${account.source ?? ""}:${account.identifier}:${account.kind}`}>
+                        {account.source || "—"} · {shortId(account.identifier)}
+                      </p>
+                    ))}
+                  </details>
                 )}
               </article>
             );
           })}
         </div>
-        <p className="board-chart-caption">{c.computeNote[locale]}</p>
       </section>
     </>
   );
@@ -358,11 +407,12 @@ function TrendPanel({
           <span>{empty}</span>
         </div>
       )}
-      {known.length > 0 && (
-        <p className="board-chart-caption">
+      {known.length > 1 && !native && controls === undefined && (
+        <details className="board-chart-caption board-history-note">
+          <summary>{c.scope[locale]}</summary>
           {c.historyNote[locale]}
           {known.length === 1 ? ` ${c.onePoint[locale]}` : ""}
-        </p>
+        </details>
       )}
     </div>
   );

@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { agentOnline, type AgentInfo } from "@/lib/device-agent";
+import { agentDisplayPhase, agentOnline, type AgentInfo } from "@/lib/device-agent";
 import { batchItemState, type AgentBatch, type BatchItem } from "@/lib/agent-batch";
 import { getAgentBatches, submitAgentBatch } from "@/lib/agent-batch.functions";
 import { useBilling } from "@/hooks/use-billing";
 import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
 import { batchCopy } from "./agent-batch-copy";
 import { agentCopy } from "./device-agent-copy";
+import { agentPhaseSummary } from "./agent-insight-copy";
 import "./agent-batch.css";
 
 export function AgentBatchPanel({
@@ -39,7 +40,7 @@ export function AgentBatchPanel({
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false),
     [selected, setSelected] = useState<string[]>([]),
-    [review, setReview] = useState(false);
+    [confirmedAction, setConfirmedAction] = useState<"start" | "stop" | "restart" | null>(null);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(false),
     [demo, setDemo] = useState<AgentBatch[]>([]);
@@ -67,13 +68,14 @@ export function AgentBatchPanel({
     retry: false,
   });
   const batches = preview ? demo : (q.data ?? []);
+  const controlled = coverIds(batches);
   useEffect(() => {
     if (!error || !request.current || !q.data?.some((batch) => batch.id === request.current?.id)) return;
     // A lost response must not leave an already accepted request stuck in confirmation.
     request.current = null;
     setError(false);
     setSelected([]);
-    setReview(false);
+    setConfirmedAction(null);
     setOpen(false);
   }, [error, q.data]);
   function eligible(a: AgentInfo) {
@@ -127,7 +129,7 @@ export function AgentBatchPanel({
       }
       request.current = null;
       setSelected([]);
-      setReview(false);
+      setConfirmedAction(null);
       setOpen(false);
     } catch {
       setError(true);
@@ -137,15 +139,41 @@ export function AgentBatchPanel({
     }
   }
   const shown = batches;
+  const renderBatch = (batch: AgentBatch, index: number) => (
+    <details key={batch.id} open={index === 0}>
+      <summary>
+        {t[batch.action]} · {batch.items.length} ·{" "}
+        {new Date(batch.createdAt).toLocaleString(LANGUAGE_TAG[locale])}
+      </summary>
+      <ul aria-live="polite">
+        {batch.items.map((item) => (
+          <BatchRow
+            key={item.deviceId}
+            item={item}
+            action={batch.action}
+            now={now}
+            locale={locale}
+            onRetry={
+              pro &&
+              !busy &&
+              !request.current &&
+              !controlled.has(item.deviceId) &&
+              agents.some((a) => a.deviceId === item.deviceId && eligible(a))
+                ? () => {
+                    setAction(batch.action);
+                    setSelected([item.deviceId]);
+                    setOpen(true);
+                  }
+                : undefined
+            }
+          />
+        ))}
+      </ul>
+    </details>
+  );
   return (
     <section className="agent-batch-panel">
       <div className="agent-batch-heading">
-        <div>
-          <h2>
-            {t.title} <span className="agent-pro-badge">PRO</span>
-          </h2>
-          <p>{t.intro}</p>
-        </div>
         <div className="agent-bulk-actions">
           {(["start", "stop", "restart"] as const).map((value) =>
             pro || membershipPending ? (
@@ -156,7 +184,8 @@ export function AgentBatchPanel({
                 disabled={busy || !!request.current || membershipPending}
                 onClick={() => {
                   setAction(value);
-                  setReview(false);
+                  setSelected([]);
+                  setConfirmedAction(null);
                   setOpen(true);
                 }}
               >
@@ -176,19 +205,31 @@ export function AgentBatchPanel({
         </p>
       )}
       {open && pro && (
+        <p>
+          {action === "stop" ? t.stopWarning : action === "start" ? t.startWarning : t.warning}
+        </p>
+      )}
+      {open && pro && (
         <div className="agent-batch-picker">
-          {!review && (
-            <button
-              className="agent-batch-text"
-              type="button"
-              onClick={() => setSelected(agents.filter(eligible).map((a) => a.deviceId))}
-            >
-              {t.all}
-            </button>
-          )}
+          {(() => {
+            const controls = [
+              ...new Set(agents.filter(eligible).map((a) => a.deviceId)),
+            ].filter((id) => !controlled.has(id));
+            return (controls.length > 1 || controls.length < agents.filter(eligible).length) && (
+              <button
+                className="agent-batch-text"
+                type="button"
+                onClick={() => {
+                  setSelected(selected.length >= controls.length ? [] : controls);
+                  setConfirmedAction(null);
+                }}
+              >
+                {selected.length >= controls.length && controls.length > 0 ? t.none : t.all}
+              </button>
+            );
+          })()}
           <div className="agent-batch-targets">
-            {!review &&
-              unpaired.map((device) => (
+            {unpaired.map((device) => (
                 <div className="agent-batch-unpaired" key={device.id}>
                   <strong>{device.name}</strong>
                   <span>{t.unpaired}</span>
@@ -198,54 +239,60 @@ export function AgentBatchPanel({
                 </div>
               ))}
             {agents
-              .filter((a) => !review || selected.includes(a.deviceId))
               .map((a) => (
                 <label key={a.deviceId}>
-                  {!review && (
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(a.deviceId)}
-                      disabled={!eligible(a)}
-                      onChange={(e) =>
-                        setSelected(
-                          e.target.checked
-                            ? [...selected, a.deviceId]
-                            : selected.filter((id) => id !== a.deviceId),
-                        )
-                      }
-                    />
-                  )}
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(a.deviceId)}
+                    disabled={!eligible(a) || controlled.has(a.deviceId)}
+                    onChange={(e) =>
+                      setSelected(
+                        e.target.checked
+                          ? [...selected, a.deviceId]
+                          : selected.filter((id) => id !== a.deviceId),
+                      )
+                    }
+                    onClick={() => setConfirmedAction(null)}
+                  />
                   <strong>{names[a.deviceId] ?? "Mac"}</strong>
                   <span>
-                    {!agentOnline(a.lastSeen, now) ? t.offline : a.pending ? t.busy : "IOTA"}
+                    {controlled.has(a.deviceId)
+                      ? t.submitting
+                      : a.pending
+                      ? t.busy
+                      : agentPhaseSummary[agentDisplayPhase(a, undefined, now)][locale]}
                   </span>
                 </label>
               ))}
           </div>
-          {review && (
-            <p className="agent-batch-warning">
-              {action === "stop" ? t.stopWarning : action === "start" ? t.startWarning : t.warning}
-            </p>
-          )}
           <div className="agent-batch-buttons">
             <button
-              className="site-button"
+              className={confirmedAction === action ? "site-button" : "fleet-outline"}
               type="button"
               disabled={busy || selected.length === 0 || selected.length > 50}
-              onClick={() => (review ? void submit() : setReview(true))}
+              onClick={() => {
+                if (confirmedAction !== action) {
+                  setConfirmedAction(action);
+                  return;
+                }
+                void submit();
+              }}
             >
               {busy
                 ? t.sending
-                : review
-                  ? `${agentCopy[action][locale]} · ${t.confirm} · ${selected.length}`
-                  : `${t.next} · ${selected.length}`}
+                : confirmedAction === action
+                  ? `${t[action]} · ${t.confirm} · ${selected.length}`
+                  : t[action]}
             </button>
             {!request.current && (
               <button
                 className="fleet-outline"
                 type="button"
                 disabled={busy}
-                onClick={() => (review ? setReview(false) : setOpen(false))}
+                onClick={() => {
+                  if (confirmedAction) setConfirmedAction(null);
+                  else setOpen(false);
+                }}
               >
                 {t.cancel}
               </button>
@@ -253,51 +300,20 @@ export function AgentBatchPanel({
           </div>
         </div>
       )}
-      {error && (
-        <p role="alert">
-          {t.error}{" "}
-          <button className="fleet-outline" disabled={busy} onClick={() => void submit()}>
-            {t.retry}
-          </button>
-        </p>
-      )}
+      {error && <p role="alert">{t.error}</p>}
       {q.isError && !preview && <p role="status">{t.unavailable}</p>}
       {shown.length > 0 && (
         <div className="agent-batch-history">
           <h3>{t.results}</h3>
-          <p>{t.note}</p>
-          {shown.map((batch, index) => (
-            <details key={batch.id} open={index === 0}>
+          {shown.slice(0, 3).map(renderBatch)}
+          {shown.length > 3 && (
+            <details className="agent-batch-older">
               <summary>
-                IOTA · {agentCopy[batch.action][locale]} · {batch.items.length} ·{" "}
-                {new Date(batch.createdAt).toLocaleString(LANGUAGE_TAG[locale])}
+                {t.olderRecords} · {shown.length - 3}
               </summary>
-              <ul aria-live="polite">
-                {batch.items.map((item) => (
-                  <BatchRow
-                    key={item.deviceId}
-                    item={item}
-                    action={batch.action}
-                    now={now}
-                    locale={locale}
-                    onRetry={
-                      pro &&
-                      !busy &&
-                      !request.current &&
-                      agents.some((a) => a.deviceId === item.deviceId && eligible(a))
-                        ? () => {
-                            setAction(batch.action);
-                            setSelected([item.deviceId]);
-                            setReview(true);
-                            setOpen(true);
-                          }
-                        : undefined
-                    }
-                  />
-                ))}
-              </ul>
+              {shown.slice(3).map((batch, index) => renderBatch(batch, index + 1))}
             </details>
-          ))}
+          )}
         </div>
       )}
     </section>
@@ -337,4 +353,18 @@ function BatchRow({
       )}
     </li>
   );
+}
+
+/** The previous command must report back before the same device is controlled again. */
+function coverIds(batches: readonly AgentBatch[]) {
+  const ids = new Set<string>();
+  batches.forEach((batch) => batch.items.forEach((item) => {
+    if (item.disposition !== "queued") return;
+    if (
+      item.status === "queued" ||
+      item.status === "claimed" ||
+      (item.status === "done" && Date.parse(item.finishedAt ?? "") + 180000 > Date.now())
+    ) ids.add(item.deviceId);
+  }));
+  return ids;
 }

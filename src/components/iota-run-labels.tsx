@@ -62,15 +62,19 @@ export function IotaRunLabels({
 }) {
   const { locale } = useLocale();
   const c = copy[locale],
-    values = distinctRuns(runs);
+    values = distinctRuns(runs),
+    label =
+      values.length && values.every((r) => r.kind === "reference")
+        ? c.reference
+        : values.length && values.every((r) => r.kind === "app")
+          ? values.every((r) => r.stale)
+            ? c.appOlder
+            : c.app
+          : c.label;
   if (!values.length && !showEmpty) return null;
   return (
     <span className={`iota-run-labels iota-run-labels-${layout}`}>
-      {layout === "row" && (
-        <span className="iota-run-field-name">
-          {values.length && values.every((r) => r.kind === "reference") ? c.reference : values.length && values.every((r) => r.kind === "app") ? values.every((r) => r.stale) ? c.appOlder : c.app : c.label}
-        </span>
-      )}
+      {label && <span className="iota-run-field-name">{label}</span>}
       {values.length ? (
         values.map((run) => (
           <span
@@ -79,7 +83,6 @@ export function IotaRunLabels({
             data-stale={run.stale || undefined}
             title={run.kind === "reference" ? c.reference : run.kind === "app" ? run.stale ? c.appOlder : c.app : c.source}
           >
-            {layout === "inline" && <span>{run.kind === "reference" ? c.reference : run.kind === "app" ? run.stale ? c.appOlder : c.app : c.label}</span>}{" "}
             <b>{run.id}</b>
             {run.stale && <small>{c.older}</small>}
           </span>

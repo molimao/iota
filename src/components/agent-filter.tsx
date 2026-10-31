@@ -6,10 +6,10 @@ export const agentFilterCopy = {
   label: l(["Mac 状态", "Mac 狀態", "Mac status", "Mac 상태", "Macの状態"]),
   all: l(["全部状态", "全部狀態", "All states", "모든 상태", "すべての状態"]),
   online: l(["在线", "在線", "Online", "온라인", "オンライン"]),
-  training: l(["进程运行", "程序執行", "Process running", "프로세스 실행", "プロセス実行中"]),
+  training: l(["应用开着", "應用程式開著", "App open", "앱 실행 중", "アプリ起動中"]),
   queued: l(["排队中", "排隊中", "Queued", "대기 중", "待機中"]),
   stopped: l(["已停止", "已停止", "Stopped", "중지됨", "停止中"]),
-  offline: l(["未上报", "未回報", "No heartbeat", "보고 없음", "報告なし"]),
+  offline: l(["离线", "離線", "Offline", "오프라인", "オフライン"]),
   unpaired: l(["未配对", "未配對", "Not paired", "연결되지 않음", "未接続"]),
   empty: l(["没有符合条件的设备", "沒有符合條件的設備", "No matching devices", "일치하는 기기 없음", "一致する端末がありません"]),
 };

@@ -464,6 +464,13 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   previewAgent={props.previewAgents?.[device.id]}
                   key={device.id}
                   device={device}
+                  displayName={
+                    device.bindings.length === 1 &&
+                    device.bindings[0]?.project !== "iota" &&
+                    device.bindings[0]?.worker
+                      ? `${FLEET_NAMES[device.bindings[0].project]} · ${device.bindings[0].worker}`
+                      : undefined
+                  }
                   c={c}
                   reading={props.reading}
                   trend={props.deviceTrend?.(device)}
@@ -1006,6 +1013,7 @@ function ProjectAllowances({
 }
 
 function FleetCard({
+  displayName,
   onRemove,
   preview,
   previewAgent,
@@ -1017,6 +1025,7 @@ function FleetCard({
   onEdit,
   onUnlink,
 }: {
+  displayName?: string | undefined;
   onRemove: (() => void) | undefined;
   preview?: boolean;
   previewAgent?: AgentInfo | undefined;
@@ -1068,7 +1077,7 @@ function FleetCard({
           <Cpu size={24} />
         </span>
         <div>
-          <h2>{device.name}</h2>
+          <h2>{displayName ?? device.name}</h2>
           {device.hardware && <p>{device.hardware}</p>}
         </div>
         <span className="fleet-project-count">
@@ -1181,6 +1190,14 @@ function FleetCard({
               )}
               {!["iota", "acurast", "flyai"].includes(binding.project) && (
                 <ProjectReadingMetrics project={binding.project} data={data} activity={false} />
+              )}
+              {binding.worker && (
+                <p className="fleet-worker-label">
+                  Worker · <b>{binding.worker}</b>
+                  {data.activity && data.activity !== "—" && !data.compute?.value && (
+                    <span>{data.activity}</span>
+                  )}
+                </p>
               )}
               {binding.project === "flyai" && data.flyai && (
                 <FlyaiWalletStats data={data.flyai} stale={data.health !== "fresh"} />

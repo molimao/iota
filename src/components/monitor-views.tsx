@@ -7,21 +7,21 @@ import { useLocale } from "./site/locale";
 const labels = {
   overview: ["总览", "Overview", "總覽", "개요", "概要"],
   overviewDescription: [
-    "集中查看各项目的收益、算力与变化。",
+    "",
     "Earnings, compute and trends across your projects.",
     "集中查看各專案的收益、算力與變化。",
     "모든 프로젝트의 수익·연산 성능·추이를 확인하세요.",
     "各プロジェクトの収益・処理性能・推移をまとめて確認。",
   ],
   overviewEmpty: [
-    "添加设备，开始查看总览",
+    "还没有可汇总的数据",
     "Add a device to see your overview",
     "新增設備，開始查看總覽",
     "기기를 추가해 개요를 확인하세요",
     "デバイスを追加して概要を表示",
   ],
   overviewEmptyHelp: [
-    "添加项目地址后，收益与算力会自动汇总到这里。",
+    "添加设备或项目地址后，余额、收益与算力会显示在这里。",
     "Once you add project addresses, available earnings and compute appear here.",
     "新增專案地址後，收益與算力會自動彙總到這裡。",
     "프로젝트 주소를 추가하면 수익과 연산 성능이 여기에 집계됩니다.",

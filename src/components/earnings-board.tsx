@@ -55,15 +55,13 @@ export function EarningsBoard({
   const recentPriced = board.projects.filter((p) => [...p.metrics.values()].some(
     (m) => m.window === "rolling24h" && m.usd !== null,
   ));
-  const recentExcluded = board.projects.filter((p) => !recentPriced.includes(p) ||
-    [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.usd === null));
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
     <section className="earnings-board" aria-label={c.title[locale]}>
       <header>
         <h2>{c.title[locale]}</h2>
         <span className="board-scope-count">
-          {devices.length} {c.devices[locale]} <i /> {board.projects.length} {c.projects[locale]}
+          {devices.length} {c.counts[locale]} <i /> {board.projects.length} {c.projects[locale]}
         </span>
       </header>
       <article className="earnings-board-totals earnings-board-recent" data-testid="recent-earnings">
@@ -72,14 +70,8 @@ export function EarningsBoard({
           <small>{c.included[locale]} {recentPriced.length} / {board.projects.length} {c.projects[locale]}</small>
         </div>
         <strong>{formatUsd(board.totals.rolling24h.count ? board.totals.rolling24h.usd : null)} <small>USD</small></strong>
-        <small className="board-total-context">{c.recentNote[locale]}</small>
+        <small className="board-total-context">{c.recentHint[locale]}</small>
         {board.olderPrices.rolling24h && <small className="board-total-context">{c.olderPrice[locale]}</small>}
-        {recentExcluded.length > 0 && (
-          <details className="earnings-board-recent-scope">
-            <summary>{c.scope[locale]}</summary>
-            <p>{c.notIncluded[locale]} {recentExcluded.map((p) => FLEET_NAMES[p.project]).join("、")} · {c.noRolling[locale]}</p>
-          </details>
-        )}
       </article>
       <EarningsBoardCharts
         board={board}
@@ -113,6 +105,7 @@ export function EarningsBoard({
                     <a href={projectPath(locale, row.project)}>{FLEET_NAMES[row.project]} ↗</a>
                     {row.project === "iota" && (
                       <IotaRunLabels
+                        layout="row"
                         runs={entries
                           .filter((e) => e.binding.project === "iota")
                           .map((e) => e.data.officialRun)}
@@ -154,9 +147,7 @@ export function EarningsBoard({
                       ))
                     ) : row.accounts.size > 1 ? (
                       <details>
-                        <summary>
-                          {row.accounts.size} {c.accounts[locale]}
-                        </summary>
+                        <summary>{c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}</summary>
                         {[...row.accounts.entries()].map(([key, m]) => (
                           <div key={key} className="earnings-board-metric">
                             <code>{shortId(m.identifier)}</code>

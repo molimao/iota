@@ -199,7 +199,7 @@
   padding: 4px 0;
   cursor: pointer;
 }
-.agent-batch-panel .agent-batch-warning {
+.agent-batch-panel .agent-batch-picker > p {
   color: #f4c080;
 }
 .agent-batch-buttons {
@@ -218,6 +218,12 @@
 .agent-batch-history details {
   border-top: 1px solid #353535;
   padding: 12px 0;
+}
+.agent-batch-history .agent-batch-older {
+  margin-top: 4px;
+}
+.agent-batch-history .agent-batch-older > summary {
+  color: #d5d5d5;
 }
 .agent-batch-history summary {
   font-size: 13px;

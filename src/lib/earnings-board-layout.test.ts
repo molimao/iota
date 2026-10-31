@@ -35,7 +35,7 @@ it("renders every saved project without a selector, keeping formatted monthly po
   expect(markup).not.toContain("NaN");
   expect(markup).not.toContain("<textarea");
   expect(markup).toContain("总收益趋势");
-  expect(markup).toContain("624,000");
+  expect(markup).toContain("2 个地址合计");
   expect(markup).not.toContain("该项目还没有可绘制的历史收益");
 });
 
@@ -62,5 +62,5 @@ it("renders PRL rolling USD separately and identifies partial totals", () => {
   expect(summary).not.toContain("昨日");
   expect(summary).not.toContain("今日");
   expect(summary).not.toContain("UTC");
-  expect(markup).toContain("未计入");
+  expect(summary).toContain("已计入 1 / 2 项目");
 });

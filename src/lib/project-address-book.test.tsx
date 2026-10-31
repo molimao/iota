@@ -140,7 +140,7 @@ it("renders unlink on a non-pool project and keeps unknown off the active tone",
     expect(html).toContain('data-action="unlink"');
     expect(html).not.toContain('data-action="remove"');
     expect(html).toContain(copy.remove.zh);
-    expect(html).toContain(copy.removeConfirm.zh);
+    expect(html).not.toContain(copy.removeConfirm.zh);
     expect(html).toContain('data-selected="');
     expect(html).toContain(longId);
     expect(html).toContain('data-quota="3"');
@@ -203,7 +203,7 @@ it("states unlink and rename limits in five locales and keeps 390px controls in 
       draft: "Beta",
     });
     expect(html).toContain(copy.remove[locale]);
-    expect(html).toContain(copy.removeConfirm[locale]);
+    expect(html).not.toContain(copy.removeConfirm[locale]);
     expect(html).toContain(copy.renameNote[locale]);
     expect(html).toContain('data-action="unlink"');
     expect(html).not.toMatch(/免费|免費|무료|無料|\bFree\b/);

@@ -768,15 +768,15 @@ export function ArticleView({
           {article.sources && (
             <aside id="article-sources" className="article-sources">
               <h2>
-                {localizeValue(en ? "Sources and implementation" : "资料来源与本站实现", locale)}
+                {localizeValue(en ? "Sources" : "资料来源", locale)}
               </h2>
               <p>
                 {article.project
                   ? guideCopy.sources
                   : localizeValue(
                       en
-                        ? "Official materials describe Train at Home. Refresh intervals and display rules describe IOTA Watch’s implementation."
-                        : "官方资料用于了解 Train at Home；刷新周期与展示规则描述本站的实现。",
+                        ? "Official project links are listed below."
+                        : "下列链接来自项目官方资料。",
                       locale,
                     )}
               </p>

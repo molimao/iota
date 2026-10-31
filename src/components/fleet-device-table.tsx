@@ -70,7 +70,10 @@ export function FleetDeviceTable({
                   <div className="fleet-table-projects">
                     {device.bindings.map((binding) => (
                       <div key={binding.id}>
-                        <b>{FLEET_NAMES[binding.project]}</b>
+                        <b>
+                          {FLEET_NAMES[binding.project]}
+                          {binding.worker && ` · ${binding.worker}`}
+                        </b>
                         {binding.project === "iota" ? (
                           <IotaRosterStatus
                             preview={preview}

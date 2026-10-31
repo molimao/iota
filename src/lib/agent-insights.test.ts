@@ -2,7 +2,7 @@ import { it, expect } from 'vitest';
 import { agentPhase, agentEvents, agentCommandStatus } from './agent-insights';
 import type { AgentInfo } from './device-agent';
 import { LOCALES } from './site';
-import { insightCopy } from '../components/agent-insight-copy';
+import { agentHistorySummary, insightCopy } from '../components/agent-insight-copy';
 import { macStatusGuide } from '../components/site/mac-status-guide';
 const now=Date.parse('2026-10-15T08:00:00Z');
 const agent:AgentInfo={deviceId:'a',lastSeen:new Date(now).toISOString(),snapshot:{appRunning:true,workerRunning:true},logsEnabled:false,recoveryEnabled:false,pending:null,latestCommand:null};
@@ -30,6 +30,7 @@ it('does not let an old command obscure the pending action',()=>{
 it('includes status advice and the troubleshooting page in every supported language',()=>{
  for(const locale of LOCALES){
   for(const entry of Object.values(insightCopy)) expect(entry[locale].length).toBeGreaterThan(0);
+    for(const entry of Object.values(agentHistorySummary)) expect(entry[locale].length).toBeGreaterThan(0);
   expect(macStatusGuide.body[locale].length).toBeGreaterThan(10);
   expect(macStatusGuide.title[locale]).toBeTruthy();
  }

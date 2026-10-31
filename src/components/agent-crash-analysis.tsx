@@ -33,6 +33,10 @@ export function AgentCrashAnalysis({
     preview && previewResult?.locale === locale
       ? { status: "done", result: previewResult, created_at: "2026-10-18T02:00:03Z" }
       : query.data?.items[0];
+  const analyzing =
+    latest?.status === "queued" ||
+    latest?.status === "running" ||
+    latest?.status === "limited";
   return (
     <section className="agent-crash-analysis">
       <header>
@@ -53,19 +57,13 @@ export function AgentCrashAnalysis({
           <time>{new Date(latest.created_at).toLocaleString(LANGUAGE_TAG[locale])}</time>
           <AnalysisResult result={latest.result} />
         </>
-      ) : (
+      ) : latest?.status === "failed" || analyzing ? (
         <p role="status">
-          {latest?.status === "running"
-            ? c.busy[locale]
-            : latest?.status === "queued"
-              ? c.autoQueued[locale]
-              : latest?.status === "failed"
+          {latest?.status === "failed"
                 ? c.unavailable[locale]
-                : latest?.status === "limited"
-                  ? c.limit[locale]
-                  : c.autoWatching[locale]}
+                : latest.status === "limited" ? c.limit[locale] : c.autoQueued[locale]}
         </p>
-      )}
+      ) : null}
     </section>
   );
 }

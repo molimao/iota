@@ -21,11 +21,11 @@ const labels = {
     "この Worker はコンピューターに未接続です",
   ]),
   install: localized([
-    "连接新电脑",
-    "連接新電腦",
-    "Connect a new computer",
-    "새 컴퓨터 연결",
-    "新しいコンピューターを接続",
+    "在“我的设备”连接",
+    "在「我的設備」連接",
+    "Connect in My devices",
+    "내 기기에서 연결",
+    "マイデバイスで接続",
   ]),
   quota: localized([
     "已达到本项目的设备名额，请查看套餐。",
@@ -35,18 +35,18 @@ const labels = {
     "このプロジェクトの端末上限です。プランをご確認ください。",
   ]),
   online: localized([
-    "Agent 在线",
-    "Agent 在線",
-    "Agent online",
-    "Agent 온라인",
-    "Agent オンライン",
+    "在线",
+    "在線",
+    "Online",
+    "온라인",
+    "オンライン",
   ]),
   offline: localized([
-    "Agent 离线",
-    "Agent 離線",
-    "Agent offline",
-    "Agent 오프라인",
-    "Agent オフライン",
+    "离线",
+    "離線",
+    "Offline",
+    "오프라인",
+    "オフライン",
   ]),
 };
 export function PoolWorkerAgent({
@@ -67,7 +67,6 @@ export function PoolWorkerAgent({
   onLinked: () => Promise<unknown>;
 }) {
   const link = poolWorkerAgentBinding(devices, project, address, worker, pool);
-  // Passing the address record avoids a second fleet lookup; Agent list is shared.
   const matched = useMatchedDeviceAgent(link?.device.id ?? "unlinked-worker"),
     now = useAgentClock(),
     { locale } = useLocale(),
@@ -100,7 +99,7 @@ export function PoolWorkerAgent({
     }
   }
   return (
-    <section className="bnt-worker-agent" aria-label={`${worker} Agent`}>
+    <section className="bnt-worker-agent" aria-label={`Worker ${worker} ${copy.computer[locale]}`}>
       {link ? (
         <>
           <strong className="bnt-worker-computer">
@@ -108,8 +107,8 @@ export function PoolWorkerAgent({
             {matched.agent && (
               <small data-online={agentOnline(matched.agent.lastSeen, now)}>
                 {agentOnline(matched.agent.lastSeen, now)
-                  ? labels.online[locale]
-                  : labels.offline[locale]}
+                  ? copy.online[locale]
+                  : copy.offline[locale]}
               </small>
             )}
           </strong>
@@ -121,6 +120,9 @@ export function PoolWorkerAgent({
             loading={matched.query.isPending}
             error={matched.query.isError}
           />
+          {!matched.query.isPending && !matched.agent && (
+            <p className="compute-caption">{copy.noData[locale]}</p>
+          )}
         </>
       ) : (
         <p className="compute-caption">{labels.missing[locale]}</p>
@@ -146,11 +148,25 @@ export function PoolWorkerAgent({
           {labels.quota[locale]} <a href={`/${locale}/devices?view=membership`}>Pro ↗</a>
         </p>
       )}
-      <a className="bnt-worker-install" href={`/${locale}/machines`}>
-        {labels.install[locale]} ↗
-      </a>
+      {!choices.length && (
+        <a className="bnt-worker-install" href={`/${locale}/machines`}>
+          {labels.install[locale]} ↗
+        </a>
+      )}
     </section>
   );
 }
 
 export const BntWorkerAgent = PoolWorkerAgent;
+const copy = {
+  computer: localized(["对应电脑", "對應電腦", "computer", "대응 컴퓨터", "対応コンピューター"]),
+  online: localized(["电脑在线", "電腦在線", "Computer online", "컴퓨터 온라인", "コンピューター接続中"]),
+  offline: localized(["电脑离线", "電腦離線", "Computer offline", "컴퓨터 오프라인", "コンピューター未接続"]),
+  noData: localized([
+    "这台电脑还没有连接数据。",
+    "這台電腦尚無連接資料。",
+    "This computer has not reported data yet.",
+    "이 컴퓨터의 연결 데이터가 아직 없습니다.",
+    "このコンピューターはまだデータを送信していません。",
+  ]),
+};

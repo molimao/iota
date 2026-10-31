@@ -79,7 +79,7 @@ it("never substitutes a network reference for missing actual device evidence", (
 it("shows a live worker even when the official roster cannot find it, with source context",()=>{
  delete context.agent!.snapshot.queue;
  const html=renderToStaticMarkup(<IotaRosterStatus miner="test" status="not_found" onClick={()=>{}}/>);
- expect(html).toContain("进程运行中");
+ expect(html).toContain("程序开着");
  expect(html).not.toContain(">尚未找到<");
  expect(html).toContain("官方当前训练名单未收录此 ID");
  context.query.isError=true;

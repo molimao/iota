@@ -102,7 +102,7 @@ const legacyContent = withLocales({
     guideIntro:
       "Use this monitor together with the IOTA Train at Home application. Training still runs in the client on each device.",
     faqTitle: "FAQ",
-    faqIntro: "How rewards are counted, how often numbers update, and what this site cannot see.",
+    faqIntro: "How rewards are counted, when numbers update, and why a reading may be unavailable.",
     faq: [
       [
         "Is this the IOTA cryptocurrency or Firefly wallet?",
@@ -261,7 +261,7 @@ const legacyContent = withLocales({
     guideTitle: "使用指南",
     guideIntro: "配合 IOTA Train at Home 应用使用。训练仍在各设备的客户端中运行。",
     faqTitle: "常见问题",
-    faqIntro: "收益计算、数据更新频率，以及本站无法查看的内容。",
+    faqIntro: "收益怎么计算、数据多久更新，以及读数缺失时先查什么。",
     faq: [
       [
         "这是 IOTA 公链或 Firefly 钱包吗？",

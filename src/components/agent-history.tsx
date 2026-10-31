@@ -8,16 +8,17 @@ import type { AgentHistoryPoint } from "@/lib/device-agent";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { localized as l } from "@/lib/product-discovery";
 import { useLocale } from "./site/locale";
-import { insightCopy } from "./agent-insight-copy";
+import { agentHistorySummary } from "./agent-insight-copy";
 const copy={
   title:l(["运行记录 · 24 小时","執行紀錄 · 24 小時","Activity · 24 hours","활동 기록 · 24시간","稼働記録・24時間"]),
   queue:l(["排队名次记录","排隊名次紀錄","Recorded queue positions","대기 순번 기록","待機順位の記録"]),
-  note:l(["每 5 分钟保留一次采样。断线不补零，阶段不代表已确认收益。","每 5 分鐘保留一次採樣。斷線不補零，階段不代表已確認收益。","One sample per 5 minutes. Gaps stay missing; phases do not confirm rewards.","5분당 1회 샘플입니다. 누락은 0으로 채우지 않으며 단계는 보상 확정을 뜻하지 않습니다.","5分ごとに1回記録。欠測はゼロで補わず、段階は報酬確定を意味しません。"]),
-  empty:l(["尚无运行记录，连接后的心跳会逐步积累。","尚無執行紀錄，連接後的心跳會逐步累積。","No activity recorded yet. Connected heartbeats will build this history.","아직 기록이 없습니다. 연결 후 상태 보고가 쌓입니다.","まだ記録がありません。接続後の応答から蓄積されます。"]),
+  empty:l(["这台设备还没有运行记录。","這台設備尚無執行紀錄。","No activity recorded for this device yet.","이 기기의 기록이 아직 없습니다.","この端末にはまだ記録がありません。"]),
   error:l(["暂时无法读取记录，请稍后重试。","暫時無法讀取紀錄，請稍後重試。","History is unavailable. Try again shortly.","기록을 읽지 못했습니다. 잠시 후 다시 시도하세요.","記録を取得できません。しばらくして再度お試しください。"]),
   loading:l(["正在读取记录…","正在讀取紀錄…","Loading history…","기록 읽는 중…","記録を読み込み中…"]),
+  logsTitle:l(["日志片段","日誌片段","Log excerpt","로그 일부","ログ抜粋"]),
+  noLogs:l(["暂时没有日志片段。","暫時沒有日誌片段。","No log excerpt yet.","아직 로그 일부가 없습니다.","ログ抜粋はまだありません。"]),
 };
-export function AgentHistory({deviceId,preview=false}:{deviceId:string;preview?:boolean}) {
+export function AgentHistory({deviceId,preview=false,logs}:{deviceId:string;preview?:boolean;logs?:string|undefined}) {
   const [open,setOpen]=useState(false); const auth=useAuth(); const {locale}=useLocale();
   const read=useServerFn(getAgentHistory);
   const query=useQuery({queryKey:["agent-history",auth.userId,deviceId],queryFn:()=>read({data:{deviceId}}),enabled:open&&!preview&&!!auth.userId,refetchInterval:open?60000:false,retry:false});
@@ -43,9 +44,9 @@ export function AgentHistory({deviceId,preview=false}:{deviceId:string;preview?:
           </g>)}</svg>
           <div className="agent-history-axis"><time>{time(new Date(first).toISOString())}</time><time>{time(new Date(last).toISOString())}</time></div>
         </figure>}
-        <ol>{points.slice(-8).reverse().map(point=><li key={point.sampledAt}><time dateTime={point.sampledAt}>{time(point.sampledAt)}</time><span>{insightCopy[historicalPhase(point)][locale]}{historicalPhase(point)==="queued"?` · #${point.snapshot.queue?.position}`:""}</span></li>)}</ol>
+        <ol>{points.slice(-8).reverse().map(point=><li key={point.sampledAt}><time dateTime={point.sampledAt}>{time(point.sampledAt)}</time><span>{agentHistorySummary[historicalPhase(point)][locale]}{historicalPhase(point)==="queued"?` · #${point.snapshot.queue?.position}`:""}</span></li>)}</ol>
       </>}
-      <p className="compute-caption">{copy.note[locale]}</p>
+      {logs!==undefined&&<details className="agent-history-log"><summary>{copy.logsTitle[locale]}</summary><pre className="agent-logs">{logs||copy.noLogs[locale]}</pre></details>}
     </>}
   </details>;
 }

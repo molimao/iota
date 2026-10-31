@@ -176,6 +176,7 @@ export function ProjectAddressBookView({
   editingId = null,
   draft = "",
   showDetail = false,
+  showSectionHead = true,
   onSignIn = () => {},
   onRaw = () => {},
   onAdd = () => {},
@@ -213,6 +214,7 @@ export function ProjectAddressBookView({
   editingId?: string | null;
   draft?: string;
   showDetail?: boolean;
+  showSectionHead?: boolean;
   onSignIn?: () => void;
   onRaw?: (value: string) => void;
   onAdd?: () => void;
@@ -287,13 +289,15 @@ export function ProjectAddressBookView({
       data-selected={selected}
       data-quota={savedCount}
     >
-      <div className="project-section-head">
-        <h2>
-          {walletLayout ? acuCopy.addresses[locale] : text.title[locale]}{" "}
-          <small>{savedCount}</small>
-        </h2>
-        <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
-      </div>
+      {showSectionHead && (
+        <div className="project-section-head">
+          <h2>
+            {walletLayout ? acuCopy.addresses[locale] : text.title[locale]}{" "}
+            <small>{savedCount}</small>
+          </h2>
+          <a href={`/${locale}/devices?project=${project}`}>{labels.title} →</a>
+        </div>
+      )}
       {!signedIn ? (
         <button
           type="button"
@@ -359,7 +363,7 @@ export function ProjectAddressBookView({
           </button>
         </div>
       )}
-      <div className="project-address-grid">
+      <div className="project-address-grid" data-count={visible.length}>
         {visible.map((entry) => {
           const tone = addressStatusTone(entry.status);
           const editing = editingId === entry.deviceId;
@@ -478,7 +482,6 @@ export function ProjectAddressBookView({
                     )}
                     <button
                       type="button"
-                      title={project !== "acurast" ? text.removeConfirm[locale] : undefined}
                       data-action="unlink"
                       disabled={locked}
                       onClick={() => onRemove(entry.deviceId, entry.bindingId)}
@@ -492,9 +495,6 @@ export function ProjectAddressBookView({
           );
         })}
       </div>
-      {!walletLayout && cards.length > 0 && (
-        <p className="pab-note">{text.removeConfirm[locale]}</p>
-      )}
     </section>
   );
 }
@@ -636,15 +636,19 @@ export function ProjectAddressBook({
     const message =
       project === "prl"
         ? {
-            zh: "移除这个钱包及其 Worker 关联？不会停止矿工。",
-            "zh-TW": "移除此錢包及其 Worker 關聯？不會停止礦工。",
-            en: "Remove this wallet and its Worker links? Mining will keep running.",
-            ko: "이 지갑과 Worker 연결을 삭제할까요? 채굴은 계속 실행됩니다.",
-            ja: "このウォレットと Worker の関連付けを削除しますか？採掘は継続します。",
+            zh: "移除这个钱包在当前矿池的地址和全部 Worker 对应？矿工继续运行，其他项目不受影响。",
+            "zh-TW": "移除此錢包在目前礦池的地址和全部 Worker 對應？礦工繼續執行，其他專案不受影響。",
+            en: "Remove this wallet and all its Worker links for this pool? Mining continues, and other projects are unaffected.",
+            ko: "이 사이트에서 현재 풀의 이 지갑과 모든 Worker 연결을 삭제할까요? 채굴은 계속되며 다른 프로젝트에는 영향이 없습니다.",
+            ja: "このサイトから、このプールのウォレットとすべての Worker の対応を削除しますか？採掘は継続し、他のプロジェクトには影響しません。",
           }[locale]
-        : name
-          ? `${text.removeConfirm[locale]}\n${name}`
-          : text.removeConfirm[locale];
+        : {
+            zh: `移除 ${name || "这台设备"} 的这条项目关联？训练和矿工继续运行。`,
+            "zh-TW": `移除 ${name || "這台設備"} 的這筆專案關聯？訓練和礦工繼續執行。`,
+            en: `Remove this project link for ${name || "this device"}? Training and mining continue.`,
+            ko: `${name || "이 사이트"}에서 이 연결만 제거합니다. 학습과 채굴은 계속됩니다.`,
+            ja: `${name || "このサイト"}からこの関連付けだけを外します。学習と採掘は継続します。`,
+          }[locale];
     if (!window.confirm(message)) return;
     setBusy(true);
     setError(null);

@@ -45,11 +45,11 @@ it("keeps a per-project Agent slot visible without claiming unsupported capabili
     renderToStaticMarkup(
       <ProjectMinerSlots bindings={bindings} agent={value} now={now} locale="zh" />,
     );
-  expect(render([binding])).toContain("尚未连接 Agent");
+  expect(render([binding])).toContain("尚未选择对应电脑");
   expect(render([{ ...binding, project: "bnt", worker: "worker-A" }], agent)).toContain(
     "尚未识别到本项目矿工",
   );
-  expect(render([{ ...binding, project: "acurast" }])).toContain("本项目暂未支持 Agent 采集");
+  expect(render([{ ...binding, project: "acurast" }])).toContain("暂不支持本机数据");
   expect(render([{ ...binding, project: "iota" }])).toBe("");
   const html = render([{ ...binding, project: "prl" }], agent);
   expect(html).not.toContain("3,240.2");
@@ -198,7 +198,7 @@ it("explains Linux project collection is unsupported while retaining pool status
       locale="zh"
     />,
   );
-  expect(html).toContain("Linux Agent 暂不支持采集此项目");
+  expect(html).toContain("这台是 Linux，暂时看不到本机数据");
   expect(html).not.toContain("尚未识别到本项目矿工");
 });
 

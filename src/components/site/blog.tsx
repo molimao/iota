@@ -49,13 +49,13 @@ export function BlogIndex() {
       <ProjectLearning />
       <aside className="article-tip">
         <h2>
-          {localizeValue(en ? "Looking for a specific feature?" : "需要查询具体功能？", locale)}
+          {localizeValue(en ? "Need help with a field or status?" : "看不懂字段或状态？", locale)}
         </h2>
         <p>
           {localizeValue(
             en
-              ? "The help library explains individual fields, data sources and storage rules."
-              : "使用说明提供各个字段、数据来源与保存规则的详细定义。",
+              ? "The guide explains what each field means and how to check the underlying records."
+              : "使用说明解释每个字段的含义，以及如何核对原始记录。",
             locale,
           )}
         </p>
