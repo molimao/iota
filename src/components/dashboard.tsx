@@ -990,7 +990,7 @@ export function IotaProjectDeviceViews({views,layout,usdPerIota,now,onOpen,onRem
                       {(["name", "state", "rate", "today"] as const).map((key) => (
                         <th key={key}>{iotaAddCopy[key][locale]}</th>
                       ))}
-                      <th>Mac</th>
+                      <th>Agent</th>
                       <th>{iotaAddCopy.action[locale]}</th>
                     </tr>
                   </thead>

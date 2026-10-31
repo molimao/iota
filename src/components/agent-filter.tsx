@@ -3,7 +3,7 @@ import { localized as l } from "@/lib/product-discovery";
 import { useLocale } from "./site/locale";
 export const agentFilterCopy = {
   search: l(["搜索名称或 Miner ID", "搜尋名稱或 Miner ID", "Search name or Miner ID", "이름 또는 Miner ID 검색", "名前・Miner IDで検索"]),
-  label: l(["Mac 状态", "Mac 狀態", "Mac status", "Mac 상태", "Macの状態"]),
+  label: l(["Agent 状态", "Agent 狀態", "Agent status", "Agent 상태", "Agentの状態"]),
   all: l(["全部状态", "全部狀態", "All states", "모든 상태", "すべての状態"]),
   online: l(["在线", "在線", "Online", "온라인", "オンライン"]),
   training: l(["应用开着", "應用程式開著", "App open", "앱 실행 중", "アプリ起動中"]),

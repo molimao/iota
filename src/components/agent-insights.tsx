@@ -1,6 +1,6 @@
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { agentEvents, agentCommandStatus } from '@/lib/agent-insights';
-import { agentDisplayPhase, type OfficialTrainingEvidence, type AgentInfo } from '@/lib/device-agent';
+import { agentDisplayPhase, agentOnline, type OfficialTrainingEvidence, type AgentInfo } from '@/lib/device-agent';
 import { useLocale } from './site/locale';
 import { insightCopy as c } from './agent-insight-copy';
 import { LANGUAGE_TAG } from '@/lib/site';
@@ -9,7 +9,7 @@ export function AgentStatus({agent, official, now, compact = false, concise = fa
   const clock=useAgentClock();
   const {locale}=useLocale(); const phase=agentDisplayPhase(agent, official, now ?? clock);
   return <div className="agent-insight" data-phase={phase}>
-    <strong>{c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
+    <strong>{compact ? (agentOnline(agent.lastSeen, now ?? clock) ? agentCopy.live[locale] : c.offline[locale]) : c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
     {!compact && phase === 'queued' && <a href={`/${locale}/learn/iota-queue-and-zero-throughput`}>{c.queueHelpLink[locale]} ↗</a>}
   </div>;
 }
