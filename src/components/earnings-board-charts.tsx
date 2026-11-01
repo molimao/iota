@@ -1,3 +1,4 @@
+import { BntBalanceDetails } from "./bnt-balance-details";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { bntLabels } from "./bnt-copy";
 import { useId, useState } from "react";
@@ -108,7 +109,9 @@ export function EarningsBoardCharts({
         <div className="board-project-grid">
           {board.projects.map((row) => {
             const filtered = filterReportProject(history, row.project);
-            const recentMetrics = [...row.metrics.values()].filter((m) => m.window === "rolling24h");
+            const recentMetrics = [...row.metrics.values()].filter(
+              (m) => m.window === "rolling24h" || m.window === "cumulative",
+            );
             const workers = [
               ...new Set(
                 entries
@@ -159,107 +162,99 @@ export function EarningsBoardCharts({
                 )}
                 <div className="board-project-metrics">
                   {compute.filter((g) => g.project === row.project).length
-                    ? compute.filter((g) => g.project === row.project).map((g) => {
-                        const amount = formatCompute(g.total, g.unit, LANGUAGE_TAG[locale]);
-                        return (
-                          <div key={g.unit}>
-                            <span>{c.compute[locale]}</span>
-                            <strong>
-                              {g.known ? amount.value : "—"} <small>{amount.unit}</small>
-                            </strong>
-                            <small>
-                              {g.known}/{g.count} {c.computeCoverage[locale]}
-                            </small>
-                          </div>
-                        );
-                      })
+                    ? compute
+                        .filter((g) => g.project === row.project)
+                        .map((g) => {
+                          const amount = formatCompute(g.total, g.unit, LANGUAGE_TAG[locale]);
+                          return (
+                            <div key={g.unit}>
+                              <span>{c.compute[locale]}</span>
+                              <strong>
+                                {g.known ? amount.value : "—"} <small>{amount.unit}</small>
+                              </strong>
+                              <small>
+                                {g.known}/{g.count} {c.computeCoverage[locale]}
+                              </small>
+                            </div>
+                          );
+                        })
                     : null}
                   {recentMetrics.map((m) => (
                     <div key={m.window + m.unit}>
-                      <span>{row.project === "bnt" ? bntLabels.paid24h[locale] : c.windows[m.window][locale]}</span>
+                      <span>
+                        {row.project === "bnt" && m.window === "rolling24h"
+                          ? bntLabels.paid24h[locale]
+                          : c.windows[m.window][locale]}
+                      </span>
                       <strong>
                         {nf.format(m.amount)} <small>{m.unit}</small>
                       </strong>
+                      {m.window === "cumulative" && m.count < row.total && (
+                        <small>
+                          {m.count}/{row.total} {c.computeCoverage[locale]}
+                        </small>
+                      )}
                       <small>
                         {m.usd === null ? c.usd[locale] + " · —" : formatUsd(m.usd)}
                         {m.stale ? ` · ${c.older[locale]}` : ""}
                       </small>
                     </div>
                   ))}
-                  {!recentMetrics.length && !row.accounts.size && (
+                  {!recentMetrics.some((m) => m.window === "cumulative") && (
                     <div>
-                      <span>{c.amount[locale]}</span>
+                      <span>{c.windows.cumulative[locale]}</span>
                       <strong>—</strong>
                       <small>{c.missing[locale]}</small>
                     </div>
                   )}
-                  {recentMetrics.length > 0 ? (
-                    [...row.accounts.values()].length > 0 && (
-                      <details className="board-project-accounts">
-                        <summary>{c.accountValue[locale]}</summary>
-                        {[...row.accounts.values()].map((a) => (
-                          <div key={`${a.source ?? ""}:${a.identifier}:${a.kind}`}>
+                  {row.accounts.size > 0 && (
+                    <details className="board-project-accounts">
+                      <summary>
+                        {c.accountValue[locale]}
+                        {row.accounts.size > 1
+                          ? ` · ${c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}`
+                          : ""}
+                      </summary>
+                      {[...row.accounts.values()].map((a) => (
+                        <div key={`${a.source}:${a.identifier}`}>
+                          <>
                             {a.flyai ? (
                               <FlyaiWalletStats data={a.flyai} stale={a.stale} compact />
                             ) : (
                               <strong>
-                                {a.amount} <small>{a.unit}</small>
+                                {a.kind === "month" ? a.amount : nf.format(Number(a.amount))}{" "}
+                                <small>{a.unit}</small>
                               </strong>
                             )}
-                            {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
-                            <small>
-                              {a.source ? `${a.source} · ` : ""}
-                              {shortId(a.identifier)} · {c[a.kind][locale]}
-                              {a.stale ? ` · ${c.older[locale]}` : ""}
-                            </small>
-                          </div>
-                        ))}
-                      </details>
-                    )
-                  ) : [...row.accounts.values()].length === 1 ? (
-                    <div className="board-project-accounts">
-                      <span>{c.accountValue[locale]}</span>
-                      {[...row.accounts.values()].map((a) => (
-                        <div key={`${a.source ?? ""}:${a.identifier}:${a.kind}`}>
-                          {a.flyai ? (
-                            <FlyaiWalletStats data={a.flyai} stale={a.stale} compact />
-                          ) : (
-                            <strong>
-                              {a.amount} <small>{a.unit}</small>
-                            </strong>
-                          )}
+                          </>
                           {a.usd !== undefined && <small>{formatUsd(a.usd)} USD</small>}
-                          {a.stale && <small>{c.older[locale]}</small>}
+                          {a.poolBalance && (
+                            <BntBalanceDetails balance={a.poolBalance} unit={a.unit} />
+                          )}
+                          <small>
+                            {a.source} · {shortId(a.identifier)} ·{" "}
+                            {a.poolBalance ? bntLabels.confirmed[locale] : c[a.kind][locale]}
+                          </small>
                         </div>
                       ))}
-                    </div>
-                  ) : [...row.accounts.values()].length > 0 ? (
-                    <div className="board-project-accounts board-accounts-summary">
-                      <span>
-                        {c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}
-                      </span>
-                      <strong>
-                        {[...new Set([...row.accounts.values()].map((a) => a.unit))].join(" / ")}
-                      </strong>
-                    </div>
-                  ) : null}
+                    </details>
+                  )}
                 </div>
                 {filtered.some((r) => earningsTrendValue(r, true) !== null) && (
                   <details className="board-project-trend">
                     <summary>{c.trend[locale]}</summary>
-                  <TrendPanel
-                    history={filtered}
-                    days={days}
-                    title={c.trend[locale]}
-                    unit={unit}
-                    tone={color(row.project)}
-                    native
-                    empty={empty}
-                  />
+                    <TrendPanel
+                      history={filtered}
+                      days={days}
+                      title={c.trend[locale]}
+                      unit={unit}
+                      tone={color(row.project)}
+                      native
+                      empty={empty}
+                    />
                   </details>
                 )}
-                {(row.project === "bnt" ||
-                  row.accounts.size > 0) && (
+                {(row.project === "bnt" || row.accounts.size > 0) && (
                   <details className="board-project-sources board-project-footer">
                     <summary>{c.showSources[locale]}</summary>
                     {row.project === "bnt" && (

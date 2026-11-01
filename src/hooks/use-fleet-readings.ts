@@ -1,3 +1,4 @@
+import { poolCumulativeEarnings } from "@/lib/cumulative-earnings";
 import { flyaiWalletStats } from "@/lib/flyai";
 import { bntLabels } from "@/components/bnt-copy";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
@@ -275,6 +276,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         ...(d ? { todayLabel: binding.project === "bnt" ? bntLabels.paid24h[locale] : poolCopy[d.period][locale] } : {}),
         todayUsable: false,
         todaySameDay: false,
+        cumulativeReward: d ? poolCumulativeEarnings(d) : null,
         lifetime: d?.paid == null ? null : String(d.paid),
         totalLabel: poolCopy.paid[locale],
         ...(d?.chainBalanceExact != null
@@ -293,6 +295,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                 kind: "balance" as const,
                 amount: String(d.balance),
                 unit: POOL_PROJECTS[binding.project].token,
+                ...((binding.project === "bnt" || (binding.project === "prl" && binding.pool === "luckypool")) ? { poolBalance: { queued: d.queued ?? null, pending: d.pendingEstimate ?? null } } : {}),
               },
             }),
         updated: clock(r?.fetchedAt),
@@ -371,6 +374,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
             }
           : {}),
         unit: d?.rewardUnit ?? "",
+        cumulativeReward: d?.lifetime ?? null,
         lifetime: d?.lifetime === null || d?.lifetime === undefined ? null : String(d.lifetime),
         todayUsable: !!daily,
         todaySameDay:
@@ -426,6 +430,8 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         today: today === null ? null : formatIota(today, 8, locale),
         lifetime: total === null ? null : formatIota(total, 8, locale),
         lifetimeUnits: view.lifetimeUsable ? total : null,
+        cumulativeReward: view.lifetimeUsable && total !== null ? total / 1e8 : null,
+        cumulativeUsdValue: view.lifetimeUsable && !iota.priceRefreshFailed ? iotaUnitsToUsd(total, iota.usdPerIota) : null,
         unit: "IOTA",
         todayLabel: c.yesterday,
         todayUnits: view.todayUsable ? today : null,

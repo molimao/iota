@@ -14,13 +14,20 @@ export type ProjectReading = {
   acurastRewards?: import("@/lib/acurast-rewards").AcurastRewards;
   officialRun?: import("@/lib/iota-run").OfficialRun | null;
   compute?: import("@/lib/compute-summary").ComputeReading;
+  cumulativeReward?: number | null;
+  cumulativeUsdValue?: number | null;
   rewardAmount?: number | null;
   rolling24hReward?: number | null;
   rolling24hUsdValue?: number | null;
   earningsWindow?: import("@/lib/earnings-board").EarningsWindow;
   officialTraining?: import("@/lib/device-agent").OfficialTrainingEvidence;
   health?: "loading" | "fresh" | "stale" | "unavailable";
-  accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
+  accountSummary?: {
+    kind: "month" | "balance";
+    amount: string;
+    unit: string;
+    poolBalance?: { queued: number | null; pending: number | null };
+  };
   todaySameDay?: boolean;
   status:
     | "refreshFailed"

@@ -10,6 +10,8 @@ export type BoardReading = {
   acurastBalances?: import("./acurast-rewards").AcurastBalance[];
   acurastRewards?: import("./acurast-rewards").AcurastRewards;
   scope: "device" | "wallet";
+  cumulativeReward?: number | null;
+  cumulativeUsdValue?: number | null;
   rewardAmount?: number | null;
   rolling24hReward?: number | null;
   rolling24hUsdValue?: number | null;
@@ -19,7 +21,12 @@ export type BoardReading = {
   todayUsable?: boolean;
   priceStale?: boolean;
   health?: string;
-  accountSummary?: { kind: "month" | "balance"; amount: string; unit: string };
+  accountSummary?: {
+    kind: "month" | "balance";
+    amount: string;
+    unit: string;
+    poolBalance?: { queued: number | null; pending: number | null };
+  };
   updated: string;
   source: string;
 };
@@ -68,6 +75,7 @@ export function earningsBoard(
         string,
         {
           kind: "month" | "balance" | "paid";
+          poolBalance?: { queued: number | null; pending: number | null };
           amount: string;
           unit: string;
           identifier: string;
@@ -83,8 +91,10 @@ export function earningsBoard(
     }
   >();
   const totals = {
-    today: { usd: 0, count: 0 }, yesterday: { usd: 0, count: 0 },
-    rolling24h: { usd: 0, count: 0 }, utcDay: { usd: 0, count: 0 },
+    today: { usd: 0, count: 0 },
+    yesterday: { usd: 0, count: 0 },
+    rolling24h: { usd: 0, count: 0 },
+    utcDay: { usd: 0, count: 0 },
   };
   const olderPrices = { today: false, yesterday: false, rolling24h: false, utcDay: false };
   for (const { binding: b, deviceId, data: d } of entries) {
@@ -128,9 +138,17 @@ export function earningsBoard(
         row.total++;
         row.sources.add(d.source);
         for (const period of ["today", "yesterday", "rolling24h", "cumulative"] as const) {
-          if ((period === "today" || period === "yesterday") && currentDay !== d.acurastRewards.dayStart) continue;
-          if (period === "rolling24h" && (d.acurastRewards.rolling24hStart == null ||
-            d.acurastRewards.observedAt - d.acurastRewards.rolling24hStart !== 86400000)) continue;
+          if (
+            (period === "today" || period === "yesterday") &&
+            currentDay !== d.acurastRewards.dayStart
+          )
+            continue;
+          if (
+            period === "rolling24h" &&
+            (d.acurastRewards.rolling24hStart == null ||
+              d.acurastRewards.observedAt - d.acurastRewards.rolling24hStart !== 86400000)
+          )
+            continue;
           const raw = manager[period];
           if (typeof raw !== "string" || !/^\d+(?:\.\d{1,12})?$/.test(raw)) continue;
           const value = Number(raw);
@@ -173,6 +191,27 @@ export function earningsBoard(
     seen.add(key);
     row.total++;
     row.sources.add(d.source);
+    if (d.cumulativeReward != null) {
+      const fresh = d.health === "fresh" || d.health === undefined;
+      const usd = fresh
+        ? (d.cumulativeUsdValue ?? convert(b.project, d.cumulativeReward, d.unit))
+        : null;
+      const metricKey = `cumulative:${d.unit}`;
+      const metric = row.metrics.get(metricKey) ?? {
+        window: "cumulative" as const,
+        unit: d.unit,
+        amount: 0,
+        usd: null,
+        count: 0,
+        stale: false,
+      };
+      metric.amount += d.cumulativeReward;
+      metric.usd =
+        metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
+      metric.count++;
+      metric.stale ||= !fresh;
+      row.metrics.set(metricKey, metric);
+    }
     if (d.accountSummary)
       row.accounts.set(key, {
         ...d.accountSummary,
@@ -207,18 +246,34 @@ export function earningsBoard(
       });
     }
     // Timestamp-derived rolling income is independent of calendar-day metrics.
-    if (d.earningsWindow !== "rolling24h" && typeof d.rolling24hReward === "number" &&
-      Number.isFinite(d.rolling24hReward) && d.rolling24hReward >= 0 && d.unit) {
+    if (
+      d.earningsWindow !== "rolling24h" &&
+      typeof d.rolling24hReward === "number" &&
+      Number.isFinite(d.rolling24hReward) &&
+      d.rolling24hReward >= 0 &&
+      d.unit
+    ) {
       const fresh = d.health === "fresh" || (d.health === undefined && d.todayUsable !== false);
       const explicit = d.rolling24hUsdValue;
-      const usd = !fresh ? null : typeof explicit === "number" && Number.isFinite(explicit) && explicit >= 0
-        ? explicit : b.project === "iota" ? null : convert(b.project, d.rolling24hReward, d.unit);
+      const usd = !fresh
+        ? null
+        : typeof explicit === "number" && Number.isFinite(explicit) && explicit >= 0
+          ? explicit
+          : b.project === "iota"
+            ? null
+            : convert(b.project, d.rolling24hReward, d.unit);
       const metricKey = `rolling24h:${d.unit}`;
       const metric = row.metrics.get(metricKey) ?? {
-        window: "rolling24h" as const, unit: d.unit, amount: 0, usd: null, count: 0, stale: false,
+        window: "rolling24h" as const,
+        unit: d.unit,
+        amount: 0,
+        usd: null,
+        count: 0,
+        stale: false,
       };
       metric.amount += d.rolling24hReward;
-      metric.usd = metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
+      metric.usd =
+        metric.count === 0 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
       metric.count++;
       metric.stale ||= !fresh;
       row.metrics.set(metricKey, metric);
@@ -261,17 +316,28 @@ export function earningsBoard(
       metric.count === 1 ? usd : metric.usd !== null && usd !== null ? metric.usd + usd : null;
     row.metrics.set(metricKey, metric);
     row.known++;
-    if (usd !== null && (window === "today" || window === "yesterday" || window === "rolling24h" || window === "utcDay")) {
+    if (
+      usd !== null &&
+      (window === "today" ||
+        window === "yesterday" ||
+        window === "rolling24h" ||
+        window === "utcDay")
+    ) {
       totals[window].usd += usd;
       totals[window].count++;
       olderPrices[window] ||= !!d.priceStale;
     }
   }
   const coverage = Object.fromEntries(
-    (["today", "yesterday", "rolling24h", "utcDay"] as const).map((window) => [window,
-      [...projects.values()].filter((row) => [...row.metrics.values()].some(
-        (metric) => metric.window === window && metric.usd === null,
-      )).map((row) => row.project),
+    (["today", "yesterday", "rolling24h", "utcDay"] as const).map((window) => [
+      window,
+      [...projects.values()]
+        .filter((row) =>
+          [...row.metrics.values()].some(
+            (metric) => metric.window === window && metric.usd === null,
+          ),
+        )
+        .map((row) => row.project),
     ]),
   ) as Record<keyof typeof totals, FleetProject[]>;
   return { totals, olderPrices, coverage, projects: [...projects.values()] };

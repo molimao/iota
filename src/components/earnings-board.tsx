@@ -1,3 +1,4 @@
+import { BntBalanceDetails } from "./bnt-balance-details";
 import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { bntLabels } from "./bnt-copy";
 import { EarningsBoardCharts } from "./earnings-board-charts";
@@ -52,9 +53,9 @@ export function EarningsBoard({
     entries,
     preview ? (previewPrices ?? {}) : validQuotes ? (quotes.data?.data ?? {}) : {},
   );
-  const recentPriced = board.projects.filter((p) => [...p.metrics.values()].some(
-    (m) => m.window === "rolling24h" && m.usd !== null,
-  ));
+  const recentPriced = board.projects.filter((p) =>
+    [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.usd !== null),
+  );
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
     <section className="earnings-board" aria-label={c.title[locale]}>
@@ -64,14 +65,25 @@ export function EarningsBoard({
           {devices.length} {c.counts[locale]} <i /> {board.projects.length} {c.projects[locale]}
         </span>
       </header>
-      <article className="earnings-board-totals earnings-board-recent" data-testid="recent-earnings">
+      <article
+        className="earnings-board-totals earnings-board-recent"
+        data-testid="recent-earnings"
+      >
         <div className="earnings-board-recent-heading">
           <span>{c.recentTotal[locale]}</span>
-          <small>{c.included[locale]} {recentPriced.length} / {board.projects.length} {c.projects[locale]}</small>
+          <small>
+            {c.included[locale]} {recentPriced.length} / {board.projects.length}{" "}
+            {c.projects[locale]}
+          </small>
         </div>
-        <strong>{formatUsd(board.totals.rolling24h.count ? board.totals.rolling24h.usd : null)} <small>USD</small></strong>
+        <strong>
+          {formatUsd(board.totals.rolling24h.count ? board.totals.rolling24h.usd : null)}{" "}
+          <small>USD</small>
+        </strong>
         <small className="board-total-context">{c.recentHint[locale]}</small>
-        {board.olderPrices.rolling24h && <small className="board-total-context">{c.olderPrice[locale]}</small>}
+        {board.olderPrices.rolling24h && (
+          <small className="board-total-context">{c.olderPrice[locale]}</small>
+        )}
       </article>
       <EarningsBoardCharts
         board={board}
@@ -122,7 +134,9 @@ export function EarningsBoard({
                           {nf.format(m.amount)} {m.unit}
                         </b>
                         <small>
-                          {row.project === "bnt" && m.window === "rolling24h" ? bntLabels.paid24h[locale] : c.windows[m.window][locale]}
+                          {row.project === "bnt" && m.window === "rolling24h"
+                            ? bntLabels.paid24h[locale]
+                            : c.windows[m.window][locale]}
                           {m.stale ? ` · ${c.older[locale]}` : ""}
                         </small>
                       </div>
@@ -138,16 +152,21 @@ export function EarningsBoard({
                             </span>
                           )}
                           {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
+                          {m.poolBalance && (
+                            <BntBalanceDetails balance={m.poolBalance} unit={m.unit} />
+                          )}
                           <small>
                             {m.source ? `${m.source} · ` : ""}
-                            {c[m.kind][locale]}
+                            {m.poolBalance ? bntLabels.confirmed[locale] : c[m.kind][locale]}
                             {m.stale ? ` · ${c.older[locale]}` : ""}
                           </small>
                         </div>
                       ))
                     ) : row.accounts.size > 1 ? (
                       <details>
-                        <summary>{c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}</summary>
+                        <summary>
+                          {c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}
+                        </summary>
                         {[...row.accounts.entries()].map(([key, m]) => (
                           <div key={key} className="earnings-board-metric">
                             <code>{shortId(m.identifier)}</code>
@@ -159,9 +178,12 @@ export function EarningsBoard({
                               </span>
                             )}
                             {m.usd !== undefined && <small>{formatUsd(m.usd)} USD</small>}
+                            {m.poolBalance && (
+                              <BntBalanceDetails balance={m.poolBalance} unit={m.unit} />
+                            )}
                             <small>
                               {m.source ? `${m.source} · ` : ""}
-                              {c[m.kind][locale]}
+                              {m.poolBalance ? bntLabels.confirmed[locale] : c[m.kind][locale]}
                               {m.stale ? ` · ${c.older[locale]}` : ""}
                             </small>
                           </div>

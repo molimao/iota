@@ -24,14 +24,32 @@ const r = (
   updated: "now",
 });
 it("adds BNT 24h payments once per wallet at the fixed price without adding balances or paid totals", () => {
-  const data: BoardReading = { ...r("rolling24h", 3.5, null), unit: "BNT", scope: "wallet",
-    accountSummary: { kind: "balance", amount: "10", unit: "BNT" }, lifetime: "100" };
-  const board = earningsBoard([
-    { binding: b("bnt", "wallet", "worker-one"), deviceId: "one", data },
-    { binding: b("bnt", "wallet", "worker-two"), deviceId: "two", data },
-  ], { bnt: BNT_REFERENCE_USD });
+  const data: BoardReading = {
+    ...r("rolling24h", 3.5, null),
+    unit: "BNT",
+    scope: "wallet",
+    accountSummary: {
+      kind: "balance",
+      amount: "10",
+      unit: "BNT",
+      poolBalance: { queued: 2, pending: 2.56430093 },
+    },
+    lifetime: "100",
+  };
+  const board = earningsBoard(
+    [
+      { binding: b("bnt", "wallet", "worker-one"), deviceId: "one", data },
+      { binding: b("bnt", "wallet", "worker-two"), deviceId: "two", data },
+    ],
+    { bnt: BNT_REFERENCE_USD },
+  );
   expect(board.totals.rolling24h.usd).toBeCloseTo(0.56, 8);
   expect(board.totals.rolling24h.count).toBe(1);
+  expect(board.projects[0]!.accounts.size).toBe(1);
+  expect([...board.projects[0]!.accounts.values()][0]!.poolBalance).toEqual({
+    queued: 2,
+    pending: 2.56430093,
+  });
 });
 it("keeps yesterday, today, UTC day and rolling windows out of each other’s totals", () => {
   const board = earningsBoard([
@@ -287,13 +305,28 @@ it("keeps missing, mismatched and stale valuations unavailable and preserves rea
 });
 
 it("shows separately converted rolling and UTC subtotals without changing calendar-day earnings", () => {
-  const board = earningsBoard([
-    { binding: b("iota", "i"), deviceId: "a", data: r("yesterday", 1, 7) },
-    { binding: b("prl", "p", "a"), deviceId: "b", data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" } },
-    { binding: b("prl", "p", "b"), deviceId: "c", data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" } },
-    { binding: b("xmr", "m"), deviceId: "d", data: { ...r("utcDay", 0.1, null), unit: "XMR" } },
-    { binding: b("bnt", "b"), deviceId: "e", data: { ...r("rolling24h", 100, null), unit: "BNT" } },
-  ], { prl: 1.8, xmr: 600 });
+  const board = earningsBoard(
+    [
+      { binding: b("iota", "i"), deviceId: "a", data: r("yesterday", 1, 7) },
+      {
+        binding: b("prl", "p", "a"),
+        deviceId: "b",
+        data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" },
+      },
+      {
+        binding: b("prl", "p", "b"),
+        deviceId: "c",
+        data: { ...r("rolling24h", 2, null), scope: "wallet", unit: "PRL" },
+      },
+      { binding: b("xmr", "m"), deviceId: "d", data: { ...r("utcDay", 0.1, null), unit: "XMR" } },
+      {
+        binding: b("bnt", "b"),
+        deviceId: "e",
+        data: { ...r("rolling24h", 100, null), unit: "BNT" },
+      },
+    ],
+    { prl: 1.8, xmr: 600 },
+  );
   expect(board.totals.rolling24h).toEqual({ usd: 3.6, count: 1 });
   expect(board.totals.utcDay).toEqual({ usd: 60, count: 1 });
   expect(board.totals.yesterday).toEqual({ usd: 7, count: 1 });
@@ -305,21 +338,80 @@ it("shows separately converted rolling and UTC subtotals without changing calend
 it("combines only timestamp-derived IOTA/ACU and pool rolling rewards, deduplicating managers and wallets", () => {
   const now = Date.now();
   const acu: BoardReading = {
-    scope: "wallet", unit: "ACU", source: "chain", updated: "now", health: "fresh",
-    acurastRewards: { observedAt: now, rolling24hStart: now - 86400000,
+    scope: "wallet",
+    unit: "ACU",
+    source: "chain",
+    updated: "now",
+    health: "fresh",
+    acurastRewards: {
+      observedAt: now,
+      rolling24hStart: now - 86400000,
       dayStart: Math.floor((now + 28800000) / 86400000) * 86400000 - 28800000,
-      blockHash: "hash", managers: [{ id: "67279", today: "10", yesterday: "20", cumulative: "100", rolling24h: "0.5" }] },
+      blockHash: "hash",
+      managers: [
+        { id: "67279", today: "10", yesterday: "20", cumulative: "100", rolling24h: "0.5" },
+      ],
+    },
   };
   const prl: BoardReading = { ...r("rolling24h", 2, null), unit: "PRL", scope: "wallet" };
-  const board = earningsBoard([
-    { binding: b("iota", "i"), deviceId: "1", data: { ...r("yesterday", 99, 999), rolling24hReward: 0.1, rolling24hUsdValue: 0.7 } },
-    { binding: b("acurast", "processor"), deviceId: "2", data: acu },
-    { binding: b("acurast", "manager"), deviceId: "3", data: acu },
-    { binding: b("prl", "p", "one"), deviceId: "4", data: prl },
-    { binding: b("prl", "p", "two"), deviceId: "5", data: prl },
-    { binding: b("xmr", "m"), deviceId: "6", data: { ...r("utcDay", 100, 1000), unit: "XMR" } },
-  ], { acurast: 0.1, prl: 1.8 });
+  const board = earningsBoard(
+    [
+      {
+        binding: b("iota", "i"),
+        deviceId: "1",
+        data: { ...r("yesterday", 99, 999), rolling24hReward: 0.1, rolling24hUsdValue: 0.7 },
+      },
+      { binding: b("acurast", "processor"), deviceId: "2", data: acu },
+      { binding: b("acurast", "manager"), deviceId: "3", data: acu },
+      { binding: b("prl", "p", "one"), deviceId: "4", data: prl },
+      { binding: b("prl", "p", "two"), deviceId: "5", data: prl },
+      { binding: b("xmr", "m"), deviceId: "6", data: { ...r("utcDay", 100, 1000), unit: "XMR" } },
+    ],
+    { acurast: 0.1, prl: 1.8 },
+  );
   expect(board.totals.rolling24h.usd).toBeCloseTo(0.7 + 0.05 + 3.6);
   expect(board.totals.rolling24h.count).toBe(3);
-  expect(board.projects.find((p) => p.project === "acurast")?.metrics.get("rolling24h:ACU")?.amount).toBe(0.5);
+  expect(
+    board.projects.find((p) => p.project === "acurast")?.metrics.get("rolling24h:ACU")?.amount,
+  ).toBe(0.5);
+});
+
+it("merges cumulative income across pools, deduplicates Workers, and leaves 24h totals independent", () => {
+  const data: BoardReading = {
+    ...r("rolling24h", 1, null),
+    scope: "wallet",
+    unit: "PRL",
+    cumulativeReward: 6,
+  };
+  const a = { ...b("prl", "wallet", "rig-a"), pool: "luckypool" as const };
+  const board = earningsBoard(
+    [
+      { binding: a, deviceId: "one", data },
+      { binding: { ...a, worker: "rig-b" }, deviceId: "two", data },
+      {
+        binding: { ...a, pool: "kryptex" },
+        deviceId: "three",
+        data: { ...data, cumulativeReward: 2 },
+      },
+    ],
+    { prl: 2 },
+  );
+  expect(board.projects[0]!.metrics.get("cumulative:PRL")!.amount).toBe(8);
+  expect(board.totals.rolling24h.usd).toBe(4);
+});
+
+it("prices usable IOTA lifetime readings without requiring a pool health flag", () => {
+  const data: BoardReading = {
+    ...r("yesterday", 1, 2),
+    cumulativeReward: 10,
+    cumulativeUsdValue: 20,
+  };
+  delete data.health;
+  const board = earningsBoard([{ binding: b("iota", "miner"), deviceId: "one", data }]);
+  expect(board.projects[0]!.metrics.get("cumulative:IOTA")).toMatchObject({
+    amount: 10,
+    usd: 20,
+    stale: false,
+  });
+  expect(board.totals.yesterday.usd).toBe(2);
 });

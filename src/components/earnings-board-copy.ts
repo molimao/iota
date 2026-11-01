@@ -1,13 +1,43 @@
 import { localized as l } from "@/lib/product-discovery";
 export const boardCopy = {
-  recentTotal: l(["最近 24 小时收益", "最近 24 小時收益", "Earnings · last 24 hours", "최근 24시간 수익", "直近24時間の収益"]),
+  recentTotal: l([
+    "最近 24 小时收益",
+    "最近 24 小時收益",
+    "Earnings · last 24 hours",
+    "최근 24시간 수익",
+    "直近24時間の収益",
+  ]),
   included: l(["已计入", "已計入", "Included", "포함", "集計済み"]),
-  recentHint: l(["仅汇总已获得收益，余额和待成熟份额另计。", "僅彙總已取得收益，餘額與待成熟份額另計。", "Includes received earnings only; balances and immature rewards are separate.", "받은 수익만 합산하며 잔액과 미성숙 보상은 별도입니다.", "受取済みの収益のみ集計。残高と未成熟の報酬は別です。"]),
-  accountsSummary: l(["{count} 个地址合计", "{count} 個地址合計", "{count} addresses combined", "{count}개 주소 합산", "{count}件のアドレスを合算"]),
+  recentHint: l([
+    "仅汇总已获得收益，余额和待成熟份额另计。",
+    "僅彙總已取得收益，餘額與待成熟份額另計。",
+    "Includes received earnings only; balances and immature rewards are separate.",
+    "받은 수익만 합산하며 잔액과 미성숙 보상은 별도입니다.",
+    "受取済みの収益のみ集計。残高と未成熟の報酬は別です。",
+  ]),
+  accountsSummary: l([
+    "{count} 个地址合计",
+    "{count} 個地址合計",
+    "{count} addresses combined",
+    "{count}개 주소 합산",
+    "{count}件のアドレスを合算",
+  ]),
   counts: l(["设备", "設備", "devices", "기기", "端末"]),
   scope: l(["统计范围", "統計範圍", "Coverage", "집계 범위", "集計範囲"]),
-  recentNote: l(["按来源记账时间统计，余额不计入。", "按來源記帳時間統計，餘額不計入。", "Based on source ledger times. Balances excluded.", "출처 기록 시간 기준 · 잔액 제외", "記帳時刻に基づく集計。残高は除外。"]),
-  noRolling: l(["暂无完整 24 小时收益或美元报价", "暫無完整 24 小時收益或美元報價", "Complete 24-hour earnings or USD quote unavailable", "완전한 24시간 수익 또는 USD 시세 없음", "24時間の収益またはUSD価格が未取得"]),
+  recentNote: l([
+    "按来源记账时间统计，余额不计入。",
+    "按來源記帳時間統計，餘額不計入。",
+    "Based on source ledger times. Balances excluded.",
+    "출처 기록 시간 기준 · 잔액 제외",
+    "記帳時刻に基づく集計。残高は除外。",
+  ]),
+  noRolling: l([
+    "暂无完整 24 小时收益或美元报价",
+    "暫無完整 24 小時收益或美元報價",
+    "Complete 24-hour earnings or USD quote unavailable",
+    "완전한 24시간 수익 또는 USD 시세 없음",
+    "24時間の収益またはUSD価格が未取得",
+  ]),
   notIncluded: l(["未计入", "未計入", "Excluded:", "제외:", "集計対象外:"]),
   paid: l(["累计已支付", "累計已支付", "Total paid", "누적 지급액", "累計支払額"]),
   noConversion: l([
@@ -206,7 +236,13 @@ export const boardCopy = {
   details: l(["项目明细", "專案明細", "Project details", "프로젝트 상세", "プロジェクト明細"]),
   accounts: l(["个账户指标", "個帳戶指標", "account metrics", "계정 지표", "アカウントの指標"]),
   accountValue: l(["账户余额", "帳戶餘額", "Balance", "잔액", "残高"]),
-  showSources: l(["地址与来源", "地址與來源", "Addresses and sources", "주소 및 출처", "アドレスとデータ源"]),
+  showSources: l([
+    "地址与来源",
+    "地址與來源",
+    "Addresses and sources",
+    "주소 및 출처",
+    "アドレスとデータ源",
+  ]),
   workers: l(["个 Worker", "個 Worker", "Workers", "개 Worker", "件の Worker"]),
   countSuffix: l(["台", "台", "", "대", "台"]),
   title: l(["收益总览", "收益總覽", "Earnings overview", "수익 개요", "収益概要"]),
@@ -252,7 +288,7 @@ export const boardCopy = {
     "月間アカウント指標",
   ]),
   windows: {
-    cumulative: l(["累计到账", "累計到帳", "Total received", "누적 수령", "累計受取"]),
+    cumulative: l(["累计收益", "累計收益", "Lifetime earnings", "누적 수익", "累計収益"]),
     today: l([
       "今日 · 北京时间",
       "今日 · 北京時間",
