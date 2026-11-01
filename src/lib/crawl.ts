@@ -1,3 +1,6 @@
+import { calculatorDescription } from "./calculator-discovery";
+import { CALCULATOR_PROJECTS } from "./hardware-yield";
+import { calculatorCopy } from "../components/hardware-calculator-copy";
 import { projectVerification, verificationQuestion } from "../components/project-verification";
 import { DISCOVERY_UPDATED, problemLinks, productQuestions } from "./product-discovery";
 import { projectEditorial } from "../components/project-editorial";
@@ -38,6 +41,8 @@ function articlePriority(slug: string) {
 
 /** Indexable marketing pages only. Dashboard stays out of the sitemap. */
 export const crawlPages: CrawlPage[] = [
+ {path:"calculator",lastmod:"2026-11-01",changefreq:"weekly",priority:"0.8"},
+ ...CALCULATOR_PROJECTS.map(id=>({path:`calculator/${id}`,lastmod:"2026-11-01",changefreq:"weekly" as const,priority:"0.7"})),
   { path: "", lastmod: DISCOVERY_UPDATED, changefreq: "weekly", priority: "1.0" },
   ...AVAILABLE_PROJECT_IDS.map((id) => ({
     path: `projects/${id}`,
@@ -82,6 +87,9 @@ function pageLabel(locale: SiteLocale, path: string): string {
     return articles.find((a) => path === `learn/${a.slug}`)?.title[locale] ?? path;
   if (path === "learn") return learningCopy[locale].title;
   if (path === "projects") return projectsCopy[locale].projects;
+  if(path === "calculator") return calculatorCopy.entry[locale];
+  const calculatorProject=CALCULATOR_PROJECTS.find(id=>path === `calculator/${id}`);
+  if(calculatorProject)return PROJECTS[calculatorProject].name+" · "+calculatorCopy.entry[locale];
   const project = AVAILABLE_PROJECT_IDS.find((id) => path === `projects/${id}`);
   if (project) return projectEditorial[project].title[locale];
   if (path === "projects/flyai") return "fly.ai Compute";
@@ -230,6 +238,11 @@ ${problemLinks.map((p) => `- [${p.q.en}](${origin}/en/${p.path})`).join("\n")}
 - Source code: https://github.com/molimao/iota
 - Longer machine-readable notes: ${origin}/llms-full.txt
 
+## Earnings calculators
+
+${calculatorDescription("en")}
+${CALCULATOR_PROJECTS.map(id=>`- ${origin}/en/calculator/${id} — ${calculatorDescription("en",id)}`).join("\n")}
+
 ## Indexable pages
 
 ${links}
@@ -370,6 +383,6 @@ ${article.description[locale]}
 ${readableArticleBlocks(article, locale)
   .map((block) => absoluteArticleLinks(block, locale, origin))
   .join("\n\n")}
-${article.sources ? `\n## ${localizeText(locale === "zh" || locale === "zh-TW" ? "资料来源与本站实现" : "Sources and implementation", locale)}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
+${article.sources ? `\n## ${localizeText(locale === "zh" || locale === "zh-TW" ? "资料来源" : "Sources", locale)}\n\n${article.sources.map((source) => `- [${source.name}](${source.url})`).join("\n")}` : ""}
 `;
 }

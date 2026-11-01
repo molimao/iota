@@ -1,3 +1,4 @@
+import { calculatorCopy } from "../hardware-calculator-copy";
 import { GuideNetworkCapacity } from "./guide-network-capacity";
 import { AgentAnalysisLanguage } from "../agent-analysis-language";
 import { logCopy } from "../log-analysis-copy";
@@ -130,7 +131,7 @@ export function SiteNav() {
           current={overviewView ? "overview" : deviceView ? "devices" : "projects"}
           project={viewProject}
         />
-        {!deviceView && !overviewView && !pathname.endsWith("/projects") && <ProjectSwitch />}
+        {!deviceView && !overviewView && !pathname.includes("/calculator") && !pathname.endsWith("/projects") && <ProjectSwitch />}
       </div>
       <div className="site-links">
         <LanguageSwitch />
@@ -180,6 +181,7 @@ export function SiteFooter() {
         </div>
         <div>
           <a href={`/${locale}/projects`}>{projectsCopy[locale].projects}</a>
+          <a href={`/${locale}/calculator`}>{calculatorCopy.entry[locale]}</a>
           <a href={`/${locale}/network`}>{copy.nav[5]}</a>
           <a href={`/${locale}/learn`}>{copy.nav[2]}</a>
           <a href={`/${locale}/blog`}>{localizeValue(en ? "Blog" : "博客", locale)}</a>

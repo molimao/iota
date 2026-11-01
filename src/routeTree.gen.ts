@@ -32,6 +32,7 @@ import { Route as LocaleReviewPoolsRouteImport } from './routes/$locale.review-p
 import { Route as LocaleReviewProjectControlsRouteImport } from './routes/$locale.review-project-controls'
 import { Route as LocaleReviewProjectLayoutsRouteImport } from './routes/$locale.review-project-layouts'
 import { Route as LocaleBlogChar123SlugChar125RouteImport } from './routes/$locale.blog.{-$slug}'
+import { Route as LocaleCalculatorChar123ProjectChar125RouteImport } from './routes/$locale.calculator.{-$project}'
 import { Route as LocaleLearnChar123SlugChar125RouteImport } from './routes/$locale.learn.{-$slug}'
 import { Route as LocaleProjectsChar123ProjectChar125RouteImport } from './routes/$locale.projects.{-$project}'
 
@@ -153,6 +154,12 @@ const LocaleBlogChar123SlugChar125Route =
     path: '/blog/{-$slug}',
     getParentRoute: () => LocaleRoute,
   } as any)
+const LocaleCalculatorChar123ProjectChar125Route =
+  LocaleCalculatorChar123ProjectChar125RouteImport.update({
+    id: '/calculator/{-$project}',
+    path: '/calculator/{-$project}',
+    getParentRoute: () => LocaleRoute,
+  } as any)
 const LocaleLearnChar123SlugChar125Route =
   LocaleLearnChar123SlugChar125RouteImport.update({
     id: '/learn/{-$slug}',
@@ -190,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
+  '/$locale/calculator/{-$project}': typeof LocaleCalculatorChar123ProjectChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
   '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
@@ -216,6 +224,7 @@ export interface FileRoutesByTo {
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
+  '/$locale/calculator/{-$project}': typeof LocaleCalculatorChar123ProjectChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
   '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
@@ -244,6 +253,7 @@ export interface FileRoutesById {
   '/$locale/review-project-layouts': typeof LocaleReviewProjectLayoutsRoute
   '/$locale/': typeof LocaleIndexRoute
   '/$locale/blog/{-$slug}': typeof LocaleBlogChar123SlugChar125Route
+  '/$locale/calculator/{-$project}': typeof LocaleCalculatorChar123ProjectChar125Route
   '/$locale/learn/{-$slug}': typeof LocaleLearnChar123SlugChar125Route
   '/$locale/projects/{-$project}': typeof LocaleProjectsChar123ProjectChar125Route
 }
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
+    | '/$locale/calculator/{-$project}'
     | '/$locale/learn/{-$slug}'
     | '/$locale/projects/{-$project}'
   fileRoutesByTo: FileRoutesByTo
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/$locale/review-project-layouts'
     | '/$locale'
     | '/$locale/blog/{-$slug}'
+    | '/$locale/calculator/{-$project}'
     | '/$locale/learn/{-$slug}'
     | '/$locale/projects/{-$project}'
   id:
@@ -326,6 +338,7 @@ export interface FileRouteTypes {
     | '/$locale/review-project-layouts'
     | '/$locale/'
     | '/$locale/blog/{-$slug}'
+    | '/$locale/calculator/{-$project}'
     | '/$locale/learn/{-$slug}'
     | '/$locale/projects/{-$project}'
   fileRoutesById: FileRoutesById
@@ -499,6 +512,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleBlogChar123SlugChar125RouteImport
       parentRoute: typeof LocaleRoute
     }
+    '/$locale/calculator/{-$project}': {
+      id: '/$locale/calculator/{-$project}'
+      path: '/calculator/{-$project}'
+      fullPath: '/$locale/calculator/{-$project}'
+      preLoaderRoute: typeof LocaleCalculatorChar123ProjectChar125RouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/$locale/learn/{-$slug}': {
       id: '/$locale/learn/{-$slug}'
       path: '/learn/{-$slug}'
@@ -537,6 +557,7 @@ interface LocaleRouteChildren {
   LocaleReviewProjectLayoutsRoute: typeof LocaleReviewProjectLayoutsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleBlogChar123SlugChar125Route: typeof LocaleBlogChar123SlugChar125Route
+  LocaleCalculatorChar123ProjectChar125Route: typeof LocaleCalculatorChar123ProjectChar125Route
   LocaleLearnChar123SlugChar125Route: typeof LocaleLearnChar123SlugChar125Route
   LocaleProjectsChar123ProjectChar125Route: typeof LocaleProjectsChar123ProjectChar125Route
 }
@@ -562,6 +583,8 @@ const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleReviewProjectLayoutsRoute: LocaleReviewProjectLayoutsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleBlogChar123SlugChar125Route: LocaleBlogChar123SlugChar125Route,
+  LocaleCalculatorChar123ProjectChar125Route:
+    LocaleCalculatorChar123ProjectChar125Route,
   LocaleLearnChar123SlugChar125Route: LocaleLearnChar123SlugChar125Route,
   LocaleProjectsChar123ProjectChar125Route:
     LocaleProjectsChar123ProjectChar125Route,

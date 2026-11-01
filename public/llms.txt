@@ -90,8 +90,59 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - Source code: https://github.com/molimao/iota
 - Longer machine-readable notes: https://iotahome.site/llms-full.txt
 
+## Earnings calculators
+
+Explore IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.
+- https://iotahome.site/en/calculator/iota — Choose a Mac configuration and hours to explore IOTA daily income from anonymous device samples, including queueing and zero-income days.
+- https://iotahome.site/en/calculator/bnt — Estimate daily Blocknet BNT revenue for M4 Max or RTX 5090 using measured Seine hashrate and current network data, valued at a fixed $0.16 reference.
+- https://iotahome.site/en/calculator/prl — Choose an RTX GPU and daily hours to estimate PearlHash mining revenue in PRL and USD, with electricity costs shown separately.
+- https://iotahome.site/en/calculator/quantus — Estimate Quantus QTC daily revenue from RTX Poseidon2 reference data, then adjust operating hours and electricity prices.
+- https://iotahome.site/en/calculator/rvn — Estimate Ravencoin RVN daily revenue using RTX KawPow reference data and compare USD returns before and after electricity.
+- https://iotahome.site/en/calculator/erg — Estimate Ergo ERG daily revenue using RTX Autolykos reference data, with electricity and net returns displayed separately.
+- https://iotahome.site/en/calculator/ethw — Estimate EthereumPoW ETHW daily revenue from RTX Ethash reference data, with adjustable hours and electricity prices.
+
 ## Indexable pages
 
+- [收益计算器 (zh)](https://iotahome.site/zh/calculator)
+- [收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator)
+- [Earnings calculator (en)](https://iotahome.site/en/calculator)
+- [수익 계산기 (ko)](https://iotahome.site/ko/calculator)
+- [収益計算 (ja)](https://iotahome.site/ja/calculator)
+- [IOTA · 收益计算器 (zh)](https://iotahome.site/zh/calculator/iota)
+- [IOTA · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/iota)
+- [IOTA · Earnings calculator (en)](https://iotahome.site/en/calculator/iota)
+- [IOTA · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/iota)
+- [IOTA · 収益計算 (ja)](https://iotahome.site/ja/calculator/iota)
+- [Blocknet · 收益计算器 (zh)](https://iotahome.site/zh/calculator/bnt)
+- [Blocknet · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/bnt)
+- [Blocknet · Earnings calculator (en)](https://iotahome.site/en/calculator/bnt)
+- [Blocknet · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/bnt)
+- [Blocknet · 収益計算 (ja)](https://iotahome.site/ja/calculator/bnt)
+- [Pearl · 收益计算器 (zh)](https://iotahome.site/zh/calculator/prl)
+- [Pearl · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/prl)
+- [Pearl · Earnings calculator (en)](https://iotahome.site/en/calculator/prl)
+- [Pearl · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/prl)
+- [Pearl · 収益計算 (ja)](https://iotahome.site/ja/calculator/prl)
+- [Quantus · 收益计算器 (zh)](https://iotahome.site/zh/calculator/quantus)
+- [Quantus · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/quantus)
+- [Quantus · Earnings calculator (en)](https://iotahome.site/en/calculator/quantus)
+- [Quantus · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/quantus)
+- [Quantus · 収益計算 (ja)](https://iotahome.site/ja/calculator/quantus)
+- [Ravencoin · 收益计算器 (zh)](https://iotahome.site/zh/calculator/rvn)
+- [Ravencoin · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/rvn)
+- [Ravencoin · Earnings calculator (en)](https://iotahome.site/en/calculator/rvn)
+- [Ravencoin · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/rvn)
+- [Ravencoin · 収益計算 (ja)](https://iotahome.site/ja/calculator/rvn)
+- [Ergo · 收益计算器 (zh)](https://iotahome.site/zh/calculator/erg)
+- [Ergo · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/erg)
+- [Ergo · Earnings calculator (en)](https://iotahome.site/en/calculator/erg)
+- [Ergo · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/erg)
+- [Ergo · 収益計算 (ja)](https://iotahome.site/ja/calculator/erg)
+- [EthereumPoW · 收益计算器 (zh)](https://iotahome.site/zh/calculator/ethw)
+- [EthereumPoW · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/ethw)
+- [EthereumPoW · Earnings calculator (en)](https://iotahome.site/en/calculator/ethw)
+- [EthereumPoW · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/ethw)
+- [EthereumPoW · 収益計算 (ja)](https://iotahome.site/ja/calculator/ethw)
 - [首页 (zh)](https://iotahome.site/zh)
 - [首頁 (zh-TW)](https://iotahome.site/zh-TW)
 - [Home (en)](https://iotahome.site/en)

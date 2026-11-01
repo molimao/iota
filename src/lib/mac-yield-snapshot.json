@@ -1,0 +1,106 @@
+[
+  {
+    "model": "m4-max-48",
+    "fetchedAt": 1793507969457,
+    "source": "https://bntpool.com/api/stats",
+    "rows": [
+      {
+        "project": "bnt",
+        "unit": "BNT",
+        "algorithm": "Argon2id · Seine",
+        "hashrate": 29.26,
+        "watts": null,
+        "source": "https://github.com/zpalmtree/seine/blob/master/docs/guides/apple-silicon.md",
+        "basis": "network",
+        "network": {
+          "height": 71015,
+          "hashrate": 192650.35509810227,
+          "blockReward": 439.4608026,
+          "blocksPerDay": 288,
+          "referenceUsd": 0.16
+        },
+        "coinsPerDay": 19.22282181275039,
+        "usdPerDay": 3.0756514900400624
+      }
+    ]
+  },
+  {
+    "model": "5090",
+    "fetchedAt": 1793507969457,
+    "source": "https://bntpool.com/api/stats",
+    "rows": [
+      {
+        "project": "bnt",
+        "unit": "BNT",
+        "algorithm": "Argon2id · Seine",
+        "hashrate": 7.3,
+        "watts": null,
+        "source": "https://seineminer.com/blog/blocknet-mining-hardware-hashrate/",
+        "basis": "network",
+        "network": {
+          "height": 71015,
+          "hashrate": 192650.35509810227,
+          "blockReward": 439.4608026,
+          "blocksPerDay": 288,
+          "referenceUsd": 0.16
+        },
+        "coinsPerDay": 4.795850964903549,
+        "usdPerDay": 0.7673361543845678
+      }
+    ]
+  },
+  {
+    "model": "m1-pro-32",
+    "fetchedAt": 1793507969503,
+    "source": "https://iota-web.api.macrocosmos.ai/docs",
+    "rows": [
+      {
+        "project": "iota",
+        "unit": "IOTA",
+        "algorithm": "Train at Home",
+        "hashrate": null,
+        "watts": null,
+        "source": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+        "basis": "observed",
+        "sample": {
+          "days": 14,
+          "devices": 1,
+          "start": "2026-10-18",
+          "end": "2026-11-01",
+          "zeroDays": 12,
+          "min": 0,
+          "max": 1.00858812
+        },
+        "coinsPerDay": 0.07852014428571429,
+        "usdPerDay": 0.42243837625714287
+      }
+    ]
+  },
+  {
+    "model": "m4-16",
+    "fetchedAt": 1793507969518,
+    "source": "https://iota-web.api.macrocosmos.ai/docs",
+    "rows": [
+      {
+        "project": "iota",
+        "unit": "IOTA",
+        "algorithm": "Train at Home",
+        "hashrate": null,
+        "watts": null,
+        "source": "https://docs.macrocosmos.ai/product-and-services/tah/tah-user-guide",
+        "basis": "observed",
+        "sample": {
+          "days": 14,
+          "devices": 1,
+          "start": "2026-10-18",
+          "end": "2026-11-01",
+          "zeroDays": 13,
+          "min": 0,
+          "max": 0.18958168
+        },
+        "coinsPerDay": 0.013541548571428572,
+        "usdPerDay": 0.07285353131428571
+      }
+    ]
+  }
+]

@@ -1,3 +1,7 @@
+import "@/components/hardware-calculator.css";
+import { CALCULATOR_PROJECTS, type CalculatorProject } from "@/lib/hardware-yield";
+import { calculatorCopy } from "@/components/hardware-calculator-copy";
+import { useLocale } from "@/components/site/locale";
 import { isPoolProject } from "@/lib/pool-projects";
 import { PoolPage } from "@/components/pool-page";
 import { isPlatform } from "@/lib/platforms";
@@ -8,7 +12,12 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { MiningProjectPage, ProjectsHub } from "@/components/projects";
 import { projectsSeo } from "@/components/projects-seo";
 import { FlyaiPage } from "@/components/flyai-page";
-import { isMiningProject, isMonitorProject, isComputeProject, isAvailableProject } from "@/lib/projects";
+import {
+  isMiningProject,
+  isMonitorProject,
+  isComputeProject,
+  isAvailableProject,
+} from "@/lib/projects";
 import { isLocale } from "@/lib/site";
 
 export const Route = createFileRoute("/$locale/projects/{-$project}")({
@@ -25,6 +34,20 @@ export const Route = createFileRoute("/$locale/projects/{-$project}")({
   component: Page,
 });
 function Page() {
+  const { project } = Route.useParams(),
+    { locale } = useLocale();
+  return (
+    <>
+      {CALCULATOR_PROJECTS.includes(project as CalculatorProject) && (
+        <div className="calculator-entry">
+          <a href={`/${locale}/calculator/${project}`}>{calculatorCopy.entry[locale]} ↗</a>
+        </div>
+      )}
+      <ProjectContent />
+    </>
+  );
+}
+function ProjectContent() {
   const { project } = Route.useParams();
   if (isPoolProject(project)) return <PoolPage key={project} project={project} />;
   if (isPlatform(project)) return <PlatformPage key={project} project={project} />;

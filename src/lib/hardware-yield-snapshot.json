@@ -1,0 +1,409 @@
+[
+  {
+    "model": "4090",
+    "fetchedAt": 1793506637312,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-4090",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 293000000000000,
+        "watts": 450,
+        "coinsPerDay": 3.7018449821,
+        "usdPerDay": 5.36525281
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 1352838131,
+        "watts": 380,
+        "coinsPerDay": 0.0554387543,
+        "usdPerDay": 4.05268382
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 265000000,
+        "watts": 240,
+        "coinsPerDay": 1.0597729772,
+        "usdPerDay": 0.30505424
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 65000000,
+        "watts": 330,
+        "coinsPerDay": 207.0983006105,
+        "usdPerDay": 0.28505381
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 127000000,
+        "watts": 260,
+        "coinsPerDay": 0.75670522,
+        "usdPerDay": 0.16729524
+      }
+    ]
+  },
+  {
+    "model": "5090",
+    "fetchedAt": 1793506637985,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-5090",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 400000000000000,
+        "watts": 525,
+        "coinsPerDay": 5.0537132861,
+        "usdPerDay": 7.32457722
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 1812502657,
+        "watts": 525,
+        "coinsPerDay": 0.074275619,
+        "usdPerDay": 5.4296963
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 575000000,
+        "watts": 295,
+        "coinsPerDay": 2.2995074034,
+        "usdPerDay": 0.66191014
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 100500000,
+        "watts": 460,
+        "coinsPerDay": 320.2058340208,
+        "usdPerDay": 0.44073704
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 215000000,
+        "watts": 410,
+        "coinsPerDay": 1.281036396,
+        "usdPerDay": 0.28321635
+      }
+    ]
+  },
+  {
+    "model": "4080",
+    "fetchedAt": 1793506638842,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-4080",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 187000000000000,
+        "watts": 270,
+        "coinsPerDay": 2.3626109613,
+        "usdPerDay": 3.42423985
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 852017684,
+        "watts": 200,
+        "coinsPerDay": 0.0349153369,
+        "usdPerDay": 2.55238096
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 46000000,
+        "watts": 260,
+        "coinsPerDay": 145.6451518892,
+        "usdPerDay": 0.20001584
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 170000000,
+        "watts": 180,
+        "coinsPerDay": 0.6790681787,
+        "usdPerDay": 0.19480461
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 87500000,
+        "watts": 190,
+        "coinsPerDay": 0.5196103476,
+        "usdPerDay": 0.11467229
+      }
+    ]
+  },
+  {
+    "model": "4070",
+    "fetchedAt": 1793506639605,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-4070",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 113000000000000,
+        "watts": 160,
+        "coinsPerDay": 1.4276740033,
+        "usdPerDay": 2.06919306
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 513940646,
+        "watts": 100,
+        "coinsPerDay": 0.0210610779,
+        "usdPerDay": 1.53960691
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 132000000,
+        "watts": 110,
+        "coinsPerDay": 0.5272764682,
+        "usdPerDay": 0.15126005
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 30000000,
+        "watts": 150,
+        "coinsPerDay": 94.9859686234,
+        "usdPerDay": 0.13044511
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 62000000,
+        "watts": 130,
+        "coinsPerDay": 0.3681810463,
+        "usdPerDay": 0.08125351
+      }
+    ]
+  },
+  {
+    "model": "4060",
+    "fetchedAt": 1793506640168,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-4060",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 65000000000000,
+        "watts": 110,
+        "coinsPerDay": 0.821228409,
+        "usdPerDay": 1.1902438
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 277537520,
+        "watts": 85,
+        "coinsPerDay": 0.0113733743,
+        "usdPerDay": 0.83141641
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 73900000,
+        "watts": 76,
+        "coinsPerDay": 0.2955366906,
+        "usdPerDay": 0.08506984
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 17900000,
+        "watts": 91,
+        "coinsPerDay": 57.0316858604,
+        "usdPerDay": 0.07849943
+      }
+    ]
+  },
+  {
+    "model": "3090",
+    "fetchedAt": 1793506640715,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-3090",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 125000000000000,
+        "watts": 320,
+        "coinsPerDay": 1.5792854019,
+        "usdPerDay": 2.28893038
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 540235089,
+        "watts": 210,
+        "coinsPerDay": 0.0221386134,
+        "usdPerDay": 1.61837692
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 260000000,
+        "watts": 260,
+        "coinsPerDay": 1.0397772607,
+        "usdPerDay": 0.2992985
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 46500000,
+        "watts": 330,
+        "coinsPerDay": 148.154938129,
+        "usdPerDay": 0.20392311
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 122000000,
+        "watts": 300,
+        "coinsPerDay": 0.7269136759,
+        "usdPerDay": 0.16070881
+      }
+    ]
+  },
+  {
+    "model": "3080",
+    "fetchedAt": 1793506641626,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-3080",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 105000000000000,
+        "watts": 240,
+        "coinsPerDay": 1.3265997376,
+        "usdPerDay": 1.92270152
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 488493971,
+        "watts": 165,
+        "coinsPerDay": 0.0200182835,
+        "usdPerDay": 1.46337656
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 220000000,
+        "watts": 220,
+        "coinsPerDay": 0.8787941136,
+        "usdPerDay": 0.25210009
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 42000000,
+        "watts": 250,
+        "coinsPerDay": 132.9803560728,
+        "usdPerDay": 0.18262316
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 101500000,
+        "watts": 230,
+        "coinsPerDay": 0.6027480032,
+        "usdPerDay": 0.13301986
+      }
+    ]
+  },
+  {
+    "model": "3060",
+    "fetchedAt": 1793506642247,
+    "source": "https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-3060",
+    "rows": [
+      {
+        "project": "prl",
+        "unit": "PRL",
+        "algorithm": "PearlHash",
+        "hashrate": 47000000000000,
+        "watts": 120,
+        "coinsPerDay": 0.5938113111,
+        "usdPerDay": 0.86063782
+      },
+      {
+        "project": "quantus",
+        "unit": "QTC",
+        "algorithm": "Poseidon2",
+        "hashrate": 221078445,
+        "watts": 85,
+        "coinsPerDay": 0.0090597044,
+        "usdPerDay": 0.66228251
+      },
+      {
+        "project": "erg",
+        "unit": "ERG",
+        "algorithm": "Autolykos",
+        "hashrate": 115000000,
+        "watts": 110,
+        "coinsPerDay": 0.4593696503,
+        "usdPerDay": 0.13177959
+      },
+      {
+        "project": "rvn",
+        "unit": "RVN",
+        "algorithm": "KawPow",
+        "hashrate": 22000000,
+        "watts": 140,
+        "coinsPerDay": 69.6563769905,
+        "usdPerDay": 0.09565975
+      },
+      {
+        "project": "ethw",
+        "unit": "ETHW",
+        "algorithm": "Ethash",
+        "hashrate": 46000000,
+        "watts": 125,
+        "coinsPerDay": 0.2731665827,
+        "usdPerDay": 0.06028486
+      }
+    ]
+  }
+]

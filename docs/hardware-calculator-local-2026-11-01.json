@@ -1,0 +1,220 @@
+{
+  "status": "local only; not published",
+  "date": "2026-11-01",
+  "hardwareCount": 11,
+  "records": 43,
+  "projects": [
+    "prl",
+    "quantus",
+    "rvn",
+    "erg",
+    "ethw",
+    "bnt",
+    "iota"
+  ],
+  "source": "Kryptex GPU daily records; Seine official BNT benchmarks; bntpool network and reward schedule; authorized anonymous IOTA settled-credit samples.",
+  "sourceRefreshScript": "scripts/refresh-hardware-yield.mjs",
+  "runtimeCacheMinutes": 30,
+  "fallback": "Dated source-backed snapshot, explicitly labeled; no invented zeroes",
+  "primaryScenario": {
+    "gpu": "RTX 4090",
+    "hours": 24,
+    "electricityUsdPerKwh": 0.1,
+    "grossUsd": 5.36525281,
+    "electricityUsd": 1.08,
+    "netUsd": 4.28525281
+  },
+  "automatedTests": 12,
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "routeChecks": [
+    {
+      "path": "/zh/calculator",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/prl",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/quantus",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/rvn",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/erg",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/ethw",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/en/calculator",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh-TW/calculator",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/ko/calculator",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/ja/calculator",
+      "status": "200",
+      "numericSSR": true,
+      "canonical": true
+    },
+    {
+      "path": "/zh/calculator/iota",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/zh/calculator/bnt",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/en/calculator/iota",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/en/calculator/bnt",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/zh-TW/calculator/iota",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/zh-TW/calculator/bnt",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/ko/calculator/iota",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/ko/calculator/bnt",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/ja/calculator/iota",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/ja/calculator/bnt",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    },
+    {
+      "path": "/zh/calculator/prl?gpu=4090&hours=24&cost=0.1",
+      "status": 200,
+      "canonical": true,
+      "numericSSR": true
+    }
+  ],
+  "browserChecks": [
+    "default 4090/24h results visible without login",
+    "12h scales gross and power costs by half",
+    "zero electricity makes net equal gross",
+    "5090 selection replaces numbers",
+    "share link restores 5090,12h,$0.10/kWh",
+    "390px viewport no horizontal overflow",
+    "desktop visual checked",
+    "IOTA M1 Pro / M4 switches amounts",
+    "BNT M4 Max shows current network-based revenue and fixed price",
+    "Unknown power never appears as zero electricity or net earnings",
+    "Single-row repeated comparison removed",
+    "BNT mobile inputs and result inspected at 390px"
+  ],
+  "seo": [
+    "canonical",
+    "five-language alternate URLs",
+    "OpenGraph",
+    "sitemap paths generated from source"
+  ],
+  "scopeLimit": "M1 Pro 32GB and M4 16GB have authorized IOTA settlement samples; M4 Max 48GB and RTX5090 have official BNT benchmarks. Other Mac configurations are not extrapolated from unrelated inference benchmarks.",
+  "grok": "Read-only research delegated; external access failed in its environment. Primary assistant performed live source research and verified actual data. BNT implementation reviewed read-only; its suggestions were verified against actual source code and official reward calculator.",
+  "macExpansion": {
+    "models": [
+      "Apple M1 Pro 32GB",
+      "Apple M4 16GB",
+      "Apple M4 Max 48GB"
+    ],
+    "iota": {
+      "consent": "Owner explicitly authorized anonymous hardware and earnings samples",
+      "devices": 2,
+      "daysPerDevice": 14,
+      "windowUtc": [
+        "2026-10-18",
+        "2026-11-01"
+      ],
+      "method": "Complete UTC settled-credit days, including gaps and explicit zeroes. Hours scale the observed calendar-day mean. Actual sample uptime was not recorded; not a full-time chip benchmark.",
+      "publicData": "Only chip, memory, sample period, daily aggregate and range; no account, device names, public keys or logs"
+    },
+    "bnt": {
+      "benchmarks": [
+        {
+          "model": "Apple M4 Max 48GB",
+          "hashrate": 29.26,
+          "profile": "14 threads, balanced CPU-only",
+          "source": "https://github.com/zpalmtree/seine/blob/master/docs/guides/apple-silicon.md"
+        },
+        {
+          "model": "RTX 5090",
+          "hashrate": 7.3,
+          "profile": "GPU only, Seine v0.2.26",
+          "source": "https://seineminer.com/blog/blocknet-mining-hardware-hashrate/"
+        }
+      ],
+      "networkSource": "https://bntpool.com/api/stats",
+      "rewardSource": "https://bntpool.com/blog/blocknet-block-reward-schedule/",
+      "referenceUsd": 0.16,
+      "power": "Not measured; gross displayed, electricity and miner/pool fees not deducted"
+    },
+    "browser": "Firefox desktop and 390px responsive view; checked hardware selection, 12h scaling, sources, BNT network parameters and visible fixed price",
+    "sourceRefreshScript": "scripts/refresh-mac-yield.mjs"
+  }
+}

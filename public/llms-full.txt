@@ -90,8 +90,59 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 - Source code: https://github.com/molimao/iota
 - Longer machine-readable notes: https://iotahome.site/llms-full.txt
 
+## Earnings calculators
+
+Explore IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.
+- https://iotahome.site/en/calculator/iota — Choose a Mac configuration and hours to explore IOTA daily income from anonymous device samples, including queueing and zero-income days.
+- https://iotahome.site/en/calculator/bnt — Estimate daily Blocknet BNT revenue for M4 Max or RTX 5090 using measured Seine hashrate and current network data, valued at a fixed $0.16 reference.
+- https://iotahome.site/en/calculator/prl — Choose an RTX GPU and daily hours to estimate PearlHash mining revenue in PRL and USD, with electricity costs shown separately.
+- https://iotahome.site/en/calculator/quantus — Estimate Quantus QTC daily revenue from RTX Poseidon2 reference data, then adjust operating hours and electricity prices.
+- https://iotahome.site/en/calculator/rvn — Estimate Ravencoin RVN daily revenue using RTX KawPow reference data and compare USD returns before and after electricity.
+- https://iotahome.site/en/calculator/erg — Estimate Ergo ERG daily revenue using RTX Autolykos reference data, with electricity and net returns displayed separately.
+- https://iotahome.site/en/calculator/ethw — Estimate EthereumPoW ETHW daily revenue from RTX Ethash reference data, with adjustable hours and electricity prices.
+
 ## Indexable pages
 
+- [收益计算器 (zh)](https://iotahome.site/zh/calculator)
+- [收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator)
+- [Earnings calculator (en)](https://iotahome.site/en/calculator)
+- [수익 계산기 (ko)](https://iotahome.site/ko/calculator)
+- [収益計算 (ja)](https://iotahome.site/ja/calculator)
+- [IOTA · 收益计算器 (zh)](https://iotahome.site/zh/calculator/iota)
+- [IOTA · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/iota)
+- [IOTA · Earnings calculator (en)](https://iotahome.site/en/calculator/iota)
+- [IOTA · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/iota)
+- [IOTA · 収益計算 (ja)](https://iotahome.site/ja/calculator/iota)
+- [Blocknet · 收益计算器 (zh)](https://iotahome.site/zh/calculator/bnt)
+- [Blocknet · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/bnt)
+- [Blocknet · Earnings calculator (en)](https://iotahome.site/en/calculator/bnt)
+- [Blocknet · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/bnt)
+- [Blocknet · 収益計算 (ja)](https://iotahome.site/ja/calculator/bnt)
+- [Pearl · 收益计算器 (zh)](https://iotahome.site/zh/calculator/prl)
+- [Pearl · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/prl)
+- [Pearl · Earnings calculator (en)](https://iotahome.site/en/calculator/prl)
+- [Pearl · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/prl)
+- [Pearl · 収益計算 (ja)](https://iotahome.site/ja/calculator/prl)
+- [Quantus · 收益计算器 (zh)](https://iotahome.site/zh/calculator/quantus)
+- [Quantus · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/quantus)
+- [Quantus · Earnings calculator (en)](https://iotahome.site/en/calculator/quantus)
+- [Quantus · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/quantus)
+- [Quantus · 収益計算 (ja)](https://iotahome.site/ja/calculator/quantus)
+- [Ravencoin · 收益计算器 (zh)](https://iotahome.site/zh/calculator/rvn)
+- [Ravencoin · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/rvn)
+- [Ravencoin · Earnings calculator (en)](https://iotahome.site/en/calculator/rvn)
+- [Ravencoin · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/rvn)
+- [Ravencoin · 収益計算 (ja)](https://iotahome.site/ja/calculator/rvn)
+- [Ergo · 收益计算器 (zh)](https://iotahome.site/zh/calculator/erg)
+- [Ergo · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/erg)
+- [Ergo · Earnings calculator (en)](https://iotahome.site/en/calculator/erg)
+- [Ergo · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/erg)
+- [Ergo · 収益計算 (ja)](https://iotahome.site/ja/calculator/erg)
+- [EthereumPoW · 收益计算器 (zh)](https://iotahome.site/zh/calculator/ethw)
+- [EthereumPoW · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/ethw)
+- [EthereumPoW · Earnings calculator (en)](https://iotahome.site/en/calculator/ethw)
+- [EthereumPoW · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/ethw)
+- [EthereumPoW · 収益計算 (ja)](https://iotahome.site/ja/calculator/ethw)
 - [首页 (zh)](https://iotahome.site/zh)
 - [首頁 (zh-TW)](https://iotahome.site/zh-TW)
 - [Home (en)](https://iotahome.site/en)
@@ -1511,7 +1562,7 @@ Monitor: https://iotahome.site/en/projects/mds
 Content updated: 2026-10-26
 Check BNT hashrate, Workers, immature estimates and paid totals on bntpool.com. Sign in to save multiple addresses.
 This is Argon2id-based Blocknet BNT, not Bancor BNT or BLOCK. Enter the complete mainnet public payout address from Seine, not a shortname, private key or seed phrase. Coverage is bntpool.com only, excluding other pools and solo mining.
-Worker status is based on recent shares. Immature, unpaid and paid amounts are shown separately; daily rewards and USD quotes are unavailable.
+Worker status uses recent shares. The 24h total counts confirmed payments; immature and unpaid amounts stay separate.
 如何对照原始数据？ (zh-CN): 这里是 blocknetcrypto.com 的 Blocknet BNT。按 bntpool 地址对照份额、待成熟、已确认与付款，不与 Bancor BNT 或 BLOCK 混用。
 如何核對原始資料？ (zh-TW): 此處為 blocknetcrypto.com 的 Blocknet BNT。核對 bntpool 地址與各付款階段，不與 Bancor BNT 或 BLOCK 混用。
 How should I verify the original data? (en): This is Blocknet BNT at blocknetcrypto.com. Match the bntpool address and payout stages; do not mix it with Bancor BNT or BLOCK.
@@ -12889,47 +12940,47 @@ Updated: 2026-10-17
 
 ## 排队中
 
-等待官方分配任务；此名次来自最近的本机日志。
+等待项目分配本轮任务；保持开机即可。
 
-## 等待初始化
+## 准备中
 
-官方心跳返回初始化或冻结状态；等待后续状态，不代表电脑离线。
+这台设备正在准备，等待状态更新。
 
-## 等待训练任务
+## 等待任务
 
-官方最近统计吞吐量为 0，设备仍在参与训练。
+这本轮计算已经完成，等待下一轮训练，保持开机即可。
 
-## 近期有计算活动
+## 计算中
 
-最近的官方心跳记录了前向或反向计算；不等于已确认收益。
+这台设备正在计算。
 
-## 权重上传阶段
+## 提交中
 
-所在训练层进入权重上传阶段；不表示本机上传已完成或已记账。
+正在提交本轮计算结果。
 
-## 分区合并阶段
+## 合并中
 
-所在训练层进入分区合并阶段；此阶段不是训练停止的证据。
+正在合并本轮计算结果。
 
-## 官方状态需检查
+## 已中断
 
-官方心跳返回 kicked。请核对本机日志和项目状态，不能据此判断具体原因。
+项目中断了这台设备，请在“设备设置与诊断”查看原因。
 
-## 进程运行中
+## 训练待确认
 
-训练阶段待确认，是否产生贡献请查看官方吞吐量。
+程序开着，还不能确认训练进度，请查看最近状态。
 
-## 训练进程已停止
+## 训练停止
 
-应用仍在运行，请先检查本机训练按钮或日志。
+应用开着但训练停了，打开“设备设置与诊断”查看原因。
 
-## TAH 已停止
+## 已停止
 
-需要继续训练时，可启动 TAH。
+需要继续训练时点“启动”。
 
-## 未收到近期心跳
+## 离线
 
-检查 Mac 是否休眠、网络及代理是否运行。暂时无法确认训练状态。
+检查 Mac 是否休眠、网络是否正常、连接程序是否运行。
 
 ## 何时重启？
 
@@ -12939,7 +12990,7 @@ Updated: 2026-10-17
 
 等待设备接收 → 已下发，等待执行结果 → 设备已确认完成。已下发表示服务端已发出命令，不能证明设备已执行。若未收到完成确认，先核对设备状态，不要连续点击。完成也不等于已经开始产生收益。
 
-[如何判断与处理](https://iotahome.site/zh/machines)
+[设备状态说明](https://iotahome.site/zh/machines)
 
 ### Mac 在線卻沒有收益，要不要重啟？ (zh-TW)
 Published: 2026-10-15
@@ -12955,47 +13006,47 @@ Updated: 2026-10-17
 
 ## 排隊中
 
-等待官方分配任務；此名次來自最近的本機日誌。
+等待專案分配本輪任務；保持開機即可。
 
-## 等待初始化
+## 準備中
 
-官方心跳回傳初始化或凍結狀態；等待後續狀態，不代表電腦離線。
+這台設備正在準備，等待狀態更新。
 
-## 等待訓練任務
+## 等待任務
 
-官方最近統計吞吐量為 0，設備仍在參與訓練。
+本輪計算已完成，請保持開機等待下一輪訓練。
 
-## 近期有計算活動
+## 計算中
 
-最近官方心跳記錄了前向或反向計算；不等於已確認收益。
+這台設備正在計算。
 
-## 權重上傳階段
+## 提交中
 
-所在訓練層進入權重上傳階段；不表示本機上傳已完成或已記帳。
+正在提交本輪計算結果。
 
-## 分區合併階段
+## 合併中
 
-所在訓練層進入分區合併階段；此階段不是訓練停止的證據。
+正在合併本輪計算結果。
 
-## 官方狀態需檢查
+## 已中斷
 
-官方心跳回傳 kicked。請核對本機日誌與專案狀態，不能據此判斷具體原因。
+專案中斷了此設備，請在「設備設定與診斷」查看原因。
 
-## 程序執行中
+## 訓練待確認
 
-訓練階段待確認，是否產生貢獻請查看官方吞吐量。
+程式開著，尚無法確認訓練進度，請查看最近狀態。
 
-## 訓練程序已停止
+## 訓練停止
 
-應用仍在執行，請先檢查本機訓練按鈕或日誌。
+應用程式開著但訓練停了，開啟「設備設定與診斷」查看原因。
 
-## TAH 已停止
+## 已停止
 
-需要繼續訓練時，可啟動 TAH。
+需要繼續訓練時按「啟動」。
 
-## 未收到近期心跳
+## 離線
 
-檢查 Mac 是否休眠、網路及代理是否執行。暫時無法確認訓練狀態。
+檢查 Mac 是否休眠、網路是否正常、連線程式是否執行。
 
 ## 何時重啟？
 
@@ -13005,7 +13056,7 @@ Updated: 2026-10-17
 
 等待設備接收 → 已下發，等待執行結果 → 設備已確認完成。已下發表示伺服器已發出命令，不能證明設備已執行。若未收到完成確認，先核對設備狀態，不要連續點擊。完成也不等於已開始產生收益。
 
-[如何判斷與處理](https://iotahome.site/zh-TW/machines)
+[設備狀態說明](https://iotahome.site/zh-TW/machines)
 
 ### Mac online but no rewards: should I restart? (en)
 Published: 2026-10-15
@@ -13019,49 +13070,49 @@ Separate device heartbeat, app processes and official training contribution befo
 
 Online means an agent heartbeat arrived within 90 seconds. A running process does not prove contribution. Queue positions come from local logs and expire after five minutes; a missing position does not prove training has started.
 
-## In queue
+## Queued
 
-Waiting for task assignment. Position comes from recent local logs.
+Waiting for this round’s assignment. Keep the device on.
 
-## Awaiting initialization
+## Preparing
 
-Official heartbeat reports initializing or frozen. This does not mean the Mac is offline.
+This device is preparing. Wait for its next report.
 
-## Waiting for training work
+## Awaiting task
 
-Official statistics report zero throughput while the miner remains active.
+This round finished. Keep the device on for the next training round.
 
-## Recent compute activity
+## Computing
 
-A recent official heartbeat reports forward or backward computation. Rewards are not confirmed by this signal.
+This device is computing.
 
-## Weight upload phase
+## Uploading
 
-The assigned layer is in its weight upload phase. This does not confirm this Mac has uploaded or earned rewards.
+Submitting this round’s result.
 
-## Partition merge phase
+## Merging
 
-The assigned layer is in its partition merge phase. This is not evidence that training has stopped.
+Merging this round’s results.
 
-## Official status needs attention
+## Interrupted
 
-Official heartbeat reports kicked. Check local logs and the project; the cause is not confirmed.
+The project interrupted this device. Check Settings and diagnostics for the cause.
 
-## Process running
+## Training unconfirmed
 
-Training phase is unconfirmed. Check official throughput for contribution.
+The app is open; training progress is not yet confirmed. Check the latest status.
 
-## Training process stopped
+## Training stopped
 
-The app is open. Check its training button or logs first.
+The app is open but training stopped. Open Settings and diagnostics.
 
-## TAH stopped
+## Stopped
 
-Start TAH when you want to resume.
+Select Start to resume training.
 
-## No recent heartbeat
+## Offline
 
-Check sleep, network and the agent on your Mac. Training status is unknown.
+Check sleep, network and the connection app on your Mac.
 
 ## When should I restart?
 
@@ -13071,7 +13122,7 @@ Check the latest status and the app on your Mac. Start it if stopped. If the app
 
 Waiting for device → Dispatched, awaiting result → Device confirmed completion. Dispatch does not prove execution. If confirmation is missing, check device status before retrying. Completion does not mean rewards have started.
 
-[Understand this status](https://iotahome.site/en/machines)
+[Device status guide](https://iotahome.site/en/machines)
 
 ### Mac은 온라인인데 수익이 없나요? 재시작해야 하나요? (ko)
 Published: 2026-10-15
@@ -13087,47 +13138,47 @@ Updated: 2026-10-17
 
 ## 대기 중
 
-작업 배정을 기다립니다. 순번은 최근 로컬 로그 기준입니다.
+이번 라운드 작업 배정을 기다리는 중입니다. 기기를 켜 두세요.
 
-## 초기화 대기
+## 준비 중
 
-공식 응답이 초기화 또는 동결 상태입니다. Mac 오프라인을 뜻하지 않습니다.
+이 기기는 준비 중입니다. 다음 상태 보고를 기다리세요.
 
-## 학습 작업 대기
+## 작업 대기
 
-공식 통계 처리량은 0이며 채굴자는 활성 상태입니다.
+이번 계산이 끝났습니다. 다음 학습 라운드를 위해 기기를 켜 두세요.
 
-## 최근 연산 활동 있음
+## 계산 중
 
-최근 공식 응답에 순전파 또는 역전파 연산이 기록되었습니다. 보상 확정을 의미하지 않습니다.
+이 기기에서 계산 중입니다.
 
-## 가중치 업로드 단계
+## 제출 중
 
-배정된 레이어가 가중치 업로드 단계입니다. 이 Mac의 업로드 완료나 보상 확정은 아닙니다.
+이번 계산 결과를 제출 중입니다.
 
-## 파티션 병합 단계
+## 병합 중
 
-배정된 레이어가 파티션 병합 단계입니다. 학습 중단의 증거가 아닙니다.
+이번 계산 결과를 병합 중입니다.
 
-## 공식 상태 확인 필요
+## 중단됨
 
-공식 응답이 kicked입니다. 로컬 로그와 프로젝트 상태를 확인하세요. 원인은 미확인입니다.
+프로젝트에서 기기를 중단했습니다. 기기 설정 및 진단에서 원인을 확인하세요.
 
-## 프로세스 실행 중
+## 학습 미확인
 
-학습 단계는 미확인입니다. 기여 여부는 공식 처리량을 확인하세요.
+앱은 실행 중이나 학습 진행은 아직 확인되지 않았습니다. 최근 상태를 확인하세요.
 
-## 학습 프로세스 중지됨
+## 학습 중지
 
-앱은 실행 중입니다. 먼저 학습 버튼이나 로그를 확인하세요.
+앱은 실행 중이나 학습이 중지되었습니다. 기기 설정 및 진단을 확인하세요.
 
-## TAH 중지됨
+## 중지됨
 
-학습을 재개하려면 TAH를 시작하세요.
+학습을 계속하려면 시작을 누르세요.
 
-## 최근 상태 보고 없음
+## 오프라인
 
-Mac의 잠자기, 네트워크 및 에이전트를 확인하세요. 학습 상태는 확인되지 않았습니다.
+Mac의 절전, 네트워크 및 연결 프로그램 상태를 확인하세요.
 
 ## 언제 재시작하나요?
 
@@ -13137,7 +13188,7 @@ Mac의 잠자기, 네트워크 및 에이전트를 확인하세요. 학습 상�
 
 기기 수신 대기 → 전송됨·결과 대기 → 기기가 완료 확인. 전송은 실행을 증명하지 않습니다. 완료 확인이 없다면 재시도 전 상태를 확인하세요. 완료가 수익 발생을 의미하지는 않습니다.
 
-[상태와 조치 안내](https://iotahome.site/ko/machines)
+[기기 상태 안내](https://iotahome.site/ko/machines)
 
 ### Macはオンラインなのに報酬がない：再起動すべき？ (ja)
 Published: 2026-10-15
@@ -13153,47 +13204,47 @@ Updated: 2026-10-17
 
 ## 待機中
 
-タスク割り当て待ちです。順位は最近のローカルログに基づきます。
+今回の割り当て待ちです。起動したままにします。
 
-## 初期化待ち
+## 準備中
 
-公式応答は初期化中または凍結状態です。Macのオフラインを意味しません。
+この端末は準備中です。次の状態報告を待ちます。
 
-## 学習タスク待ち
+## タスク待ち
 
-公式統計のスループットは0ですが、マイナーは参加中です。
+今回の計算は完了しました。次の学習のため起動したままにします。
 
-## 最近の計算活動あり
+## 計算中
 
-最近の公式応答に順伝播または逆伝播の計算が記録されています。報酬確定を意味しません。
+この端末は計算中です。
 
-## 重みアップロード段階
+## 送信中
 
-担当レイヤーは重みアップロード段階です。このMacの送信完了や報酬を保証しません。
+今回の計算結果を送信中です。
 
-## 分割データの統合段階
+## 統合中
 
-担当レイヤーは分割データの統合段階です。学習停止の証拠ではありません。
+今回の計算結果を統合中です。
 
-## 公式状態の確認が必要
+## 中断
 
-公式応答はkickedです。ローカルログとプロジェクトを確認してください。原因は未確認です。
+プロジェクトが端末を停止しました。設定と診断で原因を確認してください。
 
-## プロセス実行中
+## 学習未確認
 
-学習段階は未確認です。貢献は公式スループットで確認してください。
+アプリは起動中ですが学習状況は未確認です。最新状態を確認してください。
 
-## 学習プロセス停止中
+## 学習停止
 
-アプリは起動中です。学習ボタンかログを確認してください。
+アプリは起動中ですが学習が止まっています。設定と診断を確認します。
 
-## TAH停止中
+## 停止
 
-再開するにはTAHを起動してください。
+学習を再開するには起動を選択します。
 
-## 最近の応答なし
+## オフライン
 
-Macのスリープ、通信、エージェントを確認してください。学習状態は不明です。
+Macのスリープ、通信、接続アプリを確認してください。
 
 ## いつ再起動する？
 
@@ -13203,7 +13254,7 @@ Macのスリープ、通信、エージェントを確認してください。�
 
 端末の受信待ち → 送信済み・結果待ち → 端末が完了を確認。送信だけでは実行を証明できません。完了確認がなければ再試行前に状態を確認します。完了は報酬発生を意味しません。
 
-[状態と対処方法](https://iotahome.site/ja/machines)
+[端末状態の説明](https://iotahome.site/ja/machines)
 - Source: IOTA Watch agent implementation — https://github.com/molimao/iota/tree/main/scripts/device-agent
 
 ### Where can I check multiple Macs running IOTA together?

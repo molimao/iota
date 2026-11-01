@@ -2,6 +2,486 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://iotahome.site/zh/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/iota"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/iota"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/iota"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/iota"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/iota</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/iota"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/iota"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/bnt</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/bnt"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/bnt</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/bnt"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/bnt</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/bnt"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/bnt</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/bnt"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/bnt</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/bnt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/bnt"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/prl</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/prl"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/prl</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/prl"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/prl</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/prl"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/prl</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/prl"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/prl</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/prl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/prl"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/quantus</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/quantus"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/quantus</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/quantus"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/quantus</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/quantus"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/quantus</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/quantus"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/quantus</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/quantus"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/quantus"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/rvn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/rvn"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/rvn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/rvn"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/rvn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/rvn"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/rvn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/rvn"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/rvn</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/rvn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/rvn"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/erg</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/erg"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/erg</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/erg"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/erg</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/erg"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/erg</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/erg"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/erg</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/erg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/erg"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh/calculator/ethw</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/ethw"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/ethw</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/ethw"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/ethw</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/ethw"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/ethw</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/ethw"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/ethw</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/ethw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/ethw"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW"/>
