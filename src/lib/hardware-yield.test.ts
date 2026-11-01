@@ -66,6 +66,7 @@ import {
 } from "./hardware-yield";
 import { blocknetHardwareRows } from "./blocknet-hardware";
 import macSeeds from "./mac-yield-snapshot.json";
+import xmrSeeds from "./xmr-yield-snapshot.json";
 it("matches Blocknet atomic rewards, scheduled boundaries and tail", () => {
   expect(blocknetReward(1)).toBe(723.25093035);
   expect(blocknetReward(69120)).toBeCloseTo(439.46, 2);
@@ -110,7 +111,7 @@ it("keeps queueing zero days, sums distinct credits at the same timestamp and ex
   });
 });
 it("every selectable model has sourced numeric data, with no personal identifiers in shipped Mac samples", () => {
-  const all = [...seed, ...macSeeds];
+  const all = [...seed, ...macSeeds, ...xmrSeeds];
   for (const model of HARDWARE_MODELS)
     expect(all.some((s) => s.model === model && s.rows.length > 0)).toBe(true);
   const json = JSON.stringify(macSeeds);

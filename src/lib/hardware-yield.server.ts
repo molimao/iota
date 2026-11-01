@@ -2,34 +2,46 @@ import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
 import {
   parseHardwareYield,
-  hardwareYieldSchema,
   type HardwareModel,
   GPU_MODELS,
   bntNetworkSchema,
 } from "./hardware-yield";
-import snapshots from "./hardware-yield-snapshot.json";
-import macSnapshots from "./mac-yield-snapshot.json";
+import { HARDWARE_CATALOG } from "./hardware-catalog";
 import { blocknetHardwareRows } from "./blocknet-hardware";
 import { fetchIotaUsdPrice } from "./iota-price.server";
-const seeds = snapshots.map((s) => hardwareYieldSchema.parse(s));
-const macSeeds = macSnapshots.map((s) => hardwareYieldSchema.parse(s));
-const cache = new ReadCache(20);
+import { readXmrHardwareMarket } from "./xmr-hardware.server";
+import { xmrigStoredBenchmarkSchema, xmrHardwareRows } from "./xmr-hardware";
+import rawBenchmarks from "./xmr-benchmarks.json";
+const xmrBenchmarks = xmrigStoredBenchmarkSchema.array().parse(rawBenchmarks);
+const cache = new ReadCache(64);
 export async function hardwareYield(model: HardwareModel) {
   const result = await cache.read(
     model,
     async () => {
       if (!GPU_MODELS.includes(model as (typeof GPU_MODELS)[number])) {
-        const seed = macSeeds.find((s) => s.model === model)!;
-        if (model === "m4-max-48") return await liveBlocknet(model);
-        const price = await fetchIotaUsdPrice();
-        if (price.usdPerIota === null || price.stale) throw Error("iota_quote_unavailable");
-        return {
-          ...seed,
-          rows: seed.rows.map((row) => ({
-            ...row,
-            usdPerDay: row.coinsPerDay * price.usdPerIota!,
-          })),
-        };
+        const seed = HARDWARE_CATALOG.find((s) => s.model === model)!;
+        const rows = await Promise.all(
+          seed.rows.map(async (row) => {
+            if (row.project === "bnt") return (await liveBlocknet(model)).rows[0]!;
+            if (row.project === "iota") {
+              const price = await fetchIotaUsdPrice();
+              if (price.usdPerIota === null || price.stale) throw Error("iota_quote_unavailable");
+              return {
+                ...row,
+                fetchedAt: price.fetchedAt!,
+                usdPerDay: row.coinsPerDay * price.usdPerIota,
+              };
+            }
+            const market = await readXmrHardwareMarket();
+            return xmrHardwareRows(
+              xmrBenchmarks.filter((b) => b.model === model),
+              market.network,
+              market.usd,
+              market.fetchedAt,
+            )[0]!.rows[0]!;
+          }),
+        );
+        return { ...seed, fetchedAt: Date.now(), rows };
       }
       const html = await upstreamJson(
         `https://pool.kryptex.com/device/gpu/nvidia/nvidia-geforce-rtx-${model}`,
@@ -49,10 +61,7 @@ export async function hardwareYield(model: HardwareModel) {
 }
 
 function fallbackHardware(model: HardwareModel) {
-  const gpu = seeds.find((s) => s.model === model);
-  const extra = macSeeds.find((s) => s.model === model);
-  if (!gpu) return extra!;
-  return { ...gpu, rows: [...gpu.rows, ...(extra ? extra.rows : [])] };
+  return HARDWARE_CATALOG.find((s) => s.model === model)!;
 }
 async function liveBlocknet(model: HardwareModel) {
   const stats = bntNetworkSchema.parse(await upstreamJson("https://bntpool.com/api/stats"));

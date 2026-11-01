@@ -1,0 +1,702 @@
+[
+  {
+    "model": "m1-8c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 2189.822580574522,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/7RmUZR",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M1",
+          "cores": 8,
+          "threads": 8,
+          "version": "6.7.0",
+          "measuredAt": 1608920638710,
+          "durationSeconds": 456.658,
+          "submissions": 78
+        },
+        "coinsPerDay": 0.00013896644684422744,
+        "usdPerDay": 0.08412333859715308
+      }
+    ]
+  },
+  {
+    "model": "m1-pro-8c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 2439.7801270149535,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/6QMX94",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M1 Pro",
+          "cores": 8,
+          "threads": 8,
+          "version": "6.19.1",
+          "measuredAt": 1679999539458,
+          "durationSeconds": 409.873,
+          "submissions": 7
+        },
+        "coinsPerDay": 0.00015482878765615498,
+        "usdPerDay": 0.09372560660765342
+      }
+    ]
+  },
+  {
+    "model": "m1-pro-32",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 3262.2914987945833,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/5wu9zC",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M1 Pro",
+          "cores": 10,
+          "threads": 10,
+          "version": "6.16.4",
+          "measuredAt": 1654582170372,
+          "durationSeconds": 306.533,
+          "submissions": 20
+        },
+        "coinsPerDay": 0.000207025474200139,
+        "usdPerDay": 0.12532287080705415
+      }
+    ]
+  },
+  {
+    "model": "m1-max-10c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 3397.685496639689,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/28nAto",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M1 Max",
+          "cores": 10,
+          "threads": 10,
+          "version": "6.18.1",
+          "measuredAt": 1674326356160,
+          "durationSeconds": 294.318,
+          "submissions": 24
+        },
+        "coinsPerDay": 0.00021561759621562806,
+        "usdPerDay": 0.13052411186913046
+      }
+    ]
+  },
+  {
+    "model": "m1-ultra-20c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 5986.697558026066,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/6niST8",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M1 Ultra",
+          "cores": 20,
+          "threads": 20,
+          "version": "6.25.0",
+          "measuredAt": 1768872759470,
+          "durationSeconds": 167.037,
+          "submissions": 8
+        },
+        "coinsPerDay": 0.00037991666327215654,
+        "usdPerDay": 0.22998255211179996
+      }
+    ]
+  },
+  {
+    "model": "m2-8c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 2657.70135409884,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/5UN1TE",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M2",
+          "cores": 8,
+          "threads": 8,
+          "version": "6.21.3",
+          "measuredAt": 1715316237403,
+          "durationSeconds": 376.265,
+          "submissions": 41
+        },
+        "coinsPerDay": 0.0001686580991667873,
+        "usdPerDay": 0.1020971803306147
+      }
+    ]
+  },
+  {
+    "model": "m2-pro-10c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 3513.6787513791187,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/6seZqn",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M2 Pro",
+          "cores": 10,
+          "threads": 10,
+          "version": "6.21.2",
+          "measuredAt": 1713020283153,
+          "durationSeconds": 284.602,
+          "submissions": 5
+        },
+        "coinsPerDay": 0.00022297854436367705,
+        "usdPerDay": 0.13498006183055192
+      }
+    ]
+  },
+  {
+    "model": "m2-pro-12c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 4685.223274315137,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/7NvKSU",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M2 Pro",
+          "cores": 12,
+          "threads": 12,
+          "version": "6.22.2",
+          "measuredAt": 1732568578290,
+          "durationSeconds": 213.437,
+          "submissions": 12
+        },
+        "coinsPerDay": 0.00029732492343404,
+        "usdPerDay": 0.17998564240079615
+      }
+    ]
+  },
+  {
+    "model": "m2-max-12c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 4558.570796883761,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/4s2jd",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M2 Max",
+          "cores": 12,
+          "threads": 12,
+          "version": "6.19.3",
+          "measuredAt": 1703720114664,
+          "durationSeconds": 219.367,
+          "submissions": 16
+        },
+        "coinsPerDay": 0.00028928753952504806,
+        "usdPerDay": 0.17512021205148784
+      }
+    ]
+  },
+  {
+    "model": "m2-ultra-24c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 7858.669684395825,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/4NBarK",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M2 Ultra",
+          "cores": 24,
+          "threads": 24,
+          "version": "6.19.3",
+          "measuredAt": 1687536865345,
+          "durationSeconds": 127.248,
+          "submissions": 5
+        },
+        "coinsPerDay": 0.0004987122758942476,
+        "usdPerDay": 0.3018954762125828
+      }
+    ]
+  },
+  {
+    "model": "m3-8c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 2898.6095370050984,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/4dkoKz",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M3",
+          "cores": 8,
+          "threads": 8,
+          "version": "6.22.2",
+          "measuredAt": 1734451419105,
+          "durationSeconds": 344.993,
+          "submissions": 9
+        },
+        "coinsPerDay": 0.00018394616610479405,
+        "usdPerDay": 0.11135181165153708
+      }
+    ]
+  },
+  {
+    "model": "m3-pro-12c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 4072.7275096859644,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/7GNKrn",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M3 Pro",
+          "cores": 12,
+          "threads": 12,
+          "version": "6.21.0",
+          "measuredAt": 1703232488607,
+          "durationSeconds": 2455.357,
+          "submissions": 5
+        },
+        "coinsPerDay": 0.00025845585665543224,
+        "usdPerDay": 0.1564562528263659
+      }
+    ]
+  },
+  {
+    "model": "m3-max-14c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 6138.735420503376,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/5p2EbV",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M3 Max",
+          "cores": 14,
+          "threads": 14,
+          "version": "6.21.3",
+          "measuredAt": 1717511863455,
+          "durationSeconds": 162.9,
+          "submissions": 5
+        },
+        "coinsPerDay": 0.0003895650072620701,
+        "usdPerDay": 0.23582317714609413
+      }
+    ]
+  },
+  {
+    "model": "m3-max-16c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 7469.319769048633,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/4RKfTn",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M3 Max",
+          "cores": 16,
+          "threads": 16,
+          "version": "6.21.3",
+          "measuredAt": 1721902632554,
+          "durationSeconds": 133.881,
+          "submissions": 14
+        },
+        "coinsPerDay": 0.0004740040758807539,
+        "usdPerDay": 0.2869383673344144
+      }
+    ]
+  },
+  {
+    "model": "m3-ultra-32c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 12694.205476026358,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/6Tpv15",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M3 Ultra",
+          "cores": 32,
+          "threads": 32,
+          "version": "6.24.0",
+          "measuredAt": 1755692490318,
+          "durationSeconds": 787.761,
+          "submissions": 2
+        },
+        "coinsPerDay": 0.0008055760526732246,
+        "usdPerDay": 0.4876554634857366
+      }
+    ]
+  },
+  {
+    "model": "m4-16",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 3982.11235131788,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/2fk7Ae",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M4",
+          "cores": 10,
+          "threads": 10,
+          "version": "6.22.2",
+          "measuredAt": 1732110265050,
+          "durationSeconds": 251.123,
+          "submissions": 29
+        },
+        "coinsPerDay": 0.00025270540604799724,
+        "usdPerDay": 0.15297521755115515
+      }
+    ]
+  },
+  {
+    "model": "m4-pro-12c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 5613.625391550371,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/3nKfPt",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M4 Pro",
+          "cores": 12,
+          "threads": 12,
+          "version": "6.22.2",
+          "measuredAt": 1735836562224,
+          "durationSeconds": 178.138,
+          "submissions": 13
+        },
+        "coinsPerDay": 0.0003562414514757728,
+        "usdPerDay": 0.21565076265085908
+      }
+    ]
+  },
+  {
+    "model": "m4-pro-14c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 6590.480709662963,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/MKdnJ",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M4 Pro",
+          "cores": 14,
+          "threads": 14,
+          "version": "6.22.2",
+          "measuredAt": 1733588917008,
+          "durationSeconds": 151.734,
+          "submissions": 6
+        },
+        "coinsPerDay": 0.0004182328264132707,
+        "usdPerDay": 0.25317724146927345
+      }
+    ]
+  },
+  {
+    "model": "m4-max-14c",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 6364.157067396423,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/3NVL4H",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M4 Max",
+          "cores": 14,
+          "threads": 14,
+          "version": "6.24.0",
+          "measuredAt": 1751045025148,
+          "durationSeconds": 157.13,
+          "submissions": 5
+        },
+        "coinsPerDay": 0.00040387029646147274,
+        "usdPerDay": 0.24448288396295254
+      }
+    ]
+  },
+  {
+    "model": "m4-max-48",
+    "fetchedAt": 1793512035643,
+    "source": "https://api.xmrig.com/1/network/XMR",
+    "rows": [
+      {
+        "project": "xmr",
+        "fetchedAt": 1793512035643,
+        "unit": "XMR",
+        "algorithm": "RandomX · XMRig",
+        "hashrate": 7899.580532273736,
+        "watts": null,
+        "basis": "network",
+        "source": "https://xmrig.com/benchmark/3VTpUu",
+        "network": {
+          "height": 3796659,
+          "hashrate": 7013960205.941667,
+          "blockReward": 0.61820402,
+          "blocksPerDay": 720,
+          "referenceUsd": 605.35
+        },
+        "benchmark": {
+          "chip": "Apple M4 Max",
+          "cores": 16,
+          "threads": 16,
+          "version": "6.22.2",
+          "measuredAt": 1734318057786,
+          "durationSeconds": 126.589,
+          "submissions": 8
+        },
+        "coinsPerDay": 0.0005013084840151293,
+        "usdPerDay": 0.30346709079855855
+      }
+    ]
+  }
+]

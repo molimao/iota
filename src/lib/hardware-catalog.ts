@@ -6,7 +6,8 @@ import {
 } from "./hardware-yield";
 import gpuSeeds from "./hardware-yield-snapshot.json";
 import macSeeds from "./mac-yield-snapshot.json";
-const records = [...gpuSeeds, ...macSeeds].map((s) => hardwareYieldSchema.parse(s));
+import xmrSeeds from "./xmr-yield-snapshot.json";
+const records = [...gpuSeeds, ...macSeeds, ...xmrSeeds].map((s) => hardwareYieldSchema.parse(s));
 export const HARDWARE_CATALOG = HARDWARE_MODELS.map((model) => {
   const entries = records.filter((s) => s.model === model);
   return { ...entries[0]!, rows: entries.flatMap((s) => s.rows) };

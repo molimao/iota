@@ -299,3 +299,10 @@
   outline: 2px solid #a0ffcb;
   outline-offset: 3px;
 }
+.calc-row-basis {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: #9dada4;
+  font-weight: 400;
+}

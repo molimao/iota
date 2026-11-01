@@ -62,6 +62,14 @@ export function HardwareCalculator({
     .sort((a, b) => b.gross - a.gross);
   const comparableNet = ranked.every((r) => r.net !== null);
   if (comparableNet) ranked.sort((a, b) => b.net! - a.net!);
+  const hasElectricity = ranked.some((r) => r.cost !== null);
+  const deviceGroups = [
+    { label: "NVIDIA RTX", models: availableModels.filter((m) => !m.startsWith("m")) },
+    ...["m1", "m2", "m3", "m4"].map((generation) => ({
+      label: "Apple " + generation.toUpperCase(),
+      models: availableModels.filter((m) => m.startsWith(generation + "-")),
+    })),
+  ].filter((group) => group.models.length > 0);
   const selected = ranked.find((r) => r.row.project === choice) ?? ranked[0]!;
   const money = (n: number) =>
     new Intl.NumberFormat(LANGUAGE_TAG[locale], {
@@ -112,10 +120,14 @@ export function HardwareCalculator({
           <label>
             {t("hardware")}
             <select value={model} onChange={(e) => setModel(e.target.value as HardwareModel)}>
-              {availableModels.map((g) => (
-                <option key={g} value={g}>
-                  {hardwareLabel(g)}
-                </option>
+              {deviceGroups.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.models.map((g) => (
+                    <option key={g} value={g}>
+                      {hardwareLabel(g)}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </select>
           </label>
@@ -129,7 +141,7 @@ export function HardwareCalculator({
               ))}
             </div>
           </fieldset>
-          {selected.cost !== null && (
+          {hasElectricity && (
             <details className="calc-power">
               <summary>
                 {t("cost")} · ${electricity.toFixed(2)}/kWh
@@ -202,8 +214,12 @@ export function HardwareCalculator({
                 <tr>
                   <th>{t("project")}</th>
                   <th>{t("gross")}</th>
-                  <th>{t("cost")}</th>
-                  <th>{t("netColumn")}</th>
+                  {hasElectricity && (
+                    <>
+                      <th>{t("cost")}</th>
+                      <th>{t("netColumn")}</th>
+                    </>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -223,10 +239,17 @@ export function HardwareCalculator({
                       >
                         {PROJECTS[result.row.project].name}
                       </button>
+                      {result.row.basis === "observed" && (
+                        <small className="calc-row-basis">{t("historicalDaily")}</small>
+                      )}
                     </th>
                     <td>{money(result.gross)}</td>
-                    <td>{result.cost === null ? t("excluded") : money(result.cost)}</td>
-                    <td>{result.net === null ? t("excluded") : money(result.net)}</td>
+                    {hasElectricity && (
+                      <>
+                        <td>{result.cost === null ? t("excluded") : money(result.cost)}</td>
+                        <td>{result.net === null ? "—" : money(result.net)}</td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -251,7 +274,9 @@ export function HardwareCalculator({
             ? t("iotaBasis")
             : selected.row.project === "bnt"
               ? t("bntAssumption")
-              : t("assumption")}
+              : selected.row.project === "xmr"
+                ? t("xmrBasis")
+                : t("assumption")}
         </p>
         {selected.row.project === "bnt" && <p>{t("bntBasis")}</p>}
         {selected.row.network && (
@@ -261,7 +286,17 @@ export function HardwareCalculator({
               maximumFractionDigits: 2,
             })}{" "}
             H/s · #{selected.row.network.height} · {selected.row.network.blockReward.toFixed(8)}{" "}
-            BNT/block · 288 blocks/day · $0.16/BNT
+            {selected.row.unit}/block · {selected.row.network.blocksPerDay} blocks/day ·{" "}
+            {money(selected.row.network.referenceUsd)}/{selected.row.unit}
+          </p>
+        )}
+        {selected.row.benchmark && (
+          <p>
+            {t("publicBenchmark")} · {selected.row.benchmark.cores} CPU cores /{" "}
+            {selected.row.benchmark.threads} threads · XMRig {selected.row.benchmark.version} ·{" "}
+            {new Date(selected.row.benchmark.measuredAt).toISOString().slice(0, 10)} ·{" "}
+            {selected.row.benchmark.durationSeconds.toFixed(1)} s ·{" "}
+            {selected.row.benchmark.submissions} {t("benchmarkRecords")}
           </p>
         )}
         {selected.row.sample && (
@@ -276,8 +311,8 @@ export function HardwareCalculator({
           {hardwareLabel(data.model)} · {selected.row.algorithm}
           {selected.row.hashrate !== null &&
             ` · ${selected.row.hashrate.toLocaleString(LANGUAGE_TAG[locale])} H/s`}
-          {selected.row.watts !== null && ` · ${selected.row.watts} W`}· {selected.coins.toFixed(4)}{" "}
-          {selected.row.unit}
+          {selected.row.watts !== null && ` · ${selected.row.watts} W`}·{" "}
+          {selected.coins.toFixed(selected.row.unit === "XMR" ? 8 : 4)} {selected.row.unit}
         </p>
         <p>
           {selected.row.basis === "observed"
@@ -285,11 +320,21 @@ export function HardwareCalculator({
             : query.data.snapshot || query.isError
               ? t("old")
               : t("live")}{" "}
-          · {t("observed")}: {new Date(data.fetchedAt).toLocaleString(LANGUAGE_TAG[locale])}
+          · {t("observed")}:{" "}
+          {new Date(selected.row.fetchedAt ?? data.fetchedAt).toLocaleString(LANGUAGE_TAG[locale])}
         </p>
         <a href={selected.row.source ?? data.source} target="_blank" rel="noreferrer">
           {t("reference")} ↗
         </a>
+        {selected.row.project === "xmr" && (
+          <>
+            {" "}
+            ·{" "}
+            <a href="https://api.xmrig.com/1/network/XMR" target="_blank" rel="noreferrer">
+              XMR · {t("network")} ↗
+            </a>
+          </>
+        )}
         {selected.row.project === "bnt" && (
           <>
             {" "}

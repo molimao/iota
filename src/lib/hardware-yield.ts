@@ -1,19 +1,65 @@
 import { z } from "zod";
 export const GPU_MODELS = ["4090", "5090", "4080", "4070", "4060", "3090", "3080", "3060"] as const;
 export type GpuModel = (typeof GPU_MODELS)[number];
-export const MAC_MODELS = ["m1-pro-32", "m4-16", "m4-max-48"] as const;
+export const MAC_MODELS = [
+  "m1-8c",
+  "m1-pro-8c",
+  "m1-pro-32",
+  "m1-max-10c",
+  "m1-ultra-20c",
+  "m2-8c",
+  "m2-pro-10c",
+  "m2-pro-12c",
+  "m2-max-12c",
+  "m2-ultra-24c",
+  "m3-8c",
+  "m3-pro-12c",
+  "m3-max-14c",
+  "m3-max-16c",
+  "m3-ultra-32c",
+  "m4-16",
+  "m4-pro-12c",
+  "m4-pro-14c",
+  "m4-max-14c",
+  "m4-max-48",
+] as const;
 export const HARDWARE_MODELS = [...GPU_MODELS, ...MAC_MODELS] as const;
 export type HardwareModel = (typeof HARDWARE_MODELS)[number];
 export function hardwareLabel(model: HardwareModel) {
-  return (
-    {
-      "m1-pro-32": "Apple M1 Pro · 32GB",
-      "m4-16": "Apple M4 · 16GB",
-      "m4-max-48": "Apple M4 Max · 48GB",
-    }[model as (typeof MAC_MODELS)[number]] ?? `NVIDIA RTX ${model}`
-  );
+  const macLabels: Record<(typeof MAC_MODELS)[number], string> = {
+    "m1-8c": "Apple M1 · 8-core CPU",
+    "m1-pro-8c": "Apple M1 Pro · 8-core CPU",
+    "m1-pro-32": "Apple M1 Pro · 32GB",
+    "m1-max-10c": "Apple M1 Max · 10-core CPU",
+    "m1-ultra-20c": "Apple M1 Ultra · 20-core CPU",
+    "m2-8c": "Apple M2 · 8-core CPU",
+    "m2-pro-10c": "Apple M2 Pro · 10-core CPU",
+    "m2-pro-12c": "Apple M2 Pro · 12-core CPU",
+    "m2-max-12c": "Apple M2 Max · 12-core CPU",
+    "m2-ultra-24c": "Apple M2 Ultra · 24-core CPU",
+    "m3-8c": "Apple M3 · 8-core CPU",
+    "m3-pro-12c": "Apple M3 Pro · 12-core CPU",
+    "m3-max-14c": "Apple M3 Max · 14-core CPU",
+    "m3-max-16c": "Apple M3 Max · 16-core CPU",
+    "m3-ultra-32c": "Apple M3 Ultra · 32-core CPU",
+    "m4-16": "Apple M4 · 16GB",
+    "m4-pro-12c": "Apple M4 Pro · 12-core CPU",
+    "m4-pro-14c": "Apple M4 Pro · 14-core CPU",
+    "m4-max-14c": "Apple M4 Max · 14-core CPU",
+    "m4-max-48": "Apple M4 Max · 48GB",
+  };
+  return macLabels[model as (typeof MAC_MODELS)[number]] ?? `NVIDIA RTX ${model}`;
 }
-export const CALCULATOR_PROJECTS = ["iota", "bnt", "prl", "quantus", "rvn", "erg", "ethw"] as const;
+export const CALCULATOR_PROJECTS = [
+  "iota",
+  "bnt",
+  "prl",
+  "xmr",
+  "quantus",
+  "rvn",
+  "erg",
+  "ethw",
+] as const;
 export type CalculatorProject = (typeof CALCULATOR_PROJECTS)[number];
 export const hardwareYieldSchema = z.object({
   model: z.enum(HARDWARE_MODELS),
@@ -29,14 +75,26 @@ export const hardwareYieldSchema = z.object({
           hashrate: z.number().positive().nullable(),
           watts: z.number().positive().nullable(),
           source: z.string().url().optional(),
+          fetchedAt: z.number().positive().optional(),
           basis: z.enum(["pool", "network", "observed"]).default("pool"),
           network: z
             .object({
               height: z.number().int().positive(),
               hashrate: z.number().positive(),
               blockReward: z.number().positive(),
-              blocksPerDay: z.literal(288),
+              blocksPerDay: z.number().positive(),
               referenceUsd: z.number().positive(),
+            })
+            .optional(),
+          benchmark: z
+            .object({
+              chip: z.string(),
+              cores: z.number().int().positive(),
+              threads: z.number().int().positive(),
+              version: z.string(),
+              measuredAt: z.number().positive(),
+              durationSeconds: z.number().positive(),
+              submissions: z.number().int().positive(),
             })
             .optional(),
           sample: z

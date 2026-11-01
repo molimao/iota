@@ -28,3 +28,16 @@ it("preserves GPU and BNT alternatives together in the 5090 fallback", async () 
   expect(result.data.rows.map((r) => r.project)).toEqual(expect.arrayContaining(["prl", "bnt"]));
   expect(result.data.rows.find((r) => r.project === "bnt")!.watts).toBeNull();
 });
+it("retains a dated M3 Max benchmark estimate when network or price sources fail", async () => {
+  vi.stubGlobal("fetch", async () => {
+    throw new Error("offline");
+  });
+  const result = await hardwareYield("m3-max-16c");
+  expect(result.snapshot).toBe(true);
+  expect(result.data.rows[0]).toMatchObject({
+    project: "xmr",
+    watts: null,
+    benchmark: { cores: 16, threads: 16 },
+  });
+  expect(result.data.rows[0]!.usdPerDay).toBeGreaterThan(0);
+});

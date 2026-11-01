@@ -1,5 +1,26 @@
 import { localized as l } from "@/lib/product-discovery";
 export const calculatorCopy = {
+  publicBenchmark: l([
+    "公开基准",
+    "公開基準",
+    "Public benchmark",
+    "공개 벤치마크",
+    "公開ベンチマーク",
+  ]),
+  benchmarkRecords: l([
+    "条匹配提交；取中位记录",
+    "筆匹配提交；取中位記錄",
+    "matching submissions; median record selected",
+    "건의 일치 제출 중 중앙값 기록",
+    "件の一致する提出記録から中央値を選択",
+  ]),
+  xmrBasis: l([
+    "采用同芯片、同线程公开提交的中位已验证记录，按 XMR 当前难度与最近区块奖励计算。基准未报告内存和功耗，美元收入随难度、币价变化。",
+    "採用同晶片、同執行緒公開提交的中位已驗證記錄，按 XMR 目前難度與最近區塊獎勵計算。基準未報告記憶體與功耗，美元收入隨難度、幣價變化。",
+    "Uses a validated median submission matching the chip and thread count, current XMR difficulty and the latest block reward. Benchmark memory and power were not reported. USD revenue varies with difficulty and price.",
+    "같은 칩·스레드 수의 검증된 제출 중앙값과 현재 XMR 난이도·최근 블록 보상을 사용합니다. 메모리·전력은 미보고이며 달러 수익은 난이도·가격에 따라 달라집니다.",
+    "同じチップ・スレッド数の検証済み提出の中央値と現在のXMR難易度・最新ブロック報酬で計算。メモリ・電力は未報告。ドル収益は難易度と価格で変動します。",
+  ]),
   chooseProject: l([
     "选择项目",
     "選擇專案",

@@ -242,6 +242,66 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://iotahome.site/zh/calculator/xmr</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/xmr"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/zh-TW/calculator/xmr</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/xmr"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/en/calculator/xmr</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/xmr"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ko/calculator/xmr</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/xmr"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iotahome.site/ja/calculator/xmr</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iotahome.site/en/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iotahome.site/ko/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://iotahome.site/ja/calculator/xmr"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iotahome.site/en/calculator/xmr"/>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://iotahome.site/zh/calculator/quantus</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://iotahome.site/zh/calculator/quantus"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://iotahome.site/zh-TW/calculator/quantus"/>

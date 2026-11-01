@@ -1,0 +1,198 @@
+{
+  "date": "2026-11-01",
+  "status": "local-only-not-published",
+  "scope": {
+    "macConfigurations": 20,
+    "newMacConfigurations": 17,
+    "totalHardwareChoices": 28,
+    "calculatorProjects": 8,
+    "calculatorPagesAcrossFiveLanguages": 45
+  },
+  "sourceMethod": "XMRig validated macOS RandomX records, exact chip and full CPU thread count; lower median of matching submitted records. Submission counts are not independent device counts.",
+  "formula": "hashrate * 86400 / network difficulty * (last block reward / 1e12)",
+  "sources": [
+    "https://xmrig.com/docs/api/1/benchmark",
+    "https://xmrig.com/docs/api/1/network",
+    "https://api.xmrig.com/1/network/XMR"
+  ],
+  "configurations": [
+    {
+      "model": "m1-8c",
+      "chip": "Apple M1",
+      "cores": 8,
+      "hashrate": 2189.822580574522,
+      "record": "https://xmrig.com/benchmark/7RmUZR",
+      "matchingSubmissions": 78
+    },
+    {
+      "model": "m1-pro-8c",
+      "chip": "Apple M1 Pro",
+      "cores": 8,
+      "hashrate": 2439.7801270149535,
+      "record": "https://xmrig.com/benchmark/6QMX94",
+      "matchingSubmissions": 7
+    },
+    {
+      "model": "m1-pro-32",
+      "chip": "Apple M1 Pro",
+      "cores": 10,
+      "hashrate": 3262.2914987945833,
+      "record": "https://xmrig.com/benchmark/5wu9zC",
+      "matchingSubmissions": 20
+    },
+    {
+      "model": "m1-max-10c",
+      "chip": "Apple M1 Max",
+      "cores": 10,
+      "hashrate": 3397.685496639689,
+      "record": "https://xmrig.com/benchmark/28nAto",
+      "matchingSubmissions": 24
+    },
+    {
+      "model": "m1-ultra-20c",
+      "chip": "Apple M1 Ultra",
+      "cores": 20,
+      "hashrate": 5986.697558026066,
+      "record": "https://xmrig.com/benchmark/6niST8",
+      "matchingSubmissions": 8
+    },
+    {
+      "model": "m2-8c",
+      "chip": "Apple M2",
+      "cores": 8,
+      "hashrate": 2657.70135409884,
+      "record": "https://xmrig.com/benchmark/5UN1TE",
+      "matchingSubmissions": 41
+    },
+    {
+      "model": "m2-pro-10c",
+      "chip": "Apple M2 Pro",
+      "cores": 10,
+      "hashrate": 3513.6787513791187,
+      "record": "https://xmrig.com/benchmark/6seZqn",
+      "matchingSubmissions": 5
+    },
+    {
+      "model": "m2-pro-12c",
+      "chip": "Apple M2 Pro",
+      "cores": 12,
+      "hashrate": 4685.223274315137,
+      "record": "https://xmrig.com/benchmark/7NvKSU",
+      "matchingSubmissions": 12
+    },
+    {
+      "model": "m2-max-12c",
+      "chip": "Apple M2 Max",
+      "cores": 12,
+      "hashrate": 4558.570796883761,
+      "record": "https://xmrig.com/benchmark/4s2jd",
+      "matchingSubmissions": 16
+    },
+    {
+      "model": "m2-ultra-24c",
+      "chip": "Apple M2 Ultra",
+      "cores": 24,
+      "hashrate": 7858.669684395825,
+      "record": "https://xmrig.com/benchmark/4NBarK",
+      "matchingSubmissions": 5
+    },
+    {
+      "model": "m3-8c",
+      "chip": "Apple M3",
+      "cores": 8,
+      "hashrate": 2898.6095370050984,
+      "record": "https://xmrig.com/benchmark/4dkoKz",
+      "matchingSubmissions": 9
+    },
+    {
+      "model": "m3-pro-12c",
+      "chip": "Apple M3 Pro",
+      "cores": 12,
+      "hashrate": 4072.7275096859644,
+      "record": "https://xmrig.com/benchmark/7GNKrn",
+      "matchingSubmissions": 5
+    },
+    {
+      "model": "m3-max-14c",
+      "chip": "Apple M3 Max",
+      "cores": 14,
+      "hashrate": 6138.735420503376,
+      "record": "https://xmrig.com/benchmark/5p2EbV",
+      "matchingSubmissions": 5
+    },
+    {
+      "model": "m3-max-16c",
+      "chip": "Apple M3 Max",
+      "cores": 16,
+      "hashrate": 7469.319769048633,
+      "record": "https://xmrig.com/benchmark/4RKfTn",
+      "matchingSubmissions": 14
+    },
+    {
+      "model": "m3-ultra-32c",
+      "chip": "Apple M3 Ultra",
+      "cores": 32,
+      "hashrate": 12694.205476026358,
+      "record": "https://xmrig.com/benchmark/6Tpv15",
+      "matchingSubmissions": 2
+    },
+    {
+      "model": "m4-16",
+      "chip": "Apple M4",
+      "cores": 10,
+      "hashrate": 3982.11235131788,
+      "record": "https://xmrig.com/benchmark/2fk7Ae",
+      "matchingSubmissions": 29
+    },
+    {
+      "model": "m4-pro-12c",
+      "chip": "Apple M4 Pro",
+      "cores": 12,
+      "hashrate": 5613.625391550371,
+      "record": "https://xmrig.com/benchmark/3nKfPt",
+      "matchingSubmissions": 13
+    },
+    {
+      "model": "m4-pro-14c",
+      "chip": "Apple M4 Pro",
+      "cores": 14,
+      "hashrate": 6590.480709662963,
+      "record": "https://xmrig.com/benchmark/MKdnJ",
+      "matchingSubmissions": 6
+    },
+    {
+      "model": "m4-max-14c",
+      "chip": "Apple M4 Max",
+      "cores": 14,
+      "hashrate": 6364.157067396423,
+      "record": "https://xmrig.com/benchmark/3NVL4H",
+      "matchingSubmissions": 5
+    },
+    {
+      "model": "m4-max-48",
+      "chip": "Apple M4 Max",
+      "cores": 16,
+      "hashrate": 7899.580532273736,
+      "record": "https://xmrig.com/benchmark/3VTpUu",
+      "matchingSubmissions": 8
+    }
+  ],
+  "limits": [
+    "New configurations support XMR only; original IOTA and BNT measured samples remain separate.",
+    "Public benchmarks omit RAM and measured wall power; XMR displays gross revenue and does not invent electricity or net profit.",
+    "M3 Pro 11-core and M3 Ultra 28-core omitted because no matching validated records found."
+  ],
+  "validation": {
+    "focusedTestsPassed": 29,
+    "testFiles": 6,
+    "typescript": "passed",
+    "build": "passed",
+    "sourceRefresh": "full live refresh passed",
+    "localMacChecks": 20,
+    "localPageChecks": 45,
+    "httpFailures": []
+  },
+  "grok": "Read-only research could not access external sources; bounded implementation stalled and was stopped. Main assistant completed and verified the implementation.",
+  "preview": "http://127.0.0.1:8084/zh/calculator?project=xmr&gpu=m2-pro-12c",
+  "screenshot": "docs/mac-calculator-expansion-local-2026-11-01.png"
+}

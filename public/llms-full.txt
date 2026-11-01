@@ -92,10 +92,11 @@ Check the last successful fetch time and source first. Failed refreshes preserve
 
 ## Earnings calculators
 
-Explore IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.
+Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.
 - https://iotahome.site/en/calculator/iota — Choose a Mac configuration and hours to explore IOTA daily income from anonymous device samples, including queueing and zero-income days.
 - https://iotahome.site/en/calculator/bnt — Estimate daily Blocknet BNT revenue for M4 Max or RTX 5090 using measured Seine hashrate and current network data, valued at a fixed $0.16 reference.
 - https://iotahome.site/en/calculator/prl — Choose an RTX GPU and daily hours to estimate PearlHash mining revenue in PRL and USD, with electricity costs shown separately.
+- https://iotahome.site/en/calculator/xmr — Choose an M1, M2, M3 or M4 base, Pro, Max or Ultra configuration. Estimate daily Monero XMR and USD revenue using validated XMRig benchmarks and current network difficulty.
 - https://iotahome.site/en/calculator/quantus — Estimate Quantus QTC daily revenue from RTX Poseidon2 reference data, then adjust operating hours and electricity prices.
 - https://iotahome.site/en/calculator/rvn — Estimate Ravencoin RVN daily revenue using RTX KawPow reference data and compare USD returns before and after electricity.
 - https://iotahome.site/en/calculator/erg — Estimate Ergo ERG daily revenue using RTX Autolykos reference data, with electricity and net returns displayed separately.
@@ -123,6 +124,11 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG and ETHW in one calcula
 - [Pearl · Earnings calculator (en)](https://iotahome.site/en/calculator/prl)
 - [Pearl · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/prl)
 - [Pearl · 収益計算 (ja)](https://iotahome.site/ja/calculator/prl)
+- [Monero · 收益计算器 (zh)](https://iotahome.site/zh/calculator/xmr)
+- [Monero · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/xmr)
+- [Monero · Earnings calculator (en)](https://iotahome.site/en/calculator/xmr)
+- [Monero · 수익 계산기 (ko)](https://iotahome.site/ko/calculator/xmr)
+- [Monero · 収益計算 (ja)](https://iotahome.site/ja/calculator/xmr)
 - [Quantus · 收益计算器 (zh)](https://iotahome.site/zh/calculator/quantus)
 - [Quantus · 收益計算器 (zh-TW)](https://iotahome.site/zh-TW/calculator/quantus)
 - [Quantus · Earnings calculator (en)](https://iotahome.site/en/calculator/quantus)

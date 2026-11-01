@@ -5,6 +5,13 @@ import { hardwareLabel, type CalculatorProject } from "./hardware-yield";
 import { PROJECTS } from "./projects";
 import { ORIGIN, LOCALES, LANGUAGE_TAG, type SiteLocale } from "./site";
 const descriptions = {
+  xmr: l([
+    "选择 M1、M2、M3、M4 的基础款、Pro、Max 或 Ultra 配置，以 XMRig 已验证基准和当前 Monero 全网难度估算每天 XMR 毛收益及美元收入。",
+    "選擇 M1、M2、M3、M4 的基本款、Pro、Max 或 Ultra 配置，以 XMRig 已驗證基準與目前 Monero 全網難度估算每天 XMR 毛收益與美元收入。",
+    "Choose an M1, M2, M3 or M4 base, Pro, Max or Ultra configuration. Estimate daily Monero XMR and USD revenue using validated XMRig benchmarks and current network difficulty.",
+    "M1·M2·M3·M4 기본형·Pro·Max·Ultra 구성을 선택하고 검증된 XMRig 측정과 현재 네트워크 난이도로 Monero XMR·달러 일일 총수익을 확인하세요.",
+    "M1・M2・M3・M4の標準・Pro・Max・Ultra構成を選び、検証済みXMRig記録と現在の難易度からMonero XMRの日別収益とドル換算を予測。",
+  ]),
   iota: l([
     "选择 Mac 配置和运行时间，查看 IOTA 匿名设备样本的日均收入。统计包含排队和零收益日。",
     "選擇 Mac 配置與執行時間，查看 IOTA 匿名設備樣本的日均收入。統計包含排隊與零收益日。",
@@ -56,11 +63,11 @@ const descriptions = {
   ]),
 } satisfies Record<CalculatorProject, ReturnType<typeof l>>;
 const mainDescription = l([
-  "在一页选择 IOTA、Blocknet BNT、Pearl PRL、Quantus、RVN、ERG 或 ETHW，搭配 RTX 或 Mac 设备和运行时间查看收益参考。",
-  "在同一頁選擇 IOTA、Blocknet BNT、Pearl PRL、Quantus、RVN、ERG 或 ETHW，搭配 RTX 或 Mac 設備與執行時間查看收益參考。",
-  "Explore IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.",
-  "하나의 계산기에서 IOTA, Blocknet BNT, Pearl PRL, Quantus, RVN, ERG, ETHW를 선택하고 RTX·Mac 기기와 가동 시간으로 수익을 확인하세요.",
-  "IOTA、Blocknet BNT、Pearl PRL、Quantus、RVN、ERG、ETHWを1つの計算機で。RTX・Macと稼働時間を選べます。",
+  "在一页选择 IOTA、Blocknet BNT、Pearl PRL、XMR、Quantus、RVN、ERG 或 ETHW，搭配 RTX 或 Mac 设备和运行时间查看收益参考。",
+  "在同一頁選擇 IOTA、Blocknet BNT、Pearl PRL、XMR、Quantus、RVN、ERG 或 ETHW，搭配 RTX 或 Mac 設備與執行時間查看收益參考。",
+  "Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in one calculator. Choose an RTX or Mac device and daily hours.",
+  "하나의 계산기에서 IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG, ETHW를 선택하고 RTX·Mac 기기와 가동 시간으로 수익을 확인하세요.",
+  "IOTA、Blocknet BNT、Pearl PRL、Monero XMR、Quantus、RVN、ERG、ETHWを1つの計算機で。RTX・Macと稼働時間を選べます。",
 ]);
 export function calculatorDescription(locale: SiteLocale, project?: CalculatorProject) {
   return project ? descriptions[project][locale] : mainDescription[locale];
@@ -69,10 +76,13 @@ export function calculatorHead(locale: SiteLocale, project?: CalculatorProject) 
   const path = `calculator${project ? "/" + project : ""}`;
   const url = `${ORIGIN}/${locale}/${path}`;
   const models = calculatorModels(project);
-  const featured = models
-    .filter((m) => m.startsWith("m") || m === "4090" || m === "5090")
-    .map(hardwareLabel)
-    .join(" / ");
+  const featured =
+    project === "xmr"
+      ? "Apple M1 / M2 / M3 / M4"
+      : models
+          .filter((m) => m.startsWith("m") || m === "4090" || m === "5090")
+          .map(hardwareLabel)
+          .join(" / ");
   const unit = project
     ? HARDWARE_CATALOG.flatMap((s) => s.rows).find((r) => r.project === project)!.unit
     : "";

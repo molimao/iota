@@ -30,3 +30,20 @@ it("keeps project landing pages linked to the unified calculator and supported h
   expect(html).toContain("固定参考价");
   expect(html).not.toContain("暂无数据");
 });
+it("offers M2 and M3 variants without blank results and avoids empty power columns on CPU-only estimates", () => {
+  const html = render({ initialProject: "xmr", initialModel: "m2-pro-12c" });
+  expect(html).toContain("Apple M2 Pro · 12-core CPU");
+  expect(html).toContain("Apple M3 Max · 16-core CPU");
+  expect(html).toContain('<option value="m2-pro-12c" selected="">');
+  expect(html).toContain("每天预计毛收益");
+  expect(html).not.toContain("暂无数据");
+  expect(html).not.toContain("calc-comparison");
+  expect(html).not.toContain("NVIDIA RTX 4090");
+});
+it("compares IOTA and XMR revenue on a compatible Mac without repeated unknown net/electricity cells", () => {
+  const html = render({ initialModel: "m1-pro-32" });
+  expect(html).toContain("calc-comparison");
+  expect(html).toContain("Monero");
+  expect(html).not.toContain("<th>每天净收益</th>");
+  expect(html).not.toContain("<th>电费</th>");
+});
