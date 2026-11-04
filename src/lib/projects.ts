@@ -162,7 +162,7 @@ export function isMonitorProject(value: unknown): value is MonitorProject {
 }
 
 export function projectPath(locale: string, project: ProjectId) {
-  return project === "iota" ? `/${locale}/app` : `/${locale}/projects/${project}`;
+  return `/${locale}/projects/${project}`;
 }
 
 export function projectEntity(project: ProjectId) {

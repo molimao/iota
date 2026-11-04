@@ -106,6 +106,35 @@ it("keeps only coarse acquisition categories, never source URLs or arbitrary cam
     "campaign_other",
   );
   expect(acquisitionSource("https://evilgoogle.com", "")).toBe("referral_other");
+  expect(acquisitionSource("https://accounts.google.com/o/oauth2/callback", "")).toBe("return");
+  expect(acquisitionSource("https://checkout.stripe.com/c/pay/private", "")).toBe("return");
+});
+it("keeps a sanitized first referrer across reloads and ignores OAuth returns", async () => {
+  Object.assign(document, { referrer: "https://www.google.com/search?q=wallet-secret" });
+  let a = await import("./analytics");
+  a.trackPageView("/zh/projects/iota");
+  const events = () => window.dataLayer!.map(x => Array.from(x as ArrayLike<unknown>));
+  expect(events().find(x => x[1] === "page_view")?.[2]).toMatchObject({
+    acquisition_source: "google", page_referrer: "https://www.google.com/",
+  });
+  vi.resetModules();
+  Object.assign(document, { referrer: "https://accounts.google.com/private-callback" });
+  a = await import("./analytics");
+  a.trackPageView("/zh/devices");
+  expect(events().filter(x => x[1] === "page_view").at(-1)?.[2]).toMatchObject({
+    acquisition_source: "google", page_referrer: "https://www.google.com/",
+  });
+  expect(JSON.stringify(events())).not.toMatch(/wallet-secret|private-callback/);
+});
+it("does not count authentication, checkout or arbitrary referrals as search acquisition", async () => {
+  for (const referrer of ["https://accounts.google.com/private", "https://checkout.stripe.com/private", "https://example.com/private"]) {
+    vi.resetModules(); memory.clear(); window.dataLayer = [];
+    Object.assign(document, { referrer });
+    const a = await import("./analytics"); a.trackPageView("/zh");
+    const queue = window.dataLayer!.map(x => Array.from(x as ArrayLike<unknown>));
+    expect(queue.find(x => x[1] === "page_view")?.[2]).toMatchObject({page_referrer: ""});
+    expect(JSON.stringify(queue)).not.toContain("private");
+  }
 });
 it("separates signup from returning login and never sends account identifiers", async () => {
   const a = await import("./analytics");

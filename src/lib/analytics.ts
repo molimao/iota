@@ -31,6 +31,8 @@ export function acquisitionSource(referrer: string, search: string) {
   try {
     const host = new URL(referrer).hostname.toLowerCase();
     if (["iotahome.site", "www.iotahome.site"].includes(host)) return "internal";
+    if (/^accounts\.google\.[a-z.]+$/.test(host) || host === "checkout.stripe.com")
+      return "return";
     if (/(^|\.)google\.[a-z.]+$/.test(host)) return "google";
     if (host === "bing.com" || host.endsWith(".bing.com")) return "bing";
     if (["x.com", "t.co", "twitter.com"].includes(host)) return "x";
@@ -44,6 +46,7 @@ export function acquisitionSource(referrer: string, search: string) {
 function sourceContext() {
   try {
     const key = "iota-ga4-source-v1";
+    const referrerKey = "iota-ga4-referrer-v1";
     let source = sessionStorage.getItem(key);
     const allowed = [
       "google",
@@ -59,12 +62,20 @@ function sourceContext() {
     ];
     if (!source || !allowed.includes(source)) {
       source = acquisitionSource(document.referrer, window.location.search);
-      if (source === "internal") source = "direct";
+      const referralSource = acquisitionSource(document.referrer, "");
+      const origin = ["google", "bing", "x", "chatgpt", "reddit"].includes(referralSource)
+        ? new URL(document.referrer).origin + "/"
+        : "";
+      sessionStorage.setItem(referrerKey, origin);
+      if (source === "internal" || source === "return") source = "direct";
       sessionStorage.setItem(key, source);
     }
-    return { acquisition_source: source };
+    return {
+      acquisition_source: source,
+      page_referrer: sessionStorage.getItem(referrerKey) ?? "",
+    };
   } catch {
-    return {};
+    return { page_referrer: "" };
   }
 }
 export function trackFunnelEvent(event: FunnelEvent, context: EventContext = {}) {
@@ -73,7 +84,6 @@ export function trackFunnelEvent(event: FunnelEvent, context: EventContext = {})
     window.gtag?.("event", event, {
       send_to: measurementId(),
       page_location: window.location.origin + window.location.pathname,
-      page_referrer: "",
       page_title: "IOTA Watch",
       ...sourceContext(),
       ...context,
@@ -118,7 +128,6 @@ function init() {
     window.gtag("config", id, {
       send_page_view: false,
       page_location: window.location.origin + window.location.pathname,
-      page_referrer: "",
       page_title: "IOTA Watch",
       ...sourceContext(),
     });
@@ -146,7 +155,6 @@ export function trackProductEvent(
     window.gtag?.("event", event, {
       send_to: measurementId(),
       page_location: window.location.origin + window.location.pathname,
-      page_referrer: "",
       page_title: "IOTA Watch",
       ...sourceContext(),
       ...context,
@@ -183,7 +191,6 @@ export function trackAuthSuccess(event: "login" | "sign_up", occurrence: string)
       send_to: measurementId(),
       method: "google",
       page_location: window.location.origin + window.location.pathname,
-      page_referrer: "",
       page_title: "IOTA Watch",
       ...sourceContext(),
     });
@@ -202,7 +209,6 @@ export function trackPageView(path: string) {
       page_path: path,
       page_title: "IOTA Watch",
       ...sourceContext(),
-      page_referrer: "",
     });
     lastPath = path;
   } catch {

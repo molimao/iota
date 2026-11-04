@@ -22,6 +22,13 @@ const xid = bech32m.encode("xpa", [3, ...bech32m.toWords(new Uint8Array(32).fill
 afterEach(() => vi.useRealTimers());
 
 describe("separate project identities and currencies", () => {
+  it("links IOTA acquisition pages to the indexable project route in the sitemap", () => {
+    for (const locale of LOCALES) {
+      const path = projectPath(locale, "iota");
+      expect(path).toBe(`/${locale}/projects/iota`);
+      expect(buildSitemapXml()).toContain(`<loc>https://iotahome.site${path}</loc>`);
+    }
+  });
   it("routes fly.ai through compute monitoring and indexes every language", () => {
     expect(isMonitorProject("flyai")).toBe(true);
     expect(isMiningProject("flyai")).toBe(false);
