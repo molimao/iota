@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, afterAll, it, expect } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
 import { readFileSync } from "node:fs";
+import { PRL_POOL_IDS } from "./pool-projects";
 let db: PGlite;
 const u = "11111111-1111-4111-8111-111111111111",
   other = "22222222-2222-4222-8222-222222222222";
@@ -20,10 +21,11 @@ beforeAll(async () => {
  CREATE FUNCTION auth.uid() RETURNS uuid LANGUAGE sql AS $$SELECT nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  CREATE TABLE watch_devices(id uuid,user_id uuid);
  CREATE TABLE watch_device_agents(device_id uuid,user_id uuid,credential_hash text);
- CREATE TABLE watch_bindings(id uuid DEFAULT gen_random_uuid(),device_id uuid,user_id uuid,project text,identifier text,worker text DEFAULT '',pool text,UNIQUE(user_id,project,identifier,worker,pool));
+ CREATE TABLE watch_bindings(id uuid DEFAULT gen_random_uuid(),device_id uuid,user_id uuid,project text,identifier text,worker text DEFAULT '',pool text,UNIQUE(user_id,project,identifier,worker,pool),CONSTRAINT watch_bindings_pool_check CHECK(pool IS NOT NULL));
  CREATE FUNCTION watch_project_device_limit(uuid) RETURNS integer LANGUAGE sql AS $$SELECT 5$$;
  GRANT USAGE ON SCHEMA public,auth TO authenticated,anon;`);
   await db.exec(readFileSync("supabase/migrations/20261028140000_prl_worker_agent.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261105230000_prl_more_pools.sql", "utf8"));
 }, 30000);
 beforeEach(async () => {
   await db.exec(
@@ -64,26 +66,41 @@ it("links two Workers independently, retains wallet and reuses an existing link"
   expect(await link(lucky, "gpu2", a)).toBe(two);
   await db.exec("RESET ROLE");
   const rows = (
-    await db.query<{id:string;device_id:string;worker:string}>("SELECT id,device_id,worker FROM watch_bindings WHERE pool='luckypool'")
+    await db.query<{ id: string; device_id: string; worker: string }>(
+      "SELECT id,device_id,worker FROM watch_bindings WHERE pool='luckypool'",
+    )
   ).rows;
   expect(rows).toHaveLength(3);
   expect(rows.find((r) => r.id === lucky)?.device_id).toBe(wallet);
   expect(rows.find((r) => r.id === one)?.device_id).toBe(a);
   expect(rows.find((r) => r.id === two)?.device_id).toBe(a);
 });
-it("isolates identical wallet and Worker names across pools", async () => {
-  const one = await link(lucky, "gpu1", a),
-    two = await link(kryptex, "gpu1", b);
-  expect(one).not.toBe(two);
-  await link(lucky, "gpu1", b);
+it("isolates the same wallet and Worker across all eight Pearl pools", async () => {
   await db.exec("RESET ROLE");
-  expect(
-    (await db.query("SELECT pool,device_id FROM watch_bindings WHERE worker='gpu1' ORDER BY pool"))
-      .rows,
-  ).toEqual([
-    { pool: "kryptex", device_id: b },
-    { pool: "luckypool", device_id: b },
-  ]);
+  await db.exec("DELETE FROM watch_bindings");
+  const rows = (
+    await db.query<{ id: string; pool: string }>(
+      `INSERT INTO watch_bindings(device_id,user_id,project,identifier,worker,pool)
+     SELECT $1,$2,'prl','same-wallet','',pool FROM unnest($3::text[]) pool RETURNING id,pool`,
+      [wallet, u, PRL_POOL_IDS],
+    )
+  ).rows;
+  await owner();
+  const linked = new Set<string>();
+  for (const [index, row] of rows.entries()) {
+    linked.add(await link(row.id, "gpu1", index % 2 ? a : b));
+  }
+  expect(linked.size).toBe(PRL_POOL_IDS.length);
+  await db.exec("RESET ROLE");
+  const bindings = (
+    await db.query<{ pool: string; device_id: string }>(
+      "SELECT pool,device_id FROM watch_bindings WHERE worker='gpu1'",
+    )
+  ).rows;
+  expect(bindings).toHaveLength(PRL_POOL_IDS.length);
+  for (const [index, row] of rows.entries()) {
+    expect(bindings).toContainEqual({ pool: row.pool, device_id: index % 2 ? a : b });
+  }
 });
 it("rejects foreign source/target, unpaired target, empty Worker and wallet-level linking", async () => {
   await expect(link(lucky, "gpu1", foreign)).rejects.toThrow("agent_not_found");

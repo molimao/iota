@@ -1,6 +1,12 @@
 import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
-import { isPoolProject, validPoolAddress, poolProvider, validPoolProvider } from "./pool-projects";
+import {
+  POOL_PROVIDERS,
+  isPoolProject,
+  validPoolAddress,
+  poolProvider,
+  validPoolProvider,
+} from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { isPlatform, validPlatformId } from "./platforms";
 import { z } from "zod";
@@ -72,21 +78,7 @@ export const bindingSchema = z
     id: z.string().min(1).max(120),
     project: z.enum(FLEET_PROJECTS),
     identifier: z.string().trim().min(1).max(120),
-    pool: z
-      .enum([
-        "kryptex",
-        "2miners",
-        "luckypool",
-        "bntpool",
-        "gpools",
-        "ckpool",
-        "chain",
-        "tigerpool",
-        "boblabs",
-        "ariapool",
-        "suprnova",
-      ])
-      .optional(),
+    pool: z.enum(POOL_PROVIDERS).optional(),
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>

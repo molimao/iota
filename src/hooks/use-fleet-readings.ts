@@ -210,8 +210,12 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
           )
         ];
       const r = q?.data,
-        d = r?.data,
-        worker = binding.worker ? d?.workers.find((w) => w.name === binding.worker) : undefined;
+        d = r?.data;
+      const matches = binding.worker
+        ? d?.workers.filter((w) => w.name === binding.worker)
+        : undefined;
+      const ambiguous = binding.project === "prl" && (matches?.length ?? 0) > 1;
+      const worker = ambiguous ? undefined : matches?.[0];
       const current =
         !!r?.fetchedAt && iota.now - r.fetchedAt < 300000 && !r.error && !r.stale && !q?.isError;
       const online = binding.worker
@@ -242,7 +246,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               ? "loading"
               : !current
                 ? "unavailable"
-                : binding.worker && !worker && !d?.partial
+                : binding.worker && !worker && !ambiguous && !d?.partial
                   ? "notFound"
                   : online === true
                     ? "online"
@@ -253,13 +257,15 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
           value: binding.worker ? (worker?.hashrate ?? null) : (d?.hashrate ?? null),
           unit:
             d?.rateUnit ??
-            (binding.project === "tsc"
-              ? "PoI/s"
-              : binding.project === "zec"
-                ? "S/s"
-                : binding.project === "mds"
-                  ? "nonces/s"
-                  : "H/s"),
+            (binding.pool === "peryn"
+              ? "MAC/s"
+              : binding.project === "tsc"
+                ? "PoI/s"
+                : binding.project === "zec"
+                  ? "S/s"
+                  : binding.project === "mds"
+                    ? "nonces/s"
+                    : "H/s"),
           scope: binding.worker ? "worker" : "account",
           fresh: current,
           fetchedAt: r?.fetchedAt ?? null,
@@ -273,7 +279,12 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         today: d?.reward == null ? null : String(d.reward),
         rewardAmount: d?.reward ?? null,
         earningsWindow: d?.period ?? "unknown",
-        ...(d ? { todayLabel: binding.project === "bnt" ? bntLabels.paid24h[locale] : poolCopy[d.period][locale] } : {}),
+        ...(d
+          ? {
+              todayLabel:
+                binding.project === "bnt" ? bntLabels.paid24h[locale] : poolCopy[d.period][locale],
+            }
+          : {}),
         todayUsable: false,
         todaySameDay: false,
         cumulativeReward: d ? poolCumulativeEarnings(d) : null,
@@ -295,7 +306,12 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
                 kind: "balance" as const,
                 amount: String(d.balance),
                 unit: POOL_PROJECTS[binding.project].token,
-                ...((binding.project === "bnt" || (binding.project === "prl" && binding.pool === "luckypool")) ? { poolBalance: { queued: d.queued ?? null, pending: d.pendingEstimate ?? null } } : {}),
+                ...(binding.project === "bnt" ||
+                (binding.project === "prl" && d.pendingEstimate !== undefined)
+                  ? {
+                      poolBalance: { queued: d.queued ?? null, pending: d.pendingEstimate ?? null },
+                    }
+                  : {}),
               },
             }),
         updated: clock(r?.fetchedAt),
@@ -411,10 +427,14 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         officialRun: officialRun(view),
         rewardAmount: today === null ? null : today / 1e8,
         earningsWindow: "yesterday",
-        rolling24hReward: view.todayUsable && view.earnings?.rolling24hUnits != null
-          ? view.earnings.rolling24hUnits / 1e8 : null,
-        rolling24hUsdValue: view.todayUsable && !iota.priceRefreshFailed
-          ? iotaUnitsToUsd(view.earnings?.rolling24hUnits ?? null, iota.usdPerIota) : null,
+        rolling24hReward:
+          view.todayUsable && view.earnings?.rolling24hUnits != null
+            ? view.earnings.rolling24hUnits / 1e8
+            : null,
+        rolling24hUsdValue:
+          view.todayUsable && !iota.priceRefreshFailed
+            ? iotaUnitsToUsd(view.earnings?.rolling24hUnits ?? null, iota.usdPerIota)
+            : null,
         officialTraining: {
           status: view.statusStale ? "refresh_interrupted" : view.status,
           fetchedAt: view.statusFetchedAt,
@@ -431,7 +451,10 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
         lifetime: total === null ? null : formatIota(total, 8, locale),
         lifetimeUnits: view.lifetimeUsable ? total : null,
         cumulativeReward: view.lifetimeUsable && total !== null ? total / 1e8 : null,
-        cumulativeUsdValue: view.lifetimeUsable && !iota.priceRefreshFailed ? iotaUnitsToUsd(total, iota.usdPerIota) : null,
+        cumulativeUsdValue:
+          view.lifetimeUsable && !iota.priceRefreshFailed
+            ? iotaUnitsToUsd(total, iota.usdPerIota)
+            : null,
         unit: "IOTA",
         todayLabel: c.yesterday,
         todayUnits: view.todayUsable ? today : null,

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { POOL_PROVIDERS } from "./pool-projects";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { authenticateReportCron } from "./daily-report-cron-auth.server";
 import { watchDb } from "./watch-db";
@@ -27,21 +28,7 @@ const binding = z.object({
   project: z.enum(PROJECT_IDS),
   identifier: z.string().min(1).max(100),
   worker: z.string().max(80).optional(),
-  pool: z
-    .enum([
-      "kryptex",
-      "2miners",
-      "luckypool",
-      "bntpool",
-      "gpools",
-      "ckpool",
-      "chain",
-      "tigerpool",
-      "boblabs",
-      "ariapool",
-      "suprnova",
-    ])
-    .optional(),
+  pool: z.enum(POOL_PROVIDERS).optional(),
 });
 const reading = z.object({
   project: z.enum(PROJECT_IDS),

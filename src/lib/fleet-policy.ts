@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { POOL_PROVIDERS } from "./pool-projects";
 import { PLANS } from "./plans";
 import { FLEET_PROJECTS, parseFleet } from "./fleet";
 
@@ -12,21 +13,7 @@ export const fleetMutationSchema = z.discriminatedUnion("action", [
         .object({
           project: z.enum(FLEET_PROJECTS),
           identifier: z.string().trim().min(1).max(120),
-          pool: z
-            .enum([
-              "kryptex",
-              "2miners",
-              "luckypool",
-              "bntpool",
-              "gpools",
-              "ckpool",
-              "chain",
-              "tigerpool",
-              "boblabs",
-              "ariapool",
-              "suprnova",
-            ])
-            .optional(),
+          pool: z.enum(POOL_PROVIDERS).optional(),
           worker: z.string().trim().max(80).default(""),
         })
         .optional(),
@@ -56,21 +43,7 @@ export const fleetMutationSchema = z.discriminatedUnion("action", [
       binding: z.object({
         project: z.enum(FLEET_PROJECTS),
         identifier: z.string().trim().min(1).max(120),
-        pool: z
-          .enum([
-            "kryptex",
-            "2miners",
-            "luckypool",
-            "bntpool",
-            "gpools",
-            "ckpool",
-            "chain",
-            "tigerpool",
-            "boblabs",
-            "ariapool",
-            "suprnova",
-          ])
-          .optional(),
+        pool: z.enum(POOL_PROVIDERS).optional(),
         worker: z.string().trim().max(80).default(""),
       }),
     }),
@@ -91,8 +64,10 @@ export function fleetSnapshot(input: unknown) {
       quotaScope: z.literal("per_project"),
     })
     .parse(input);
-  const allowedLimits = snapshot.plan === "free" ? [PLANS.free.projectDeviceLimit, 5] : [PLANS.pro.projectDeviceLimit, 50];
-  if (!allowedLimits.includes(snapshot.projectDeviceLimit))
-    throw new Error("invalid-fleet-plan");
+  const allowedLimits =
+    snapshot.plan === "free"
+      ? [PLANS.free.projectDeviceLimit, 5]
+      : [PLANS.pro.projectDeviceLimit, 50];
+  if (!allowedLimits.includes(snapshot.projectDeviceLimit)) throw new Error("invalid-fleet-plan");
   return { ...snapshot, devices: parseFleet(snapshot.devices) };
 }

@@ -1,14 +1,15 @@
 import { record, finite } from "./projects";
 import type { PoolProject } from "./pool-projects";
+export type PoolRateUnit = "PoI/s" | "N/s" | "MAC/s";
 export type PoolWorker = {
-  rateUnit?: "PoI/s" | "N/s";
+  rateUnit?: PoolRateUnit;
   name: string;
   hashrate: number | null;
   online: boolean | null;
   lastSeen: number | null;
 };
 export type PoolAccount = {
-  rateUnit?: "PoI/s" | "N/s";
+  rateUnit?: PoolRateUnit;
   chainBalanceExact?: string;
   sourceUnavailable?: boolean;
   balance: number | null;
@@ -24,11 +25,76 @@ export type PoolAccount = {
   /** Wallet last-share time, when the source publishes one. */
   lastShare?: number | null;
   acceptedShares?: number | null;
-  /** CKPool wallet and worker rates both use this window. */
-  hashrateWindow?: "1hr";
+  /** Window used for the wallet rate. */
+  hashrateWindow?: "1hr" | "10min";
 };
 const number = (v: unknown) =>
   typeof v === "string" && /^\d+(\.\d+)?$/.test(v) ? finite(Number(v)) : finite(v);
+
+export function parsePeryn(input: unknown, address: string): PoolAccount {
+  const {
+    v,
+    address: wallet,
+    network,
+    unit,
+    workers: rows,
+    balance: ledger,
+    hashrate1h,
+    hashrate24h,
+    payouts,
+  } = record(input);
+  if (
+    v !== 1 ||
+    wallet !== address ||
+    network !== "mainnet" ||
+    unit !== "MAC/s" ||
+    !Array.isArray(rows)
+  )
+    throw new Error("invalid-data");
+
+  const { owedPrl, pendingPrl, paidPrl } = record(ledger);
+  const balance = number(owedPrl);
+  const pendingEstimate = number(pendingPrl);
+  const paid = number(paidPrl);
+  const hashrate = finite(hashrate1h);
+  const workers = rows.map(record).map(({ name, hashrate1h, online, lastShare }): PoolWorker => {
+    if (typeof name !== "string" || !name.trim()) throw new Error("invalid-data");
+    const seen = typeof lastShare === "string" ? Date.parse(lastShare) : NaN;
+    return {
+      name: name.slice(0, 80),
+      hashrate: finite(hashrate1h),
+      rateUnit: "MAC/s",
+      online: typeof online === "boolean" ? online : null,
+      lastSeen: Number.isFinite(seen) ? seen : null,
+    };
+  });
+  // Peryn returns an empty, zero-valued ledger even for addresses it has never seen.
+  if (
+    !workers.length &&
+    hashrate === 0 &&
+    hashrate24h === 0 &&
+    balance === 0 &&
+    pendingEstimate === 0 &&
+    paid === 0 &&
+    Array.isArray(payouts) &&
+    !payouts.length
+  )
+    throw new Error("not-found");
+
+  return {
+    balance,
+    pendingEstimate,
+    paid,
+    hashrate,
+    workers,
+    workerCount: workers.length,
+    rateUnit: "MAC/s",
+    hashrateWindow: "1hr",
+    reward: null,
+    period: "unknown",
+    partial: [balance, pendingEstimate, paid, hashrate].some((value) => value === null),
+  };
+}
 const timestamp = (v: unknown) => {
   const n = number(v);
   return n && n > 0 ? (n < 1e12 ? n * 1000 : n) : null;
@@ -257,7 +323,7 @@ export function parseCkPool(input: unknown, address: string, now = Date.now()): 
     hashrateWindow: "1hr",
   };
 }
-export function poolHashrate(project: PoolProject, n: number | null, rateUnit?: "PoI/s" | "N/s") {
+export function poolHashrate(project: PoolProject, n: number | null, rateUnit?: PoolRateUnit) {
   if (n === null) return "—";
   const i = n > 0 ? Math.min(6, Math.max(0, Math.floor(Math.log10(n) / 3))) : 0;
   return `${Number((n / 1000 ** i).toFixed(2))} ${["", "K", "M", "G", "T", "P", "E"][i]}${rateUnit ?? (project === "tsc" ? "PoI/s" : project === "mds" ? "nonces/s" : project === "zec" ? "S/s" : "H/s")}`;

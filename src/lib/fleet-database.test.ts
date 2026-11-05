@@ -1,3 +1,4 @@
+import { PRL_POOL_IDS } from "./pool-projects";
 import { bech32m } from "@scure/base";
 import { readFileSync } from "node:fs";
 import { ergP2pkFromFill, zephStandardFromFill } from "./erg-zeph-validator";
@@ -10,9 +11,11 @@ import { beforeAll, afterAll, describe, it, expect } from "vitest";
 // below still verify the original migrations and limits unchanged.
 function historicalSnapshot(input: unknown) {
   const value = input as Record<string, unknown>;
-  return fleetSnapshot(value["plan"] === "free" && value["projectDeviceLimit"] === 5
-    ? { ...value, projectDeviceLimit: 3 }
-    : value);
+  return fleetSnapshot(
+    value["plan"] === "free" && value["projectDeviceLimit"] === 5
+      ? { ...value, projectDeviceLimit: 3 }
+      : value,
+  );
 }
 
 const user = "11111111-1111-4111-8111-111111111111";
@@ -75,6 +78,8 @@ beforeAll(async () => {
   await db.exec(readFileSync("supabase/migrations/20261023190000_btc_ethw_pools.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261023220000_prl_luckypool.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261025220000_tensorcash_tsc.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261105220000_prl_peryn.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261105230000_prl_more_pools.sql", "utf8"));
 }, 60000);
 afterAll(async () => {
   await db.close();
@@ -662,7 +667,9 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
       binding: { project: "btc", identifier: btc[0], worker: "rig-a" },
     });
     expect(created.projectCounts["btc"]).toBe(1);
-    const id = historicalSnapshot(created).devices.find((device) => device.name === "BTC wallet")!.id;
+    const id = historicalSnapshot(created).devices.find(
+      (device) => device.name === "BTC wallet",
+    )!.id;
     const workers = await mutate("link", {
       id,
       binding: { project: "btc", identifier: btc[0], worker: "rig-b" },
@@ -711,7 +718,8 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
     expect(ethw.projectCounts["btc"]).toBe(5);
     expect(ethw.projectCounts["ethw"]).toBe(1);
     expect(
-      historicalSnapshot(ethw).devices.find((device) => device.name === "ETHW")?.bindings[0]?.identifier,
+      historicalSnapshot(ethw).devices.find((device) => device.name === "ETHW")?.bindings[0]
+        ?.identifier,
     ).toBe(("0xAB" + "cd".repeat(19)).toLowerCase());
     await expect(
       mutate("create", {
@@ -736,21 +744,29 @@ describe("Bitcoin and EthereumPoW saved-address persistence", () => {
 });
 
 describe("PRL accounts keep pool identity in PostgreSQL", () => {
-  it("reloads both pools separately, enforces duplicate and quota rules, and isolates owners", async () => {
+  it("reloads all eight pools separately, enforces duplicate and quota rules, and isolates owners", async () => {
     const owner = "77777777-6666-4777-8888-999999999999";
     const address = "prl1" + "q".repeat(58);
     await db.exec("RESET ROLE");
     await db.query("INSERT INTO auth.users(id) VALUES($1)", [owner]);
     await asUser(owner);
     await mutate("create", { name: "Kryptex", binding: { project: "prl", identifier: address } });
-    const two = await mutate("create", {
+    await mutate("create", {
       name: "LuckyPool",
       binding: { project: "prl", identifier: address, pool: "luckypool" },
     });
-    expect(two.projectCounts["prl"]).toBe(2);
+    const three = await mutate("create", {
+      name: "Peryn",
+      binding: { project: "prl", identifier: address, pool: "peryn" },
+    });
+    expect(three.projectCounts["prl"]).toBe(3);
+    const peryn = historicalSnapshot(three).devices.find((d) => d.name === "Peryn")!;
+    for (const pool of PRL_POOL_IDS.slice(3)) {
+      await mutate("link", { id: peryn.id, binding: { project: "prl", identifier: address, pool } });
+    }
     const list = await db.query<{ data: unknown }>("SELECT watch_list_devices() AS data");
     const rows = historicalSnapshot(list.rows[0]!.data).devices;
-    expect(rows.map((d) => d.bindings[0]?.pool).sort()).toEqual(["kryptex", "luckypool"]);
+    expect(rows.flatMap((d) => d.bindings.map((b) => b.pool)).sort()).toEqual([...PRL_POOL_IDS].sort());
     const lucky = rows.find((d) => d.name === "LuckyPool")!;
     await expect(
       mutate("create", {
@@ -770,7 +786,7 @@ describe("PRL accounts keep pool identity in PostgreSQL", () => {
         binding: { project: "xmr", identifier: "4" + "a".repeat(94), pool: "luckypool" },
       }),
     ).rejects.toThrow();
-    for (let i = 1; i <= 3; i++)
+    for (let i = 1; i <= 2; i++)
       await mutate("create", {
         name: "Extra " + i,
         binding: { project: "prl", identifier: address + "q".repeat(i), pool: "luckypool" },

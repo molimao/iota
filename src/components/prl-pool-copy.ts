@@ -7,6 +7,28 @@ const line = (
   ja: string,
 ): Record<SiteLocale, string> => ({ zh, "zh-TW": tw, en, ko, ja });
 export const prlPoolCopy = {
+  hourRate: line(
+    "近 1 小时算力",
+    "近 1 小時算力",
+    "1-hour hashrate",
+    "최근 1시간 해시레이트",
+    "直近1時間のハッシュレート",
+  ),
+  tenMinuteRate: line(
+    "近 10 分钟算力",
+    "近 10 分鐘算力",
+    "10-minute hashrate",
+    "최근 10분 해시레이트",
+    "直近10分のハッシュレート",
+  ),
+  ambiguousWorker: line(
+    "Worker 重名，改名后可关联",
+    "Worker 重名，改名後可關聯",
+    "Duplicate Worker name. Rename it to link.",
+    "중복 Worker 이름입니다. 이름을 바꾸면 연결할 수 있습니다.",
+    "Worker名が重複しています。名前を変更すると連携できます。",
+  ),
+  owed: line("待支付余额", "待支付餘額", "Unpaid balance", "미지급 잔액", "未払い残高"),
   notFound: line(
     "所选矿池暂无这个地址的挖矿记录。请核对矿池和收益地址；这不代表钱包地址无效。",
     "所選礦池暫無這個地址的挖礦記錄。請核對礦池和收益地址；這不代表錢包地址無效。",

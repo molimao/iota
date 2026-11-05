@@ -3,7 +3,7 @@ import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 
 export type ProjectReading = {
   poolWorkers?: {
-    rateUnit?: "PoI/s" | "N/s" | undefined;
+    rateUnit?: import("@/lib/pool-monitor").PoolRateUnit | undefined;
     count: number;
     workers: import("@/lib/pool-monitor").PoolWorker[];
   };

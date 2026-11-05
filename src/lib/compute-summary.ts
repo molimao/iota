@@ -1,7 +1,8 @@
 import type { FleetBinding, FleetProject } from "./fleet";
+import type { PoolRateUnit } from "./pool-monitor";
 export type ComputeReading = {
   value: number | null;
-  unit: "tokens/s" | "H/s" | "S/s" | "nonces/s" | "PoI/s" | "N/s";
+  unit: "tokens/s" | "H/s" | "S/s" | "nonces/s" | PoolRateUnit;
   scope: "device" | "worker" | "account";
   fresh: boolean;
   fetchedAt: number | null;

@@ -1,3 +1,4 @@
+import { PRL_POOL_IDS } from "./pool-projects";
 import { it, expect } from "vitest";
 import { earningsBoard, type BoardReading } from "./earnings-board";
 import type { FleetBinding } from "./fleet";
@@ -388,16 +389,20 @@ it("merges cumulative income across pools, deduplicates Workers, and leaves 24h 
     [
       { binding: a, deviceId: "one", data },
       { binding: { ...a, worker: "rig-b" }, deviceId: "two", data },
-      {
-        binding: { ...a, pool: "kryptex" },
-        deviceId: "three",
-        data: { ...data, cumulativeReward: 2 },
-      },
+      ...PRL_POOL_IDS.filter((pool) => pool !== "luckypool").map((pool) => ({
+        binding: { ...a, pool },
+        deviceId: pool,
+        data: {
+          ...data,
+          cumulativeReward: 2,
+          rewardAmount: pool === "pearlski" ? 2 : null,
+        },
+      })),
     ],
     { prl: 2 },
   );
-  expect(board.projects[0]!.metrics.get("cumulative:PRL")!.amount).toBe(8);
-  expect(board.totals.rolling24h.usd).toBe(4);
+  expect(board.projects[0]!.metrics.get("cumulative:PRL")!.amount).toBe(20);
+  expect(board.totals.rolling24h.usd).toBe(6);
 });
 
 it("prices usable IOTA lifetime readings without requiring a pool health flag", () => {

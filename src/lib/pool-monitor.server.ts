@@ -9,11 +9,25 @@ import {
   validPoolAddress,
   type PoolProject,
 } from "./pool-projects";
-import { parseCkPool, parseKryptex, parseTwoMiners, parseMidstate } from "./pool-monitor";
+import {
+  parseCkPool,
+  parseKryptex,
+  parseTwoMiners,
+  parseMidstate,
+  parsePeryn,
+} from "./pool-monitor";
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
 import { record } from "./projects";
 import { parsePrlLuckyPool } from "./prl-luckypool";
+import {
+  parseAlphaPool,
+  parseHeroMiners,
+  parsePearlFortune,
+  parsePearlHash,
+  parsePearlski,
+} from "./prl-more-pools";
+
 const cache = new ReadCache(300);
 export function readPoolAccount(
   project: PoolProject,
@@ -32,6 +46,33 @@ export function readPoolAccount(
         return readTscPool(address, provider);
       }
       const id = encodeURIComponent(address);
+      if (project === "prl" && provider === "peryn")
+        return parsePeryn(await upstreamJson(`https://app.peryn.ai/api/v1/miner/${id}`), address);
+      if (provider === "pearlhash")
+        return parsePearlHash(await upstreamJson(`https://pearlhash.xyz/api/account/${id}`));
+      if (provider === "herominers")
+        return parseHeroMiners(
+          await upstreamJson(`https://pearl.herominers.com/api/stats_address?address=${id}`),
+        );
+      if (provider === "alphapool")
+        return parseAlphaPool(
+          await upstreamJson(`https://pearl.alphapool.tech/api/miner/${id}`),
+          address,
+        );
+      if (provider === "pearlski")
+        return parsePearlski(
+          await upstreamJson(`https://pearl.jetskipool.ai/api/stats/${id}`),
+          address,
+        );
+      if (provider === "pearlfortune") {
+        const base = `https://pearlfortune.org/api/v1/miners/${id}`;
+        const [summary, connections, ledger] = await Promise.all([
+          upstreamJson(`${base}?hours=24`),
+          upstreamJson(`${base}/connections`).catch(() => null),
+          upstreamJson(`${base}/ledger?page=1&page_size=20`).catch(() => null),
+        ]);
+        return parsePearlFortune(summary, connections, ledger);
+      }
       if (project === "prl" && provider === "luckypool") {
         const [config, account] = await Promise.all([
           cache.read("prl:luckypool:units", () =>

@@ -4,7 +4,7 @@ import { QuietDetails } from "./simple-ui";
 import { csdLabels } from "./csd-copy";
 import { bntLabels } from "./bnt-copy";
 import { mdsLabels } from "./mds-copy";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import { poolHashrate } from "@/lib/pool-monitor";
@@ -14,8 +14,10 @@ import {
   poolAccountKey,
   type PoolProvider,
   poolName,
+  PRL_POOL_IDS,
   POOL_PROJECTS,
   validPoolAddress,
+  validPoolProvider,
   type PoolProject,
 } from "@/lib/pool-projects";
 import { ProjectAddressBook } from "./project-address-book";
@@ -28,6 +30,9 @@ import { PoolWorkerCards } from "./pool-worker-cards";
 import { poolWorkerCardsCopy } from "./pool-worker-cards-copy";
 import { prlPoolCopy } from "./prl-pool-copy";
 import "./prl-pool.css";
+
+const PRL_POOL_PREFERENCE = "iota-prl-pool";
+
 export function PoolPage({ project }: { project: PoolProject }) {
   return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
 }
@@ -37,6 +42,15 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
     fc = fleetCopy(locale),
     info = POOL_PROJECTS[project];
   const [provider, setProvider] = useState<PoolProvider>(poolProvider(project));
+  useEffect(() => {
+    if (project !== "prl") return;
+    try {
+      const saved = localStorage.getItem(PRL_POOL_PREFERENCE);
+      if (validPoolProvider(project, saved)) setProvider(saved);
+    } catch {
+      /* Display preferences never block monitoring. */
+    }
+  }, [project]);
   const lucky = project === "prl" && provider === "luckypool";
   const [input, setInput] = useState(""),
     [address, setAddress] = useState(""),
@@ -56,7 +70,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
   }, []);
   const raw = q.data?.data;
   const d =
-    raw && project === "btc" && q.data?.stale
+    raw && (project === "btc" || project === "prl") && q.data?.stale
       ? { ...raw, workers: raw.workers.map((worker) => ({ ...worker, online: null })) }
       : raw;
   const value = (n: number | null | undefined) =>
@@ -85,21 +99,28 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
             <select
               value={provider}
               onChange={(event) => {
-                setProvider(event.target.value as PoolProvider);
+                const next = event.target.value as PoolProvider;
+                setProvider(next);
+                if (project === "prl") {
+                  try {
+                    localStorage.setItem(PRL_POOL_PREFERENCE, next);
+                  } catch {
+                    /* Display preferences never block monitoring. */
+                  }
+                }
               }}
             >
-              {project === "tsc" ? (
-                TSC_POOLS.map((p) => (
-                  <option key={p} value={p}>
-                    {p === "chain" ? tscPoolCopy.chain[locale] : poolName("tsc", p)}
-                  </option>
-                ))
-              ) : (
-                <>
-                  <option value="kryptex">Kryptex</option>
-                  <option value="luckypool">LuckyPool</option>
-                </>
-              )}
+              {project === "tsc"
+                ? TSC_POOLS.map((p) => (
+                    <option key={p} value={p}>
+                      {p === "chain" ? tscPoolCopy.chain[locale] : poolName("tsc", p)}
+                    </option>
+                  ))
+                : PRL_POOL_IDS.map((p) => (
+                    <option key={p} value={p}>
+                      {poolName("prl", p)}
+                    </option>
+                  ))}
             </select>
           </label>
           <p className="compute-caption">
@@ -188,7 +209,13 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                 <div className="pool-metrics">
                   {[
                     [
-                      project === "csd" ? csdLabels.rate[locale] : c.rate[locale],
+                      project === "csd"
+                        ? csdLabels.rate[locale]
+                        : project === "prl" && d.hashrateWindow === "1hr"
+                          ? prlPoolCopy.hourRate[locale]
+                          : project === "prl" && d.hashrateWindow === "10min"
+                            ? prlPoolCopy.tenMinuteRate[locale]
+                            : c.rate[locale],
                       poolHashrate(project, d.hashrate, d.rateUnit),
                     ],
                     ...(project === "btc"
@@ -201,20 +228,26 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                                 ? mdsLabels.balance[locale]
                                 : lucky
                                   ? prlPoolCopy.unlocked[locale]
-                                  : c.balance[locale],
+                                  : project === "prl" && provider !== "kryptex"
+                                    ? prlPoolCopy.owed[locale]
+                                    : c.balance[locale],
                             `${value(d.balance)} ${info.token}`,
                           ],
-                          [
-                            project === "csd"
-                              ? csdLabels.pending[locale]
-                              : project === "bnt"
-                                ? bntLabels.estimated[locale]
-                                : lucky
-                                  ? prlPoolCopy.reward[locale]
-                                  : c[d.period][locale],
-                            `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
-                          ],
-                          ...(lucky
+                          ...(project !== "prl" || d.period !== "unknown"
+                            ? [
+                                [
+                                  project === "csd"
+                                    ? csdLabels.pending[locale]
+                                    : project === "bnt"
+                                      ? bntLabels.estimated[locale]
+                                      : lucky
+                                        ? prlPoolCopy.reward[locale]
+                                        : c[d.period][locale],
+                                  `${value(project === "bnt" || project === "csd" ? d.pendingEstimate : d.reward)} ${info.token}`,
+                                ],
+                              ]
+                            : []),
+                          ...(project === "prl" && d.pendingEstimate != null
                             ? [
                                 [
                                   prlPoolCopy.locked[locale],

@@ -6,6 +6,7 @@ import type { SiteLocale } from "@/lib/site";
 import type { PoolProject } from "@/lib/pool-projects";
 import { poolHashrate } from "@/lib/pool-monitor";
 import { poolWorkerCardsCopy as c } from "./pool-worker-cards-copy";
+import { prlPoolCopy } from "./prl-pool-copy";
 
 const collapse = localized(["收起", "收起", "Show less", "접기", "折りたたむ"]);
 
@@ -22,6 +23,14 @@ export function PoolWorkerPreview({
   workerAgent?: ((worker: string) => ReactNode) | undefined;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const names = new Set<string>();
+  const duplicates = new Set<string>();
+  if (workerAgent) {
+    for (const { name } of data.workers) {
+      if (names.has(name)) duplicates.add(name);
+      names.add(name);
+    }
+  }
   return (
     <section className="pab-workers" aria-label={c.workers[locale]}>
       <h4>
@@ -47,7 +56,7 @@ export function PoolWorkerPreview({
                         : "unknown"
                   }
                 />
-                <strong title={worker.name}>{worker.name}</strong>
+                <strong title={worker.name}>{worker.name || "—"}</strong>
               </div>
               <div>
                 <b>{poolHashrate(project, worker.hashrate, data.rateUnit)}</b>
@@ -59,8 +68,14 @@ export function PoolWorkerPreview({
                       : c.unknown[locale]}
                 </small>
               </div>
-              {workerAgent && (
-                <div className="pool-worker-agent-slot">{workerAgent(worker.name)}</div>
+              {workerAgent && worker.name && (
+                <div className="pool-worker-agent-slot">
+                  {project === "prl" && duplicates.has(worker.name) ? (
+                    <small>{prlPoolCopy.ambiguousWorker[locale]}</small>
+                  ) : (
+                    workerAgent(worker.name)
+                  )}
+                </div>
               )}
             </li>
           ))}

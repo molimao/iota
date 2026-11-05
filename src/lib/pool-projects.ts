@@ -20,18 +20,38 @@ export const POOL_PROJECT_IDS = [
   "tsc",
 ] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
-export type PoolProvider =
-  | "kryptex"
-  | "2miners"
-  | "luckypool"
-  | "bntpool"
-  | "gpools"
-  | "ckpool"
-  | "chain"
-  | "tigerpool"
-  | "boblabs"
-  | "ariapool"
-  | "suprnova";
+export const PRL_POOLS = {
+  kryptex: "Kryptex",
+  luckypool: "LuckyPool",
+  peryn: "Peryn",
+  pearlhash: "PearlHash",
+  herominers: "HeroMiners",
+  pearlfortune: "Pearl Fortune",
+  alphapool: "AlphaPool",
+  pearlski: "Pearlski",
+} as const;
+export type PrlPool = keyof typeof PRL_POOLS;
+export const PRL_POOL_IDS = Object.keys(PRL_POOLS) as PrlPool[];
+export const POOL_PROVIDERS = [
+  "kryptex",
+  "luckypool",
+  "peryn",
+  "pearlhash",
+  "herominers",
+  "pearlfortune",
+  "alphapool",
+  "pearlski",
+  "2miners",
+  "bntpool",
+  "gpools",
+  "ckpool",
+  "chain",
+  "tigerpool",
+  "boblabs",
+  "ariapool",
+  "suprnova",
+] as const;
+export type PoolProvider = (typeof POOL_PROVIDERS)[number];
 export const isPoolProject = (v: unknown): v is PoolProject =>
   POOL_PROJECT_IDS.includes(v as PoolProject);
 export const poolProvider = (p: PoolProject): PoolProvider =>
@@ -56,7 +76,8 @@ export function validPoolProvider(
     return ["chain", "tigerpool", "boblabs", "ariapool", "luckypool", "suprnova"].includes(
       String(provider),
     );
-  return provider === poolProvider(project) || (project === "prl" && provider === "luckypool");
+  if (project === "prl") return PRL_POOL_IDS.includes(provider as PrlPool);
+  return provider === poolProvider(project);
 }
 export function poolAccountKey(
   project: PoolProject,
@@ -79,8 +100,8 @@ export const poolName = (p: PoolProject, provider = poolProvider(p)) =>
           suprnova: "Suprnova",
         } as Record<string, string>
       )[provider]!
-    : p === "prl" && provider === "luckypool"
-      ? "LuckyPool"
+    : p === "prl"
+      ? PRL_POOLS[provider as PrlPool]
       : p === "btc"
         ? "CKPool"
         : p === "csd"
@@ -272,6 +293,22 @@ export function poolAccountUrl(p: PoolProject, address: string, provider = poolP
         )[provider]!;
   if (p === "prl" && provider === "luckypool")
     return `https://pearl.luckypool.io/miner-stats?address=${encodeURIComponent(address)}`;
+  if (p === "prl" && provider === "peryn")
+    return `https://app.peryn.ai/address?a=${encodeURIComponent(address)}`;
+  if (p === "prl") {
+    switch (provider) {
+      case "pearlhash":
+        return `https://pearlhash.xyz/account/${encodeURIComponent(address)}`;
+      case "herominers":
+        return "https://pearl.herominers.com/";
+      case "pearlfortune":
+        return "https://pearlfortune.org/";
+      case "alphapool":
+        return `https://pearl.alphapool.tech/miner/#miner/${encodeURIComponent(address)}`;
+      case "pearlski":
+        return "https://pearl.jetskipool.ai/";
+    }
+  }
   if (p === "btc")
     return validBtcAddress(address)
       ? `https://stats.ckpool.org/users/${encodeURIComponent(normalizeBtcAddress(address))}`
