@@ -12,6 +12,7 @@ export type HistoryBinding = {
   project: FleetProject;
   identifier: string;
   device: string;
+  pool?: string | undefined;
 };
 export const deviceDaySchema = z.object({
   report: dailySnapshotSchema,
@@ -21,11 +22,11 @@ export const deviceDaySchema = z.object({
 export const deviceHistorySchema = z.array(deviceDaySchema).max(92);
 export type DeviceHistoryDay = z.infer<typeof deviceDaySchema>;
 export type DeviceSnapshot = DeviceHistoryDay & { id: string };
-/** Historical supported rewards for Quantus are an account ledger, not a machine ledger. */
 export const isAccountReward = (project: FleetProject) =>
-  ["quantus", "xid", "flyai", "akash"].includes(project);
-const resourceKey = (project: string, id: string) =>
-  project + ":" + (project === "flyai" ? id.toLowerCase() : id);
+  ["quantus", "xid", "flyai", "akash", "prl"].includes(project);
+const resourceKey = (project: string, id: string, pool?: string) =>
+  project + ":" + (project === "prl" ? (pool ?? "") + ":" : "") +
+  (project === "flyai" ? id.toLowerCase() : id);
 /** Keep ownership as it was at collection time; never redistribute an account total. */
 export function buildDeviceSnapshots(
   day: string,
@@ -37,18 +38,18 @@ export function buildDeviceSnapshots(
 ): DeviceSnapshot[] {
   const owners = new Map<string, Set<string>>();
   for (const b of bindings) {
-    const key = resourceKey(b.project, b.identifier);
+    const key = resourceKey(b.project, b.identifier, b.pool);
     if (!owners.has(key)) owners.set(key, new Set());
     owners.get(key)!.add(b.device);
   }
   const values = new Map<string, ReportReading>();
   for (const r of readings) {
-    const key = resourceKey(r.project, r.resource);
+    const key = resourceKey(r.project, r.resource, r.scope);
     if (!values.has(key)) values.set(key, r);
   }
   return [...new Set(bindings.map((b) => b.device))].map((id) => {
     const owned = bindings.filter((b) => b.device === id),
-      keys = new Set(owned.map((b) => resourceKey(b.project, b.identifier)));
+      keys = new Set(owned.map((b) => resourceKey(b.project, b.identifier, b.pool)));
     const rows = [...keys].flatMap((k) => (values.has(k) ? [values.get(k)!] : []));
     // A mixed project can have both unique IDs and a shared wallet; exclude only
     // shared resources from the device total, retaining the separately labeled view.
@@ -56,13 +57,13 @@ export function buildDeviceSnapshots(
       owned.some(
         (b) =>
           b.project === p &&
-          (isAccountReward(p) || (owners.get(resourceKey(p, b.identifier))?.size ?? 0) > 1),
+          (isAccountReward(p) || (owners.get(resourceKey(p, b.identifier, b.pool))?.size ?? 0) > 1),
       ),
     );
     const ownRows = rows.filter(
       (r) =>
         !isAccountReward(r.project) &&
-        (owners.get(resourceKey(r.project, r.resource))?.size ?? 0) === 1,
+        (owners.get(resourceKey(r.project, r.resource, r.scope))?.size ?? 0) === 1,
     );
     const window = reportDayWindow(day);
     const report = aggregateDailyReport(window, rows, locale, 1, now),

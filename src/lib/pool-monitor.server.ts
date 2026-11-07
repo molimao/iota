@@ -19,7 +19,7 @@ import {
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
 import { record } from "./projects";
-import { parsePrlLuckyPool } from "./prl-luckypool";
+import { luckyPoolDayUnits, parsePrlLuckyPool } from "./prl-luckypool";
 import {
   parseAlphaPool,
   parseHeroMiners,
@@ -29,6 +29,26 @@ import {
 } from "./prl-more-pools";
 
 const cache = new ReadCache(300);
+async function luckyPoolPrlSource(address: string) {
+  const [config, account] = await Promise.all([
+    cache.read("prl:luckypool:units", () =>
+      upstreamJson("https://pearl.luckypool.io/api/stats?v=2"),
+    ),
+    upstreamJson(
+      `https://pearl.luckypool.io/api/stats_address?address=${encodeURIComponent(address)}`,
+    ),
+  ]);
+  if (!config.data || config.error || config.stale) throw new Error("invalid-data");
+  return { config: record(config.data)["config"], account };
+}
+
+export function readLuckyPoolPrlDay(address: string, window: { start: number; end: number }) {
+  return cache.read(`prl:luckypool:day:${address}:${window.start}`, async () => {
+    const { config, account } = await luckyPoolPrlSource(address);
+    return { units: luckyPoolDayUnits(config, account, address, window) };
+  });
+}
+
 export function readPoolAccount(
   project: PoolProject,
   address: string,
@@ -74,14 +94,8 @@ export function readPoolAccount(
         return parsePearlFortune(summary, connections, ledger);
       }
       if (project === "prl" && provider === "luckypool") {
-        const [config, account] = await Promise.all([
-          cache.read("prl:luckypool:units", () =>
-            upstreamJson("https://pearl.luckypool.io/api/stats?v=2"),
-          ),
-          upstreamJson(`https://pearl.luckypool.io/api/stats_address?address=${id}`),
-        ]);
-        if (!config.data || config.error || config.stale) throw new Error("invalid-data");
-        return parsePrlLuckyPool(record(config.data)["config"], account, address);
+        const { config, account } = await luckyPoolPrlSource(address);
+        return parsePrlLuckyPool(config, account, address);
       }
       if (project === "csd") {
         const [account, rates] = await Promise.all([

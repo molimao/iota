@@ -34,7 +34,7 @@ it("renders every saved project without a selector, keeping formatted monthly po
   expect(markup).not.toContain("<select");
   expect(markup).not.toContain("NaN");
   expect(markup).not.toContain("<textarea");
-  expect(markup).toContain("总收益趋势");
+  expect(markup).toContain("历史日收益趋势");
   expect(markup).toContain("2 个地址合计");
   expect(markup).not.toContain("该项目还没有可绘制的历史收益");
 });
@@ -82,7 +82,7 @@ it("renders PRL rolling USD separately and identifies partial totals", () => {
     })));
   expect(markup).toContain("近 24 小时");
   expect(markup).toContain("3.60");
-  expect(markup).toContain("统计范围");
+  expect(markup).toContain("按香港时间的自然日统计，仅计入有日账和历史报价的项目。");
   expect(markup.match(/data-testid="recent-earnings"/g)).toHaveLength(1);
   const summary = markup.split('data-testid="recent-earnings"')[1]!.split("</article>")[0]!;
   expect(summary).not.toContain("昨日");

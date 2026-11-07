@@ -30,18 +30,27 @@ export async function collectReportBinding(
   const base: ReportReading = {
     project: b.project,
     resource: b.identifier,
+    scope: b.project === "prl" ? b.pool : undefined,
     units: null,
     decimals: b.project === "quantus" ? 12 : b.project === "vast" ? 8 : 8,
     currency: PROJECTS[b.project].token,
     usd: null,
   };
-  if (isPoolProject(b.project)) return { ...base, reason: "different_period" };
+  const luckyPoolDay = b.project === "prl" && b.pool === "luckypool";
+  if (isPoolProject(b.project) && !luckyPoolDay) return { ...base, reason: "different_period" };
   if (!validBinding(b.project, b.identifier)) return { ...base, reason: "unavailable" };
   if (["xid", "nosana", "gonka", "akash", "acurast"].includes(b.project))
     return { ...base, reason: "unsupported" };
   if (["flyai", "golem", "ionet", "noid"].includes(b.project))
     return { ...base, reason: "different_period" };
   try {
+    if (luckyPoolDay) {
+      const { readLuckyPoolPrlDay } = await import("./pool-monitor.server");
+      const result = await readLuckyPoolPrlDay(b.identifier, window);
+      if (result.error || result.stale || result.data?.units == null)
+        return { ...base, reason: "unavailable" };
+      return { ...base, units: result.data.units, fetchedAt: result.fetchedAt ?? Date.now() };
+    }
     if (b.project === "iota") {
       const h = await fetchUpstream<EntitlementHistory>(
         `/v1/entitlements/history/hotkey/${encodeURIComponent(b.identifier)}`,

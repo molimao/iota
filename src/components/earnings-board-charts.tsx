@@ -89,10 +89,7 @@ export function EarningsBoardCharts({
           }
           controls={range}
         />
-        <details className="board-chart-caption board-history-note">
-          <summary>{c.scope[locale]}</summary>
-          <p>{c.aggregateNote[locale]}</p>
-        </details>
+        <p className="board-chart-caption">{c.aggregateNote[locale]}</p>
         {query.isError && (
           <button className="fleet-outline" onClick={() => void query.refetch()}>
             {c.retry[locale]}

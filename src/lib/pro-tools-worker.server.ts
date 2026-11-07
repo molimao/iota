@@ -7,9 +7,11 @@ import { watchDb } from "./watch-db";
 import { authenticateReportCron } from "./daily-report-cron-auth.server";
 import { collectReportBinding } from "./daily-report-collect.server";
 import { collectAlertSignal, alertResource, type AlertReason } from "./pro-alerts.server";
-import { aggregateDailyReport, reportDayWindow, type ReportReading } from "./daily-report";
+import { aggregateDailyReport, applyMarketUsd, reportDayWindow, type ReportReading } from "./daily-report";
 import { historySchema, dailySnapshotSchema, summarizeMonth } from "./pro-tools";
 import { fetchIotaUsdPrice } from "./iota-price.server";
+import { marketPrices } from "./market-prices.server";
+import { POOL_PROVIDERS } from "./pool-projects";
 import { reportEmailConfig, sendReportEmail } from "./daily-report-send.server";
 import { renderMonthlyReport, renderStatusAlert } from "./pro-email";
 import { FLEET_PROJECTS } from "./fleet";
@@ -19,6 +21,7 @@ const binding = z.object({
   project: z.enum(FLEET_PROJECTS),
   identifier: z.string().max(100),
   worker: z.string().max(80).optional(),
+  pool: z.enum(POOL_PROVIDERS).optional(),
   device: z.string().uuid(),
   name: z.string().max(40),
 });
@@ -65,7 +68,10 @@ async function snapshot(j: Job) {
     await progress(j, [...readings, ...values], j.cursor + chunk.length);
     return;
   }
-  const quote = await fetchIotaUsdPrice();
+  const [quote, prlQuote] = await Promise.all([
+    fetchIotaUsdPrice(),
+    readings.some((r) => r.project === "prl" && r.units !== null) ? marketPrices(["prl"]) : null,
+  ]);
   const now = Date.now();
   const valid =
     quote.usdPerIota !== null &&
@@ -74,11 +80,11 @@ async function snapshot(j: Job) {
     quote.fetchedAt !== null &&
     now - quote.fetchedAt < 15 * 60000 &&
     (!quote.quotedAt || now - quote.quotedAt < 3600000);
-  const values = readings.map((r) =>
+  const values = applyMarketUsd(readings.map((r) =>
     r.project === "iota" && r.units !== null
       ? { ...r, usd: valid ? (Number(r.units) / 1e8) * quote.usdPerIota! : null }
       : r,
-  );
+  ), prlQuote?.error || prlQuote?.stale ? {} : (prlQuote?.data ?? {}));
   const report = aggregateDailyReport(
     window,
     values,
@@ -87,6 +93,8 @@ async function snapshot(j: Job) {
     now,
   );
   if (valid) report.valuationAt = new Date(quote.quotedAt ?? quote.fetchedAt!).toISOString();
+  else if (prlQuote?.fetchedAt && !prlQuote.error && !prlQuote.stale && prlQuote.data?.prl)
+    report.valuationAt = new Date(prlQuote.fetchedAt).toISOString();
   dailySnapshotSchema.parse(report);
   const devices = buildDeviceSnapshots(
     j.task_key,

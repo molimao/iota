@@ -4,6 +4,7 @@ import { reviewProHistory } from "./pro-tools-review";
 import { useLocale } from "./site/locale";
 import { useRouterState } from "@tanstack/react-router";
 import { PRL_POOL_IDS, PRL_POOLS } from "@/lib/pool-projects";
+import { aggregateDailyReport, yesterdayReportWindow } from "@/lib/daily-report";
 import { fleetCopy } from "./fleet-copy";
 export function OverviewReview() {
   const { locale } = useLocale();
@@ -11,12 +12,13 @@ export function OverviewReview() {
     select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
   });
   const pearl = scenario === "pearl";
+  const pearlUsd = 1.5;
   return (
     <>
       <p className="overview-preview-label">{fleetCopy(locale).preview}</p>
       <OverviewWorkspace
         preview
-        previewPrices={{ prl: 1.5, quantus: 0.08 }}
+        previewPrices={{ prl: pearlUsd, quantus: 0.08 }}
         plan="pro"
         devices={
           scenario === "empty"
@@ -133,7 +135,24 @@ export function OverviewReview() {
                     : {}),
                 }
         }
-        history={pearl ? [] : reviewProHistory(locale)}
+        history={pearl
+          ? [1.2, 0.8, 1.6].map((amount, index) =>
+              aggregateDailyReport(
+                yesterdayReportWindow(Date.now() - index * 86400000),
+                [{
+                  project: "prl",
+                  resource: "demo-prl-wallet",
+                  scope: "luckypool",
+                  currency: "PRL",
+                  decimals: 8,
+                  units: String(Math.round(amount * 1e8)),
+                  usd: amount * pearlUsd,
+                }],
+                locale,
+                1,
+              ),
+            )
+          : reviewProHistory(locale)}
       />
     </>
   );

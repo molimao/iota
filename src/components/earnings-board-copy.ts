@@ -77,11 +77,11 @@ export const boardCopy = {
     "{known}/{total} 件のプール口座にデータあり",
   ]),
   totalTrend: l([
-    "总收益趋势",
-    "總收益趨勢",
-    "Total earnings trend",
-    "전체 수익 추이",
-    "合計収益の推移",
+    "历史日收益趋势",
+    "歷史日收益趨勢",
+    "Daily earnings history",
+    "일별 수익 기록",
+    "日別収益の履歴",
   ]),
   projectCards: l([
     "各项目表现",
@@ -92,11 +92,11 @@ export const boardCopy = {
   ]),
   projects: l(["项目", "專案", "Projects", "프로젝트", "プロジェクト"]),
   aggregateNote: l([
-    "按历史美元估值汇总；没有报价的项目不在此计入。",
-    "按歷史美元估值彙總；沒有報價的專案不在此計入。",
-    "Combined using recorded USD estimates. Unpriced projects are excluded here; their native earnings appear below.",
-    "기록된 USD 환산값을 합산합니다. 시세가 없는 프로젝트는 제외되며 아래에서 원화폐 수익을 확인할 수 있습니다.",
-    "記録済みのUSD換算を合計。価格のないプロジェクトは除外し、下のカードに通貨別収益を表示します。",
+    "按香港时间的自然日统计，仅计入有日账和历史报价的项目。",
+    "按香港時間的自然日統計，僅計入有日帳和歷史報價的專案。",
+    "Days follow Hong Kong time. Includes projects with daily records and historical USD quotes.",
+    "홍콩 시간 기준이며 일별 기록과 과거 USD 시세가 있는 프로젝트만 포함합니다.",
+    "香港時間の日付で集計します。日別記録と当時のUSD価格があるプロジェクトを含みます。",
   ]),
   noProjectHistory: l([
     "该项目还没有可绘制的历史收益，当前指标仍显示在上方。",

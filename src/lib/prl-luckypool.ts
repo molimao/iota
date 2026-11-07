@@ -19,18 +19,14 @@ const notFoundStatus = (v: unknown) => {
   );
 };
 
+const atomicInteger = (v: unknown): number | null => {
+  const n = typeof v === "string" && /^(0|[1-9]\d*)$/.test(v) ? Number(v) : v;
+  return typeof n === "number" && Number.isSafeInteger(n) && n >= 0 ? n : null;
+};
 /** Atomic PRL as a safe nonnegative integer, scaled to coins. Missing or unusable → null. */
 const atomic = (v: unknown): number | null => {
-  if (typeof v === "number") {
-    if (!Number.isSafeInteger(v) || v < 0) return null;
-    return v / COIN_UNITS;
-  }
-  if (typeof v === "string" && /^(0|[1-9]\d*)$/.test(v)) {
-    const n = Number(v);
-    if (!Number.isSafeInteger(n)) return null;
-    return n / COIN_UNITS;
-  }
-  return null;
+  const n = atomicInteger(v);
+  return n === null ? null : n / COIN_UNITS;
 };
 
 /** Hashrate in H/s. Absent or unusable → null. Never substituted from averages. */
@@ -66,6 +62,51 @@ const reward24h = (input: Record<string, unknown>): number | null => {
   const row = input["rewardStats"].map(record).find((r) => r?.["period"] === "24h");
   return row ? atomic(row["amount"]) : null;
 };
+
+export function luckyPoolDayUnits(
+  config: unknown,
+  input: unknown,
+  address: string,
+  window: { start: number; end: number },
+): string | null {
+  const cfg = record(config), doc = record(input);
+  if (
+    cfg?.["symbol"] !== "PRL" ||
+    cfg["coinUnits"] !== COIN_UNITS ||
+    record(doc?.["stats"])?.["wallet"] !== address ||
+    !Array.isArray(doc?.["rewards"]) ||
+    !Array.isArray(doc["rewardStats"])
+  ) return null;
+  const rewards: { at: number; units: bigint }[] = [];
+  const hashes = new Set<string>();
+  for (const value of doc["rewards"]) {
+    const row = record(value);
+    const at = timestamp(row?.["timestamp"]);
+    const units = atomicInteger(row?.["minerReward"]);
+    const hash = row?.["hash"];
+    if (at === null || units === null || typeof hash !== "string" || !hash || hashes.has(hash))
+      return null;
+    hashes.add(hash);
+    rewards.push({ at, units: BigInt(units) });
+  }
+  // The recent list is capped. An enclosing pool total can prove coverage
+  // even when the miner has no reward before the requested midnight.
+  const covered = doc["rewardStats"].some((value) => {
+    const row = record(value);
+    const start = timestamp(row?.["startTime"]), end = timestamp(row?.["endTime"]);
+    const amount = atomicInteger(row?.["amount"]);
+    if (start === null || end === null || start > window.start || end < window.end || amount === null)
+      return false;
+    const enclosing = rewards.filter((reward) => reward.at >= start && reward.at < end);
+    return enclosing.length === row?.["blocks"] &&
+      enclosing.reduce((sum, reward) => sum + reward.units, 0n) === BigInt(amount);
+  });
+  if (!covered) return null;
+  return rewards
+    .filter((reward) => reward.at >= window.start && reward.at < window.end)
+    .reduce((sum, reward) => sum + reward.units, 0n)
+    .toString();
+}
 
 export function parsePrlLuckyPool(
   config: unknown,

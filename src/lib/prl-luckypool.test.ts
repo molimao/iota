@@ -1,10 +1,39 @@
 import { describe, expect, it } from "vitest";
 import type { PoolAccount } from "./pool-monitor";
-import { parsePrlLuckyPool } from "./prl-luckypool";
+import { luckyPoolDayUnits, parsePrlLuckyPool } from "./prl-luckypool";
+import { reportDayWindow } from "./daily-report";
 
 const ADDRESS = "prl1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqsample";
 const NOW = 1_800_000_000_000;
 const config = { symbol: "PRL", coinUnits: 100_000_000, algo: "pearl-pow" };
+
+describe("LuckyPool PRL calendar day", () => {
+  const window = reportDayWindow("2026-11-06");
+  const rewards = [
+    { hash: "before", timestamp: window.start - 1, minerReward: 10 },
+    { hash: "midnight", timestamp: window.start, minerReward: "25" },
+    { hash: "last", timestamp: window.end - 1, minerReward: 75 },
+    { hash: "next", timestamp: window.end, minerReward: 200 },
+  ];
+  const rewardStats = [{
+    startTime: window.start - 1000,
+    endTime: window.end + 1000,
+    amount: 310,
+    blocks: 4,
+  }];
+  const stats = { wallet: ADDRESS, paid: 9000, locked: 7000 };
+
+  it("sums only the wallet's mining rewards inside the Hong Kong day", () => {
+    expect(luckyPoolDayUnits(config, { stats, rewards, rewardStats }, ADDRESS, window)).toBe("100");
+  });
+
+  it("keeps capped history unknown and distinguishes proven zero", () => {
+    expect(luckyPoolDayUnits(config, { stats, rewards: rewards.slice(1), rewardStats }, ADDRESS, window)).toBeNull();
+    expect(luckyPoolDayUnits(config, {
+      stats, rewards: [], rewardStats: [{ ...rewardStats[0], blocks: 0, amount: 0 }],
+    }, ADDRESS, window)).toBe("0");
+  });
+});
 
 const wallet = (patch: Record<string, unknown> = {}) => ({
   stats: {

@@ -30,6 +30,9 @@ vi.mock("./iota-price.server", () => ({
     quotedAt: Date.now(),
   }),
 }));
+vi.mock("./market-prices.server", () => ({
+  marketPrices: async () => ({ data: { prl: 1.5 }, fetchedAt: Date.now(), error: null }),
+}));
 import { proToolsCron } from "./pro-tools-worker.server";
 import { proUnsubscribe } from "./pro-unsubscribe.server";
 const id = "11111111-1111-4111-8111-111111111111";
@@ -108,6 +111,28 @@ it("collects historical bindings in bounded chunks and writes a valid immutable 
     state.rpc.mock.calls.find((c) => c[1].p_action === "history")?.[1].p_payload.report,
   ).toMatchObject({ day: "2026-10-10", usdSubtotal: 2.46913578 });
   expect(state.send).not.toHaveBeenCalled();
+});
+it("prices PRL daily rewards once per pool and wallet without assigning them to a Worker", async () => {
+  const first = { device: id, name: "Demo", identifier: "wallet", project: "prl", pool: "luckypool" };
+  const bindings = [first, { ...first, worker: "worker-2" }, { ...first, pool: "peryn" }];
+  const reading = { project: "prl", resource: "wallet", currency: "PRL", decimals: 8, usd: null };
+  const reward = { ...reading, units: "200000000", scope: "luckypool" };
+  const data = [reward, reward, { ...reading, units: null, scope: "peryn" }];
+  let claimed = false;
+  state.rpc.mockImplementation(async (_fn, args) => ({
+    data: args.p_action === "claim"
+      ? claimed ? null : ((claimed = true), { ...job, bindings, cursor: bindings.length, data })
+      : true,
+    error: null,
+  }));
+  expect((await proToolsCron(post())).status).toBe(200);
+  const snapshot = state.rpc.mock.calls.find((c) => c[1].p_action === "history")?.[1].p_payload;
+  expect(snapshot.report).toMatchObject({ usdSubtotal: 3, projects: [{ amount: "2", partial: true }] });
+  expect(snapshot.devices[0]).toMatchObject({
+    report: { usdSubtotal: 3 },
+    deviceReport: { usdSubtotal: null },
+    walletProjects: ["prl"],
+  });
 });
 it("durably freezes notifications before delivery and rechecks consent before contacting the mail provider", async () => {
   const mailJob = {
