@@ -85,9 +85,14 @@ export function useAuth(): AuthState {
       } catch {
         /* Best effort. */
       }
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: authReturnUrl(window.location.href),
-      });
+      const redirect = authReturnUrl(window.location.href);
+      const result =
+        import.meta.env["VITE_IOTA_DIRECT_AUTH"] === "true"
+          ? await supabase.auth.signInWithOAuth({
+              provider: "google",
+              options: { redirectTo: redirect },
+            })
+          : await lovable.auth.signInWithOAuth("google", { redirect_uri: redirect });
       if (result.error) {
         try {
           failPendingLogin("login_failed");
@@ -97,7 +102,8 @@ export function useAuth(): AuthState {
         setError("login_failed");
         return;
       }
-      if (result.redirected) return;
+      if (("redirected" in result && result.redirected) || ("data" in result && result.data?.url))
+        return;
     } catch {
       try {
         failPendingLogin("login_failed");

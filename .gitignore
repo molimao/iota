@@ -19,6 +19,8 @@ dist-ssr
 # Private local overrides; .env is tracked public Lovable client configuration.
 .env.*
 !.env.example
+# Public Vite client settings for the Lovable production build.
+!.env.production
 
 # Wrangler / Cloudflare
 .wrangler/

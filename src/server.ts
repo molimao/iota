@@ -12,6 +12,7 @@ import {
 import { getBlogPost } from "./components/site/blog-posts";
 import { getArticle } from "./components/site/articles";
 import { CANONICAL_HOST, detectLocaleFromRequest, originFromRequest, isLocale } from "./lib/site";
+import { routeBackendRequest } from "./lib/backend-routing.server";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -179,6 +180,8 @@ function decorateCrawlHeaders(request: Request, response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const routed = await routeBackendRequest(request, process.env);
+      if (routed) return routed;
       if (new URL(request.url).pathname.startsWith("/api/device-agent/")) {
         const { deviceAgentHttp } = await import("./lib/device-agent-http.server");
         return deviceAgentHttp(request);
