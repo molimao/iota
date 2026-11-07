@@ -68,6 +68,14 @@ export const boardCopy = {
     "이전 시세로 추정",
     "以前の価格で概算",
   ]),
+  partialRolling: l(["部分数据", "部分資料", "Partial data", "일부 데이터", "一部のデータ"]),
+  rollingPoolCoverage: l([
+    "{known}/{total} 个矿池账户有数据",
+    "{known}/{total} 個礦池帳戶有資料",
+    "{known}/{total} pool accounts reporting",
+    "채굴 풀 계정 {known}/{total}개에 데이터 있음",
+    "{known}/{total} 件のプール口座にデータあり",
+  ]),
   totalTrend: l([
     "总收益趋势",
     "總收益趨勢",

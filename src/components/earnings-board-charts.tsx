@@ -189,6 +189,13 @@ export function EarningsBoardCharts({
                       <strong>
                         {nf.format(m.amount)} <small>{m.unit}</small>
                       </strong>
+                      {row.project === "prl" && m.window === "rolling24h" && m.count < row.total && (
+                        <small>
+                          {c.rollingPoolCoverage[locale]
+                            .replace("{known}", String(m.count))
+                            .replace("{total}", String(row.total))}
+                        </small>
+                      )}
                       {m.window === "cumulative" && m.count < row.total && (
                         <small>
                           {m.count}/{row.total} {c.computeCoverage[locale]}

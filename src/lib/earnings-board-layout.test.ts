@@ -40,6 +40,32 @@ it("renders every saved project without a selector, keeping formatted monthly po
 });
 
 import { EarningsBoard } from "../components/earnings-board";
+it("labels Pearl's zero as partial when other pool accounts lack rolling data", () => {
+  const devices = (["luckypool", "peryn", "kryptex"] as const).map((pool) => ({
+    id: pool,
+    name: pool,
+    hardware: "GPU",
+    createdAt: 1,
+    bindings: [{
+      id: pool, project: "prl" as const, identifier: "same-wallet",
+      pool, worker: "",
+    }],
+  }));
+  const markup = renderToStaticMarkup(createElement(QueryClientProvider, { client: new QueryClient() },
+    createElement(EarningsBoard, {
+      devices, preview: true, previewHistory: [], previewPrices: { prl: 1.5 },
+      reading: (b) => ({
+        scope: "wallet", health: "fresh", unit: "PRL", source: b.pool ?? "test", updated: "now",
+        rewardAmount: b.pool === "peryn" ? null : 0,
+        earningsWindow: b.pool === "luckypool" ? "rolling24h" : b.pool === "kryptex" ? "utcDay" : "unknown",
+        status: "mining", activity: "—", today: null, lifetime: null,
+      }),
+    })));
+  expect(markup).toContain("1/3 个矿池账户有数据");
+  expect(markup).toContain("近 24 小时 · 部分数据");
+  expect(markup).toContain("$0.00");
+});
+
 it("renders PRL rolling USD separately and identifies partial totals", () => {
   const devices = [{ id: "demo", name: "Demo", hardware: "GPU", createdAt: 1, bindings: [
     { id: "prl", project: "prl" as const, identifier: "wallet", worker: "" },

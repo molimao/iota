@@ -56,6 +56,10 @@ export function EarningsBoard({
   const recentPriced = board.projects.filter((p) =>
     [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.usd !== null),
   );
+  const partialPearl = recentPriced.some((p) =>
+    p.project === "prl" &&
+    [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.count < p.total),
+  );
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
     <section className="earnings-board" aria-label={c.title[locale]}>
@@ -74,6 +78,7 @@ export function EarningsBoard({
           <small>
             {c.included[locale]} {recentPriced.length} / {board.projects.length}{" "}
             {c.projects[locale]}
+            {partialPearl ? ` · ${c.partialRolling[locale]}` : ""}
           </small>
         </div>
         <strong>
@@ -137,6 +142,9 @@ export function EarningsBoard({
                           {row.project === "bnt" && m.window === "rolling24h"
                             ? bntLabels.paid24h[locale]
                             : c.windows[m.window][locale]}
+                          {row.project === "prl" && m.window === "rolling24h" && m.count < row.total
+                            ? ` · ${c.partialRolling[locale]}`
+                            : ""}
                           {m.stale ? ` · ${c.older[locale]}` : ""}
                         </small>
                       </div>
