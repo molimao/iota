@@ -11,6 +11,7 @@ import { Dashboard } from "@/components/dashboard";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { MiningProjectPage, ProjectsHub } from "@/components/projects";
 import { projectsSeo } from "@/components/projects-seo";
+import { DiscretePage } from "@/components/discrete-page";
 import { FlyaiPage } from "@/components/flyai-page";
 import {
   isMiningProject,
@@ -55,6 +56,7 @@ function ProjectContent() {
   if (isComputeProject(project))
     return <ComputeProjectPage key={project} project={project} initial={null} />;
   if (project === "flyai") return <FlyaiPage />;
+  if (project === "xds") return <DiscretePage />;
   return isMiningProject(project) ? (
     <MiningProjectPage key={project} project={project} initial={null} />
   ) : (

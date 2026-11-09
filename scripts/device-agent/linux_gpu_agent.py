@@ -14,7 +14,7 @@ import subprocess
 import time
 import urllib.request
 
-VERSION = '1.0.15'
+VERSION = '1.0.16'
 ROOT = Path.home() / '.local/state/iota-watch-linux'
 ANSI = re.compile(r'\x1b\[[0-9;]*m')
 
@@ -199,9 +199,34 @@ def read_evidence(path, state, now):
     return out
 
 
+def discover_xds_log(proc_root=Path('/proc')):
+    logs = set()
+    if not proc_root.is_dir():
+        return None
+    for process in proc_root.iterdir():
+        if not process.name.isdigit():
+            continue
+        try:
+            if process.stat().st_uid != os.getuid() or (process / 'comm').read_text().strip() != 'discreted':
+                continue
+            for fd in (process / 'fd').iterdir():
+                try:
+                    path = os.readlink(fd)
+                    if path.startswith('/') and path.endswith('.log'):
+                        logs.add(path)
+                except OSError:
+                    continue
+        except OSError:
+            continue
+    if len(logs) > 1:
+        from xds_observation import observe_xds
+        logs = {path for path in logs if observe_xds(path)['observedAt'] is not None}
+    return logs.pop() if len(logs) == 1 else None
+
+
 def snapshot(config, state, now=None):
     now = time.time() if now is None else now
-    current = resolve_process(config, state)
+    current = resolve_process(config, state) if 'pid' in config else None
     cpu = None
     if current:
         previous = state.get('sample')
@@ -218,6 +243,10 @@ def snapshot(config, state, now=None):
     else:
         for key in ('evidence', 'sample', 'cursor'):
             state.pop(key, None)
+    xds_log = config.get('xdsLog') or discover_xds_log()
+    if xds_log:
+        from xds_observation import observe_xds
+        evidence['xds'] = observe_xds(xds_log)
     return dict(platform='linux', monitorOnly=True, version=VERSION,
         appRunning=bool(current), workerRunning=bool(current), appCpu=cpu,
         processMemoryMb=round(current['memory'], 2) if current else None,
@@ -256,17 +285,35 @@ def save(name, data):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('action', choices=['snapshot', 'pair', 'run'])
+    ap.add_argument('action', choices=['snapshot', 'pair', 'run', 'configure-xds'])
     ap.add_argument('--pid', type=int)
     ap.add_argument('--log')
+    ap.add_argument('--xds-log')
     args = ap.parse_args()
+    if args.xds_log:
+        from xds_observation import read_log_tail
+        read_log_tail(args.xds_log)
+    if args.action == 'configure-xds':
+        if not args.xds_log:
+            ap.error('--xds-log is required')
+        config = json.loads((ROOT / 'config.json').read_text())
+        config['xdsLog'] = args.xds_log
+        save('config.json', config)
+        print('XDS monitoring configured.')
+        return
     if args.action in ('snapshot', 'pair'):
-        if not args.pid or not args.log:
-            ap.error('--pid and --log are required')
-        config = dict(pid=args.pid, generation=proc(args.pid)['start'], log=str(Path(args.log).resolve()))
-        config['identity'] = process_identity(args.pid, config['log'])
-        if proc(args.pid)['start'] != config['generation']:
-            raise SystemExit('Process changed during setup; retry with the current miner PID')
+        config = {}
+        if args.pid or args.log:
+            if not args.pid or not args.log:
+                ap.error('--pid and --log must be supplied together')
+            config.update(pid=args.pid, generation=proc(args.pid)['start'], log=str(Path(args.log).resolve()))
+            config['identity'] = process_identity(args.pid, config['log'])
+            if proc(args.pid)['start'] != config['generation']:
+                raise SystemExit('Process changed during setup; retry with the current miner PID')
+        if args.xds_log:
+            config['xdsLog'] = args.xds_log
+        if not config:
+            ap.error('--pid and --log, or --xds-log, are required')
         if args.action == 'snapshot':
             print(json.dumps(snapshot(config, {})))
             return
@@ -280,12 +327,12 @@ def main():
         save('config.json', config)
         print('Paired. Run this monitor with the run command; miners are unchanged.')
         return
-    config = json.loads((ROOT / 'config.json').read_text())
     try:
         state = json.loads((ROOT / 'state.json').read_text())
     except FileNotFoundError:
         state = {}
     while True:
+        config = json.loads((ROOT / 'config.json').read_text())
         payload = dict(snapshot=snapshot(config, state), ack=state.get('ack'))
         save('state.json', state)
         try:

@@ -2,7 +2,8 @@ import { z } from "zod";
 import { hongKongDayStartSeconds, toUnits } from "./earnings";
 import type { EntitlementHistory } from "./iota-types";
 import { isPoolProject } from "./pool-projects";
-import { PROJECT_IDS, PROJECTS, type ProjectId } from "./projects";
+import { FLEET_PROJECTS, type FleetProject } from "./fleet";
+import { PROJECTS, type ProjectId } from "./projects";
 import { LOCALES, type SiteLocale } from "./site";
 
 export const REPORT_SEND_MINUTE = 9 * 60 + 30;
@@ -141,7 +142,7 @@ export function applyMarketUsd(
   });
 }
 export type ReportReading = {
-  project: ProjectId;
+  project: FleetProject;
   resource: string;
   scope?: string | undefined;
   parts?: { key: string; units: string }[] | undefined;
@@ -155,7 +156,7 @@ export type ReportReading = {
   partial?: boolean | undefined;
 };
 export type ProjectReport = {
-  project: ProjectId;
+  project: FleetProject;
   name: string;
   currency: string;
   amount: string | null;
@@ -206,7 +207,7 @@ export function aggregateDailyReport(
     seen.add(k);
     return true;
   });
-  const projects = PROJECT_IDS.flatMap((project) => {
+  const projects = FLEET_PROJECTS.flatMap((project) => {
     const projectRows = rows.filter((r) => r.project === project);
     const periods = [
       ...new Set(projectRows.filter((r) => r.units !== null).map((r) => r.period ?? "hkDay")),

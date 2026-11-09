@@ -1,6 +1,6 @@
 import { projectVerification, verificationQuestion } from "./project-verification";
 import { poolEditorial } from "./pool-copy";
-import { projectDiscoveryQuestions } from "@/lib/product-discovery";
+import { localized, projectDiscoveryQuestions } from "@/lib/product-discovery";
 import { PROJECTS } from "@/lib/projects";
 import { platformEditorial } from "./platform-copy";
 import type { SiteLocale } from "@/lib/site";
@@ -152,6 +152,36 @@ const labels = {
 export const projectEditorial = {
   ...platformEditorial,
   ...poolEditorial,
+  xds: {
+    title: localized([
+      "Discrete（XDS）主网与地址查询",
+      "Discrete（XDS）主網與地址查詢",
+      "Discrete (XDS) mainnet and address lookup",
+      "Discrete (XDS) 메인넷 및 주소 조회",
+      "Discrete（XDS）メインネットとアドレス照会",
+    ]),
+    summary: localized([
+      "用公开收款地址查独挖出块和区块奖励，查看主网算力与区块高度。",
+      "用公開收款地址查獨挖出塊與區塊獎勵，查看主網算力與區塊高度。",
+      "Look up solo blocks and rewards by public receiving address, and check the mainnet height and estimated hashrate.",
+      "공개 수신 주소로 솔로 채굴 블록과 보상을 조회하고 메인넷 높이와 추정 해시레이트를 확인합니다.",
+      "公開受取アドレスでソロ採掘ブロックと報酬を検索し、メインネットの高さと推定ハッシュレートを確認できます。",
+    ]),
+    identity: localized([
+      "从 Discrete 钱包复制完整的 disc1… 主网收款地址。",
+      "從 Discrete 錢包複製完整的 disc1… 主網收款地址。",
+      "Copy the full disc1… mainnet receiving address from your Discrete wallet.",
+      "Discrete 지갑에서 전체 disc1… 메인넷 수신 주소를 복사하세요.",
+      "Discreteウォレットから完全な disc1… メインネット受取アドレスをコピーしてください。",
+    ]),
+    coverage: localized([
+      "按区块公开的矿工公钥匹配独挖记录，区块奖励按链上铸币交易计。钱包余额和普通收款请在 Discrete 钱包查看。",
+      "按區塊公開的礦工公鑰比對獨挖紀錄，區塊獎勵按鏈上鑄幣交易計。錢包餘額和一般收款請在 Discrete 錢包查看。",
+      "Solo blocks are matched by the public miner key and rewards come from each coinbase transaction. Check wallet balances and ordinary payments in your Discrete wallet.",
+      "공개 채굴자 키로 솔로 채굴 블록을 대조하고 코인베이스 거래의 보상을 표시합니다. 지갑 잔액과 일반 입금은 Discrete 지갑에서 확인하세요.",
+      "公開マイナー鍵でソロ採掘ブロックを照合し、コインベース取引の報酬を表示します。残高と通常の入金はDiscreteウォレットで確認してください。",
+    ]),
+  },
   iota: {
     title: {
       zh: "IOTA Train at Home 监控：Miner ID、训练状态与收益",

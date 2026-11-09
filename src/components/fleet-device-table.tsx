@@ -14,6 +14,7 @@ import { useLocale } from "./site/locale";
 import { fleetCopy } from "./fleet-copy";
 import { DeviceAgentSummary } from "./device-agent-summary";
 import { DeviceMinerSummary } from "./device-miner-summary";
+import { DiscreteAgentReading } from "./discrete-agent-reading";
 import { IotaRosterStatus } from "./iota-device-run";
 import { iotaAddCopy } from "./iota-add-copy";
 import "./fleet-device-table.css";
@@ -23,6 +24,8 @@ export function FleetDeviceTable({
   reading,
   preview = false,
   previewAgents,
+  agentsByDevice,
+  agentNow = 0,
   onLink,
   onEdit,
   onRemove,
@@ -31,6 +34,8 @@ export function FleetDeviceTable({
   reading: (b: FleetBinding) => ProjectReading;
   preview?: boolean;
   previewAgents?: Record<string, AgentInfo> | undefined;
+  agentsByDevice?: ReadonlyMap<string, AgentInfo>;
+  agentNow?: number;
   onLink: (id: string) => void;
   onEdit?: ((id: string) => void) | undefined;
   onRemove?: ((id: string) => void) | undefined;
@@ -147,6 +152,11 @@ export function FleetDeviceTable({
                       previewAgent={previewAgents?.[device.id]}
                     />
                   )}
+                  <DiscreteAgentReading
+                    agent={agentsByDevice?.get(device.id)}
+                    now={agentNow}
+                    locale={locale}
+                  />
                 </td>
                 <td>
                   <div className="fleet-table-actions">

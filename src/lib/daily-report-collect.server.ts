@@ -1,6 +1,6 @@
 import { isPoolProject, poolProvider, validPoolProvider, type PoolProvider } from "./pool-projects";
-import { validBinding } from "./fleet";
-import { PROJECTS, record, type ProjectId } from "./projects";
+import { validBinding, type FleetProject } from "./fleet";
+import { PROJECTS, record } from "./projects";
 import {
   amountToUnits,
   decimalStringToUnits,
@@ -16,7 +16,7 @@ import { upstreamJson } from "./upstream-json.server";
 import { QUANTUS_MAINNET } from "./projects-upstream.server";
 import { vastReportDay } from "./platforms.server";
 export type ReportBinding = {
-  project: ProjectId;
+  project: FleetProject;
   identifier: string;
   worker?: string | undefined;
   pool?: PoolProvider | undefined;

@@ -39,3 +39,16 @@ Configuration and credentials are stored with mode 0600 under
 `~/.local/state/iota-watch-linux/`. To stop monitoring:
 `systemctl --user disable --now iota-watch-linux.service`.
 This has no effect on the miner. Revoke the pairing on the website to revoke access.
+
+## Discrete (XDS) hashrate
+
+Update the existing paired Linux Agent from this package with
+`python3 install_linux.py`. The installer reloads the monitor using the same
+pairing and detects the open log of a same-user `discreted` process.
+
+If the log is ambiguous or cannot be found, specify the existing log:
+`python3 linux_gpu_agent.py configure-xds --xds-log /path/to/discreted.log`.
+To check what the Agent can read before configuring it, run
+`python3 linux_gpu_agent.py snapshot --xds-log /path/to/discreted.log`.
+Use the timestamped daemon log, not terminal-only output. The miner continues
+running while the Agent reads its log.

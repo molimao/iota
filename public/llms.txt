@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW, TensorCash at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW, TensorCash, Discrete (XDS) at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
@@ -279,6 +279,11 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [TensorCash monitoring: five pools, workers and TSC balances (en)](https://iotahome.site/en/projects/tsc)
 - [TensorCash 모니터: 5개 풀·워커·TSC 잔액 (ko)](https://iotahome.site/ko/projects/tsc)
 - [TensorCash監視：5つのプール・ワーカー・TSC残高 (ja)](https://iotahome.site/ja/projects/tsc)
+- [Discrete（XDS）主网与地址查询 (zh)](https://iotahome.site/zh/projects/xds)
+- [Discrete（XDS）主網與地址查詢 (zh-TW)](https://iotahome.site/zh-TW/projects/xds)
+- [Discrete (XDS) mainnet and address lookup (en)](https://iotahome.site/en/projects/xds)
+- [Discrete (XDS) 메인넷 및 주소 조회 (ko)](https://iotahome.site/ko/projects/xds)
+- [Discrete（XDS）メインネットとアドレス照会 (ja)](https://iotahome.site/ja/projects/xds)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)

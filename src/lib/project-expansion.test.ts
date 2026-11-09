@@ -3,17 +3,17 @@ import { articles, articleClusterMeta, getArticle } from "../components/site/art
 import { expansionGuides, loadExpansionArticle } from "../components/site/project-expansion";
 import { guidesForProject } from "../components/site/project-guides";
 import { buildArticleMarkdown, buildSitemapXml, buildLlmsFullTxt } from "./crawl";
-import { AVAILABLE_PROJECT_IDS, PROJECT_IDS } from "./projects";
+import { AVAILABLE_FLEET_PROJECTS, FLEET_PROJECTS } from "./fleet";
 import { LOCALES } from "./site";
 import { seo } from "../components/site/seo";
 
 describe("all-project focused expansion", () => {
-  it("publishes two distinct focused guides per project without orphan pages or duplicate slugs", async () => {
-    expect(expansionGuides).toHaveLength(PROJECT_IDS.length * 2);
+  it("publishes two distinct focused guides per fleet project without orphan pages or duplicate slugs", async () => {
+    expect(expansionGuides).toHaveLength(FLEET_PROJECTS.length * 2);
     expect(new Set(articles.map((a) => a.slug)).size).toBe(articles.length);
     const sitemap = buildSitemapXml();
     const llms = buildLlmsFullTxt();
-    for (const id of AVAILABLE_PROJECT_IDS) {
+    for (const id of AVAILABLE_FLEET_PROJECTS) {
       const pair = expansionGuides.filter((a) => a.project === id);
       expect(pair).toHaveLength(2);
       for (const article of pair) {

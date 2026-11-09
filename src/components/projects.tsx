@@ -8,7 +8,7 @@ import { hongKongDayStartSeconds } from "@/lib/earnings";
 import { isPlatform } from "@/lib/platforms";
 import { platformCopy, platformEditorial } from "./platform-copy";
 import { ProjectAbout } from "./project-about";
-import { editorialCopy } from "./project-editorial";
+import { editorialCopy, projectEditorial } from "./project-editorial";
 import { QuietDetails, simpleCopy } from "./simple-ui";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -122,7 +122,9 @@ export function ProjectCards({ compact = false }: { compact?: boolean }) {
               ? poolEditorial[id].summary[locale]
               : isPlatform(id)
                 ? platformEditorial[id].summary[locale]
-                : simpleCopy(locale).projectSummary[id]}
+                : id === "xds"
+                  ? projectEditorial.xds.summary[locale]
+                  : simpleCopy(locale).projectSummary[id]}
           </p>
           <ProjectAccessLabel project={id} />
           <span className="project-card-link">

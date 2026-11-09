@@ -3,6 +3,13 @@ import type { SiteLocale } from "@/lib/site";
 
 // Source and scope review: docs/seo-geo-all-projects-2026-10-26.json.
 export const projectVerification: Record<ProjectId, Record<SiteLocale, string>> = {
+  xds: {
+    zh: "用官方区块浏览器核对主网高度和账号编号。全网算力按当前难度和 90 秒目标出块时间估算。",
+    "zh-TW": "用官方區塊瀏覽器核對主網高度與帳號編號。全網算力按目前難度與 90 秒目標出塊時間估算。",
+    en: "Verify the mainnet height and account number in the official explorer. Estimated network hashrate uses current difficulty and the 90-second target interval.",
+    ko: "공식 탐색기에서 메인넷 높이와 계정 번호를 확인하세요. 네트워크 해시레이트는 현재 난이도와 90초 목표 블록 간격으로 추정합니다.",
+    ja: "公式エクスプローラーでメインネットの高さと口座番号を照合できます。ハッシュレートの推定には現在の難易度と90秒の目標ブロック間隔を使います。",
+  },
   iota: {
     zh: "核对同一 Miner ID 和训练轮次，再比较贡献、已记账收益与付款。收款 coldkey 不是 Miner ID。",
     "zh-TW":

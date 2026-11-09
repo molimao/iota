@@ -57,6 +57,23 @@ export const trainingStateSchema = z
   .strict();
 export const agentSnapshot = z
   .object({
+    xds: z.discriminatedUnion("status", [
+      z.object({
+        status: z.literal("ok"),
+        observedAt: z.string().datetime({ offset: true }),
+        hashrateHps: z.number().finite().min(0).max(1e15),
+      }).strict(),
+      z.object({
+        status: z.literal("stopped"),
+        observedAt: z.string().datetime({ offset: true }),
+        hashrateHps: z.null(),
+      }).strict(),
+      z.object({
+        status: z.literal("unavailable"),
+        observedAt: z.null(),
+        hashrateHps: z.null(),
+      }).strict(),
+    ]).optional(),
     platform: z.enum(["darwin", "linux"]).optional(),
     monitorOnly: z.boolean().optional(),
     gpus: z.array(z.object({
@@ -145,8 +162,9 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 60000;
 }
 
-export const AGENT_RELEASE = "1.0.16";
+export const AGENT_RELEASE = "1.0.17";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
+export const LINUX_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-linux-1.0.16.zip";
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
   const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);

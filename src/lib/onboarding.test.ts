@@ -14,6 +14,7 @@ import { LocaleContext } from "../components/site/locale";
 import { MonitoringExample, AdditionHelp, ProjectAccessLabel } from "../components/onboarding";
 import { onboardingCopy, projectHelpPath, projectAccess } from "./onboarding";
 import { LOCALES } from "./site";
+import { FLEET_PROJECTS } from "./fleet";
 import { PROJECT_IDS } from "./projects";
 import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
@@ -91,7 +92,7 @@ describe("public lookup and onboarding", () => {
     for (const locale of LOCALES) {
       const result = html(locale, createElement(MonitoringExample));
       expect(result).toContain(onboardingCopy.sampleNote[locale]);
-      for (const project of PROJECT_IDS) {
+      for (const project of FLEET_PROJECTS) {
         const path = projectHelpPath(locale, project);
         if (isPoolProject(project)) expect(path).toBe(POOL_PROJECTS[project].guide);
         else expect(getArticle(path.split("/").at(-1)!)).toBeDefined();

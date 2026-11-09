@@ -24,7 +24,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.16'
+VERSION = '1.0.17'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -650,6 +650,61 @@ def _miner_log(path):
     return info, re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', text)
 
 
+def xds_observation(path):
+    # Keep the collector in this file so installed supervisors can update it.
+    unavailable = dict(status='unavailable', observedAt=None, hashrateHps=None)
+    pattern = re.compile(
+        r'^(\d{4}-(?:\d{2}|[A-Za-z]{3})-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d{1,6})?)'
+        r'\s+(?:INFO|ERROR)\s+\[miner\]\s+'
+        r'(?:Hashrate: (\d+(?:\.\d+)?) H/s|'
+        r'(Mining has been stopped, \d+ finished|Failed to get_block_template_pq\(\), stopping mining)|'
+        r'(Mining has started with \d+ threads, good luck!))\s*$'
+    )
+    try:
+        _, text = _miner_log(path)
+        for line in reversed(text.split('\n')[:-1]):
+            match = pattern.fullmatch(line)
+            if not match:
+                continue
+            stamp, rate, stopped, started = match.groups()
+            if started:
+                return unavailable
+            months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split()
+            if stamp[5:8] in months:
+                stamp = stamp[:5] + f'{months.index(stamp[5:8])+1:02}' + stamp[8:]
+            observed = datetime.datetime.fromisoformat(stamp).astimezone(datetime.timezone.utc).isoformat()
+            if stopped:
+                return dict(status='stopped', observedAt=observed, hashrateHps=None)
+            hashrate = _metric_number(float(rate))
+            if hashrate is not None:
+                return dict(status='ok', observedAt=observed, hashrateHps=hashrate)
+            break
+    except (OSError, ValueError, OverflowError):
+        pass
+    return unavailable
+
+
+def discover_xds_log():
+    try:
+        rows = subprocess.check_output(['/bin/ps', '-axo', 'uid=,pid=,comm='], text=True, timeout=2)
+        pids = []
+        for line in rows.splitlines():
+            fields = line.strip().split(None, 2)
+            if len(fields) == 3 and fields[0] == str(os.getuid()) and Path(fields[2]).name == 'discreted':
+                pids.append(fields[1])
+        if not pids:
+            return None
+        files = subprocess.run(
+            ['/usr/sbin/lsof', '-nP', '-a', '-p', ','.join(pids), '-Fn'], capture_output=True, text=True, timeout=2,
+        ).stdout
+        logs = {line[1:] for line in files.splitlines() if line.startswith('n/') and line.endswith('.log')}
+        if len(logs) > 1:
+            logs = {path for path in logs if xds_observation(path)['observedAt'] is not None}
+        return logs.pop() if len(logs) == 1 else None
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
 def local_miner_observation(options, now=None):
     """Explicit project bindings; observations never grant control permission."""
     if not isinstance(options, dict):
@@ -1071,6 +1126,9 @@ def step(config, state, now=None):
     miners = local_miner_observations(effective_miner_config(config,state,now), now)
     if miners:
         payload['miners'] = miners
+    xds_log = config.get('xdsLog') or discover_xds_log()
+    if xds_log:
+        payload['xds'] = xds_observation(xds_log)
     try:
         result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack'), 'requestBindings':True}, config['credential'])
     except urllib.error.HTTPError as e:
@@ -1195,7 +1253,7 @@ def install(server):
     saved = {'server': endpoint(server), 'credential': credential}
     if upgrading:
         # Reinstalling an existing Agent must not erase its miner observations.
-        for key in ('miners','xmrig'):
+        for key in ('miners','xmrig','xdsLog'):
             if key in existing:
                 saved[key] = existing[key]
     store(CONFIG, saved)
@@ -1276,6 +1334,16 @@ def configure_miner(software, binding_id, port=None, log_path=None):
     print('Local observation configured; miner unchanged. / 采集已配置，未修改矿工。')
 
 
+def configure_xds(path):
+    _miner_log(path)
+    config = read(CONFIG)
+    if not config.get('credential'):
+        raise ValueError('Pair the Agent first.')
+    config['xdsLog'] = path
+    store(CONFIG, config)
+    print('XDS monitoring configured. / 已配置 XDS 算力采集。')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--self-test', action='store_true')
@@ -1287,9 +1355,12 @@ def main():
     parser.add_argument('--binding')
     parser.add_argument('--port', type=int)
     parser.add_argument('--log-path')
+    parser.add_argument('--configure-xds-log', metavar='ABSOLUTE_LOG_PATH')
     parser.add_argument('--server', default='https://iotahome.site')
     args = parser.parse_args()
-    if args.configure_miner:
+    if args.configure_xds_log:
+        configure_xds(args.configure_xds_log)
+    elif args.configure_miner:
         configure_miner(args.configure_miner, args.binding, args.port, args.log_path)
     elif args.self_test:
         print(VERSION)

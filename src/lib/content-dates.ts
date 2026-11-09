@@ -6,6 +6,7 @@ export function editionDate(date: string, locale?: SiteLocale) {
 }
 // Editorial dates, never build/deploy clocks. Change only the page actually edited.
 export const PROJECT_CONTENT_DATES: Record<ProjectId, string> = {
+  xds: "2026-11-09",
   tsc: "2026-10-26",
   mds: "2026-10-26",
   bnt: "2026-10-26",

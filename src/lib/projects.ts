@@ -29,6 +29,7 @@ export const PROJECT_IDS = [
   "btc",
   "ethw",
   "tsc",
+  "xds",
 ] as const;
 export type ProjectId = (typeof PROJECT_IDS)[number];
 // Keep the identifier readable in existing device records while retiring it from the product.
@@ -44,6 +45,14 @@ export function isComputeProject(value: unknown): value is ComputeProject {
 }
 export const PROJECTS = {
   ...POOL_PROJECTS,
+  xds: {
+    name: "Discrete (XDS)",
+    detail: "CPU PoW",
+    token: "XDS",
+    website: "https://discrete.cash/",
+    guide: "https://docs.discrete.cash/",
+    explorer: "https://explorer.discrete.cash/",
+  },
   iota: {
     name: "IOTA",
     detail: "Train at Home",
@@ -157,7 +166,7 @@ export function isMonitorProject(value: unknown): value is MonitorProject {
     value === "vast" ||
     value === "golem" ||
     value === "noid" ||
-    value === "acurast" || value === "tsc"
+    value === "acurast" || value === "tsc" || value === "xds"
   );
 }
 

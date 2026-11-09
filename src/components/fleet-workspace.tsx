@@ -1,6 +1,7 @@
 import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FleetDeviceTable } from "./fleet-device-table";
 import { DeviceMinerSummary } from "./device-miner-summary";
+import { DiscreteAgentReading } from "./discrete-agent-reading";
 import { ProjectAgentControls } from "./project-agent-controls";
 import { AgentBatchPanel } from "./agent-batch";
 import { insightCopy } from "./agent-insight-copy";
@@ -139,6 +140,12 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     refetchInterval: 15000,
     retry: false,
   });
+  const agentsByDevice = new Map(
+    (props.preview ? Object.values(props.previewAgents ?? {}) : agents.data ?? []).map((agent) => [
+      agent.deviceId,
+      agent,
+    ]),
+  );
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
@@ -452,6 +459,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               reading={props.reading}
               preview={!!props.preview}
               previewAgents={props.previewAgents}
+              agentsByDevice={agentsByDevice}
+              agentNow={agentNow}
               onLink={(id) => open("link", id)}
               onEdit={props.onMutation ? (id) => open("edit", id) : undefined}
               onRemove={props.onMutation ? (id) => open("remove", id) : undefined}
@@ -462,6 +471,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 <FleetCard
                   preview={!!props.preview}
                   previewAgent={props.previewAgents?.[device.id]}
+                  localAgent={agentsByDevice.get(device.id)}
+                  agentNow={agentNow}
                   key={device.id}
                   device={device}
                   displayName={
@@ -1017,6 +1028,8 @@ function FleetCard({
   onRemove,
   preview,
   previewAgent,
+  localAgent,
+  agentNow,
   device,
   c,
   reading,
@@ -1029,6 +1042,8 @@ function FleetCard({
   onRemove: (() => void) | undefined;
   preview?: boolean;
   previewAgent?: AgentInfo | undefined;
+  localAgent: AgentInfo | undefined;
+  agentNow: number;
   device: FleetDevice;
   c: Copy;
   reading: FleetWorkspaceProps["reading"];
@@ -1345,6 +1360,7 @@ function FleetCard({
             .find(Boolean)}
         />
       )}
+      <DiscreteAgentReading agent={localAgent} now={agentNow} locale={locale} />
       <footer>
         {onRemove && <button onClick={onRemove}>{c.remove}</button>}
         {onEdit && <button onClick={onEdit}>{c.rename}</button>}

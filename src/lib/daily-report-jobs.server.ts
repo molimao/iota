@@ -3,7 +3,8 @@ import { POOL_PROVIDERS } from "./pool-projects";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { authenticateReportCron } from "./daily-report-cron-auth.server";
 import { watchDb } from "./watch-db";
-import { PROJECT_IDS, PROJECTS } from "./projects";
+import { FLEET_PROJECTS } from "./fleet";
+import { PROJECTS } from "./projects";
 import { ORIGIN, LOCALES } from "./site";
 import { mapConcurrent } from "./concurrent";
 import {
@@ -25,13 +26,13 @@ import {
 } from "./daily-report-send.server";
 import type { Json } from "@/integrations/supabase/types";
 const binding = z.object({
-  project: z.enum(PROJECT_IDS),
+  project: z.enum(FLEET_PROJECTS),
   identifier: z.string().min(1).max(100),
   worker: z.string().max(80).optional(),
   pool: z.enum(POOL_PROVIDERS).optional(),
 });
 const reading = z.object({
-  project: z.enum(PROJECT_IDS),
+  project: z.enum(FLEET_PROJECTS),
   resource: z.string().max(100),
   scope: z.string().max(40).optional(),
   parts: z

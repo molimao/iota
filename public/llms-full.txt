@@ -27,7 +27,7 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 
 ## Additional mining projects
 
-IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW, TensorCash at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
+IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW, TensorCash, Discrete (XDS) at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
 
 - Nosana: https://iotahome.site/en/projects/nosana — official public job index; node-address task counts are not GPU counts, uptime or NOS earnings. Source: https://api.nosana.com/api/docs.
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
@@ -279,6 +279,11 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [TensorCash monitoring: five pools, workers and TSC balances (en)](https://iotahome.site/en/projects/tsc)
 - [TensorCash 모니터: 5개 풀·워커·TSC 잔액 (ko)](https://iotahome.site/ko/projects/tsc)
 - [TensorCash監視：5つのプール・ワーカー・TSC残高 (ja)](https://iotahome.site/ja/projects/tsc)
+- [Discrete（XDS）主网与地址查询 (zh)](https://iotahome.site/zh/projects/xds)
+- [Discrete（XDS）主網與地址查詢 (zh-TW)](https://iotahome.site/zh-TW/projects/xds)
+- [Discrete (XDS) mainnet and address lookup (en)](https://iotahome.site/en/projects/xds)
+- [Discrete (XDS) 메인넷 및 주소 조회 (ko)](https://iotahome.site/ko/projects/xds)
+- [Discrete（XDS）メインネットとアドレス照会 (ja)](https://iotahome.site/ja/projects/xds)
 - [项目 (zh)](https://iotahome.site/zh/projects)
 - [專案 (zh-TW)](https://iotahome.site/zh-TW/projects)
 - [Projects (en)](https://iotahome.site/en/projects)
@@ -1654,6 +1659,19 @@ How should I verify the original data? (en): Choose the actual pool, then match 
 元のデータとの照合方法は？ (ja): 利用プールを選び、tc1アドレス・ワーカー・出典時刻を合わせます。N/sとPoI/s、チェーン残高・未払い・日次収益は分けます。
 Source: https://tensorcash.org/pools
 Monitor: https://iotahome.site/en/projects/tsc
+
+### Discrete (XDS)
+Content updated: 2026-11-09
+Look up solo blocks and rewards by public receiving address, and check the mainnet height and estimated hashrate.
+Copy the full disc1… mainnet receiving address from your Discrete wallet.
+Solo blocks are matched by the public miner key and rewards come from each coinbase transaction. Check wallet balances and ordinary payments in your Discrete wallet.
+如何对照原始数据？ (zh-CN): 用官方区块浏览器核对主网高度和账号编号。全网算力按当前难度和 90 秒目标出块时间估算。
+如何核對原始資料？ (zh-TW): 用官方區塊瀏覽器核對主網高度與帳號編號。全網算力按目前難度與 90 秒目標出塊時間估算。
+How should I verify the original data? (en): Verify the mainnet height and account number in the official explorer. Estimated network hashrate uses current difficulty and the 90-second target interval.
+원본 데이터는 어떻게 대조하나요? (ko): 공식 탐색기에서 메인넷 높이와 계정 번호를 확인하세요. 네트워크 해시레이트는 현재 난이도와 90초 목표 블록 간격으로 추정합니다.
+元のデータとの照合方法は？ (ja): 公式エクスプローラーでメインネットの高さと口座番号を照合できます。ハッシュレートの推定には現在の難易度と90秒の目標ブロック間隔を使います。
+Source: https://docs.discrete.cash/
+Monitor: https://iotahome.site/en/projects/xds
 ## Public project FAQ
 
 ### 开始前的几个问题 (zh-CN)

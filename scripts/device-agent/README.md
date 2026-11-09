@@ -195,3 +195,13 @@ The server manifest and Agent cache exclude wallet-wide BNT bindings; only an
 exact Worker identity may authorize local collection. This does not install one
 Agent per software process: one physical computer still uses one Agent for all
 its supported projects. No miner start, stop or restart is part of association.
+
+## Discrete (XDS) hashrate
+
+The existing paired Mac Agent detects the open log of a same-user `discreted`
+process after upgrading. If the log is ambiguous or cannot be found, run
+`python3 iota_watch_agent.py --configure-xds-log /path/to/discreted.log`.
+Use an absolute path to the existing Discrete daemon log, owned by the Agent user.
+The daemon normally writes timestamped `[miner] Hashrate: … H/s` lines when
+hashrate logging and INFO-level logging are enabled. The Agent sends only the
+sample time, speed and status. The XDS project page and device show the reading.

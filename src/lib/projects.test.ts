@@ -31,6 +31,7 @@ describe("separate project identities and currencies", () => {
   });
   it("routes fly.ai through compute monitoring and indexes every language", () => {
     expect(isMonitorProject("flyai")).toBe(true);
+    expect(isMonitorProject("xds")).toBe(true);
     expect(isMiningProject("flyai")).toBe(false);
     for (const locale of LOCALES) {
       const path = projectPath(locale, "flyai");
@@ -78,6 +79,7 @@ describe("separate project identities and currencies", () => {
       "btc",
       "ethw",
       "tsc",
+      "xds",
     ]);
   });
   it("preserves exact QTC precision and never makes absent rewards zero", () => {

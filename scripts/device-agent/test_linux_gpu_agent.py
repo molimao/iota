@@ -30,12 +30,13 @@ class LinuxTest(unittest.TestCase):
             root=Path(d)/'.local/state/iota-watch-linux';root.mkdir(parents=True)
             (root/'config.json').write_text('{}')
             (root/'linux_gpu_agent.py').write_text('# test monitor')
+            (root/'xds_observation.py').write_text('# test collector')
             installer=root/'install_linux.py'
             shutil.copyfile(Path(__file__).with_name('install_linux.py'),installer)
             with patch.object(Path,'home',return_value=Path(d)),patch('sys.platform','linux'),patch('subprocess.run') as run:
                 runpy.run_path(str(installer),run_name='__main__')
-            self.assertEqual(run.call_count,2)
-            self.assertEqual(run.call_args.args[0],['systemctl','--user','enable','--now','iota-watch-linux.service'])
+            self.assertEqual(run.call_count,3)
+            self.assertEqual(run.call_args.args[0],['systemctl','--user','restart','iota-watch-linux.service'])
             self.assertIn('NoNewPrivileges=true',(Path(d)/'.config/systemd/user/iota-watch-linux.service').read_text())
 
     def test_queue(self):

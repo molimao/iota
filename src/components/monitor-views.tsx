@@ -1,3 +1,4 @@
+import { FLEET_PROJECTS } from "@/lib/fleet";
 import { onboardingCopy } from "@/lib/onboarding";
 import { Layers, Monitor, LayoutDashboard } from "lucide-react";
 import type { SiteLocale } from "@/lib/site";
@@ -87,6 +88,7 @@ export function MonitoringViews({
 }) {
   const { locale } = useLocale(),
     c = monitorViewCopy(locale);
+  const deviceProject = FLEET_PROJECTS.some((id) => id === project) ? project : undefined;
   return (
     <div className="header-view-switch" role="navigation" aria-label={c.navigation}>
       <a
@@ -98,7 +100,7 @@ export function MonitoringViews({
         <span>{c.overview}</span>
       </a>
       <a
-        href={`/${locale}/devices${project ? `?project=${project}` : ""}`}
+        href={`/${locale}/devices${deviceProject ? `?project=${deviceProject}` : ""}`}
         aria-current={current === "devices" ? "page" : undefined}
         title={c.deviceDescription}
       >
