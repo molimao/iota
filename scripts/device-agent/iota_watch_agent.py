@@ -28,7 +28,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.18'
+VERSION = '1.0.19'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -1214,15 +1214,6 @@ def idle_bnt_iota():
                 queue=queue, trainingState=training)
 
 
-def idle_bnt_memory():
-    total = int(subprocess.check_output(['/usr/sbin/sysctl', '-n', 'hw.memsize'], text=True, timeout=2)) // 1048576
-    pressure = subprocess.check_output(['/usr/bin/memory_pressure', '-Q'], text=True, timeout=2)
-    percent = re.search(r'System-wide memory free percentage: (\d+)%', pressure)
-    if not percent:
-        raise ValueError('memory pressure unavailable')
-    return total * int(percent[1]) // 100, max(2048, min(4096, total // 4))
-
-
 def idle_bnt_stats(path, now):
     info, text = _miner_log(str(path))
     if not 0 <= now - info.st_mtime <= 25:
@@ -1264,16 +1255,9 @@ class IdleBntMiner:
             self.retry_at = now + 60
         if now < self.retry_at:
             return 'error'
-        available, reserve = idle_bnt_memory()
         if self.child and self.settings != (settings, policy['worker']):
             self.stop()
         if self.child:
-            rss = 0 if available < reserve else int(subprocess.check_output(
-                ['/bin/ps', '-p', str(self.child.pid), '-o', 'rss='], text=True, timeout=2)) // 1024
-            if available < reserve or rss > settings['memoryMb']:
-                self.stop()
-                self.retry_at = now + 60
-                return 'memory'
             stats = idle_bnt_stats(self.log, now)
             if stats and stats[0] > self.hashes:
                 self.hashes, self.rate = stats
@@ -1283,14 +1267,12 @@ class IdleBntMiner:
                 self.retry_at = now + 60
                 return 'error'
             return 'mining' if self.rate is not None and now - self.progress_at < 25 else 'starting'
-        if settings['threads'] > (os.cpu_count() or 1) or available < settings['memoryMb'] + reserve:
-            return 'memory'
         rows = subprocess.check_output(['/bin/ps', '-axo', 'comm='], text=True, timeout=2)
         if any(Path(line.strip()).name == 'seine' for line in rows.splitlines()):
             return 'busy'
         binary = idle_bnt_binary(policy['binary'])
         command = ['/usr/bin/nice', '-n', '15', str(binary), '--mode', 'pool', '--backend', 'cpu',
-                   '--threads', str(settings['threads']), '--disable-cpu-autotune-threads',
+                   '--threads', str(settings['threads']), '--disable-cpu-autotune-threads', '--allow-oversubscribe',
                    '--pool-url', 'stratum+tcp://bntpool.com:3333', '--address', settings['address'],
                    '--pool-worker', policy['worker'], '--ui', 'plain', '--stats-secs', '10',
                    '--telemetry', 'off', '--data-dir', str(self.folder / 'data')]

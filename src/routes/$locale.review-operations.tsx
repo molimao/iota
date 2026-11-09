@@ -1,11 +1,13 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { IotaProjectDeviceViews } from "@/components/dashboard";
 import { FleetWorkspace } from "@/components/fleet-workspace";
 import { AgentBatchPanel } from "@/components/agent-batch";
+import { IdleBntEntry } from "@/components/idle-bnt";
 import { operationsReviewData } from "@/components/operations-review-data";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { useLocale } from "@/components/site/locale";
+import type { IdleBntConfig } from "@/lib/idle-bnt";
 export const Route = createFileRoute("/$locale/review-operations")({
   beforeLoad: () => {
     if (!import.meta.env.DEV) throw notFound();
@@ -14,11 +16,19 @@ export const Route = createFileRoute("/$locale/review-operations")({
   component: Review,
 });
 function Review() {
-  const [view, setView] = useState("project-cards"),
+  const idleMiningScene = useRouterState({
+    select: (state) => new URLSearchParams(state.location.searchStr).get("idleMining"),
+  });
+  const idleMiningPlan = idleMiningScene === "free" ? "free" : "pro";
+  const [view, setView] = useState(idleMiningScene ? "project-list" : "project-cards"),
     now = useAgentClock(),
     { locale } = useLocale();
   const data = operationsReviewData(now),
     layout = view.endsWith("list") ? "list" : "cards";
+  const [idleMiningSettings, setIdleMiningSettings] = useState<IdleBntConfig>(() => ({
+    address: "2BZVmXsZqZJNdRouv8wipYe9pxYhCK1mx8kyz8Hauz58ueCLxEvaCkdmu8pWnHZiXa3ASPGnT9VsUcqJKx5az3Yq5HDNe",
+    devices: [{ deviceId: data.devices[1]!.id, threads: 2 }],
+  }));
   return (
     <>
       <div className="fleet-review-switch">
@@ -47,6 +57,14 @@ function Review() {
               <p>按项目查看状态、收益与远程操作 · 本地示例</p>
             </div>
           </header>
+          <IdleBntEntry
+            plan={idleMiningPlan}
+            userId={null}
+            devices={data.devices}
+            agents={Object.values(data.agents)}
+            preview={idleMiningSettings}
+            onPreviewSave={setIdleMiningSettings}
+          />
           <AgentBatchPanel
             preview
             agents={Object.values(data.agents)}
@@ -62,6 +80,8 @@ function Review() {
             now={now}
             preview
             previewAgents={data.byMiner}
+            idleMiningPlan={idleMiningPlan}
+            idleMiningSettings={idleMiningSettings}
             onOpen={() => {}}
             onRemove={() => {}}
           />

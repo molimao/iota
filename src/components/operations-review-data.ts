@@ -31,7 +31,10 @@ export function operationsReviewData(now: number) {
           workerRunning: true,
           appCpu: i === 0 ? 286.5 : 3.2,
           processMemoryMb: i === 0 ? 2810 : 410,
-          version: "1.0.12",
+          version: "1.0.18",
+          idleBnt: i === 1
+            ? { state: "mining", hashrate: 2.82 }
+            : { state: "install_needed", hashrate: null },
           appSelectedRun: { id: "4.13.7.11", observedAt: new Date(now - 10000).toISOString() },
           queue:
             i === 1 ? { position: 182, observedAt: new Date(now - 10000).toISOString() } : null,

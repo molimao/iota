@@ -13,7 +13,7 @@ export const savedIdleBntConfig = idleBntConfig.extend({
 });
 export type IdleBntConfig = z.infer<typeof savedIdleBntConfig>;
 
-// Keep the existing heartbeat shape so the Agent applies its local memory guard.
+// Keep memoryMb in the lease for Mac Agents before 1.0.19.
 export const idleBntLeaseSettings = z
   .object({
     address,

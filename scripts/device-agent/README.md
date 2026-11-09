@@ -217,4 +217,5 @@ beyond 100 or after a confirmed stop from the site. The
 Agent stops its own BNT miner before an IOTA start, restart or auto-recovery.
 Existing separately launched Seine processes keep their current ownership.
 When the subscription or the short authorization expires, the Agent releases
-the miner it started. The Agent monitors available memory automatically.
+the miner it started. Agent 1.0.19 and later run the selected thread count with
+Seine's `--allow-oversubscribe` option, which can use swap when RAM is tight.

@@ -5,6 +5,7 @@ import { AgentUpdate } from "./agent-update";
 import { AgentStatus } from "./agent-insights";
 import { AgentQuickActions } from "./agent-quick-actions";
 import { useQuery } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "@/hooks/use-auth";
 import { getFleet } from "@/lib/fleet.functions";
@@ -14,7 +15,7 @@ import { useLocale } from "./site/locale";
 import { agentCopy } from "./device-agent-copy";
 
 /** Both card views share the account-scoped query with Mac management. */
-export function DeviceAgentSummary({ deviceId, miner, official, preview = false, compact = false, previewAgent }: { deviceId?: string; miner?: string; official?: OfficialTrainingEvidence | undefined; preview?: boolean; compact?: boolean; previewAgent?:AgentInfo | undefined }) {
+export function DeviceAgentSummary({ deviceId, miner, official, preview = false, compact = false, previewAgent, afterStatus }: { deviceId?: string; miner?: string; official?: OfficialTrainingEvidence | undefined; preview?: boolean; compact?: boolean; previewAgent?:AgentInfo | undefined; afterStatus?: ((agent: AgentInfo, now: number) => ReactNode) | undefined }) {
   const auth = useAuth();
   const now = useAgentClock();
   const { locale } = useLocale();
@@ -29,7 +30,17 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
   const online = !!agent && !query.isError && agentOnline(agent.lastSeen, now);
   const s = agent?.snapshot;
-  if (compact) return agent && !query.isError ? <div className="agent-table-controls"><a href={url} className="agent-table-status"><AgentStatus agent={agent} now={now} official={official} compact />{s?.platform !== "linux" && agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}</a><AgentGpu agent={agent} now={now} compact/><AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview}/></div> : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
+  if (compact) return agent && !query.isError ? (
+    <div className="agent-table-controls">
+      <a href={url} className="agent-table-status">
+        <AgentStatus agent={agent} now={now} official={official} compact />
+        {s?.platform !== "linux" && agentUpdateAvailable(s?.version) && <small className="agent-update-inline">{t.update} ↗</small>}
+      </a>
+      {afterStatus?.(agent, now)}
+      <AgentGpu agent={agent} now={now} compact />
+      <AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview} />
+    </div>
+  ) : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
     <a href={url}>{t.connectCompact} ↗</a>

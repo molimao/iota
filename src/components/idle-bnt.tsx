@@ -1,7 +1,7 @@
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
 import "./idle-bnt.css";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowUpRight, ChevronDown, Cpu } from "lucide-react";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { agentOnline, type AgentInfo } from "@/lib/device-agent";
@@ -155,6 +155,8 @@ export const idleMiningCopy = {
     "インストール待ち",
   ]),
   connect: l(["连接 Mac", "連接 Mac", "Connect a Mac", "Mac 연결", "Mac を接続"]),
+  enable: l(["启用 BNT", "啟用 BNT", "Enable BNT mining", "BNT 채굴 켜기", "BNT 採掘を有効にする"]),
+  listTitle: l(["BNT 闲时挖矿", "BNT 閒時挖礦", "BNT idle mining", "BNT 유휴 채굴", "BNT アイドル採掘"]),
   empty: l([
     "先为运行 IOTA 的 Mac 连接 Agent。",
     "先為執行 IOTA 的 Mac 連接 Agent。",
@@ -202,12 +204,64 @@ export const idleMiningCopy = {
   },
 };
 
+export const idleBntSettingsQuery = (userId: string | null) =>
+  queryOptions({
+    queryKey: ["idle-bnt-settings", userId],
+    queryFn: () => configureIdleBnt({ data: { action: "read" } }),
+    staleTime: 15000,
+  });
+
+export function IdleBntListStatus({
+  agent,
+  now,
+  settings,
+}: {
+  agent: AgentInfo;
+  now: number;
+  settings: IdleBntConfig;
+}) {
+  const { locale } = useLocale();
+  const c = idleMiningCopy;
+  const { platform, monitorOnly, idleBnt } = agent.snapshot;
+  if (platform === "linux" || platform === "win32" || monitorOnly || !idleBnt || idleBnt.state === "setup")
+    return null;
+
+  const threads = settings.devices.find((device) => device.deviceId === agent.deviceId)?.threads;
+  if (!threads)
+    return (
+      <a
+        className="idle-bnt-list-link"
+        href={`#${IDLE_MINING_SOURCE}`}
+        onClick={() => {
+          const panel = document.getElementById(IDLE_MINING_SOURCE);
+          if (panel instanceof HTMLDetailsElement) panel.open = true;
+        }}
+      >
+        {c.enable[locale]} <ArrowUpRight size={12} aria-hidden="true" />
+      </a>
+    );
+
+  const online = agentOnline(agent.lastSeen, now);
+  const mining = online && idleBnt.state === "mining";
+  const detail = !online
+    ? c.threads[locale].replace("{n}", String(threads))
+    : mining && idleBnt.hashrate != null
+      ? `${idleBnt.hashrate.toFixed(2)} H/s`
+      : (idleBnt.state === "install_needed" ? c.installPending : c.states[idleBnt.state])[locale];
+  return (
+    <span className="idle-bnt-list-status" data-mining={mining}>
+      {mining && idleBnt.hashrate == null ? detail : `BNT · ${detail}`}
+    </span>
+  );
+}
+
 export function IdleBntEntry({
   plan,
   userId,
   devices = [],
   agents,
   preview,
+  onPreviewSave,
   checkoutReturn = false,
   onRefreshMembership,
   agentsError = false,
@@ -217,6 +271,7 @@ export function IdleBntEntry({
   devices?: FleetDevice[] | undefined;
   agents?: AgentInfo[] | undefined;
   preview?: IdleBntConfig | undefined;
+  onPreviewSave?: (settings: IdleBntConfig) => void;
   checkoutReturn?: boolean;
   onRefreshMembership?: () => void;
   agentsError?: boolean;
@@ -229,19 +284,19 @@ export function IdleBntEntry({
   const [demo, setDemo] = useState(preview);
   const [invalid, setInvalid] = useState(false);
   const pro = plan === "pro";
-  const queryKey = ["idle-bnt-settings", userId];
   const query = useQuery({
-    queryKey,
+    ...idleBntSettingsQuery(userId),
     enabled: pro && expanded && !!userId && !preview,
-    queryFn: () => configureIdleBnt({ data: { action: "read" } }),
   });
   const settings = demo ?? query.data;
   const change = useMutation({
     mutationFn: async (value: IdleBntConfig) => {
-      if (preview) setDemo(value);
-      else
+      if (preview) {
+        setDemo(value);
+        onPreviewSave?.(value);
+      } else
         client.setQueryData(
-          queryKey,
+          idleBntSettingsQuery(userId).queryKey,
           await configureIdleBnt({ data: { action: "save", settings: value } }),
         );
     },

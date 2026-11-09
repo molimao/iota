@@ -88,18 +88,14 @@ class IdleBntTests(unittest.TestCase):
             controller.apply({}, {}, lease)
             self.assertEqual(spawn.call_count, 2)
 
-    def test_memory_guard_terminates_only_the_owned_process(self):
+    def test_stop_terminates_only_the_owned_process(self):
         with tempfile.TemporaryDirectory() as directory:
             miner = agent.IdleBntMiner(Path(directory))
-            settings = {'address': 'fixture', 'threads': 1, 'memoryMb': 3072}
-            policy = {'settings': settings, 'worker': 'iota-00000000'}
-            miner.settings = (settings, policy['worker'])
             owned = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])
             unrelated = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])
             miner.child = owned
             try:
-                with patch.object(agent, 'idle_bnt_memory', return_value=(100, 2048)):
-                    self.assertEqual(miner.tick(policy, self.now), 'memory')
+                miner.stop()
                 self.assertIsNotNone(owned.poll())
                 self.assertIsNone(unrelated.poll())
             finally:
@@ -132,14 +128,19 @@ class IdleBntTests(unittest.TestCase):
             binary = root / 'seine'
             pid_path = root / 'pid'
             binary.write_text(
-                f'#!{sys.executable}\nimport os,time\nfrom pathlib import Path\n'
-                f'Path({str(pid_path)!r}).write_text(str(os.getpid()))\ntime.sleep(60)\n'
+                f'#!{sys.executable}\nimport os,sys,time\nfrom pathlib import Path\n'
+                'assert sys.argv[sys.argv.index("--threads") + 1] == "4"\n'
+                'assert "--disable-cpu-autotune-threads" in sys.argv\n'
+                'assert "--allow-oversubscribe" in sys.argv\n'
+                f'Path({str(pid_path)!r}).write_text(str(os.getpid()))\n'
+                'print("STATS elapsed=1.0s hashes=4 rate=4.0 H/s", flush=True)\n'
+                'time.sleep(60)\n'
             )
             binary.chmod(0o700)
             policy = {
                 'binary': str(binary), 'worker': 'iota-00000000', 'until': time.monotonic() + 30,
                 'pause': 'fixture',
-                'settings': {'address': 'fixture', 'threads': 1, 'memoryMb': 3072,
+                'settings': {'address': 'fixture', 'threads': 4,
                              'whenQueued': True, 'whenPaused': True},
             }
             def write_policy(until):
@@ -147,14 +148,16 @@ class IdleBntTests(unittest.TestCase):
                     agent.store(folder / 'policy.json', {**policy, 'until': until})
             def wait_for_pid():
                 deadline = time.monotonic() + 7
-                while not pid_path.exists() and time.monotonic() < deadline:
+                while time.monotonic() < deadline:
+                    status = agent.read(folder / 'status.json')
+                    if pid_path.exists() and status.get('state') == 'mining':
+                        self.assertEqual(status['hashrate'], 4.0)
+                        return int(pid_path.read_text())
                     time.sleep(.1)
-                self.assertTrue(pid_path.exists())
-                return int(pid_path.read_text())
+                self.fail('The configured four-thread miner did not report hashrate')
             write_policy(time.monotonic() + 30)
             watcher = subprocess.Popen([sys.executable, '-c', (
                 f'import iota_watch_agent as a; a.ROOT=a.Path({str(root)!r}); '
-                'a.idle_bnt_memory=lambda:(12000,2048); '
                 'a.idle_bnt_iota=lambda:dict(appRunning=False,workerRunning=False,queue=None,trainingState=None); '
                 'check=a.subprocess.check_output; '
                 'a.subprocess.check_output=lambda cmd,**kw: "" if cmd==["/bin/ps","-axo","comm="] else check(cmd,**kw); '

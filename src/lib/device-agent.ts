@@ -165,7 +165,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 60000;
 }
 
-export const AGENT_RELEASE = "1.0.18";
+export const AGENT_RELEASE = "1.0.19";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export const LINUX_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-linux-1.0.16.zip";
 export const WINDOWS_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-windows-1.0.0.zip";

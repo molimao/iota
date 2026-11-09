@@ -1,5 +1,8 @@
-import { IdleBntEntry } from "./idle-bnt";
+import { IdleBntEntry, IdleBntListStatus, idleBntSettingsQuery, idleMiningCopy } from "./idle-bnt";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
+import type { AgentInfo } from "@/lib/device-agent";
+import type { IdleBntConfig } from "@/lib/idle-bnt";
+import { useQuery } from "@tanstack/react-query";
 import { SyncGuidance } from "./sync-guidance";
 import "./project-device-views.css";
 import { ProjectAgentControls } from "./project-agent-controls";
@@ -182,6 +185,14 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<"added" | "rewards" | "issues">("added");
   const [layout, setLayout] = useState<"cards" | "list">("cards");
+  const idleMiningPlan = auth.ready && (!auth.userId || billing.data || idleMiningCheckout)
+    ? billing.data?.plan ?? "free"
+    : undefined;
+  const idleMiningSettings = useQuery({
+    ...idleBntSettingsQuery(auth.userId),
+    enabled: !previewIdleMining && layout === "list" && idleMiningPlan === "pro" &&
+      !!agentEvidence.query.data?.some((agent) => agent.snapshot.idleBnt),
+  });
   const layoutInitialized = useRef(false);
   useEffect(() => {
     if (!watch.loaded || layoutInitialized.current) return;
@@ -286,10 +297,10 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
           </button>
         </div>
       </header>
-      {previewIdleMining ?? (auth.ready && (!auth.userId || billing.data || idleMiningCheckout) && (
+      {previewIdleMining ?? (idleMiningPlan && (
         <IdleBntEntry
           key={auth.userId}
-          plan={billing.data?.plan ?? "free"}
+          plan={idleMiningPlan}
           userId={auth.userId}
           devices={agentEvidence.devices}
           agents={agentEvidence.query.data}
@@ -592,7 +603,16 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
             </div>
             <ProjectAgentControls miners={visible.map(view=>view.entry.hotkey)} devices={agentEvidence.devices}
               agents={agentEvidence.query.data} userId={auth.userId} now={agentNow} error={agentEvidence.query.isError}/>
-            <IotaProjectDeviceViews views={visible} layout={layout} usdPerIota={dash.usdPerIota} now={dash.now} onOpen={openDevice} onRemove={setRemoveTarget}/>
+            <IotaProjectDeviceViews
+              views={visible}
+              layout={layout}
+              usdPerIota={dash.usdPerIota}
+              now={dash.now}
+              onOpen={openDevice}
+              onRemove={setRemoveTarget}
+              idleMiningPlan={previewIdleMining ? undefined : idleMiningPlan}
+              idleMiningSettings={idleMiningSettings.isError ? undefined : idleMiningSettings.data}
+            />
           </>
         )}
       </section>
@@ -1004,7 +1024,21 @@ function IotaLookup({ id }: { id: string }) {
   );
 }
 
-export function IotaProjectDeviceViews({views,layout,usdPerIota,now,onOpen,onRemove,preview=false,previewAgents}:{views:DeviceView[];layout:"cards"|"list";usdPerIota:number|null;now:number;onOpen:(id:string,tab?:DetailTab)=>void;onRemove:(id:string)=>void;preview?:boolean;previewAgents?:Record<string,import("@/lib/device-agent").AgentInfo>}) {
+export function IotaProjectDeviceViews({
+  views, layout, usdPerIota, now, onOpen, onRemove, preview = false, previewAgents,
+  idleMiningPlan, idleMiningSettings,
+}: {
+  views: DeviceView[];
+  layout: "cards" | "list";
+  usdPerIota: number | null;
+  now: number;
+  onOpen: (id: string, tab?: DetailTab) => void;
+  onRemove: (id: string) => void;
+  preview?: boolean;
+  previewAgents?: Record<string, AgentInfo>;
+  idleMiningPlan?: "free" | "pro" | undefined;
+  idleMiningSettings?: IdleBntConfig | undefined;
+}) {
  const {locale,t}=useLocale();
  return (layout === "list" ? (
               <div className="iota-table-scroll">
@@ -1014,7 +1048,14 @@ export function IotaProjectDeviceViews({views,layout,usdPerIota,now,onOpen,onRem
                       {(["name", "state", "rate", "today"] as const).map((key) => (
                         <th key={key}>{iotaAddCopy[key][locale]}</th>
                       ))}
-                      <th>Agent</th>
+                      <th>
+                        Agent
+                        {idleMiningPlan === "free" && (
+                          <a className="idle-bnt-list-link" href={`#${IDLE_MINING_SOURCE}`}>
+                            {idleMiningCopy.listTitle[locale]} · Pro <ArrowUpRight size={12} aria-hidden="true" />
+                          </a>
+                        )}
+                      </th>
                       <th>{iotaAddCopy.action[locale]}</th>
                     </tr>
                   </thead>
@@ -1054,6 +1095,9 @@ export function IotaProjectDeviceViews({views,layout,usdPerIota,now,onOpen,onRem
                               fetchedAt: view.statusFetchedAt,
                             }}
                             compact
+                            afterStatus={idleMiningPlan === "pro" && idleMiningSettings
+                              ? (agent, now) => <IdleBntListStatus agent={agent} now={now} settings={idleMiningSettings} />
+                              : undefined}
                           />
                         </td>
                         <td>

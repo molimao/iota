@@ -169,6 +169,29 @@
 .idle-bnt-device-status[data-mining="true"] {
   color: #8adcb2;
 }
+.idle-bnt-list-status,
+.idle-bnt-list-link {
+  display: block;
+  width: fit-content;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+.idle-bnt-list-status {
+  color: var(--watch-muted);
+  font-variant-numeric: tabular-nums;
+}
+.idle-bnt-list-status[data-mining="true"] {
+  color: #8adcb2;
+}
+.idle-bnt-list-link {
+  color: var(--watch-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.idle-bnt-list-link svg {
+  display: inline;
+  vertical-align: middle;
+}
 .idle-bnt-footer {
   flex-wrap: wrap;
   margin: 14px calc(-1 * clamp(14px, 2.2vw, 24px)) -16px;
