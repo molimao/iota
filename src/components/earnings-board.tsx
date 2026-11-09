@@ -22,12 +22,14 @@ export function EarningsBoard({
   previewHistory,
   preview,
   previewPrices,
+  xdsCard,
 }: {
   devices: FleetDevice[];
   previewHistory?: DailyReport[] | undefined;
   preview?: boolean | undefined;
   reading: (b: FleetBinding) => ProjectReading;
   previewPrices?: Partial<Record<import("@/lib/projects").ProjectId, number>> | undefined;
+  xdsCard?: React.ReactNode;
 }) {
   const { locale } = useLocale();
   const entries = devices.flatMap((d) =>
@@ -53,12 +55,14 @@ export function EarningsBoard({
     entries,
     preview ? (previewPrices ?? {}) : validQuotes ? (quotes.data?.data ?? {}) : {},
   );
+  const projectCount = board.projects.length + (xdsCard ? 1 : 0);
   const recentPriced = board.projects.filter((p) =>
     [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.usd !== null),
   );
-  const partialPearl = recentPriced.some((p) =>
-    p.project === "prl" &&
-    [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.count < p.total),
+  const partialPearl = recentPriced.some(
+    (p) =>
+      p.project === "prl" &&
+      [...p.metrics.values()].some((m) => m.window === "rolling24h" && m.count < p.total),
   );
   const nf = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 8 });
   return (
@@ -66,7 +70,7 @@ export function EarningsBoard({
       <header>
         <h2>{c.title[locale]}</h2>
         <span className="board-scope-count">
-          {devices.length} {c.counts[locale]} <i /> {board.projects.length} {c.projects[locale]}
+          {devices.length} {c.counts[locale]} <i /> {projectCount} {c.projects[locale]}
         </span>
       </header>
       <article
@@ -76,8 +80,7 @@ export function EarningsBoard({
         <div className="earnings-board-recent-heading">
           <span>{c.recentTotal[locale]}</span>
           <small>
-            {c.included[locale]} {recentPriced.length} / {board.projects.length}{" "}
-            {c.projects[locale]}
+            {c.included[locale]} {recentPriced.length} / {projectCount} {c.projects[locale]}
             {partialPearl ? ` · ${c.partialRolling[locale]}` : ""}
           </small>
         </div>
@@ -100,8 +103,9 @@ export function EarningsBoard({
         }))}
         previewHistory={previewHistory}
         preview={preview}
+        xdsCard={xdsCard}
       />
-      <details className="board-details">
+      <details className="board-details" hidden={board.projects.length === 0}>
         <summary>
           {c.details[locale]} <span>↗</span>
         </summary>
@@ -142,7 +146,9 @@ export function EarningsBoard({
                           {row.project === "bnt" && m.window === "rolling24h"
                             ? bntLabels.paid24h[locale]
                             : c.windows[m.window][locale]}
-                          {row.project === "prl" && m.window === "rolling24h" && m.count < row.total
+                          {row.project === "prl" &&
+                          m.window === "rolling24h" &&
+                          m.count < row.total
                             ? ` · ${c.partialRolling[locale]}`
                             : ""}
                           {m.stale ? ` · ${c.older[locale]}` : ""}
@@ -173,7 +179,10 @@ export function EarningsBoard({
                     ) : row.accounts.size > 1 ? (
                       <details>
                         <summary>
-                          {c.accountsSummary[locale].replace("{count}", String(row.accounts.size))}
+                          {c.accountsSummary[locale].replace(
+                            "{count}",
+                            String(row.accounts.size),
+                          )}
                         </summary>
                         {[...row.accounts.entries()].map(([key, m]) => (
                           <div key={key} className="earnings-board-metric">

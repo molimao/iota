@@ -1,5 +1,5 @@
-import { useAgentClock } from "@/hooks/use-agent-clock";
-import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
+import "./pool-worker-cards.css";
+import "./discrete-monitor.css";
 import {
   AGENT_DOWNLOAD_URL,
   LINUX_AGENT_DOWNLOAD_URL,
@@ -7,6 +7,7 @@ import {
   type AgentInfo,
 } from "@/lib/device-agent";
 import { localized } from "@/lib/product-discovery";
+import type { FleetDevice } from "@/lib/fleet";
 import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
 import { useLocale } from "./site/locale";
 
@@ -40,6 +41,8 @@ const copy = {
     "ペアリング済みAgentを更新すると、同じユーザーのDiscreteログを自動検出します。必要な場合はパスを指定できます。",
   ]),
   devices: localized(["我的设备", "我的設備", "My devices", "내 기기", "マイデバイス"]),
+  heading: localized(["挖矿设备", "挖礦設備", "Mining devices", "채굴 기기", "マイニング端末"]),
+  active: localized(["采集中", "採集中", "Reporting", "수집 중", "取得中"]),
   unavailable: localized([
     "还没有算力样本",
     "還沒有算力樣本",
@@ -68,6 +71,45 @@ const copy = {
 // The official daemon writes a hashrate sample once a minute.
 const XDS_SAMPLE_FRESH_MS = 150_000;
 
+export type DiscreteDevice = { name: string; agent: AgentInfo };
+
+export function discreteDevices(devices: FleetDevice[], agents: AgentInfo[]): DiscreteDevice[] {
+  const byDevice = new Map(
+    agents.filter((agent) => agent.snapshot.xds).map((agent) => [agent.deviceId, agent]),
+  );
+  return devices.flatMap(({ id, name }) => {
+    const agent = byDevice.get(id);
+    return agent ? [{ name, agent }] : [];
+  });
+}
+
+export function discreteDeviceSample(agent: AgentInfo, now: number) {
+  const reading = agent.snapshot.xds;
+  if (!reading) return null;
+  const at = reading.observedAt;
+  const age = at === null ? null : now - Date.parse(at);
+  if (!agentOnline(agent.lastSeen, now)) return { status: "offline", rate: null, at } as const;
+  if (age !== null && (age < -5000 || age >= XDS_SAMPLE_FRESH_MS))
+    return { status: "stale", rate: null, at } as const;
+  if (reading.status !== "ok") return { status: reading.status, rate: null, at } as const;
+  return { status: "active", rate: reading.hashrateHps, at } as const;
+}
+
+function sampleTime(at: string, locale: SiteLocale) {
+  return new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
+    timeZone: "Asia/Hong_Kong",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(new Date(at));
+}
+
+function formatRate(rate: number, locale: SiteLocale) {
+  return `${new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 2 }).format(rate)} H/s`;
+}
+
 export function DiscreteAgentReading({
   agent,
   name,
@@ -79,39 +121,17 @@ export function DiscreteAgentReading({
   now: number;
   locale: SiteLocale;
 }) {
-  const reading = agent?.snapshot.xds;
-  if (!agent || !reading) return null;
-  const sampleAt = reading.observedAt ? Date.parse(reading.observedAt) : null;
-  const age = sampleAt === null ? null : now - sampleAt;
-  const online = agentOnline(agent.lastSeen, now);
-  const value = !online
-    ? copy.offline[locale]
-    : age !== null && (age < -5000 || age >= XDS_SAMPLE_FRESH_MS)
-      ? copy.stale[locale]
-      : reading.status === "unavailable"
-        ? copy.unavailable[locale]
-        : reading.status === "stopped"
-          ? copy.stopped[locale]
-          : `${new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 2 }).format(reading.hashrateHps)} H/s`;
+  const sample = agent && discreteDeviceSample(agent, now);
+  if (!sample) return null;
   return (
     <div className="agent-card-summary agent-local-miner">
       <strong>{name ?? `XDS · ${copy.title[locale]}`}</strong>
       <p>
-        {value}
-        {sampleAt !== null && (
+        {sample.rate === null ? copy[sample.status][locale] : formatRate(sample.rate, locale)}
+        {sample.at && (
           <>
             {" · "}
-            {copy.sample[locale]}{" "}
-            <time dateTime={reading.observedAt ?? undefined}>
-              {new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
-                timeZone: "Asia/Hong_Kong",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              }).format(sampleAt)}
-            </time>
+            {copy.sample[locale]} <time dateTime={sample.at}>{sampleTime(sample.at, locale)}</time>
           </>
         )}
       </p>
@@ -119,25 +139,49 @@ export function DiscreteAgentReading({
   );
 }
 
-export function DiscreteAgentPanel() {
+export function DiscreteAgentPanel({ devices, now }: { devices: DiscreteDevice[]; now: number }) {
   const { locale } = useLocale();
-  const { enabled, devices, query } = useMatchedDeviceAgent();
-  const now = useAgentClock();
-  const rows = enabled ? (query.data?.filter((agent) => agent.snapshot.xds) ?? []) : [];
-  const names = new Map(devices?.map((device) => [device.id, device.name]));
   return (
     <section className="project-panel" aria-labelledby="xds-local-hashrate">
-      <h2 id="xds-local-hashrate">{copy.title[locale]} · Agent</h2>
-      {rows.length ? (
-        rows.map((agent) => (
-          <DiscreteAgentReading
-            key={agent.deviceId}
-            agent={agent}
-            name={names.get(agent.deviceId) ?? copy.title[locale]}
-            now={now}
-            locale={locale}
-          />
-        ))
+      <div className="project-section-head">
+        <h2 id="xds-local-hashrate">{copy.heading[locale]}</h2>
+        <a className="project-outline" href={`/${locale}/devices`}>
+          {copy.devices[locale]} ↗
+        </a>
+      </div>
+      {devices.length ? (
+        <div className="pwc-grid">
+          {devices.map(({ name, agent }) => {
+            const sample = discreteDeviceSample(agent, now);
+            if (!sample) return null;
+            const tone =
+              sample.status === "active"
+                ? "online"
+                : sample.status === "offline"
+                  ? "offline"
+                  : "unknown";
+            return (
+              <article className="pwc-card xds-device-card" key={agent.deviceId}>
+                <header>
+                  <h3 className="pwc-name">{name}</h3>
+                  <span className="pwc-state" data-state={tone}>
+                    {copy[sample.status][locale]}
+                  </span>
+                </header>
+                <div className="pwc-metric">
+                  <span>{copy.title[locale]}</span>
+                  <strong>{sample.rate === null ? "—" : formatRate(sample.rate, locale)}</strong>
+                </div>
+                {sample.at && (
+                  <div className="pwc-metric">
+                    <span>{copy.sample[locale]} (UTC+8)</span>
+                    <time dateTime={sample.at}>{sampleTime(sample.at, locale)}</time>
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
       ) : (
         <p>{copy.empty[locale]}</p>
       )}
@@ -161,11 +205,6 @@ export function DiscreteAgentPanel() {
           python3 linux_gpu_agent.py configure-xds --xds-log /path/to/discreted.log
         </code>
       </details>
-      <p>
-        <a className="text-link" href={`/${locale}/devices`}>
-          {copy.devices[locale]} →
-        </a>
-      </p>
     </section>
   );
 }

@@ -6,12 +6,17 @@ import { useRouterState } from "@tanstack/react-router";
 import { PRL_POOL_IDS, PRL_POOLS } from "@/lib/pool-projects";
 import { aggregateDailyReport, yesterdayReportWindow } from "@/lib/daily-report";
 import { fleetCopy } from "./fleet-copy";
+import { discreteReviewData } from "./discrete-review-data";
+import { summarizeDiscreteScan } from "@/hooks/use-discrete-scan-summary";
+import { useAgentClock } from "@/hooks/use-agent-clock";
 export function OverviewReview() {
   const { locale } = useLocale();
   const scenario = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
   });
   const pearl = scenario === "pearl";
+  const now = useAgentClock();
+  const xds = scenario === "xds" ? discreteReviewData(now) : undefined;
   const pearlUsd = 1.5;
   return (
     <>
@@ -20,6 +25,11 @@ export function OverviewReview() {
         preview
         previewPrices={{ prl: pearlUsd, quantus: 0.08 }}
         plan="pro"
+        xds={
+          xds
+            ? { devices: xds.devices, summary: summarizeDiscreteScan(xds.pages), now: xds.now }
+            : undefined
+        }
         devices={
           scenario === "empty"
             ? []
@@ -43,6 +53,13 @@ export function OverviewReview() {
                 )
               : [
                   ...reviewDevices(),
+                  ...(xds?.devices.map(({ name, agent }) => ({
+                    id: agent.deviceId,
+                    name,
+                    hardware: "Mac",
+                    createdAt: 1,
+                    bindings: [],
+                  })) ?? []),
                   {
                     id: "preview-prl",
                     name: "GPU Worker",
@@ -135,24 +152,28 @@ export function OverviewReview() {
                     : {}),
                 }
         }
-        history={pearl
-          ? [1.2, 0.8, 1.6].map((amount, index) =>
-              aggregateDailyReport(
-                yesterdayReportWindow(Date.now() - index * 86400000),
-                [{
-                  project: "prl",
-                  resource: "demo-prl-wallet",
-                  scope: "luckypool",
-                  currency: "PRL",
-                  decimals: 8,
-                  units: String(Math.round(amount * 1e8)),
-                  usd: amount * pearlUsd,
-                }],
-                locale,
-                1,
-              ),
-            )
-          : reviewProHistory(locale)}
+        history={
+          pearl
+            ? [1.2, 0.8, 1.6].map((amount, index) =>
+                aggregateDailyReport(
+                  yesterdayReportWindow(Date.now() - index * 86400000),
+                  [
+                    {
+                      project: "prl",
+                      resource: "demo-prl-wallet",
+                      scope: "luckypool",
+                      currency: "PRL",
+                      decimals: 8,
+                      units: String(Math.round(amount * 1e8)),
+                      usd: amount * pearlUsd,
+                    },
+                  ],
+                  locale,
+                  1,
+                ),
+              )
+            : reviewProHistory(locale)
+        }
       />
     </>
   );

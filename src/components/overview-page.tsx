@@ -2,6 +2,11 @@ import { ArrowUpRight, Plus, RefreshCw } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useFleetReadings } from "@/hooks/use-fleet-readings";
+import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
+import {
+  useDiscreteScanSummary,
+  type DiscreteScanSummary,
+} from "@/hooks/use-discrete-scan-summary";
 import type { FleetBinding, FleetDevice } from "@/lib/fleet";
 import type { DailyReport } from "@/lib/daily-report";
 import { useLocale } from "./site/locale";
@@ -9,10 +14,18 @@ import { monitorViewCopy } from "./monitor-views";
 import { fleetCopy } from "./fleet-copy";
 import { EarningsBoard } from "./earnings-board";
 import type { ProjectReading } from "./fleet-review-data";
+import { discreteDevices, type DiscreteDevice } from "./discrete-agent-reading";
+import { DiscreteOverviewCard } from "./discrete-overview-card";
 export function OverviewPage() {
   const auth = useAuth(),
     fleet = useFleet(auth.userId, auth.ready);
   const readings = useFleetReadings(fleet.devices, fleet.ready);
+  const matched = useMatchedDeviceAgent();
+  const { summary } = useDiscreteScanSummary(auth.userId);
+  const xdsDevices = discreteDevices(
+    fleet.devices,
+    matched.enabled ? (matched.query.data ?? []) : [],
+  );
   const { locale } = useLocale(),
     c = fleetCopy(locale),
     views = monitorViewCopy(locale);
@@ -33,8 +46,14 @@ export function OverviewPage() {
       devices={fleet.devices}
       reading={readings}
       plan={fleet.plan}
-      onRefresh={readings.refresh}
+      onRefresh={async () => {
+        await Promise.all([
+          readings.refresh(),
+          ...(matched.enabled ? [matched.query.refetch()] : []),
+        ]);
+      }}
       refreshing={readings.refreshing}
+      xds={xdsDevices.length || summary ? { devices: xdsDevices, summary } : undefined}
       error={fleet.error ? c.unavailable : null}
     />
   );
@@ -48,6 +67,7 @@ export function OverviewWorkspace({
   onRefresh,
   refreshing = false,
   error,
+  xds,
 }: {
   devices: FleetDevice[];
   reading: (b: FleetBinding) => ProjectReading;
@@ -58,6 +78,8 @@ export function OverviewWorkspace({
   onRefresh?: (() => Promise<void>) | undefined;
   refreshing?: boolean | undefined;
   error?: string | null;
+  xds?:
+    { devices: DiscreteDevice[]; summary: DiscreteScanSummary | null; now?: number } | undefined;
 }) {
   const { locale } = useLocale(),
     c = fleetCopy(locale),
@@ -90,7 +112,7 @@ export function OverviewWorkspace({
           {error}
         </p>
       )}
-      {devices.length ? (
+      {devices.length || xds ? (
         <>
           <EarningsBoard
             devices={devices}
@@ -98,6 +120,7 @@ export function OverviewWorkspace({
             preview={preview}
             previewHistory={history}
             previewPrices={previewPrices}
+            xdsCard={xds ? <DiscreteOverviewCard {...xds} locale={locale} /> : undefined}
           />
         </>
       ) : (

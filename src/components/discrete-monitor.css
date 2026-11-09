@@ -1,0 +1,63 @@
+.xds-monitor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.xds-monitor-grid > .project-panel {
+  margin-bottom: 0;
+}
+.xds-monitor-grid .pwc-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 205px), 1fr));
+}
+@media (min-width: 1000px) {
+  .xds-monitor-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.16fr);
+  }
+}
+.xds-device-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+.xds-device-card header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.xds-device-card .pwc-name {
+  margin: 0;
+}
+.xds-device-card strong {
+  font-size: 1.5rem;
+}
+.xds-device-card time {
+  font-size: 0.85rem;
+}
+.xds-project .xds-scan-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.xds-scan-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.xds-scan-metrics strong small {
+  font-size: 0.75rem;
+}
+.xds-network > summary {
+  cursor: pointer;
+}
+.xds-network .project-stats {
+  margin-top: 16px;
+}
+.xds-overview-lookup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  margin-top: auto;
+}

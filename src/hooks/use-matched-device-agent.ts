@@ -32,6 +32,7 @@ export function useMatchedDeviceAgent(deviceId?: string, miner?: string, preview
     )?.id;
   return {
     enabled,
+    userId: auth.userId,
     query,
     devices: devices.data?.devices,
     agent: enabled ? query.data?.find((a) => a.deviceId === id) : undefined,

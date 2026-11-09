@@ -7,6 +7,11 @@ import { isLocale } from "@/lib/site";
 import { DeviceAgentPage } from "@/components/device-agent-page";
 import { FleetReview } from "@/components/fleet-review";
 import { BntReview } from "@/components/bnt-review";
+import { DiscretePage } from "@/components/discrete-page";
+import { discreteReviewData } from "@/components/discrete-review-data";
+import { useAgentClock } from "@/hooks/use-agent-clock";
+import { useLocale } from "@/components/site/locale";
+import { fleetCopy } from "@/components/fleet-copy";
 
 /** Local review only: the production build never exposes sample account data. */
 export const Route = createFileRoute("/$locale/review")({
@@ -47,9 +52,24 @@ function Review() {
   const bnt = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("bnt") === "1",
   });
+  const xds = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("xds") === "1",
+  });
+  if (xds) return <DiscreteReview />;
   if (bnt) return <BntReview />;
   if (overview) return <OverviewReview />;
   if (machines) return <DeviceAgentPage preview />;
   if (request) return <ProjectRequest preview defaultOpen />;
   return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;
+}
+
+function DiscreteReview() {
+  const now = useAgentClock();
+  const { locale } = useLocale();
+  return (
+    <>
+      <p className="overview-preview-label">{fleetCopy(locale).preview}</p>
+      <DiscretePage preview={discreteReviewData(now)} />
+    </>
+  );
 }

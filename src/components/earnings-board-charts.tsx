@@ -36,6 +36,7 @@ export function EarningsBoardCharts({
   entries,
   previewHistory,
   preview = false,
+  xdsCard,
 }: {
   board: Board;
   entries: Array<
@@ -43,6 +44,7 @@ export function EarningsBoardCharts({
   >;
   previewHistory?: DailyReport[] | undefined;
   preview?: boolean | undefined;
+  xdsCard?: React.ReactNode;
 }) {
   const { locale } = useLocale();
   const auth = useAuth(),
@@ -100,7 +102,7 @@ export function EarningsBoardCharts({
         <header className="board-projects-heading">
           <h2>{c.projectCards[locale]}</h2>
           <span>
-            {board.projects.length} {c.projects[locale]}
+            {board.projects.length + (xdsCard ? 1 : 0)} {c.projects[locale]}
           </span>
         </header>
         <div className="board-project-grid">
@@ -186,13 +188,15 @@ export function EarningsBoardCharts({
                       <strong>
                         {nf.format(m.amount)} <small>{m.unit}</small>
                       </strong>
-                      {row.project === "prl" && m.window === "rolling24h" && m.count < row.total && (
-                        <small>
-                          {c.rollingPoolCoverage[locale]
-                            .replace("{known}", String(m.count))
-                            .replace("{total}", String(row.total))}
-                        </small>
-                      )}
+                      {row.project === "prl" &&
+                        m.window === "rolling24h" &&
+                        m.count < row.total && (
+                          <small>
+                            {c.rollingPoolCoverage[locale]
+                              .replace("{known}", String(m.count))
+                              .replace("{total}", String(row.total))}
+                          </small>
+                        )}
                       {m.window === "cumulative" && m.count < row.total && (
                         <small>
                           {m.count}/{row.total} {c.computeCoverage[locale]}
@@ -288,6 +292,7 @@ export function EarningsBoardCharts({
               </article>
             );
           })}
+          {xdsCard}
         </div>
       </section>
     </>

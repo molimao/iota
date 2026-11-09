@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAgentClock } from "@/hooks/use-agent-clock";
+import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
+import { summarizeDiscreteScan, useDiscreteScanSummary } from "@/hooks/use-discrete-scan-summary";
 import {
   DISCRETE_ADDRESS_LENGTH,
   DISCRETE_BLOCK_SECONDS,
@@ -16,12 +19,26 @@ import { PROJECTS } from "@/lib/projects";
 import { readQuery } from "@/lib/read-query";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { ProjectAbout } from "./project-about";
-import { DiscreteAgentPanel } from "./discrete-agent-reading";
-import { projectEditorial } from "./project-editorial";
+import { DiscreteAgentPanel, discreteDevices, type DiscreteDevice } from "./discrete-agent-reading";
+import { discreteScanCopy } from "./discrete-overview-card";
 import { projectsCopy } from "./projects-copy";
 import { useLocale } from "./site/locale";
 
 const copy = {
+  description: localized([
+    "查看设备算力和独挖出块。",
+    "查看設備算力和獨挖出塊。",
+    "See device hashrates and solo blocks.",
+    "기기 해시레이트와 솔로 채굴 블록을 확인하세요.",
+    "端末のハッシュレートとソロ採掘ブロックを確認できます。",
+  ]),
+  explorer: localized([
+    "区块浏览器",
+    "區塊瀏覽器",
+    "Block explorer",
+    "블록 탐색기",
+    "ブロックエクスプローラー",
+  ]),
   lookup: localized(["查询", "查詢", "Look up", "조회", "照会"]),
   addressTitle: localized([
     "独挖出块查询",
@@ -59,11 +76,11 @@ const copy = {
     "口座番号を取得できません。もう一度お試しください。",
   ]),
   scanScope: localized([
-    "每次查 1,000 个区块。钱包余额和普通收款请在 Discrete 钱包查看。",
-    "每次查 1,000 個區塊。錢包餘額和一般收款請在 Discrete 錢包查看。",
-    "Checks 1,000 blocks at a time. See your balance and other payments in your Discrete wallet.",
-    "한 번에 블록 1,000개를 조회합니다. 잔액과 일반 입금은 Discrete 지갑에서 확인하세요.",
-    "一度に1,000ブロックを検索します。残高と通常の入金はDiscreteウォレットで確認してください。",
+    "按地址统计出块和奖励，每次查 1,000 个区块。",
+    "按地址統計出塊和獎勵，每次查 1,000 個區塊。",
+    "Check blocks and rewards by address, 1,000 blocks at a time.",
+    "주소별 채굴 블록과 보상을 한 번에 1,000개씩 조회합니다.",
+    "アドレスごとの採掘ブロックと報酬を1,000ブロックずつ検索します。",
   ]),
   scanning: localized([
     "正在查找出块记录…",
@@ -71,15 +88,6 @@ const copy = {
     "Checking blocks…",
     "블록 조회 중…",
     "ブロックを検索中…",
-  ]),
-  scanned: localized(["已查区块", "已查區塊", "Blocks checked", "조회한 블록", "検索済みブロック"]),
-  found: localized(["匹配出块", "符合的出塊", "Blocks found", "일치하는 블록", "一致したブロック"]),
-  rewardTotal: localized([
-    "已查范围内的区块奖励",
-    "已查範圍內的區塊獎勵",
-    "Block rewards in this range",
-    "조회 범위의 블록 보상",
-    "検索範囲のブロック報酬",
   ]),
   noMatch: localized([
     "已查范围内没有匹配的独挖出块。",
@@ -118,29 +126,43 @@ const copy = {
   ]),
 };
 
-export function DiscretePage() {
+export function DiscretePage({
+  preview,
+}: {
+  preview?: { devices: DiscreteDevice[]; pages: DiscreteSoloPage[]; now: number } | undefined;
+}) {
   const { locale } = useLocale();
-  const c = projectsCopy[locale],
-    details = projectEditorial.xds;
+  const c = projectsCopy[locale];
   const client = useQueryClient();
-  const network = useQuery(readQuery(client, ["xds", "network"], () => getDiscreteNetwork()));
+  const network = useQuery({
+    ...readQuery(client, ["xds", "network"], () => getDiscreteNetwork()),
+    enabled: !preview,
+  });
   const snapshot = network.data?.data;
+  const matched = useMatchedDeviceAgent(undefined, undefined, !!preview);
+  const devices =
+    preview?.devices ??
+    discreteDevices(matched.devices ?? [], matched.enabled ? (matched.query.data ?? []) : []);
+  const now = useAgentClock();
+  const { save } = useDiscreteScanSummary(matched.userId);
   const [address, setAddress] = useState("");
   const lookup = useMutation({ mutationFn: (data: string) => lookupDiscreteAddress({ data }) });
-  const [historyPages, setHistoryPages] = useState<DiscreteSoloPage[]>([]);
+  const [historyPages, setHistoryPages] = useState<DiscreteSoloPage[]>(preview?.pages ?? []);
   const solo = useMutation({
     mutationFn: (data: { address: string; before?: number }) => getDiscreteSoloHistory({ data }),
     onSuccess: (result, request) => {
-      if (result.status === "valid")
-        setHistoryPages((pages) =>
-          request.before ? [...pages, result.history] : [result.history],
-        );
+      if (result.status !== "valid") return;
+      const pages = request.before ? [...historyPages, result.history] : [result.history];
+      setHistoryPages(pages);
+      const summary = summarizeDiscreteScan(pages);
+      if (summary) save(summary);
     },
   });
   const result = lookup.data;
   const newest = historyPages[0];
   const oldest = historyPages.at(-1);
   const blocks = historyPages.flatMap((page) => page.blocks);
+  const summary = summarizeDiscreteScan(historyPages);
   const busy = lookup.isPending || solo.isPending;
   const fmt = new Intl.NumberFormat(LANGUAGE_TAG[locale], { maximumFractionDigits: 2 });
   const checkedAt = network.data?.fetchedAt;
@@ -156,11 +178,11 @@ export function DiscretePage() {
     [copy.target[locale], `${DISCRETE_BLOCK_SECONDS} ${c.seconds}`],
   ];
   return (
-    <main className="projects-page project-detail">
+    <main id="main" className="projects-page project-detail xds-project">
       <header className="project-heading">
         <div>
-          <h1>{details.title[locale]}</h1>
-          <p>{details.summary[locale]}</p>
+          <h1>{PROJECTS.xds.name}</h1>
+          <p>{copy.description[locale]}</p>
         </div>
         <a
           className="project-outline"
@@ -168,107 +190,80 @@ export function DiscretePage() {
           target="_blank"
           rel="noreferrer"
         >
-          {c.explorer} ↗
+          {copy.explorer[locale]} ↗
         </a>
       </header>
 
-      <section className="project-panel" aria-labelledby="xds-network">
-        <div className="project-section-head">
-          <h2 id="xds-network">{c.network}</h2>
-          <button
-            className="project-outline"
-            type="button"
-            disabled={network.isFetching}
-            onClick={() => void network.refetch()}
-          >
-            {network.isFetching ? c.refreshing : c.refresh}
-          </button>
-        </div>
-        <div className="project-stats">
-          {stats.map(([label, value]) => (
-            <div className="project-stat" key={label}>
-              <span>{label}</span>
-              <strong>{value}</strong>
-            </div>
-          ))}
-        </div>
-        {(network.isError || network.data?.error) && (
-          <p role="status">{snapshot ? c.failed : c.unavailable}</p>
-        )}
-        {checkedAt != null && (
-          <p>
-            {c.fetched} ·{" "}
-            {new Intl.DateTimeFormat(LANGUAGE_TAG[locale], {
-              timeZone: "Asia/Hong_Kong",
-              hour: "2-digit",
-              minute: "2-digit",
-              timeZoneName: "short",
-            }).format(checkedAt)}
-          </p>
-        )}
-      </section>
+      <div className="xds-monitor-grid">
+        <DiscreteAgentPanel devices={devices} now={preview?.now ?? now} />
 
-      <section className="project-panel" aria-labelledby="xds-address">
-        <h2 id="xds-address">{copy.addressTitle[locale]}</h2>
-        <p>{copy.scanScope[locale]}</p>
-        <form
-          className="mt-4 flex flex-wrap items-end gap-3"
-          onSubmit={(event) => {
-            event.preventDefault();
-            const submitted = address.trim();
-            setHistoryPages([]);
-            lookup.mutate(submitted);
-            solo.mutate({ address: submitted });
-          }}
-        >
-          <label className="grid min-w-0 grow gap-2 text-sm">
-            {c.address}
-            <input
-              className="w-full rounded-lg border border-[var(--watch-border)] bg-[var(--watch-bg)] px-3 py-2"
-              placeholder="disc1…"
-              value={address}
-              onChange={(event) => {
-                setAddress(event.target.value);
-                lookup.reset();
-                solo.reset();
-                setHistoryPages([]);
-              }}
-              maxLength={DISCRETE_ADDRESS_LENGTH}
-              disabled={busy}
-              autoComplete="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              required
-            />
-          </label>
-          <button className="project-outline" disabled={busy}>
-            {copy.lookup[locale]}
-          </button>
-        </form>
-        <div aria-live="polite">
-          {solo.isPending && <p>{copy.scanning[locale]}</p>}
-          {solo.data?.status === "invalid" && <p>{c.invalid}</p>}
-          {(solo.isError || solo.data?.status === "unavailable") && (
-            <p>{copy.historyFailed[locale]}</p>
-          )}
-          {newest && oldest && (
-            <div className="mt-4">
-              <p>
-                {copy.scanned[locale]} {fmt.format(oldest.fromHeight)}–{fmt.format(newest.toHeight)}
-                {" · "}
-                {fmt.format(newest.toHeight - oldest.fromHeight + 1)}
-                {" · "}
-                {date.format(oldest.fromTime * 1000)}–{date.format(newest.toTime * 1000)} (UTC+8)
-              </p>
-              {blocks.length ? (
-                <>
-                  <p>
-                    {copy.found[locale]} {fmt.format(blocks.length)}
-                    {" · "}
-                    {copy.rewardTotal[locale]}{" "}
-                    {fmt.format(blocks.reduce((sum, block) => sum + block.rewardUnits, 0) / 100)}{" "}
-                    XDS
-                  </p>
+        <section className="project-panel" aria-labelledby="xds-address">
+          <h2 id="xds-address">{copy.addressTitle[locale]}</h2>
+          <p>{copy.scanScope[locale]}</p>
+          <form
+            className="pool-lookup"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const submitted = address.trim();
+              setHistoryPages([]);
+              lookup.mutate(submitted);
+              solo.mutate({ address: submitted });
+            }}
+          >
+            <label>
+              {c.address}
+              <input
+                placeholder="disc1…"
+                value={address}
+                onChange={(event) => {
+                  setAddress(event.target.value);
+                  lookup.reset();
+                  solo.reset();
+                  setHistoryPages([]);
+                }}
+                maxLength={DISCRETE_ADDRESS_LENGTH}
+                disabled={busy || !!preview}
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                required
+              />
+            </label>
+            <button className="site-button" disabled={busy || !!preview}>
+              {copy.lookup[locale]}
+            </button>
+          </form>
+          <div aria-live="polite">
+            {solo.isPending && <p>{copy.scanning[locale]}</p>}
+            {solo.data?.status === "invalid" && <p>{c.invalid}</p>}
+            {(solo.isError || solo.data?.status === "unavailable") && (
+              <p>{copy.historyFailed[locale]}</p>
+            )}
+            {newest && oldest && summary && (
+              <div className="xds-scan-result">
+                <div className="pool-metrics xds-scan-metrics">
+                  <div>
+                    <span>{discreteScanCopy.found[locale]}</span>
+                    <strong>{fmt.format(summary.blocks)}</strong>
+                  </div>
+                  <div>
+                    <span>{discreteScanCopy.reward[locale]}</span>
+                    <strong>
+                      {fmt.format(summary.rewardUnits / 100)} <small>XDS</small>
+                    </strong>
+                  </div>
+                </div>
+                <p className="xds-scan-range">
+                  <span>
+                    {discreteScanCopy.scanned[locale]} #{fmt.format(summary.fromHeight)}–
+                    {fmt.format(summary.toHeight)}
+                  </span>
+                  <span>
+                    {date.format(oldest.fromTime * 1000)} – {date.format(newest.toTime * 1000)}{" "}
+                    (UTC+8)
+                  </span>
+                </p>
+                {blocks.length ? (
                   <div className="project-table-scroll">
                     <table className="project-table">
                       <thead>
@@ -297,42 +292,72 @@ export function DiscretePage() {
                       </tbody>
                     </table>
                   </div>
-                </>
-              ) : (
-                <p>{copy.noMatch[locale]}</p>
-              )}
-              {oldest.fromHeight > 1 && (
-                <button
-                  className="project-outline mt-3"
-                  type="button"
-                  disabled={busy}
-                  onClick={() =>
-                    solo.mutate({ address: address.trim(), before: oldest.fromHeight })
-                  }
-                >
-                  {copy.earlier[locale]} ·{" "}
-                  {fmt.format(Math.min(DISCRETE_SOLO_PAGE_SIZE, oldest.fromHeight - 1))}
-                </button>
-              )}
-            </div>
+                ) : (
+                  <p>{copy.noMatch[locale]}</p>
+                )}
+                {oldest.fromHeight > 1 && !preview && (
+                  <button
+                    className="project-outline mt-3"
+                    type="button"
+                    disabled={busy}
+                    onClick={() =>
+                      solo.mutate({ address: address.trim(), before: oldest.fromHeight })
+                    }
+                  >
+                    {copy.earlier[locale]} ·{" "}
+                    {fmt.format(Math.min(DISCRETE_SOLO_PAGE_SIZE, oldest.fromHeight - 1))}
+                  </button>
+                )}
+              </div>
+            )}
+            {result?.status === "valid" && (
+              <p>
+                {copy.valid[locale]} ·{" "}
+                {result.accountNumber
+                  ? `${copy.account[locale]} ${result.accountNumber}`
+                  : copy.unregistered[locale]}
+              </p>
+            )}
+            {result?.status === "unavailable" && (
+              <p>
+                {copy.valid[locale]} · {copy.lookupFailed[locale]}
+              </p>
+            )}
+            {lookup.isError && <p>{copy.lookupFailed[locale]}</p>}
+          </div>
+        </section>
+      </div>
+      {!preview && (
+        <details className="project-panel xds-network">
+          <summary>{c.network}</summary>
+          <div className="project-stats">
+            {stats.map(([label, value]) => (
+              <div className="project-stat" key={label}>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
+          {(network.isError || network.data?.error) && (
+            <p role="status">{snapshot ? c.failed : c.unavailable}</p>
           )}
-          {result?.status === "valid" && (
-            <p>
-              {copy.valid[locale]} ·{" "}
-              {result.accountNumber
-                ? `${copy.account[locale]} ${result.accountNumber}`
-                : copy.unregistered[locale]}
-            </p>
-          )}
-          {result?.status === "unavailable" && (
-            <p>
-              {copy.valid[locale]} · {copy.lookupFailed[locale]}
-            </p>
-          )}
-          {lookup.isError && <p>{copy.lookupFailed[locale]}</p>}
-        </div>
-      </section>
-      <DiscreteAgentPanel />
+          <div className="project-section-head">
+            {checkedAt != null && (
+              <small>
+                {c.fetched} · {date.format(checkedAt)} (UTC+8)
+              </small>
+            )}
+            <button
+              className="project-outline"
+              type="button"
+              disabled={network.isFetching}
+              onClick={() => void network.refetch()}
+            >
+              {network.isFetching ? c.refreshing : c.refresh}
+            </button>
+          </div>
+        </details>
+      )}
       <ProjectAbout project="xds" />
     </main>
   );
