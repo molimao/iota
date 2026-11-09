@@ -63,7 +63,7 @@ RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_tem
     AND a.snapshot->>'monitorOnly' IS DISTINCT FROM 'true'
     AND b.status IN ('active','trialing') AND b.period_end>now()+interval '1 second'
 $$;
-REVOKE ALL ON FUNCTION public.watch_idle_bnt_settings(jsonb) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.watch_idle_bnt_settings(jsonb) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.watch_idle_bnt_settings(jsonb) TO authenticated;
-REVOKE ALL ON FUNCTION public.watch_idle_bnt_lease(text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.watch_idle_bnt_lease(text) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.watch_idle_bnt_lease(text) TO service_role;

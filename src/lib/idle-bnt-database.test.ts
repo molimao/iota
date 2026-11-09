@@ -32,6 +32,7 @@ it("shares one BNT wallet while enforcing each device's threads, ownership and P
       CREATE TABLE auth.users(id uuid PRIMARY KEY);
       CREATE TABLE watch_device_agents(device_id uuid PRIMARY KEY,user_id uuid,credential_hash text,snapshot jsonb);
       CREATE TABLE watch_billing(user_id uuid PRIMARY KEY,status text,period_end timestamptz);
+      ALTER DEFAULT PRIVILEGES GRANT EXECUTE ON FUNCTIONS TO anon, authenticated, service_role;
     `);
     await db.exec(readFileSync("supabase/migrations/20261109170000_agent_idle_bnt.sql", "utf8"));
     await db.query("INSERT INTO auth.users VALUES ($1),($2)", [owner, other]);
@@ -39,6 +40,10 @@ it("shares one BNT wallet while enforcing each device's threads, ownership and P
       "INSERT INTO watch_device_agents VALUES ($1,$1,'owner','{\"idleBnt\":{}}'),($2,$2,'other','{\"idleBnt\":{}}'),($3,$1,'second','{\"idleBnt\":{}}')",
       [owner, other, second],
     );
+    await db.exec("SET ROLE anon");
+    await expect(db.query("SELECT watch_idle_bnt_settings()")).rejects.toThrow("permission denied");
+    await expect(db.query("SELECT watch_idle_bnt_lease('owner')")).rejects.toThrow("permission denied");
+    await db.exec("RESET ROLE");
     await db.query("SELECT set_config('request.jwt.claim.sub',$1,false)", [owner]);
     await db.exec("SET ROLE authenticated");
     const save = (value: typeof settings) =>
