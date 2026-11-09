@@ -1,7 +1,8 @@
 import { beforeAll, beforeEach, afterAll, it, expect } from "vitest";
 import { PGlite } from "@electric-sql/pglite";
 import { readFileSync } from "node:fs";
-import { agentBatchSchema } from "./agent-batch";
+import { agentBatchSchema, batchItemState } from "./agent-batch";
+import { AGENT_RELEASE } from "./device-agent";
 let db: PGlite;
 const u = "11111111-1111-4111-8111-111111111111",
   other = "22222222-2222-4222-8222-222222222222";
@@ -17,11 +18,15 @@ async function admin() {
   await db.exec("RESET ROLE");
 }
 async function call(action = "restart", devices = [a, b], id = batch) {
+  const update = action === "update";
   return (
-    await db.query<{ r: any }>("SELECT watch_agent_batch($1,$2,$3::uuid[]) r", [
+    await db.query<{ r: any }>(update
+      ? "SELECT watch_agent_batch($1,$2,$3::uuid[],$4) r"
+      : "SELECT watch_agent_batch($1,$2,$3::uuid[]) r", [
       action,
       id,
       devices,
+      ...(update ? [AGENT_RELEASE] : []),
     ])
   ).rows[0]!.r;
 }
@@ -46,6 +51,8 @@ beforeAll(async () => {
     "20261014210000_device_agents.sql",
     "20261014230000_agent_updates.sql",
     "20261026160000_agent_batches.sql",
+    "20261027120000_linux_agent_readonly.sql",
+    "20261109200000_agent_batch_updates.sql",
   ])
     await db.exec(readFileSync(`supabase/migrations/${file}`, "utf8"));
   await db.query(
@@ -336,4 +343,66 @@ it("persists optional local miner readings in the device heartbeat", async () =>
   await owner();
   const list = (await db.query<{ r: any }>("SELECT watch_agent_owner('list') r")).rows[0]!.r;
   expect(list.find((entry: any) => entry.deviceId === a).snapshot.miners).toEqual([miner]);
+});
+
+it("queues only needed Agent updates and keeps the exact completion receipt", async () => {
+  await admin();
+  await db.query(
+    "UPDATE watch_device_agents SET snapshot=jsonb_build_object('version',CASE WHEN device_id=$1 THEN '1.0.17' ELSE $2 END,'workerRunning',true), recovery_enabled=true",
+    [a, AGENT_RELEASE],
+  );
+  await owner();
+  await expect(call("update", [a, foreign])).rejects.toThrow("device_not_found");
+  const first = agentBatchSchema.parse(await call("update"))[0]!;
+  expect(first.items.map((i) => i.disposition)).toEqual(["queued", "upToDate"]);
+  expect(agentBatchSchema.parse(await call("update", [b, a, a]))[0]).toEqual(first);
+
+  await admin();
+  const commands = (await db.query("SELECT action,device_id FROM watch_agent_commands")).rows;
+  expect(commands).toEqual([{ action: "update", device_id: a }]);
+  const beat = async (ack: object | null) => {
+    await db.query("UPDATE watch_device_agents SET last_seen=now()-interval '15 seconds' WHERE device_id=$1", [a]);
+    return db.query("SELECT watch_agent_exchange('heartbeat',$1,$2::jsonb)", [
+      "a".repeat(64),
+      { snapshot: { version: AGENT_RELEASE, workerRunning: true }, ack },
+    ]);
+  };
+  await beat(null);
+  await beat({ id: first.items[0]!.commandId, success: true });
+  expect((await db.query("SELECT recovery_enabled FROM watch_device_agents WHERE device_id=$1", [a])).rows)
+    .toEqual([{ recovery_enabled: true }]);
+
+  await owner();
+  const row = agentBatchSchema.parse(await call("list"))[0]!.items[0]!;
+  expect(row.status).toBe("done");
+  expect(batchItemState(row, Date.now() + 86400000, "update")).toBe("updated");
+});
+
+it("requires Pro even for one bulk update and skips manual and monitoring-only installations", async () => {
+  await admin();
+  await db.query("DELETE FROM watch_billing WHERE user_id=$1", [u]);
+  await owner();
+  await expect(call("update", [a])).rejects.toThrow("pro_required");
+
+  await admin();
+  await db.query("INSERT INTO watch_billing VALUES($1,'trialing',now()+interval '1 day')", [u]);
+  await db.query(
+    "UPDATE watch_device_agents SET snapshot=CASE WHEN device_id=$1 THEN '{\"version\":\"1.0.1\"}'::jsonb ELSE '{\"platform\":\"win32\",\"monitorOnly\":true,\"version\":\"1.0.17\"}'::jsonb END WHERE device_id=ANY($2::uuid[])",
+    [a, [a, b]],
+  );
+  await owner();
+  const items = agentBatchSchema.parse(await call("update"))[0]!.items;
+  expect(items.map(({ disposition, commandId }) => [disposition, commandId]))
+    .toEqual([["manualUpdate", null], ["unavailable", null]]);
+});
+
+it("skips offline and busy Agents during a batch update", async () => {
+  await admin();
+  await db.query("UPDATE watch_device_agents SET snapshot='{\"version\":\"1.0.17\"}'::jsonb WHERE device_id=ANY($1::uuid[])", [[a, b]]);
+  await db.query("UPDATE watch_device_agents SET last_seen=now()-interval '61 seconds' WHERE device_id=$1", [a]);
+  await db.query("INSERT INTO watch_agent_commands(device_id,action) VALUES($1,'restart')", [b]);
+  await owner();
+  const items = agentBatchSchema.parse(await call("update"))[0]!.items;
+  expect(items.map(({ disposition, commandId }) => [disposition, commandId]))
+    .toEqual([["offline", null], ["busy", null]]);
 });

@@ -63,6 +63,9 @@ export async function deviceAgentHttp(request: Request) {
     const auth = request.headers.get("authorization") ?? "";
     if (!/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply({ error: "unauthorized" }, 401);
     const data = agentBeat.parse(await body(request));
+    if (data.snapshot.platform === "win32" &&
+        (data.snapshot.monitorOnly !== true || data.snapshot.idleBnt || data.snapshot.logs !== undefined))
+      return reply({ error: "invalid_request" }, 400);
     if (data.snapshot.logs) data.snapshot.logs = redactAgentLog(data.snapshot.logs);
     const db = watchDb(supabaseAdmin);
     const credentialHash = hash(auth.slice(7));

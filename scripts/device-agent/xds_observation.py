@@ -35,9 +35,16 @@ def read_log_tail(path):
 
 
 def observe_xds(path):
+    try:
+        return parse_xds(read_log_tail(path))
+    except (OSError, ValueError):
+        return {'status': 'unavailable', 'observedAt': None, 'hashrateHps': None}
+
+
+def parse_xds(text):
     unavailable = {'status': 'unavailable', 'observedAt': None, 'hashrateHps': None}
     try:
-        for line in reversed(read_log_tail(path).splitlines()):
+        for line in reversed(text.splitlines()):
             match = EVENT.fullmatch(line)
             if not match:
                 continue

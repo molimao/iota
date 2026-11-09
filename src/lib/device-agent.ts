@@ -17,18 +17,19 @@ export const agentBindingManifest = z
 export const localMinerObservation = z
   .object({
     project: z.enum(["xmr", "bnt", "prl", "noid"]),
-    software: z.enum(["xmrig", "seine", "pearl-metal", "noid-mac"]),
+    software: z.enum(["xmrig", "seine", "pearl-metal", "pearl-windows", "noid-mac"]),
     bindingId: z.string().uuid(),
     observedAt: z.string().datetime({ offset: true }),
     status: z.enum(["ok", "unavailable", "unauthorized", "stopped", "process"]),
     appCpu: z.number().finite().min(0).max(10000).nullable().optional(),
     processMemoryMb: z.number().finite().min(0).max(1e6).nullable().optional(),
     rateUnit: z.enum(["H/s", "tiles/s"]).optional(),
-    rateWindow: z.enum(["10s", "60s", "session"]).optional(),
+    rateWindow: z.enum(["10s", "60s", "session", "current"]).optional(),
     counterUnit: z.enum(["shares", "blocks"]).optional(),
     hashrate10s: z.number().finite().min(0).max(1e15).nullable(),
     hashrate60s: z.number().finite().min(0).max(1e15).nullable(),
     hashrateSession: z.number().finite().min(0).max(1e15).nullable().optional(),
+    hashrateCurrent: z.number().finite().min(0).max(1e15).nullable().optional(),
     accepted: z.number().int().min(0).max(1e15).nullable(),
     rejected: z.number().int().min(0).max(1e15).nullable(),
     uptime: z.number().int().min(0).max(1e15).nullable(),
@@ -36,7 +37,7 @@ export const localMinerObservation = z
   .strict()
   .refine(
     (v) =>
-      ({ xmrig: "xmr", seine: "bnt", "pearl-metal": "prl", "noid-mac": "noid" })[v.software] ===
+      ({ xmrig: "xmr", seine: "bnt", "pearl-metal": "prl", "pearl-windows": "prl", "noid-mac": "noid" })[v.software] ===
       v.project,
     "Miner software and project mismatch",
   );
@@ -76,7 +77,7 @@ export const agentSnapshot = z
         hashrateHps: z.null(),
       }).strict(),
     ]).optional(),
-    platform: z.enum(["darwin", "linux"]).optional(),
+    platform: z.enum(["darwin", "linux", "win32"]).optional(),
     monitorOnly: z.boolean().optional(),
     gpus: z.array(z.object({
       index: z.number().int().min(0).max(1024),
@@ -167,6 +168,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
 export const AGENT_RELEASE = "1.0.18";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export const LINUX_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-linux-1.0.16.zip";
+export const WINDOWS_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-windows-1.0.0.zip";
 export function agentCanUpdate(version?: string) {
   if (!version || !/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) return false;
   const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number);
@@ -204,6 +206,7 @@ export function agentPhase(
 ): AgentPhase {
   if (!agentOnline(agent.lastSeen, now)) return "offline";
   const s = agent.snapshot;
+  if (s.platform === "win32") return "unknown";
   // The worker process is the training executable. GUI presence is not required.
   if (s.workerRunning !== true) {
     if (s.appRunning === false) return "stopped";

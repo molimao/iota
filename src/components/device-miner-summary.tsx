@@ -1,8 +1,10 @@
 import { useMatchedDeviceAgent } from "@/hooks/use-matched-device-agent";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { agentOnline, type AgentInfo } from "@/lib/device-agent";
+import { formatCompute } from "@/lib/compute-summary";
 import { FLEET_NAMES, type FleetBinding } from "@/lib/fleet";
 import { useLocale } from "./site/locale";
+import { agentCopy } from "./device-agent-copy";
 import { localized } from "@/lib/product-discovery";
 import type { SiteLocale } from "@/lib/site";
 import "./device-miner-summary.css";
@@ -72,6 +74,7 @@ const copy = {
     "로컬 세션 평균",
     "ローカルセッション平均",
   ]),
+  currentRate: localized(["本机当前算力", "本機目前算力", "Local current hashrate", "현재 로컬 해시레이트", "端末の現在のハッシュレート"]),
   stopped: localized([
     "矿工已停止",
     "礦工已停止",
@@ -151,6 +154,7 @@ export function DeviceMinerSummary({
       bindings={bindings}
       now={now}
       locale={locale}
+      connectDeviceId={matched.enabled && !preview ? deviceId : undefined}
       error={!preview && matched.query.isError}
       loading={!preview && matched.enabled && matched.query.isPending}
     />
@@ -164,6 +168,7 @@ export function ProjectMinerSlots({
   locale,
   error = false,
   loading = false,
+  connectDeviceId,
 }: {
   agent: AgentInfo | undefined;
   bindings: FleetBinding[];
@@ -171,6 +176,7 @@ export function ProjectMinerSlots({
   locale: SiteLocale;
   error?: boolean;
   loading?: boolean;
+  connectDeviceId?: string | undefined;
 }) {
   return (
     <>
@@ -180,6 +186,8 @@ export function ProjectMinerSlots({
         )
         .map((binding) => {
           const supported = ["xmr", "bnt", "prl", "noid"].includes(binding.project);
+          const pair = connectDeviceId && !agent && !error && !loading && !!binding.worker &&
+            (binding.project === "bnt" || binding.project === "prl");
           const observation = agent?.snapshot.miners?.find(
             (m) => m.project === binding.project && m.bindingId === binding.id,
           );
@@ -199,7 +207,9 @@ export function ProjectMinerSlots({
               key={binding.id}
               aria-label={`${FLEET_NAMES[binding.project]} 本机状态`}
             >
-              <p role="status">
+              {pair ? <a href={`/${locale}/machines?device=${encodeURIComponent(connectDeviceId)}`}>
+                {agentCopy.connectCompact[locale]} ↗
+              </a> : <p role="status">
                 {loading
                   ? copy.loading[locale]
                   : error
@@ -213,7 +223,7 @@ export function ProjectMinerSlots({
                           : agent.snapshot.platform === "linux"
                             ? copy.linuxUnsupported[locale]
                             : copy.notEnabled[locale]}
-              </p>
+              </p>}
             </section>
           );
         })}
@@ -241,11 +251,14 @@ export function LocalMinerReadings({
         const age = now - Date.parse(miner.observedAt),
           fresh = agentOnline(agent.lastSeen, now) && age >= -5000 && age < 60000;
         const rate =
-          miner.rateWindow === "session"
+          miner.rateWindow === "current"
+            ? miner.hashrateCurrent
+            : miner.rateWindow === "session"
             ? miner.hashrateSession
             : miner.rateWindow === "60s"
               ? miner.hashrate60s
               : miner.hashrate10s;
+        const windowsRate = rate != null && miner.software === "pearl-windows" ? formatCompute(rate, "H/s", locale) : null;
         return (
           <section
             className="agent-card-summary fleet-agent-connect agent-local-miner"
@@ -257,6 +270,7 @@ export function LocalMinerReadings({
                   xmrig: "XMRig",
                   seine: "BNT · Seine",
                   "pearl-metal": "PRL · Metal",
+                  "pearl-windows": "PRL · Windows",
                   "noid-mac": "NOID · Mac",
                 }[miner.software]
               }{" "}
@@ -265,7 +279,7 @@ export function LocalMinerReadings({
             {miner.status === "process" && fresh ? (
               <>
                 <p>{copy.process[locale]}</p>
-                <dl className="agent-card-metrics">
+                {(miner.appCpu != null || miner.processMemoryMb != null) && <dl className="agent-card-metrics">
                   <div>
                     <dt>{copy.cpu[locale]}</dt>
                     <dd>
@@ -280,7 +294,7 @@ export function LocalMinerReadings({
                         : `${miner.processMemoryMb.toLocaleString(locale)} MB`}
                     </dd>
                   </div>
-                </dl>
+                </dl>}
               </>
             ) : miner.status !== "ok" || !fresh ? (
               <p role="status">
@@ -298,13 +312,17 @@ export function LocalMinerReadings({
               <dl className="agent-card-metrics">
                 <div>
                   <dt>
-                    {miner.rateWindow === "session"
+                    {miner.rateWindow === "current"
+                      ? copy.currentRate[locale]
+                      : miner.rateWindow === "session"
                       ? copy.sessionRate[locale]
                       : copy.rate[locale].replace(/10/g, miner.rateWindow === "60s" ? "60" : "10")}
                   </dt>
                   <dd>
                     {rate == null
                       ? "—"
+                      : windowsRate
+                        ? `${windowsRate.value} ${windowsRate.unit}`
                       : `${rate.toLocaleString(locale)} ${miner.rateUnit ?? "H/s"}`}
                   </dd>
                 </div>

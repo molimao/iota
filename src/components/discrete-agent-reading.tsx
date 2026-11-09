@@ -3,6 +3,7 @@ import "./discrete-monitor.css";
 import {
   AGENT_DOWNLOAD_URL,
   LINUX_AGENT_DOWNLOAD_URL,
+  WINDOWS_AGENT_DOWNLOAD_URL,
   agentOnline,
   type AgentInfo,
 } from "@/lib/device-agent";
@@ -204,6 +205,7 @@ export function DiscreteAgentPanel({ devices, now }: { devices: DiscreteDevice[]
         <code className="block break-all text-xs">
           python3 linux_gpu_agent.py configure-xds --xds-log /path/to/discreted.log
         </code>
+        <p><a href={WINDOWS_AGENT_DOWNLOAD_URL} download>Windows Agent ↓</a></p>
       </details>
     </section>
   );

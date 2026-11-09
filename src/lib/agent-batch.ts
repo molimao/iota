@@ -1,16 +1,16 @@
 import { z } from "zod";
-import { agentOnline, agentPhase, agentSnapshot } from "./device-agent";
+import { agentAction, agentOnline, agentPhase, agentSnapshot } from "./device-agent";
 
 export const agentBatchSchema = z.array(
   z.object({
     id: z.string().uuid(),
-    action: z.enum(["start", "stop", "restart"]),
+    action: agentAction,
     createdAt: z.string(),
     items: z.array(
       z.object({
         deviceId: z.string().uuid(),
         name: z.string(),
-        disposition: z.enum(["queued", "offline", "busy", "unavailable"]),
+        disposition: z.enum(["queued", "offline", "busy", "unavailable", "upToDate", "manualUpdate"]),
         commandId: z.string().uuid().nullable(),
         status: z.enum(["queued", "claimed", "done", "failed", "expired"]).nullable(),
         finishedAt: z.string().nullable(),
@@ -36,6 +36,9 @@ export type BatchState =
   | "offline"
   | "busy"
   | "unavailable"
+  | "upToDate"
+  | "manualUpdate"
+  | "updated"
   | "verifying"
   | "noHeartbeat"
   | "workerStopped"
@@ -45,11 +48,12 @@ export type BatchState =
 export function batchItemState(
   item: BatchItem,
   now = Date.now(),
-  action: "start" | "stop" | "restart" = "restart",
+  action: AgentBatch["action"] = "restart",
 ): BatchState {
   if (item.disposition !== "queued") return item.disposition;
   if (!item.status) return "unavailable";
   if (item.status !== "done") return item.status;
+  if (action === "update") return "updated";
   const finished = Date.parse(item.finishedAt ?? "");
   const lastSeen = Date.parse(item.lastSeen ?? "");
   if (!agentOnline(item.lastSeen, now) || !Number.isFinite(finished) || lastSeen < finished)

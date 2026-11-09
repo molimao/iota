@@ -16,6 +16,7 @@
 .agent-bulk-actions {
   display: flex;
   flex-wrap: wrap;
+  max-width: 100%;
   gap: 8px;
   flex-shrink: 0;
 }
@@ -250,6 +251,7 @@
   color: #b0cbe8;
   text-align: right;
 }
+.agent-batch-history li[data-state="updated"] span,
 .agent-batch-history li[data-state="working"] span,
 .agent-batch-history li[data-state="running"] span {
   color: #7eddb7;

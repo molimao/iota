@@ -3,6 +3,18 @@ const text = {
   start: ["批量启动", "批次啟動", "Start selected", "일괄 시작", "一括起動"],
   stop: ["批量停止", "批次停止", "Stop selected", "일괄 중지", "一括停止"],
   restart: ["批量重启", "批次重啟", "Restart selected", "일괄 재시작", "一括再起動"],
+  update: ["批量更新 Agent", "批次更新 Agent", "Update selected Agents", "Agent 일괄 업데이트", "Agent を一括更新"],
+  updateWarning: [
+    "更新连接程序，训练继续运行。自动闲时挖矿可能短暂停止。",
+    "更新連線程式，訓練繼續執行。自動閒時挖礦可能短暫停止。",
+    "Training continues during Agent updates. Automatic idle mining may briefly pause.",
+    "Agent 업데이트 중에도 학습은 계속됩니다. 자동 유휴 채굴은 잠시 멈출 수 있습니다.",
+    "Agent の更新中も学習は続きます。自動アイドル採掘は一時停止する場合があります。",
+  ],
+  updated: ["Agent 更新已确认", "Agent 更新已確認", "Agent update confirmed", "Agent 업데이트 확인됨", "Agent の更新を確認済み"],
+  upToDate: ["已是最新版", "已是最新版", "Up to date", "최신 버전", "最新版です"],
+  manualUpdate: ["需手动安装新版", "需手動安裝新版", "Manual update required", "수동 업데이트 필요", "手動更新が必要"],
+  monitorOnly: ["仅监控", "僅監控", "Monitoring only", "모니터링 전용", "監視のみ"],
   startWarning: [
     "将在所选设备启动 IOTA，并核对训练是否开始。其他项目保持运行。",
     "將在所選設備啟動 IOTA，並核對訓練是否開始。其他專案保持執行。",

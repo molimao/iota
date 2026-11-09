@@ -52,6 +52,30 @@ it("stores only hashed credentials and redacted log excerpts", async () => {
   expect(JSON.stringify(args.p_payload)).not.toContain("supersecret");
   expect(JSON.stringify(args.p_payload)).not.toContain("alice");
 });
+it("accepts read-only Windows mining observations through the regular heartbeat", async () => {
+  const observedAt = new Date().toISOString();
+  const windows = {
+    ...snapshot, platform: "win32", monitorOnly: true, appRunning: false, workerRunning: false,
+    miners: [{
+      project: "prl", software: "pearl-windows", bindingId: "11111111-1111-4111-8111-111111111111",
+      observedAt, status: "ok", rateWindow: "current", hashrateCurrent: 144.6e12,
+      hashrate10s: null, hashrate60s: null, accepted: 70, rejected: 1, uptime: null,
+    }],
+    xds: { status: "ok", observedAt, hashrateHps: 42.5 },
+  };
+  const beat = (value: unknown) => deviceAgentHttp(new Request("https://iotahome.site/api/device-agent/heartbeat", {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
+    body: JSON.stringify({ snapshot: value, requestBindings: true }),
+  }));
+  mock.rpc.mockResolvedValueOnce({ data: { command: null }, error: null })
+    .mockResolvedValueOnce({ data: [], error: null });
+  expect((await beat(windows)).status).toBe(200);
+  expect(mock.rpc.mock.calls[0]![1].p_payload.snapshot).toMatchObject(windows);
+  expect(mock.rpc.mock.calls[1]![0]).toBe("watch_agent_binding_manifest");
+  expect((await beat({ ...windows, monitorOnly: false })).status).toBe(400);
+  expect((await beat({ ...windows, logs: "raw log" })).status).toBe(400);
+});
 it("returns validated device binding descriptors only on explicit collection requests", async () => {
   const binding = {
     id: "11111111-1111-4111-8111-111111111111",

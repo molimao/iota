@@ -18,7 +18,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
 import { useLocale } from "./site/locale";
 import { LANGUAGE_TAG } from "@/lib/site";
-import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, agentDisplayPhase, agentUpdateAvailable, type AgentInfo } from "@/lib/device-agent";
+import { AGENT_DOWNLOAD_URL, AGENT_RELEASE, WINDOWS_AGENT_DOWNLOAD_URL, agentDisplayPhase, agentUpdateAvailable, type AgentInfo } from "@/lib/device-agent";
+import { ProjectMinerSlots } from "./device-miner-summary";
+import { DiscreteAgentReading } from "./discrete-agent-reading";
 import {
   getDeviceAgents,
   pairDeviceAgent,
@@ -105,7 +107,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
   const agentNames = Object.fromEntries(agents.map((a,i)=>[a.deviceId,preview?["Mac Studio","Mac mini","MacBook Pro","MacBook Air"][i]??"Mac":fleet.devices.find(d=>d.id===a.deviceId)?.name??"Mac"]));
   useEffect(() => {
-    if (code && q.data?.some((a) => a.deviceId === code.deviceId)) {
+    if (code && q.data?.some((a) => a.deviceId === code.deviceId && a.lastSeen)) {
       setPairedDevice(code.deviceId);
       setCode(null);
       setDevice("");
@@ -123,7 +125,9 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     return text.includes(search.trim().toLowerCase()) && matchesAgentFilter(a, statusFilter, now);
   });
   const candidates = fleet.devices.filter(
-    (d) => d.bindings.some((b) => b.project === "iota") && !agents.some((a) => a.deviceId === d.id),
+    (d) => d.bindings.some((b) => b.project === "iota" ||
+      ((b.project === "bnt" || b.project === "prl") && !!b.worker.trim())) &&
+      !agents.some((a) => a.deviceId === d.id),
   );
   const linkedDevice = candidates.find((d) => requestedDevice
     ? d.id === requestedDevice
@@ -179,8 +183,8 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
       <details ref={setupRef} className="agent-setup-guide" open={!agents.length}>
         <summary>{t.setupTitle}</summary>
         <div className="agent-setup-content">
-          <div><strong>{t.setupDownload}</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a></div>
-          <div><strong>{t.setupPair}</strong><span>{t.setupRun}</span></div>
+          <div><strong>macOS</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a><span>{t.setupRun}</span></div>
+          <div><strong>Windows · BNT / PRL / XDS</strong><a className="site-button" href={WINDOWS_AGENT_DOWNLOAD_URL} download>{t.windowsDownload}</a><span>{t.windowsSetup}</span></div>
         </div>
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">
@@ -240,9 +244,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                   <p role="status">{copyFailed ? t.copyFailed : now >= code.expiresAt ? t.codeExpired : t.waitPair}</p>
                   <div className="agent-pair-actions">
                   <button type="button" className="fleet-outline" disabled={q.isFetching} onClick={() => void q.refetch()}>{t.checkPair}</button>
-                  <a className="site-button" href={AGENT_DOWNLOAD_URL} download>
-                    {t.install}
-                  </a>
                   </div>
                 </div>
               )}
@@ -270,14 +271,20 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
             {visibleAgents.map((a) => {
               const s = a.snapshot,
                 phase = agentDisplayPhase(a, undefined, now),
-                name = agentNames[a.deviceId] ?? "Mac";
+                name = agentNames[a.deviceId] ?? "Device",
+                windows = s.platform === "win32";
               return (
                 <section className="compute-panel" key={a.deviceId} data-phase={phase}>
                   <div className="project-address-heading">
                     <h2>{name}</h2>
+                    {windows && <small>Windows · {s.version} · {t.monitorOnly}</small>}
                   </div>
-                  <AgentStatus agent={a} now={now} concise />
-                  <div className="compute-metrics">
+                  <AgentStatus agent={a} now={now} concise compact={windows} />
+                  {windows ? <>
+                    <ProjectMinerSlots agent={a} now={now} locale={locale}
+                      bindings={fleet.devices.find((d) => d.id === a.deviceId)?.bindings.filter((b) => b.project === "bnt" || b.project === "prl") ?? []} />
+                    <DiscreteAgentReading agent={a} now={now} locale={locale} />
+                  </> : <div className="compute-metrics">
                     <div className="compute-metric">
                       <span title={t.cpuNote}>{t.cpu}</span>
                       <strong>
@@ -292,12 +299,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                           : "—"}
                       </strong>
                     </div>
-                  </div>
+                  </div>}
                   <p className="compute-caption">
                     {t.lastReport} · {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
                   <AgentGpu agent={a} now={now}/>
-                  <div className="agent-device-actions">
+                  {!windows && <div className="agent-device-actions">
                     {([
                       ["start", t.start],
                       ["stop", confirm === `${a.deviceId}:stop` ? t.stopConfirm : t.stop],
@@ -321,12 +328,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                         {label}
                       </button>
                     ))}
-                  </div>
+                  </div>}
                   <AgentCommandResult agent={a} />
                   {agentUpdateAvailable(s.version) && <AgentUpdate agent={a} disabled={busy} onPreviewUpdate={preview ? () => setDemo(agents.map(x=>x.deviceId===a.deviceId ? {...x,snapshot:{...x.snapshot,version:AGENT_RELEASE},latestCommand:{action:"update",status:"done",createdAt:new Date().toISOString()}}:x)) : undefined} />}
                   <details className="agent-more">
                     <summary>{t.more}</summary>
-                    <label className="agent-option">
+                    {!windows && <><label className="agent-option">
                       <input
                         type="checkbox"
                         checked={a.logsEnabled}
@@ -351,7 +358,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                       <span>{t.recovery}</span>
                     </label>
                     <AgentCrashAnalysis deviceId={a.deviceId} logsEnabled={a.logsEnabled} preview={preview} previewResult={import.meta.env.DEV && preview && crashPreview ? crashPreviewResult : undefined} />
-                    <AgentHistory deviceId={a.deviceId} preview={preview} logs={s.logs} />
+                    <AgentHistory deviceId={a.deviceId} preview={preview} logs={s.logs} /></>}
                     <details className="agent-danger-zone">
                       <summary>{t.manageConnection}</summary>
                       <p>{t.removeDeviceNote}</p>

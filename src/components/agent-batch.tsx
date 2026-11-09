@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { agentDisplayPhase, agentOnline, type AgentInfo } from "@/lib/device-agent";
+import {
+  AGENT_RELEASE, agentAction, agentCanUpdate, agentDisplayPhase, agentOnline,
+  agentUpdateAvailable, type AgentInfo,
+} from "@/lib/device-agent";
 import { batchItemState, type AgentBatch, type BatchItem } from "@/lib/agent-batch";
 import { getAgentBatches, submitAgentBatch } from "@/lib/agent-batch.functions";
 import { useBilling } from "@/hooks/use-billing";
@@ -36,18 +39,18 @@ export function AgentBatchPanel({
   const billing = useBilling(userId, !preview);
   const pro = preview ? previewPlan === "pro" : billing.data?.plan === "pro";
   const membershipPending = !preview && (billing.isPending || billing.isError);
-  const [action, setAction] = useState<"start" | "stop" | "restart">("restart");
+  const [action, setAction] = useState<AgentBatch["action"]>("restart");
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false),
     [selected, setSelected] = useState<string[]>([]),
-    [confirmedAction, setConfirmedAction] = useState<"start" | "stop" | "restart" | null>(null);
+    [confirmedAction, setConfirmedAction] = useState<AgentBatch["action"] | null>(null);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(false),
     [demo, setDemo] = useState<AgentBatch[]>([]);
   const request = useRef<{
     id: string;
     deviceIds: string[];
-    action: "start" | "stop" | "restart";
+    action: AgentBatch["action"];
   } | null>(null);
   const lock = useRef(false);
   const q = useQuery({
@@ -78,9 +81,30 @@ export function AgentBatchPanel({
     setConfirmedAction(null);
     setOpen(false);
   }, [error, q.data]);
-  function eligible(a: AgentInfo) {
-    return agentOnline(a.lastSeen, now) && !a.pending && a.snapshot.platform !== "linux" && !a.snapshot.monitorOnly;
+  function unavailable(a: AgentInfo, operation: AgentBatch["action"]) {
+    if (a.snapshot.monitorOnly || a.snapshot.platform === "linux" || a.snapshot.platform === "win32")
+      return "monitorOnly";
+    if (operation === "update") {
+      if (!agentCanUpdate(a.snapshot.version)) return "manualUpdate";
+      if (!agentUpdateAvailable(a.snapshot.version)) return "upToDate";
+    }
+    return null;
   }
+  function eligible(a: AgentInfo, operation: AgentBatch["action"]) {
+    return agentOnline(a.lastSeen, now) && !a.pending && !unavailable(a, operation);
+  }
+  function targetLabel(a: AgentInfo) {
+    if (controlled.has(a.deviceId)) return t.submitting;
+    if (a.pending) return t.busy;
+    if (!agentOnline(a.lastSeen, now)) return agentPhaseSummary.offline[locale];
+    const reason = unavailable(a, action);
+    if (reason) return t[reason];
+    if (action === "update") return `${a.snapshot.version} → ${AGENT_RELEASE}`;
+    return agentPhaseSummary[agentDisplayPhase(a, undefined, now)][locale];
+  }
+  const controls = [...new Set(agents
+    .filter((a) => eligible(a, action) && !controlled.has(a.deviceId))
+    .map((a) => a.deviceId))];
   async function submit() {
     if (lock.current || !pro) return;
     lock.current = true;
@@ -105,7 +129,7 @@ export function AgentBatchPanel({
                 status: "done" as const,
                 finishedAt: stamp,
                 lastSeen: stamp,
-                snapshot: {
+                snapshot: request.current!.action === "update" ? {} : {
                   workerRunning: request.current!.action !== "stop",
                   appRunning: request.current!.action !== "stop",
                   ...(i % 2 === 0
@@ -158,10 +182,11 @@ export function AgentBatchPanel({
               !busy &&
               !request.current &&
               !controlled.has(item.deviceId) &&
-              agents.some((a) => a.deviceId === item.deviceId && eligible(a))
+              agents.some((a) => a.deviceId === item.deviceId && eligible(a, batch.action))
                 ? () => {
                     setAction(batch.action);
                     setSelected([item.deviceId]);
+                    setConfirmedAction(null);
                     setOpen(true);
                   }
                 : undefined
@@ -175,7 +200,7 @@ export function AgentBatchPanel({
     <section className="agent-batch-panel">
       <div className="agent-batch-heading">
         <div className="agent-bulk-actions">
-          {(["start", "stop", "restart"] as const).map((value) =>
+          {agentAction.options.map((value) =>
             pro || membershipPending ? (
               <button
                 className="fleet-outline"
@@ -205,29 +230,23 @@ export function AgentBatchPanel({
         </p>
       )}
       {open && pro && (
-        <p>
-          {action === "stop" ? t.stopWarning : action === "start" ? t.startWarning : t.warning}
-        </p>
+        <p>{{ start: t.startWarning, stop: t.stopWarning, restart: t.warning, update: t.updateWarning }[action]}</p>
       )}
       {open && pro && (
         <div className="agent-batch-picker">
-          {(() => {
-            const controls = [
-              ...new Set(agents.filter(eligible).map((a) => a.deviceId)),
-            ].filter((id) => !controlled.has(id));
-            return (controls.length > 1 || controls.length < agents.filter(eligible).length) && (
+          {controls.length > 1 && (
               <button
                 className="agent-batch-text"
                 type="button"
+                disabled={busy || !!request.current}
                 onClick={() => {
                   setSelected(selected.length >= controls.length ? [] : controls);
                   setConfirmedAction(null);
                 }}
               >
-                {selected.length >= controls.length && controls.length > 0 ? t.none : t.all}
+                {selected.length >= controls.length ? t.none : t.all}
               </button>
-            );
-          })()}
+          )}
           <div className="agent-batch-targets">
             {unpaired.map((device) => (
                 <div className="agent-batch-unpaired" key={device.id}>
@@ -238,13 +257,12 @@ export function AgentBatchPanel({
                   </a>
                 </div>
               ))}
-            {agents
-              .map((a) => (
+            {agents.map((a) => (
                 <label key={a.deviceId}>
                   <input
                     type="checkbox"
                     checked={selected.includes(a.deviceId)}
-                    disabled={!eligible(a) || controlled.has(a.deviceId)}
+                    disabled={busy || !!request.current || !eligible(a, action) || controlled.has(a.deviceId)}
                     onChange={(e) =>
                       setSelected(
                         e.target.checked
@@ -255,15 +273,9 @@ export function AgentBatchPanel({
                     onClick={() => setConfirmedAction(null)}
                   />
                   <strong>{names[a.deviceId] ?? "Mac"}</strong>
-                  <span>
-                    {controlled.has(a.deviceId)
-                      ? t.submitting
-                      : a.pending
-                      ? t.busy
-                      : agentPhaseSummary[agentDisplayPhase(a, undefined, now)][locale]}
-                  </span>
+                  <span>{targetLabel(a)}</span>
                 </label>
-              ))}
+            ))}
           </div>
           <div className="agent-batch-buttons">
             <button

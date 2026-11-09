@@ -40,6 +40,8 @@ beforeAll(async () => {
   await db.exec(readFileSync("supabase/migrations/20261014210000_device_agents.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261014230000_agent_updates.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261017160000_agent_history.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261027120000_linux_agent_readonly.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261109190000_windows_agent_pairing.sql", "utf8"));
   const r = await db.query<{ id: string }> (
     "INSERT INTO watch_devices(user_id,name) VALUES($1,'Test Mac') RETURNING id",
     [u],
@@ -177,4 +179,33 @@ it("persists bounded private observations without logs, enforces ownership and c
   await own("revoke");
   await admin();
   expect((await db.query("SELECT * FROM watch_agent_history WHERE device_id=$1",[device])).rows).toHaveLength(0);
+});
+
+it.each(["bnt", "prl"])("pairs a %s Worker without IOTA and blocks commands to Windows", async (project) => {
+  await db.exec("RESET ROLE; ALTER TABLE watch_bindings DROP CONSTRAINT IF EXISTS watch_bindings_project_check");
+  const [{ id }] = (await db.query<{ id: string }>(
+    "INSERT INTO watch_devices(user_id,name) VALUES($1,'Windows rig') RETURNING id", [u],
+  )).rows as [{ id: string }];
+  await db.query("INSERT INTO watch_bindings(user_id,device_id,project,identifier) VALUES($1,$2,$3,$4)",
+    [u, id, project, `test-${project}-wallet`]);
+  const pairing = `win-pair-${project}`.padEnd(64, "f");
+  const credential = `win-credential-${project}`.padEnd(64, "f");
+  const pairWindows = () => db.query("SELECT watch_agent_owner('pair',$1,$2)", [id, { hash: pairing }]);
+  await owner(u);
+  await expect(pairWindows()).rejects.toThrow("agent_binding_required");
+  await admin();
+  await db.query("UPDATE watch_bindings SET worker='windows-rig' WHERE device_id=$1", [id]);
+  await owner(other);
+  await expect(pairWindows()).rejects.toThrow("device_not_found");
+  await owner(u);
+  await pairWindows();
+  await admin();
+  await exchange("pair", pairing, { credentialHash: credential });
+  await exchange("heartbeat", credential, {
+    snapshot: { platform: "win32", monitorOnly: true, version: "1.0.2", appRunning: false, workerRunning: false },
+  });
+  await owner(u);
+  for (const action of ["start", "stop", "restart", "update"]) {
+    await expect(db.query("SELECT watch_agent_owner($1,$2)", [action, id])).rejects.toThrow("agent_monitor_only");
+  }
 });
