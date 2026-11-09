@@ -27,7 +27,7 @@ export const agentCopy = {
   monitorOnly: l(["仅监控", "僅監控", "Monitoring only", "모니터링 전용", "監視のみ"]),
   more: l(["设备设置与诊断", "設備設定與診斷", "Settings and diagnostics", "기기 설정 및 진단", "端末設定と診断"]),
   manageConnection: l(["移除或断开设备", "移除或中斷設備", "Remove or disconnect", "기기 제거 또는 연결 해제", "端末の削除・接続解除"]),
-  update: l(["更新连接程序", "更新連線程式", "Update connection app", "연결 프로그램 업데이트", "接続アプリを更新"]),
+  update: l(["更新 Agent", "更新 Agent", "Update Agent", "Agent 업데이트", "Agent を更新"]),
   upToDate: l(["已是最新版", "已是最新版", "Up to date", "최신 버전", "最新版です"]),
   manualUpgrade: l([
     "下载安装更新",

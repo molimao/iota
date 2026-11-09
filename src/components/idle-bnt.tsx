@@ -28,11 +28,11 @@ export const idleMiningCopy = {
   ]),
   back: l(["返回 IOTA 项目", "返回 IOTA 專案", "Back to IOTA", "IOTA로 돌아가기", "IOTA に戻る"]),
   intro: l([
-    "IOTA 排队或从本站暂停时，自动用空闲算力挖 BNT。接近开训时自动停挖。",
-    "IOTA 排隊或從本站暫停時，自動用閒置算力挖 BNT。接近開訓時自動停挖。",
-    "Mine BNT automatically while IOTA is queued or paused here. Mining stops as training approaches.",
-    "IOTA 대기 중이거나 여기서 중지하면 BNT를 자동 채굴하고, 학습이 가까워지면 멈춥니다.",
-    "IOTA の待機中やここで停止したときに BNT を自動採掘し、訓練が近づくと停止します。",
+    "IOTA 排队时，或在网页上暂停 IOTA 后，Agent 可自动挖 BNT。快排到时会停挖，让 IOTA 优先训练。",
+    "IOTA 排隊時，或在網頁上暫停 IOTA 後，Agent 可自動挖 BNT。快輪到時會停止挖礦，優先進行 IOTA 訓練。",
+    "The Agent can mine BNT while IOTA is in the queue or paused from this dashboard. As your Mac nears the front of the queue, IOTA takes priority.",
+    "IOTA가 대기열에 있거나 이 대시보드에서 일시 중지하면 Agent가 BNT를 자동으로 채굴할 수 있습니다. 학습 순서가 가까워지면 IOTA를 우선합니다.",
+    "IOTA の順番待ち中や、このダッシュボードで IOTA を停止した後に、Agent が BNT を自動採掘できます。順番が近づくと IOTA の学習を優先します。",
   ]),
   requires: l([
     "支持已连接 Agent 的 Mac，启用后自动安装矿工。",

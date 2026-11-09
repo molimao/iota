@@ -61,14 +61,13 @@
 .agent-batch-panel .fleet-outline:hover:not(:disabled) {
   background: #303030;
 }
-.agent-batch-panel .site-button {
-  background: #303030;
+.agent-batch-panel .agent-batch-buttons button[data-confirm="true"] {
+  background: #363636;
   color: #fff;
-  border: 1px solid #666;
+  border-color: #777;
 }
-.agent-batch-panel .site-button:hover:not(:disabled) {
-  background: #444;
-  color: #fff;
+.agent-batch-panel .agent-batch-buttons button[data-confirm="true"]:is(:hover, :focus-visible):not(:disabled) {
+  background: #4a4a4a;
 }
 .agent-batch-panel button:disabled {
   opacity: 0.45;

@@ -9,7 +9,7 @@ import { batchItemState, type AgentBatch, type BatchItem } from "@/lib/agent-bat
 import { getAgentBatches, submitAgentBatch } from "@/lib/agent-batch.functions";
 import { useBilling } from "@/hooks/use-billing";
 import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
-import { batchCopy } from "./agent-batch-copy";
+import { batchConfirmation, batchCopy } from "./agent-batch-copy";
 import { agentCopy } from "./device-agent-copy";
 import { agentPhaseSummary } from "./agent-insight-copy";
 import "./agent-batch.css";
@@ -166,7 +166,7 @@ export function AgentBatchPanel({
   const renderBatch = (batch: AgentBatch, index: number) => (
     <details key={batch.id} open={index === 0}>
       <summary>
-        {t[batch.action]} · {batch.items.length} ·{" "}
+        {t[batch.action]} · {t.deviceCount.replace("{n}", String(batch.items.length))} ·{" "}
         {new Date(batch.createdAt).toLocaleString(LANGUAGE_TAG[locale])}
       </summary>
       <ul aria-live="polite">
@@ -279,7 +279,8 @@ export function AgentBatchPanel({
           </div>
           <div className="agent-batch-buttons">
             <button
-              className={confirmedAction === action ? "site-button" : "fleet-outline"}
+              className="fleet-outline"
+              data-confirm={confirmedAction === action ? "true" : undefined}
               type="button"
               disabled={busy || selected.length === 0 || selected.length > 50}
               onClick={() => {
@@ -292,9 +293,11 @@ export function AgentBatchPanel({
             >
               {busy
                 ? t.sending
-                : confirmedAction === action
-                  ? `${t[action]} · ${t.confirm} · ${selected.length}`
-                  : t[action]}
+                : error
+                  ? t.retry
+                  : confirmedAction === action
+                    ? batchConfirmation(t, action, selected.length)
+                    : t.review}
             </button>
             {!request.current && (
               <button
@@ -306,7 +309,7 @@ export function AgentBatchPanel({
                   else setOpen(false);
                 }}
               >
-                {t.cancel}
+                {confirmedAction ? t.cancel : t.cancelSelection}
               </button>
             )}
           </div>
