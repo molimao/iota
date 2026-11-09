@@ -158,6 +158,7 @@ export function FleetPricing({
           <li><Check size={18} aria-hidden="true" /><b>{pricingCopy.reports[locale]}</b></li>
           <li><Check size={18} aria-hidden="true" /><div><b>{proCopy.alerts[locale]}</b><span>IOTA · Akash · Golem</span></div></li>
           <li><Check size={18} aria-hidden="true" /><b>{pricingCopy.bulkAgent[locale]}</b></li>
+          <li><Check size={18} aria-hidden="true" /><b>{proCopy.idleBnt[locale]}</b></li>
         </ul>
         <ReportEmailPreview />
         <p className="fleet-free-included">{proCopy.freeIncluded[locale]}</p>

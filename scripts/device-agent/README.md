@@ -205,3 +205,16 @@ Use an absolute path to the existing Discrete daemon log, owned by the Agent use
 The daemon normally writes timestamped `[miner] Hashrate: … H/s` lines when
 hashrate logging and INFO-level logging are enabled. The Agent sends only the
 sample time, speed and status. The XDS project page and device show the reading.
+## BNT idle mining on Mac
+
+Pro members can set up BNT idle mining from the IOTA project page.
+Set one public BNT payout address for the account. Choose Off or 1–4 CPU threads
+per Mac. The Agent downloads and verifies the pinned official Seine release for
+Apple Silicon or Intel the first time an enabled Mac needs it. It installs
+under the Agent's own directory and retries if installation fails. The pool is
+bntpool.com. Mining is allowed with a recent queue position
+beyond 100 or after a confirmed stop from the site. The
+Agent stops its own BNT miner before an IOTA start, restart or auto-recovery.
+Existing separately launched Seine processes keep their current ownership.
+When the subscription or the short authorization expires, the Agent releases
+the miner it started. The Agent monitors available memory automatically.

@@ -166,6 +166,13 @@ export const proCopy = {
   ]),
 
   days: localized(["天", "天", "days", "일", "日"]),
+  idleBnt: localized([
+    "BNT 自动闲时挖矿",
+    "BNT 自動閒時挖礦",
+    "Automatic idle mining for BNT",
+    "BNT 자동 유휴 채굴",
+    "BNT 自動アイドル採掘",
+  ]),
   memberSummary: localized([
     "100 台 / 项目 · 收益邮件、提醒与批量管理",
     "100 台 / 專案 · 收益郵件、提醒與批次管理",

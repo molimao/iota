@@ -1,3 +1,4 @@
+import { IDLE_MINING_SOURCE } from "./checkout-intent";
 import Stripe from "stripe";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
@@ -137,7 +138,9 @@ async function validateCatalog(stripe: Stripe, config: BillingConfig) {
     typeof price.product === "string" ? price.product : price.product.id;
   if (productId(month) !== productId(year)) throw new Error("billing_price_mismatch");
 }
-export async function checkout(userId: string, interval: "month" | "year", locale: string) {
+export async function checkout(
+  userId: string, interval: "month" | "year", locale: string, source?: typeof IDLE_MINING_SOURCE,
+) {
   const { stripe, config } = runtime();
   await validateCatalog(stripe, config);
   let row = await rowFor(userId);
@@ -160,7 +163,8 @@ export async function checkout(userId: string, interval: "month" | "year", local
     if (
       previous.status === "open" &&
       row.checkout_interval === interval &&
-      previous.metadata?.["trial_policy"] === "annual-only-v2"
+      previous.metadata?.["trial_policy"] === "annual-only-v2" &&
+      previous.metadata?.["source"] === source
     ) {
       if (previous.url) return { url: previous.url };
       throw new Error("checkout_processing");
@@ -207,7 +211,7 @@ export async function checkout(userId: string, interval: "month" | "year", local
     .parse(reservation.data);
   if (existing) {
     const session = await stripe.checkout.sessions.retrieve(existing);
-    if (session.status === "open" && session.url && session.metadata?.["trial_policy"] === "annual-only-v2") return { url: session.url };
+    if (session.status === "open" && session.url && session.metadata?.["trial_policy"] === "annual-only-v2" && session.metadata?.["source"] === source) return { url: session.url };
     throw new Error("checkout_processing");
   }
   // Stripe history is authoritative even when the local webhook has not arrived.
@@ -221,7 +225,7 @@ export async function checkout(userId: string, interval: "month" | "year", local
         { price: interval === "month" ? config.monthPrice : config.yearPrice, quantity: 1 },
       ],
       client_reference_id: userId,
-      metadata: { user_id: userId, product: "iota_watch_pro", trial_policy: "annual-only-v2" },
+      metadata: { user_id: userId, product: "iota_watch_pro", trial_policy: "annual-only-v2", ...(source ? { source } : {}) },
       payment_method_collection: "always",
       subscription_data: {
         metadata: { user_id: userId, product: "iota_watch_pro" },
@@ -233,8 +237,8 @@ export async function checkout(userId: string, interval: "month" | "year", local
           : {}),
       },
       expires_at: expiresAt,
-      success_url: billingReturnUrl(config, reservedLocale, "success"),
-      cancel_url: billingReturnUrl(config, reservedLocale, "cancel"),
+      success_url: billingReturnUrl(config, reservedLocale, "success", source),
+      cancel_url: billingReturnUrl(config, reservedLocale, "cancel", source),
     },
     { idempotencyKey: `watch-checkout:${token}` },
   );

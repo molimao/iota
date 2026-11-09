@@ -141,6 +141,13 @@ describe("Stripe SDK checkout orchestration (simulated network)", () => {
       p_session: "cs_fixture",
     });
   });
+  it("returns an idle mining purchase to IOTA and cancellation to the plans", async () => {
+    await checkout(user, "month", "zh", "idle-mining");
+    const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;
+    expect(request.body.get("metadata[source]")).toBe("idle-mining");
+    expect(request.body.get("success_url")).toBe("http://127.0.0.1:8080/zh/projects/iota?billing=success#idle-mining");
+    expect(request.body.get("cancel_url")).toBe("http://127.0.0.1:8080/zh/devices?view=membership&from=idle-mining&billing=cancel#pro-plan");
+  });
   it("does not include a trial for a first-time monthly subscription", async () => {
     await checkout(user, "month", "zh");
     const request = calls.find((c) => c.path === "/v1/checkout/sessions")!;

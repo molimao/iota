@@ -1,5 +1,6 @@
 /** A short-lived, tab-local purchase intent. URL parameters alone never start checkout. */
 export const CHECKOUT_INTENT_KEY = "iota-checkout-intent-v1";
+export const IDLE_MINING_SOURCE = "idle-mining";
 export type CheckoutInterval = "month" | "year";
 export function checkoutInterval(value: string | null): CheckoutInterval {
   return value === "year" ? "year" : "month";

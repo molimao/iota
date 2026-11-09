@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { BntWorkerAgent } from "./bnt-worker-agent";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
+import { useRouterState } from "@tanstack/react-router";
 import { Cpu, Plus, RefreshCw, Search } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useFleet } from "@/hooks/use-fleet";
@@ -47,6 +48,12 @@ export function BntDashboard() {
     fleet = useFleet(auth.userId, auth.ready),
     client = useQueryClient();
   const [lookupAddress, setLookupAddress] = useState("");
+  const linkedWallet = useRouterState({
+    select: (s) => new URLSearchParams(s.location.hash.replace(/^#/, "")).get("wallet"),
+  });
+  useEffect(() => {
+    if (linkedWallet && validPoolAddress("bnt", linkedWallet)) setLookupAddress(linkedWallet);
+  }, [linkedWallet]);
   const entries = (auth.userId ? fleet.devices : []).flatMap((d) =>
     d.bindings
       .filter((b) => b.project === "bnt")

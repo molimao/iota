@@ -4,6 +4,12 @@ import { z } from "zod";
 import { agentBeat, agentBindingManifest, redactAgentLog } from "./device-agent";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { watchDb } from "./watch-db";
+import { idleBntLeaseSettings } from "./idle-bnt";
+const idleBntLease = z.object({
+  settings: idleBntLeaseSettings,
+  worker: z.string().regex(/^iota-[a-f0-9]{12}$/),
+  seconds: z.number().int().min(1).max(45),
+}).strict();
 const hash = (v: string) => createHash("sha256").update(v).digest("hex");
 const reply = (data: unknown, status = 200) =>
   Response.json(data, { status, headers: { "cache-control": "no-store" } });
@@ -58,9 +64,11 @@ export async function deviceAgentHttp(request: Request) {
     if (!/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply({ error: "unauthorized" }, 401);
     const data = agentBeat.parse(await body(request));
     if (data.snapshot.logs) data.snapshot.logs = redactAgentLog(data.snapshot.logs);
-    const r = await watchDb(supabaseAdmin).rpc("watch_agent_exchange", {
+    const db = watchDb(supabaseAdmin);
+    const credentialHash = hash(auth.slice(7));
+    const r = await db.rpc("watch_agent_exchange", {
       p_action: "heartbeat",
-      p_hash: hash(auth.slice(7)),
+      p_hash: credentialHash,
       p_payload: data,
     });
     if (r.error)
@@ -72,6 +80,18 @@ export async function deviceAgentHttp(request: Request) {
     // while Postgres omits trailing zeroes. Keep the existing agent wire format compatible.
     const result = r.data;
     if (result && typeof result === "object" && !Array.isArray(result)) {
+      if (data.snapshot.idleBnt && data.snapshot.idleBnt.state !== "setup") {
+        try {
+          const lease = await withDeadline(
+            Promise.resolve(db.rpc("watch_idle_bnt_lease", { p_hash: credentialHash })),
+            1500,
+            "idle_bnt_timeout",
+          );
+          result["idleBnt"] = lease.error ? null : (idleBntLease.safeParse(lease.data).data ?? null);
+        } catch {
+          result["idleBnt"] = null;
+        }
+      }
       if (data.requestBindings) {
         // Optional: a missing migration must not block an IOTA heartbeat/command.
         try {

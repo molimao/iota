@@ -1,10 +1,16 @@
+import { idleMiningCopy } from "./idle-bnt";
 import { SyncGuidance } from "./sync-guidance";
 import { trackProductEvent } from "@/lib/analytics";
 import { DeviceEarningsTrend } from "./device-earnings-trend";
 import { ProTools } from "./pro-tools";
 import { ProNotificationSettings } from "./pro-notification-settings";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { CHECKOUT_INTENT_KEY, checkoutInterval, readCheckoutIntent } from "@/lib/checkout-intent";
+import {
+  CHECKOUT_INTENT_KEY,
+  IDLE_MINING_SOURCE,
+  checkoutInterval,
+  readCheckoutIntent,
+} from "@/lib/checkout-intent";
 import { DailyReportSettings } from "./daily-report-settings";
 import { useRouterState } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -43,6 +49,13 @@ export function FleetPage() {
   const memberView = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("view") === "membership",
   });
+  const fromIdleMining = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("from") === IDLE_MINING_SOURCE,
+  });
+  useEffect(() => {
+    if (fromIdleMining && memberView && fleet.ready)
+      document.getElementById("pro-plan")?.scrollIntoView({ block: "start" });
+  }, [fromIdleMining, memberView, fleet.ready]);
   const message = (e: unknown) =>
     e instanceof Error && e.message === "project_device_limit_reached"
       ? c.limit
@@ -95,7 +108,9 @@ export function FleetPage() {
         }
         // Checkout validates live billing configuration on the server.
         clearIntent();
-        const result = await checkoutFn({ data: { interval, locale } });
+        const result = await checkoutFn({
+          data: { interval, locale, ...(fromIdleMining ? { source: IDLE_MINING_SOURCE } : {}) },
+        });
         if (new URL(result.url).hostname === "checkout.stripe.com")
           trackProductEvent("begin_checkout", interval);
         window.location.assign(result.url);
@@ -106,7 +121,7 @@ export function FleetPage() {
         checkoutBusy.current = false;
       }
     },
-    [userId, signInWithGoogle, checkoutFn, locale, c.unavailable, clearIntent],
+    [userId, signInWithGoogle, checkoutFn, locale, c.unavailable, clearIntent, fromIdleMining],
   );
   useEffect(() => {
     if (auth.error) {
@@ -153,6 +168,14 @@ export function FleetPage() {
           {billingResult === "success" && (
             <span>{fleet.plan === "pro" ? c.paymentConfirmed : c.paymentPending}</span>
           )}
+        </div>
+      )}
+      {memberView && fromIdleMining && (
+        <div className="fleet-account-bar">
+          <span>{idleMiningCopy.afterCheckout[locale]}</span>
+          <a href={`/${locale}/projects/iota#${IDLE_MINING_SOURCE}`}>
+            {idleMiningCopy.back[locale]}
+          </a>
         </div>
       )}
       <FleetWorkspace

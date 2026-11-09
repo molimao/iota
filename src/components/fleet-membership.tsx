@@ -54,7 +54,7 @@ export function FleetMembership({
         </span>
         <div>
           <h2>{billing?.status === "trialing" ? trialCopy.active[locale] : c.memberActive}</h2>
-          <p>{proCopy.memberSummary[locale]}</p>
+          <p>{proCopy.memberSummary[locale]} · {proCopy.idleBnt[locale]}</p>
         </div>
         <div className="fleet-member-date">
           {date && (

@@ -1,3 +1,4 @@
+import { IDLE_MINING_SOURCE } from "./checkout-intent";
 import { z } from "zod";
 import type Stripe from "stripe";
 import { PLANS } from "./plans";
@@ -130,9 +131,20 @@ export function billingReturnUrl(
   config: BillingConfig,
   locale: string,
   result?: "success" | "cancel",
+  source?: typeof IDLE_MINING_SOURCE,
 ) {
   if (!isLocale(locale)) throw new Error("invalid_locale");
-  const url = new URL(`/${locale}/devices`, config.origin);
+  const idleMining = source === IDLE_MINING_SOURCE;
+  const url = new URL(
+    `/${locale}/${idleMining && result === "success" ? "projects/iota" : "devices"}`,
+    config.origin,
+  );
+  if (idleMining && result === "success") url.hash = IDLE_MINING_SOURCE;
+  if (idleMining && result === "cancel") {
+    url.searchParams.set("view", "membership");
+    url.searchParams.set("from", IDLE_MINING_SOURCE);
+    url.hash = "pro-plan";
+  }
   if (result) url.searchParams.set("billing", result);
   return url.toString();
 }

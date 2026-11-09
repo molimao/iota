@@ -96,6 +96,35 @@ it("keeps normal command delivery when optional binding discovery is unavailable
     bindings: [],
   });
 });
+it("delivers a verified lease to an enabled Agent that still needs the miner", async () => {
+  const lease = {
+    worker: "iota-000000000001",
+    seconds: 45,
+    settings: {
+      address:
+        "2BZVmXsZqZJNdRouv8wipYe9pxYhCK1mx8kyz8Hauz58ueCLxEvaCkdmu8pWnHZiXa3ASPGnT9VsUcqJKx5az3Yq5HDNe",
+      threads: 2,
+      memoryMb: 5120,
+      whenQueued: true,
+      whenPaused: true,
+    },
+  };
+  mock.rpc
+    .mockResolvedValueOnce({ data: { command: null }, error: null })
+    .mockResolvedValueOnce({ data: lease, error: null });
+  const response = await deviceAgentHttp(
+    new Request("https://iotahome.site/api/device-agent/heartbeat", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: "Bearer " + "a".repeat(43) },
+      body: JSON.stringify({
+        snapshot: { ...snapshot, idleBnt: { state: "install_needed", hashrate: null } },
+      }),
+    }),
+  );
+  expect(response.status).toBe(200);
+  expect((await response.json()).idleBnt).toEqual(lease);
+  expect(mock.rpc.mock.calls[1]![0]).toBe("watch_idle_bnt_lease");
+});
 it.each([
   ["2026-10-15T07:11:17.42363+00:00", "2026-10-15T07:11:17.423Z"],
   ["2026-10-15T07:08:17.09349+00:00", "2026-10-15T07:08:17.093Z"],

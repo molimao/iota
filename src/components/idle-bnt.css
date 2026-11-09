@@ -1,0 +1,203 @@
+.idle-bnt-entry,
+.idle-bnt-panel {
+  background: color-mix(in oklch, var(--watch-surface) 55%, var(--watch-bg));
+  border: 1px solid var(--watch-border);
+  border-radius: 14px;
+  margin-block: 12px;
+}
+.idle-bnt-entry,
+.idle-bnt-panel > summary,
+.idle-bnt-device-heading,
+.idle-bnt-machines li,
+.idle-bnt-actions,
+.idle-bnt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+}
+.idle-bnt-entry,
+.idle-bnt-panel > summary,
+.idle-bnt-body,
+.idle-bnt-footer {
+  padding-inline: clamp(14px, 2.2vw, 24px);
+}
+.idle-bnt-entry {
+  padding-block: 16px;
+  flex-wrap: wrap;
+}
+.idle-bnt-entry h2,
+.idle-bnt-field-title {
+  margin: 0;
+}
+.idle-bnt-entry p {
+  margin: 8px 0 3px;
+}
+.idle-bnt-entry > div > small,
+.idle-bnt-body small,
+.idle-bnt-summary-state {
+  color: var(--watch-muted);
+  font-size: 0.82rem;
+}
+.idle-bnt-panel > summary {
+  padding-block: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.idle-bnt-panel > summary::-webkit-details-marker {
+  display: none;
+}
+.idle-bnt-title,
+.idle-bnt-summary-state,
+.idle-bnt-earnings {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.idle-bnt-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.idle-bnt-icon {
+  display: grid;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--watch-border);
+  border-radius: 8px;
+  background: var(--watch-surface);
+  color: var(--watch-text);
+}
+.idle-bnt-summary-state {
+  flex-shrink: 0;
+}
+.idle-bnt-panel[open] > summary .idle-bnt-summary-state svg {
+  transform: rotate(180deg);
+}
+.idle-bnt-body {
+  padding-bottom: 16px;
+}
+.idle-bnt-body > p,
+.idle-bnt-devices > p {
+  margin: 0 0 14px;
+  color: var(--watch-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+.idle-bnt-body > :last-child:not(form) {
+  margin-bottom: 0;
+}
+.idle-bnt-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 20px;
+  border-top: 1px solid var(--watch-border);
+  padding-top: 14px;
+}
+.idle-bnt-fields > :only-child {
+  grid-column: 1 / -1;
+}
+.idle-bnt-wallet-field {
+  display: grid;
+  gap: 6px;
+}
+.idle-bnt-field-title {
+  color: var(--watch-text);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+.idle-bnt-earnings {
+  margin-top: 12px;
+  width: fit-content;
+  color: var(--watch-muted);
+  font-size: 0.82rem;
+}
+.idle-bnt-earnings:hover {
+  color: var(--watch-text);
+}
+.idle-bnt-wallet + .idle-bnt-devices {
+  border-inline-start: 1px solid var(--watch-border);
+  padding-inline-start: 20px;
+}
+.idle-bnt-device-heading {
+  margin-bottom: 5px;
+}
+.idle-bnt-panel input,
+.idle-bnt-panel select {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--watch-border);
+  border-radius: 8px;
+  background: var(--watch-bg);
+  color: var(--watch-text);
+}
+.idle-bnt-wallet input {
+  width: 100%;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.84rem;
+}
+.idle-bnt-wallet input:not(:focus) {
+  text-overflow: ellipsis;
+}
+.idle-bnt-panel select {
+  min-width: 92px;
+  max-width: 48%;
+  color-scheme: dark;
+}
+.idle-bnt-machines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.idle-bnt-machines li {
+  min-height: 50px;
+  padding-block: 6px;
+}
+.idle-bnt-machines li + li {
+  border-top: 1px solid var(--watch-border);
+}
+.idle-bnt-device {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.idle-bnt-device-status {
+  display: block;
+  margin-top: 2px;
+}
+.idle-bnt-device-status[data-mining="true"] {
+  color: #8adcb2;
+}
+.idle-bnt-footer {
+  flex-wrap: wrap;
+  margin: 14px calc(-1 * clamp(14px, 2.2vw, 24px)) -16px;
+  padding-block: 10px;
+  border-top: 1px solid var(--watch-border);
+}
+.idle-bnt-body small[role="alert"] {
+  color: #f0a3a3;
+}
+.idle-bnt-save {
+  min-height: 38px;
+  margin-inline-start: auto;
+}
+#idle-mining,
+#pro-plan {
+  scroll-margin-top: 80px;
+}
+@media (max-width: 700px) {
+  .idle-bnt-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .idle-bnt-wallet + .idle-bnt-devices {
+    padding: 12px 0 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--watch-border);
+  }
+  .idle-bnt-panel input,
+  .idle-bnt-panel select {
+    font-size: 16px;
+  }
+}

@@ -1,3 +1,7 @@
+import { Dashboard } from "@/components/dashboard";
+import { IdleBntEntry } from "@/components/idle-bnt";
+import { reviewDevices } from "@/components/fleet-review-data";
+import type { AgentInfo } from "@/lib/device-agent";
 import { OverviewReview } from "@/components/overview-review";
 import { ProjectRequest } from "@/components/project-request";
 import { PlatformPage } from "@/components/platform-page";
@@ -55,9 +59,13 @@ function Review() {
   const xds = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("xds") === "1",
   });
+  const idleMining = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("idleMining"),
+  });
   if (xds) return <DiscreteReview />;
   if (bnt) return <BntReview />;
   if (overview) return <OverviewReview />;
+  if (idleMining) return <IdleMiningReview scene={idleMining} />;
   if (machines) return <DeviceAgentPage preview />;
   if (request) return <ProjectRequest preview defaultOpen />;
   return isPlatform(p) ? <PlatformPage key={p} project={p} demo /> : <FleetReview />;
@@ -70,6 +78,54 @@ function DiscreteReview() {
     <>
       <p className="overview-preview-label">{fleetCopy(locale).preview}</p>
       <DiscretePage preview={discreteReviewData(now)} />
+    </>
+  );
+}
+
+function ReviewLabel() {
+  const { locale } = useLocale();
+  return <p className="overview-preview-label">{fleetCopy(locale).preview}</p>;
+}
+
+function IdleMiningReview({ scene }: { scene: string }) {
+  const now = useAgentClock();
+  const devices = reviewDevices()
+    .filter((d) => d.hardware.startsWith("Apple") && d.bindings.some((b) => b.project === "iota"))
+    .map((d, index) => ({ ...d, id: `00000000-0000-4000-8000-00000000000${index + 1}` }));
+  const agents: AgentInfo[] = devices.map((d, index) => ({
+    deviceId: d.id,
+    lastSeen: new Date(now).toISOString(),
+    snapshot: {
+      appRunning: true,
+      workerRunning: true,
+      idleBnt: {
+        state: scene === "setup" ? "install_needed" : index === 0 ? "mining" : "off",
+        hashrate: scene !== "setup" && index === 0 ? 2.82 : null,
+      },
+    },
+    recoveryEnabled: false,
+    logsEnabled: false,
+    pending: null,
+    latestCommand: null,
+  }));
+  return (
+    <>
+      <ReviewLabel />
+      <Dashboard
+        previewIdleMining={
+          <IdleBntEntry
+            plan={scene === "free" ? "free" : "pro"}
+            userId={null}
+            devices={devices}
+            agents={agents}
+            preview={{
+              address:
+                "2BZVmXsZqZJNdRouv8wipYe9pxYhCK1mx8kyz8Hauz58ueCLxEvaCkdmu8pWnHZiXa3ASPGnT9VsUcqJKx5az3Yq5HDNe",
+              devices: scene === "setup" ? [] : [{ deviceId: devices[0]!.id, threads: 2 }],
+            }}
+          />
+        }
+      />
     </>
   );
 }

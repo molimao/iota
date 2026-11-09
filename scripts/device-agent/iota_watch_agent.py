@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
-"""Account-paired Mac agent. Only fixed TAH application actions; no shell execution."""
+"""Account-paired Mac agent. Fixed application and mining actions; no shell execution."""
 import argparse
 import datetime
 import getpass
 import fcntl
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import plistlib
 import re
+import select
 import shutil
 import signal
 import subprocess
 import sys
 import time
 import tempfile
+import tarfile
 import math
 import uuid
 import stat
@@ -24,7 +28,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.17'
+VERSION = '1.0.18'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -36,6 +40,12 @@ WORKER = str(APP / 'Contents/Frameworks/iota-cli/main_pool')
 # TAH replaces the worker process title with this exact string. Observation may
 # treat it as a training root only with installed GUI or worker ancestry.
 TRAINING_TITLE = 'main_pool:ai.macrocosmos.iota.tah.worker'
+SEINE_VERSION = '0.3.1'
+# The reviewed release assets and SHA256SUMS.txt agree on these hashes.
+SEINE_MAC_RELEASE = {
+    'arm64': ('aarch64', 3938080, '9a2e2787af27a0b144cff02aa13b21197099de850ff09d0acf66f5865dcf88e7'),
+    'x86_64': ('x86_64', 4173376, '968ae3dd97e6eba9e2085da4c16965802bd1c11ff2bd922419914272a36636d3'),
+}
 
 
 def redact(text):
@@ -1119,7 +1129,287 @@ def effective_miner_config(config, state, now):
     return result
 
 
-def step(config, state, now=None):
+def idle_bnt_reason(settings, paused, iota, now):
+    if paused and not iota['appRunning'] and not iota['workerRunning']:
+        return 'ready' if settings['whenPaused'] else 'waiting'
+    if not settings['whenQueued'] or not iota['workerRunning']:
+        return 'priority' if iota['workerRunning'] else 'waiting'
+    queue, training = iota['queue'], iota['trainingState']
+    if not queue:
+        return 'priority'
+    observed = datetime.datetime.fromisoformat(queue['observedAt']).timestamp()
+    if not 0 <= now - observed <= 120:
+        return 'priority'
+    if training and datetime.datetime.fromisoformat(training['observedAt']).timestamp() >= observed:
+        return 'priority'
+    return 'ready' if queue['position'] > 100 else 'priority'
+
+
+def idle_bnt_binary(value):
+    path = Path(value)
+    if not path.is_absolute():
+        raise ValueError('invalid local Seine binary')
+    path = path.resolve(strict=True)
+    info = path.stat()
+    if (path.name != 'seine' or not stat.S_ISREG(info.st_mode)
+            or info.st_uid != os.getuid() or info.st_mode & 0o022 or not os.access(path, os.X_OK)):
+        raise ValueError('invalid local Seine binary')
+    return path
+
+
+def configure_idle_bnt(value):
+    path = idle_bnt_binary(value)
+    config = read(CONFIG)
+    if not config.get('credential'):
+        raise ValueError('pair the Agent first')
+    config['idleBntBinary'] = str(path)
+    store(CONFIG, config)
+    print('Seine configured. Enable automatic idle mining on the IOTA project page.')
+
+
+def managed_idle_bnt_binary():
+    return ROOT / 'idle-bnt' / ('seine-' + SEINE_VERSION) / 'seine'
+
+
+class SeineReleaseRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        url = urllib.parse.urlsplit(newurl)
+        if url.scheme != 'https' or url.netloc not in ('github.com', 'release-assets.githubusercontent.com'):
+            raise ValueError('unexpected Seine download host')
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def install_idle_bnt():
+    release = SEINE_MAC_RELEASE.get(os.uname().machine) if sys.platform == 'darwin' else None
+    if not release:
+        raise ValueError('unsupported Seine platform')
+    arch, size, checksum = release
+    url = f'https://github.com/zpalmtree/seine/releases/download/v{SEINE_VERSION}/seine-macos-{arch}.tar.gz'
+    request = urllib.request.Request(url, headers={'User-Agent': 'IOTA-Watch-Agent/' + VERSION})
+    with urllib.request.build_opener(SeineReleaseRedirect()).open(request, timeout=20) as response:
+        data = response.read(size + 1)
+    if len(data) != size or hashlib.sha256(data).hexdigest() != checksum:
+        raise ValueError('Seine package checksum mismatch')
+    binary = managed_idle_bnt_binary()
+    binary.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+    with tarfile.open(fileobj=io.BytesIO(data), mode='r:gz') as archive:
+        member = archive.getmember('./seine')
+        if not member.isfile():
+            raise ValueError('invalid Seine binary')
+        with tempfile.TemporaryDirectory(dir=binary.parent) as stage:
+            candidate = Path(stage) / 'seine'
+            with archive.extractfile(member) as source, candidate.open('wb') as dest:
+                shutil.copyfileobj(source, dest)
+            candidate.chmod(0o700)
+            subprocess.run([str(candidate), '--version'], check=True, timeout=10, capture_output=True)
+            candidate.replace(binary)
+
+
+def idle_bnt_iota():
+    workers = observed_training_workers()
+    queue, training = local_training_status(workers)
+    rows = processes()
+    return dict(appRunning=any(r[3] == EXEC for r in rows),
+                workerRunning=bool(workers) and not crashed_training(rows, workers=workers),
+                queue=queue, trainingState=training)
+
+
+def idle_bnt_memory():
+    total = int(subprocess.check_output(['/usr/sbin/sysctl', '-n', 'hw.memsize'], text=True, timeout=2)) // 1048576
+    pressure = subprocess.check_output(['/usr/bin/memory_pressure', '-Q'], text=True, timeout=2)
+    percent = re.search(r'System-wide memory free percentage: (\d+)%', pressure)
+    if not percent:
+        raise ValueError('memory pressure unavailable')
+    return total * int(percent[1]) // 100, max(2048, min(4096, total // 4))
+
+
+def idle_bnt_stats(path, now):
+    info, text = _miner_log(str(path))
+    if not 0 <= now - info.st_mtime <= 25:
+        return None
+    matches = list(re.finditer(
+        r'\bSTATS\s+elapsed=[\d.]+s hashes=(\d+) rate=([\d.]+) (K|M|G)?H/s', text, re.M))
+    if not matches:
+        return None
+    match = matches[-1]
+    rate = _metric_number(float(match[2]) * {None:1,'K':1e3,'M':1e6,'G':1e9}[match[3]])
+    return int(match[1]), rate
+
+
+class IdleBntMiner:
+    def __init__(self, folder):
+        self.folder = folder
+        self.child = None
+        self.hashes = 0
+        self.rate = None
+        self.progress_at = self.retry_at = 0
+        self.settings = None
+        self.log = folder / 'seine.log'
+
+    def stop(self):
+        if self.child and self.child.poll() is None:
+            self.child.terminate()
+            try:
+                self.child.wait(timeout=4)
+            except subprocess.TimeoutExpired:
+                self.child.kill()
+                self.child.wait(timeout=2)
+        self.child = None
+        self.rate = None
+
+    def tick(self, policy, now):
+        settings = policy['settings']
+        if self.child and self.child.poll() is not None:
+            self.stop()
+            self.retry_at = now + 60
+        if now < self.retry_at:
+            return 'error'
+        available, reserve = idle_bnt_memory()
+        if self.child and self.settings != (settings, policy['worker']):
+            self.stop()
+        if self.child:
+            rss = 0 if available < reserve else int(subprocess.check_output(
+                ['/bin/ps', '-p', str(self.child.pid), '-o', 'rss='], text=True, timeout=2)) // 1024
+            if available < reserve or rss > settings['memoryMb']:
+                self.stop()
+                self.retry_at = now + 60
+                return 'memory'
+            stats = idle_bnt_stats(self.log, now)
+            if stats and stats[0] > self.hashes:
+                self.hashes, self.rate = stats
+                self.progress_at = now
+            if now - self.progress_at > 60:
+                self.stop()
+                self.retry_at = now + 60
+                return 'error'
+            return 'mining' if self.rate is not None and now - self.progress_at < 25 else 'starting'
+        if settings['threads'] > (os.cpu_count() or 1) or available < settings['memoryMb'] + reserve:
+            return 'memory'
+        rows = subprocess.check_output(['/bin/ps', '-axo', 'comm='], text=True, timeout=2)
+        if any(Path(line.strip()).name == 'seine' for line in rows.splitlines()):
+            return 'busy'
+        binary = idle_bnt_binary(policy['binary'])
+        command = ['/usr/bin/nice', '-n', '15', str(binary), '--mode', 'pool', '--backend', 'cpu',
+                   '--threads', str(settings['threads']), '--disable-cpu-autotune-threads',
+                   '--pool-url', 'stratum+tcp://bntpool.com:3333', '--address', settings['address'],
+                   '--pool-worker', policy['worker'], '--ui', 'plain', '--stats-secs', '10',
+                   '--telemetry', 'off', '--data-dir', str(self.folder / 'data')]
+        if binary == managed_idle_bnt_binary():
+            command.append('--no-auto-update')
+        with self.log.open('w') as log:
+            self.child = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=log, stderr=log)
+        self.settings = settings, policy['worker']
+        self.progress_at, self.hashes, self.rate = now, 0, None
+        return 'starting'
+
+
+def idle_bnt_watch():
+    folder = ROOT / 'idle-bnt'
+    miner = IdleBntMiner(folder)
+    revoked = None
+    previous = None
+    def shutdown(*_):
+        raise SystemExit(0)
+    signal.signal(signal.SIGTERM, shutdown)
+    try:
+        # stdin is the Agent's lifetime. Closing it releases the miner even if the Agent exits.
+        while not select.select([sys.stdin], [], [], 2)[0]:
+            now = time.time()
+            policy = read(folder / 'policy.json')
+            state = 'off'
+            try:
+                if policy.get('until', 0) > time.monotonic():
+                    iota = idle_bnt_iota()
+                    pause = policy.get('pause')
+                    if pause and (iota['appRunning'] or iota['workerRunning']):
+                        revoked = pause
+                    state = idle_bnt_reason(policy['settings'], pause and pause != revoked, iota, now)
+                    if state == 'ready':
+                        state = miner.tick(policy, now)
+                if state not in ('starting', 'mining'):
+                    miner.stop()
+            except (OSError, ValueError, KeyError, subprocess.SubprocessError):
+                miner.stop()
+                miner.retry_at = now + 60
+                state = 'error'
+            status = dict(state=state, hashrate=miner.rate if state == 'mining' else None, revoked=revoked)
+            if status != previous:
+                store(folder / 'status.json', status)
+                previous = status
+    finally:
+        miner.stop()
+
+
+class IdleBntAgent:
+    def __init__(self):
+        self.folder = ROOT / 'idle-bnt'
+        self.watch = None
+        self.installer = None
+        self.install_retry_at = 0
+
+    def binary(self, config):
+        for path in (config.get('idleBntBinary', ''), managed_idle_bnt_binary()):
+            try:
+                return idle_bnt_binary(path)
+            except (OSError, ValueError):
+                pass
+        return None
+
+    def status(self, config, state):
+        if self.installer:
+            exit_code = self.installer.poll()
+            if exit_code is None:
+                return dict(state='installing', hashrate=None)
+            self.installer = None
+            self.install_retry_at = time.monotonic() + 60 if exit_code else 0
+        if not self.binary(config):
+            return dict(state='install_error' if self.install_retry_at else 'install_needed', hashrate=None)
+        if self.watch and self.watch.poll() is None:
+            status = read(self.folder / 'status.json')
+            if status.get('revoked') == state.get('idleBntPause'):
+                state.pop('idleBntPause', None)
+            return dict(state=status.get('state', 'off'), hashrate=status.get('hashrate'))
+        return dict(state='off', hashrate=None)
+
+    def apply(self, config, state, lease):
+        if not lease:
+            self.stop()
+            self.install_retry_at = 0
+            return
+        binary = self.binary(config)
+        if not binary:
+            if not self.installer and time.monotonic() >= self.install_retry_at:
+                try:
+                    self.installer = subprocess.Popen(
+                        [sys.executable, __file__, '--install-idle-bnt'],
+                        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                except OSError:
+                    self.install_retry_at = time.monotonic() + 60
+            return
+        self.folder.mkdir(mode=0o700, exist_ok=True)
+        store(self.folder / 'policy.json', dict(
+            settings=lease['settings'], worker=lease['worker'], binary=str(binary),
+            until=time.monotonic() + lease['seconds'],
+            pause=None if state.get('recoveryEnabled') else state.get('idleBntPause')))
+        if not self.watch or self.watch.poll() is not None:
+            (self.folder / 'status.json').unlink(missing_ok=True)
+            self.watch = subprocess.Popen(
+                [sys.executable, __file__, '--watch-idle-bnt'], stdin=subprocess.PIPE,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    def stop(self):
+        if self.installer:
+            if self.installer.poll() is None:
+                self.installer.terminate()
+            self.installer.wait(timeout=5)
+            self.installer = None
+        if self.watch:
+            self.watch.stdin.close()
+            self.watch.wait(timeout=15)
+            self.watch = None
+
+
+def step(config, state, now=None, idle_bnt=None):
     now = time.time() if now is None else now
     payload = snapshot(state.get('logsEnabled', False) and state.get('permissionsUntil', 0) > now)
     payload['recovery'] = state.pop('recovery', 'idle')
@@ -1129,6 +1419,8 @@ def step(config, state, now=None):
     xds_log = config.get('xdsLog') or discover_xds_log()
     if xds_log:
         payload['xds'] = xds_observation(xds_log)
+    if idle_bnt:
+        payload['idleBnt'] = idle_bnt.status(config, state)
     try:
         result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack'), 'requestBindings':True}, config['credential'])
     except urllib.error.HTTPError as e:
@@ -1157,12 +1449,18 @@ def step(config, state, now=None):
                 store(STATE, state)
                 success = False
                 try:
+                    if idle_bnt:
+                        idle_bnt.stop()
+                        if command['action'] in ('start', 'restart'):
+                            state.pop('idleBntPause', None)
                     if command['action'] == 'update':
                         import agent_updater
                         if agent_updater.prepare(VERSION, cmd_id):
                             return state
                     else:
                         control(command['action'])
+                    if idle_bnt and command['action'] == 'stop':
+                        state['idleBntPause'] = cmd_id
                     success = True
                 except (OSError, ValueError, subprocess.SubprocessError):
                     pass
@@ -1185,10 +1483,15 @@ def step(config, state, now=None):
                 state['trainingMissingSince'] = now
                 store(STATE, state)
                 try:
+                    if idle_bnt:
+                        idle_bnt.stop()
+                        state.pop('idleBntPause', None)
                     control('restart' if payload['appRunning'] or payload.get('workerRunning') else 'start', resume_training=True)
                     state['recovery'] = 'restarted'
                 except (OSError, ValueError, subprocess.SubprocessError):
                     state['recovery'] = 'paused'
+    if idle_bnt and state.get('recovery') not in ('restarted', 'paused'):
+        idle_bnt.apply(config, state, result.get('idleBnt'))
     if 'bindings' in result:
         manifest = _binding_manifest(result['bindings'])
         changed = manifest != state.get('bindingManifest')
@@ -1356,9 +1659,18 @@ def main():
     parser.add_argument('--port', type=int)
     parser.add_argument('--log-path')
     parser.add_argument('--configure-xds-log', metavar='ABSOLUTE_LOG_PATH')
+    parser.add_argument('--configure-idle-bnt', metavar='ABSOLUTE_SEINE_PATH')
+    parser.add_argument('--install-idle-bnt', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--watch-idle-bnt', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--server', default='https://iotahome.site')
     args = parser.parse_args()
-    if args.configure_xds_log:
+    if args.watch_idle_bnt:
+        idle_bnt_watch()
+    elif args.install_idle_bnt:
+        install_idle_bnt()
+    elif args.configure_idle_bnt:
+        configure_idle_bnt(args.configure_idle_bnt)
+    elif args.configure_xds_log:
         configure_xds(args.configure_xds_log)
     elif args.configure_miner:
         configure_miner(args.configure_miner, args.binding, args.port, args.log_path)
@@ -1379,23 +1691,26 @@ def main():
             return
         config = read(CONFIG)
         endpoint(config['server'])
-        while True:
-            # Local setup changes take effect on the next heartbeat, without
-            # restarting the miner or the background service.
-            config = read(CONFIG)
-            endpoint(config['server'])
-            state = read(STATE)
-            try:
-                state = step(config, state)
-            except (OSError, ValueError, KeyError, subprocess.SubprocessError):
-                # No offline remote control/recovery. Never print credentials or raw logs.
-                state['permissionsUntil'] = 0
-                state['logsEnabled'] = False
-                state['recoveryEnabled'] = False
-            store(STATE, state)
-            if read(ROOT / 'update-request.json').get('phase') == 'ready':
-                return
-            time.sleep(15)
+        idle_bnt = IdleBntAgent()
+        try:
+            while True:
+                # Local setup changes take effect on the next heartbeat.
+                config = read(CONFIG)
+                endpoint(config['server'])
+                state = read(STATE)
+                try:
+                    state = step(config, state, idle_bnt=idle_bnt)
+                except (OSError, ValueError, KeyError, subprocess.SubprocessError):
+                    # No offline remote control/recovery. The mining lease expires locally.
+                    state['permissionsUntil'] = 0
+                    state['logsEnabled'] = False
+                    state['recoveryEnabled'] = False
+                store(STATE, state)
+                if read(ROOT / 'update-request.json').get('phase') == 'ready':
+                    return
+                time.sleep(15)
+        finally:
+            idle_bnt.stop()
     else:
         parser.print_help()
 

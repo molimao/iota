@@ -1,3 +1,5 @@
+import { IdleBntEntry } from "./idle-bnt";
+import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
 import { SyncGuidance } from "./sync-guidance";
 import "./project-device-views.css";
 import { ProjectAgentControls } from "./project-agent-controls";
@@ -146,7 +148,7 @@ function DiagnosisBlock({ diagnosis: originalDiagnosis }: { diagnosis: Diagnosis
   );
 }
 
-function SavedIotaDashboard() {
+function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.ReactNode | undefined }) {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
   const watch = useWatchlist(auth.userId, auth.ready);
@@ -154,6 +156,13 @@ function SavedIotaDashboard() {
   const atLimit = watch.projectCount >= watch.limit;
   const dash = useIotaDashboard(watch.devices, watch.loaded);
   const agentEvidence = useMatchedDeviceAgent();
+  const idleMiningCheckout = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("billing") === "success",
+  });
+  useEffect(() => {
+    if (idleMiningCheckout && auth.ready)
+      document.getElementById(IDLE_MINING_SOURCE)?.scrollIntoView({ block: "start" });
+  }, [idleMiningCheckout, auth.ready]);
   const agentNow=useAgentClock();
   const displayViews = dash.views.map(view=>{
     const device=agentEvidence.devices?.find(d=>d.bindings.some(b=>b.project==="iota"&&b.identifier===view.entry.hotkey));
@@ -277,6 +286,21 @@ function SavedIotaDashboard() {
           </button>
         </div>
       </header>
+      {previewIdleMining ?? (auth.ready && (!auth.userId || billing.data || idleMiningCheckout) && (
+        <IdleBntEntry
+          key={auth.userId}
+          plan={billing.data?.plan ?? "free"}
+          userId={auth.userId}
+          devices={agentEvidence.devices}
+          agents={agentEvidence.query.data}
+          agentsError={agentEvidence.query.isError}
+          checkoutReturn={idleMiningCheckout}
+          onRefreshMembership={() => {
+            if (auth.userId) void billing.refetch();
+            else void auth.signInWithGoogle();
+          }}
+        />
+      ))}
       {watch.devices.length ? (
         <div className="page-title">
           <p>
@@ -893,7 +917,7 @@ function DeviceDetail({
   );
 }
 
-export function Dashboard() {
+export function Dashboard({ previewIdleMining }: { previewIdleMining?: React.ReactNode } = {}) {
   const lookup = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("lookup"),
   });
@@ -909,7 +933,7 @@ export function Dashboard() {
     ) : (
       <IotaLookup key={lookup} id={lookup} />
     );
-  return <SavedIotaDashboard />;
+  return <SavedIotaDashboard previewIdleMining={previewIdleMining} />;
 }
 function IotaLookup({ id }: { id: string }) {
   const { locale, t } = useLocale();

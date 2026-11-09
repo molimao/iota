@@ -1,5 +1,6 @@
 import { REFRESH_INTERRUPTED_MS, validFetchedAt, type DeviceStatus } from "./device-status";
 import { z } from "zod";
+import { idleBntStatus } from "./idle-bnt";
 export const agentAction = z.enum(["start", "stop", "restart", "update"]);
 export const agentBindingManifest = z
   .array(
@@ -57,6 +58,7 @@ export const trainingStateSchema = z
   .strict();
 export const agentSnapshot = z
   .object({
+    idleBnt: idleBntStatus.optional(),
     xds: z.discriminatedUnion("status", [
       z.object({
         status: z.literal("ok"),
@@ -162,7 +164,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 60000;
 }
 
-export const AGENT_RELEASE = "1.0.17";
+export const AGENT_RELEASE = "1.0.18";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export const LINUX_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-linux-1.0.16.zip";
 export function agentCanUpdate(version?: string) {
