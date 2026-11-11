@@ -310,8 +310,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               : onboardingCopy.devices[locale]}
           </h1>
           {tab === "devices" && (
-            <a className="agent-entry" href={`/${locale}/machines`}>
-              {agentCopy.title[locale]} →
+            <a className="agent-entry" href={`/${locale}/machines#agent-pairing`}>
+              {agentCopy.pair[locale]} →
             </a>
           )}
           {tab === "devices" && (

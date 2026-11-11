@@ -102,7 +102,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
     setPairedDevice(null);
   }, [auth.userId]);
   const [search, setSearch] = useState("");
-  const setupRef = useRef<HTMLDetailsElement>(null);
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
   const agents = preview ? (demo ?? examples) : (q.data ?? []);
   const agentNames = Object.fromEntries(agents.map((a,i)=>[a.deviceId,preview?["Mac Studio","Mac mini","MacBook Pro","MacBook Air"][i]??"Mac":fleet.devices.find(d=>d.id===a.deviceId)?.name??"Mac"]));
@@ -135,9 +134,6 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   useEffect(() => {
     if (linkedDevice) setDevice(linkedDevice);
   }, [linkedDevice, auth.userId]);
-  useEffect(() => {
-    if ((linkedDevice || code) && setupRef.current) setupRef.current.open = true;
-  }, [linkedDevice, code, agents.length]);
   async function act(fn: () => Promise<unknown>) {
     if (busy) return;
     setBusy(true);
@@ -180,16 +176,12 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
         </button>
       ) : (
         <>
-      <details ref={setupRef} className="agent-setup-guide" open={!agents.length}>
-        <summary>{t.setupTitle}</summary>
-        <div className="agent-setup-content">
-          <div><strong>macOS</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a><span>{t.setupRun}</span></div>
-          <div><strong>Windows · BNT / PRL / XDS</strong><a className="site-button" href={WINDOWS_AGENT_DOWNLOAD_URL} download>{t.windowsDownload}</a><span>{t.windowsSetup}</span></div>
-        </div>
+      <section id="agent-pairing" className="agent-setup-guide">
+        <h2>{t.pair}</h2>
           {!preview && !q.isError && (
             <section className="compute-panel agent-pair">
               {!candidates.length ? (
-                <p>{agents.length ? t.back : t.empty}</p>
+                <p>{agents.length ? t.allConnected : t.empty} <a href={`/${locale}/devices`}>{t.back} →</a></p>
               ) : (
                 <>
                   <label>
@@ -249,7 +241,11 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
               )}
             </section>
           )}
-      </details>
+        <div className="agent-setup-content">
+          <div><strong>macOS</strong><a className="site-button" href={AGENT_DOWNLOAD_URL} download>{t.install}</a><span>{t.setupRun}</span></div>
+          <div><strong>Windows · BNT / PRL / XDS</strong><a className="site-button" href={WINDOWS_AGENT_DOWNLOAD_URL} download>{t.windowsDownload}</a><span>{t.windowsSetup}</span></div>
+        </div>
+      </section>
           <LinuxAgentSetup/>
           {pairedDevice && <p role="status" className="agent-pair-success">{fleet.devices.find((d) => d.id === pairedDevice)?.name ?? "Mac"} · {t.paired}</p>}
           {q.isError && !preview && <p role="alert">{t.unavailable}</p>}

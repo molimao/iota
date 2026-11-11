@@ -119,6 +119,7 @@ export function PoolWorkerAgent({
             locale={locale}
             loading={matched.query.isPending}
             error={matched.query.isError}
+            connectDeviceId={link.device.id}
           />
           {!matched.query.isPending && !matched.agent && (
             <p className="compute-caption">{copy.noData[locale]}</p>
@@ -148,7 +149,7 @@ export function PoolWorkerAgent({
           {labels.quota[locale]} <a href={`/${locale}/devices?view=membership`}>Pro ↗</a>
         </p>
       )}
-      {!choices.length && (
+      {!choices.length && !link && (
         <a className="bnt-worker-install" href={`/${locale}/machines`}>
           {labels.install[locale]} ↗
         </a>

@@ -4,7 +4,7 @@ import { agentOnline, type AgentInfo } from "@/lib/device-agent";
 import { formatCompute } from "@/lib/compute-summary";
 import { FLEET_NAMES, type FleetBinding } from "@/lib/fleet";
 import { useLocale } from "./site/locale";
-import { agentCopy } from "./device-agent-copy";
+import { AgentPairing } from "./agent-pairing";
 import { localized } from "@/lib/product-discovery";
 import type { SiteLocale } from "@/lib/site";
 import "./device-miner-summary.css";
@@ -207,9 +207,7 @@ export function ProjectMinerSlots({
               key={binding.id}
               aria-label={`${FLEET_NAMES[binding.project]} 本机状态`}
             >
-              {pair ? <a href={`/${locale}/machines?device=${encodeURIComponent(connectDeviceId)}`}>
-                {agentCopy.connectCompact[locale]} ↗
-              </a> : <p role="status">
+              {pair ? <AgentPairing deviceId={connectDeviceId} /> : <p role="status">
                 {loading
                   ? copy.loading[locale]
                   : error

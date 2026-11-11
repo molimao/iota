@@ -91,6 +91,9 @@ export const agentCopy = {
     "保存済みの端末を選択",
   ]),
   pair: l(["生成配对码", "產生配對碼", "Generate pairing code", "연결 코드 생성", "接続コードを発行"]),
+  pairingCode: l(["配对码", "配對碼", "Pairing code", "연결 코드", "接続コード"]),
+  generatingCode: l(["正在生成配对码…", "正在產生配對碼…", "Generating pairing code…", "연결 코드 생성 중…", "接続コードを発行中…"]),
+  allConnected: l(["已有设备均已连接。新电脑请先添加设备；重新配对请先在下方断开原连接。", "現有設備均已連接。新電腦請先新增設備；重新配對請先在下方中斷原連線。", "All eligible devices are connected. Add a device for a new computer, or disconnect the existing Agent below to pair again.", "기존 기기가 모두 연결되어 있습니다. 새 컴퓨터는 기기를 추가하고, 다시 연결하려면 아래에서 기존 연결을 해제하세요.", "既存の端末はすべて接続済みです。新しいコンピューターは端末を追加し、再接続する場合は下で既存の接続を解除してください。"]),
   install: l([
     "下载连接程序",
     "下載連線程式",

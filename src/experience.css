@@ -6659,6 +6659,7 @@ body:has(.site-shell) {
 .agent-setup-guide { display: grid; gap: 0; padding: 0; border: 1px solid var(--border, #333); border-radius: 1rem; margin: 1.5rem 0; overflow: clip; }
 .agent-setup-guide > summary { padding: 1rem 1.25rem; cursor: pointer; font-size: .9rem; font-weight: 600; }
 .agent-setup-guide[open] > summary { border-bottom: 1px solid #303030; }
+.agent-setup-guide > h2 { margin: 0; padding: 1rem 1.25rem; font-size: 1rem; border-bottom: 1px solid #303030; }
 .agent-setup-content { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1.25rem; }
 .agent-setup-content > div { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; min-width: 0; }
 .agent-setup-guide span { line-height: 1.7; color: var(--muted-foreground, #999); }

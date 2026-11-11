@@ -1,4 +1,5 @@
 import { AgentGpu } from "./agent-gpu";
+import { AgentPairing } from "./agent-pairing";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { LANGUAGE_TAG } from "@/lib/site";
 import { AgentUpdate } from "./agent-update";
@@ -25,7 +26,7 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const enabled = !preview && auth.ready && !!auth.userId;
   const devices = useQuery({ queryKey: ["fleet", auth.userId], queryFn: () => fleet(), enabled: enabled && !!miner, staleTime: 15000 });
   const query = useQuery({ queryKey: ["device-agents", auth.userId], queryFn: () => list(), enabled, staleTime: 10000, refetchInterval: 15000, refetchOnWindowFocus: true, retry: false });
-  const id = deviceId ?? devices.data?.devices.find((d) => d.bindings.some((b) => b.project === "iota" && b.identifier === miner))?.id;
+  const id = deviceId ?? (preview ? previewAgent?.deviceId ?? miner : devices.data?.devices.find((d) => d.bindings.some((b) => b.project === "iota" && b.identifier === miner))?.id);
   const agent = preview ? previewAgent : enabled ? query.data?.find((a) => a.deviceId === id) : undefined;
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
   const online = !!agent && !query.isError && agentOnline(agent.lastSeen, now);
@@ -40,10 +41,12 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
       <AgentGpu agent={agent} now={now} compact />
       <AgentQuickActions key={`${auth.userId}:${agent.deviceId}`} agent={agent} now={now} preview={preview} />
     </div>
-  ) : <a href={url}>{query.isError ? t.queueUnknown : t.connectCompact} ↗</a>;
+  ) : query.isError ? <a href={url}>{t.queueUnknown} ↗</a>
+    : id ? <AgentPairing key={`${auth.userId}:${id}`} deviceId={id} preview={preview} />
+      : <a href={url}>{t.pair} ↗</a>;
   if (!agent) return <section className="fleet-agent-connect agent-card-summary agent-connect-hint">
     <span>{enabled && query.isError ? t.error : t.connectHint}</span>
-    <a href={url}>{t.connectCompact} ↗</a>
+    {id && !query.isError ? <AgentPairing key={`${auth.userId}:${id}`} deviceId={id} preview={preview} /> : <a href={url}>{t.pair} ↗</a>}
   </section>;
   return <section className="fleet-agent-connect agent-card-summary" aria-label={s?.platform === "linux" ? "Linux GPU" : t.title}>
     <>
