@@ -1,3 +1,4 @@
+import { AgentPairing } from "./agent-pairing";
 import { IdleBntEntry, IdleBntListStatus, idleBntSettingsQuery, idleMiningCopy } from "./idle-bnt";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
 import type { AgentInfo } from "@/lib/device-agent";
@@ -176,6 +177,8 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
   for (const view of displayViews) displayCounts[view.bucket]++;
   const [removeTarget, setRemoveTarget] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
+  const [pairAfterAdd,setPairAfterAdd] = useState<string | null>(null);
+  const pairTarget = agentEvidence.devices?.find(d=>d.bindings.some(b=>b.project==="iota" && b.identifier===pairAfterAdd));
   const [selected, setSelected] = useState<string | null>(null);
   const [detailTab, setDetailTab] = useState<DetailTab>("overview");
   const [hotkey, setHotkey] = useState("");
@@ -623,6 +626,7 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
       {dash.farm ? (
         <FarmLine farm={dash.farm} deviceCount={watch.devices.length} stale={dash.farmStale} />
       ) : null}
+      {pairTarget && !adding && <AgentPairing key={pairTarget.id} deviceId={pairTarget.id} deviceLabel={pairTarget.name} autoOpen onDone={()=>setPairAfterAdd(null)} />}
       <Dialog
         open={adding}
         onOpenChange={(open) => {
@@ -640,7 +644,7 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
             duplicateIds={watch.devices.map((device) => device.hotkey)}
             onCancel={() => setAdding(false)}
             onBusy={setSaving}
-            onSave={watch.add}
+            onSave={async (input)=>{ const result=await watch.add(input); if(result.ok && auth.userId) setPairAfterAdd(input.hotkey); return result; }}
             onComplete={() => {
               setAdding(false);
               setHotkey("");

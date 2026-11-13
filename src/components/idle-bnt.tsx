@@ -1,3 +1,4 @@
+import { IdleBntValue } from "./idle-bnt-value";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
 import "./idle-bnt.css";
 import { useState } from "react";
@@ -290,6 +291,7 @@ export function IdleBntEntry({
   });
   const settings = demo ?? query.data;
   const change = useMutation({
+    onSuccess: () => { void client.invalidateQueries({queryKey:["idle-bnt-activity",userId]}); },
     mutationFn: async (value: IdleBntConfig) => {
       if (preview) {
         setDemo(value);
@@ -374,6 +376,7 @@ export function IdleBntEntry({
         <div className="idle-bnt-body">
           {checkoutReturn && <p role="status">{c.active[locale]}</p>}
           <p className="idle-bnt-intro">{c.intro[locale]}</p>
+          {settings?.address && <IdleBntValue userId={userId} preview={!!preview} />}
           {query.isError || agentsError ? (
             <p role="alert">
               {c.unavailable[locale]}{" "}

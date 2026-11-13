@@ -1,11 +1,12 @@
 .agent-pair-dialog {
-  width: min(92vw, 480px);
   color: #f5f5f5;
   background: #171717;
 }
 .agent-pair-dialog .agent-pair-code label {
   display: grid;
   gap: 0.5rem;
+  margin: 0;
+  color: #c4cbc6;
 }
 .agent-pair-dialog input {
   width: 100%;
@@ -24,4 +25,178 @@ button.agent-pair-trigger {
   color: #fff;
   background: #363636;
   border-color: #555;
+}
+.agent-pair-dialog {
+  width: min(calc(100vw - 32px), 560px);
+  max-width: 560px;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid #3c3c3c;
+  border-radius: 20px;
+}
+.agent-pair-dialog h2 {
+  padding-right: 22px;
+}
+.agent-pair-dialog p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a5aaa7;
+  margin: 0;
+}
+.agent-pair-progress {
+  display: flex;
+  gap: 12px;
+  padding: 0;
+  margin: 4px 0;
+  list-style: none;
+}
+.agent-pair-progress li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #8b938e;
+}
+.agent-pair-progress li > span {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #4c554f;
+  border-radius: 50%;
+}
+.agent-pair-progress [aria-current="step"],
+.agent-pair-progress [data-complete="true"] {
+  color: #a5e8c6;
+}
+.agent-pair-progress [aria-current="step"] > span,
+.agent-pair-progress [data-complete="true"] > span {
+  background: #203d2d;
+  border-color: #63a984;
+}
+.agent-pair-code {
+  display: grid;
+  gap: 14px;
+}
+.agent-pair-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+}
+.agent-pair-label small {
+  color: #919991;
+  font-weight: 400;
+}
+.agent-pair-install {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid #343a36;
+}
+.agent-pair-systems {
+  display: flex;
+  gap: 8px;
+}
+.agent-pair-dialog .agent-pair-systems [aria-pressed="true"] {
+  border-color: #88c7a5;
+  background: #244532;
+}
+.agent-pair-dialog .agent-pair-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #111;
+  background: #e1f6e9;
+}
+.agent-pair-wait {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #c3cfc6;
+  font-size: 13px;
+}
+.agent-pair-wait svg {
+  animation: pair-spin 2s linear infinite;
+}
+@keyframes pair-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .agent-pair-wait svg {
+    animation: none;
+  }
+}
+.agent-pair-help {
+  border-top: 1px solid #343a36;
+  padding-top: 12px;
+  font-size: 12px;
+}
+.agent-pair-help summary {
+  cursor: pointer;
+  color: #c4cbc6;
+}
+.agent-pair-help p {
+  padding-top: 8px;
+}
+.agent-pair-success {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 20px 0;
+  color: #9ce2ba;
+  text-align: center;
+}
+.agent-pair-success strong {
+  font-size: 22px;
+}
+.agent-pair-later {
+  justify-self: center;
+  padding: 8px 14px;
+  color: #b0b8b2;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+@media (max-width: 480px) {
+  .agent-pair-dialog {
+    padding: 22px 18px;
+  }
+  .agent-pair-progress {
+    gap: 6px;
+  }
+  .agent-pair-progress li {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+}
+.fleet-dialog.agent-pair-dialog .agent-pair-download {
+  color: #13271b !important;
+}
+.fleet-dialog.agent-pair-dialog .agent-pair-systems button {
+  color: #e3e9e5 !important;
+  background: #242a26;
+}
+.fleet-dialog.agent-pair-dialog .agent-pair-systems button[aria-pressed="true"] {
+  background: #244532;
+  color: #bcebd0 !important;
+}
+.agent-pair-dialog button:focus-visible,
+.agent-pair-dialog a:focus-visible {
+  outline: 2px solid #91d8af;
+  outline-offset: 3px;
+}
+.agent-pair-dialog .agent-pair-code {
+  gap: 12px;
+}
+.agent-pair-dialog .agent-pair-success strong {
+  justify-self: center;
+  text-align: center;
 }

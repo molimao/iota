@@ -100,6 +100,7 @@ export type WatchDatabase = Omit<Database, "public"> & {
         };
         Returns: Json;
       };
+      watch_idle_bnt_activity: { Args: Record<string, never>; Returns: Json };
       watch_read_agent_history: { Args: { p_device: string }; Returns: Json };
       watch_agent_binding_manifest: { Args: { p_hash: string }; Returns: Json };
       watch_idle_bnt_settings: {

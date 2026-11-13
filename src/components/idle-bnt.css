@@ -224,3 +224,13 @@
     font-size: 16px;
   }
 }
+.idle-bnt-value { padding:18px; margin:18px 0; background:#141d17; border:1px solid #35483b; border-radius:14px; }
+.idle-bnt-value-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.idle-bnt-value-grid > div { display:grid; align-content:start; gap:7px; min-width:0; }
+.idle-bnt-value-grid span,.idle-bnt-value-grid small { color:#a7b6ab; font-size:12px; }
+.idle-bnt-value-grid strong { display:flex; gap:7px; align-items:baseline; flex-wrap:wrap; color:#e2f7e8; font-size:25px; font-variant-numeric:tabular-nums; }
+.idle-bnt-value-grid strong small { font-size:12px; font-weight:400; }
+.idle-bnt-value > details { margin-top:16px; padding-top:12px; border-top:1px solid #304236; font-size:12px; color:#a7b6ab; }
+.idle-bnt-value > details summary { cursor:pointer; width:fit-content; }
+.idle-bnt-value > details p { margin-top:8px; line-height:1.7; }
+@media(max-width:520px) { .idle-bnt-value-grid { grid-template-columns:1fr; gap:18px; } .idle-bnt-value-grid > div+div { padding-top:16px; border-top:1px solid #304236; } }

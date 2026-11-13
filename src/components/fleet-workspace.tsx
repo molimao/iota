@@ -1,3 +1,4 @@
+import { AgentPairing } from "./agent-pairing";
 import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FleetDeviceTable } from "./fleet-device-table";
 import { DeviceMinerSummary } from "./device-miner-summary";
@@ -120,6 +121,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const tab = props.initialTab ?? "devices";
+  const [pairAfterAdd, setPairAfterAdd] = useState<string | null>(null);
+  const pairTarget = props.devices.find(d=>d.bindings.some(b=>b.project === "iota" && b.identifier === pairAfterAdd));
   const [layout, setLayout] = useState<"cards" | "list">(props.initialLayout ?? "cards");
   useEffect(() => {
     if (props.preview || props.initialLayout) return;
@@ -260,6 +263,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           identifier: identifier.trim(),
           worker: selectedProject === "xid" || isPoolProject(selectedProject) ? worker.trim() : "",
         });
+        if ((props.signedIn || props.preview) && selectedProject === "iota") setPairAfterAdd(identifier.trim());
       } else if (dialog === "link") {
         if (!validBinding(selectedProject, identifier.trim())) throw new Error(c.invalidId);
         const key = bindingIdentity({
@@ -300,6 +304,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   }
   return (
     <main className="fleet-workspace">
+      {pairTarget && <AgentPairing key={pairTarget.id} deviceId={pairTarget.id} deviceLabel={pairTarget.name} autoOpen onDone={()=>setPairAfterAdd(null)} preview={!!props.preview} />}
       <header className="fleet-heading">
         <div>
           <h1>
