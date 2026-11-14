@@ -1,3 +1,4 @@
+import { agentListInput } from "@/lib/device-agent";
 import { AgentPairing } from "./agent-pairing";
 import { ProjectReadingMetrics } from "./project-reading-metrics";
 import { FleetDeviceTable } from "./fleet-device-table";
@@ -137,10 +138,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const listAgents = useServerFn(getDeviceAgents);
   const agents = useQuery({
     queryKey: ["device-agents", auth.userId],
-    queryFn: () => listAgents(),
+    queryFn: () => listAgents(agentListInput()),
     enabled: !props.preview && !!auth.userId && auth.ready,
     staleTime: 10000,
-    refetchInterval: 15000,
+    refetchInterval: 10000,
     retry: false,
   });
   const agentsByDevice = new Map(

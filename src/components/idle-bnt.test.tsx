@@ -41,3 +41,11 @@ it("shows IOTA priority instead of hashrate when the idle miner yields", () => {
   expect(priority).toContain("BNT · IOTA 优先");
   expect(priority).not.toContain("H/s");
 });
+
+it("shows BNT and XDS speeds independently on the same IOTA device", () => {
+  const agent = miningAgent!;
+  const html = renderStatus({ ...agent, snapshot: { ...agent.snapshot, idleXds: { state: "mining", hashrate: 152.5 } } }, 2);
+  expect(html).toContain("BNT · 2.82 H/s");
+  expect(html).toContain("XDS · 152.50 H/s");
+  expect(renderStatus({ ...agent, snapshot: { ...agent.snapshot, idleXds: { state: "off", hashrate: null } } }, 2)).not.toContain("XDS ·");
+});

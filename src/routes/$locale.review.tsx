@@ -98,6 +98,7 @@ function IdleMiningReview({ scene }: { scene: string }) {
     snapshot: {
       appRunning: true,
       workerRunning: true,
+      idleXds: index === 0 ? { state: "off", hashrate: null } : { state: "setup", hashrate: null },
       idleBnt: {
         state: scene === "setup" ? "install_needed" : index === 0 ? "mining" : "off",
         hashrate: scene !== "setup" && index === 0 ? 2.82 : null,
@@ -115,6 +116,7 @@ function IdleMiningReview({ scene }: { scene: string }) {
         previewIdleMining={
           <IdleBntEntry
             plan={scene === "free" ? "free" : "pro"}
+            initialProject={scene === "xds" ? "xds" : "bnt"}
             userId={null}
             devices={devices}
             agents={agents}

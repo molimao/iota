@@ -138,7 +138,7 @@ class IdleBntTests(unittest.TestCase):
             )
             binary.chmod(0o700)
             policy = {
-                'binary': str(binary), 'worker': 'iota-00000000', 'until': time.monotonic() + 30,
+                'binary': str(binary), 'worker': 'iota-00000000', 'until': time.time() + 30,
                 'pause': 'fixture',
                 'settings': {'address': 'fixture', 'threads': 4,
                              'whenQueued': True, 'whenPaused': True},
@@ -155,7 +155,7 @@ class IdleBntTests(unittest.TestCase):
                         return int(pid_path.read_text())
                     time.sleep(.1)
                 self.fail('The configured four-thread miner did not report hashrate')
-            write_policy(time.monotonic() + 30)
+            write_policy(time.time() + 30)
             watcher = subprocess.Popen([sys.executable, '-c', (
                 f'import iota_watch_agent as a; a.ROOT=a.Path({str(root)!r}); '
                 'a.idle_bnt_iota=lambda:dict(appRunning=False,workerRunning=False,queue=None,trainingState=None); '
@@ -176,7 +176,7 @@ class IdleBntTests(unittest.TestCase):
                 with self.assertRaises(ProcessLookupError):
                     os.kill(first_pid, 0)
                 pid_path.unlink()
-                write_policy(time.monotonic() + 30)
+                write_policy(time.time() + 30)
                 pid = wait_for_pid()
             finally:
                 watcher.stdin.close()

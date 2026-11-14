@@ -1,5 +1,7 @@
+import { agentReasonSchema } from "./agent-reason";
 import { REFRESH_INTERRUPTED_MS, validFetchedAt, type DeviceStatus } from "./device-status";
 import { z } from "zod";
+import { xdsPublicKey } from "./idle-xds";
 import { idleBntStatus } from "./idle-bnt";
 export const agentAction = z.enum(["start", "stop", "restart", "update"]);
 export const agentBindingManifest = z
@@ -59,7 +61,9 @@ export const trainingStateSchema = z
   .strict();
 export const agentSnapshot = z
   .object({
+    reason: agentReasonSchema.optional(),
     idleBnt: idleBntStatus.optional(),
+    idleXds: z.object({ publicKey: xdsPublicKey.optional(), supported: z.boolean().optional(), provisioning: z.enum(["installing","syncing","ready","error"]).optional(), state: z.enum(["setup", "off", "waiting", "priority", "mining", "starting", "busy", "error"]), hashrate: z.number().finite().min(0).max(1e15).nullable() }).strict().optional(),
     xds: z.discriminatedUnion("status", [
       z.object({
         status: z.literal("ok"),
@@ -127,6 +131,7 @@ export const agentSnapshot = z
 export const agentBeat = z
   .object({
     requestBindings: z.literal(true).optional(),
+    adaptive: z.literal(true).optional(),
     snapshot: agentSnapshot,
     ack: z.object({ id: z.string().uuid(), success: z.boolean() }).strict().nullable().optional(),
   })
@@ -135,6 +140,7 @@ export type AgentSnapshot = z.infer<typeof agentSnapshot>;
 export type AgentInfo = {
   deviceId: string;
   lastSeen: string | null;
+  snapshotAt?: string | null;
   snapshot: Partial<AgentSnapshot>;
   logsEnabled: boolean;
   recoveryEnabled: boolean;
@@ -165,7 +171,7 @@ export function agentOnline(lastSeen: string | null, now = Date.now()) {
   return Number.isFinite(t) && t <= now + 5000 && now - t < 60000;
 }
 
-export const AGENT_RELEASE = "1.0.19";
+export const AGENT_RELEASE = "1.0.21";
 export const AGENT_DOWNLOAD_URL = `/downloads/iota-watch-agent-${AGENT_RELEASE}.zip`;
 export const LINUX_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-linux-1.0.16.zip";
 export const WINDOWS_AGENT_DOWNLOAD_URL = "/downloads/iota-watch-windows-1.0.0.zip";
@@ -184,6 +190,15 @@ export function agentUpdateAvailable(version?: string) {
     if (current[i] !== target[i]) return current[i]! < target[i]!;
   }
   return false;
+}
+
+export function currentAgentReason(agent: Pick<AgentInfo,"snapshot"|"lastSeen">, now=Date.now()) {
+  if (!agentOnline(agent.lastSeen,now)) return null;
+  const reason=agent.snapshot.reason;
+  if (!reason) return null;
+  const at=Date.parse(reason.observedAt), age=now-at;
+  const newer=Math.max(agent.snapshot.queue?Date.parse(agent.snapshot.queue.observedAt):0,agent.snapshot.trainingState?Date.parse(agent.snapshot.trainingState.observedAt):0);
+  return age>=0 && age<=300000 && at>=newer ? reason : null;
 }
 
 /** Local evidence only: a live process is not proof of training contribution. */
@@ -213,6 +228,8 @@ export function agentPhase(
     if (s.appRunning !== true || s.workerRunning !== false) return "unknown";
     return "workerStopped";
   }
+  const reason=currentAgentReason(agent,now);
+  if (reason) return ["registration_pending","resetting"].includes(reason.code) ? "preparing" : "blocked";
   const queueAge = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
   const queued = !!s.queue && s.queue.position > 0 && queueAge >= 0 && queueAge <= 300000;
   const state = s.trainingState;
@@ -296,3 +313,7 @@ export const agentHistoryPointSchema = z
   })
   .strict();
 export type AgentHistoryPoint = z.infer<typeof agentHistoryPointSchema>;
+
+export function agentListInput() {
+  return { data: { watching: typeof document !== "undefined" && document.visibilityState === "visible" } };
+}

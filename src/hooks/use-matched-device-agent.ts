@@ -1,3 +1,4 @@
+import { agentListInput } from "@/lib/device-agent";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useAuth } from "./use-auth";
@@ -18,10 +19,10 @@ export function useMatchedDeviceAgent(deviceId?: string, miner?: string, preview
   });
   const query = useQuery({
     queryKey: ["device-agents", auth.userId],
-    queryFn: () => list(),
+    queryFn: () => list(agentListInput()),
     enabled,
     staleTime: 10000,
-    refetchInterval: 15000,
+    refetchInterval: 10000,
     refetchOnWindowFocus: true,
     retry: false,
   });

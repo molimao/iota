@@ -1,3 +1,4 @@
+import { agentListInput } from "@/lib/device-agent";
 import { LinuxAgentSetup } from "./linux-agent-setup";
 import { AgentGpu } from "./agent-gpu";
 import { useAgentClock } from "@/hooks/use-agent-clock";
@@ -51,9 +52,9 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
   const [pairedDevice, setPairedDevice] = useState<string | null>(null);
   const q = useQuery({
     queryKey: ["device-agents", auth.userId],
-    queryFn: () => list(),
+    queryFn: () => list(agentListInput()),
     enabled: !preview && !!auth.userId,
-    refetchInterval: code && Date.now() < code.expiresAt ? 3000 : 15000,
+    refetchInterval: code && Date.now() < code.expiresAt ? 3000 : 10000,
     refetchOnWindowFocus: true,
     retry: false,
   });
@@ -297,7 +298,7 @@ export function DeviceAgentPage({ preview = false }: { preview?: boolean }) {
                     </div>
                   </div>}
                   <p className="compute-caption">
-                    {t.lastReport} · {a.lastSeen ? new Date(a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
+                    {t.lastReport} · {a.lastSeen ? new Date(a.snapshotAt ?? a.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}
                   </p>
                   <AgentGpu agent={a} now={now}/>
                   {!windows && <div className="agent-device-actions">

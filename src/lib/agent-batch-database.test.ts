@@ -53,6 +53,7 @@ beforeAll(async () => {
     "20261026160000_agent_batches.sql",
     "20261027120000_linux_agent_readonly.sql",
     "20261109200000_agent_batch_updates.sql",
+    "20261114190000_agent_adaptive_reporting.sql",
   ])
     await db.exec(readFileSync(`supabase/migrations/${file}`, "utf8"));
   await db.query(
@@ -405,4 +406,12 @@ it("skips offline and busy Agents during a batch update", async () => {
   const items = agentBatchSchema.parse(await call("update"))[0]!.items;
   expect(items.map(({ disposition, commandId }) => [disposition, commandId]))
     .toEqual([["offline", null], ["busy", null]]);
+});
+
+it("accepts a connected idle agent with an older full snapshot", async () => {
+  await admin();
+  await db.query("UPDATE watch_device_agents SET last_seen=now()-interval '70 seconds',contact_at=now() WHERE device_id=$1",[a]);
+  await owner();
+  const result=await call("restart",[a]);
+  expect(result[0].items[0].disposition).toBe("queued");
 });

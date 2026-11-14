@@ -1,3 +1,4 @@
+import { agentListInput } from "@/lib/device-agent";
 import { AgentGpu } from "./agent-gpu";
 import { AgentPairing } from "./agent-pairing";
 import { useAgentClock } from "@/hooks/use-agent-clock";
@@ -25,7 +26,7 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
   const fleet = useServerFn(getFleet);
   const enabled = !preview && auth.ready && !!auth.userId;
   const devices = useQuery({ queryKey: ["fleet", auth.userId], queryFn: () => fleet(), enabled: enabled && !!miner, staleTime: 15000 });
-  const query = useQuery({ queryKey: ["device-agents", auth.userId], queryFn: () => list(), enabled, staleTime: 10000, refetchInterval: 15000, refetchOnWindowFocus: true, retry: false });
+  const query = useQuery({ queryKey: ["device-agents", auth.userId], queryFn: () => list(agentListInput()), enabled, staleTime: 10000, refetchInterval: 10000, refetchOnWindowFocus: true, retry: false });
   const id = deviceId ?? (preview ? previewAgent?.deviceId ?? miner : devices.data?.devices.find((d) => d.bindings.some((b) => b.project === "iota" && b.identifier === miner))?.id);
   const agent = preview ? previewAgent : enabled ? query.data?.find((a) => a.deviceId === id) : undefined;
   const url = `/${locale}/machines?${deviceId ? `device=${encodeURIComponent(deviceId)}` : `miner=${encodeURIComponent(miner ?? "")}`}`;
@@ -53,7 +54,7 @@ export function DeviceAgentSummary({ deviceId, miner, official, preview = false,
       <div className="agent-card-heading"><strong>{query.isError ? t.queueUnknown : online ? t.live : t.offline}</strong><a href={url}>{t.settings} ↗</a></div>
       {!query.isError && <AgentStatus agent={agent} now={now} official={official} concise />}
       {!query.isError && !preview && <AgentUpdate agent={agent} />}
-      <p className="compute-caption agent-last-report">{t.lastReport} · {agent.lastSeen ? new Date(agent.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}</p>
+      <p className="compute-caption agent-last-report">{t.lastReport} · {agent.lastSeen ? new Date(agent.snapshotAt ?? agent.lastSeen).toLocaleString(LANGUAGE_TAG[locale]) : "—"}</p>
       <dl className="agent-card-metrics">
         <div><dt>{t.cpu}</dt><dd>{online && s?.appCpu != null ? `${s.appCpu.toFixed(1)}%` : "—"}</dd></div>
         <div><dt>{t.memory}</dt><dd>{online && s?.processMemoryMb != null ? `${Math.round(s.processMemoryMb)} MB` : "—"}</dd></div>

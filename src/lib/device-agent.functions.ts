@@ -67,8 +67,9 @@ export const linkProjectAgent = createServerFn({ method: "POST" })
   });
 export const getDeviceAgents = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const r = await watchDb(context.supabase).rpc("watch_agent_owner", { p_action: "list" });
+  .inputValidator(z.object({ watching: z.boolean() }).strict().optional())
+  .handler(async ({ data, context }) => {
+    const r = await watchDb(context.supabase).rpc("watch_agent_owner", { p_action: "list", p_payload: { watching: data?.watching === true } });
     if (r.error) throw new Error("agent_not_configured");
     return r.data as unknown as AgentInfo[];
   });

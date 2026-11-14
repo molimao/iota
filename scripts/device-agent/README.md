@@ -1,10 +1,10 @@
 # IOTA Watch Mac agent
 
-Install only on a Mac that runs IOTA Train at Home. Python 3.9+ is required (available with Apple's Command Line Tools). This agent does not replace or modify the official app.
+Python 3.9+ is required (available with Apple's Command Line Tools). The Agent monitors IOTA and supported miners on this Mac. Install IOTA Train at Home separately to use IOTA monitoring and controls.
 
 1. Sign in to IOTA Watch. Add this Mac's public Miner ID in My devices.
-2. Open Mac management, choose that device and generate a pairing code.
-3. Download/unzip this package on the matching Mac and run `install.command`. Paste the code into the hidden prompt. Codes expire in 10 minutes and work once.
+2. Click Generate pairing code on that device's card or list row. Copy the code shown in the dialog. You can also choose a device in the pairing section on the Agent page.
+3. Download/unzip this package on the matching Mac and double-click `install.command`. Paste the code into the pairing dialog and click Pair. Codes expire in 10 minutes and work once. For an existing installation, choose Keep to retain the current connection, or enter a new code to pair again. Cancel leaves the existing installation intact.
 4. The agent reports every 15 seconds. Enable logs or training recovery separately on the website if wanted.
 
 Pairing creates a device-only credential saved with permission 0600 in `~/Library/Application Support/IOTA Watch Agent/config.json`. The service saves only its SHA-256 hash. Never share this file or a pairing code. No SSH credential, wallet key, seed phrase or arbitrary terminal access is used.
@@ -219,3 +219,50 @@ Existing separately launched Seine processes keep their current ownership.
 When the subscription or the short authorization expires, the Agent releases
 the miner it started. Agent 1.0.19 and later run the selected thread count with
 Seine's `--allow-oversubscribe` option, which can use swap when RAM is tight.
+
+## Shared XDS idle-mining wallet (local candidate)
+
+The IOTA page now lets a Pro owner select devices and 1–4 threads, confirm wallet
+spend authority, then create one dedicated mining wallet for all selected Macs.
+The Agent installs the pinned official Discrete CLI v0.9.10 (SHA-256 verified),
+creates the encrypted wallet once, and encrypts a separate delivery for each
+paired device's RSA-OAEP key. The relay stores ciphertext and public metadata;
+wallet files and passwords are not sent in plaintext. AES-256-CTR plus
+HMAC-SHA256 authenticates each delivery against its wallet and recipient IDs.
+Each receiving device has full spend authority for this dedicated wallet.
+
+Rewards belong directly to the same wallet. No consolidation transactions or
+automatic outgoing transfers are performed. The website can request a backup
+from an online wallet device, decrypt it in the browser, and export a backup
+protected with the user's password (PBKDF2-SHA256 and AES-256-GCM). Keep that
+password and backup safe. Wallet directories survive Agent uninstall. Backup
+access remains available to the owner after Pro expires; starting mining or
+syncing the wallet to new devices still requires Pro.
+
+Automatic installation currently supports Apple Silicon Macs; the official Mac
+CLI asset has no Intel build. XDS stays off until the owner opts in, and leases
+are delivered only after wallet synchronization is acknowledged. Miner
+installation and wallet setup run separately from heartbeats and never start
+mining by themselves. Mining starts only under the existing IOTA idle policy.
+BNT and XDS can run simultaneously; both consume CPU and memory.
+
+The existing `--configure-idle-xds /absolute/path/settings.json` remains available
+for legacy local setups. An existing separately launched `discreted` is left
+under its original controller. The Agent stops only the daemon it starts.
+
+### Adaptive IOTA reporting (local candidate)
+
+The Mac Agent negotiates full telemetry every 60 seconds while idle and every
+10 seconds while the owner has an Agent view open, a command is pending, or
+log collection/recovery is enabled. Between full reports it sends authenticated
+empty probes at most 10 seconds apart. These update connection liveness without
+replacing the snapshot or producing history samples. Idle mining leases and
+wallet setup keep full reporting at 10 seconds. Older Agents keep their existing
+cadence; a missing new backend RPC falls back to normal reporting.
+
+Recent logs can report registration failure/expiry, project removal, repeated
+resets, project DNS/API connection failures, and worker crashes. Only a fixed
+reason code and timestamp leave the device. Events from an older worker or more
+than five minutes ago are ignored, and newer queue/training evidence takes
+precedence. This does not add automatic restarts. Linux and Windows collectors
+retain their current reporting cadence in this candidate.

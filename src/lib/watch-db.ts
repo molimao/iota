@@ -100,6 +100,7 @@ export type WatchDatabase = Omit<Database, "public"> & {
         };
         Returns: Json;
       };
+      watch_agent_probe: { Args: { p_hash: string }; Returns: Json };
       watch_idle_bnt_activity: { Args: Record<string, never>; Returns: Json };
       watch_read_agent_history: { Args: { p_device: string }; Returns: Json };
       watch_agent_binding_manifest: { Args: { p_hash: string }; Returns: Json };
@@ -107,6 +108,10 @@ export type WatchDatabase = Omit<Database, "public"> & {
         Args: { p_settings?: Json };
         Returns: Json;
       };
+      watch_xds_wallet_settings: { Args: { p_settings?: Json; p_backup_key?: string }; Returns: Json };
+      watch_xds_wallet_agent: { Args: { p_hash: string; p_payload: Json }; Returns: Json };
+      watch_idle_xds_settings: { Args: { p_settings?: Json }; Returns: Json };
+      watch_idle_xds_lease: { Args: { p_hash: string }; Returns: Json };
       watch_idle_bnt_lease: { Args: { p_hash: string }; Returns: Json };
       watch_link_project_agent: { Args: {p_binding:string;p_device:string}; Returns:undefined };
       watch_link_prl_worker_agent: { Args: {p_binding:string;p_worker:string;p_device:string}; Returns:string };

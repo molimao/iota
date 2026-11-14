@@ -4,6 +4,7 @@ import { z } from "zod";
 import { agentBeat, agentBindingManifest, redactAgentLog } from "./device-agent";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { watchDb } from "./watch-db";
+import { idleXdsLease, xdsWalletAgentMessage } from "./idle-xds";
 import { idleBntLeaseSettings } from "./idle-bnt";
 const idleBntLease = z.object({
   settings: idleBntLeaseSettings,
@@ -13,7 +14,7 @@ const idleBntLease = z.object({
 const hash = (v: string) => createHash("sha256").update(v).digest("hex");
 const reply = (data: unknown, status = 200) =>
   Response.json(data, { status, headers: { "cache-control": "no-store" } });
-async function body(request: Request) {
+async function body(request: Request, limit = 20000) {
   if (!request.headers.get("content-type")?.startsWith("application/json"))
     throw new Error("invalid");
   const reader = request.body?.getReader();
@@ -26,7 +27,7 @@ async function body(request: Request) {
       const v = await withDeadline(reader.read(), Math.max(0, deadline - Date.now()), "timeout");
       if (v.done) break;
       size += v.value.length;
-      if (size > 20000) throw new Error("invalid");
+      if (size > limit) throw new Error("invalid");
       chunks.push(v.value);
     }
   } finally {
@@ -59,12 +60,29 @@ export async function deviceAgentHttp(request: Request) {
       if (r.error) return reply({ error: "pairing_expired_or_used" }, 401);
       return reply({ credential, interval: 15 });
     }
+    if (path === "/api/device-agent/probe") {
+      const auth = request.headers.get("authorization") ?? "";
+      if (!/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply({ error: "unauthorized" }, 401);
+      z.object({}).strict().parse(await body(request));
+      const r = await watchDb(supabaseAdmin).rpc("watch_agent_probe", { p_hash: hash(auth.slice(7)) });
+      if (r.error) return r.error.message.includes("unauthorized")
+        ? reply({ error: "unauthorized" }, 401)
+        : reply({ error: "probe_unavailable" }, 503);
+      return reply(r.data);
+    }
+    if (path === "/api/device-agent/xds-wallet") {
+      const auth = request.headers.get("authorization") ?? "";
+      if (!/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply({ error: "unauthorized" }, 401);
+      const data = xdsWalletAgentMessage.parse(await body(request, 131072));
+      const result = await watchDb(supabaseAdmin).rpc("watch_xds_wallet_agent", { p_hash: hash(auth.slice(7)), p_payload: data });
+      return result.error ? reply({ error: "wallet_sync_unavailable" }, 400) : reply(result.data);
+    }
     if (path !== "/api/device-agent/heartbeat") return reply({ error: "not_found" }, 404);
     const auth = request.headers.get("authorization") ?? "";
     if (!/^Bearer [A-Za-z0-9_-]{43}$/.test(auth)) return reply({ error: "unauthorized" }, 401);
     const data = agentBeat.parse(await body(request));
     if (data.snapshot.platform === "win32" &&
-        (data.snapshot.monitorOnly !== true || data.snapshot.idleBnt || data.snapshot.logs !== undefined))
+        (data.snapshot.monitorOnly !== true || data.snapshot.idleBnt || data.snapshot.idleXds || data.snapshot.logs !== undefined))
       return reply({ error: "invalid_request" }, 400);
     if (data.snapshot.logs) data.snapshot.logs = redactAgentLog(data.snapshot.logs);
     const db = watchDb(supabaseAdmin);
@@ -94,6 +112,32 @@ export async function deviceAgentHttp(request: Request) {
         } catch {
           result["idleBnt"] = null;
         }
+      }
+      if (data.snapshot.platform === "darwin" && data.snapshot.idleXds && data.snapshot.idleXds.state !== "setup") {
+        try {
+          const lease = await withDeadline(
+            Promise.resolve(db.rpc("watch_idle_xds_lease", { p_hash: credentialHash })),
+            1500, "idle_xds_timeout",
+          );
+          result["idleXds"] = lease.error ? null : (idleXdsLease.safeParse(lease.data).data ?? null);
+        } catch {
+          result["idleXds"] = null;
+        }
+      }
+      if (data.snapshot.platform === "darwin" && data.snapshot.idleXds?.publicKey) {
+        try {
+          const task = await withDeadline(Promise.resolve(db.rpc("watch_xds_wallet_agent", {
+            p_hash: credentialHash, p_payload: { action: "available", publicKey: data.snapshot.idleXds.publicKey },
+          })), 1500, "xds_wallet_timeout");
+          result["xdsWalletTask"] = !task.error && task.data === true;
+        } catch { result["xdsWalletTask"] = false; }
+      }
+      if (data.adaptive) {
+        try {
+          const mode = await withDeadline(Promise.resolve(db.rpc("watch_agent_probe", { p_hash: credentialHash })), 1500, "probe_timeout");
+          const parsed = z.object({ active: z.boolean() }).safeParse(mode.data);
+          result["interval"] = !mode.error && parsed.success ? (parsed.data.active ? 10 : 60) : 15;
+        } catch { result["interval"] = 15; }
       }
       if (data.requestBindings) {
         // Optional: a missing migration must not block an IOTA heartbeat/command.

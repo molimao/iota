@@ -1,6 +1,7 @@
+import { agentReasonCopy } from "@/lib/agent-reason";
 import { useAgentClock } from "@/hooks/use-agent-clock";
 import { agentEvents, agentCommandStatus } from '@/lib/agent-insights';
-import { agentDisplayPhase, agentOnline, type OfficialTrainingEvidence, type AgentInfo } from '@/lib/device-agent';
+import { agentDisplayPhase, agentOnline, currentAgentReason, type OfficialTrainingEvidence, type AgentInfo } from '@/lib/device-agent';
 import { useLocale } from './site/locale';
 import { insightCopy as c } from './agent-insight-copy';
 import { LANGUAGE_TAG } from '@/lib/site';
@@ -8,8 +9,9 @@ import { agentCopy } from './device-agent-copy';
 export function AgentStatus({agent, official, now, compact = false, concise = false}: {agent: AgentInfo; official?: OfficialTrainingEvidence | undefined; now?: number; compact?: boolean; concise?: boolean}) {
   const clock=useAgentClock();
   const {locale}=useLocale(); const phase=agentDisplayPhase(agent, official, now ?? clock);
+  const reason=currentAgentReason(agent,now??clock);
   return <div className="agent-insight" data-phase={phase}>
-    <strong>{compact ? (agentOnline(agent.lastSeen, now ?? clock) ? agentCopy.live[locale] : c.offline[locale]) : c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
+    <strong>{compact ? (agentOnline(agent.lastSeen, now ?? clock) ? (reason ? agentReasonCopy[reason.code][locale] : agentCopy.live[locale]) : c.offline[locale]) : reason ? agentReasonCopy[reason.code][locale] : c[phase][locale]}{phase==='queued' ? ` · #${agent.snapshot.queue?.position}` : ''}</strong>
     {!compact && phase === 'queued' && <a href={`/${locale}/learn/iota-queue-and-zero-throughput`}>{c.queueHelpLink[locale]} ↗</a>}
   </div>;
 }

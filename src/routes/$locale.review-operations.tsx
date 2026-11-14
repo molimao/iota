@@ -1,3 +1,5 @@
+import { agentReasonSchema } from "@/lib/agent-reason";
+import { AgentPairing } from "@/components/agent-pairing";
 import { createFileRoute, notFound, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { IotaProjectDeviceViews } from "@/components/dashboard";
@@ -16,6 +18,9 @@ export const Route = createFileRoute("/$locale/review-operations")({
   component: Review,
 });
 function Review() {
+  const reasonScene = useRouterState({select:state=>new URLSearchParams(state.location.searchStr).get("reason")});
+  const pairOutcome = useRouterState({select:state=>new URLSearchParams(state.location.searchStr).get("pairFlow")});
+  const pairingScene = useRouterState({ select: state => new URLSearchParams(state.location.searchStr).get("pairing") === "1" });
   const idleMiningScene = useRouterState({
     select: (state) => new URLSearchParams(state.location.searchStr).get("idleMining"),
   });
@@ -25,12 +30,24 @@ function Review() {
     { locale } = useLocale();
   const data = operationsReviewData(now),
     layout = view.endsWith("list") ? "list" : "cards";
+  const reason = agentReasonSchema.shape.code.safeParse(reasonScene);
+  if (reason.success) {
+    const sample=data.agents[data.devices[1]!.id]!;
+    sample.snapshot.reason={code:reason.data,observedAt:new Date(now).toISOString()};
+    delete sample.snapshot.queue;
+    delete sample.snapshot.trainingState;
+  }
+  if (pairingScene) {
+    delete data.agents[data.devices[1]!.id];
+    delete data.byMiner[data.devices[1]!.bindings[0]!.identifier];
+  }
   const [idleMiningSettings, setIdleMiningSettings] = useState<IdleBntConfig>(() => ({
     address: "2BZVmXsZqZJNdRouv8wipYe9pxYhCK1mx8kyz8Hauz58ueCLxEvaCkdmu8pWnHZiXa3ASPGnT9VsUcqJKx5az3Yq5HDNe",
     devices: [{ deviceId: data.devices[1]!.id, threads: 2 }],
   }));
   return (
     <>
+      {(pairOutcome === "connected" || pairOutcome === "expired" || pairOutcome === "error") && <AgentPairing key={pairOutcome} deviceId={data.devices[1]!.id} preview autoOpen previewOutcome={pairOutcome} />}
       <div className="fleet-review-switch">
         <span>本地预览 · 示例数据</span>
         {[

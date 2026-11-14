@@ -234,3 +234,25 @@
 .idle-bnt-value > details summary { cursor:pointer; width:fit-content; }
 .idle-bnt-value > details p { margin-top:8px; line-height:1.7; }
 @media(max-width:520px) { .idle-bnt-value-grid { grid-template-columns:1fr; gap:18px; } .idle-bnt-value-grid > div+div { padding-top:16px; border-top:1px solid #304236; } }
+
+.idle-mining-tabs { display: flex; gap: 6px; margin-bottom: 18px; padding: 4px; width: fit-content; border-radius: 12px; background: var(--surface-2, #171a1d); }
+.idle-mining-tabs button { border: 0; border-radius: 8px; padding: 8px 22px; background: transparent; color: #a8adb6; font-weight: 650; cursor: pointer; }
+.idle-mining-tabs button[aria-pressed="true"] { background: #303740; color: #fff; }
+.idle-mining-tabs button:focus-visible { outline: 2px solid #8edbc4; outline-offset: 2px; }
+.idle-xds-wallet { color: var(--text-muted, #9ca3af); font-size: .85rem; margin: 8px 0 24px; }
+.idle-xds-help { margin-top: 18px; color: var(--text-muted, #9ca3af); font-size: .85rem; }
+.idle-xds-help summary { cursor: pointer; }
+.idle-xds-help p { margin-top: 12px; line-height: 1.7; }
+.idle-xds-common-wallet { margin: 20px 0 24px; padding: 16px; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; }
+.idle-xds-common-wallet strong { font-size: .9rem; font-weight: 550; }
+.idle-xds-common-wallet p { margin: 8px 0 0; color: #9ca3af; font-size: .84rem; }
+.idle-xds-address { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.idle-xds-address code { color: #a8dbc9; font-size: .85rem; overflow-wrap: anywhere; }
+.idle-xds-consent { display: flex; gap: 10px; align-items: start; margin: 18px 0; font-size: .83rem; color: #b9bec5; line-height: 1.6; }
+.idle-xds-consent input { width: 16px; height: 16px; margin-top: 3px; flex-shrink: 0; }
+.idle-xds-backup { border-top: 1px solid rgba(255,255,255,.1); padding: 18px 0 0; margin-top: 18px; font-size: .85rem; }
+.idle-xds-backup label { display: grid; gap: 8px; margin: 14px 0; max-width: 360px; }
+.idle-xds-backup input { padding: 10px 12px; border: 1px solid #3e454d; border-radius: 8px; background: #15181b; color: #fff; }
+@media(max-width:600px) { .idle-xds-settings .idle-bnt-device-heading { flex-wrap: wrap; gap: 10px; } .idle-xds-address { align-items: flex-start; } }
+.idle-xds-wallet-recovery { margin: 18px 0; padding: 16px 20px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; }
+.idle-xds-wallet-recovery .idle-xds-common-wallet { border: 0; padding: 0; margin: 0; }

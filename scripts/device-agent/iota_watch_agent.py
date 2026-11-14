@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Account-paired Mac agent. Fixed application and mining actions; no shell execution."""
 import argparse
-import datetime
 import getpass
+import datetime
 import fcntl
 import hashlib
 import io
@@ -28,7 +28,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.19'
+VERSION = '1.0.21'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -99,8 +99,9 @@ def post(server, path, data, credential=None):
         headers['Authorization'] = 'Bearer ' + credential
     req = urllib.request.Request(endpoint(server) + path, json.dumps(data, ensure_ascii=False).encode(), headers=headers, method='POST')
     with urllib.request.build_opener(NoRedirect()).open(req, timeout=12) as response:
-        raw = response.read(20001)
-        if len(raw) > 20000:
+        limit = 131072 if path == '/api/device-agent/xds-wallet' else 20000
+        raw = response.read(limit + 1)
+        if len(raw) > limit:
             raise ValueError('response too large')
         return json.loads(raw)
 
@@ -305,7 +306,52 @@ def parse_training_state(text, now, started):
         result = (observed, value)
     return result[1] if result else None
 
-def local_training_status(rows):
+def parse_agent_reason(text, now, started):
+    result = None
+    resets = []
+    for line in text.splitlines():
+        stamp = re.match(r'\[(\d{4}-\d\d-\d\d \d\d:\d\d:\d\d\.\d+)\]', line)
+        if not stamp:
+            continue
+        try:
+            observed = datetime.datetime.strptime(stamp[1], '%Y-%m-%d %H:%M:%S.%f').timestamp()
+        except ValueError:
+            continue
+        if observed < started or not 0 <= now - observed <= 300 or (result and observed < result[0]):
+            continue
+        code = None
+        relevant = False
+        if 'Resetting miner entire state!' in line:
+            resets = [at for at in resets if 0 <= observed - at <= 120] + [observed]
+            code, relevant = ('reset_loop' if len(resets) >= 3 else 'resetting'), True
+        elif re.search(r'miner\.kicked|kicked during active work', line, re.I):
+            code, relevant = 'kicked', True
+        elif 'EntityNotRegisteredError' in line or 'Miner not registered error' in line:
+            code, relevant = 'registration_expired', True
+        elif 'Error registering miner:' in line:
+            code, relevant = 'registration_failed', True
+        elif re.search(r'iota-web\.api\.macrocosmos\.ai|/miner/', line):
+            if re.search(r'NameResolutionError|gaierror|Temporary failure in name resolution|nodename nor servname|Failed to resolve', line, re.I):
+                code, relevant = 'api_dns', True
+            elif re.search(r'ConnectTimeout|ReadTimeout|ConnectionError|Network is unreachable|Connection refused', line, re.I):
+                code, relevant = 'api_unreachable', True
+            elif 'Successfully completed request to /miner/register' in line and 'response:' in line:
+                status = re.search(r"['\"]status['\"]:\s*['\"]([^'\"]+)['\"]", line)
+                if status:
+                    code = {'succeeded': 'registration_pending', 'confirmed': 'registration_pending',
+                            'failed': 'registration_failed', 'expired': 'registration_expired'}.get(status[1])
+                    relevant = True
+            elif 'Successfully completed request to /miner/heartbeat' in line and 'response:' in line:
+                code = 'kicked' if re.search(r"['\"]status['\"]:\s*['\"]kicked['\"]", line) else None
+                relevant = True
+        if relevant:
+            result = observed, code
+    if not result or not result[1]:
+        return None
+    return dict(code=result[1], observedAt=datetime.datetime.fromtimestamp(result[0], datetime.timezone.utc).isoformat())
+
+
+def local_training_status(rows, details=None):
     workers = [r for r in rows if r[3] in (WORKER, TRAINING_TITLE)]
     if not workers:
         return None, None
@@ -325,6 +371,10 @@ def local_training_status(rows):
             with path.open('rb') as f:
                 f.seek(max(0, path.stat().st_size - 128000))
                 text += f.read(128000).decode('utf-8', errors='replace') + '\n'
+        if details is not None:
+            reason = parse_agent_reason(text, now, started)
+            if reason:
+                details['reason'] = reason
         return parse_queue(text, now, started), parse_training_state(text, now, started)
     except (OSError, ValueError, subprocess.SubprocessError):
         return None, None
@@ -543,15 +593,18 @@ def snapshot(include_logs=False):
     # Include renamed roots even when exact-path descendants also exist: the
     # oldest root establishes the current generation's launch boundary.
     workers = observed_training_workers()
-    payload = {'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': bool(workers),
+    payload = {'platform': 'darwin', 'appRunning': any(r[3] == EXEC for r in rows), 'workerRunning': bool(workers),
                'appCpu': cpu,
                'processMemoryMb': memory,
                'load': os.getloadavg()[0], 'version': VERSION, 'recovery': 'idle'}
-    payload['queue'], payload['trainingState'] = local_training_status(workers)
+    details = {}
+    payload['queue'], payload['trainingState'] = local_training_status(workers, details)
+    payload.update(details)
     payload['appSelectedRun'] = app_selected_run(rows) if payload['appRunning'] else None
     if payload['workerRunning'] and crashed_training(rows, workers=workers):
         payload['workerRunning'] = False
         payload['queue'], payload['trainingState'] = None, None
+        payload['reason'] = dict(code='worker_crashed', observedAt=datetime.datetime.now(datetime.timezone.utc).isoformat())
     if include_logs:
         try:
             payload['logs'] = logs()
@@ -1228,6 +1281,8 @@ def idle_bnt_stats(path, now):
 
 
 class IdleBntMiner:
+    stop_timeout = 4
+
     def __init__(self, folder):
         self.folder = folder
         self.child = None
@@ -1241,7 +1296,7 @@ class IdleBntMiner:
         if self.child and self.child.poll() is None:
             self.child.terminate()
             try:
-                self.child.wait(timeout=4)
+                self.child.wait(timeout=self.stop_timeout)
             except subprocess.TimeoutExpired:
                 self.child.kill()
                 self.child.wait(timeout=2)
@@ -1285,9 +1340,239 @@ class IdleBntMiner:
         return 'starting'
 
 
-def idle_bnt_watch():
-    folder = ROOT / 'idle-bnt'
-    miner = IdleBntMiner(folder)
+XDS_CLI_VERSION = 'v.0.9.10'
+XDS_CLI_SHA256 = 'a9a9d48760a7732bd55912588e1d2333b333ed4793d493baebe52d67d376cf92'
+
+
+def xds_transport_key():
+    folder = ROOT / 'idle-xds'
+    folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+    key = folder / 'transport.pem'
+    if not key.exists():
+        subprocess.run(['/usr/bin/openssl', 'genpkey', '-algorithm', 'RSA', '-pkeyopt',
+                        'rsa_keygen_bits:2048', '-out', str(key)], check=True,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20)
+        key.chmod(0o600)
+    public = subprocess.check_output(['/usr/bin/openssl', 'pkey', '-in', str(key), '-pubout'],
+                                     stderr=subprocess.DEVNULL, timeout=5).decode()
+    return key, public
+
+
+def xds_seal(public_key, context, data):
+    import base64
+    import hmac
+    keys, iv = os.urandom(64), os.urandom(16)
+    with tempfile.TemporaryDirectory(dir=ROOT / 'idle-xds') as directory:
+        pem = Path(directory) / 'recipient.pem'
+        pem.write_text(public_key)
+        wrapped = subprocess.run(['/usr/bin/openssl', 'pkeyutl', '-encrypt', '-pubin', '-inkey', str(pem),
+            '-pkeyopt', 'rsa_padding_mode:oaep', '-pkeyopt', 'rsa_oaep_md:sha256'],
+            input=keys, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True, timeout=5).stdout
+    encrypted = subprocess.run(['/usr/bin/openssl', 'enc', '-aes-256-ctr', '-K', keys[:32].hex(),
+        '-iv', iv.hex()], input=json.dumps(data).encode(), stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL, check=True, timeout=5).stdout
+    tag = hmac.new(keys[32:], context.encode() + iv + encrypted, hashlib.sha256).digest()
+    return {k: base64.b64encode(v).decode() for k, v in
+            dict(key=wrapped, iv=iv, data=encrypted, tag=tag).items()}
+
+
+def xds_open(context, packet):
+    import base64
+    import hmac
+    values = {k: base64.b64decode(packet[k], validate=True) for k in ('key', 'iv', 'data', 'tag')}
+    private, _ = xds_transport_key()
+    keys = subprocess.run(['/usr/bin/openssl', 'pkeyutl', '-decrypt', '-inkey', str(private),
+        '-pkeyopt', 'rsa_padding_mode:oaep', '-pkeyopt', 'rsa_oaep_md:sha256'],
+        input=values['key'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True, timeout=5).stdout
+    tag = hmac.new(keys[32:], context.encode() + values['iv'] + values['data'], hashlib.sha256).digest()
+    if len(keys) != 64 or not hmac.compare_digest(tag, values['tag']):
+        raise ValueError('Invalid XDS wallet envelope')
+    raw = subprocess.run(['/usr/bin/openssl', 'enc', '-d', '-aes-256-ctr', '-K', keys[:32].hex(),
+        '-iv', values['iv'].hex()], input=values['data'], stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL, check=True, timeout=5).stdout
+    value = json.loads(raw)
+    if (not isinstance(value, dict) or set(value) != {'wallet', 'password', 'address'}
+            or not all(isinstance(v, str) for v in value.values())
+            or not value['address'].startswith('disc1') or len(value['address']) > 10000
+            or not 1 <= len(value['password']) <= 256 or len(value['wallet']) > 65536):
+        raise ValueError('Invalid XDS wallet package')
+    base64.b64decode(value['wallet'], validate=True)
+    return value
+
+
+def install_xds_cli():
+    import zipfile
+    if sys.platform != 'darwin' or os.uname().machine != 'arm64':
+        raise ValueError('XDS automatic installation requires Apple Silicon')
+    target = ROOT / 'idle-xds' / ('cli-' + XDS_CLI_VERSION)
+    if (target / 'discreted').is_file() and (target / 'simplewallet').is_file():
+        return target
+    store(ROOT / 'idle-xds' / 'setup-status.json', dict(state='installing'))
+    url = ('https://github.com/discretecoin/discrete/releases/download/' + XDS_CLI_VERSION +
+           '/discrete-cli-macos-arm64-' + XDS_CLI_VERSION + '.zip')
+    with urllib.request.urlopen(url, timeout=60) as response:
+        package = response.read(20000001)
+    if len(package) > 20000000 or hashlib.sha256(package).hexdigest() != XDS_CLI_SHA256:
+        raise ValueError('XDS release checksum mismatch')
+    with tempfile.TemporaryDirectory(dir=target.parent) as directory:
+        stage = Path(directory)
+        with zipfile.ZipFile(io.BytesIO(package)) as archive:
+            for name in ('discreted', 'simplewallet'):
+                content = archive.read('discrete-cli-macos-arm64-' + XDS_CLI_VERSION + '/' + name)
+                path = stage / name
+                path.write_bytes(content)
+                path.chmod(0o700)
+        stage.rename(target)
+    return target
+
+
+def xds_wallet_data(wallet_id, cli, expected_address=None):
+    import base64
+    folder = ROOT / 'idle-xds' / 'wallets' / str(uuid.UUID(wallet_id))
+    if not (folder / 'miner.wallet').exists():
+        if expected_address:
+            raise ValueError('Shared wallet is missing; restore its backup')
+        folder.parent.mkdir(mode=0o700, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=folder.parent) as directory:
+            stage = Path(directory)
+            password = base64.urlsafe_b64encode(os.urandom(32)).decode()
+            (stage / 'password').write_text(password)
+            (stage / 'password').chmod(0o600)
+            config = stage / 'create.conf'
+            config.write_text('generate-new-wallet=' + str(stage / 'miner') + '\npassword=' + password +
+                '\ndaemon-address=http://127.0.0.1:9\ncommand=address\nlog-file=' + str(stage / 'wallet.log') + '\n')
+            config.chmod(0o600)
+            subprocess.run([str(cli / 'simplewallet'), '--config-file', str(config)],
+                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                timeout=40, check=True, cwd=stage)
+            config.unlink()
+            for path in stage.iterdir():
+                path.chmod(0o600)
+            stage.rename(folder)
+    address = (folder / 'miner.address').read_text().strip()
+    if expected_address and address != expected_address:
+        raise ValueError('Shared wallet identity mismatch')
+    return dict(wallet=base64.b64encode((folder / 'miner.wallet').read_bytes()).decode(),
+                password=(folder / 'password').read_text().strip(), address=address)
+
+
+def receive_xds_wallet(wallet_id, value, cli):
+    import base64
+    folder = ROOT / 'idle-xds' / 'wallets' / str(uuid.UUID(wallet_id))
+    if not (folder / 'miner.wallet').exists():
+        folder.mkdir(mode=0o700, parents=True, exist_ok=True)
+        for name, content in [('miner.wallet', base64.b64decode(value['wallet'], validate=True)),
+                              ('password', value['password'].encode()), ('miner.address', value['address'].encode())]:
+            path = folder / name
+            path.write_bytes(content)
+            path.chmod(0o600)
+    elif (folder / 'miner.address').read_text().strip() != value['address']:
+        raise ValueError('Shared wallet identity mismatch')
+    store(ROOT / 'idle-xds' / 'wallet.json', dict(walletId=wallet_id, address=value['address'],
+        binary=str(cli / 'discreted'), wallet=str(folder / 'miner.wallet'),
+        passwordFile=str(folder / 'password'), dataDir=str(folder)))
+
+
+def sync_xds_wallet(config):
+    _, public = xds_transport_key()
+    job = post(config['server'], '/api/device-agent/xds-wallet', {'action': 'poll', 'publicKey': public}, config['credential'])
+    if not job:
+        return
+    cli = install_xds_cli()
+    store(ROOT / 'idle-xds' / 'setup-status.json', dict(state='syncing'))
+    wallet_id = str(uuid.UUID(job['walletId']))
+    if job['kind'] == 'source':
+        value = xds_wallet_data(wallet_id, cli, job.get('address'))
+        receive_xds_wallet(wallet_id, value, cli)
+        envelopes = [dict(deviceId=r['deviceId'], publicKey=r['publicKey'], packet=xds_seal(
+            r['publicKey'], wallet_id + ':' + r['deviceId'], value)) for r in job['recipients']]
+        backup = job.get('backup')
+        result = dict(action='source', walletId=wallet_id, address=value['address'], envelopes=envelopes)
+        if backup:
+            result['backup'] = dict(id=backup['id'], packet=xds_seal(backup['publicKey'],
+                wallet_id + ':' + backup['id'], value))
+        post(config['server'], '/api/device-agent/xds-wallet', result, config['credential'])
+    elif job['kind'] == 'receive':
+        value = xds_open(wallet_id + ':' + job['deviceId'], job['packet'])
+        if job.get('address') != value['address']:
+            raise ValueError('Shared wallet identity mismatch')
+        receive_xds_wallet(wallet_id, value, cli)
+        post(config['server'], '/api/device-agent/xds-wallet', dict(action='received',
+            walletId=wallet_id, address=value['address'], publicKey=public), config['credential'])
+
+
+def idle_xds_local(config):
+    source = config.get('idleXdsSettings') or (str(ROOT / 'idle-xds' / 'wallet.json') if (ROOT / 'idle-xds' / 'wallet.json').exists() else '') or str(Path.home() / '.local/share/iota-xds-auto/settings.json')
+    value = read(Path(source))
+    if not isinstance(value, dict):
+        raise ValueError('Invalid XDS settings')
+    result = {}
+    for key in ('binary', 'wallet', 'passwordFile', 'dataDir'):
+        if not isinstance(value.get(key), str):
+            raise ValueError('XDS local wallet setup required')
+        path = Path(value.get(key, ''))
+        if not path.is_absolute():
+            raise ValueError('XDS local wallet setup required')
+        path = path.resolve(strict=True)
+        if path.stat().st_uid != os.getuid():
+            raise ValueError('XDS files must belong to this user')
+        result[key] = str(path)
+    binary = Path(result['binary'])
+    if not binary.is_file() or not os.access(binary, os.X_OK) or binary.stat().st_mode & 0o022:
+        raise ValueError('Invalid XDS binary')
+    if not Path(result['wallet']).is_file() or not Path(result['passwordFile']).is_file():
+        raise ValueError('XDS wallet setup required')
+    return result
+
+
+class IdleXdsMiner(IdleBntMiner):
+    stop_timeout = 10
+
+    def __init__(self, folder):
+        super().__init__(folder)
+        self.log = folder / 'discrete.log'
+
+    def tick(self, policy, now):
+        settings = policy['settings']
+        if self.child and self.child.poll() is not None:
+            self.stop()
+            self.retry_at = now + 60
+        if now < self.retry_at:
+            return 'error'
+        if self.child and self.settings != (settings, policy['local']):
+            self.stop()
+        if self.child:
+            observation = xds_observation(str(self.log))
+            if observation['status'] == 'stopped':
+                self.stop()
+                self.retry_at = now + 60
+                return 'error'
+            if observation['status'] == 'ok':
+                stamp = datetime.datetime.fromisoformat(observation['observedAt']).timestamp()
+                if now - stamp <= 60:
+                    self.rate = observation['hashrateHps']
+                    return 'mining'
+            self.rate = None
+            return 'starting'
+        rows = subprocess.check_output(['/bin/ps', '-axo', 'comm='], text=True, timeout=2)
+        if any(Path(line.strip()).name == 'discreted' for line in rows.splitlines()):
+            return 'busy'
+        local = policy['local']
+        command = ['/usr/bin/nice', '-n', '15', local['binary'],
+                   '--data-dir', local['dataDir'], '--rpc-bind-ip', '127.0.0.1',
+                   '--no-console', '--log-hashrate', '--log-file', str(self.log), '--mining-wallet', local['wallet'],
+                   '--mining-password-file', local['passwordFile'], '--start-mining',
+                   '--mining-threads', str(settings['threads'])]
+        self.log.unlink(missing_ok=True)
+        with (self.folder / 'console.log').open('w') as log:
+            self.child = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=log, stderr=log)
+        self.settings = settings, local
+        return 'starting'
+
+
+def idle_bnt_watch(project='bnt'):
+    folder = ROOT / ('idle-' + project)
+    miner = IdleXdsMiner(folder) if project == 'xds' else IdleBntMiner(folder)
     revoked = None
     previous = None
     def shutdown(*_):
@@ -1297,10 +1582,11 @@ def idle_bnt_watch():
         # stdin is the Agent's lifetime. Closing it releases the miner even if the Agent exits.
         while not select.select([sys.stdin], [], [], 2)[0]:
             now = time.time()
+            # Python 3.9 on macOS has a separate monotonic epoch per process.
             policy = read(folder / 'policy.json')
             state = 'off'
             try:
-                if policy.get('until', 0) > time.monotonic():
+                if policy.get('until', 0) > now:
                     iota = idle_bnt_iota()
                     pause = policy.get('pause')
                     if pause and (iota['appRunning'] or iota['workerRunning']):
@@ -1371,7 +1657,7 @@ class IdleBntAgent:
         self.folder.mkdir(mode=0o700, exist_ok=True)
         store(self.folder / 'policy.json', dict(
             settings=lease['settings'], worker=lease['worker'], binary=str(binary),
-            until=time.monotonic() + lease['seconds'],
+            until=time.time() + lease['seconds'],
             pause=None if state.get('recoveryEnabled') else state.get('idleBntPause')))
         if not self.watch or self.watch.poll() is not None:
             (self.folder / 'status.json').unlink(missing_ok=True)
@@ -1391,7 +1677,75 @@ class IdleBntAgent:
             self.watch = None
 
 
-def step(config, state, now=None, idle_bnt=None):
+class IdleXdsAgent:
+    def __init__(self):
+        self.folder = ROOT / 'idle-xds'
+        self.watch = None
+        self.setup = None
+        self.sync_after = 0
+        self.public_key = None
+
+    def schedule_sync(self, needed):
+        if needed and time.time() >= self.sync_after and (not self.setup or self.setup.poll() is not None):
+            self.sync_after = time.time() + 30
+            self.setup = subprocess.Popen([sys.executable, __file__, '--sync-xds-wallet'],
+                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+
+    def status(self, config, state):
+        if config.get('credential') and os.uname().machine == 'arm64' and not self.public_key:
+            _, self.public_key = xds_transport_key()
+        extra = dict(publicKey=self.public_key, supported=True) if self.public_key else {}
+        if config.get('credential'):
+            extra['supported'] = os.uname().machine == 'arm64'
+            provisioning = read(self.folder / 'setup-status.json').get('state')
+            if provisioning:
+                extra['provisioning'] = provisioning
+        try:
+            idle_xds_local(config)
+        except (OSError, ValueError):
+            return dict(state='setup', hashrate=None, **extra)
+        if self.watch and self.watch.poll() is None:
+            status = read(self.folder / 'status.json')
+            if status.get('revoked') == state.get('idleBntPause'):
+                state.pop('idleBntPause', None)
+            return dict(state=status.get('state', 'off'), hashrate=status.get('hashrate'), **extra)
+        return dict(state='off', hashrate=None, **extra)
+
+    def apply(self, config, state, lease):
+        if not lease:
+            self.stop_mining()
+            return
+        try:
+            local = idle_xds_local(config)
+        except (OSError, ValueError):
+            self.stop_mining()
+            return
+        self.folder.mkdir(mode=0o700, exist_ok=True)
+        store(self.folder / 'policy.json', dict(
+            settings=lease['settings'], local=local,
+            until=time.time() + lease['seconds'],
+            pause=None if state.get('recoveryEnabled') else state.get('idleBntPause')))
+        if not self.watch or self.watch.poll() is not None:
+            (self.folder / 'status.json').unlink(missing_ok=True)
+            self.watch = subprocess.Popen(
+                [sys.executable, __file__, '--watch-idle-xds'], stdin=subprocess.PIPE,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    def stop(self):
+        if self.setup and self.setup.poll() is None:
+            os.killpg(self.setup.pid, signal.SIGTERM)
+            self.setup.wait(timeout=10)
+        self.setup = None
+        self.stop_mining()
+
+    def stop_mining(self):
+        if self.watch:
+            self.watch.stdin.close()
+            self.watch.wait(timeout=15)
+            self.watch = None
+
+
+def step(config, state, now=None, idle_bnt=None, idle_xds=None):
     now = time.time() if now is None else now
     payload = snapshot(state.get('logsEnabled', False) and state.get('permissionsUntil', 0) > now)
     payload['recovery'] = state.pop('recovery', 'idle')
@@ -1403,8 +1757,13 @@ def step(config, state, now=None, idle_bnt=None):
         payload['xds'] = xds_observation(xds_log)
     if idle_bnt:
         payload['idleBnt'] = idle_bnt.status(config, state)
+    if idle_xds:
+        payload['idleXds'] = idle_xds.status(config, state)
+        managed_log = idle_xds.folder / 'discrete.log'
+        if managed_log.exists() and not xds_log:
+            payload['xds'] = xds_observation(str(managed_log))
     try:
-        result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack'), 'requestBindings':True}, config['credential'])
+        result = post(config['server'], '/api/device-agent/heartbeat', {'snapshot': payload, 'ack': state.get('ack'), 'requestBindings':True, 'adaptive':True}, config['credential'])
     except urllib.error.HTTPError as e:
         if e.code == 401:
             state['permissionsUntil'] = 0
@@ -1417,6 +1776,10 @@ def step(config, state, now=None, idle_bnt=None):
         state['ack'] = {'id': update['id'], 'success': True}
         store(STATE, state)
         store(ROOT / 'update-health.json', {'id': update['id'], 'version': VERSION})
+    interval = result.get('interval', 15)
+    state['reportInterval'] = interval if interval in (10, 15, 60) else 15
+    if result.get('idleBnt') or result.get('idleXds') or result.get('xdsWalletTask') or result.get('recoveryEnabled'):
+        state['reportInterval'] = 10
     state['logsEnabled'] = result.get('logsEnabled') is True
     state['recoveryEnabled'] = result.get('recoveryEnabled') is True
     state['permissionsUntil'] = now + 90
@@ -1431,6 +1794,8 @@ def step(config, state, now=None, idle_bnt=None):
                 store(STATE, state)
                 success = False
                 try:
+                    if idle_xds:
+                        idle_xds.stop()
                     if idle_bnt:
                         idle_bnt.stop()
                         if command['action'] in ('start', 'restart'):
@@ -1441,7 +1806,7 @@ def step(config, state, now=None, idle_bnt=None):
                             return state
                     else:
                         control(command['action'])
-                    if idle_bnt and command['action'] == 'stop':
+                    if (idle_bnt or idle_xds) and command['action'] == 'stop':
                         state['idleBntPause'] = cmd_id
                     success = True
                 except (OSError, ValueError, subprocess.SubprocessError):
@@ -1465,6 +1830,8 @@ def step(config, state, now=None, idle_bnt=None):
                 state['trainingMissingSince'] = now
                 store(STATE, state)
                 try:
+                    if idle_xds:
+                        idle_xds.stop()
                     if idle_bnt:
                         idle_bnt.stop()
                         state.pop('idleBntPause', None)
@@ -1474,6 +1841,9 @@ def step(config, state, now=None, idle_bnt=None):
                     state['recovery'] = 'paused'
     if idle_bnt and state.get('recovery') not in ('restarted', 'paused'):
         idle_bnt.apply(config, state, result.get('idleBnt'))
+    if idle_xds and state.get('recovery') not in ('restarted', 'paused'):
+        idle_xds.schedule_sync(result.get('xdsWalletTask') is True)
+        idle_xds.apply(config, state, result.get('idleXds'))
     if 'bindings' in result:
         manifest = _binding_manifest(result['bindings'])
         changed = manifest != state.get('bindingManifest')
@@ -1629,6 +1999,18 @@ def configure_xds(path):
     print('XDS monitoring configured. / 已配置 XDS 算力采集。')
 
 
+def reporting_due(config, state, next_report, now):
+    if now >= next_report:
+        return True
+    try:
+        result = post(config['server'], '/api/device-agent/probe', {}, config['credential'])
+        if not isinstance(result, dict) or not isinstance(result.get('active'), bool):
+            raise ValueError('Invalid reporting mode')
+        return result.get('active') is True
+    except (OSError, ValueError, KeyError):
+        return now >= next_report - max(0, state.get('reportInterval', 15) - 15)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--self-test', action='store_true')
@@ -1643,10 +2025,32 @@ def main():
     parser.add_argument('--configure-xds-log', metavar='ABSOLUTE_LOG_PATH')
     parser.add_argument('--configure-idle-bnt', metavar='ABSOLUTE_SEINE_PATH')
     parser.add_argument('--install-idle-bnt', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--sync-xds-wallet', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--watch-idle-xds', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--configure-idle-xds', metavar='ABSOLUTE_SETTINGS_JSON')
     parser.add_argument('--watch-idle-bnt', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--server', default='https://iotahome.site')
     args = parser.parse_args()
-    if args.watch_idle_bnt:
+    if args.sync_xds_wallet:
+        folder = ROOT / 'idle-xds'
+        store(folder / 'setup-status.json', dict(state='syncing'))
+        try:
+            sync_xds_wallet(read(CONFIG))
+            store(folder / 'setup-status.json', dict(state='ready'))
+        except (OSError, ValueError, KeyError, subprocess.SubprocessError):
+            store(folder / 'setup-status.json', dict(state='error'))
+            raise
+    elif args.configure_idle_xds:
+        config = read(CONFIG)
+        if not config.get('credential'):
+            raise ValueError('pair the Agent first')
+        config['idleXdsSettings'] = args.configure_idle_xds
+        idle_xds_local(config)
+        store(CONFIG, config)
+        print('XDS local wallet ready. Enable idle mining on the website. / 本地钱包已就绪，请到网页启用。')
+    elif args.watch_idle_xds:
+        idle_bnt_watch('xds')
+    elif args.watch_idle_bnt:
         idle_bnt_watch()
     elif args.install_idle_bnt:
         install_idle_bnt()
@@ -1674,14 +2078,19 @@ def main():
         config = read(CONFIG)
         endpoint(config['server'])
         idle_bnt = IdleBntAgent()
+        idle_xds = IdleXdsAgent()
+        next_report = 0
         try:
             while True:
                 # Local setup changes take effect on the next heartbeat.
                 config = read(CONFIG)
                 endpoint(config['server'])
                 state = read(STATE)
+                if not reporting_due(config, state, next_report, time.time()):
+                    time.sleep(min(10, max(1, next_report-time.time())))
+                    continue
                 try:
-                    state = step(config, state, idle_bnt=idle_bnt)
+                    state = step(config, state, idle_bnt=idle_bnt, idle_xds=idle_xds)
                 except (OSError, ValueError, KeyError, subprocess.SubprocessError):
                     # No offline remote control/recovery. The mining lease expires locally.
                     state['permissionsUntil'] = 0
@@ -1690,8 +2099,11 @@ def main():
                 store(STATE, state)
                 if read(ROOT / 'update-request.json').get('phase') == 'ready':
                     return
-                time.sleep(15)
+                interval = 10 if state.get('ack') else state.get('reportInterval', 15)
+                next_report = time.time() + interval
+                time.sleep(min(10, interval))
         finally:
+            idle_xds.stop()
             idle_bnt.stop()
     else:
         parser.print_help()

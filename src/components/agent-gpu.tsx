@@ -11,7 +11,8 @@ const copy = {
 export function AgentGpu({agent,now,compact=false}:{agent:AgentInfo;now:number;compact?:boolean}) {
   const {locale}=useLocale();
   if(agent.snapshot.platform !== 'linux' && !agent.snapshot.gpus?.length) return null;
-  const fresh=agent.lastSeen && now-Date.parse(agent.lastSeen)>=0 && now-Date.parse(agent.lastSeen)<60000;
+  const sampledAt=agent.snapshotAt ?? agent.lastSeen;
+  const fresh=sampledAt && now-Date.parse(sampledAt)>=0 && now-Date.parse(sampledAt)<75000;
   const gpus=agent.snapshot.gpus?.filter(g=>now-Date.parse(g.observedAt)>=0&&now-Date.parse(g.observedAt)<60000) ?? [];
   return <div className={`agent-gpu ${compact?'agent-gpu-compact':''}`}>
     <small>{copy.readonly[locale]}</small>

@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import {
   AGENT_RELEASE, agentAction, agentCanUpdate, agentDisplayPhase, agentOnline,
-  agentUpdateAvailable, type AgentInfo,
+  agentUpdateAvailable, currentAgentReason, type AgentInfo,
 } from "@/lib/device-agent";
 import { batchItemState, type AgentBatch, type BatchItem } from "@/lib/agent-batch";
 import { getAgentBatches, submitAgentBatch } from "@/lib/agent-batch.functions";
@@ -11,6 +11,7 @@ import { useBilling } from "@/hooks/use-billing";
 import { LANGUAGE_TAG, type SiteLocale } from "@/lib/site";
 import { batchConfirmation, batchCopy } from "./agent-batch-copy";
 import { agentCopy } from "./device-agent-copy";
+import { agentReasonCopy } from "@/lib/agent-reason";
 import { agentPhaseSummary } from "./agent-insight-copy";
 import "./agent-batch.css";
 
@@ -100,7 +101,8 @@ export function AgentBatchPanel({
     const reason = unavailable(a, action);
     if (reason) return t[reason];
     if (action === "update") return `${a.snapshot.version} → ${AGENT_RELEASE}`;
-    return agentPhaseSummary[agentDisplayPhase(a, undefined, now)][locale];
+    const cause=currentAgentReason(a,now);
+    return cause ? agentReasonCopy[cause.code][locale] : agentPhaseSummary[agentDisplayPhase(a, undefined, now)][locale];
   }
   const controls = [...new Set(agents
     .filter((a) => eligible(a, action) && !controlled.has(a.deviceId))

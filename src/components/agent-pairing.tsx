@@ -1,3 +1,4 @@
+import { agentListInput } from "@/lib/device-agent";
 import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -57,7 +58,7 @@ export function AgentPairing({
     (preview ? "Mac mini" : devices.data?.devices.find((d) => d.id === deviceId)?.name);
   const query = useQuery({
     queryKey: ["device-agents", auth.userId],
-    queryFn: () => list(),
+    queryFn: () => list(agentListInput()),
     enabled: open && !!code && !preview && !!auth.userId,
     refetchInterval: (q) =>
       q.state.data?.some(

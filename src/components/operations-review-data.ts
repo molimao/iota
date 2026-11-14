@@ -27,6 +27,8 @@ export function operationsReviewData(now: number) {
         deviceId: d.id,
         lastSeen: new Date(now - 10000).toISOString(),
         snapshot: {
+          platform: "darwin",
+          idleXds: i === 1 ? { state: "off", hashrate: null } : { state: "setup", hashrate: null },
           appRunning: true,
           workerRunning: true,
           appCpu: i === 0 ? 286.5 : 3.2,
