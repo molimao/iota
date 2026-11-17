@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { agentPhase, currentAgentReason } from './device-agent';
+import { agentDisplayPhase, agentPhase, currentAgentReason } from './device-agent';
 import { agentReasonSchema, agentReasonCopy } from './agent-reason';
 
 it('uses recent reasons without overriding newer training or queue evidence',()=>{
@@ -16,4 +16,16 @@ it('uses recent reasons without overriding newer training or queue evidence',()=
   for(const code of agentReasonSchema.shape.code.options) {
     for (const label of Object.values(agentReasonCopy[code])) expect(label.length).toBeGreaterThan(0);
   }
+});
+
+it('treats an unregistered running miner as waiting rather than interrupted',()=>{
+  const now=Date.now(), at=(seconds:number)=>new Date(now+seconds*1000).toISOString();
+  const agent={lastSeen:at(0),snapshot:{appRunning:true,workerRunning:true,reason:{code:'registration_expired' as const,observedAt:at(-30)}}};
+  expect(agentDisplayPhase(agent,{status:'not_found',fetchedAt:now},now)).toBe('preparing');
+  expect(agentReasonCopy.registration_expired.zh).toBe('等待重新注册');
+  expect(agentPhase({...agent,snapshot:{...agent.snapshot,queue:{position:210,observedAt:at(-10)}}},now)).toBe('queued');
+  expect(agentPhase({...agent,snapshot:{...agent.snapshot,trainingState:{phase:'training',status:'forward',observedAt:at(-10)}}},now)).toBe('working');
+  expect(agentPhase({...agent,snapshot:{...agent.snapshot,workerRunning:false}},now)).toBe('workerStopped');
+  expect(agentPhase({...agent,lastSeen:at(-100)},now)).toBe('offline');
+  expect(agentPhase({...agent,snapshot:{...agent.snapshot,reason:{code:'kicked',observedAt:at(-30)}}},now)).toBe('blocked');
 });

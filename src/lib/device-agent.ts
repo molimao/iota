@@ -229,7 +229,7 @@ export function agentPhase(
     return "workerStopped";
   }
   const reason=currentAgentReason(agent,now);
-  if (reason) return ["registration_pending","resetting"].includes(reason.code) ? "preparing" : "blocked";
+  if (reason) return ["registration_pending","registration_expired","resetting"].includes(reason.code) ? "preparing" : "blocked";
   const queueAge = s.queue ? now - Date.parse(s.queue.observedAt) : Infinity;
   const queued = !!s.queue && s.queue.position > 0 && queueAge >= 0 && queueAge <= 300000;
   const state = s.trainingState;

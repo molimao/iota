@@ -7,7 +7,7 @@ export const agentReasonSchema=z.object({
 export const agentReasonCopy={
  registration_pending:l(["等待层分配","等待層分配","Waiting for a layer","레이어 배정 대기","レイヤー割り当て待ち"]),
  registration_failed:l(["注册失败","註冊失敗","Registration failed","등록 실패","登録失敗"]),
- registration_expired:l(["注册已失效","註冊已失效","Registration expired","등록 만료","登録失効"]),
+ registration_expired:l(["等待重新注册","等待重新註冊","Awaiting re-registration","재등록 대기","再登録待ち"]),
  kicked:l(["被项目移出","被專案移出","Removed by the project","프로젝트에서 제외됨","プロジェクトから除外"]),
  resetting:l(["重新注册中","重新註冊中","Re-registering","재등록 중","再登録中"]),
  reset_loop:l(["反复重置","反覆重設","Repeated resets","반복 초기화","リセットを反復"]),
