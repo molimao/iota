@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { watchDb } from "./watch-db";
-import { agentAction, agentHistoryPointSchema, type AgentInfo } from "./device-agent";
+import { agentAction, agentHistoryPointSchema, deviceTimelinePointSchema, type AgentInfo } from "./device-agent";
 const device = z.object({ deviceId: z.string().uuid() }).strict();
 export const linkBntWorkerAgent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -131,6 +131,17 @@ export const getAgentHistory = createServerFn({ method: "POST" })
     });
     if (r.error) throw new Error("agent_history_unavailable");
     return z.array(agentHistoryPointSchema).max(289).parse(r.data);
+  });
+
+export const getDeviceTimeline = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(device)
+  .handler(async ({ data, context }) => {
+    const result = await watchDb(context.supabase).rpc("watch_device_timeline", {
+      p_device: data.deviceId,
+    });
+    if (result.error) throw new Error("device_timeline_unavailable");
+    return z.array(deviceTimelinePointSchema).max(289).parse(result.data);
   });
 
 export const getAgentCrashAnalyses = createServerFn({ method: "POST" })

@@ -1,0 +1,145 @@
+.fleet-workspace .fleet-workspace-toolbar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+
+.fleet-workspace-toolbar .fleet-search {
+  min-height: 40px;
+  flex: 1 1 220px;
+}
+
+.fleet-workspace-toolbar .fleet-search input {
+  width: 100%;
+  min-width: 0;
+  font-size: 13px;
+}
+
+.fleet-workspace-toolbar select {
+  min-height: 40px;
+  color-scheme: dark;
+  color: #e6e6e6;
+  background: #181818;
+  border: 1px solid #373737;
+  border-radius: 8px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.fleet-workspace-toolbar .agent-filter-label > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.fleet-workspace-toolbar .agent-layout-switch { margin: 0; }
+.fleet-workspace-tools { margin: 0 0 16px; }
+.fleet-workspace-tools > summary {
+  width: fit-content;
+  padding: 9px 12px;
+  color: #c8c8c8;
+  border: 1px solid #353535;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.fleet-workspace-tools > div { margin-top: 12px; }
+
+.fleet-device-card .fleet-device-actions,
+.fleet-device-table .fleet-device-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.fleet-device-card .fleet-device-actions > button,
+.fleet-device-table .fleet-device-actions > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #ccc;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fleet-device-actions > button:is(:hover, :focus-visible) { background: #252525; color: #fff; }
+.fleet-device-actions > button:first-child svg { color: #83d9bf; }
+.fleet-device-actions-menu { background: #1d1d1d; color: #f3f3f3; border-color: #393939; }
+.fleet-device-actions-menu [role="menuitem"]:focus { background: #303030; color: #fff; }
+.fleet-device-card > footer:has(.fleet-device-actions:empty) { display: none; }
+
+.fleet-dialog.fleet-timeline-dialog {
+  color: #eee;
+  background: #191919;
+  border-color: #393939;
+  display: flex;
+  flex-direction: column;
+  max-height: min(84dvh, 720px);
+  width: min(92vw, 590px);
+  gap: 12px;
+}
+
+.fleet-timeline-dialog .fleet-timeline-description { color: #aaa; }
+
+.device-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0 4px 0 0;
+  overflow-y: auto;
+}
+.device-timeline li {
+  display: grid;
+  grid-template-columns: minmax(76px, max-content) 48px minmax(0, 1fr);
+  gap: 8px 12px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid #333;
+  font-size: 13px;
+}
+.device-timeline li:last-child { border-bottom: 0; }
+.device-timeline time { color: #aaa; font-size: 12px; font-variant-numeric: tabular-nums; }
+.device-timeline-project { color: #86d6bf; font-size: 11px; font-weight: 700; letter-spacing: .03em; }
+.device-timeline [data-project="bnt"] .device-timeline-project { color: #efc17d; }
+.device-timeline [data-project="xds"] .device-timeline-project { color: #a9baff; }
+.device-timeline [data-project="gap"] strong { grid-column: 2 / -1; color: #aaa; font-weight: 500; }
+
+.lookup-queue,
+.lookup-save {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border: 1px solid #353535;
+  border-radius: 12px;
+}
+.lookup-queue p, .lookup-save p { margin: 6px 0 0; color: #aaa; font-size: 13px; }
+.lookup-queue details { margin-top: 8px; }
+.lookup-queue summary { width: fit-content; cursor: pointer; color: #86d6bf; font-size: 13px; padding: 4px 0; }
+.lookup-queue label { display: block; margin-top: 8px; color: #bbb; font-size: 13px; }
+.lookup-queue textarea {
+  display: block;
+  margin-top: 8px;
+  background: #181818;
+  border: 1px solid #404040;
+  color: #eee;
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px;
+  resize: vertical;
+}
+.lookup-save .lookup-actions { margin-top: 0; }
+
+@media (max-width: 570px) {
+  .fleet-workspace-toolbar .fleet-search { flex-basis: 100%; width: 100%; }
+  .fleet-workspace-toolbar .agent-layout-switch { margin-left: auto; }
+  .device-timeline li { grid-template-columns: 68px 32px minmax(0, 1fr); gap: 6px; }
+}

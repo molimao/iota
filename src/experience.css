@@ -1465,6 +1465,18 @@ body:has(.site-shell) {
   margin: 40px auto 0;
   padding: 0 30px;
 }
+.landing-project-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 18px;
+  font-size: 13px;
+}
+.landing-project-shortcuts a {
+  color: #b9c9c3;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .compact .project-card {
   padding: 22px;
 }

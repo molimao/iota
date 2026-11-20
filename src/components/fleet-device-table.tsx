@@ -1,4 +1,4 @@
-import type { AgentInfo } from "@/lib/device-agent";
+import { agentOnline, type AgentInfo } from "@/lib/device-agent";
 import type { FleetDevice, FleetBinding } from "@/lib/fleet";
 import { FLEET_NAMES } from "@/lib/fleet";
 import {
@@ -18,6 +18,7 @@ import { DiscreteAgentReading } from "./discrete-agent-reading";
 import { IotaRosterStatus } from "./iota-device-run";
 import { iotaAddCopy } from "./iota-add-copy";
 import "./fleet-device-table.css";
+import { FleetDeviceActions } from "./fleet-device-actions";
 
 export function FleetDeviceTable({
   devices,
@@ -27,6 +28,7 @@ export function FleetDeviceTable({
   agentsByDevice,
   agentNow = 0,
   onLink,
+  onTimeline,
   onEdit,
   onRemove,
 }: {
@@ -37,6 +39,7 @@ export function FleetDeviceTable({
   agentsByDevice?: ReadonlyMap<string, AgentInfo>;
   agentNow?: number;
   onLink: (id: string) => void;
+  onTimeline?: (device: FleetDevice) => (() => void) | undefined;
   onEdit?: ((id: string) => void) | undefined;
   onRemove?: ((id: string) => void) | undefined;
 }) {
@@ -65,6 +68,8 @@ export function FleetDeviceTable({
               daily.known === 0 ? singleAccountSummary(values.map((v) => v.data)) : null;
             const amount = retained ?? account ?? native;
             const hasIota = device.bindings.some((b) => b.project === "iota");
+            const agent = agentsByDevice?.get(device.id);
+            const agentCurrent = agent && agentOnline(agent.lastSeen, agentNow);
             return (
               <tr key={device.id}>
                 <td>
@@ -79,7 +84,7 @@ export function FleetDeviceTable({
                           {FLEET_NAMES[binding.project]}
                           {binding.worker && ` · ${binding.worker}`}
                         </b>
-                        {binding.project === "iota" ? (
+                        {binding.project === "iota" ? (!agentCurrent && (
                           <IotaRosterStatus
                             preview={preview}
                             previewAgent={previewAgents?.[device.id]}
@@ -87,7 +92,7 @@ export function FleetDeviceTable({
                             miner={binding.identifier}
                             status={reading(binding).officialTraining?.status ?? "unknown"}
                           />
-                        ) : (
+                        )) : (
                           <span className={`fleet-status fleet-status-${reading(binding).status}`}>
                             {reading(binding).activity}
                           </span>
@@ -153,17 +158,18 @@ export function FleetDeviceTable({
                     />
                   )}
                   <DiscreteAgentReading
-                    agent={agentsByDevice?.get(device.id)}
+                    agent={agent}
                     now={agentNow}
                     locale={locale}
                   />
                 </td>
                 <td>
-                  <div className="fleet-table-actions">
-                    <button onClick={() => onLink(device.id)}>{c.addProject}</button>
-                    {onEdit && <button onClick={() => onEdit(device.id)}>{c.rename}</button>}
-                    {onRemove && <button onClick={() => onRemove(device.id)}>{c.remove}</button>}
-                  </div>
+                  <FleetDeviceActions
+                    onLink={() => onLink(device.id)}
+                    onTimeline={onTimeline?.(device)}
+                    onEdit={onEdit && (() => onEdit(device.id))}
+                    onRemove={onRemove && (() => onRemove(device.id))}
+                  />
                 </td>
               </tr>
             );

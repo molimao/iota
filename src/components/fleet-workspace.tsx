@@ -1,3 +1,8 @@
+import { useRouterState } from "@tanstack/react-router";
+import { DeviceTimeline, timelineCopy } from "./device-timeline";
+import { FleetDeviceActions } from "./fleet-device-actions";
+import { localized as l } from "@/lib/product-discovery";
+import "./device-workspace.css";
 import { agentListInput } from "@/lib/device-agent";
 import { AgentPairing } from "./agent-pairing";
 import { ProjectReadingMetrics } from "./project-reading-metrics";
@@ -17,7 +22,7 @@ import { IotaRosterStatus, IotaDeviceRun } from "./iota-device-run";
 import { isPoolProject, poolName } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
-import { matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
+import { agentOnline, matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -80,9 +85,14 @@ import type { FleetMutation } from "@/lib/fleet-policy";
 import { PaywallBody } from "./fleet-paywall";
 import { copyValues, planAmount } from "@/lib/billing-display";
 
+const workspaceCopy = {
+  allProjects: l(["全部项目", "全部專案", "All projects", "모든 프로젝트", "すべてのプロジェクト"]),
+  tools: l(["设备工具", "裝置工具", "Device tools", "기기 도구", "デバイスツール"]),
+};
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
   initialAdd?: boolean;
+  initialTimeline?: string | undefined;
   initialPaywallProject?: FleetProject | undefined;
   initialProject?: FleetProject | undefined;
   signedIn?: boolean;
@@ -122,6 +132,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
   const tab = props.initialTab ?? "devices";
+  const openTools = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).has("tool") || s.location.hash.replace(/^#/, "") === "pro-tools",
+  });
+  const [timelineId, setTimelineId] = useState(props.initialTimeline);
+  const timelineDevice = props.devices.find((device) => device.id === timelineId);
   const [pairAfterAdd, setPairAfterAdd] = useState<string | null>(null);
   const pairTarget = props.devices.find(d=>d.bindings.some(b=>b.project === "iota" && b.identifier === pairAfterAdd));
   const [layout, setLayout] = useState<"cards" | "list">(props.initialLayout ?? "cards");
@@ -196,6 +211,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const activeProjects = FLEET_PROJECTS.filter(
     (p) => projectDeviceCount(props.devices, p) > 0,
   ).length;
+  function canReadTimeline(device: FleetDevice) {
+    return props.preview
+      ? device.bindings.some((binding) => binding.project === "iota") || agentsByDevice.has(device.id)
+      : agentsByDevice.has(device.id);
+  }
   function showPaywall(project: FleetProject | null = null, fromLink = false) {
     setError(null);
     setPaywallProject(project);
@@ -360,38 +380,10 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
-          {props.devices.length > 0 && props.proTools}
           {props.devices.length > 0 && (
-            <ReportEntry plan={props.plan} preview={props.preview ?? false} />
-          )}
-          {props.devices.length > 0 && (
-            <div className="fleet-toolbar">
-              <div className="fleet-filters">
-                {[
-                  "all",
-                  ...FLEET_PROJECTS.filter(
-                    (p) => projectDeviceCount(props.devices, p) > 0 || p === project,
-                  ),
-                ].map((p) => (
-                  <button
-                    key={p}
-                    aria-pressed={project === p}
-                    onClick={() => setProject(p as FleetProject | "all")}
-                  >
-                    {p === "all"
-                      ? monitorViewCopy(locale).allDevices
-                      : FLEET_NAMES[p as FleetProject]}
-                    {p !== "all" && (
-                      <span>{projectDeviceCount(props.devices, p as FleetProject)}</span>
-                    )}
-                  </button>
-                ))}
-              </div>
-              {!props.preview && auth.userId && (
-                <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} />
-              )}
+            <div className="fleet-toolbar fleet-workspace-toolbar">
               <label className="fleet-search">
-                <Search size={16} />
+                <Search size={16} aria-hidden />
                 <input
                   aria-label={c.search}
                   placeholder={c.search}
@@ -399,67 +391,84 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </label>
-            </div>
-          )}
-          {visible.length > 0 && (
-            <div
-              className="agent-layout-switch"
-              role="group"
-              aria-label={iotaAddCopy.layout[locale]}
-            >
-              {(["cards", "list"] as const).map((value) => (
-                <button
-                  type="button"
-                  key={value}
-                  aria-pressed={layout === value}
-                  onClick={() => {
-                    setLayout(value);
-                    if (!props.preview)
-                      try {
-                        localStorage.setItem("iota-fleet-layout", value);
-                      } catch {}
-                  }}
-                >
-                  {insightCopy[value][locale]}
-                </button>
-              ))}
-            </div>
-          )}
-          {props.preview && props.previewAgents
-            ? (() => {
-                const targets = iotaAgentTargets(
-                  visible,
-                  Object.values(props.previewAgents),
-                  visible.flatMap((d) =>
-                    d.bindings.filter((b) => b.project === "iota").map((b) => b.identifier),
-                  ),
-                );
-                return targets.agents.length || targets.unpaired.length ? (
-                  <AgentBatchPanel
-                    agents={targets.agents}
-                    names={targets.names}
-                    unpaired={targets.unpaired}
-                    preview
-                    previewPlan={props.plan}
-                    userId={null}
-                    now={agentNow}
-                    locale={locale}
-                  />
-                ) : null;
-              })()
-            : !props.preview && (
-                <ProjectAgentControls
-                  miners={visible.flatMap((d) =>
-                    d.bindings.filter((b) => b.project === "iota").map((b) => b.identifier),
-                  )}
-                  devices={props.devices}
-                  agents={agents.data}
-                  userId={auth.userId}
-                  now={agentNow}
-                  error={agents.isError}
-                />
+              <select
+                className="fleet-project-filter"
+                aria-label={c.projects}
+                value={project}
+                onChange={(e) => setProject(e.target.value as FleetProject | "all")}
+              >
+                <option value="all">{workspaceCopy.allProjects[locale]}</option>
+                {FLEET_PROJECTS.filter(
+                  (p) => projectDeviceCount(props.devices, p) > 0 || p === project,
+                ).map((p) => <option key={p} value={p}>{FLEET_NAMES[p]}</option>)}
+              </select>
+              {!props.preview && auth.userId && (
+                <AgentFilterSelect value={statusFilter} onChange={setStatusFilter} />
               )}
-          {layout === "list" ? (
+              <div className="agent-layout-switch" role="group" aria-label={iotaAddCopy.layout[locale]}>
+                {(["cards", "list"] as const).map((value) => (
+                  <button
+                    type="button"
+                    key={value}
+                    aria-pressed={layout === value}
+                    onClick={() => {
+                      setLayout(value);
+                      if (!props.preview)
+                        try {
+                          localStorage.setItem("iota-fleet-layout", value);
+                        } catch {}
+                    }}
+                  >
+                    {insightCopy[value][locale]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {props.devices.length > 0 && (
+            <details className="fleet-workspace-tools" open={openTools || undefined}>
+              <summary>{workspaceCopy.tools[locale]}</summary>
+              <div>
+                {props.proTools}
+                {props.preview && props.previewAgents
+                  ? (() => {
+                      const targets = iotaAgentTargets(
+                        visible,
+                        Object.values(props.previewAgents),
+                        visible.flatMap((d) =>
+                          d.bindings.filter((b) => b.project === "iota").map((b) => b.identifier),
+                        ),
+                      );
+                      return targets.agents.length || targets.unpaired.length ? (
+                        <AgentBatchPanel
+                          agents={targets.agents}
+                          names={targets.names}
+                          unpaired={targets.unpaired}
+                          preview
+                          previewPlan={props.plan}
+                          userId={null}
+                          now={agentNow}
+                          locale={locale}
+                        />
+                      ) : null;
+                    })()
+                  : !props.preview && (
+                      <ProjectAgentControls
+                        miners={visible.flatMap((d) =>
+                          d.bindings.filter((b) => b.project === "iota").map((b) => b.identifier),
+                        )}
+                        devices={props.devices}
+                        agents={agents.data}
+                        userId={auth.userId}
+                        now={agentNow}
+                        error={agents.isError}
+                      />
+                    )}
+                <ReportEntry plan={props.plan} preview={props.preview ?? false} />
+              </div>
+            </details>
+          )}
+          {visible.length > 0 && (layout === "list" ? (
             <FleetDeviceTable
               devices={visible}
               reading={props.reading}
@@ -468,6 +477,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               agentsByDevice={agentsByDevice}
               agentNow={agentNow}
               onLink={(id) => open("link", id)}
+              onTimeline={(device) => canReadTimeline(device) ? () => setTimelineId(device.id) : undefined}
               onEdit={props.onMutation ? (id) => open("edit", id) : undefined}
               onRemove={props.onMutation ? (id) => open("remove", id) : undefined}
             />
@@ -481,13 +491,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   agentNow={agentNow}
                   key={device.id}
                   device={device}
-                  displayName={
-                    device.bindings.length === 1 &&
-                    device.bindings[0]?.project !== "iota" &&
-                    device.bindings[0]?.worker
-                      ? `${FLEET_NAMES[device.bindings[0].project]} · ${device.bindings[0].worker}`
-                      : undefined
-                  }
+                  onTimeline={canReadTimeline(device) ? () => setTimelineId(device.id) : undefined}
                   c={c}
                   reading={props.reading}
                   trend={props.deviceTrend?.(device)}
@@ -500,7 +504,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                 />
               ))}
             </div>
-          )}
+          ))}
           {visible.length === 0 && (
             <div className="fleet-empty">
               <Monitor size={30} />
@@ -508,7 +512,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               <button
                 className="site-button"
                 onClick={() =>
-                  props.devices.length ? (setProject("all"), setSearch("")) : open("add")
+                  props.devices.length ? (setProject("all"), setSearch(""), setStatusFilter("all")) : open("add")
                 }
               >
                 {props.devices.length ? c.clearFilters : c.add}
@@ -571,6 +575,20 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           )}
         </section>
       )}
+      <Dialog open={!!timelineDevice} onOpenChange={(value) => { if (!value) setTimelineId(undefined); }}>
+        {timelineDevice && (
+          <DialogContent className="fleet-dialog fleet-timeline-dialog">
+            <DialogTitle>{timelineDevice.name} · {timelineCopy.title[locale]}</DialogTitle>
+            <DialogDescription className="fleet-timeline-description">{timelineCopy.description[locale]}</DialogDescription>
+            <DeviceTimeline
+              deviceId={timelineDevice.id}
+              userId={auth.userId}
+              hasIota={timelineDevice.bindings.some((binding) => binding.project === "iota")}
+              preview={!!props.preview}
+            />
+          </DialogContent>
+        )}
+      </Dialog>
       <Dialog
         open={dialog !== null}
         onOpenChange={(value) => {
@@ -1030,7 +1048,7 @@ function ProjectAllowances({
 }
 
 function FleetCard({
-  displayName,
+  onTimeline,
   onRemove,
   preview,
   previewAgent,
@@ -1044,7 +1062,7 @@ function FleetCard({
   onEdit,
   onUnlink,
 }: {
-  displayName?: string | undefined;
+  onTimeline: (() => void) | undefined;
   onRemove: (() => void) | undefined;
   preview?: boolean;
   previewAgent?: AgentInfo | undefined;
@@ -1070,6 +1088,7 @@ function FleetCard({
   const retained = daily.known === 0 ? retainedDeviceDaily(device.bindings.map(reading)) : null;
   const onlyWalletPanels = device.bindings.length === 1 && device.bindings[0]?.project !== "iota";
   const hasIota = device.bindings.some((b) => b.project === "iota");
+  const agentCurrent = localAgent && agentOnline(localAgent.lastSeen, agentNow);
   const hasOtherDaily = device.bindings.some((b) => {
     const r = reading(b);
     return (
@@ -1098,14 +1117,11 @@ function FleetCard({
           <Cpu size={24} />
         </span>
         <div>
-          <h2>{displayName ?? device.name}</h2>
+          <h2>{device.name}</h2>
           {device.hardware && <p>{device.hardware}</p>}
         </div>
-        <span className="fleet-project-count">
-          {new Set(device.bindings.map((b) => b.project)).size} {c.projects}
-        </span>
       </header>
-      {!onlyWalletPanels && (
+      {!onlyWalletPanels && (daily.known > 0 || retained || account || initialLoading) && (
         <section className="fleet-device-earnings" aria-label={headlineLabel}>
           <div>
             <span>{headlineLabel}</span>
@@ -1153,7 +1169,6 @@ function FleetCard({
           </div>
         </section>
       )}
-      {trend}
       <div className="fleet-project-readings">
         {!device.bindings.length && (
           <div className="fleet-no-projects">
@@ -1181,7 +1196,7 @@ function FleetCard({
                   {FLEET_NAMES[binding.project]}
                   {binding.project === "tsc" ? ` · ${poolName("tsc", binding.pool)}` : ""}
                 </b>
-                {binding.project === "iota" ? (
+                {binding.project === "iota" ? (!agentCurrent && (
                   <IotaRosterStatus
                     deviceId={device.id}
                     miner={binding.identifier}
@@ -1189,15 +1204,15 @@ function FleetCard({
                     previewAgent={previewAgent}
                     status={data.officialTraining?.status ?? "unknown"}
                   />
-                ) : (
+                )) : (
                   <span className={`fleet-status fleet-status-${data.status}`}>
                     <i />
                     {c[data.status]}
                   </span>
                 )}
-                <small>
-                  {binding.project === "flyai" && data.flyai ? data.flyai.month : data.activity}
-                </small>
+                {binding.project === "iota" && data.compute?.fresh && data.compute.value !== null && (
+                  <small>{data.compute.value} {data.compute.unit}</small>
+                )}
                 <ChevronDown size={14} className={expanded ? "is-expanded" : ""} />
               </button>
               {binding.project === "iota" && (
@@ -1215,9 +1230,7 @@ function FleetCard({
               {binding.worker && (
                 <p className="fleet-worker-label">
                   Worker · <b>{binding.worker}</b>
-                  {data.activity && data.activity !== "—" && !data.compute?.value && (
-                    <span>{data.activity}</span>
-                  )}
+
                 </p>
               )}
               {binding.project === "flyai" && data.flyai && (
@@ -1357,6 +1370,7 @@ function FleetCard({
       </div>
       {device.bindings.some((b) => b.project === "iota") && (
         <DeviceAgentSummary
+          compact
           deviceId={device.id}
           preview={!!preview}
           previewAgent={previewAgent}
@@ -1367,13 +1381,14 @@ function FleetCard({
         />
       )}
       <DiscreteAgentReading agent={localAgent} now={agentNow} locale={locale} />
+      {trend}
       <footer>
-        {onRemove && <button onClick={onRemove}>{c.remove}</button>}
-        {onEdit && <button onClick={onEdit}>{c.rename}</button>}
-        <button onClick={onLink}>
-          <Plus size={14} />
-          {c.addProject}
-        </button>
+        <FleetDeviceActions
+          onLink={device.bindings.length ? onLink : undefined}
+          onTimeline={onTimeline}
+          onEdit={onEdit}
+          onRemove={onRemove}
+        />
       </footer>
     </article>
   );

@@ -1,4 +1,4 @@
-import { Dashboard } from "@/components/dashboard";
+import { Dashboard, IotaLookup } from "@/components/dashboard";
 import { IdleBntEntry } from "@/components/idle-bnt";
 import { reviewDevices } from "@/components/fleet-review-data";
 import type { AgentInfo } from "@/lib/device-agent";
@@ -62,6 +62,10 @@ function Review() {
   const idleMining = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("idleMining"),
   });
+  const lookup = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("lookup") === "1",
+  });
+  if (lookup) return <IotaLookup preview id="5C9yEy27yLNG5BDMxVwS8RyGBneZB1ouShazFhGZVP8thK5z" />;
   if (xds) return <DiscreteReview />;
   if (bnt) return <BntReview />;
   if (overview) return <OverviewReview />;

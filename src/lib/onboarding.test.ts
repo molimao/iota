@@ -14,7 +14,7 @@ import { LocaleContext } from "../components/site/locale";
 import { MonitoringExample, AdditionHelp, ProjectAccessLabel } from "../components/onboarding";
 import { onboardingCopy, projectHelpPath, projectAccess } from "./onboarding";
 import { LOCALES } from "./site";
-import { FLEET_PROJECTS } from "./fleet";
+import { AVAILABLE_FLEET_PROJECTS } from "./fleet";
 import { PROJECT_IDS } from "./projects";
 import { base58 } from "@scure/base";
 import { blake2b } from "@noble/hashes/blake2.js";
@@ -75,8 +75,11 @@ describe("public lookup and onboarding", () => {
       true,
       { persistTelemetry: false },
     );
-    expect(result).toContain(onboardingCopy.lookupNote.en);
-    expect(result).toContain(`/en/app?add=${id}`);
+    expect(result).toContain("Queue position");
+    expect(result).toContain("Read position from a log");
+    expect(result).toContain("Sign in and save");
+    expect(result).toContain(id);
+    expect(result).not.toContain(`/en/app?add=${id}`);
     expect(result).not.toContain("$0.00");
     expect(result).not.toContain("0.00000000");
     expect(result).not.toContain('role="dialog"');
@@ -92,10 +95,10 @@ describe("public lookup and onboarding", () => {
     for (const locale of LOCALES) {
       const result = html(locale, createElement(MonitoringExample));
       expect(result).toContain(onboardingCopy.sampleNote[locale]);
-      for (const project of FLEET_PROJECTS) {
+      for (const project of AVAILABLE_FLEET_PROJECTS) {
         const path = projectHelpPath(locale, project);
         if (isPoolProject(project)) expect(path).toBe(POOL_PROJECTS[project].guide);
-        else expect(getArticle(path.split("/").at(-1)!)).toBeDefined();
+        else expect(getArticle(path.split("/").at(-1)!), `${project}: ${path}`).toBeDefined();
         const free = html(locale, createElement(AdditionHelp, { project, plan: "free" }));
         expect(free).toContain(path);
         expect(free).toContain(onboardingCopy.quota[locale]);

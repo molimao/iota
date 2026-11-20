@@ -1,3 +1,4 @@
+import { IotaLookupQueue, IotaLookupSave } from "./iota-lookup-save";
 import { AgentPairing } from "./agent-pairing";
 import { IdleBntEntry, IdleBntListStatus, idleBntSettingsQuery, idleMiningCopy } from "./idle-bnt";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
@@ -959,10 +960,10 @@ export function Dashboard({ previewIdleMining }: { previewIdleMining?: React.Rea
     );
   return <SavedIotaDashboard previewIdleMining={previewIdleMining} />;
 }
-function IotaLookup({ id }: { id: string }) {
+export function IotaLookup({ id, preview = false }: { id: string; preview?: boolean }) {
   const { locale, t } = useLocale();
   const entries = useMemo(() => [{ hotkey: id, label: shortId(id), addedAt: 0 }], [id]);
-  const dash = useIotaDashboard(entries, true, { persistTelemetry: false });
+  const dash = useIotaDashboard(entries, !preview, { persistTelemetry: false });
   const view = dash.views[0];
   return (
     <main className="dashboard public-lookup">
@@ -972,7 +973,7 @@ function IotaLookup({ id }: { id: string }) {
           {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
         </a>
       </header>
-      <p className="lookup-note">{onboardingCopy.lookupNote[locale]}</p>
+      {preview && <p className="lookup-note">{onboardingCopy.sampleNote[locale]}</p>}
       <article className="device">
         <h2>{shortId(id)}</h2>
         <code className="lookup-id">{id}</code>
@@ -1011,11 +1012,8 @@ function IotaLookup({ id }: { id: string }) {
         )}
         {dash.statusError && <p role="status">{fleetCopy(locale).refreshFailed}</p>}
       </article>
-      <SyncGuidance compact />
-      <div className="lookup-actions">
-        <a className="site-button" href={`/${locale}/app?add=${encodeURIComponent(id)}`}>
-          {onboardingCopy.save[locale]}
-        </a>
+      <IotaLookupQueue preview={preview} />
+      <IotaLookupSave id={id} preview={preview} retry={!preview && (
         <button
           className="fleet-outline"
           disabled={dash.fetching || dash.manual.running || dash.manual.cooldownRemaining > 0}
@@ -1023,7 +1021,7 @@ function IotaLookup({ id }: { id: string }) {
         >
           {fleetCopy(locale).refreshData}
         </button>
-      </div>
+      )} />
     </main>
   );
 }

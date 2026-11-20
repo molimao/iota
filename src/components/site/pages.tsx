@@ -13,7 +13,7 @@ import { reportCopy } from "../daily-report-copy";
 import { evidenceLabels } from "./core-evidence";
 import { onboardingCopy } from "@/lib/onboarding";
 import { DiscoveryQuestions } from "../discovery-questions";
-import { discoveryCopy, DISCOVERY_UPDATED } from "@/lib/product-discovery";
+import { discoveryCopy, DISCOVERY_UPDATED, localized as l } from "@/lib/product-discovery";
 import { projectRequestCopy } from "../project-request-copy";
 import { ProjectRequest } from "../project-request";
 import { simpleCopy } from "../simple-ui";
@@ -202,6 +202,18 @@ export function SiteFooter() {
 /**
  * Public lookup is separate from saving a device to the user's fleet.
  */
+const landingWorkspace = {
+  eyebrow: l(["跨项目设备监控", "跨專案裝置監控", "MULTI-PROJECT DEVICE MONITORING", "멀티 프로젝트 기기 모니터링", "複数プロジェクトの端末監視"]),
+  title: l(["一处查看所有设备\n训练、挖矿和收益", "一處查看所有裝置\n訓練、挖礦和收益", "All your devices in one place\nTraining, mining and rewards", "한곳에서 모든 기기 확인\n학습, 채굴, 수익", "すべての端末を一か所で確認\n学習・採掘・報酬"]),
+  intro: l(["查看哪台设备掉队、矿工有没有接上，以及各项目赚了多少。", "查看哪台裝置掉隊、礦工是否接上，以及各專案賺了多少。", "See which devices dropped out, whether mining picked up, and what each project earned.", "어느 기기의 작업이 중단됐는지, 채굴이 시작됐는지, 프로젝트별 수익을 확인하세요.", "端末の離脱、採掘の開始、プロジェクトごとの報酬を確認できます。"]),
+};
+
+const projectShortcuts = {
+  bnt: l(["查 BNT 算力", "查 BNT 算力", "Check BNT hashrate", "BNT 해시레이트 조회", "BNTのハッシュレートを見る"]),
+  prl: l(["查 PRL 矿池收益", "查 PRL 礦池收益", "Check PRL pool earnings", "PRL 풀 수익 조회", "PRLのプール収益を見る"]),
+  xds: l(["查 XDS 出块", "查 XDS 出塊", "Check XDS blocks", "XDS 블록 조회", "XDSのブロックを見る"]),
+};
+
 function StartForm() {
   const { locale, en } = useLocale();
   const [value, setValue] = useState("");
@@ -254,20 +266,20 @@ function StartForm() {
 export function Landing() {
   const { locale, en } = useLocale();
   const copy = content[locale];
-  const [lead, accent] = copy.title.split("\n");
+  const [lead, accent] = landingWorkspace.title[locale].split("\n");
   return (
     <div className="landing-v2">
       <section className="opening">
         <div className="opening-copy">
           <div className="opening-label">
             <span />
-            {copy.eyebrow}
+            {landingWorkspace.eyebrow[locale]}
           </div>
           <h1>
             <span>{lead}</span>
             <em>{accent}</em>
           </h1>
-          <p>{copy.intro}</p>
+          <p>{landingWorkspace.intro[locale]}</p>
           <StartForm />
           <div className="opening-actions">
             <a className="text-link" href={`/${locale}/learn/find-miner-id`}>
@@ -289,6 +301,11 @@ export function Landing() {
             {projectsCopy[locale].back}
             <ArrowRight size={15} />
           </a>
+        </div>
+        <div className="landing-project-shortcuts">
+          {(["bnt", "prl", "xds"] as const).map((project) => (
+            <a key={project} href={projectPath(locale, project)}>{projectShortcuts[project][locale]}</a>
+          ))}
         </div>
         <ProjectCards compact />
       </section>

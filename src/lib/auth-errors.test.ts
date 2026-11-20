@@ -29,3 +29,7 @@ it("starts retries with a clean return URL while retaining legitimate project/vi
     ),
   ).toBe("https://iotahome.site/zh/devices?view=membership");
 });
+it("keeps the clicked public Miner ID when Google redirects back", () => {
+  const lookup = "https://iotahome.site/zh/app?lookup=5C9yEy27yLNG5BDMxVwS8RyGBneZB1ouShazFhGZVP8thK5z";
+  expect(authReturnUrl(lookup)).toBe(lookup);
+});

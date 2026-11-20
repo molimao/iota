@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { PGlite } from "@electric-sql/pglite";
 import { expect, it } from "vitest";
-import { agentHistoryPointSchema } from "./device-agent";
+import { agentHistoryPointSchema, deviceTimelinePointSchema } from "./device-agent";
 it("captures sanitized idle status and exposes only the authenticated owner history", async () => {
   const db = new PGlite();
   const owner = "11111111-1111-4111-8111-111111111111",
@@ -12,11 +12,14 @@ it("captures sanitized idle status and exposes only the authenticated owner hist
    CREATE TABLE watch_device_agents(device_id uuid PRIMARY KEY,user_id uuid,last_seen timestamptz,snapshot jsonb);`);
     await db.exec(readFileSync("supabase/migrations/20261017160000_agent_history.sql", "utf8"));
     await db.exec(readFileSync("supabase/migrations/20261113120000_idle_bnt_activity.sql", "utf8"));
+    await db.exec(readFileSync("supabase/migrations/20261120120000_device_timeline.sql", "utf8"));
     await db.query("INSERT INTO auth.users VALUES($1),($2)", [owner, other]);
     const snapshot = JSON.stringify({
       appRunning: true,
       workerRunning: true,
       idleBnt: { state: "mining", hashrate: 2.82, secret: "not retained" },
+      idleXds: { state: "starting", hashrate: null, publicKey: "not retained" },
+      reason: { code: "kicked", observedAt: new Date().toISOString() },
     });
     await db.query("INSERT INTO watch_device_agents VALUES($1,$1,now(),$3),($2,$2,now(),$3)", [
       owner,
@@ -35,11 +38,23 @@ it("captures sanitized idle status and exposes only the authenticated owner hist
     await expect(db.query("SELECT * FROM watch_agent_history")).rejects.toThrow(
       "permission denied",
     );
-    const legacy = (await db.query<{value:unknown[]}>("SELECT watch_read_agent_history($1) value",[owner])).rows[0]!.value;
-  expect(legacy).toHaveLength(1);
-  expect(()=>agentHistoryPointSchema.parse(legacy[0])).not.toThrow();
-  expect(JSON.stringify(legacy)).not.toContain('idleBnt');
-  await db.exec("RESET ROLE");
+    const legacy = (
+      await db.query<{ value: unknown[] }>("SELECT watch_read_agent_history($1) value", [owner])
+    ).rows[0]!.value;
+    expect(legacy).toHaveLength(1);
+    expect(() => agentHistoryPointSchema.parse(legacy[0])).not.toThrow();
+    expect(JSON.stringify(legacy)).not.toMatch(/idleBnt|idleXds|reason/);
+    const timeline = (
+      await db.query<{ value: unknown[] }>("SELECT watch_device_timeline($1) value", [owner])
+    ).rows[0]!.value;
+    expect(timeline).toHaveLength(1);
+    expect(deviceTimelinePointSchema.parse(timeline[0]).snapshot).toMatchObject({
+      idleBnt: { state: "mining", hashrate: 2.82 },
+      idleXds: { state: "starting", hashrate: null },
+      reason: { code: "kicked" },
+    });
+    await expect(db.query("SELECT watch_device_timeline($1)", [other])).rejects.toThrow("device_not_found");
+    await db.exec("RESET ROLE");
     const stored = (
       await db.query<{ snapshot: object }>(
         "SELECT snapshot FROM watch_agent_history WHERE device_id=$1",
@@ -47,9 +62,10 @@ it("captures sanitized idle status and exposes only the authenticated owner hist
       )
     ).rows[0]!.snapshot;
     expect(stored).toMatchObject({ idleBnt: { state: "mining", hashrate: 2.82 } });
-    expect(JSON.stringify(stored)).not.toContain("secret");
+    expect(JSON.stringify(stored)).not.toMatch(/secret|publicKey/);
     await db.exec("SET ROLE anon");
     await expect(db.query("SELECT watch_idle_bnt_activity()")).rejects.toThrow("permission denied");
+    await expect(db.query("SELECT watch_device_timeline($1)", [owner])).rejects.toThrow("permission denied");
   } finally {
     await db.close();
   }

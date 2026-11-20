@@ -314,6 +314,15 @@ export const agentHistoryPointSchema = z
   .strict();
 export type AgentHistoryPoint = z.infer<typeof agentHistoryPointSchema>;
 
+export const deviceTimelinePointSchema = agentHistoryPointSchema.extend({
+  snapshot: agentHistoryPointSchema.shape.snapshot.extend({
+    reason: agentReasonSchema.nullish(),
+    idleBnt: idleBntStatus.nullish(),
+    idleXds: agentSnapshot.shape.idleXds.unwrap().pick({ state: true, hashrate: true }).nullish(),
+  }),
+});
+export type DeviceTimelinePoint = z.infer<typeof deviceTimelinePointSchema>;
+
 export function agentListInput() {
   return { data: { watching: typeof document !== "undefined" && document.visibilityState === "visible" } };
 }

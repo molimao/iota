@@ -19,6 +19,9 @@ export function FleetReview() {
   const scenario = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("scenario"),
   });
+  const showTimeline = useRouterState({
+    select: (s) => new URLSearchParams(s.location.searchStr).get("timeline") === "1",
+  });
   const [recovered, setRecovered] = useState(false);
   const [devices, setDevices] = useState(() =>
     scenario === "empty"
@@ -78,6 +81,7 @@ export function FleetReview() {
       </div>
       <FleetWorkspace
         preview
+        initialTimeline={showTimeline ? devices[0]?.id : undefined}
         initialTab={membershipView ? "plans" : "devices"}
         devices={devices}
         plan={plan}
