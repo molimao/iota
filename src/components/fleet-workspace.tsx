@@ -1368,17 +1368,19 @@ function FleetCard({
           );
         })}
       </div>
-      {device.bindings.some((b) => b.project === "iota") && (
-        <DeviceAgentSummary
-          compact
-          deviceId={device.id}
-          preview={!!preview}
-          previewAgent={previewAgent}
-          official={device.bindings
-            .filter((b) => b.project === "iota")
-            .map((b) => reading(b).officialTraining)
-            .find(Boolean)}
-        />
+      {hasIota && (
+        <div className="fleet-device-agent">
+          <DeviceAgentSummary
+            compact
+            deviceId={device.id}
+            preview={!!preview}
+            previewAgent={previewAgent}
+            official={device.bindings
+              .filter((b) => b.project === "iota")
+              .map((b) => reading(b).officialTraining)
+              .find(Boolean)}
+          />
+        </div>
       )}
       <DiscreteAgentReading agent={localAgent} now={agentNow} locale={locale} />
       {trend}

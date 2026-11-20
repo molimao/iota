@@ -51,6 +51,15 @@
 }
 .fleet-workspace-tools > div { margin-top: 12px; }
 
+.fleet-device-agent {
+  padding: 0 21px 12px;
+  overflow-wrap: anywhere;
+}
+
+.fleet-device-agent .agent-table-status .agent-insight {
+  min-width: 0;
+}
+
 .fleet-device-card .fleet-device-actions,
 .fleet-device-table .fleet-device-actions {
   display: flex;
@@ -137,6 +146,10 @@
   resize: vertical;
 }
 .lookup-save .lookup-actions { margin-top: 0; }
+
+@media (max-width: 650px) {
+  .fleet-device-agent { padding-inline: 18px; }
+}
 
 @media (max-width: 570px) {
   .fleet-workspace-toolbar .fleet-search { flex-basis: 100%; width: 100%; }
