@@ -44,5 +44,5 @@ export function useWatchlist(userId:string|null,authReady=true) {
   },[devices,add,c]);
   return {devices,projectCount,loaded:fleet.ready,storageError:error??(fleet.error?c.unavailable:null),
     syncMessage:fleet.pendingLocal?c.importLocal:null,clearSyncMessage:()=>setError(null),cloud:!!userId,
-    limit:fleet.limit,limitMessage:c.limit,add,rename,remove,importJson,exportJson:()=>serializeExport(devices)};
+    limit:fleet.limit,limitMessage:c.limit,add,rename,remove,importJson,reload:fleet.reload,exportJson:()=>serializeExport(devices)};
 }

@@ -195,8 +195,6 @@ export function DiscretePage({
       </header>
 
       <div className="xds-monitor-grid">
-        <DiscreteAgentPanel devices={devices} now={preview?.now ?? now} />
-
         <section className="project-panel" aria-labelledby="xds-address">
           <h2 id="xds-address">{copy.addressTitle[locale]}</h2>
           <p>{copy.scanScope[locale]}</p>
@@ -326,6 +324,7 @@ export function DiscretePage({
             {lookup.isError && <p>{copy.lookupFailed[locale]}</p>}
           </div>
         </section>
+        <DiscreteAgentPanel devices={devices} now={preview?.now ?? now} />
       </div>
       {!preview && (
         <details className="project-panel xds-network">

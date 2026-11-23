@@ -1,4 +1,5 @@
 import { IotaLookupQueue, IotaLookupSave } from "./iota-lookup-save";
+import { IotaPublicLookupForm } from "./iota-public-lookup-form";
 import { AgentPairing } from "./agent-pairing";
 import { IdleBntEntry, IdleBntListStatus, idleBntSettingsQuery, idleMiningCopy } from "./idle-bnt";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
@@ -153,9 +154,16 @@ function DiagnosisBlock({ diagnosis: originalDiagnosis }: { diagnosis: Diagnosis
   );
 }
 
-function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.ReactNode | undefined }) {
+function SavedIotaDashboard({
+  previewIdleMining,
+  showPublicLookup,
+}: {
+  previewIdleMining?: React.ReactNode;
+  showPublicLookup: boolean;
+}) {
   const { t, en, locale } = useLocale();
   const auth = useAuth();
+  const publicLookup = showPublicLookup && !auth.userId;
   const watch = useWatchlist(auth.userId, auth.ready);
   const billing = useBilling(auth.userId, auth.ready);
   const atLimit = watch.projectCount >= watch.limit;
@@ -301,6 +309,14 @@ function SavedIotaDashboard({ previewIdleMining }: { previewIdleMining?: React.R
           </button>
         </div>
       </header>
+      {publicLookup && (
+        <div className="iota-project-lookup">
+          <IotaPublicLookupForm />
+          <a className="text-link" href={projectHelpPath(locale, "iota")}>
+            {onboardingCopy.idHelp[locale]} <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </div>
+      )}
       {previewIdleMining ?? (idleMiningPlan && (
         <IdleBntEntry
           key={auth.userId}
@@ -942,7 +958,13 @@ function DeviceDetail({
   );
 }
 
-export function Dashboard({ previewIdleMining }: { previewIdleMining?: React.ReactNode } = {}) {
+export function Dashboard({
+  previewIdleMining,
+  showPublicLookup = false,
+}: {
+  previewIdleMining?: React.ReactNode;
+  showPublicLookup?: boolean;
+} = {}) {
   const lookup = useRouterState({
     select: (s) => new URLSearchParams(s.location.searchStr).get("lookup"),
   });
@@ -958,7 +980,9 @@ export function Dashboard({ previewIdleMining }: { previewIdleMining?: React.Rea
     ) : (
       <IotaLookup key={lookup} id={lookup} />
     );
-  return <SavedIotaDashboard previewIdleMining={previewIdleMining} />;
+  return (
+    <SavedIotaDashboard previewIdleMining={previewIdleMining} showPublicLookup={showPublicLookup} />
+  );
 }
 export function IotaLookup({ id, preview = false }: { id: string; preview?: boolean }) {
   const { locale, t } = useLocale();

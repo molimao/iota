@@ -75,6 +75,14 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
       : raw;
   const value = (n: number | null | undefined) =>
     n == null ? "—" : n.toLocaleString(locale, { maximumFractionDigits: 8 });
+  const addressBook = (
+    <ProjectAddressBook
+      project={project}
+      pool={provider}
+      autoSelect={false}
+      onSelect={selectSaved}
+    />
+  );
   return (
     <main id="main" className="projects-page pool-page">
       <header className="project-heading">
@@ -129,13 +137,8 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
         </>
       )}
       {project === "tsc" && <p className="compute-caption">{tscPoolCopy.period[locale]}</p>}
-      <ProjectAddressBook
-        project={project}
-        pool={provider}
-        autoSelect={false}
-        onSelect={selectSaved}
-      />
-      <QuietDetails title={c.query[locale]} open={!!address || !auth.userId}>
+      {project !== "prl" && addressBook}
+      <QuietDetails title={c.query[locale]} open={project === "prl" || !!address || !auth.userId}>
         <form
           className="pool-lookup"
           onSubmit={(e) => {
@@ -327,6 +330,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           </section>
         )}
       </QuietDetails>
+      {project === "prl" && addressBook}
       <ProjectAbout project={project} />
     </main>
   );

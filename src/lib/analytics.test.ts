@@ -157,6 +157,37 @@ it("records a failed login only for a pending attempt and consumes it", async ()
   expect(events).toHaveLength(1);
   expect(JSON.stringify(events)).not.toContain("11111111");
 });
+it("separates clicking Google, returning to the lookup and signing in successfully", async () => {
+  const a = await import("./analytics");
+  a.startPendingLogin("iota_lookup");
+  a.trackPendingLookupReturn("?lookup=private-miner", "");
+  const lookupEvents = () => window.dataLayer!.map(x => Array.from(x as ArrayLike<unknown>))
+    .filter(x => String(x[1]).startsWith("lookup_login_"));
+  expect(lookupEvents().map(x => x[1])).toEqual(["lookup_login_start"]);
+
+  a.trackPendingLookupReturn("?lookup=private-miner&code=private-code", "");
+  a.trackPendingLookupReturn("?lookup=private-miner&code=private-code", "");
+  a.consumePendingLogin();
+  a.consumePendingLogin();
+  expect(lookupEvents().map(x => x[1])).toEqual([
+    "lookup_login_start", "lookup_login_return", "lookup_login_success",
+  ]);
+  expect(JSON.stringify(lookupEvents())).not.toMatch(/private-miner|private-code/);
+});
+it("records failed OAuth returns separately from successful logins", async () => {
+  const a = await import("./analytics");
+  a.startPendingLogin("iota_lookup");
+  a.trackPendingLookupReturn("", "#error=access_denied&error_description=private-details");
+  a.failPendingLogin("login_canceled");
+  a.consumePendingLogin();
+  const events = window.dataLayer!.map(x => Array.from(x as ArrayLike<unknown>))
+    .filter(x => String(x[1]).startsWith("lookup_login_"));
+  expect(events.map(x => x[1])).toEqual([
+    "lookup_login_start", "lookup_login_return", "lookup_login_failed",
+  ]);
+  expect(events.at(-1)?.[2]).toMatchObject({ project: "iota", reason: "login_canceled" });
+  expect(JSON.stringify(events)).not.toContain("private-details");
+});
 it("excludes background prices, empty queries and arbitrary project names from query events", async () => {
   const { queryAnalyticsProject } = await import("./analytics");
   expect(queryAnalyticsProject(["iota", "usd-price"])).toBe(null);

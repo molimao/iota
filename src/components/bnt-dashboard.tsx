@@ -514,6 +514,33 @@ export function BntDashboardView(p: Props) {
       {p.preview && <p className="bnt-preview-note">{t("demo")}</p>}
       {(error || p.error) && <p role="alert">{error || c.unavailable}</p>}
       {notice && <p role="status">{notice}</p>}
+      <details className="bnt-quick-lookup" open={!transient}>
+        <summary>{t("lookup")}</summary>
+        <form
+          className="pool-lookup"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!validPoolAddress("bnt", lookup.trim())) {
+              setError(t("invalid"));
+              return;
+            }
+            setError(null);
+            p.onLookup(lookup.trim());
+          }}
+        >
+          <label>
+            {bntLabels.address[locale]}
+            <input
+              value={lookup}
+              maxLength={120}
+              autoComplete="off"
+              spellCheck={false}
+              onChange={(e) => setLookup(e.target.value)}
+            />
+          </label>
+          <button className="site-button">{poolCopy.query[locale]}</button>
+        </form>
+      </details>
       {bntAddressGroups(p.rows.length ? p.rows : transient ? [transient] : []).length > 1 && (
         <>
           <section className="bnt-summary" aria-label={t("title")}>
@@ -553,33 +580,6 @@ export function BntDashboardView(p: Props) {
           </div>
         </>
       )}
-      <details className="bnt-quick-lookup" open={!p.signedIn && !transient ? true : undefined}>
-        <summary>{t("lookup")}</summary>
-        <form
-          className="pool-lookup"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!validPoolAddress("bnt", lookup.trim())) {
-              setError(t("invalid"));
-              return;
-            }
-            setError(null);
-            p.onLookup(lookup.trim());
-          }}
-        >
-          <label>
-            {bntLabels.address[locale]}
-            <input
-              value={lookup}
-              maxLength={120}
-              autoComplete="off"
-              spellCheck={false}
-              onChange={(e) => setLookup(e.target.value)}
-            />
-          </label>
-          <button className="site-button">{poolCopy.query[locale]}</button>
-        </form>
-      </details>
       {transient && (
         <section className="bnt-transient">
           <h2>{t("unsaved")}</h2>

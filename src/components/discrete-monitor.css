@@ -13,7 +13,7 @@
 }
 @media (min-width: 1000px) {
   .xds-monitor-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.16fr);
+    grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr);
   }
 }
 .xds-device-card {

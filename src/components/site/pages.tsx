@@ -12,6 +12,7 @@ import { MonitoringExample } from "../onboarding";
 import { reportCopy } from "../daily-report-copy";
 import { evidenceLabels } from "./core-evidence";
 import { onboardingCopy } from "@/lib/onboarding";
+import { IotaPublicLookupForm } from "../iota-public-lookup-form";
 import { DiscoveryQuestions } from "../discovery-questions";
 import { discoveryCopy, DISCOVERY_UPDATED, localized as l } from "@/lib/product-discovery";
 import { projectRequestCopy } from "../project-request-copy";
@@ -25,7 +26,6 @@ import { useState } from "react";
 import { ArrowRight, ArrowUpRight, LogIn, Menu } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import { persistLocale, swapLocalePath, LOCALES, LANGUAGE_TAG, LANGUAGE_NAME } from "@/lib/site";
-import { minerIdError } from "@/lib/ss58";
 import { useAuth } from "@/hooks/use-auth";
 import { useBilling } from "@/hooks/use-billing";
 import { AccountAvatar, AccountMenu } from "./account-menu";
@@ -38,7 +38,7 @@ import {
   type Article,
 } from "./articles";
 import { content } from "./content";
-import { localizeMessage, useLocale, type Locale } from "./locale";
+import { useLocale, type Locale } from "./locale";
 import { ArticleBlocks } from "./rich-text";
 import { ProjectSwitch, ProjectCards } from "../projects";
 import { projectsCopy } from "../projects-copy";
@@ -214,55 +214,6 @@ const projectShortcuts = {
   xds: l(["查 XDS 出块", "查 XDS 出塊", "Check XDS blocks", "XDS 블록 조회", "XDSのブロックを見る"]),
 };
 
-function StartForm() {
-  const { locale, en } = useLocale();
-  const [value, setValue] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  return (
-    <form
-      className="start-form"
-      onSubmit={(event) => {
-        event.preventDefault();
-        const id = value.trim();
-        const reason = minerIdError(id);
-        if (reason) {
-          setError(localizeMessage(reason, locale));
-          return;
-        }
-        window.location.href = `/${locale}/app?lookup=${encodeURIComponent(id)}`;
-      }}
-    >
-      <label>
-        <span className="sr-only">Miner ID</span>
-        <input
-          value={value}
-          maxLength={64}
-          spellCheck={false}
-          autoComplete="off"
-          onChange={(event) => {
-            setValue(event.target.value);
-            if (error) setError(null);
-          }}
-          placeholder={localizeValue(
-            en ? "Paste your public Miner ID" : "粘贴你的公开 Miner ID",
-            locale,
-          )}
-          aria-invalid={error ? true : undefined}
-        />
-      </label>
-      <button className="site-button" type="submit">
-        {onboardingCopy.lookup[locale]}
-        <ArrowUpRight size={19} />
-      </button>
-      {error ? (
-        <p className="start-error" role="alert">
-          {error}
-        </p>
-      ) : null}
-    </form>
-  );
-}
-
 export function Landing() {
   const { locale, en } = useLocale();
   const copy = content[locale];
@@ -280,7 +231,7 @@ export function Landing() {
             <em>{accent}</em>
           </h1>
           <p>{landingWorkspace.intro[locale]}</p>
-          <StartForm />
+          <IotaPublicLookupForm />
           <div className="opening-actions">
             <a className="text-link" href={`/${locale}/learn/find-miner-id`}>
               {copy.secondary}
@@ -290,6 +241,13 @@ export function Landing() {
               {onboardingCopy.devices[locale]}
               <ArrowRight size={16} />
             </a>
+          </div>
+          <div className="landing-project-shortcuts">
+            {(["bnt", "prl", "xds"] as const).map((project) => (
+              <a key={project} href={projectPath(locale, project)}>
+                {projectShortcuts[project][locale]}
+              </a>
+            ))}
           </div>
         </div>
         <MonitoringExample />
@@ -301,11 +259,6 @@ export function Landing() {
             {projectsCopy[locale].back}
             <ArrowRight size={15} />
           </a>
-        </div>
-        <div className="landing-project-shortcuts">
-          {(["bnt", "prl", "xds"] as const).map((project) => (
-            <a key={project} href={projectPath(locale, project)}>{projectShortcuts[project][locale]}</a>
-          ))}
         </div>
         <ProjectCards compact />
       </section>
@@ -559,6 +512,15 @@ export function ArticleView({
   const { locale, en } = useLocale();
   const dates = articleDates(article, locale);
   const guideCopy = learningCopy[locale];
+  const project = article.project ?? "iota";
+  const projectAction =
+    project === "all"
+      ? guideCopy.compare
+      : project === "iota"
+        ? onboardingCopy.lookup[locale]
+        : project === "bnt" || project === "prl" || project === "xds"
+          ? projectShortcuts[project][locale]
+          : `${guideCopy.open} · ${PROJECTS[project].name}`;
   const sections = article.body[locale].flatMap((block, i) =>
     block.startsWith("## ") ? [{ title: block.slice(3), id: `section-${i}` }] : [],
   );
@@ -588,9 +550,7 @@ export function ArticleView({
               : projectPath(locale, article.project ?? "iota")
           }
         >
-          {article.project === "all"
-            ? learningCopy[locale].compare
-            : `${guideCopy.open} · ${PROJECTS[article.project ?? "iota"].name}`}{" "}
+          {projectAction}{" "}
           <ArrowUpRight size={16} aria-hidden="true" />
         </a>
       </div>

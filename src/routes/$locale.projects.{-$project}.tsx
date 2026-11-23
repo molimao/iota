@@ -52,7 +52,7 @@ function ProjectContent() {
   const { project } = Route.useParams();
   if (isPoolProject(project)) return <PoolPage key={project} project={project} />;
   if (isPlatform(project)) return <PlatformPage key={project} project={project} />;
-  if (project === "iota") return <Dashboard />;
+  if (project === "iota") return <Dashboard showPublicLookup />;
   if (isComputeProject(project))
     return <ComputeProjectPage key={project} project={project} initial={null} />;
   if (project === "flyai") return <FlyaiPage />;

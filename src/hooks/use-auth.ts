@@ -1,5 +1,5 @@
 import { authCallbackIssue, authReturnUrl, type AuthIssue } from "@/lib/auth-errors";
-import { consumePendingLogin, failPendingLogin, trackFunnelEvent } from "@/lib/analytics";
+import { consumePendingLogin, failPendingLogin, startPendingLogin, trackPendingLookupReturn } from "@/lib/analytics";
 import { useCallback, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 
@@ -14,11 +14,9 @@ export type AuthState = AuthProfile & {
   ready: boolean;
   signingIn: boolean;
   error: string | null;
-  signInWithGoogle: () => Promise<void>;
+  signInWithGoogle: (entry?: "iota_lookup") => Promise<void>;
   signOut: () => Promise<void>;
 };
-
-let startupIssue: AuthIssue | null | undefined;
 
 const emptyProfile: AuthProfile = { userId: null, email: null, name: null, avatarUrl: null };
 
@@ -29,7 +27,9 @@ export function useAuth(): AuthState {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    startupIssue ??= authCallbackIssue(window.location.hash, window.location.search);
+    const { hash, search } = window.location;
+    trackPendingLookupReturn(search, hash);
+    const startupIssue: AuthIssue | null = authCallbackIssue(hash, search);
     if (startupIssue) {
       setError(startupIssue);
       failPendingLogin(startupIssue);
@@ -56,7 +56,10 @@ export function useAuth(): AuthState {
     void supabase.auth
       .getSession()
       .then(({ data: current, error: sessionError }) => {
-        if (sessionError && active) setError(startupIssue ?? "login_unavailable");
+        if (sessionError && active) {
+          failPendingLogin(startupIssue ?? "login_unavailable");
+          setError(startupIssue ?? "login_unavailable");
+        }
         if (current.session?.user) consumePendingLogin(Date.now(), current.session.user.created_at);
         apply(current.session?.user ?? null);
       })
@@ -75,16 +78,11 @@ export function useAuth(): AuthState {
     };
   }, []);
 
-  const signInWithGoogle = useCallback(async () => {
+  const signInWithGoogle = useCallback(async (entry?: "iota_lookup") => {
     setError(null);
     setSigningIn(true);
     try {
-      try {
-        sessionStorage.setItem("iota-ga4-login-pending", `${Date.now()}:${crypto.randomUUID()}`);
-        trackFunnelEvent("login_start");
-      } catch {
-        /* Best effort. */
-      }
+      startPendingLogin(entry);
       const redirect = authReturnUrl(window.location.href);
       const result =
         import.meta.env["VITE_IOTA_DIRECT_AUTH"] === "true"

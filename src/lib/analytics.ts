@@ -9,6 +9,14 @@ declare global {
 type FunnelEvent =
   | "login_start"
   | "login_failed"
+  | "lookup_query_start"
+  | "lookup_login_start"
+  | "lookup_login_return"
+  | "lookup_login_success"
+  | "lookup_login_failed"
+  | "lookup_save_start"
+  | "lookup_save_success"
+  | "lookup_save_failed"
   | "query_started"
   | "query_completed"
   | "query_failed"
@@ -216,16 +224,53 @@ export function trackPageView(path: string) {
   }
 }
 
+const pendingLoginKey = "iota-ga4-login-pending";
+const lookupEntry = ":iota_lookup";
+const lookupReturned = ":iota_lookup:returned";
+
+export function startPendingLogin(entry?: "iota_lookup") {
+  try {
+    const occurrence = `${Date.now()}:${crypto.randomUUID()}`;
+    sessionStorage.setItem(pendingLoginKey, entry === "iota_lookup" ? occurrence + lookupEntry : occurrence);
+    trackFunnelEvent("login_start");
+    if (entry === "iota_lookup") trackFunnelEvent("lookup_login_start", { project: "iota" });
+  } catch {
+    /* Best effort. */
+  }
+}
+
+export function trackPendingLookupReturn(search: string, hash: string, now = Date.now()) {
+  try {
+    const pending = sessionStorage.getItem(pendingLoginKey);
+    if (!pending?.endsWith(lookupEntry)) return;
+    const age = now - Number(pending.split(":")[0]);
+    if (!(age >= 0 && age < 600000)) return;
+    const isCallback = [search.slice(1), hash.slice(1)].some((part) => {
+      const params = new URLSearchParams(part);
+      return params.has("error") || params.has("code") || params.has("access_token");
+    });
+    if (!isCallback) return;
+    sessionStorage.setItem(pendingLoginKey, pending + ":returned");
+    trackFunnelEvent("lookup_login_return", { project: "iota" });
+  } catch {
+    /* Best effort. */
+  }
+}
+
 /** A login attempt is consumed once, including failed/expired attempts. Never replay on token refresh. */
 export function consumePendingLogin(now = Date.now(), createdAt?: string) {
   try {
-    const pending = sessionStorage.getItem("iota-ga4-login-pending");
+    const pending = sessionStorage.getItem(pendingLoginKey);
     if (!pending) return;
-    sessionStorage.removeItem("iota-ga4-login-pending");
+    sessionStorage.removeItem(pendingLoginKey);
     const timestamp = Number(pending.split(":")[0]);
     const age = now - timestamp;
-    if (!/^\d+:[0-9a-f-]{36}$/i.test(pending) || !Number.isFinite(age) || age < 0 || age >= 600000)
+    if (!/^\d+:[0-9a-f-]{36}(?::iota_lookup(?::returned)?)?$/i.test(pending) || !Number.isFinite(age) || age < 0 || age >= 600000)
       return;
+    if (pending.endsWith(lookupEntry))
+      trackFunnelEvent("lookup_login_return", { project: "iota" });
+    if (pending.endsWith(lookupEntry) || pending.endsWith(lookupReturned))
+      trackFunnelEvent("lookup_login_success", { project: "iota" });
     const created = Date.parse(createdAt ?? "");
     trackAuthSuccess(
       Number.isFinite(created) && created >= timestamp - 5000 && created <= now
@@ -257,9 +302,12 @@ export function failPendingLogin(
   reason: "login_failed" | "login_canceled" | "login_expired" | "login_unavailable",
 ) {
   try {
-    if (!sessionStorage.getItem("iota-ga4-login-pending")) return;
-    sessionStorage.removeItem("iota-ga4-login-pending");
+    const pending = sessionStorage.getItem(pendingLoginKey);
+    if (!pending) return;
+    sessionStorage.removeItem(pendingLoginKey);
     trackFunnelEvent("login_failed", { reason });
+    if (pending.endsWith(lookupEntry) || pending.endsWith(lookupReturned))
+      trackFunnelEvent("lookup_login_failed", { project: "iota", reason });
   } catch {
     /* Best effort. */
   }

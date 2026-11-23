@@ -1469,13 +1469,23 @@ body:has(.site-shell) {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 18px;
-  margin: 0 0 18px;
+  margin-top: 18px;
   font-size: 13px;
 }
 .landing-project-shortcuts a {
   color: #b9c9c3;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+.iota-project-lookup {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.iota-project-lookup .start-form {
+  width: 100%;
+  margin: 0;
 }
 .compact .project-card {
   padding: 22px;
