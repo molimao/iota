@@ -14,7 +14,13 @@ export const agentCopy = {
   checkPair: l(["检查连接状态", "檢查連接狀態", "Check connection", "연결 확인", "接続を確認"]),
   cardAction: l(["连接 / 管理 Mac", "連接 / 管理 Mac", "Connect / manage Mac", "Mac 연결 / 관리", "Macを接続・管理"]),
   cardHint: l(["安装连接程序，查看本机状态并远程重启 IOTA。", "安裝連線程式，查看本機狀態並遠端重啟 IOTA。", "Install the connection app to see local status and restart IOTA remotely.", "연결 프로그램을 설치하면 기기 상태를 확인하고 IOTA를 원격 재시작할 수 있습니다.", "接続アプリを入れると端末状態の確認とIOTAの遠隔再起動ができます。"]),
-  setupRun: l(["解压后运行 install.command，粘贴配对码。", "解壓後執行 install.command，貼上配對碼。", "Unzip, run install.command and paste the pairing code.", "압축 해제 후 install.command를 실행하고 연결 코드를 입력하세요.", "展開後に install.command を実行し、接続コードを貼り付けます。"]),
+  setupRun: l([
+    "解压后运行 install.command，粘贴配对码。如果 Mac 提示安装命令行工具，装好后再打开一次。",
+    "解壓後執行 install.command，貼上配對碼。如果 Mac 提示安裝命令列工具，裝好後再開啟一次。",
+    "Unzip, run install.command and paste the pairing code. If macOS asks for Command Line Tools, install them, then reopen install.command.",
+    "압축을 풀고 install.command를 실행해 연결 코드를 붙여넣으세요. macOS에서 명령어 라인 도구 설치를 요청하면 설치 후 다시 실행하세요.",
+    "解凍後に install.command を開き、接続コードを貼り付けます。コマンドラインツールを求められたら、インストール後にもう一度開いてください。",
+  ]),
   setupTitle: l(["安装与配对", "安裝與配對", "Install and pair", "설치 및 연결", "インストールと接続"]),
   windowsDownload: l(["下载 Windows Agent", "下載 Windows Agent", "Download Windows Agent", "Windows Agent 다운로드", "Windows Agent をダウンロード"]),
   windowsSetup: l([
@@ -129,7 +135,7 @@ export const agentCopy = {
   training: l(["程序开着", "程式開著", "App open", "앱 실행 중", "アプリ起動中"]),
   cpu: l(["CPU", "CPU", "CPU", "CPU", "CPU"]),
   memory: l(["内存", "記憶體", "Memory", "메모리", "メモリ"]),
-  start: l(["启动", "啟動", "Start", "시작", "起動"]),
+  start: l(["打开 IOTA", "開啟 IOTA", "Open IOTA", "IOTA 열기", "IOTAを開く"]),
   stop: l(["停止", "停止", "Stop", "중지", "停止"]),
   restart: l(["重启", "重新啟動", "Restart", "재시작", "再起動"]),
   logs: l(["训练异常时上传日志", "訓練異常時上傳日誌", "Upload logs after a training issue", "학습 문제 발생 시 로그 업로드", "学習異常時にログを送信"]),

@@ -37,6 +37,17 @@ class StartupTests(unittest.TestCase):
                 self.assertEqual(run.call_count,1)
 
 class TrainingResumeTests(unittest.TestCase):
+    def test_initializes_training_preference_on_new_install(self):
+        import json
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            path = root / 'Library/Application Support/IOTA Train at Home/preferences.json'
+            path.parent.mkdir(parents=True)
+            with patch.object(agent.Path, 'home', return_value=root):
+                agent.enable_training_on_launch()
+            self.assertEqual(json.loads(path.read_text()), {'autoStartTrainingOnStartup': True})
+            self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+
     def test_official_preference_preserves_other_settings(self):
         import json
         with tempfile.TemporaryDirectory() as folder:

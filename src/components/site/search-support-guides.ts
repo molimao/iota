@@ -77,11 +77,11 @@ export const searchSupportGuides: Article[] = [
           "どのアプリを入れる？",
         ],
         a: [
-          "从 [Macrocosmos 官方入口](https://iota.macrocosmos.ai/) 下载 Train at Home，安装前核对官方硬件与系统要求。不要把本站的 Mac Agent 当作训练客户端；Agent 只管理已经安装的官方应用。",
-          "從 [Macrocosmos 官方入口](https://iota.macrocosmos.ai/) 下載 Train at Home，先核對硬體及系統要求。本站 Mac Agent 只管理已安裝的官方應用，不能取代訓練客戶端。",
-          "Download Train at Home from [Macrocosmos](https://iota.macrocosmos.ai/) and check its current hardware and OS requirements. The IOTA Watch Mac agent manages an existing official installation; downloading the agent alone does not install the training client.",
-          "[Macrocosmos](https://iota.macrocosmos.ai/)에서 Train at Home을 받고 최신 하드웨어·OS 요구 사항을 확인하세요. IOTA Watch 에이전트는 설치된 공식 앱을 관리하며 훈련 클라이언트를 대신 설치하지 않습니다.",
-          "[Macrocosmos](https://iota.macrocosmos.ai/)からTrain at Homeを入手し、最新のハードウェア・OS要件を確認します。IOTA Watchのエージェントは既存の公式アプリを管理するもので、学習クライアントの代わりにはなりません。",
+          "在[工具下载](/downloads)下载 IOTA Train at Home，安装前核对 Macrocosmos 的硬件与系统要求。开始训练后，再安装 Agent 查看设备状态。",
+          "在[工具下載](/downloads)下載 IOTA Train at Home，安裝前核對 Macrocosmos 的硬體與系統要求。開始訓練後，再安裝 Agent 查看設備狀態。",
+          "Get IOTA Train at Home from [Downloads](/downloads) and check Macrocosmos’s hardware and OS requirements. Once training starts, install the Agent to monitor the device.",
+          "[다운로드](/downloads)에서 IOTA Train at Home을 받고 Macrocosmos의 하드웨어 및 OS 요구 사항을 확인하세요. 훈련을 시작한 뒤 에이전트를 설치하면 기기 상태를 볼 수 있습니다.",
+          "[ダウンロード](/downloads)からIOTA Train at Homeを入手し、MacrocosmosのハードウェアとOSの要件を確認します。学習を始めたあと、Agentをインストールするとデバイスの状態を確認できます。",
         ],
       },
       {

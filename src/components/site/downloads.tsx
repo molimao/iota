@@ -1,10 +1,26 @@
 import { agentCopy } from "@/components/device-agent-copy";
 import { localizeValue } from "@/components/site/localization";
+import { localized } from "@/lib/product-discovery";
 import { Download, ArrowUpRight, Monitor, Terminal, RefreshCw } from "lucide-react";
 import { useLocale } from "./locale";
 import release from "@/lib/local-tools-release.json";
 
 const sourceUrl = "https://github.com/molimao/iota/tree/main/tools/iota-local";
+const trainingAppUrl = "https://tah.iota.macrocosmos.ai/download/token/release-iota-signup";
+const downloadTrainingApp = localized([
+  "下载官方客户端",
+  "下載官方用戶端",
+  "Download the official app",
+  "공식 앱 다운로드",
+  "公式アプリをダウンロード",
+]);
+const setupPayout = localized([
+  "在官方应用中连接公开收款地址并开始训练，再用 Miner ID 配对 Agent。",
+  "在官方應用程式中連結公開收款地址並開始訓練，再用 Miner ID 配對 Agent。",
+  "Set your public payout address in the official app and start training. Then use the Miner ID to pair your Agent.",
+  "공식 앱에서 공개 지급 주소를 연결하고 훈련을 시작하세요. 그런 다음 Miner ID로 에이전트를 연결하세요.",
+  "公式アプリで公開受取アドレスを設定して学習を始め、Miner IDでAgentをペアリングします。",
+]);
 
 export function DownloadsPage() {
   const { locale, en } = useLocale();
@@ -94,6 +110,17 @@ export function DownloadsPage() {
         )}
       </p>
 
+      <section className="tool-download-card">
+        <div>
+          <div className="tool-release-meta"><span>macOS · Apple Silicon</span></div>
+          <h2>IOTA Train at Home</h2>
+          <p>{setupPayout[locale]}</p>
+        </div>
+        <a className="site-button" href={trainingAppUrl}>
+          <Download size={18} aria-hidden="true" />
+          {downloadTrainingApp[locale]}
+        </a>
+      </section>
       <section className="tool-download-card">
         <div>
           <h2>{agentCopy.title[locale]}</h2>

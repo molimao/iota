@@ -28,7 +28,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-VERSION = '1.0.21'
+VERSION = '1.0.22'
 ROOT = Path.home() / 'Library/Application Support/IOTA Watch Agent'
 CONFIG = ROOT / 'config.json'
 STATE = ROOT / 'state.json'
@@ -902,9 +902,10 @@ def enable_training_on_launch():
     not enable launch-at-login, and is explained beside the recovery option.
     """
     path = Path.home() / 'Library/Application Support/IOTA Train at Home/preferences.json'
-    if path.is_symlink() or not path.is_file() or path.stat().st_size > 1000000:
+    if path.is_symlink() or (path.exists() and (not path.is_file() or path.stat().st_size > 1000000)):
         raise ValueError('official preferences unavailable')
-    prefs = json.loads(path.read_text())
+    # Train at Home fills in defaults when a new installation has no preferences file.
+    prefs = json.loads(path.read_text()) if path.exists() else {}
     if not isinstance(prefs, dict):
         raise ValueError('invalid official preferences')
     if prefs.get('autoStartTrainingOnStartup') is True:

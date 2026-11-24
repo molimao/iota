@@ -208,6 +208,9 @@ body:has(.site-shell) {
   border-radius: 20px;
   background: var(--watch-surface);
 }
+.tool-download-card + .tool-download-card {
+  margin-top: 16px;
+}
 .tool-release-meta {
   display: flex;
   flex-wrap: wrap;
