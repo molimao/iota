@@ -1,6 +1,7 @@
 import type { PoolAccount } from "./pool-monitor";
 
 const COIN_UNITS = 100_000_000;
+const NOCK_COIN_UNITS = 65_536;
 const MINUTE = 60_000;
 
 const record = (v: unknown): Record<string, unknown> | null =>
@@ -24,9 +25,9 @@ const atomicInteger = (v: unknown): number | null => {
   return typeof n === "number" && Number.isSafeInteger(n) && n >= 0 ? n : null;
 };
 /** Atomic PRL as a safe nonnegative integer, scaled to coins. Missing or unusable → null. */
-const atomic = (v: unknown): number | null => {
+const atomic = (v: unknown, divisor: number): number | null => {
   const n = atomicInteger(v);
-  return n === null ? null : n / COIN_UNITS;
+  return n === null ? null : n / divisor;
 };
 
 /** Hashrate in H/s. Absent or unusable → null. Never substituted from averages. */
@@ -57,10 +58,10 @@ const onlineAt = (lastSeen: number | null, now: number): boolean | null => {
   return null;
 };
 
-const reward24h = (input: Record<string, unknown>): number | null => {
+const reward24h = (input: Record<string, unknown>, divisor: number): number | null => {
   if (!Array.isArray(input["rewardStats"])) return null;
   const row = input["rewardStats"].map(record).find((r) => r?.["period"] === "24h");
-  return row ? atomic(row["amount"]) : null;
+  return row ? atomic(row["amount"], divisor) : null;
 };
 
 export function luckyPoolDayUnits(
@@ -116,7 +117,8 @@ export function parsePrlLuckyPool(
   expectedSymbol = "PRL",
 ): PoolAccount {
   const cfg = record(config);
-  if (!cfg || cfg["symbol"] !== expectedSymbol || cfg["coinUnits"] !== COIN_UNITS)
+  const divisor = expectedSymbol === "NOCK" ? NOCK_COIN_UNITS : COIN_UNITS;
+  if (!cfg || cfg["symbol"] !== expectedSymbol || cfg["coinUnits"] !== divisor)
     throw new Error("invalid-data");
 
   const doc = record(input);
@@ -148,11 +150,14 @@ export function parsePrlLuckyPool(
     };
   });
 
-  const balance = atomic(stats["unlocked"]);
-  const pendingEstimate = atomic(stats["locked"]);
-  const paid = atomic(stats["paid"]);
+  const balance = atomic(stats["unlocked"], divisor);
+  const pendingEstimate = atomic(stats["locked"], divisor);
+  const paid = atomic(stats["paid"], divisor);
   const hashrate = rate(stats["hashrate"]);
-  const reward = reward24h(doc);
+  const reward = reward24h(doc, divisor);
+  if (expectedSymbol === "NOCK" && !rows.length && hashrate === 0 &&
+    balance === 0 && pendingEstimate === 0 && paid === 0 && reward === 0)
+    throw new Error("not-found");
   const accepted = rate(stats["acceptedShares"]);
   return {
     balance,

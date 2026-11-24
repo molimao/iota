@@ -168,3 +168,15 @@ it("retains known balances and accepted history when the pool no longer returns 
   expect(result.pendingEstimate).toBe(0.0001979);
   expect(result.acceptedShares).toBe(16);
 });
+it("uses Nockchain base units for the independent LuckyPool account", () => {
+  const wallet = "2".repeat(55);
+  const account = {
+    stats: { wallet, unlocked: 65536, locked: 32768, paid: 196608, hashrate: 12 },
+    workers: [{ name: "gpu", hashrate: 12 }],
+    rewardStats: [{ period: "24h", amount: 131072 }],
+  };
+  expect(parsePrlLuckyPool({ symbol: "NOCK", coinUnits: 65536 }, account, wallet, Date.now(), "NOCK"))
+    .toMatchObject({ balance: 1, pendingEstimate: 0.5, paid: 3, reward: 2, period: "rolling24h" });
+  expect(() => parsePrlLuckyPool({ symbol: "PRL", coinUnits: 100000000 }, account, wallet, Date.now(), "NOCK"))
+    .toThrow("invalid-data");
+});

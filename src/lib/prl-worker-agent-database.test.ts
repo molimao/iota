@@ -26,6 +26,7 @@ beforeAll(async () => {
  GRANT USAGE ON SCHEMA public,auth TO authenticated,anon;`);
   await db.exec(readFileSync("supabase/migrations/20261028140000_prl_worker_agent.sql", "utf8"));
   await db.exec(readFileSync("supabase/migrations/20261105230000_prl_more_pools.sql", "utf8"));
+  await db.exec(readFileSync("supabase/migrations/20261124123000_quantus_mining_pools.sql", "utf8"));
 }, 30000);
 beforeEach(async () => {
   await db.exec(
@@ -113,6 +114,28 @@ it("rejects foreign source/target, unpaired target, empty Worker and wallet-leve
   await expect(link(lucky, "gpu1", foreign)).rejects.toThrow("binding_not_found");
   await db.exec("RESET ROLE;SET ROLE anon");
   await expect(link(lucky, "gpu1", a)).rejects.toThrow("permission denied");
+});
+it("keeps legacy Quantus chain records separate from the same wallet and Worker in two pools", async () => {
+  await db.exec("RESET ROLE");
+  const { rows } = await db.query<{ id: string; pool: string }>(
+    `INSERT INTO watch_bindings(device_id,user_id,project,identifier,worker,pool)
+     SELECT $1,$2,'quantus','same-address','',pool FROM unnest(ARRAY['','2miners','kryptex']) pool RETURNING id,pool`,
+    [wallet, u],
+  );
+  await owner();
+  const chain = rows.find((row) => row.pool === "")!;
+  const twoMiners = rows.find((row) => row.pool === "2miners")!;
+  const kryptexQtc = rows.find((row) => row.pool === "kryptex")!;
+  await expect(link(chain.id, "gpu1", a)).rejects.toThrow("binding_not_found");
+  const first = await link(twoMiners.id, "gpu1", a);
+  const second = await link(kryptexQtc.id, "gpu1", b);
+  expect(first).not.toBe(second);
+  expect(await link(twoMiners.id, "gpu1", b)).toBe(first);
+  await db.exec("RESET ROLE");
+  expect((await db.query("SELECT device_id,pool FROM watch_bindings WHERE id=$1", [first])).rows[0])
+    .toEqual({ device_id: b, pool: "2miners" });
+  expect((await db.query("SELECT device_id,pool FROM watch_bindings WHERE id=$1", [chain.id])).rows[0])
+    .toEqual({ device_id: wallet, pool: "" });
 });
 it("only sends explicit Worker bindings to the exact device Agent", async () => {
   const one = await link(lucky, "gpu1", a);

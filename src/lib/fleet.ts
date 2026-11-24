@@ -2,6 +2,7 @@ import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
 import {
   POOL_PROVIDERS,
+  isPoolBinding,
   isPoolProject,
   validPoolAddress,
   poolProvider,
@@ -82,7 +83,7 @@ export const bindingSchema = z
     worker: z.string().trim().max(80).default(""),
   })
   .transform((b) =>
-    isPoolProject(b.project)
+    isPoolBinding(b)
       ? {
           ...b,
           identifier:
@@ -135,7 +136,10 @@ export function bindingIdentity(
           : binding.project === "flyai" || binding.project === "etc" || binding.project === "ethw"
             ? binding.identifier.toLowerCase()
             : binding.identifier;
-  return `${binding.project}:${identifier}:${binding.worker}${binding.project === "prl" || binding.project === "tsc" ? ":" + (binding.pool ?? poolProvider(binding.project)) : ""}`;
+  const pool = binding.project === "quantus"
+    ? binding.pool
+    : binding.project === "prl" || binding.project === "tsc" ? binding.pool ?? poolProvider(binding.project) : undefined;
+  return `${binding.project}:${identifier}:${binding.worker}${pool ? ":" + pool : ""}`;
 }
 
 export function parseFleet(input: unknown): FleetDevice[] {
@@ -149,7 +153,7 @@ export function parseFleet(input: unknown): FleetDevice[] {
       const key = bindingIdentity(binding);
       if (
         !validBinding(binding.project, binding.identifier) ||
-        (isPoolProject(binding.project) && !validPoolProvider(binding.project, binding.pool)) ||
+        (isPoolBinding(binding) && !validPoolProvider(binding.project, binding.pool)) ||
         sources.has(key)
       )
         throw new Error("invalid-binding");
@@ -188,7 +192,8 @@ export function walletIsShared(devices: FleetDevice[], binding: FleetBinding) {
       .filter(
         (b) =>
           b.project === binding.project &&
-          ((binding.project !== "prl" && binding.project !== "tsc") ||
+          (binding.project === "quantus" ? b.pool === binding.pool :
+            (binding.project !== "prl" && binding.project !== "tsc") ||
             (b.pool ?? poolProvider(binding.project as import("./pool-projects").PoolProject)) ===
               (binding.pool ??
                 poolProvider(binding.project as import("./pool-projects").PoolProject))) &&

@@ -10,10 +10,11 @@ import { shortId } from "@/lib/ss58";
 import { useLocale } from "./site/locale";
 
 const intentKey = "iota-lookup-save";
+const intentLifetime = 15 * 60 * 1000;
 const copy = {
   signIn: l(["登录并保存", "登入並儲存", "Sign in and save", "로그인하고 저장", "ログインして保存"]),
   saving: l(["正在保存…", "正在儲存…", "Saving…", "저장 중…", "保存中…"]),
-  saved: l(["已保存 · 查看设备", "已儲存 · 查看設備", "Saved · View devices", "저장됨 · 기기 보기", "保存済み・デバイスを見る"]),
+  saved: l(["已保存到我的设备", "已儲存到我的裝置", "Saved to My devices", "내 기기에 저장됨", "マイデバイスに保存済み"]),
   retrySave: l(["重试保存", "重試儲存", "Retry saving", "다시 저장", "保存を再試行"]),
   saveFailed: l(["设备没保存成功，Miner ID 已保留。", "設備未能儲存，Miner ID 已保留。", "The device wasn’t saved. Your Miner ID is still here.", "기기를 저장하지 못했습니다. 채굴기 ID는 그대로 유지됩니다.", "デバイスを保存できませんでした。Miner IDはそのままです。"]),
   retryDevices: l(["重新加载设备", "重新載入設備", "Reload devices", "기기 다시 불러오기", "デバイスを再読み込み"]),
@@ -38,7 +39,8 @@ export function IotaLookupSave({ id, retry, preview = false }: {
   const [savedPreview, setSavedPreview] = useState(false);
   const [saveError, setSaveError] = useState<string>();
   const attempted = useRef<string | null>(null);
-  const saved = preview ? savedPreview : !!auth.userId && watch.devices.some((d) => d.hotkey === id);
+  const savedDevice = auth.userId ? watch.devices.find((device) => device.hotkey === id) : undefined;
+  const saved = preview ? savedPreview : Boolean(savedDevice);
   const loadFailed = !preview && !!auth.userId && !watch.loaded && !!watch.storageError;
 
   async function save() {
@@ -55,7 +57,15 @@ export function IotaLookupSave({ id, retry, preview = false }: {
   useEffect(() => {
     if (preview || !auth.userId || !watch.loaded) return;
     try {
-      if (sessionStorage.getItem(intentKey) !== id) return;
+      const pending = sessionStorage.getItem(intentKey);
+      if (!pending) return;
+      const [pendingId, expiryText] = pending.split(":");
+      const expiry = Number(expiryText);
+      if (!Number.isFinite(expiry) || expiry <= Date.now()) {
+        sessionStorage.removeItem(intentKey);
+        return;
+      }
+      if (pendingId !== id) return;
       if (saved) sessionStorage.removeItem(intentKey);
     } catch {
       return;
@@ -67,7 +77,7 @@ export function IotaLookupSave({ id, retry, preview = false }: {
     <div className="lookup-actions">
       {saved ? (
         <a className="site-button" href={preview ? `/${locale}/review` : `/${locale}/devices`}>
-          {copy.saved[locale]}
+          {onboardingCopy.devices[locale]}
         </a>
       ) : (
         <button className="site-button" disabled={!preview && (!auth.ready || auth.signingIn || busy || (!!auth.userId && !watch.loaded && !loadFailed))} onClick={() => {
@@ -79,7 +89,7 @@ export function IotaLookupSave({ id, retry, preview = false }: {
           } else if (auth.userId) {
             void save();
           } else {
-            try { sessionStorage.setItem(intentKey, id); } catch {}
+            try { sessionStorage.setItem(intentKey, `${id}:${Date.now() + intentLifetime}`); } catch {}
             void auth.signInWithGoogle("iota_lookup");
           }
         }}>
@@ -88,6 +98,7 @@ export function IotaLookupSave({ id, retry, preview = false }: {
       )}
       {retry}
     </div>
+    {saved && <p role="status">{copy.saved[locale]} · {savedDevice?.label ?? shortId(id)}</p>}
     {!saved && !auth.userId && <p>{copy.hint[locale]}</p>}
     {!saved && !preview && (saveError || auth.error || (auth.userId && watch.storageError)) && (
       <p role="alert">{saveError ?? (auth.error ? authErrorText(auth.error, locale) : watch.storageError)}</p>

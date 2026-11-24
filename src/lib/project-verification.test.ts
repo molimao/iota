@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PROJECT_IDS } from "./projects";
+import { AVAILABLE_PROJECT_IDS, PROJECT_IDS } from "./projects";
 import { LOCALES } from "./site";
 import { projectQuestions } from "../components/project-editorial";
 import { projectVerification, verificationQuestion } from "../components/project-verification";
@@ -11,7 +11,7 @@ describe("project source verification", () => {
   it("keeps visible answers, FAQ schema and text export consistent in all languages", () => {
     const text = buildLlmsFullTxt();
     expect(Object.keys(projectVerification).sort()).toEqual([...PROJECT_IDS].sort());
-    for (const id of PROJECT_IDS)
+    for (const id of AVAILABLE_PROJECT_IDS)
       for (const locale of LOCALES) {
         const answer = projectVerification[id][locale];
         expect(answer.length).toBeGreaterThan(30);

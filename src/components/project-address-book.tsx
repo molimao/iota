@@ -264,7 +264,7 @@ export function ProjectAddressBookView({
           {busy ? labels.loading : text.add[locale]}
         </button>
       </form>
-      {(project === "prl" || project === "tsc") && (
+      {(project === "prl" || project === "tsc" || (project === "quantus" && pool)) && (
         <p className="compute-caption">
           {prlPoolCopy.selected[locale]} ·{" "}
           {poolName(project as import("@/lib/pool-projects").PoolProject, pool)}
@@ -521,13 +521,14 @@ export function ProjectAddressBook({
       bindings: device.bindings.filter((binding) => binding.project === project),
     }))
     .filter((device) => device.bindings.length);
+  const walletWorkerProject = project === "prl" || (project === "quantus" && !!pool) ? project : null;
   const devices =
-    project === "prl" || project === "tsc"
+    project === "prl" || project === "tsc" || project === "quantus"
       ? projectDevices
           .map((device) => ({
             ...device,
             bindings: device.bindings.filter(
-              (binding) =>
+              (binding) => project === "quantus" ? binding.pool === pool :
                 (binding.pool ??
                   poolProvider(project as import("@/lib/pool-projects").PoolProject)) ===
                 (pool ?? poolProvider(project as import("@/lib/pool-projects").PoolProject)),
@@ -565,10 +566,9 @@ export function ProjectAddressBook({
   const rawEntries = devices.flatMap((device) =>
     device.bindings.map((binding) => ({ device, binding })),
   );
-  // PRL addresses remain wallet groups even after Workers are linked to computers.
-  const walletEntries = project === "prl" ? prlWalletGroups(devices) : rawEntries;
+  const walletEntries = walletWorkerProject ? prlWalletGroups(devices, walletWorkerProject) : rawEntries;
   const entries = walletEntries.map(({ device, binding }) =>
-    toEntry(device, binding, read(project === "prl" ? { ...binding, worker: "" } : binding)),
+    toEntry(device, binding, read(walletWorkerProject ? { ...binding, worker: "" } : binding)),
   );
 
   async function add() {
@@ -602,7 +602,7 @@ export function ProjectAddressBook({
               project,
               identifier,
               worker: "",
-              ...(isPoolProject(project) ? { pool: pool ?? poolProvider(project) } : {}),
+              ...(isPoolProject(project) && (project !== "quantus" || pool) ? { pool: pool ?? poolProvider(project) } : {}),
             },
           },
         });
@@ -626,15 +626,15 @@ export function ProjectAddressBook({
     const name = entries.find((entry) => entry.bindingId === bindingId)?.deviceName ?? "";
     const entry = rawEntries.find(({ binding }) => binding.id === bindingId);
     const targets =
-      project === "prl" && entry
+      walletWorkerProject && entry
         ? rawEntries.filter(
             ({ binding }) =>
               binding.identifier === entry.binding.identifier &&
-              (binding.pool ?? poolProvider("prl")) === (entry.binding.pool ?? poolProvider("prl")),
+              (binding.pool ?? poolProvider(walletWorkerProject)) === (entry.binding.pool ?? poolProvider(walletWorkerProject)),
           )
         : rawEntries.filter(({ binding }) => binding.id === bindingId);
     const message =
-      project === "prl"
+      walletWorkerProject
         ? {
             zh: "移除这个钱包在当前矿池的地址和全部 Worker 对应？矿工继续运行，其他项目不受影响。",
             "zh-TW": "移除此錢包在目前礦池的地址和全部 Worker 對應？礦工繼續執行，其他專案不受影響。",
@@ -685,10 +685,10 @@ export function ProjectAddressBook({
       limit={fleet.limit}
       cards={entries}
       workerAgent={
-        project === "prl"
+        walletWorkerProject
           ? (entry, worker) => (
               <PoolWorkerAgent
-                project="prl"
+                project={walletWorkerProject}
                 pool={pool}
                 address={entry.identifier}
                 worker={worker}
@@ -700,7 +700,7 @@ export function ProjectAddressBook({
           : undefined
       }
       localMetrics={
-        project === "prl"
+        walletWorkerProject
           ? undefined
           : (entry) => (
               <>

@@ -1,4 +1,5 @@
 import { IdleXdsSettings, idleXdsCopy } from "./idle-xds";
+import { IDLE_MINING_THREADS } from "@/lib/idle-mining-threads";
 import { IdleBntValue } from "./idle-bnt-value";
 import { IDLE_MINING_SOURCE } from "@/lib/checkout-intent";
 import "./idle-bnt.css";
@@ -570,7 +571,7 @@ export function IdleBntEntry({
                                 defaultValue={threads}
                               >
                                 <option value={0}>{c.off[locale]}</option>
-                                {[1, 2, 3, 4].map((n) => (
+                                {IDLE_MINING_THREADS.map((n) => (
                                   <option key={n} value={n}>
                                     {c.threads[locale].replace("{n}", String(n))}
                                   </option>

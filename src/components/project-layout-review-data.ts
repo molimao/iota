@@ -146,7 +146,7 @@ export function layoutReading(
       },
       compute: { value: 6, unit: "H/s", scope: "account", fresh: !stale, fetchedAt: Date.now() },
     };
-  if (isPoolProject(project) || project === "noid")
+  if ((isPoolProject(project) && project !== "quantus") || project === "noid")
     return {
       ...base,
       status: stale ? "staleData" : "online",

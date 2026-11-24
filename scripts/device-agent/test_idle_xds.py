@@ -50,11 +50,13 @@ class IdleXdsTests(unittest.TestCase):
             root = Path(directory)
             local = agent.idle_xds_local(self.fixture(root))
             miner = agent.IdleXdsMiner(root)
-            policy = dict(settings=dict(threads=2), local=local)
+            policy = dict(settings=dict(threads=8), local=local)
             with patch.object(agent.subprocess, 'check_output', return_value='/unrelated/seine\n'):
                 self.assertEqual(miner.tick(policy, time.time()), 'starting')
             pid = miner.child.pid
             try:
+                arguments = miner.child.args
+                self.assertEqual(arguments[arguments.index('--mining-threads') + 1], '8')
                 deadline = time.monotonic() + 3
                 while agent.xds_observation(str(miner.log))['status'] != 'ok' and time.monotonic() < deadline:
                     time.sleep(.05)

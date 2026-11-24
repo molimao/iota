@@ -19,6 +19,7 @@ import { IotaRosterStatus } from "./iota-device-run";
 import { iotaAddCopy } from "./iota-add-copy";
 import "./fleet-device-table.css";
 import { FleetDeviceActions } from "./fleet-device-actions";
+import type { ReactNode } from "react";
 
 export function FleetDeviceTable({
   devices,
@@ -31,6 +32,7 @@ export function FleetDeviceTable({
   onTimeline,
   onEdit,
   onRemove,
+  attentionDetail,
 }: {
   devices: FleetDevice[];
   reading: (b: FleetBinding) => ProjectReading;
@@ -42,6 +44,7 @@ export function FleetDeviceTable({
   onTimeline?: (device: FleetDevice) => (() => void) | undefined;
   onEdit?: ((id: string) => void) | undefined;
   onRemove?: ((id: string) => void) | undefined;
+  attentionDetail?: (device: FleetDevice) => ReactNode;
 }) {
   const { locale } = useLocale(),
     c = fleetCopy(locale);
@@ -75,6 +78,7 @@ export function FleetDeviceTable({
                 <td>
                   <strong>{device.name}</strong>
                   <small>{device.hardware}</small>
+                  {attentionDetail?.(device)}
                 </td>
                 <td>
                   <div className="fleet-table-projects">

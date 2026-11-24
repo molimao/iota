@@ -1,4 +1,5 @@
 import { createXdsBackupKey, encryptXdsBackup } from "@/lib/xds-wallet-backup";
+import { IDLE_MINING_THREADS } from "@/lib/idle-mining-threads";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AgentInfo } from "@/lib/device-agent";
@@ -444,7 +445,7 @@ export function IdleXdsSettings({
                       >
                         <option value={0}>{c.off[locale]}</option>
                         {available &&
-                          [1, 2, 3, 4].map((n) => (
+                          IDLE_MINING_THREADS.map((n) => (
                             <option key={n} value={n}>
                               {c.threads[locale].replace("{n}", String(n))}
                             </option>

@@ -4,7 +4,7 @@
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, yesterday’s attributed rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 3 devices per project; Pro supports 100 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. Public lookup alone cannot control a Mac. An optional installed and paired Mac agent adds local heartbeats, queue state and remote controls; log upload is separately opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
+IOTA Watch can check reported IOTA training status, the previous day’s attributed rewards and lifetime accounted rewards with a public Miner ID (SS58 hotkey). Use Google sign-in to save the lookup to My devices. Free supports 3 devices per project and Pro supports 100 per project. A paired Agent provides local heartbeat and queue data on supported devices. Device controls and optional automatic recovery are available on supported Macs. Log upload is opt-in.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is `iota-2` (Train at Home SN9), not `iota` (IOTA Layer 1).
 
@@ -25,6 +25,18 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Wallet private keys and seed phrases are not accepted by IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. Public lookups stay read-only; paired-agent controls act only on the paired Mac. See https://iotahome.site/en/downloads for installation effects and removal instructions.
 
+## Mining and device guides
+
+- Quantus: select 2Miners or Kryptex to check workers, unpaid balances and recent payments. 2Miners reports rolling 24-hour rewards. Kryptex reports the current UTC day. The On-chain view covers indexed block rewards.
+- Pearl and NOCK: choose LuckyPool under Pearl and enter the PRL payout address and the native Nockchain address in separate fields. Balances, rewards and payments are reported per wallet and currency.
+- Device setup: look up a public IOTA Miner ID, then sign in to save it. In My devices, Needs attention filters for known interruptions, offline agents and idle-mining errors. Use the timeline to review device events.
+- Pro idle mining: on the IOTA project page choose Off or 1–8 threads per device for BNT and XDS independently. IOTA training takes priority.
+
+- [How to check Quantus QTC on 2Miners and Kryptex](https://iotahome.site/en/learn/quantus-qtc-pool-monitor)
+- [How to check Pearl and NOCK merge-mining rewards on LuckyPool](https://iotahome.site/en/learn/pearl-nock-luckypool-rewards)
+- [Check an IOTA Miner ID, save the device and diagnose interruptions](https://iotahome.site/en/learn/iota-miner-id-lookup-and-save)
+- [How to set up BNT and XDS idle mining while IOTA waits](https://iotahome.site/en/learn/iota-bnt-xds-idle-mining)
+
 ## Additional mining projects
 
 IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, fly.ai, Nosana, Akash, io.net, Vast.ai, Golem, NOID, Acurast, Pearl, Monero, Ethereum Classic, Ravencoin, Zcash, Kaspa, Midstate, Blocknet, Compute Substrate, Ergo, Zephyr, Bitcoin, EthereumPoW, TensorCash, Discrete (XDS) at https://iotahome.site/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
@@ -33,7 +45,7 @@ IOTA remains the primary project. Supported project pages: IOTA, XID, Quantus, f
 - XID / MMM: https://iotahome.site/en/projects/xid — source: https://superknet.com/ (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - fly.ai Compute: https://iotahome.site/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: https://iotahome.site/en/devices?project=flyai.
 - Quantus / QTC: https://iotahome.site/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
-- Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Quantus pool payouts and unpaid balances use the 2Miners or Kryptex public pool ledger. Check the payout in that pool or the corresponding chain transfer.
 - Akash: https://iotahome.site/en/projects/akash — public provider directory, lease and capacity indicators; listed GPU capacity is not lease income.
 - Golem: https://iotahome.site/en/projects/golem — public node records and source-defined last-24-hour GLM earnings; this period is not the Hong Kong calendar day.
 - io.net: https://iotahome.site/en/projects/ionet — sign in and connect read credentials for device details and block rewards. Real-account validation is pending.
@@ -154,26 +166,26 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [Home (en)](https://iotahome.site/en)
 - [홈 (ko)](https://iotahome.site/ko)
 - [ホーム (ja)](https://iotahome.site/ja)
-- [IOTA Train at Home 监控：Miner ID、训练状态与收益 (zh)](https://iotahome.site/zh/projects/iota)
-- [IOTA Train at Home 監控：Miner ID、訓練狀態與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/iota)
-- [IOTA Train at Home monitor: Miner ID, training and rewards (en)](https://iotahome.site/en/projects/iota)
-- [IOTA Train at Home 모니터: Miner ID, 학습과 보상 (ko)](https://iotahome.site/ko/projects/iota)
-- [IOTA Train at Home監視：Miner ID・学習状態・報酬 (ja)](https://iotahome.site/ja/projects/iota)
+- [Macrocosmos IOTA SN9：Train at Home 监控 (zh)](https://iotahome.site/zh/projects/iota)
+- [Macrocosmos IOTA SN9：Train at Home 監控 (zh-TW)](https://iotahome.site/zh-TW/projects/iota)
+- [Macrocosmos IOTA SN9: Train at Home monitor (en)](https://iotahome.site/en/projects/iota)
+- [Macrocosmos IOTA SN9: Train at Home 모니터 (ko)](https://iotahome.site/ko/projects/iota)
+- [Macrocosmos IOTA SN9：Train at Home監視 (ja)](https://iotahome.site/ja/projects/iota)
 - [XID / MMM 挖矿监控：Worker 算力、份额与余额 (zh)](https://iotahome.site/zh/projects/xid)
 - [XID / MMM 挖礦監控：Worker 算力、份額與餘額 (zh-TW)](https://iotahome.site/zh-TW/projects/xid)
 - [XID / MMM mining monitor: worker hashrate, shares and balance (en)](https://iotahome.site/en/projects/xid)
 - [XID / MMM 채굴 모니터: 워커 해시레이트·셰어·잔액 (ko)](https://iotahome.site/ko/projects/xid)
 - [XID / MMM採掘監視：ワーカーの算力・シェア・残高 (ja)](https://iotahome.site/ja/projects/xid)
-- [Quantus QTC 挖矿监控：主网区块、Wormhole 地址与奖励 (zh)](https://iotahome.site/zh/projects/quantus)
-- [Quantus QTC 挖礦監控：主網區塊、Wormhole 地址與獎勵 (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
-- [Quantus QTC mining monitor: mainnet blocks, Wormhole addresses and rewards (en)](https://iotahome.site/en/projects/quantus)
-- [Quantus QTC 채굴 모니터: 메인넷 블록·Wormhole 주소·보상 (ko)](https://iotahome.site/ko/projects/quantus)
-- [Quantus QTC採掘監視：メインネット・Wormholeアドレス・報酬 (ja)](https://iotahome.site/ja/projects/quantus)
-- [fly.ai Compute 积分查询：ETH 收益地址与月度积分 (zh)](https://iotahome.site/zh/projects/flyai)
-- [fly.ai Compute 積分查詢：ETH 收益地址與月度積分 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
-- [fly.ai Compute points: ETH reward address and monthly totals (en)](https://iotahome.site/en/projects/flyai)
-- [fly.ai Compute 포인트 조회: ETH 보상 주소와 월간 합계 (ko)](https://iotahome.site/ko/projects/flyai)
-- [fly.ai Computeポイント照会：ETH報酬アドレスと月間合計 (ja)](https://iotahome.site/ja/projects/flyai)
+- [Quantus QTC 矿池监控 · 2Miners 与 Kryptex (zh)](https://iotahome.site/zh/projects/quantus)
+- [Quantus QTC 礦池監控 · 2Miners 與 Kryptex (zh-TW)](https://iotahome.site/zh-TW/projects/quantus)
+- [Quantus QTC pool monitor for 2Miners and Kryptex (en)](https://iotahome.site/en/projects/quantus)
+- [Quantus QTC 채굴 풀 모니터 · 2Miners와 Kryptex (ko)](https://iotahome.site/ko/projects/quantus)
+- [Quantus QTCプール監視 · 2MinersとKryptex (ja)](https://iotahome.site/ja/projects/quantus)
+- [fly.ai 脑模拟算力监控：月度积分查询 (zh)](https://iotahome.site/zh/projects/flyai)
+- [fly.ai 腦模擬算力監控：每月積分查詢 (zh-TW)](https://iotahome.site/zh-TW/projects/flyai)
+- [fly.ai compute monitor: brain simulation points (en)](https://iotahome.site/en/projects/flyai)
+- [fly.ai 뇌 시뮬레이션 컴퓨팅: 월간 포인트 조회 (ko)](https://iotahome.site/ko/projects/flyai)
+- [fly.ai脳シミュレーション監視：月間ポイント (ja)](https://iotahome.site/ja/projects/flyai)
 - [Nosana GPU 节点监控：任务状态与完成记录 (zh)](https://iotahome.site/zh/projects/nosana)
 - [Nosana GPU 節點監控：任務狀態與完成紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/nosana)
 - [Nosana GPU node monitor: running jobs and completed tasks (en)](https://iotahome.site/en/projects/nosana)
@@ -209,11 +221,11 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [Acurast lookup: ACU rewards and processor heartbeats (en)](https://iotahome.site/en/projects/acurast)
 - [Acurast 조회: ACU 보상과 기기 하트비트 (ko)](https://iotahome.site/ko/projects/acurast)
 - [Acurast照会：ACU報酬と機器ハートビート (ja)](https://iotahome.site/ja/projects/acurast)
-- [Pearl 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/prl)
-- [Pearl 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/prl)
-- [Pearl mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/prl)
-- [Pearl 채굴 모니터: 해시레이트, Worker와 보상 (ko)](https://iotahome.site/ko/projects/prl)
-- [Pearl採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/prl)
+- [Pearl PRL 矿池监控 · LuckyPool NOCK 双挖查询 (zh)](https://iotahome.site/zh/projects/prl)
+- [Pearl PRL 礦池監控 · LuckyPool NOCK 雙挖查詢 (zh-TW)](https://iotahome.site/zh-TW/projects/prl)
+- [Pearl PRL pool monitor and LuckyPool NOCK rewards (en)](https://iotahome.site/en/projects/prl)
+- [Pearl PRL 채굴 풀 모니터 · LuckyPool NOCK 보상 (ko)](https://iotahome.site/ko/projects/prl)
+- [Pearl PRLプール監視 · LuckyPool NOCK報酬 (ja)](https://iotahome.site/ja/projects/prl)
 - [Monero 矿机监控：算力、Worker 与收益 (zh)](https://iotahome.site/zh/projects/xmr)
 - [Monero 礦機監控：算力、Worker 與收益 (zh-TW)](https://iotahome.site/zh-TW/projects/xmr)
 - [Monero mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/xmr)
@@ -244,11 +256,11 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [Midstate MDS mining monitor: hashrate, Workers and rewards (en)](https://iotahome.site/en/projects/mds)
 - [Midstate MDS 채굴 모니터: 해시레이트·Worker·보상 (ko)](https://iotahome.site/ko/projects/mds)
 - [Midstate MDS採掘監視：ハッシュレート・Worker・報酬 (ja)](https://iotahome.site/ja/projects/mds)
-- [Blocknet BNT 监控：算力、Worker 与矿池支付 (zh)](https://iotahome.site/zh/projects/bnt)
-- [Blocknet BNT 監控：算力、Worker 與礦池支付 (zh-TW)](https://iotahome.site/zh-TW/projects/bnt)
-- [Blocknet BNT monitor: hashrate, Workers and pool payments (en)](https://iotahome.site/en/projects/bnt)
-- [Blocknet BNT 모니터: 해시레이트·Worker·풀 지급 (ko)](https://iotahome.site/ko/projects/bnt)
-- [Blocknet BNT監視：ハッシュレート・Worker・プール支払 (ja)](https://iotahome.site/ja/projects/bnt)
+- [Blocknet BNT 挖矿监控：Argon2id 与矿池记录 (zh)](https://iotahome.site/zh/projects/bnt)
+- [Blocknet BNT 挖礦監控：Argon2id 與礦池紀錄 (zh-TW)](https://iotahome.site/zh-TW/projects/bnt)
+- [Blocknet BNT mining monitor: Argon2id pool records (en)](https://iotahome.site/en/projects/bnt)
+- [Blocknet BNT 채굴 모니터: Argon2id 풀 기록 (ko)](https://iotahome.site/ko/projects/bnt)
+- [Blocknet BNT採掘監視：Argon2idプール記録 (ja)](https://iotahome.site/ja/projects/bnt)
 - [CSD 监控：G-pools 算力、Worker 与支付 (zh)](https://iotahome.site/zh/projects/csd)
 - [CSD 監控：G-pools 算力、Worker 與支付 (zh-TW)](https://iotahome.site/zh-TW/projects/csd)
 - [CSD monitor: G-pools hashrate, Workers and payments (en)](https://iotahome.site/en/projects/csd)
@@ -434,6 +446,26 @@ Explore IOTA, Blocknet BNT, Pearl PRL, Monero XMR, Quantus, RVN, ERG and ETHW in
 - [Which 0x address belongs on the ETHW monitor? (en)](https://iotahome.site/en/learn/ethw-mining-monitor-guide)
 - [ETHW 모니터에는 어떤 0x 주소를 넣나요? (ko)](https://iotahome.site/ko/learn/ethw-mining-monitor-guide)
 - [ETHW監視にはどの0xアドレスを入れますか？ (ja)](https://iotahome.site/ja/learn/ethw-mining-monitor-guide)
+- [Quantus QTC 矿池怎么查？2Miners 与 Kryptex 使用指南 (zh)](https://iotahome.site/zh/learn/quantus-qtc-pool-monitor)
+- [Quantus QTC 礦池怎麼查？2Miners 與 Kryptex 使用指南 (zh-TW)](https://iotahome.site/zh-TW/learn/quantus-qtc-pool-monitor)
+- [How to check Quantus QTC on 2Miners and Kryptex (en)](https://iotahome.site/en/learn/quantus-qtc-pool-monitor)
+- [2Miners와 Kryptex에서 Quantus QTC 채굴 기록 확인하기 (ko)](https://iotahome.site/ko/learn/quantus-qtc-pool-monitor)
+- [2MinersとKryptexでQuantus QTCの採掘記録を確認する (ja)](https://iotahome.site/ja/learn/quantus-qtc-pool-monitor)
+- [LuckyPool Pearl + NOCK 双挖收益怎么查 (zh)](https://iotahome.site/zh/learn/pearl-nock-luckypool-rewards)
+- [LuckyPool Pearl + NOCK 雙挖收益怎麼查 (zh-TW)](https://iotahome.site/zh-TW/learn/pearl-nock-luckypool-rewards)
+- [How to check Pearl and NOCK merge-mining rewards on LuckyPool (en)](https://iotahome.site/en/learn/pearl-nock-luckypool-rewards)
+- [LuckyPool에서 Pearl과 NOCK 병합 채굴 보상 확인하기 (ko)](https://iotahome.site/ko/learn/pearl-nock-luckypool-rewards)
+- [LuckyPoolでPearlとNOCKのマージマイニング報酬を確認する (ja)](https://iotahome.site/ja/learn/pearl-nock-luckypool-rewards)
+- [IOTA Miner ID 免登录查询和设备异常排查 (zh)](https://iotahome.site/zh/learn/iota-miner-id-lookup-and-save)
+- [IOTA Miner ID 免登入查詢與裝置異常排查 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-miner-id-lookup-and-save)
+- [Check an IOTA Miner ID, save the device and diagnose interruptions (en)](https://iotahome.site/en/learn/iota-miner-id-lookup-and-save)
+- [IOTA Miner ID 조회와 기기 저장, 학습 중단 확인하기 (ko)](https://iotahome.site/ko/learn/iota-miner-id-lookup-and-save)
+- [IOTA Miner IDの照会・保存と学習中断の確認 (ja)](https://iotahome.site/ja/learn/iota-miner-id-lookup-and-save)
+- [IOTA 等待训练时怎么挖 BNT 和 XDS？闲时挖矿与线程设置 (zh)](https://iotahome.site/zh/learn/iota-bnt-xds-idle-mining)
+- [IOTA 等待訓練時怎麼挖 BNT 和 XDS？閒時挖礦與執行緒設定 (zh-TW)](https://iotahome.site/zh-TW/learn/iota-bnt-xds-idle-mining)
+- [How to set up BNT and XDS idle mining while IOTA waits (en)](https://iotahome.site/en/learn/iota-bnt-xds-idle-mining)
+- [IOTA 대기 중 BNT와 XDS 유휴 채굴 설정하기 (ko)](https://iotahome.site/ko/learn/iota-bnt-xds-idle-mining)
+- [IOTAの待機中にBNTとXDSのアイドル採掘を設定する (ja)](https://iotahome.site/ja/learn/iota-bnt-xds-idle-mining)
 - [XID / MMM 主网挖矿：Mac 设置与地址监控 (zh)](https://iotahome.site/zh/learn/xid-mmm-mainnet-setup)
 - [XID / MMM 主網挖礦：Mac 設定與地址監控 (zh-TW)](https://iotahome.site/zh-TW/learn/xid-mmm-mainnet-setup)
 - [XID mining with MMM: Mac mainnet setup and monitoring (en)](https://iotahome.site/en/learn/xid-mmm-mainnet-setup)

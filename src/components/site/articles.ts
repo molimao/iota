@@ -20,6 +20,7 @@ import { projectGuides } from "./project-guides";
 import { editionDate } from "@/lib/content-dates";
 import { mergeDepthArticle, mergeProjectDepth, projectDepthGuides } from "./project-depth";
 import { PROJECTS } from "@/lib/projects";
+import { monitorFeatureGuides } from "./monitor-feature-guides";
 
 export type Article = {
   slug: string;
@@ -122,6 +123,7 @@ const baseArticleClusterMeta: Record<
       ...problemGuides.map((a) => a.slug),
       ...searchSupportGuides.map((a) => a.slug),
       ...iotaTierGuides.map((a) => a.slug),
+      ...monitorFeatureGuides.filter((a) => a.project === "iota").map((a) => a.slug),
     ],
   },
   pools: {
@@ -132,7 +134,9 @@ const baseArticleClusterMeta: Record<
       ko: "풀과 워커",
       ja: "プールとワーカー",
     },
-    slugs: projectGuides.filter((a) => a.slug.endsWith("-mining-monitor-guide")).map((a) => a.slug),
+    slugs: projectGuides
+      .filter((a) => a.slug.endsWith("-mining-monitor-guide") || (monitorFeatureGuides.includes(a) && a.project !== "iota"))
+      .map((a) => a.slug),
   },
   compute: {
     title: {

@@ -212,11 +212,11 @@ export function FleetPage() {
             throw new Error(message(e));
           }
         }}
-        onLink={async (id, project, identifier, worker) => {
+        onLink={async (id, project, identifier, worker, pool) => {
           try {
             await fleet.mutate({
               action: "link",
-              payload: { id, binding: { project, identifier, worker } },
+              payload: { id, binding: { project, identifier, worker, ...(pool ? { pool } : {}) } },
             });
           } catch (e) {
             throw new Error(message(e));

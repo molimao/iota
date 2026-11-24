@@ -48,6 +48,7 @@ export function IotaPublicLookupForm() {
         {onboardingCopy.lookup[locale]}
         <ArrowUpRight size={19} aria-hidden="true" />
       </button>
+      <small className="start-lookup-scope">{onboardingCopy.lookupScope[locale]}</small>
       {error ? (
         <p className="start-error" role="alert">
           {error}

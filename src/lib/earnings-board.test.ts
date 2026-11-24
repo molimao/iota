@@ -75,6 +75,17 @@ it("counts devices but deduplicates wallet rewards shared by multiple workers", 
   expect(result.projects[0]!.devices.size).toBe(2);
   expect([...result.projects[0]!.metrics.values()][0]!.amount).toBe(5);
 });
+it("counts a Quantus wallet once per pool and keeps UTC rewards outside the rolling total", () => {
+  const base = { ...r("rolling24h", 2, null), scope: "wallet" as const, unit: "QTC" };
+  const result = earningsBoard([
+    { binding: { ...b("quantus", "wallet", "rig-1"), pool: "2miners" }, deviceId: "1", data: base },
+    { binding: { ...b("quantus", "wallet", "rig-2"), pool: "2miners" }, deviceId: "2", data: base },
+    { binding: { ...b("quantus", "wallet", "rig-1"), pool: "kryptex" }, deviceId: "1",
+      data: { ...base, earningsWindow: "utcDay", rewardAmount: 4 } },
+  ], { quantus: 10 });
+  expect(result.totals.rolling24h).toEqual({ usd: 20, count: 1 });
+  expect(result.totals.utcDay).toEqual({ usd: 40, count: 1 });
+});
 it("does not treat unavailable or stale conversion as zero or a complete USD estimate", () => {
   const result = earningsBoard([
     { binding: b("iota", "a"), deviceId: "1", data: r("yesterday", 1, 3) },

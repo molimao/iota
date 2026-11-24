@@ -1,6 +1,6 @@
 import { fetchUpstream, TTL } from "./iota-upstream.server";
 import type { EntitlementHistory } from "./iota-types";
-import { isPoolProject } from "./pool-projects";
+import { isPoolBinding } from "./pool-projects";
 import { validBinding, type FleetProject } from "./fleet";
 import { collectReportBinding } from "./daily-report-collect.server";
 import { reportDayWindow } from "./daily-report";
@@ -37,9 +37,9 @@ export async function collectHistoricalResource(
       complete: true,
     };
   }
-  if (!["quantus", "vast"].includes(binding.project)) {
+  if (isPoolBinding(binding) || !["quantus", "vast"].includes(binding.project)) {
     const reason =
-      ["flyai", "golem", "ionet"].includes(binding.project) || isPoolProject(binding.project)
+      ["flyai", "golem", "ionet"].includes(binding.project) || isPoolBinding(binding)
         ? ("different_period" as const)
         : ("unsupported" as const);
     return {

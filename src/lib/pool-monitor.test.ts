@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseKryptex, parseTwoMiners, poolHashrate } from "./pool-monitor";
+import { parseKryptex, parseTwoMiners, poolHashrate, quantusKryptexPayouts } from "./pool-monitor";
 import { parseFleet } from "./fleet";
 import { projectAddressInput } from "./project-address-input";
 import { validPoolAddress } from "./pool-projects";
@@ -30,6 +30,7 @@ describe("pool data is not fabricated", () => {
     expect(() => parseKryptex({}, {}, [], {})).toThrow("invalid-data");
   });
   it.each([
+    ["quantus", 1e12],
     ["etc", 1e9],
     ["rvn", 1e8],
     ["zec", 1e8],
@@ -53,6 +54,19 @@ describe("pool data is not fabricated", () => {
     expect(d.workers[0]?.online).toBe(true);
   });
   it("rejects invalid upstream results", () => expect(() => parseTwoMiners("etc", {})).toThrow());
+  it("shows only finished QTC payouts and never adds them to the 24-hour reward", () => {
+    const two = parseTwoMiners("quantus", {
+      apiVersion: 200, workersTotal: 0, workers: {},
+      stats: { balance: 100_000_000_000, paid: 400_000_000_000 },
+      "24hreward": 200_000_000_000,
+      payments: [{ amount: 300_000_000_000, timestamp: 1795417546 }],
+    });
+    expect(two).toMatchObject({ reward: 0.2, payouts: [{ amount: 0.3, at: 1795417546000 }] });
+    expect(quantusKryptexPayouts({ results: [
+      { amount: "1.5", status: "PENDING", date: "1795417546" },
+      { amount: "0.03", status: "FINISHED", date: "1795417546" },
+    ] })).toEqual([{ amount: 0.03, at: 1795417546000 }]);
+  });
   it("labels Zcash solution rate correctly", () =>
     expect(poolHashrate("zec", 1000)).toBe("1 KS/s"));
   it("persists pool identity through fleet parsing and rejects a mismatched pool", () => {

@@ -1,6 +1,7 @@
 import {
   projectSearchDescriptions,
   projectSearchTitles,
+  projectPoolSources,
   projectVerification,
 } from "./project-verification";
 import { brandTitle } from "@/lib/brand";
@@ -42,6 +43,7 @@ export function projectsSeo(locale: SiteLocale, project?: ProjectId) {
             PROJECTS[project].website,
             PROJECTS[project].explorer,
             PROJECTS[project].guide,
+            ...(projectPoolSources[project]?.map(({ url }) => url) ?? []),
           ],
         }
       : {

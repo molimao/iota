@@ -19,3 +19,34 @@
   background: #171717;
   color: #eee;
 }
+.prl-pool-matches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block: 12px 20px;
+}
+.prl-pool-matches p {
+  flex-basis: 100%;
+  margin: 0;
+}
+.qtc-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.qtc-sources [aria-current="page"] {
+  border-color: currentColor;
+  color: #71e0ba;
+}
+.qtc-payouts {
+  padding: 0;
+  list-style: none;
+}
+.qtc-payouts li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding-block: 8px;
+}

@@ -27,6 +27,7 @@ export type PoolAccount = {
   acceptedShares?: number | null;
   /** Window used for the wallet rate. */
   hashrateWindow?: "1hr" | "10min";
+  payouts?: { at: number; amount: number }[];
 };
 const number = (v: unknown) =>
   typeof v === "string" && /^\d+(\.\d+)?$/.test(v) ? finite(Number(v)) : finite(v);
@@ -99,6 +100,16 @@ const timestamp = (v: unknown) => {
   const n = number(v);
   return n && n > 0 ? (n < 1e12 ? n * 1000 : n) : null;
 };
+export function quantusKryptexPayouts(input: unknown) {
+  const rows = record(input)["results"];
+  if (!Array.isArray(rows)) return undefined;
+  return rows.flatMap((item) => {
+    const row = record(item);
+    const at = timestamp(row["date"]);
+    const amount = number(row["amount"]);
+    return row["status"] === "FINISHED" && at && amount !== null && amount > 0 ? [{ at, amount }] : [];
+  }).slice(0, 10);
+}
 export function parseKryptex(
   balance: unknown,
   workers: unknown,
@@ -151,6 +162,7 @@ export function parseKryptex(
 // Public ethw.2miners.com account.js: type "DH", getPaymentsMultiplier returns 1e-9.
 // getRewardsMultiplier 1e-18 is the block-reward display, not balance, paid or 24hreward.
 const TWO_MINERS_PAYMENT_DIVISOR: Partial<Record<PoolProject, number>> = {
+  quantus: 1e12,
   etc: 1e9,
   rvn: 1e8,
   zec: 1e8,
@@ -188,6 +200,14 @@ export function parseTwoMiners(project: PoolProject, input: unknown): PoolAccoun
     workerCount: number(a["workersTotal"])!,
     partial: false,
     hashrate: number(a["currentHashrate"]),
+    ...(project === "quantus" && Array.isArray(a["payments"]) ? {
+      payouts: a["payments"].flatMap((item) => {
+        const row = record(item);
+        const at = timestamp(row["timestamp"]);
+        const paid = amount(row["amount"]);
+        return at && paid !== null && paid > 0 ? [{ at, amount: paid }] : [];
+      }).slice(0, 10),
+    } : {}),
     workers: Object.entries(record(a["workers"])).map(([name, v]) => {
       const r = record(v);
       return {

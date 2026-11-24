@@ -58,7 +58,7 @@ export function PoolWorkerAgent({
   devices,
   onLinked,
 }: {
-  project?: "bnt" | "prl";
+  project?: "bnt" | "prl" | "quantus";
   pool?: PoolProvider | undefined;
   address: string;
   worker: string;
@@ -70,7 +70,7 @@ export function PoolWorkerAgent({
   const matched = useMatchedDeviceAgent(link?.device.id ?? "unlinked-worker"),
     now = useAgentClock(),
     { locale } = useLocale(),
-    send = useServerFn(project === "prl" ? linkPrlWorkerAgent : linkBntWorkerAgent);
+    send = useServerFn(project === "bnt" ? linkBntWorkerAgent : linkPrlWorkerAgent);
   const [selected, setSelected] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(false),
@@ -112,7 +112,7 @@ export function PoolWorkerAgent({
               </small>
             )}
           </strong>
-          <ProjectMinerSlots
+          {project !== "quantus" && <ProjectMinerSlots
             agent={matched.agent}
             bindings={[link.binding]}
             now={now}
@@ -120,7 +120,7 @@ export function PoolWorkerAgent({
             loading={matched.query.isPending}
             error={matched.query.isError}
             connectDeviceId={link.device.id}
-          />
+          />}
           {!matched.query.isPending && !matched.agent && (
             <p className="compute-caption">{copy.noData[locale]}</p>
           )}

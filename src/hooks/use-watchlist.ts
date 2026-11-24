@@ -14,10 +14,17 @@ export function useWatchlist(userId:string|null,authReady=true) {
   const projectCount=projectDeviceCount(fleet.devices,"iota");
   const add=useCallback(async(input:{hotkey:string;label:string}):Promise<WatchlistResult>=>{
     if(!isValidMinerId(input.hotkey.trim())) return {ok:false,error:c.identifier};
+    if(devices.some((device)=>device.hotkey===input.hotkey.trim())) return {ok:true};
     if(projectCount>=fleet.limit) return {ok:false,error:c.limit};
     try {await fleet.mutate({action:"create",payload:{name:input.label,hardware:"",binding:{project:"iota",identifier:input.hotkey.trim(),worker:""}}});return {ok:true};}
-    catch {return {ok:false,error:c.unavailable};}
-  },[fleet,projectCount,c]);
+    catch(error) {
+      if(error instanceof Error && error.message.includes("duplicate_binding")) {
+        await fleet.reload().catch(() => undefined);
+        return {ok:true};
+      }
+      return {ok:false,error:c.unavailable};
+    }
+  },[fleet,devices,projectCount,c]);
   const rename=useCallback(async(hotkey:string,label:string):Promise<WatchlistResult>=>{
     const device=fleet.devices.find(d=>d.bindings.some(b=>b.project==="iota"&&b.identifier===hotkey));
     if(!device) return {ok:false,error:c.unavailable};

@@ -1,4 +1,4 @@
-import { isPoolProject, poolProvider, validPoolProvider, type PoolProvider } from "./pool-projects";
+import { isPoolBinding, poolProvider, validPoolProvider, type PoolProvider } from "./pool-projects";
 import { validBinding, type FleetProject } from "./fleet";
 import { PROJECTS, record } from "./projects";
 import {
@@ -37,7 +37,7 @@ export async function collectReportBinding(
     usd: null,
   };
   const luckyPoolDay = b.project === "prl" && b.pool === "luckypool";
-  if (isPoolProject(b.project) && !luckyPoolDay) return { ...base, reason: "different_period" };
+  if (isPoolBinding(b) && !luckyPoolDay) return { ...base, reason: "different_period" };
   if (!validBinding(b.project, b.identifier)) return { ...base, reason: "unavailable" };
   if (["xid", "nosana", "gonka", "akash", "acurast"].includes(b.project))
     return { ...base, reason: "unsupported" };
@@ -146,7 +146,7 @@ async function collectListedEarnings(
   base: ReportReading,
 ): Promise<ReportReading> {
   try {
-    if (isPoolProject(b.project)) {
+    if (isPoolBinding(b)) {
       const { readPoolAccount } = await import("./pool-monitor.server");
       const provider =
         b.pool && validPoolProvider(b.project, b.pool) ? b.pool : poolProvider(b.project);
@@ -250,7 +250,7 @@ export async function collectEmailReportBinding(
     usd: null,
   };
   if (!validBinding(binding.project, binding.identifier)) return { ...base, reason: "unavailable" };
-  if (binding.project === "iota" || binding.project === "quantus" || binding.project === "vast") {
+  if (binding.project === "iota" || (binding.project === "quantus" && !isPoolBinding(binding)) || binding.project === "vast") {
     const recordingWindow =
       binding.project === "iota"
         ? {

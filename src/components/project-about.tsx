@@ -5,6 +5,7 @@ import { editorialCopy, projectQuestions } from "./project-editorial";
 import { PROJECTS, type ProjectId } from "@/lib/projects";
 import { PROJECT_CONTENT_DATES } from "@/lib/content-dates";
 import { evidenceLabels } from "./site/core-evidence";
+import { projectPoolSources } from "./project-verification";
 export function ProjectAbout({ project }: { project: ProjectId }) {
   const { locale } = useLocale(),
     c = editorialCopy(locale);
@@ -44,6 +45,9 @@ export function ProjectAbout({ project }: { project: ProjectId }) {
                 </a>
               ),
           )}
+          {projectPoolSources[project]?.map(({ url, name }) => (
+            <a key={url} href={url} target="_blank" rel="noreferrer"> · {name} ↗</a>
+          ))}
         </p>
         <p className="article-scope">
           {evidenceLabels.updated[locale]} ·{" "}

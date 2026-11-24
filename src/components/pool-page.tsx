@@ -5,8 +5,8 @@ import { csdLabels } from "./csd-copy";
 import { bntLabels } from "./bnt-copy";
 import { mdsLabels } from "./mds-copy";
 import { useState, useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getPoolAccount } from "@/lib/pool-monitor.functions";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { findPearlPools, getLuckyPoolNock, getPoolAccount } from "@/lib/pool-monitor.functions";
 import { poolHashrate } from "@/lib/pool-monitor";
 import {
   poolAccountUrl,
@@ -17,6 +17,7 @@ import {
   PRL_POOL_IDS,
   POOL_PROJECTS,
   validPoolAddress,
+  validNockAddress,
   validPoolProvider,
   type PoolProject,
 } from "@/lib/pool-projects";
@@ -29,19 +30,30 @@ import { BntDashboard } from "./bnt-dashboard";
 import { PoolWorkerCards } from "./pool-worker-cards";
 import { poolWorkerCardsCopy } from "./pool-worker-cards-copy";
 import { prlPoolCopy } from "./prl-pool-copy";
+import { localized as l } from "@/lib/product-discovery";
 import "./prl-pool.css";
 
 const PRL_POOL_PREFERENCE = "iota-prl-pool";
+const qtcCopy = {
+  summary: l([
+    "查矿池里的 Worker、余额和付款记录。登录后可保存地址。",
+    "查詢礦池的 Worker、餘額和付款紀錄。登入後可儲存地址。",
+    "Check workers, balances and payouts from this pool. Sign in to save an address.",
+    "이 풀의 Worker, 잔액, 지급 내역을 확인하세요. 로그인하면 주소를 저장할 수 있습니다.",
+    "このプールの Worker・残高・支払いを確認できます。ログインするとアドレスを保存できます。",
+  ]),
+  payouts: l(["最近支付", "最近付款", "Recent payouts", "최근 지급", "最近の支払い"]),
+};
 
-export function PoolPage({ project }: { project: PoolProject }) {
-  return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} />;
+export function PoolPage({ project, initialPool }: { project: PoolProject; initialPool?: PoolProvider }) {
+  return project === "bnt" ? <BntDashboard /> : <PoolLookupPage project={project} initialPool={initialPool} />;
 }
-function PoolLookupPage({ project }: { project: PoolProject }) {
+function PoolLookupPage({ project, initialPool }: { project: PoolProject; initialPool?: PoolProvider | undefined }) {
   const auth = useAuth();
   const { locale } = useLocale(),
     fc = fleetCopy(locale),
     info = POOL_PROJECTS[project];
-  const [provider, setProvider] = useState<PoolProvider>(poolProvider(project));
+  const [provider, setProvider] = useState<PoolProvider>(initialPool ?? poolProvider(project));
   useEffect(() => {
     if (project !== "prl") return;
     try {
@@ -55,6 +67,28 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
   const [input, setInput] = useState(""),
     [address, setAddress] = useState(""),
     [invalid, setInvalid] = useState(false);
+  const [nockInput, setNockInput] = useState("");
+  const [nockAddress, setNockAddress] = useState("");
+  const [invalidNock, setInvalidNock] = useState(false);
+  const poolSearch = useMutation({ mutationFn: (wallet: string) => findPearlPools({ data: wallet }) });
+  const matches = poolSearch.variables === input.trim() ? poolSearch.data : undefined;
+  function chooseProvider(next: PoolProvider) {
+    setProvider(next);
+    if (project !== "prl") return;
+    try {
+      localStorage.setItem(PRL_POOL_PREFERENCE, next);
+    } catch {
+      /* Display preferences never block monitoring. */
+    }
+  }
+  const nock = useQuery({
+    queryKey: ["pool-account", "nock", nockAddress],
+    queryFn: () => getLuckyPoolNock({ data: nockAddress }),
+    enabled: lucky && !!nockAddress,
+    staleTime: 60000,
+    refetchInterval: 120000,
+    retry: false,
+  });
   const q = useQuery({
     queryKey: poolAccountKey(project, address, provider),
     queryFn: () => getPoolAccount({ data: { project, address, pool: provider } }),
@@ -67,6 +101,8 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
     setAddress(id);
     setInput(id);
     setInvalid(false);
+    setNockInput("");
+    setNockAddress("");
   }, []);
   const raw = q.data?.data;
   const d =
@@ -74,7 +110,8 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
       ? { ...raw, workers: raw.workers.map((worker) => ({ ...worker, online: null })) }
       : raw;
   const value = (n: number | null | undefined) =>
-    n == null ? "—" : n.toLocaleString(locale, { maximumFractionDigits: 8 });
+    n == null ? "—" : n.toLocaleString(locale, { maximumFractionDigits: project === "quantus" ? 12 : 8 });
+  const payoutClock = new Intl.DateTimeFormat(locale, { dateStyle: "short", timeStyle: "short", timeZone: "Asia/Hong_Kong" });
   const addressBook = (
     <ProjectAddressBook
       project={project}
@@ -97,6 +134,8 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
             ? tscPoolCopy.summary[locale]
             : project === "prl"
               ? prlPoolCopy.summary[locale]
+              : project === "quantus"
+                ? qtcCopy.summary[locale]
               : poolEditorial[project].summary[locale]}
         </p>
       </header>
@@ -107,15 +146,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
             <select
               value={provider}
               onChange={(event) => {
-                const next = event.target.value as PoolProvider;
-                setProvider(next);
-                if (project === "prl") {
-                  try {
-                    localStorage.setItem(PRL_POOL_PREFERENCE, next);
-                  } catch {
-                    /* Display preferences never block monitoring. */
-                  }
-                }
+                chooseProvider(event.target.value as PoolProvider);
               }}
             >
               {project === "tsc"
@@ -132,7 +163,7 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
             </select>
           </label>
           <p className="compute-caption">
-            {project === "tsc" ? tscPoolCopy.scope[locale] : prlPoolCopy.scope[locale]}
+            {project === "tsc" ? tscPoolCopy.scope[locale] : lucky ? prlPoolCopy.nockScope[locale] : prlPoolCopy.scope[locale]}
           </p>
         </>
       )}
@@ -144,11 +175,16 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
           onSubmit={(e) => {
             e.preventDefault();
             const v = input.trim();
-            setInvalid(!validPoolAddress(project, v));
+            const bonus = lucky ? nockInput.trim() : "";
+            const nockValid = validNockAddress(bonus);
+            setInvalidNock(!!bonus && !nockValid);
+            if (nockValid && bonus === nockAddress) void nock.refetch();
+            else setNockAddress(nockValid ? bonus : "");
+            setInvalid((!!v || !bonus) && !validPoolAddress(project, v));
             if (validPoolAddress(project, v)) {
               if (v === address) void q.refetch();
               else setAddress(v);
-            }
+            } else setAddress("");
           }}
         >
           <label>
@@ -167,9 +203,48 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
               spellCheck={false}
             />
           </label>
+          {lucky && (
+            <label>
+              {prlPoolCopy.nockWallet[locale]}
+              <input
+                value={nockInput}
+                onChange={(event) => { setNockInput(event.target.value); setInvalidNock(false); }}
+                maxLength={55}
+                autoComplete="off"
+                spellCheck={false}
+                aria-invalid={invalidNock || undefined}
+              />
+            </label>
+          )}
           <button className="site-button">{c.query[locale]}</button>
+          {project === "prl" && (
+            <button className="fleet-outline" type="button" disabled={poolSearch.isPending}
+              onClick={() => {
+                const wallet = input.trim();
+                setInvalid(!validPoolAddress("prl", wallet));
+                if (validPoolAddress("prl", wallet)) poolSearch.mutate(wallet);
+              }}>
+              {poolSearch.isPending ? fc.loading : prlPoolCopy.findPool[locale]}
+            </button>
+          )}
         </form>
+        {project === "prl" && poolSearch.isError && poolSearch.variables === input.trim() &&
+          <p role="alert">{poolWorkerCardsCopy.requestFailed[locale]}</p>}
+        {project === "prl" && matches && (
+          <div className="prl-pool-matches" role="status">
+            <p>{matches.pools.length ? prlPoolCopy.foundPools[locale] : prlPoolCopy.noPool[locale]}</p>
+            {matches.pools.map((pool) => (
+              <button className="fleet-outline" type="button" key={pool} onClick={() => {
+                chooseProvider(pool);
+                setAddress(input.trim());
+                poolSearch.reset();
+              }}>{poolName("prl", pool)}</button>
+            ))}
+            {matches.incomplete && <p>{prlPoolCopy.incompleteSearch[locale]}</p>}
+          </div>
+        )}
         {invalid && <p role="alert">{fc.invalidId}</p>}
+        {lucky && invalidNock && <p role="alert">{prlPoolCopy.nockScope[locale]}</p>}
         {address && (
           <section aria-live="polite" className="pool-results">
             {q.isPending && <p>{fc.loading}</p>}
@@ -319,6 +394,18 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                   account={d}
                   locale={locale}
                 />
+                {!!d.payouts?.length && (
+                  <QuietDetails title={qtcCopy.payouts[locale]}>
+                    <ul className="qtc-payouts">
+                      {d.payouts.map((payment, index) => (
+                        <li key={index}>
+                          <time dateTime={new Date(payment.at).toISOString()}>{payoutClock.format(payment.at)} · UTC+8</time>
+                          <strong>{value(payment.amount)} QTC</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  </QuietDetails>
+                )}
               </>
             )}
             <a href={poolAccountUrl(project, address, provider)} target="_blank" rel="noreferrer">
@@ -327,6 +414,28 @@ function PoolLookupPage({ project }: { project: PoolProject }) {
                 : c.source[locale]}{" "}
               ↗
             </a>
+          </section>
+        )}
+        {lucky && nockAddress && (
+          <section aria-label={prlPoolCopy.nockTitle[locale]} aria-live="polite" className="pool-results">
+            <h2>{prlPoolCopy.nockTitle[locale]}</h2>
+            {nock.isPending && <p>{fc.loading}</p>}
+            {nock.data?.error === "not-found" && <p>{prlPoolCopy.notFound[locale]}</p>}
+            {(nock.isError || (nock.data?.error && nock.data.error !== "not-found")) &&
+              <p>{nock.data?.stale ? fc.stale : poolWorkerCardsCopy.requestFailed[locale]}</p>}
+            {nock.data?.data && (
+              <div className="pool-metrics">
+                {([
+                  [c.rolling24h[locale], nock.data.data.reward],
+                  [prlPoolCopy.unlocked[locale], nock.data.data.balance],
+                  [prlPoolCopy.locked[locale], nock.data.data.pendingEstimate],
+                  [c.paid[locale], nock.data.data.paid],
+                ] as const).map(([label, amount]) =>
+                  <div key={label}><span>{label}</span><strong>{value(amount)} NOCK</strong></div>,
+                )}
+              </div>
+            )}
+            <a href={`https://nock.luckypool.io/miner-stats?address=${encodeURIComponent(nockAddress)}`} target="_blank" rel="noreferrer">{c.source[locale]} ↗</a>
           </section>
         )}
       </QuietDetails>

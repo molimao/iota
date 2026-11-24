@@ -1,6 +1,17 @@
 import type { ProjectId } from "@/lib/projects";
 import type { SiteLocale } from "@/lib/site";
 
+export const projectPoolSources: Partial<Record<ProjectId, ReadonlyArray<{ name: string; url: string }>>> = {
+  quantus: [
+    { name: "2Miners Quantus", url: "https://qtc.2miners.com/" },
+    { name: "Kryptex Quantus", url: "https://pool.kryptex.com/qtc" },
+  ],
+  prl: [
+    { name: "LuckyPool Pearl + NOCK", url: "https://pearl.luckypool.io/how-to-mine" },
+    { name: "LuckyPool Nockchain", url: "https://nock.luckypool.io/" },
+  ],
+};
+
 // Source and scope review: docs/seo-geo-all-projects-2026-10-26.json.
 export const projectVerification: Record<ProjectId, Record<SiteLocale, string>> = {
   xds: {
@@ -11,12 +22,11 @@ export const projectVerification: Record<ProjectId, Record<SiteLocale, string>> 
     ja: "公式エクスプローラーでメインネットの高さと口座番号を照合できます。ハッシュレートの推定には現在の難易度と90秒の目標ブロック間隔を使います。",
   },
   iota: {
-    zh: "核对同一 Miner ID 和训练轮次，再比较贡献、已记账收益与付款。收款 coldkey 不是 Miner ID。",
-    "zh-TW":
-      "核對相同 Miner ID 及訓練輪次，再比較貢獻、已記帳收益與付款。收款 coldkey 並非 Miner ID。",
-    en: "Match the Miner ID and training run before comparing contributions, accounted rewards and payouts. A payout coldkey is not a Miner ID.",
-    ko: "Miner ID와 훈련 실행을 맞춘 뒤 기여·집계 보상·지급을 비교하세요. 지급 coldkey는 Miner ID가 아닙니다.",
-    ja: "Miner IDと訓練runを合わせて貢献・計上報酬・支払いを比較します。受取coldkeyはMiner IDとは別です。",
+    zh: "用公开 Miner ID 免登录查训练和已记账收益，登录可保存刚查的设备。个人排队名次来自配对 Agent 的本机状态。",
+    "zh-TW": "用公開 Miner ID 免登入查訓練和已記帳收益，登入可儲存剛查的裝置。個人排隊名次由已配對 Agent 讀取。",
+    en: "Check training and accounted rewards with a public Miner ID. Sign in to save the device. A paired Agent reads the local queue position.",
+    ko: "공개 Miner ID로 학습과 집계 보상을 조회하고, 로그인해 기기를 저장하세요. 대기 순번은 연결된 Agent가 기기에서 읽습니다.",
+    ja: "公開 Miner IDで学習と計上報酬を確認し、ログインして端末を保存できます。待機順位はペアリング済みAgentが端末から取得します。",
   },
   xid: {
     zh: "MMM 查看本机速度和状态，矿池查看该地址的 Worker 与份额，浏览器核对链上记录。三者时间窗口不同。",
@@ -27,12 +37,11 @@ export const projectVerification: Record<ProjectId, Record<SiteLocale, string>> 
     ja: "MMMでローカル速度、プールでアドレスのワーカーとシェア、エクスプローラーでチェーン記録を確認します。集計期間は異なります。",
   },
   quantus: {
-    zh: "先区分主网与退役 Planck，再核对矿池收款标识和 wormhole 奖励地址。链上全网出块统计不能代替你的矿池账本。",
-    "zh-TW":
-      "先區分主網與退役 Planck，再核對礦池收款標識及 wormhole 獎勵地址。全網出塊不等於個人礦池帳本。",
-    en: "Separate mainnet from retired Planck, then verify the pool payout identifier and wormhole reward address. Network block totals are not your pool ledger.",
-    ko: "메인넷과 종료된 Planck를 구분하고 풀 지급 ID와 wormhole 보상 주소를 확인하세요. 네트워크 블록 합계는 개인 풀 장부가 아닙니다.",
-    ja: "メインネットと終了済みPlanckを分け、プール受取IDとwormhole報酬アドレスを確認します。全網のブロック合計は個人のプール台帳とは別です。",
+    zh: "选择 2Miners 或 Kryptex，用 Quantus 主网地址核对该池的 Worker、余额和已支付记录。链上记录单独显示区块奖励。",
+    "zh-TW": "選擇 2Miners 或 Kryptex，用 Quantus 主網地址核對該池的 Worker、餘額和付款。鏈上紀錄另列區塊獎勵。",
+    en: "Choose 2Miners or Kryptex and use the Quantus mainnet address to verify workers, unpaid balance and payouts. The On-chain tab shows block rewards.",
+    ko: "2Miners 또는 Kryptex를 선택하고 Quantus 메인넷 주소로 워커, 잔액과 지급을 확인하세요. 온체인 탭에는 블록 보상이 표시됩니다.",
+    ja: "2MinersかKryptexを選び、Quantusメインネットアドレスでワーカー、未払い残高、支払いを照合します。オンチェーンではブロック報酬を表示します。",
   },
   flyai: {
     zh: "fly.ai 指 flyaiworld.com 的脑模拟计算项目。核对同一 Miner 和月份。已检查任务、积分、月度分配与领取各有含义；月榜积分不能证明设备此刻在线。",
@@ -106,12 +115,11 @@ export const projectVerification: Record<ProjectId, Record<SiteLocale, string>> 
     ja: "Processorアドレスは機器を識別し、管理者単位の支払済み報酬は香港日付で比較します。管理者には複数機器が属し、残高・凍結額は一台の収益ではありません。",
   },
   prl: {
-    zh: "先确认 LuckyPool 或 Kryptex 及共享/SOLO 模式，再核对相同 PRL 地址。算力与份额反映工作，余额、付款和预测收益分别查看。",
-    "zh-TW":
-      "先確認 LuckyPool 或 Kryptex 及共享/SOLO 模式，再核對 PRL 地址。算力、份額、餘額、付款及預測收益分開查看。",
-    en: "Match LuckyPool or Kryptex, shared/SOLO mode and the PRL address. Read work, unpaid balance, payouts and calculator estimates as separate measures.",
-    ko: "LuckyPool/Kryptex, 공동/SOLO 모드와 PRL 주소를 맞추세요. 작업·미지급액·지급·계산기 추정은 구분합니다.",
-    ja: "LuckyPoolかKryptex、共有/SOLOモードとPRLアドレスを合わせます。作業量・未払い・支払い・計算上の予測は分けて読みます。",
+    zh: "按 PRL 地址查矿池算力与账目。LuckyPool 双挖用户可再填 Nockchain 原生地址，分别核对 PRL 和 NOCK 的余额、收益与付款。",
+    "zh-TW": "依 PRL 地址查礦池算力與帳目。LuckyPool 雙挖可再填 Nockchain 原生地址，分別核對 PRL 和 NOCK 的餘額、收益與付款。",
+    en: "Use the PRL address to check pool hashrate and accounting. On LuckyPool, add a native Nockchain address to check the two wallets’ balances, rewards and payouts separately.",
+    ko: "PRL 주소로 풀 해시레이트와 장부를 확인하세요. LuckyPool 병합 채굴은 Nockchain 기본 주소를 함께 입력해 각 지갑의 잔액, 보상과 지급을 따로 조회합니다.",
+    ja: "PRLアドレスでプールの算力と台帳を確認します。LuckyPoolではNockchainネイティブアドレスも入力し、各ウォレットの残高、報酬、支払いを確認できます。",
   },
   xmr: {
     zh: "核对 RandomX 矿池和完整 XMR 地址。计算器会假设速度、电价和费用；矿池已记账金额与钱包余额需要另行对照。",
@@ -226,6 +234,7 @@ export const verificationQuestion = {
 
 // These short UI summaries are intentionally different from search snippets.
 export const projectSearchDescriptions: Partial<Record<ProjectId, Record<SiteLocale, string>>> = {
+  iota: projectVerification.iota,
   flyai: {
     zh: "查询 flyaiworld.com 脑模拟计算的月度积分与占比，使用公开 0x 收益地址，区分积分、月度分配和可领取代币。",
     "zh-TW":
@@ -234,14 +243,7 @@ export const projectSearchDescriptions: Partial<Record<ProjectId, Record<SiteLoc
     ko: "공개 0x 보상 주소로 flyaiworld.com 뇌 시뮬레이션의 월간 포인트와 비중을 확인하고 포인트·배분·청구를 구분하세요.",
     ja: "公開0x受取アドレスでflyaiworld.comの脳シミュレーション計算の月間ポイントと割合を照会。ポイント・配分・請求を区別します。",
   },
-  quantus: {
-    zh: "查询 Quantus 主网 QPoW 出块与公开地址 QTC 奖励，核对 wormhole 收益标识。这里不是 Qubitcoin，也不统计退役 Planck 测试网。",
-    "zh-TW":
-      "查詢 Quantus 主網 QPoW 出塊及 QTC 獎勵，核對 wormhole 標識；並非 Qubitcoin，亦不統計退役 Planck。",
-    en: "Check Quantus mainnet QPoW blocks and public-address QTC rewards, matching the wormhole identifier. This is not Qubitcoin or retired Planck testnet.",
-    ko: "Quantus 메인넷 QPoW 블록과 QTC 보상을 wormhole ID로 확인합니다. Qubitcoin이나 종료된 Planck 테스트넷이 아닙니다.",
-    ja: "QuantusメインネットQPoWブロックとQTC報酬をwormhole識別子で確認。Qubitcoinや終了済みPlanckテストネットとは別です。",
-  },
+  quantus: projectVerification.quantus,
   bnt: {
     zh: "监控 blocknetcrypto.com 的 Blocknet BNT：bntpool 算力、Worker 与付款阶段。这是 Argon2id 链，不是 Bancor BNT 或 BLOCK。",
     "zh-TW":
@@ -282,14 +284,7 @@ export const projectSearchDescriptions: Partial<Record<ProjectId, Record<SiteLoc
     ko: "Golem Node ID로 노드 상태·하드웨어·최근 24시간 GLM 기록을 확인하고 Stats 집계 기간과 공급자 가격·수익을 구분하세요.",
     ja: "Golem Node IDで状態・ハードウェア・直近24時間GLM記録を確認。Statsの集計期間と提示価格・報告収益を区別します。",
   },
-  prl: {
-    zh: "查询 Pearl PRL 在 LuckyPool 或 Kryptex 的算力、Worker、余额与付款。先选实际矿池和模式，再保存公开收款地址。",
-    "zh-TW":
-      "查詢 Pearl PRL 在 LuckyPool 或 Kryptex 的算力、Worker、餘額及付款。選擇實際礦池與模式後儲存公開地址。",
-    en: "Monitor Pearl PRL hashrate, workers, balances and payouts on LuckyPool or Kryptex. Match the pool and mode before saving your public payout address.",
-    ko: "LuckyPool 또는 Kryptex의 Pearl PRL 해시레이트·워커·잔액·지급을 조회하세요. 실제 풀과 모드를 맞춰 공개 지급 주소를 저장합니다.",
-    ja: "LuckyPoolまたはKryptexのPearl PRL算力・ワーカー・残高・支払いを確認。利用プールとモードを合わせて公開受取アドレスを保存します。",
-  },
+  prl: projectVerification.prl,
 };
 
 export const projectSearchTitles: Partial<Record<ProjectId, Record<SiteLocale, string>>> = {
@@ -308,11 +303,18 @@ export const projectSearchTitles: Partial<Record<ProjectId, Record<SiteLocale, s
     ja: "fly.ai脳シミュレーション監視：月間ポイント",
   },
   quantus: {
-    zh: "Quantus QTC 主网挖矿监控：出块与奖励",
-    "zh-TW": "Quantus QTC 主網挖礦監控：出塊與獎勵",
-    en: "Quantus QTC mainnet mining monitor: blocks and rewards",
-    ko: "Quantus QTC 메인넷 채굴 모니터: 블록과 보상",
-    ja: "Quantus QTCメインネット採掘監視：ブロック・報酬",
+    zh: "Quantus QTC 矿池监控 · 2Miners 与 Kryptex",
+    "zh-TW": "Quantus QTC 礦池監控 · 2Miners 與 Kryptex",
+    en: "Quantus QTC pool monitor for 2Miners and Kryptex",
+    ko: "Quantus QTC 채굴 풀 모니터 · 2Miners와 Kryptex",
+    ja: "Quantus QTCプール監視 · 2MinersとKryptex",
+  },
+  prl: {
+    zh: "Pearl PRL 矿池监控 · LuckyPool NOCK 双挖查询",
+    "zh-TW": "Pearl PRL 礦池監控 · LuckyPool NOCK 雙挖查詢",
+    en: "Pearl PRL pool monitor and LuckyPool NOCK rewards",
+    ko: "Pearl PRL 채굴 풀 모니터 · LuckyPool NOCK 보상",
+    ja: "Pearl PRLプール監視 · LuckyPool NOCK報酬",
   },
   bnt: {
     zh: "Blocknet BNT 挖矿监控：Argon2id 与矿池记录",

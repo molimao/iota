@@ -14,10 +14,12 @@ import { coreIotaArticles } from "./iota-core-articles";
 import { currentIotaContent } from "./current-iota-content";
 import { macStatusGuide } from "./mac-status-guide";
 import { mergeProjectDepth, withProjectDepth } from "./project-depth";
+import { monitorFeatureGuides } from "./monitor-feature-guides";
 
 /** Native editorial copy; never pass through the legacy two-language expander. */
 export const projectGuides: Article[] = [
   ...poolMonitorGuides,
+  ...monitorFeatureGuides,
   {
     slug: "xid-mmm-mainnet-setup",
     project: "xid",
@@ -1497,6 +1499,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         dedupeGuides([...(project === "iota" ? originalIotaCatalog() : []), ...library]),
       ).filter((guide) => {
         if (guide.project === project) return true;
+        if (monitorFeatureGuides.includes(guide) && guide.subjects?.includes(project)) return true;
         if (guide.project !== "all") return false;
         if (guide.slug !== "iota-xid-quantus-compared") return true;
         return project === "iota" || project === "xid" || project === "quantus";
@@ -1515,6 +1518,7 @@ export function guidesForProject(project?: import("@/lib/projects").ProjectId) {
         .filter(
           (a) =>
             expansionGuides.some((guide) => guide.slug === a.slug) ||
+            monitorFeatureGuides.includes(a) ||
             a.project === "all" ||
             a.project === "mds" ||
             a.project === "bnt" ||

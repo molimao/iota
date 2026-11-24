@@ -4,6 +4,7 @@ import { bntLabels } from "@/components/bnt-copy";
 import { getPoolAccount } from "@/lib/pool-monitor.functions";
 import {
   isPoolProject,
+  isPoolBinding,
   poolName,
   poolProvider,
   poolAccountKey,
@@ -73,7 +74,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     ...new Map(
       devices
         .flatMap((d) => d.bindings)
-        .filter((b) => isPoolProject(b.project))
+        .filter(isPoolBinding)
         .map((b) => [`${b.project}:${b.pool ?? ""}:${b.identifier}`, b]),
     ).values(),
   ];
@@ -126,7 +127,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
     retry: 1,
   });
   const qtcAddresses = [
-    ...new Set(bindings.filter((b) => b.project === "quantus").map((b) => b.identifier)),
+    ...new Set(bindings.filter((b) => b.project === "quantus" && !isPoolBinding(b)).map((b) => b.identifier)),
   ];
   const quantus = useQueries({
     queries: qtcAddresses.map((address) => ({
@@ -196,7 +197,7 @@ export function useFleetReadings(devices: FleetDevice[], ready: boolean) {
               : "fly.ai",
       updated: "—",
     };
-    if (isPoolProject(binding.project)) {
+    if (isPoolBinding(binding)) {
       const q =
         poolQueries[
           poolBindings.findIndex(

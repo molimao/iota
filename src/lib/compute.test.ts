@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { base58, bech32 } from "@scure/base";
 import { validComputeId, parseNosanaNode, parseGonkaNetwork } from "./compute";
 import { projectsSeo } from "../components/projects-seo";
-import { PROJECT_IDS } from "./projects";
+import { AVAILABLE_PROJECT_IDS } from "./projects";
 import { LOCALES } from "./site";
 import { buildSitemapXml, buildLlmsFullTxt } from "./crawl";
 const host = bech32.encode("gonka", bech32.toWords(new Uint8Array(20).fill(3)));
@@ -41,7 +41,7 @@ describe("compute coverage and public identifiers", () => {
   });
   it("publishes localized canonical, FAQ and sitemap entries for every project", () => {
     const sitemap = buildSitemapXml();
-    for (const id of PROJECT_IDS)
+    for (const id of AVAILABLE_PROJECT_IDS)
       for (const locale of LOCALES) {
         const seo = projectsSeo(locale, id);
         expect(seo.links).toContainEqual({
@@ -52,6 +52,8 @@ describe("compute coverage and public identifiers", () => {
         expect(seo.scripts.some((s) => JSON.parse(s.children)["@type"] === "FAQPage")).toBe(true);
         expect(sitemap).toContain(`/${locale}/projects/${id}`);
       }
-    expect(buildLlmsFullTxt()).toContain("Epoch membership is not live uptime");
+    const full = buildLlmsFullTxt();
+    expect(full).toContain("https://iotahome.site/en/projects/nosana");
+    expect(full).not.toContain("https://iotahome.site/en/projects/gonka");
   });
 });

@@ -3,6 +3,7 @@ import { normalizeBtcAddress, validBtcAddress } from "./btc-address";
 import { validErgP2pkAddress, validZephStandardAddress } from "./erg-zeph-validator";
 import { validCsdAddress } from "./csd";
 import { validBntAddress } from "./bnt";
+import { decodeSs58 } from "./ss58";
 export const POOL_PROJECT_IDS = [
   "prl",
   "xmr",
@@ -18,6 +19,7 @@ export const POOL_PROJECT_IDS = [
   "btc",
   "ethw",
   "tsc",
+  "quantus",
 ] as const;
 export type PoolProject = (typeof POOL_PROJECT_IDS)[number];
 export const PRL_POOLS = {
@@ -32,6 +34,7 @@ export const PRL_POOLS = {
 } as const;
 export type PrlPool = keyof typeof PRL_POOLS;
 export const PRL_POOL_IDS = Object.keys(PRL_POOLS) as PrlPool[];
+export const validNockAddress = (value: string) => /^[1-9A-HJ-NP-Za-km-z]{53,55}$/.test(value);
 export const POOL_PROVIDERS = [
   "kryptex",
   "luckypool",
@@ -54,6 +57,12 @@ export const POOL_PROVIDERS = [
 export type PoolProvider = (typeof POOL_PROVIDERS)[number];
 export const isPoolProject = (v: unknown): v is PoolProject =>
   POOL_PROJECT_IDS.includes(v as PoolProject);
+export function isPoolBinding<T extends { project: string; pool?: PoolProvider | undefined }>(
+  binding: T,
+): binding is T & { project: PoolProject } {
+  return isPoolProject(binding.project) &&
+    (binding.project !== "quantus" || binding.pool !== undefined);
+}
 export const poolProvider = (p: PoolProject): PoolProvider =>
   p === "tsc"
     ? "boblabs"
@@ -72,6 +81,7 @@ export function validPoolProvider(
   project: PoolProject,
   provider: unknown,
 ): provider is PoolProvider {
+  if (project === "quantus") return provider === "2miners" || provider === "kryptex";
   if (project === "tsc")
     return ["chain", "tigerpool", "boblabs", "ariapool", "luckypool", "suprnova"].includes(
       String(provider),
@@ -84,7 +94,7 @@ export function poolAccountKey(
   address: string,
   provider = poolProvider(project),
 ) {
-  return project === "prl" || project === "tsc"
+  return project === "prl" || project === "tsc" || project === "quantus"
     ? ["pool-account", project, address, provider]
     : ["pool-account", project, address];
 }
@@ -100,7 +110,9 @@ export const poolName = (p: PoolProject, provider = poolProvider(p)) =>
           suprnova: "Suprnova",
         } as Record<string, string>
       )[provider]!
-    : p === "prl"
+    : p === "quantus"
+      ? provider === "kryptex" ? "Kryptex" : "2Miners"
+      : p === "prl"
       ? PRL_POOLS[provider as PrlPool]
       : p === "btc"
         ? "CKPool"
@@ -114,6 +126,14 @@ export const poolName = (p: PoolProject, provider = poolProvider(p)) =>
                 ? "Kryptex"
                 : "2Miners";
 export const POOL_PROJECTS = {
+  quantus: {
+    name: "Quantus",
+    detail: "QTC · Poseidon2",
+    token: "QTC",
+    website: "https://quantus.com/",
+    guide: "https://qtc.2miners.com/help",
+    explorer: "https://qtc.2miners.com/",
+  },
   tsc: {
     name: "TensorCash",
     detail: "Proof of inference",
@@ -228,6 +248,7 @@ export const POOL_PROJECTS = {
   },
 } as const;
 const TWO_MINERS_ORIGIN = {
+  quantus: "https://qtc.2miners.com",
   etc: "https://etc.2miners.com",
   rvn: "https://rvn.2miners.com",
   zec: "https://zec.2miners.com",
@@ -249,6 +270,10 @@ export function twoMinersAccountUrl(project: PoolProject, address: string) {
 export function validPoolAddress(p: PoolProject, v: string) {
   if (v !== v.trim()) return false;
   switch (p) {
+    case "quantus": {
+      const decoded = decodeSs58(v);
+      return decoded.ok && decoded.value.networkPrefix === 189;
+    }
     case "tsc":
       return validTscAddress(v);
     case "csd":
@@ -279,6 +304,8 @@ export function validPoolAddress(p: PoolProject, v: string) {
   }
 }
 export function poolAccountUrl(p: PoolProject, address: string, provider = poolProvider(p)) {
+  if (p === "quantus" && provider === "kryptex")
+    return `https://pool.kryptex.com/qtc/miner/stats/${encodeURIComponent(address)}`;
   if (p === "tsc")
     return provider === "chain"
       ? "https://scan.tensorcash.org/"

@@ -11,6 +11,20 @@ export const onboardingCopy = {
     "IOTAの状態を確認",
   ]),
   devices: localized(["我的设备", "我的設備", "My devices", "내 기기", "マイデバイス"]),
+  lookupScope: localized([
+    "公开 ID 可查训练和收益。个人排队名次需从本机读取。",
+    "公開 ID 可查訓練和收益。個人排隊名次需從本機讀取。",
+    "A public ID shows training and rewards. Your queue position comes from your device.",
+    "공개 ID로 학습과 보상을 확인할 수 있습니다. 대기 순번은 기기에서 확인합니다.",
+    "公開IDで学習と報酬を確認できます。待機順位は端末から確認します。",
+  ]),
+  lookupNoRecord: localized([
+    "当前训练名单里没有这个 Miner ID。核对后可以先保存，之后再看。",
+    "目前的訓練名單沒有這個 Miner ID。核對後可以先儲存，之後再查看。",
+    "This Miner ID isn't on the current training roster. Check the ID and save it to look again later.",
+    "현재 학습 목록에 없는 Miner ID입니다. ID를 확인하고 저장하면 나중에 다시 볼 수 있습니다.",
+    "現在の学習一覧にこの Miner ID はありません。IDを確認して保存すると、あとで再確認できます。",
+  ]),
   sample: localized([
     "监控示例",
     "監控範例",
@@ -103,7 +117,7 @@ export function projectAccess(project: ProjectId) {
   return isPrivatePlatform(project) ? "private" : "public";
 }
 export function projectHelpPath(locale: string, project: ProjectId) {
-  if (isPoolProject(project)) return POOL_PROJECTS[project].guide;
+  if (isPoolProject(project) && project !== "quantus") return POOL_PROJECTS[project].guide;
   const slug =
     project === "iota"
       ? "find-miner-id"

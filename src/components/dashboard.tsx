@@ -21,6 +21,7 @@ import { agentCopy } from "./device-agent-copy";
 import { DeviceAgentSummary } from "./device-agent-summary";
 import { useBilling } from "@/hooks/use-billing";
 import { onboardingCopy, projectHelpPath } from "@/lib/onboarding";
+import { trackFunnelEvent } from "@/lib/analytics";
 import { minerIdError, shortId } from "@/lib/ss58";
 import { useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
@@ -989,13 +990,26 @@ export function IotaLookup({ id, preview = false }: { id: string; preview?: bool
   const entries = useMemo(() => [{ hotkey: id, label: shortId(id), addedAt: 0 }], [id]);
   const dash = useIotaDashboard(entries, !preview, { persistTelemetry: false });
   const view = dash.views[0];
+  const noRecord = !dash.fetching && !dash.statusError && view?.status === "not_found";
+  const noKnownEarnings = !view?.earnings?.totalEarnedUnits && !view?.earnings?.todayUnits;
+  const publicUnits = (units: number | null | undefined) =>
+    noRecord && noKnownEarnings && units === 0 ? null : units;
+  const recorded = useRef<"found" | "not_found" | "failed" | null>(null);
+  useEffect(() => {
+    if (preview || dash.fetching) return;
+    const outcome = dash.statusError ? "failed"
+      : !view?.statusStale && view?.statusFetchedAt && (view.miner || noRecord)
+        ? noRecord ? "not_found" : "found"
+        : null;
+    if (!outcome || recorded.current === outcome) return;
+    recorded.current = outcome;
+    if (outcome === "failed") trackFunnelEvent("query_failed", { project: "iota" });
+    else trackFunnelEvent("query_completed", { project: "iota", outcome });
+  }, [preview, dash.fetching, dash.statusError, view, noRecord]);
   return (
     <main className="dashboard public-lookup">
       <header className="topbar">
         <h1>{onboardingCopy.lookup[locale]}</h1>
-        <a className="text-link" href={`/${locale}/devices`}>
-          {onboardingCopy.devices[locale]} <ArrowUpRight size={14} />
-        </a>
       </header>
       {preview && <p className="lookup-note">{onboardingCopy.sampleNote[locale]}</p>}
       <article className="device">
@@ -1015,14 +1029,14 @@ export function IotaLookup({ id, preview = false }: { id: string; preview?: bool
               <div>
                 <span>{iotaAddCopy.today[locale]}</span>
                 <MoneyPair
-                  units={view.todayUsable ? view.earnings?.todayUnits : null}
+                  units={publicUnits(view.todayUsable ? view.earnings?.todayUnits : null)}
                   usdPerIota={dash.usdPerIota}
                 />
               </div>
               <div>
                 <span>{t("累计收益")}</span>
                 <MoneyPair
-                  units={view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null}
+                  units={publicUnits(view.lifetimeUsable ? view.earnings?.totalEarnedUnits : null)}
                   usdPerIota={dash.usdPerIota}
                 />
               </div>
@@ -1035,6 +1049,7 @@ export function IotaLookup({ id, preview = false }: { id: string; preview?: bool
           </>
         )}
         {dash.statusError && <p role="status">{fleetCopy(locale).refreshFailed}</p>}
+        {noRecord && <p>{onboardingCopy.lookupNoRecord[locale]}</p>}
       </article>
       <IotaLookupQueue preview={preview} />
       <IotaLookupSave id={id} preview={preview} retry={!preview && (

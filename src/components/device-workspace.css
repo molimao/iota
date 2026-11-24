@@ -156,3 +156,18 @@
   .fleet-workspace-toolbar .agent-layout-switch { margin-left: auto; }
   .device-timeline li { grid-template-columns: 68px 32px minmax(0, 1fr); gap: 6px; }
 }
+.start-lookup-scope {
+  flex-basis: 100%;
+  color: var(--muted, #a3a3a3);
+  line-height: 1.45;
+}
+.fleet-attention-filter {
+  margin-bottom: 12px;
+}
+.fleet-attention-filter[aria-pressed="true"] {
+  border-color: currentColor;
+}
+.fleet-attention-detail {
+  color: #f2be86;
+  font-size: 0.8125rem;
+}

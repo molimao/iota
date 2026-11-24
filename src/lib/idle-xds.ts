@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MAX_IDLE_MINING_THREADS } from "./idle-mining-threads";
 
 export const idleXdsConfig = z
   .object({
@@ -6,7 +7,7 @@ export const idleXdsConfig = z
       z
         .object({
           deviceId: z.string().uuid(),
-          threads: z.number().int().min(0).max(4),
+          threads: z.number().int().min(0).max(MAX_IDLE_MINING_THREADS),
         })
         .strict(),
     ),
@@ -17,7 +18,7 @@ export const idleXdsLease = z
   .object({
     settings: z
       .object({
-        threads: z.number().int().min(1).max(4),
+        threads: z.number().int().min(1).max(MAX_IDLE_MINING_THREADS),
         whenQueued: z.literal(true),
         whenPaused: z.literal(true),
       })

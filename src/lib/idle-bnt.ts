@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { MAX_IDLE_MINING_THREADS } from "./idle-mining-threads";
 import { validBntAddress } from "./bnt";
 
 const address = z.string().trim().refine(validBntAddress);
-const threads = z.number().int().min(1).max(4);
+const threadCount = z.number().int().max(MAX_IDLE_MINING_THREADS);
 const device = z
-  .object({ deviceId: z.string().uuid(), threads: z.number().int().min(0).max(4) })
+  .object({ deviceId: z.string().uuid(), threads: threadCount.min(0) })
   .strict();
 
 export const idleBntConfig = z.object({ address, devices: z.array(device) }).strict();
@@ -17,7 +18,7 @@ export type IdleBntConfig = z.infer<typeof savedIdleBntConfig>;
 export const idleBntLeaseSettings = z
   .object({
     address,
-    threads,
+    threads: threadCount.min(1),
     memoryMb: z.number().int(),
     whenQueued: z.literal(true),
     whenPaused: z.literal(true),

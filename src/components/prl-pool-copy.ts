@@ -7,6 +7,19 @@ const line = (
   ja: string,
 ): Record<SiteLocale, string> => ({ zh, "zh-TW": tw, en, ko, ja });
 export const prlPoolCopy = {
+  findPool: line("帮我找矿池", "幫我找礦池", "Find my pool", "내 채굴 풀 찾기", "利用中のプールを探す"),
+  foundPools: line("找到挖矿记录", "找到挖礦紀錄", "Mining records found", "채굴 기록을 찾았습니다", "採掘記録が見つかりました"),
+  incompleteSearch: line("部分矿池暂时无法查询。", "部分礦池暫時無法查詢。", "Some pools are temporarily unavailable.", "일부 채굴 풀은 현재 조회할 수 없습니다.", "一部のプールには現在アクセスできません。"),
+  noPool: line("已查矿池没有找到这个地址的记录。", "已查礦池沒有找到這個地址的紀錄。", "No records for this address in the pools checked.", "확인한 채굴 풀에 이 주소의 기록이 없습니다.", "確認できたプールにこのアドレスの記録はありません。"),
+  nockWallet: line("NOCK 公开地址（选填）", "NOCK 公開地址（選填）", "Public NOCK address (optional)", "공개 NOCK 주소 (선택)", "NOCK 公開アドレス（任意）"),
+  nockTitle: line("NOCK 双挖收益", "NOCK 雙挖收益", "NOCK merge-mining rewards", "NOCK 병합 채굴 보상", "NOCK マージマイニング報酬"),
+  nockScope: line(
+    "填 LuckyPool 双挖使用的 Nockchain 原生地址。PRL 和 NOCK 各按自己的钱包统计。",
+    "填 LuckyPool 雙挖使用的 Nockchain 原生地址。PRL 和 NOCK 各按自己的錢包統計。",
+    "Enter the native Nockchain address used for LuckyPool merge mining. Each currency is reported for its own wallet.",
+    "LuckyPool 병합 채굴에 사용하는 Nockchain 기본 주소를 입력하세요. 통화별로 해당 지갑의 보상을 표시합니다.",
+    "LuckyPool のマージマイニングに使う Nockchain ネイティブアドレスを入力します。通貨ごとにウォレット単位で集計します。",
+  ),
   hourRate: line(
     "近 1 小时算力",
     "近 1 小時算力",

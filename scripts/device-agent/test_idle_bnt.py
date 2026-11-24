@@ -129,7 +129,7 @@ class IdleBntTests(unittest.TestCase):
             pid_path = root / 'pid'
             binary.write_text(
                 f'#!{sys.executable}\nimport os,sys,time\nfrom pathlib import Path\n'
-                'assert sys.argv[sys.argv.index("--threads") + 1] == "4"\n'
+                'assert sys.argv[sys.argv.index("--threads") + 1] == "8"\n'
                 'assert "--disable-cpu-autotune-threads" in sys.argv\n'
                 'assert "--allow-oversubscribe" in sys.argv\n'
                 f'Path({str(pid_path)!r}).write_text(str(os.getpid()))\n'
@@ -140,7 +140,7 @@ class IdleBntTests(unittest.TestCase):
             policy = {
                 'binary': str(binary), 'worker': 'iota-00000000', 'until': time.time() + 30,
                 'pause': 'fixture',
-                'settings': {'address': 'fixture', 'threads': 4,
+                'settings': {'address': 'fixture', 'threads': 8,
                              'whenQueued': True, 'whenPaused': True},
             }
             def write_policy(until):

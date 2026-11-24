@@ -191,11 +191,11 @@ export const projectEditorial = {
       ja: "IOTA Train at Home監視：Miner ID・学習状態・報酬",
     },
     summary: {
-      zh: "监控 Macrocosmos IOTA Train at Home 的训练贡献、今日记账收益和累计收益。",
-      en: "Monitor Macrocosmos IOTA Train at Home training contribution, daily recorded rewards and lifetime rewards.",
-      "zh-TW": "監控 Macrocosmos IOTA Train at Home 的訓練貢獻、今日記帳收益與累計收益。",
-      ko: "Macrocosmos IOTA Train at Home의 학습 기여, 오늘 기록 보상과 누적 보상을 확인합니다.",
-      ja: "Macrocosmos IOTA Train at Homeの学習貢献、当日の記帳報酬、累計報酬を確認します。",
+      zh: "查询 Macrocosmos IOTA Train at Home 的训练状态、昨日归属收益和累计已记账收益。",
+      en: "Check Macrocosmos IOTA Train at Home training status, rewards attributed to the previous day and lifetime accounted rewards.",
+      "zh-TW": "查詢 Macrocosmos IOTA Train at Home 的訓練狀態、昨日歸屬收益與累計已記帳收益。",
+      ko: "Macrocosmos IOTA Train at Home의 학습 상태, 전날 귀속 보상과 누적 기록 보상을 확인합니다.",
+      ja: "Macrocosmos IOTA Train at Homeの学習状態、前日分の報酬、累計計上報酬を確認します。",
     },
     identity: {
       zh: "填写官方 Miner 页的完整 Miner ID（SS58 hotkey），不是钱包助记词或收益地址。",
@@ -205,12 +205,12 @@ export const projectEditorial = {
       ja: "公式Miner画面の完全なMiner ID（SS58 hotkey）を使います。シードフレーズや報酬アドレスではありません。",
     },
     coverage: {
-      zh: "这里的 IOTA 是 Bittensor SN9 子网代币，不是 IOTA Layer 1。今日从香港时间零点计；美元为市场估值；官方采样不等于设备实时心跳。",
-      en: "IOTA here is Bittensor SN9 alpha, not IOTA Layer 1. Daily rewards use Hong Kong midnight; USD is a market estimate and reported samples are not live device heartbeats.",
+      zh: "这里的 IOTA 指 Bittensor SN9 子网代币。昨日收益按香港日期归属，美元是市场估值。设备实时状态来自配对 Agent。",
+      en: "IOTA refers to Bittensor SN9 alpha. Previous-day rewards use the Hong Kong date. USD is a market estimate. Live device status comes from a paired Agent.",
       "zh-TW":
-        "此處 IOTA 是 Bittensor SN9 子網代幣，不是 IOTA Layer 1。今日從香港時間零時計；美元為市場估值，官方採樣不等於設備即時心跳。",
-      ko: "여기서 IOTA는 IOTA Layer 1이 아닌 Bittensor SN9 알파입니다. 일일 보상은 홍콩 자정 기준이고 USD는 시장 추정치이며 공식 표본은 기기 실시간 연결 확인이 아닙니다.",
-      ja: "ここでのIOTAはBittensor SN9アルファで、IOTA Layer 1ではありません。日次は香港時間の午前0時基準、USDは市場換算で、公式標本はリアルタイムの接続確認ではありません。",
+        "此處 IOTA 指 Bittensor SN9 子網代幣。昨日收益依香港日期歸屬，美元是市場估值。裝置即時狀態來自已配對 Agent。",
+      ko: "IOTA는 Bittensor SN9 알파를 뜻합니다. 전날 보상은 홍콩 날짜로 표시하며 USD는 시장 추정값입니다. 실시간 기기 상태는 연결된 Agent에서 확인합니다.",
+      ja: "ここでのIOTAはBittensor SN9アルファです。前日分の報酬は香港日付で、USDは市場換算です。端末の現在の状態はペアリング済みAgentから確認します。",
     },
   },
   xid: {
@@ -267,12 +267,12 @@ export const projectEditorial = {
       ja: "Quantusメインネットの公開採掘Wormholeアドレス（SS58接頭辞189）を使い、inner hashは入力しません。",
     },
     coverage: {
-      zh: "今日按香港时间统计已索引区块奖励，不包含所有矿池转账。历史获奖地址数不是当前在线设备数；缺失数据不按零收益处理。",
-      en: "Daily totals use Hong Kong time and indexed block rewards, not all pool transfers. Historically rewarded addresses are not online devices; missing data is not zero income.",
+      zh: "链上视图按香港日期统计已索引区块奖励。2Miners 显示最近 24 小时收益，Kryptex 显示 UTC 当日收益。余额和近期付款分别查看。",
+      en: "On-chain totals use the Hong Kong date for indexed block rewards. 2Miners covers the last 24 hours and Kryptex uses the current UTC day. Balances and recent payouts are shown separately.",
       "zh-TW":
-        "今日按香港時間統計已索引區塊獎勵，不涵蓋所有礦池轉帳。歷史獲獎地址不是目前在線設備；缺失資料不當作零收益。",
-      ko: "오늘 합계는 홍콩 시간의 인덱싱된 블록 보상이며 모든 풀 이체를 포함하지 않습니다. 과거 보상 주소 수는 현재 온라인 기기 수가 아니고 미확인 데이터는 수익 0이 아닙니다.",
-      ja: "日次は香港時間の索引済みブロック報酬で、すべてのプール送金を含みません。過去の報酬アドレス数はオンライン台数ではなく、欠測を収益ゼロとは扱いません。",
+        "鏈上視圖依香港日期統計已索引區塊獎勵。2Miners 顯示最近 24 小時收益，Kryptex 顯示 UTC 當日收益。餘額和近期付款分開查看。",
+      ko: "온체인은 홍콩 날짜의 블록 보상을 집계합니다. 2Miners는 최근 24시간, Kryptex는 UTC 기준 오늘의 보상을 표시합니다. 잔액과 최근 지급은 별도로 확인하세요.",
+      ja: "オンチェーンのブロック報酬は香港日付で集計します。2Minersは直近24時間、Kryptexは当日のUTCです。残高と最近の支払いは別々に表示します。",
     },
   },
   flyai: {

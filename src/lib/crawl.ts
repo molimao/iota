@@ -1,7 +1,8 @@
 import { calculatorDescription } from "./calculator-discovery";
 import { CALCULATOR_PROJECTS } from "./hardware-yield";
 import { calculatorCopy } from "../components/hardware-calculator-copy";
-import { projectVerification, verificationQuestion } from "../components/project-verification";
+import { projectPoolSources, projectSearchTitles, projectVerification, verificationQuestion } from "../components/project-verification";
+import { monitorFeatureGuides } from "../components/site/monitor-feature-guides";
 import { DISCOVERY_UPDATED, problemLinks, productQuestions } from "./product-discovery";
 import { projectEditorial } from "../components/project-editorial";
 import { articles, articleDates, articleProjects, type Article } from "../components/site/articles";
@@ -91,7 +92,7 @@ function pageLabel(locale: SiteLocale, path: string): string {
   const calculatorProject=CALCULATOR_PROJECTS.find(id=>path === `calculator/${id}`);
   if(calculatorProject)return PROJECTS[calculatorProject].name+" · "+calculatorCopy.entry[locale];
   const project = AVAILABLE_PROJECT_IDS.find((id) => path === `projects/${id}`);
-  if (project) return projectEditorial[project].title[locale];
+  if (project) return projectSearchTitles[project]?.[locale] ?? projectEditorial[project].title[locale];
   if (path === "projects/flyai") return "fly.ai Compute";
   if (path === "projects/xid") return "XID / MMM";
   if (path === "projects/quantus") return "Quantus / QTC";
@@ -172,7 +173,7 @@ export function buildLlmsTxt(origin = ORIGIN) {
 
 IOTA Train at Home is the Macrocosmos / Bittensor subnet 9 project; IOTA Watch is independent and is not an IOTA Foundation Layer 1 wallet.
 
-IOTA Watch lets a person add public Miner IDs (SS58 hotkeys) and see reported training status, yesterday’s attributed rewards, and lifetime accounted rewards. Google sign-in is optional. Free supports 3 devices per project; Pro supports 100 per project (US$2.99/month or US$16.99/year). Device overview has no separate total limit. Sign-in syncs the list across devices. No private key. No seed phrase. Public lookup alone cannot control a Mac. An optional installed and paired Mac agent adds local heartbeats, queue state and remote controls; log upload is separately opt-in. Agent 1.0.5 supports stopped-training recovery, off by default and available without Pro.
+IOTA Watch can check reported IOTA training status, the previous day’s attributed rewards and lifetime accounted rewards with a public Miner ID (SS58 hotkey). Use Google sign-in to save the lookup to My devices. Free supports 3 devices per project and Pro supports 100 per project. A paired Agent provides local heartbeat and queue data on supported devices. Device controls and optional automatic recovery are available on supported Macs. Log upload is opt-in.
 
 The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-market USD estimate. USD is not a payout and is never invented as $0 when the price feed is down. The CoinGecko id is \`iota-2\` (Train at Home SN9), not \`iota\` (IOTA Layer 1).
 
@@ -193,6 +194,15 @@ The dashboard shows official IOTA (SN9 subnet alpha) amounts plus a public-marke
 - Wallet private keys and seed phrases are not accepted by IOTA Watch
 - Optional downloads: independent Apple Silicon Mac scripts for local status, startup connection waiting and a login guardian with automatic recovery. Public lookups stay read-only; paired-agent controls act only on the paired Mac. See ${origin}/en/downloads for installation effects and removal instructions.
 
+## Mining and device guides
+
+- Quantus: select 2Miners or Kryptex to check workers, unpaid balances and recent payments. 2Miners reports rolling 24-hour rewards. Kryptex reports the current UTC day. The On-chain view covers indexed block rewards.
+- Pearl and NOCK: choose LuckyPool under Pearl and enter the PRL payout address and the native Nockchain address in separate fields. Balances, rewards and payments are reported per wallet and currency.
+- Device setup: look up a public IOTA Miner ID, then sign in to save it. In My devices, Needs attention filters for known interruptions, offline agents and idle-mining errors. Use the timeline to review device events.
+- Pro idle mining: on the IOTA project page choose Off or 1–8 threads per device for BNT and XDS independently. IOTA training takes priority.
+
+${monitorFeatureGuides.map((guide) => `- [${guide.title.en}](${pageUrl("en", `learn/${guide.slug}`, origin)})`).join("\n")}
+
 ## Additional mining projects
 
 IOTA remains the primary project. Supported project pages: ${AVAILABLE_PROJECT_IDS.map((id) => PROJECTS[id].name).join(", ")} at ${origin}/en/projects. Each tool page is for querying data; its separate guide explains inputs, field meanings and troubleshooting. These are independent tools, not official apps or wallets. Project device lists synchronize through Google sign-in. Without sign-in they stay in this browser. Each project has its own quota: 3 on Free and 100 on Pro. The cross-project device overview has no additional total limit; matching usernames do not automatically merge devices.
@@ -201,7 +211,7 @@ IOTA remains the primary project. Supported project pages: ${AVAILABLE_PROJECT_I
 - XID / MMM: ${origin}/en/projects/xid — source: ${PROJECTS.xid.explorer} (public /api/network and /api/stats). Chain-estimated hashrate and observed-pool hashrate are separate. Visible workers are not a count of all network devices. Explorer balance is not lifetime mining income. Worker names do not establish hardware models or owner identity. Local MMM machine metrics are not collected by this website.
 - fly.ai Compute: ${origin}/en/projects/flyai — source: https://flyai-mine.fly.dev/api/month. Public ETH payout addresses identify wallet-level monthly compute points and share; these are not device online status, daily earnings or withdrawable currency. Device monitoring: ${origin}/en/devices?project=flyai.
 - Quantus / QTC: ${origin}/en/projects/quantus — source: the official mainnet explorer's https://sqm.quantus.com/v1/graphql index. Mining rewards use public wormhole addresses (SS58 prefix 189), 12 decimal units, and Hong Kong midnight for today. Total rewarded addresses are historical, not currently online devices. Indexer block time and successful fetch time are shown separately. Planck testnet data is not combined with mainnet QTC.
-- Quantus mining reward records cover chain block rewards, not every pool-to-participant payment. A pool payment may require a separate transfer lookup in the official explorer.
+- Quantus pool payouts and unpaid balances use the 2Miners or Kryptex public pool ledger. Check the payout in that pool or the corresponding chain transfer.
 - Akash: ${origin}/en/projects/akash — public provider directory, lease and capacity indicators; listed GPU capacity is not lease income.
 - Golem: ${origin}/en/projects/golem — public node records and source-defined last-24-hour GLM earnings; this period is not the Hong Kong calendar day.
 - io.net: ${origin}/en/projects/ionet — sign in and connect read credentials for device details and block rewards. Real-account validation is pending.
@@ -286,7 +296,7 @@ ${LOCALES.map((locale) => `### ${LANGUAGE_TAG[locale]}\n${discoveryCopy.intro[lo
 
 ## Project data coverage
 
-${AVAILABLE_PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\nContent updated: ${PROJECT_CONTENT_DATES[id]}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\n${LOCALES.map((locale) => `${verificationQuestion[locale]} (${LANGUAGE_TAG[locale]}): ${projectVerification[id][locale]}`).join("\n")}\nSource: ${PROJECTS[id].guide}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
+${AVAILABLE_PROJECT_IDS.map((id) => `### ${PROJECTS[id].name}\nContent updated: ${PROJECT_CONTENT_DATES[id]}\n${projectEditorial[id].summary.en}\n${projectEditorial[id].identity.en}\n${projectEditorial[id].coverage.en}\n${LOCALES.map((locale) => `${verificationQuestion[locale]} (${LANGUAGE_TAG[locale]}): ${projectVerification[id][locale]}`).join("\n")}\nSources: ${[PROJECTS[id].guide, ...(projectPoolSources[id]?.map(({ url }) => url) ?? [])].join(", ")}\nMonitor: ${origin}/en/projects/${id}`).join("\n\n")}
 ## Public project FAQ
 
 ${LOCALES.map((locale) => {

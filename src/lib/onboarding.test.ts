@@ -97,7 +97,7 @@ describe("public lookup and onboarding", () => {
       expect(result).toContain(onboardingCopy.sampleNote[locale]);
       for (const project of AVAILABLE_FLEET_PROJECTS) {
         const path = projectHelpPath(locale, project);
-        if (isPoolProject(project)) expect(path).toBe(POOL_PROJECTS[project].guide);
+        if (isPoolProject(project) && project !== "quantus") expect(path).toBe(POOL_PROJECTS[project].guide);
         else expect(getArticle(path.split("/").at(-1)!), `${project}: ${path}`).toBeDefined();
         const free = html(locale, createElement(AdditionHelp, { project, plan: "free" }));
         expect(free).toContain(path);

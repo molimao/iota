@@ -15,6 +15,7 @@ import {
   parseTwoMiners,
   parseMidstate,
   parsePeryn,
+  quantusKryptexPayouts,
 } from "./pool-monitor";
 import { ReadCache } from "./read-cache";
 import { upstreamJson } from "./upstream-json.server";
@@ -29,22 +30,33 @@ import {
 } from "./prl-more-pools";
 
 const cache = new ReadCache(300);
-async function luckyPoolPrlSource(address: string) {
+async function luckyPoolSource(address: string, coin: "pearl" | "nock") {
+  const origin = `https://${coin}.luckypool.io`;
   const [config, account] = await Promise.all([
-    cache.read("prl:luckypool:units", () =>
-      upstreamJson("https://pearl.luckypool.io/api/stats?v=2"),
+    cache.read(`${coin}:luckypool:units`, () =>
+      upstreamJson(`${origin}/api/stats?v=2`),
     ),
     upstreamJson(
-      `https://pearl.luckypool.io/api/stats_address?address=${encodeURIComponent(address)}`,
+      `${origin}/api/stats_address?address=${encodeURIComponent(address)}`,
+      // LuckyPool includes several thousand Worker rows for large NOCK wallets.
+      coin === "nock" ? { maxBytes: 4_000_000 } : undefined,
     ),
   ]);
   if (!config.data || config.error || config.stale) throw new Error("invalid-data");
   return { config: record(config.data)["config"], account };
 }
 
+export function readLuckyPoolNock(address: string) {
+  return cache.read(`nock:luckypool:${address}`, async () => {
+    const { config, account } = await luckyPoolSource(address, "nock");
+    const { balance, paid, reward, pendingEstimate } = parsePrlLuckyPool(config, account, address, Date.now(), "NOCK");
+    return { balance, paid, reward, pendingEstimate };
+  });
+}
+
 export function readLuckyPoolPrlDay(address: string, window: { start: number; end: number }) {
   return cache.read(`prl:luckypool:day:${address}:${window.start}`, async () => {
-    const { config, account } = await luckyPoolPrlSource(address);
+    const { config, account } = await luckyPoolSource(address, "pearl");
     return { units: luckyPoolDayUnits(config, account, address, window) };
   });
 }
@@ -94,7 +106,7 @@ export function readPoolAccount(
         return parsePearlFortune(summary, connections, ledger);
       }
       if (project === "prl" && provider === "luckypool") {
-        const { config, account } = await luckyPoolPrlSource(address);
+        const { config, account } = await luckyPoolSource(address, "pearl");
         return parsePrlLuckyPool(config, account, address);
       }
       if (project === "csd") {
@@ -145,17 +157,18 @@ export function readPoolAccount(
           address,
         );
       }
-      if (poolProvider(project) === "2miners") {
+      if (provider === "2miners") {
         const url = twoMinersAccountUrl(project, address);
         if (!url) throw new Error("invalid-address");
         return parseTwoMiners(project, await upstreamJson(url));
       }
-      const base = `https://pool.kryptex.com/${project}/api`;
-      const [balance, first, rewards, paid] = await Promise.all([
+      const base = `https://pool.kryptex.com/${project === "quantus" ? "qtc" : project}/api`;
+      const [balance, first, rewards, paid, history] = await Promise.all([
         upstreamJson(`${base}/v1/miner/balance/${id}`),
         upstreamJson(`${base}/v3/miner/workers/${id}`),
         upstreamJson(`${base}/v1/miner/reward-chart/${id}`).catch(() => null),
         upstreamJson(`${base}/v1/miner/payouts/${id}/stats`).catch(() => null),
+        project === "quantus" ? upstreamJson(`${base}/v1/miner/payouts/${id}`).catch(() => null) : null,
       ]);
       const w = record(first);
       // Bound pagination and request volume; incomplete lists are visibly marked.
@@ -177,7 +190,9 @@ export function readPoolAccount(
         }
         w["results"] = rows;
       }
-      return parseKryptex(balance, w, rewards, paid);
+      const account = parseKryptex(balance, w, rewards, paid);
+      const payouts = quantusKryptexPayouts(history);
+      return payouts ? { ...account, payouts } : account;
     },
     {
       classify: (e) =>

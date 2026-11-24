@@ -19,6 +19,18 @@ try {
     ["llms-full.txt", "buildLlmsFullTxt"],
   ])
     writeFileSync("public/" + file, crawl[fn]());
+  const { articles } = await server.ssrLoadModule("/src/components/site/articles.ts");
+  const { blogPosts } = await server.ssrLoadModule("/src/components/site/blog-posts.ts");
+  const articlePaths = [
+    ...articles.map(({ slug }) => "/learn/" + slug),
+    ...blogPosts.map(({ slug }) => "/blog/" + slug),
+  ].sort();
+  const lines = articlePaths.map((path) => `  ${JSON.stringify(path)},`).join("\n");
+  writeFileSync(
+    "src/lib/ad-article-paths.ts",
+    "/** Locale-less public article paths. Slugs only; article bodies stay out of the ad runtime. */\n" +
+      `export const publicArticlePaths = [\n${lines}\n] as const;\n`,
+  );
   console.log(
     `Generated crawl files for ${crawl.crawlPages.length} public paths in five languages.`,
   );

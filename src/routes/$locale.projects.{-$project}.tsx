@@ -20,6 +20,10 @@ import {
   isAvailableProject,
 } from "@/lib/projects";
 import { isLocale } from "@/lib/site";
+import { localized } from "@/lib/product-discovery";
+import { useRouterState } from "@tanstack/react-router";
+
+const qtcMainnet = localized(["链上记录", "鏈上紀錄", "On-chain", "온체인 기록", "オンチェーン"]);
 
 export const Route = createFileRoute("/$locale/projects/{-$project}")({
   beforeLoad: ({ params }) => {
@@ -50,6 +54,21 @@ function Page() {
 }
 function ProjectContent() {
   const { project } = Route.useParams();
+  const { locale } = useLocale();
+  const search = useRouterState({ select: (state) => state.location.searchStr });
+  if (project === "quantus") {
+    const source = new URLSearchParams(search).get("pool");
+    const pool = source === "2miners" || source === "kryptex" ? source : null;
+    const base = `/${locale}/projects/quantus`;
+    return <>
+      <nav className="calculator-entry qtc-sources" aria-label="Quantus">
+        <a href={base} aria-current={!pool ? "page" : undefined}>{qtcMainnet[locale]}</a>
+        <a href={`${base}?pool=2miners`} aria-current={pool === "2miners" ? "page" : undefined}>2Miners</a>
+        <a href={`${base}?pool=kryptex`} aria-current={pool === "kryptex" ? "page" : undefined}>Kryptex</a>
+      </nav>
+      {pool ? <PoolPage key={pool} project="quantus" initialPool={pool} /> : <MiningProjectPage project="quantus" initial={null} />}
+    </>;
+  }
   if (isPoolProject(project)) return <PoolPage key={project} project={project} />;
   if (isPlatform(project)) return <PlatformPage key={project} project={project} />;
   if (project === "iota") return <Dashboard showPublicLookup />;

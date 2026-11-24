@@ -1,6 +1,6 @@
 import { normalizeBtcAddress } from "./btc-address";
 import { normalizeCsdAddress } from "./csd";
-import { isPoolProject, poolProvider, validPoolProvider } from "./pool-projects";
+import { isPoolBinding, poolProvider, validPoolProvider } from "./pool-projects";
 import { acurastPublicKey } from "./additional-platforms";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -39,7 +39,7 @@ export const mutateFleet = createServerFn({ method: "POST" })
     if (
       "binding" in value.payload &&
       value.payload.binding &&
-      isPoolProject(value.payload.binding.project)
+      isPoolBinding(value.payload.binding)
     ) {
       const b = value.payload.binding;
       const expected = poolProvider(b.project as import("./pool-projects").PoolProject);

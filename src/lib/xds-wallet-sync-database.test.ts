@@ -14,7 +14,7 @@ it("shares one wallet only with opted-in devices of its Pro owner and gates mini
     CREATE TABLE auth.users(id uuid PRIMARY KEY);
     CREATE TABLE watch_device_agents(device_id uuid PRIMARY KEY,user_id uuid,credential_hash text,snapshot jsonb,last_seen timestamptz DEFAULT now());
     CREATE TABLE watch_billing(user_id uuid PRIMARY KEY,status text,period_end timestamptz);`);
-    for (const path of ["20261114120000_agent_idle_xds.sql", "20261114150000_xds_wallet_sync.sql"])
+    for (const path of ["20261109170000_agent_idle_bnt.sql", "20261114120000_agent_idle_xds.sql", "20261114150000_xds_wallet_sync.sql", "20261124120000_idle_mining_eight_threads.sql"])
       await db.exec(readFileSync(`supabase/migrations/${path}`, "utf8"));
     await db.query("INSERT INTO auth.users VALUES($1),($2)", [user, other]);
     await db.query(
@@ -35,7 +35,7 @@ it("shares one wallet only with opted-in devices of its Pro owner and gates mini
       consent: true,
       devices: [
         { deviceId: source, threads: 2 },
-        { deviceId: target, threads: 1 },
+        { deviceId: target, threads: 8 },
       ],
     };
     const save = (settings: unknown) =>
@@ -45,6 +45,17 @@ it("shares one wallet only with opted-in devices of its Pro owner and gates mini
       user,
     ]);
     await expect(save({ ...config, consent: false })).rejects.toThrow("wallet_consent_required");
+    await expect(save({ ...config, devices: [{ deviceId: target, threads: 9 }] })).rejects.toThrow("invalid_threads");
+    const bntAddress = "2BZVmXsZqZJNdRouv8wipYe9pxYhCK1mx8kyz8Hauz58ueCLxEvaCkdmu8pWnHZiXa3ASPGnT9VsUcqJKx5az3Yq5HDNe";
+    await db.query("UPDATE watch_device_agents SET snapshot=snapshot || '{\"idleBnt\":{}}' WHERE device_id=$1", [target]);
+    const saveBnt = (threads: number) => db.query("SELECT watch_idle_bnt_settings($1)", [
+      JSON.stringify({ address: bntAddress, devices: [{ deviceId: target, threads }] }),
+    ]);
+    await expect(saveBnt(9)).rejects.toThrow("invalid_threads");
+    await saveBnt(8);
+    expect((await db.query("SELECT watch_idle_bnt_lease('target') v")).rows[0]).toMatchObject({
+      v: { settings: { threads: 8 } },
+    });
     await expect(save({ ...config, devices: [{ deviceId: other, threads: 1 }] })).rejects.toThrow(
       "device_not_available",
     );
@@ -94,7 +105,7 @@ it("shares one wallet only with opted-in devices of its Pro owner and gates mini
       `UPDATE watch_device_agents SET snapshot='{"platform":"darwin","idleXds":{"state":"off"}}' WHERE device_id=$1`,
       [target],
     );
-    expect(await lease("target")).toMatchObject({ v: { settings: { threads: 1 } } });
+    expect(await lease("target")).toMatchObject({ v: { settings: { threads: 8 } } });
     await db.query("SELECT watch_xds_wallet_settings(NULL,'browser backup key')");
     expect(
       (await exchange("source", { action: "poll", publicKey: "source key" })).backup.publicKey,

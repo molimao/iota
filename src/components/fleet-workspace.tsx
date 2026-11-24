@@ -19,9 +19,11 @@ import { FlyaiWalletStats } from "./flyai-wallet-stats";
 import { AcurastRewards } from "./acurast-rewards";
 import { SyncGuidance } from "./sync-guidance";
 import { IotaRosterStatus, IotaDeviceRun } from "./iota-device-run";
-import { isPoolProject, poolName } from "@/lib/pool-projects";
+import { isPoolProject, poolName, type PoolProvider } from "@/lib/pool-projects";
 import { poolCopy } from "./pool-copy";
 import { AgentFilterSelect } from "./agent-filter";
+import { deviceAttention } from "@/lib/device-attention";
+import { formatAgo } from "@/lib/format";
 import { agentOnline, matchesAgentFilter, type AgentFilter } from "@/lib/device-agent";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
@@ -41,7 +43,7 @@ import { isPlatform, isPrivatePlatform } from "@/lib/platforms";
 import { platformCopy } from "./platform-copy";
 import { editorialCopy } from "./project-editorial";
 import { monitorViewCopy } from "./monitor-views";
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import {
   ArrowUpRight,
@@ -88,6 +90,12 @@ import { copyValues, planAmount } from "@/lib/billing-display";
 const workspaceCopy = {
   allProjects: l(["全部项目", "全部專案", "All projects", "모든 프로젝트", "すべてのプロジェクト"]),
   tools: l(["设备工具", "裝置工具", "Device tools", "기기 도구", "デバイスツール"]),
+  attention: l(["需处理", "待處理", "Needs attention", "확인 필요", "要対応"]),
+  noAttention: l(["没有检测到异常设备", "未偵測到異常裝置", "No device issues detected", "감지된 기기 문제가 없습니다", "異常のある端末はありません"]),
+  offline: l(["Agent 离线", "Agent 離線", "Agent offline", "Agent 오프라인", "Agent オフライン"]),
+  training: l(["IOTA 训练中断", "IOTA 訓練中斷", "IOTA training interrupted", "IOTA 학습 중단", "IOTA 学習中断"]),
+  bnt: l(["BNT 闲时挖矿异常", "BNT 閒時挖礦異常", "BNT idle mining issue", "BNT 유휴 채굴 오류", "BNT アイドル採掘エラー"]),
+  xds: l(["XDS 闲时挖矿异常", "XDS 閒時挖礦異常", "XDS idle mining issue", "XDS 유휴 채굴 오류", "XDS アイドル採掘エラー"]),
 };
 type Copy = ReturnType<typeof fleetCopy>;
 export type FleetWorkspaceProps = {
@@ -114,13 +122,14 @@ export type FleetWorkspaceProps = {
   onAdd: (
     name: string,
     hardware: string,
-    binding?: { project: FleetProject; identifier: string; worker: string },
+    binding?: { project: FleetProject; identifier: string; worker: string; pool?: PoolProvider },
   ) => Promise<void>;
   onLink: (
     deviceId: string,
     project: FleetProject,
     identifier: string,
     worker: string,
+    pool?: PoolProvider,
   ) => Promise<void>;
   onSubscribe?: (interval: "month" | "year") => Promise<void>;
   onManage?: (() => Promise<void>) | undefined;
@@ -166,6 +175,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     ]),
   );
   const [statusFilter, setStatusFilter] = useState<AgentFilter>("all");
+  const [attentionOnly, setAttentionOnly] = useState(false);
   const [search, setSearch] = useState("");
   const [dialog, setDialog] = useState<
     "add" | "link" | "billing" | "edit" | "merge" | "remove" | "unlink" | null
@@ -176,6 +186,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
   const [selectedProject, setSelectedProject] = useState<FleetProject>(
     props.initialProject ?? "iota",
   );
+  const [quantusPool, setQuantusPool] = useState<"2miners" | "kryptex">();
+  const selectedPool = selectedProject === "quantus" ? quantusPool : undefined;
+  const poolProject = isPoolProject(selectedProject) && (selectedProject !== "quantus" || !!selectedPool);
   const [identifier, setIdentifier] = useState(""),
     [worker, setWorker] = useState("");
   const [sourceId, setSourceId] = useState(""),
@@ -189,25 +202,20 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     ),
     [returnToLink, setReturnToLink] = useState(false);
   const limit = PLANS[props.plan].projectDeviceLimit;
-  const visible = useMemo(
-    () =>
-      props.devices.filter((d) => {
+  const needsAttention = props.devices.filter((device) =>
+    deviceAttention(agentsByDevice.get(device.id), device.bindings.some((b) => b.project === "iota"), agentNow),
+  );
+  const visible = (attentionOnly ? needsAttention : props.devices).filter((d) => {
         const text =
           `${d.name} ${d.hardware} ${d.bindings.map((b) => `${FLEET_NAMES[b.project]} ${b.identifier} ${b.worker}`).join(" ")}`.toLowerCase();
         return (
           (project === "all" || d.bindings.some((b) => b.project === project)) &&
           text.includes(search.trim().toLowerCase()) &&
           (statusFilter === "all" ||
-            (!agents.isPending &&
-              !agents.isError &&
-              matchesAgentFilter(
-                agents.data?.find((a) => a.deviceId === d.id),
-                statusFilter,
-              )))
+            ((props.preview || (!agents.isPending && !agents.isError)) &&
+              matchesAgentFilter(agentsByDevice.get(d.id), statusFilter, agentNow)))
         );
-      }),
-    [props.devices, project, search, statusFilter, agents.data, agents.isPending, agents.isError],
-  );
+      });
   const activeProjects = FLEET_PROJECTS.filter(
     (p) => projectDeviceCount(props.devices, p) > 0,
   ).length;
@@ -215,6 +223,16 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     return props.preview
       ? device.bindings.some((binding) => binding.project === "iota") || agentsByDevice.has(device.id)
       : agentsByDevice.has(device.id);
+  }
+  function attentionDetail(device: FleetDevice) {
+    if (!attentionOnly) return null;
+    const agent = agentsByDevice.get(device.id);
+    const reason = deviceAttention(agent, device.bindings.some((b) => b.project === "iota"), agentNow);
+    if (!reason) return null;
+    return <p className="fleet-attention-detail">
+      {workspaceCopy[reason][locale]}
+      {reason === "offline" && agent?.lastSeen && ` · ${formatAgo(Date.parse(agent.lastSeen), agentNow, locale)}`}
+    </p>;
   }
   function showPaywall(project: FleetProject | null = null, fromLink = false) {
     setError(null);
@@ -233,6 +251,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
     setHardware("");
     setIdentifier("");
     setWorker("");
+    setQuantusPool(undefined);
     setSelectedDevice(deviceId || props.devices[0]?.id || "");
     setSelectedProject(project === "all" ? "iota" : project);
     setDialog(kind);
@@ -272,7 +291,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         const key = bindingIdentity({
           project: selectedProject,
           identifier: identifier.trim(),
-          worker: selectedProject === "xid" || isPoolProject(selectedProject) ? worker.trim() : "",
+          worker: selectedProject === "xid" || poolProject ? worker.trim() : "",
+          ...(selectedPool ? { pool: selectedPool } : {}),
         });
         if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
           throw new Error(c.duplicate);
@@ -282,7 +302,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         await props.onAdd(name.trim(), hardware.trim(), {
           project: selectedProject,
           identifier: identifier.trim(),
-          worker: selectedProject === "xid" || isPoolProject(selectedProject) ? worker.trim() : "",
+          worker: selectedProject === "xid" || poolProject ? worker.trim() : "",
+          ...(selectedPool ? { pool: selectedPool } : {}),
         });
         if ((props.signedIn || props.preview) && selectedProject === "iota") setPairAfterAdd(identifier.trim());
       } else if (dialog === "link") {
@@ -290,7 +311,8 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
         const key = bindingIdentity({
           project: selectedProject,
           identifier: identifier.trim(),
-          worker: selectedProject === "xid" || isPoolProject(selectedProject) ? worker.trim() : "",
+          worker: selectedProject === "xid" || poolProject ? worker.trim() : "",
+          ...(selectedPool ? { pool: selectedPool } : {}),
         });
         if (props.devices.some((d) => d.bindings.some((b) => bindingIdentity(b) === key)))
           throw new Error(c.duplicate);
@@ -301,7 +323,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           }
           throw new Error(c.limit);
         }
-        await props.onLink(selectedDevice, selectedProject, identifier.trim(), worker.trim());
+        await props.onLink(selectedDevice, selectedProject, identifier.trim(), selectedProject === "xid" || poolProject ? worker.trim() : "", selectedPool);
       } else if (dialog === "billing" && props.onSubscribe) await props.onSubscribe(interval);
       else if (props.onMutation) {
         if (dialog === "edit")
@@ -380,6 +402,20 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
       )}
       {tab === "devices" ? (
         <section id="fleet-devices-panel" aria-label={c.devices}>
+          {(props.preview || Boolean(auth.userId && agents.isSuccess)) && agentsByDevice.size > 0 && (
+            <button
+              className="fleet-outline fleet-attention-filter"
+              aria-pressed={attentionOnly}
+              onClick={() => {
+                setAttentionOnly(!attentionOnly);
+                setProject("all");
+                setSearch("");
+                setStatusFilter("all");
+              }}
+            >
+              {workspaceCopy.attention[locale]} · {needsAttention.length}
+            </button>
+          )}
           {props.devices.length > 0 && (
             <div className="fleet-toolbar fleet-workspace-toolbar">
               <label className="fleet-search">
@@ -478,6 +514,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
               agentNow={agentNow}
               onLink={(id) => open("link", id)}
               onTimeline={(device) => canReadTimeline(device) ? () => setTimelineId(device.id) : undefined}
+              attentionDetail={attentionDetail}
               onEdit={props.onMutation ? (id) => open("edit", id) : undefined}
               onRemove={props.onMutation ? (id) => open("remove", id) : undefined}
             />
@@ -492,6 +529,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                   key={device.id}
                   device={device}
                   onTimeline={canReadTimeline(device) ? () => setTimelineId(device.id) : undefined}
+                  attentionDetail={attentionDetail(device)}
                   c={c}
                   reading={props.reading}
                   trend={props.deviceTrend?.(device)}
@@ -508,11 +546,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
           {visible.length === 0 && (
             <div className="fleet-empty">
               <Monitor size={30} />
-              <p>{props.devices.length ? c.empty : c.emptyGuide}</p>
+              <p>{attentionOnly && !needsAttention.length ? workspaceCopy.noAttention[locale] : props.devices.length ? c.empty : c.emptyGuide}</p>
               <button
                 className="site-button"
                 onClick={() =>
-                  props.devices.length ? (setProject("all"), setSearch(""), setStatusFilter("all")) : open("add")
+                  props.devices.length ? (setProject("all"), setSearch(""), setStatusFilter("all"), setAttentionOnly(false)) : open("add")
                 }
               >
                 {props.devices.length ? c.clearFilters : c.add}
@@ -694,7 +732,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                         </select>
                       </label>
                       <label>
-                        {isPoolProject(selectedProject)
+                        {poolProject
                           ? poolCopy.wallet[locale]
                           : isPlatform(selectedProject)
                             ? selectedProject === "ionet"
@@ -722,10 +760,11 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                           value={identifier}
                           onChange={(e) => setIdentifier(e.target.value)}
                           placeholder={
-                            isPoolProject(selectedProject)
+                            poolProject
                               ? {
                                   tsc: "tc1…",
                                   prl: "prl1…",
+                                  quantus: "qz…",
                                   xmr: "4… / 8…",
                                   etc: "0x…",
                                   rvn: "R…",
@@ -765,18 +804,31 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                           }
                         />
                       </label>
-                      {isPoolProject(selectedProject) && (
+                      {poolProject && (
                         <p className="fleet-input-note">
-                          {poolCopy.pool[locale]} · {poolName(selectedProject)}
+                          {poolCopy.pool[locale]} · {poolName(selectedProject, selectedPool)}
                         </p>
                       )}
                       <AdditionHelp project={selectedProject} plan={props.plan} />
                       {!isPrivatePlatform(selectedProject) && (
                         <p className="fleet-input-note">{c.publicOnly}</p>
                       )}
-                      {(selectedProject === "xid" || isPoolProject(selectedProject)) && (
+                      {selectedProject === "quantus" && (
                         <label>
-                          {isPoolProject(selectedProject) ? poolCopy.worker[locale] : c.worker}
+                          {poolCopy.pool[locale]}
+                          <select value={quantusPool ?? ""} onChange={(event) => {
+                            const value = event.target.value;
+                            setQuantusPool(value === "2miners" || value === "kryptex" ? value : undefined);
+                          }}>
+                            <option value="">Quantus Explorer</option>
+                            <option value="2miners">2Miners</option>
+                            <option value="kryptex">Kryptex</option>
+                          </select>
+                        </label>
+                      )}
+                      {(selectedProject === "xid" || poolProject) && (
+                        <label>
+                          {poolProject ? poolCopy.worker[locale] : c.worker}
                           <input
                             maxLength={80}
                             value={worker}
@@ -886,7 +938,7 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                     </div>
                   )}
                   <label>
-                    {isPoolProject(selectedProject)
+                    {poolProject
                       ? poolCopy.wallet[locale]
                       : isPlatform(selectedProject)
                         ? selectedProject === "ionet"
@@ -914,9 +966,22 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       spellCheck={false}
                     />
                   </label>
-                  {(selectedProject === "xid" || isPoolProject(selectedProject)) && (
+                  {selectedProject === "quantus" && (
+                        <label>
+                          {poolCopy.pool[locale]}
+                          <select value={quantusPool ?? ""} onChange={(event) => {
+                            const value = event.target.value;
+                            setQuantusPool(value === "2miners" || value === "kryptex" ? value : undefined);
+                          }}>
+                            <option value="">Quantus Explorer</option>
+                            <option value="2miners">2Miners</option>
+                            <option value="kryptex">Kryptex</option>
+                          </select>
+                        </label>
+                      )}
+                      {(selectedProject === "xid" || poolProject) && (
                     <label>
-                      {isPoolProject(selectedProject) ? poolCopy.worker[locale] : c.worker}
+                      {poolProject ? poolCopy.worker[locale] : c.worker}
                       <input
                         maxLength={80}
                         value={worker}
@@ -925,9 +990,9 @@ export function FleetWorkspace(props: FleetWorkspaceProps) {
                       />
                     </label>
                   )}
-                  {isPoolProject(selectedProject) && (
+                  {poolProject && (
                     <p className="fleet-input-note">
-                      {poolCopy.pool[locale]} · {poolName(selectedProject)}
+                      {poolCopy.pool[locale]} · {poolName(selectedProject, selectedPool)}
                     </p>
                   )}
                   <AdditionHelp project={selectedProject} plan={props.plan} />
@@ -1061,6 +1126,7 @@ function FleetCard({
   onLink,
   onEdit,
   onUnlink,
+  attentionDetail,
 }: {
   onTimeline: (() => void) | undefined;
   onRemove: (() => void) | undefined;
@@ -1075,6 +1141,7 @@ function FleetCard({
   onLink: () => void;
   onEdit: (() => void) | undefined;
   onUnlink: ((id: string) => void) | undefined;
+  attentionDetail: ReactNode;
 }) {
   const [expandedBinding, setExpandedBinding] = useState<string | null>(null);
   const daily = deviceTodayEarnings(
@@ -1119,6 +1186,7 @@ function FleetCard({
         <div>
           <h2>{device.name}</h2>
           {device.hardware && <p>{device.hardware}</p>}
+          {attentionDetail}
         </div>
       </header>
       {!onlyWalletPanels && (daily.known > 0 || retained || account || initialLoading) && (

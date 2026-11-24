@@ -8,7 +8,7 @@ export function bntWorkerAgentBinding(devices: FleetDevice[], address: string, w
 
 export function poolWorkerAgentBinding(
   devices: FleetDevice[],
-  project: "bnt" | "prl",
+  project: "bnt" | "prl" | "quantus",
   address: string,
   worker: string,
   pool?: PoolProvider,
@@ -20,7 +20,7 @@ export function poolWorkerAgentBinding(
         b.project === project &&
         b.identifier === address &&
         b.worker === worker &&
-        (b.pool ?? poolProvider(project)) === (pool ?? poolProvider(project)),
+        (project === "quantus" ? b.pool === pool : (b.pool ?? poolProvider(project)) === (pool ?? poolProvider(project))),
     );
     if (binding) return { device, binding };
   }
