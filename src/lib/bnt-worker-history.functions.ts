@@ -9,6 +9,6 @@ export const getBntWorkerHistory = createServerFn({ method: "POST" })
     return { address: input.address };
   })
   .handler(async ({ context, data }) => {
-    const { sampleBntWorkers } = await import("./bnt-worker-history.server");
-    return sampleBntWorkers(context.supabase, context.userId, data.address);
+    const { readBntWorkerHistory } = await import("./bnt-worker-history.server");
+    return readBntWorkerHistory(context.supabase, data.address);
   });

@@ -99,3 +99,18 @@ it("merges explicit Worker bindings once and keeps identical names on different 
   a.result!.stale = true;
   expect(bntWorkerState(a, a.result!.data!.workers[0]!)).toBe("stale");
 });
+
+it("shows a saved Worker's history when it drops out of the live response", async () => {
+  const { bntAddressGroups } = await import("./bnt-dashboard");
+  const a = { ...row("a"), worker: "historic-worker" };
+  const [group] = bntAddressGroups([a], () => [{
+    at: Date.now() - 300_000,
+    workers: [
+      { name: "historic-worker", hashrate: 5 },
+      { name: "unbound-worker", hashrate: 7 },
+    ],
+  }]);
+  expect(group?.workers).toEqual([
+    { name: "historic-worker", hashrate: null, online: null, lastSeen: null },
+  ]);
+});

@@ -1,5 +1,6 @@
 import type { PoolAccount } from "./pool-monitor";
 import type { ReadResult } from "./read-cache";
+import type { WorkerSample } from "./bnt-worker-history";
 
 export type BntRow = {
   id: string;
@@ -63,7 +64,10 @@ export function bntWorkerState(row: BntRow, worker: BntWorker) {
   return worker.hashrate == null ? "unavailable" : worker.hashrate > 0 ? "mining" : "waiting";
 }
 /** A saved address is an account group; each unique Worker beneath it is one mining entry. */
-export function bntAddressGroups(rows: BntRow[]) {
+export function bntAddressGroups(
+  rows: BntRow[],
+  history?: (address: string) => WorkerSample[] | undefined,
+) {
   const groups = new Map<string, BntRow[]>();
   for (const row of rows) groups.set(row.address, [...(groups.get(row.address) ?? []), row]);
   return [...groups.entries()].map(([address, bindings]) => {
@@ -72,13 +76,17 @@ export function bntAddressGroups(rows: BntRow[]) {
     )[0]!;
     const all = bindings.some((b) => !b.worker);
     const selected = new Set(bindings.map((b) => b.worker));
-    const workers = [
-      ...new Map(
-        (account.result?.data?.workers ?? [])
-          .filter((w) => all || selected.has(w.name))
-          .map((w) => [w.name, w]),
-      ).values(),
-    ];
-    return { address, account, bindings, workers, totalWorkers: workers.length };
+    const workers = new Map(
+      (account.result?.data?.workers ?? [])
+        .filter((w) => all || selected.has(w.name))
+        .map((w) => [w.name, w]),
+    );
+    for (const sample of history?.(address) ?? []) {
+      for (const { name } of sample.workers) {
+        if (name && (all || selected.has(name)) && !workers.has(name))
+          workers.set(name, { name, hashrate: null, lastSeen: null, online: null });
+      }
+    }
+    return { address, account, bindings, workers: [...workers.values()], totalWorkers: workers.size };
   });
 }

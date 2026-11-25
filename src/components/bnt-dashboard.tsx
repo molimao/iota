@@ -251,7 +251,7 @@ export function BntDashboardView(p: Props) {
       : undefined;
   const totals = bntTotals(p.rows.length ? p.rows : transient ? [transient] : []);
   const workerHistory = useBntWorkerHistory(p.rows, p.signedIn, p.ready, p.preview ?? false);
-  const groups = bntAddressGroups(p.rows);
+  const groups = bntAddressGroups(p.rows, (address) => workerHistory(address)?.data?.samples);
   const workerMatches = (
     row: BntRow,
     worker: ReturnType<typeof bntAddressGroups>[number]["workers"][number],
@@ -327,7 +327,7 @@ export function BntDashboardView(p: Props) {
   ];
   const addressSection = (g: ReturnType<typeof bntAddressGroups>[number], temporary = false) => {
     const r = g.account;
-    const history = workerHistory(g.address);
+    const history = temporary ? undefined : workerHistory(g.address);
     return (
       <section className="bnt-address-group" key={g.address}>
         <header className="bnt-address-heading">
@@ -395,7 +395,7 @@ export function BntDashboardView(p: Props) {
           </p>
         )}
         <BntHashrateTrend address={g.address} preview={p.preview ?? false} />
-        <WorkerSamplingNote />
+        {!temporary && <WorkerSamplingNote />}
         <div className="bnt-miner-grid" data-layout={layout}>
           {g.workers.slice(0, 100).map((w, i) => (
             <article className="bnt-miner-card" key={`${g.address}:${w.name}:${i}`}>
@@ -425,7 +425,6 @@ export function BntDashboardView(p: Props) {
                 signedIn={p.signedIn}
                 pending={history?.isPending ?? false}
                 error={history?.isError ?? false}
-                sampling={history?.data?.sampling ?? true}
               />
               <div className="bnt-miner-share">
                 <span>{t("lastShare")}</span>

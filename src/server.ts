@@ -190,6 +190,10 @@ export default {
         const { historyBackfillCron } = await import("./lib/history-backfill-worker.server");
         return historyBackfillCron(request);
       }
+      if (new URL(request.url).pathname === "/api/bnt/worker-history/cron") {
+        const { bntWorkerHistoryCron } = await import("./lib/bnt-worker-history.server");
+        return bntWorkerHistoryCron(request);
+      }
       if (new URL(request.url).pathname === "/api/pro/cron") {
         const { proToolsCron } = await import("./lib/pro-tools-worker.server");
         return proToolsCron(request);

@@ -2,7 +2,13 @@ import { useMemo } from "react";
 import { useLocale } from "./site/locale";
 import { localized as l } from "@/lib/product-discovery";
 import { poolHashrate } from "@/lib/pool-monitor";
-import { workerHistoryPoints, workerSparkline, type WorkerSample } from "@/lib/bnt-worker-history";
+import {
+  BNT_HISTORY_WINDOW,
+  BNT_SAMPLE_INTERVAL,
+  workerHistoryPoints,
+  workerSparkline,
+  type WorkerSample,
+} from "@/lib/bnt-worker-history";
 const copy = {
   samples: l(["次采样", "次取樣", "samples", "표본", "サンプル"]),
   title: l(["24 小时算力", "24 小時算力", "24h hashrate", "24시간 해시레이트", "24時間の算力"]),
@@ -43,11 +49,11 @@ const copy = {
     "ログインして保存後に記録",
   ]),
   note: l([
-    "查看此页面时每 5 分钟采样，采样保存到账号，仅显示最近 24 小时；未采集的时段留空。",
-    "查看此頁面時每 5 分鐘取樣，取樣儲存至帳號，僅顯示最近 24 小時；未取樣時段留空。",
-    "Sampled every 5 minutes while viewing this page; samples are saved to your account and only the latest 24 hours are shown. Unobserved periods stay blank.",
-    "페이지를 열어 둔 동안 5분마다 수집하며 최근 24시간을 계정에 저장합니다. 미수집 구간은 비워 둡니다.",
-    "ページ表示中は5分ごとに取得し、直近24時間をアカウントに保存します。未取得の期間は空白です。",
+    "已保存地址每 5 分钟自动采样。图表显示最近 24 小时，缺采时段留空。",
+    "已儲存地址每 5 分鐘自動取樣。圖表顯示最近 24 小時，缺少紀錄的時段留白。",
+    "Saved addresses are sampled every 5 minutes. Charts show the last 24 hours, with gaps where readings are missing.",
+    "저장한 주소는 5분마다 자동으로 수집합니다. 차트는 최근 24시간을 표시하며, 기록이 없는 구간은 비워 둡니다.",
+    "保存したアドレスは5分ごとに自動計測します。グラフは直近24時間を表示し、記録のない区間は空白になります。",
   ]),
 };
 export function WorkerSamplingNote() {
@@ -63,7 +69,6 @@ export function BntWorkerSparkline({
   signedIn,
   pending = false,
   error = false,
-  sampling = true,
 }: {
   samples?: WorkerSample[];
   name: string;
@@ -73,15 +78,17 @@ export function BntWorkerSparkline({
   signedIn: boolean;
   pending?: boolean;
   error?: boolean;
-  sampling?: boolean;
 }) {
   const { locale } = useLocale();
+  const now = Date.now();
   const demo = useMemo(
-    () =>
-      Array.from({ length: 25 }, (_, i) => ({
-        at: Date.now() - (24 - i) * 300000,
+    () => {
+      const latest = Math.floor(Date.now() / BNT_SAMPLE_INTERVAL) * BNT_SAMPLE_INTERVAL;
+      const size = BNT_HISTORY_WINDOW / BNT_SAMPLE_INTERVAL;
+      return Array.from({ length: size }, (_, i) => ({
+        at: latest - (size - 1 - i) * BNT_SAMPLE_INTERVAL,
         hashrate:
-          rate == null
+          rate == null || (i >= 63 && i < 94) || (i >= 161 && i < 181)
             ? null
             : rate === 0
               ? 0
@@ -90,15 +97,16 @@ export function BntWorkerSparkline({
                   rate *
                     (1 +
                       Math.sin(
-                        i * 0.6 + ([...name].reduce((sum, c) => sum + c.charCodeAt(0), 0) % 11),
+                        i * 0.14 + ([...name].reduce((sum, c) => sum + c.charCodeAt(0), 0) % 11),
                       ) *
                         0.2),
                 ),
-      })),
+      }));
+    },
     [name, rate],
   );
-  const points = preview ? demo : workerHistoryPoints(samples, name);
-  const segments = workerSparkline(points),
+  const points = preview ? demo : workerHistoryPoints(samples, name, now);
+  const segments = workerSparkline(points, now),
     known = points.filter((p) => p.hashrate !== null),
     last = known.at(-1);
   const time = (at: number) =>
@@ -128,7 +136,7 @@ export function BntWorkerSparkline({
     <div className="bnt-worker-sparkline">
       <div className="bnt-worker-sparkline-label">
         <span>{copy.title[locale]}</span>
-        <small>{preview ? "DEMO" : `${known.length} ${copy.samples[locale]}`}</small>
+        <small>{preview ? "DEMO · " : ""}{known.length} {copy.samples[locale]}</small>
       </div>
       {known.length > 0 ? (
         <svg
@@ -161,12 +169,11 @@ export function BntWorkerSparkline({
         <div className="bnt-worker-sparkline-empty" />
       )}
       {status && <p role={error ? "status" : undefined}>{status}</p>}
-      {known.length > 1 && last && (
+      {known.length > 0 && (
         <p>
-          {time(known[0]!.at)} — {time(last.at)}
+          {time(now - BNT_HISTORY_WINDOW)} — {time(now)}
         </p>
       )}
-      {!sampling && known.length > 0 && <p role="status">{copy.unavailable[locale]}</p>}
     </div>
   );
 }

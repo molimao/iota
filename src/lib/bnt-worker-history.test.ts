@@ -49,3 +49,15 @@ it("draws one observation as a point, and does not bridge unknown or long gaps",
   ).toHaveLength(2);
   expect(workerSparkline([{ at: 1000, hashrate: null }])).toEqual([]);
 });
+it("keeps the full 24-hour scale and breaks the line after a missed five-minute bucket", () => {
+  const now = 100 * 24 * 60 * 60_000;
+  const segments = workerSparkline([
+    { at: now - 12 * 60 * 60_000, hashrate: 5 },
+    { at: now - 12 * 60 * 60_000 + 301_000, hashrate: 0 },
+    { at: now - 12 * 60 * 60_000 + 900_000, hashrate: 9 },
+  ], now);
+  expect(segments.map((segment) => segment.length)).toEqual([2, 1]);
+  expect(segments[0]?.[0]?.x).toBe(100);
+  expect(segments[0]?.[1]?.y).toBe(40);
+  expect(segments[1]?.[0]?.x).toBe(102);
+});

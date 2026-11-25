@@ -51,6 +51,10 @@ export type WatchDatabase = Omit<Database, "public"> & {
       watch_log_analysis: { Args: {p_action:string;p_request?:string;p_digest?:string;p_project?:string;p_result?:Json}; Returns:Json };
       watch_bnt_worker_history_read: { Args: {p_address:string}; Returns: Json };
       watch_bnt_worker_history_record: { Args: {p_user:string;p_address:string;p_at:string;p_workers:Json}; Returns: boolean };
+      watch_bnt_worker_history_targets: {
+        Args: Record<string, never>;
+        Returns: { address: string; user_ids: string[] }[];
+      };
       watch_history_backfill_worker: { Args: { p_action: string; p_payload: Json }; Returns: Json };
       watch_history_backfill_status: { Args: Record<string, never>; Returns: Json };
       watch_pro_status: { Args: Record<string, never>; Returns: Json };
